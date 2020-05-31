@@ -1,36 +1,14 @@
-# RendaZhang
-
-#### Description
-{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
-
-#### Software Architecture
-Software architecture description
-
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## Welcome to my Personal Website
+- Link to my personal web page: https://rendazhang.gitee.io
+- My web page design adopted Chinese Style.
+- Here are the few things that you can do on my website:
+    + Scroll through everything.
+    + Play a Chinese Song by clicking the button in "About me" section
+    + Download my Resume.
+    + Contact me directly by my phone number
+    + Click on the email address and shoot me an email.
+    + Fill out the form in the contact section, click "Say Hello" button, and then I will receive your message. 😊
+- I built my web page based on Bootstrap Framework, so the web page will adjust itself according to the size of the device's screen you use.
+- The server that I used is "Github Pages" which is free and support only for static web page, so that you might sometimes experience slow-loading problem in China. 
+- If you encounter any problem when you are viewing my web page, contact me directly please, and After all I will be happy helping you. 😄😉
+- If you understand Chinese language, please ignore everything I said here in English and refer to the Chinese Guide. 😳

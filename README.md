@@ -1,39 +1,17 @@
-# RendaZhang
-
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
-
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 欢迎来到我的网站
+### 网站简述
+- 采用欧美风格设计开发，基于 Bootstrap 框架的静态网页。
+- 服务器使用的是免费的 Gitee Pages。
+- 新增了音乐播放，简历下载功能和 Formspree 私信留言功能, 可以在上面给我留言私信，我会收到的。
+- 新增网页入口选择语言，增加英文网页支持。
+- 会根据PC端和移动端屏幕大小不同而自动适配。
+- 性能优化方面：
+    + 音乐播放和私信留言功能采用了 Ajax 异步加载
+    + 我压缩了 html, css, js 的代码以减少传输的载荷。
+    + 压缩图片和降低图片质量，这样也减少了传输的载荷。
+    + 使用 JS 代码让所有图片懒加载 -- 延迟了图片加载以加快页面打开速度。
+### 使用指南
+- 经过我的测试，在移动端和 PC 端的浏览器都可以正常打开并使用下载和留言功能。其中下载功能会因为个别浏览器原因而有些延迟，耐心等待或者刷新一下或者重新下载即可。
+- 如果打开太慢，可以刷新一下或者关闭页面重新打开。也可以换个浏览器打开，换个网络。当然也有可能是服务器挂了，那就换个时间段打开。
+- 如果出现无法安全地连接到此页面，这是Win10升级后加强了系统自带的IE和Edge浏览器的TLS安全验证。解决办法：依次打开 IE 的 Internet 选项、高级，往下拉，找到安全模块，勾上四个使用：使用 SSL 3.0、使用 TLS 1.0、使用 TLS 1.1、使用 TLS 1.2，点击确定，刷新页面重试
+- 如果出现无法连接到此页面，而且网络正常情况下，先确保地址输入正常，然后使用的是 https 而不是 http，如： https://rendazhang.gitee.io 。实在不行，就用代码编辑器打开 C:\Windows\System32\drivers\etc 路径下的 hosts 文件，把 Github 相关的 hosts 匹配注释掉。
