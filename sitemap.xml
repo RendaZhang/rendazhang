@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.rendazhang.com/</loc>
+    <image:image>
+      <image:loc>https://rendazhang.com/images/hero.jpg</image:loc>
+    </image:image>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <lastmod>2022-12-15T05:48:09+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://rendazhang.com/index_english.html</loc>
+    <image:image>
+      <image:loc>https://rendazhang.com/images/hero.jpg</image:loc>
+    </image:image>
+    <changefreq>never</changefreq>
+    <priority>0.3</priority>
+    <lastmod>2021-07-19T05:48:09+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://rendazhang.com/index_chinese.html</loc>
+    <image:image>
+      <image:loc>https://rendazhang.com/images/img1.jpg</image:loc>
+    </image:image>
+    <changefreq>never</changefreq>
+    <priority>0.2</priority>
+    <lastmod>2021-07-19T05:48:09+00:00</lastmod>
+  </url>
+</urlset>
