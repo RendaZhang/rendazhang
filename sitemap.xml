@@ -8,7 +8,16 @@
       <image:loc>https://rendazhang.com/images/hero.jpg</image:loc>
     </image:image>
     <changefreq>never</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
+    <lastmod>2022-12-15T05:48:09+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.rendazhang.com/index.html</loc>
+    <image:image>
+      <image:loc>https://rendazhang.com/images/hero.jpg</image:loc>
+    </image:image>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
     <lastmod>2022-12-15T05:48:09+00:00</lastmod>
   </url>
   <url>
@@ -17,7 +26,7 @@
       <image:loc>https://rendazhang.com/images/hero.jpg</image:loc>
     </image:image>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>1.0</priority>
     <lastmod>2021-07-19T05:48:09+00:00</lastmod>
   </url>
   <url>
@@ -26,7 +35,25 @@
       <image:loc>https://rendazhang.com/images/img1.jpg</image:loc>
     </image:image>
     <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <priority>1.0</priority>
     <lastmod>2021-07-19T05:48:09+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://rendazhang.com/images/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86_%E5%BC%A0%E4%BA%BA%E5%A4%A7.pdf</loc>
+    <image:image>
+      <image:loc>https://www.rendazhang.com/images/img1.jpg</image:loc>
+    </image:image>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2021-12-19T05:48:09+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://rendazhang.com/images/Resume_RendaZhang.pdf</loc>
+    <image:image>
+      <image:loc>https://www.rendazhang.com/images/img1.jpg</image:loc>
+    </image:image>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2021-12-19T05:48:09+00:00</lastmod>
   </url>
 </urlset>
