@@ -28,6 +28,7 @@ body {
     padding: 10px;
     max-height: 300px;
     overflow-y: auto;
+    padding-bottom: 70px;
 }
 
 .chat-input-box {
@@ -83,4 +84,23 @@ body {
     color: white;
     margin-right: 30%;
     word-break: break-word;
+}
+
+@media only screen and (max-width: 600px) {
+    .chat-container {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .chat-content {
+        height: 80vh;
+    }
+
+    #chat-input {
+        width: 70%;
+    }
+
+    #chat-send-button {
+        width: 25%;
+    }
 }
