@@ -9,10 +9,10 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <h2>Chat with QianWen</h2>
+            <button id="back-button">&#8592; Back</button>
+            <h2>Chat with AI (与AI聊天)</h2>
         </div>
         <div class="chat-content">
-            <!-- Messages appear here -->
             <div class="chat-messages"></div>
             <div class="chat-input-box">
                 <textarea id="chat-input" placeholder="Type your message..."></textarea>
@@ -21,5 +21,10 @@
         </div>
     </div>
     <script src="/js/chat.min.js"></script>
+    <script>
+        document.getElementById("back-button").addEventListener("click", function() {
+            window.location.href = "index.html";
+        });
+    </script>
 </body>
 </html>
