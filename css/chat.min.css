@@ -12,7 +12,6 @@ body {
     max-width: 500px;
     width: 100%;
     margin: 2% auto;
-    padding: 15px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -34,13 +33,13 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;  /* Ensures that the inner elements don't spill out */
 }
 
 .chat-messages {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
-    margin-bottom: 10px;
 }
 
 .chat-input-box {
@@ -50,6 +49,7 @@ body {
     align-items: center;
     padding: 10px;
     border-top: 1px solid #ddd;
+    background-color: #f6f7f9; /* Slightly different background for separation */
 }
 
 #chat-input {
