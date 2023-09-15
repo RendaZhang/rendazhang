@@ -4,20 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Chat</title>
     <link rel="stylesheet" href="css/chat.min.css">
-    <title>Chat with AI</title>
 </head>
 
 <body>
-
-    <div id="chatBox"></div>
-    <div>
-        <input type="text" id="inputBox" placeholder="Type your message...">
-        <button id="sendBtn">Send</button>
+    <div class="chat-container">
+        <div id="messages" class="chat-messages"></div>
+        <div class="chat-input-container">
+            <textarea id="input-message" placeholder="Type your message here..."></textarea>
+            <button id="btn-send" class="btn-send">Send</button>
+        </div>
     </div>
-
     <script src="js/chat.min.js"></script>
-
 </body>
 
 </html>
