@@ -1,58 +1,75 @@
 body, html {
-    font-family: Arial, sans-serif;
+    height: 100%;
     margin: 0;
-    padding: 0;
-    background-color: #f6f7f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.chat-container {
-    width: 90%;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+.chatContainer {
     display: flex;
     flex-direction: column;
+    max-width: 600px;
+    margin: 40px auto;
+    height: 80vh;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
-.chat-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 15px;
+.chatHeader {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
-.chat-messages {
+.chatBody {
     flex: 1;
     overflow-y: auto;
-    padding: 10px 15px;
+    padding: 10px;
 }
 
-.chat-input {
+.chatFooter {
     display: flex;
-    border-top: 1px solid #eaeaea;
+    padding: 10px;
+    border-top: 1px solid #ccc;
 }
 
-.chat-input textarea {
+.chatFooter textarea {
     flex: 1;
-    border: none;
     padding: 10px;
     resize: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-.chat-input button {
-    padding: 10px 15px;
+.chatFooter button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #007BFF;
+    color: white;
     border: none;
-    background-color: #007bff;
-    color: #fff;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
 }
 
-.chat-input button:hover {
+.chatFooter button:hover {
     background-color: #0056b3;
+}
+
+.chatMessage {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chatMessage.user {
+    align-self: flex-end;
+    background-color: #DCF8C6;
+}
+
+.chatMessage.assistant {
+    align-self: flex-start;
+    background-color: #ECECEC;
 }
