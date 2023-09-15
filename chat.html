@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Chat</title>
-    <link rel="stylesheet" href="css/chat.min.css">
+    <link rel="stylesheet" href="chat.min.css">
 </head>
-
 <body>
-    <div class="chat-container">
-        <div id="messages" class="chat-messages"></div>
-        <div class="chat-input-container">
-            <textarea id="input-message" placeholder="Type your message here..."></textarea>
-            <button id="btn-send" class="btn-send">Send</button>
+    <div class="chat-wrapper">
+        <div id="chatContainer" class="chat-container"></div>
+        <div class="chat-input-wrapper">
+            <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
+            <button id="chatSendButton" class="chat-send-button">Send</button>
         </div>
     </div>
-    <script src="js/chat.min.js"></script>
+    <script src="chat.min.js"></script>
 </body>
-
 </html>
