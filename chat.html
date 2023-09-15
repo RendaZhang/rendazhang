@@ -9,7 +9,7 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <button id="back-button">&#8592; Back</button>
+            <button id="back-button" onclick="window.location.href='./index.html'">&#8592; Back</button>
             <h2>Chat with AI (与AI聊天)</h2>
         </div>
         <div class="chat-content">
@@ -21,10 +21,5 @@
         </div>
     </div>
     <script src="/js/chat.min.js"></script>
-    <script>
-        document.getElementById("back-button").addEventListener("click", function() {
-            window.location.href = "index.html";
-        });
-    </script>
 </body>
 </html>
