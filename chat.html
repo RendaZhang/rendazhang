@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat</title>
     <link rel="stylesheet" href="css/chat.min.css">
+    <title>Chat with AI</title>
 </head>
+
 <body>
-    <div class="chatContainer">
-        <div class="chatHeader">Renda Zhang AI Chat</div>
-        <div class="chatBody" id="chatMessages"></div>
-        <div class="chatFooter">
-            <textarea id="chatInput" placeholder="Type your message..."></textarea>
-            <button id="chatSendButton">Send</button>
-        </div>
+
+    <div id="chatBox"></div>
+    <div>
+        <input type="text" id="inputBox" placeholder="Type your message...">
+        <button id="sendBtn">Send</button>
     </div>
+
     <script src="js/chat.min.js"></script>
+
 </body>
+
 </html>
