@@ -4,8 +4,9 @@ body {
 }
 
 .chat-container {
-    width: 500px;
-    margin: 50px auto;
+    max-width: 500px;
+    width: 90%;
+    margin: 2% auto;
     padding: 15px;
     background-color: white;
     border-radius: 10px;
@@ -20,30 +21,31 @@ body {
 }
 
 .chat-content {
-    height: 400px;
-    position: relative;
+    height: 75vh; /* Adjusting this value can give more or less space for the chat */
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-messages {
-    padding: 10px;
-    max-height: 300px;
+    flex: 1;
     overflow-y: auto;
-    padding-bottom: 70px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 .chat-input-box {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
+    display: flex;
+    align-items: center;
     background-color: white;
+    padding: 10px 0;
 }
 
 #chat-input {
-    width: 80%;
+    flex: 1;
     padding: 10px;
     height: 50px;
+    margin: 0 10px;
     border: 1px solid #ddd;
     border-radius: 20px;
     resize: none;
@@ -51,9 +53,8 @@ body {
 }
 
 #chat-send-button {
-    width: 15%;
-    height: 60px;
-    margin-left: 5%;
+    padding: 0 20px;
+    height: 50px;
     background-color: #007BFF;
     color: white;
     border: none;
@@ -70,32 +71,22 @@ body {
     margin: 10px 0;
     padding: 12px 15px;
     border-radius: 15px;
+    max-width: 60%;
 }
 
 .user {
     background-color: #e9e9e9;
     align-self: flex-end;
-    margin-left: 30%;
     word-break: break-word;
 }
 
 .bot {
     background-color: #007BFF;
     color: white;
-    margin-right: 30%;
     word-break: break-word;
 }
 
 @media only screen and (max-width: 600px) {
-    .chat-container {
-        width: 90%;
-        margin: 20px auto;
-    }
-
-    .chat-content {
-        height: 80vh;
-    }
-
     #chat-input {
         width: 70%;
     }
