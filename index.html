@@ -10,93 +10,7 @@
   <title>Renda Zhang</title>
   <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 500px;
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .language-selector, .chat-section {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    button {
-      margin: 0 10px;
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-
-    .support-message {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .payment-options {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      margin-top: 20px;
-    }
-
-    .payment-option {
-      width: 100%;
-      max-width: 160px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .payment-option img {
-      width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
-
-    .payment-option img:hover {
-      transform: scale(1.05);
-    }
-
-    .payment-option p {
-      margin: 0;
-    }
-  </style>
-
+  <link rel="stylesheet" href="/css/index.min.css"> <!-- Link to the external CSS file -->
 </head>
 
 <body>
@@ -108,29 +22,33 @@
     <div class="chat-section">
       <button onclick="window.location.href='./chat.html'">Chat with AI (与AI聊天)</button>
     </div>
+    <div class="image-generation-section">
+      <button onclick="window.location.href='./image_generation.html'">Generate Images (AI生成图片)</button>
+    </div>
     <div class="support-section">
       <p class="support-message">Support Renda Zhang</p>
       <div class="payment-options">
         <div class="payment-option">
           <a href="./images/WechatPayCode.jpeg" target="_blank">
-            <img src="./images/WechatPayCode.jpeg" alt="WeChat Pay Code">
+            <img src="./images/WechatPayCode.jpeg" alt="WeChat Pay Code" loading="lazy">
           </a>
           <p>WeChat Pay</p>
         </div>
         <div class="payment-option">
           <a href="./images/AlipayCode.jpeg" target="_blank">
-            <img src="./images/AlipayCode.jpeg" alt="Alipay Code">
+            <img src="./images/AlipayCode.jpeg" alt="Alipay Code" loading="lazy">
           </a>
           <p>Alipay</p>
         </div>
         <div class="payment-option">
           <a href="https://paypal.me/zhangrenda" target="_blank">
-            <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" alt="PayPal">
+            <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" alt="PayPal" loading="lazy">
           </a>
           <p>PayPal</p>
         </div>
       </div>
     </div>
+  </div>
 </body>
 
 </html>
