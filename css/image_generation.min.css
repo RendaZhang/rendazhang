@@ -90,6 +90,8 @@ body {
 @media only screen and (max-width: 600px) {
     .container {
         width: 100%;
+        box-sizing: border-box;
+        padding: 10px; /* Added padding for aesthetics */
     }
 
     #image-form input,
