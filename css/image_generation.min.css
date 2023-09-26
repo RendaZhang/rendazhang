@@ -89,19 +89,7 @@ body {
 
 @media only screen and (max-width: 600px) {
     .container {
-        width: 90%;
-    }
-
-    #image-form input,
-    #image-form button,
-    #return-button {
-        font-size: 14px;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    .container {
-        width: 100%; /* Adjusted width to fit the whole width of the screen */
+        width: 100%;
     }
 
     #image-form input,
