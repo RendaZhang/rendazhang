@@ -3,44 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Image Generation</title>
+    <link rel="stylesheet" href="/css/image_generation.min.css">
 </head>
 <body>
-    <form id="image-form">
-        <label for="prompt">Enter Text Prompt:</label>
-        <input type="text" id="prompt" name="prompt" required>
-        <button type="submit">Generate Image</button>
-    </form>
-    <div id="image-container"></div>
-    
-    <script>
-        document.getElementById('image-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            const prompt = document.getElementById('prompt').value;
-            
-            fetch('/cloudchat/generate_image', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ prompt: prompt })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.image_urls) {
-                    const imageContainer = document.getElementById('image-container');
-                    imageContainer.innerHTML = ''; // Clear any existing images
-                    
-                    data.image_urls.forEach(url => {
-                        const img = document.createElement('img');
-                        img.src = url;
-                        img.alt = 'Generated Image';
-                        imageContainer.appendChild(img);
-                    });
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
+    <div class="container">
+        <form id="image-form">
+            <label for="prompt">Enter Text Prompt:</label>
+            <input type="text" id="prompt" name="prompt" required>
+            <button type="submit">Generate Image</button>
+        </form>
+        <div id="loading" class="loading">Loading...</div>
+        <div id="image-container" class="image-container"></div>
+    </div>
+    <script src="/js/image_generation.min.js"></script>
 </body>
 </html>
