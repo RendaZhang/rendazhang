@@ -18,6 +18,20 @@ body {
     box-shadow: 0px 0px 10px 0px #000000;
 }
 
+#return-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#return-button:hover {
+    background-color: #45a049;
+}
+
 #image-form {
     margin-bottom: 20px;
 }
@@ -33,6 +47,7 @@ body {
 #image-form input {
     padding: 10px;
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 #image-form button {
@@ -42,6 +57,7 @@ body {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 16px;
 }
 
 #image-form button:hover {
@@ -74,5 +90,11 @@ body {
 @media only screen and (max-width: 600px) {
     .container {
         width: 90%;
+    }
+
+    #image-form input,
+    #image-form button,
+    #return-button {
+        font-size: 14px;
     }
 }

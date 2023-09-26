@@ -7,12 +7,13 @@
 </head>
 <body>
     <div class="container">
+        <button id="return-button" onclick="window.location.href='./index.html'">Return to Home</button>
         <form id="image-form">
             <label for="prompt">Enter Text Prompt:</label>
             <input type="text" id="prompt" name="prompt" required>
             <button type="submit">Generate Image</button>
         </form>
-        <div id="loading" class="loading">Loading...</div>
+        <div id="loading" class="loading"></div>
         <div id="image-container" class="image-container"></div>
     </div>
     <script src="/js/image_generation.min.js"></script>
