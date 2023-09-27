@@ -20,11 +20,18 @@
                 method: 'POST',
                 body: formData,
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => Promise.reject(text));
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('transcription-result').textContent = data.transcription;
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     </script>
 </body>
