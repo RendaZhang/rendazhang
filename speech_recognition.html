@@ -2,49 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Speech Recognition</title>
-    <!-- Add any CSS styles if needed -->
+    <title>Real-Time Speech Recognition</title>
 </head>
 <body>
-    <form id="audio-form" enctype="multipart/form-data">
-        <label for="audio-file">Upload Audio File:</label>
-        <input type="file" id="audio-file" name="audio_file" accept="audio/*" required>
-        <button type="submit">Transcribe Audio</button>
-    </form>
+    <button id="start-recording">Start Recording</button>
+    <button id="stop-recording" disabled>Stop Recording</button>
     <div id="transcription-container"></div>
     
     <script>
-        document.getElementById('audio-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            const audioFileInput = document.getElementById('audio-file');
-            const audioFile = audioFileInput.files[0];
-            
-            if (!audioFile) {
-                console.error('No audio file selected');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('audio_file', audioFile);
-            
-            fetch('/cloudchat/transcribe_audio', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.transcriptions) {
-                    const container = document.getElementById('transcription-container');
-                    container.innerHTML = '';
-                    data.transcriptions.forEach(transcription => {
-                        const div = document.createElement('div');
-                        div.textContent = transcription;
-                        container.appendChild(div);
+        document.getElementById('start-recording').addEventListener('click', function () {
+            // Request permission and start recording
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    const mediaRecorder = new MediaRecorder(stream);
+                    const audioChunks = [];
+                    
+                    mediaRecorder.addEventListener("dataavailable", event => {
+                        audioChunks.push(event.data);
                     });
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                    
+                    mediaRecorder.addEventListener("stop", () => {
+                        // Send audio data to the server
+                        const audioBlob = new Blob(audioChunks);
+                        const formData = new FormData();
+                        formData.append("audio_data", audioBlob);
+                        
+                        fetch('/cloudchat/transcribe_audio', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Display the transcription result
+                            document.getElementById('transcription-container').textContent = data.transcription;
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });
+                    
+                    document.getElementById('stop-recording').disabled = false;
+                    mediaRecorder.start();
+                    
+                    document.getElementById('stop-recording').addEventListener('click', function () {
+                        mediaRecorder.stop();
+                        document.getElementById('stop-recording').disabled = true;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
