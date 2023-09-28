@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Recognition</title>
+    <!-- Link to your CSS file if any -->
+</head>
+<body>
+    <form id="audio-form">
+        <label for="audio-url">Enter Audio URL:</label>
+        <input type="url" id="audio-url" name="audio_url" required>
+        <button type="submit">Transcribe Audio</button>
+    </form>
+    <div id="transcription-container"></div>
+    
+    <script>
+        document.getElementById('audio-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            
+            const audioUrl = document.getElementById('audio-url').value;
+            
+            fetch('/cloudchat/transcribe_audio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ audio_url: audioUrl })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.transcriptions) {
+                    const container = document.getElementById('transcription-container');
+                    container.innerHTML = ''; // Clear any existing transcriptions
+                    data.transcriptions.forEach(transcription => {
+                        const div = document.createElement('div');
+                        div.textContent = transcription;
+                        container.appendChild(div);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
