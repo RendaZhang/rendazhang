@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Speech Recognition</title>
-    <!-- Link to your CSS file if any -->
+    <!-- Add any CSS styles if needed -->
 </head>
 <body>
-    <form id="audio-form">
-        <label for="audio-url">Enter Audio URL:</label>
-        <input type="url" id="audio-url" name="audio_url" required>
+    <form id="audio-form" enctype="multipart/form-data">
+        <label for="audio-file">Upload Audio File:</label>
+        <input type="file" id="audio-file" name="audio_file" accept="audio/*" required>
         <button type="submit">Transcribe Audio</button>
     </form>
     <div id="transcription-container"></div>
@@ -17,20 +17,26 @@
         document.getElementById('audio-form').addEventListener('submit', function (e) {
             e.preventDefault();
             
-            const audioUrl = document.getElementById('audio-url').value;
+            const audioFileInput = document.getElementById('audio-file');
+            const audioFile = audioFileInput.files[0];
+            
+            if (!audioFile) {
+                console.error('No audio file selected');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('audio_file', audioFile);
             
             fetch('/cloudchat/transcribe_audio', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ audio_url: audioUrl })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.transcriptions) {
                     const container = document.getElementById('transcription-container');
-                    container.innerHTML = ''; // Clear any existing transcriptions
+                    container.innerHTML = '';
                     data.transcriptions.forEach(transcription => {
                         const div = document.createElement('div');
                         div.textContent = transcription;
