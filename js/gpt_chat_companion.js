@@ -86,4 +86,7 @@ function updateChatDisplay(message, sender) {
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
 }
 
-// Additional functions for handling chat UI can be added here
+// Auto-focus on the message input field when the page loads
+window.onload = function() {
+    document.getElementById('messageInput').focus();
+};
