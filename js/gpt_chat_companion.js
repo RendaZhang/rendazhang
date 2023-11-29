@@ -81,7 +81,11 @@ function updateChatDisplay(message, sender) {
     const chatBox = document.getElementById('chatBox');
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender.toLowerCase());
-    messageDiv.textContent = `${sender}: ${message}`;
+
+    // Display "Renda" instead of "Assistant" for assistant messages
+    const displayName = sender === 'Assistant' ? 'Renda' : sender;
+    messageDiv.textContent = `${displayName}: ${message}`;
+
     chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
 }

@@ -9,6 +9,26 @@ body {
     height: 100vh;
 }
 
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-title {
+    margin: 0;
+}
+
 .chat-container {
     width: 100%;
     max-width: 400px;
