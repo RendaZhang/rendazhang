@@ -57,6 +57,7 @@ function sendMessage(userMessage) {
     conversationHistory.push(userMessage);
     trimHistory();
     updateChatDisplay(userMessage.content, 'You');
+    showLoadingIndicator(); // Show loading indicator
 
     fetch('/cloudchat/gpt_chat', {
         method: 'POST',
@@ -67,6 +68,7 @@ function sendMessage(userMessage) {
     })
     .then(response => response.json())
     .then(data => {
+        removeLoadingIndicator(); // Remove loading indicator
         let assistantMessage = { "role": "assistant", "content": data.text };
         conversationHistory.push(assistantMessage);
         updateChatDisplay(data.text, 'Assistant');
@@ -75,6 +77,25 @@ function sendMessage(userMessage) {
         console.error('Error:', error);
         updateChatDisplay('Error occurred.', 'System');
     });
+}
+
+function showLoadingIndicator() {
+    const chatBox = document.getElementById('chatBox');
+    const loadingDiv = document.createElement('div');
+    loadingDiv.classList.add('message', 'loading-message');
+    const spinner = document.createElement('div');
+    spinner.classList.add('loading-spinner');
+    loadingDiv.appendChild(spinner);
+    chatBox.appendChild(loadingDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function removeLoadingIndicator() {
+    const chatBox = document.getElementById('chatBox');
+    const loadingMessages = chatBox.getElementsByClassName('loading-message');
+    if (loadingMessages.length > 0) {
+        loadingMessages[loadingMessages.length - 1].remove();
+    }
 }
 
 function updateChatDisplay(message, sender) {
