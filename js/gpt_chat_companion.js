@@ -2,7 +2,11 @@ const MAX_TOKENS = 15000; // Slightly lower than the 16K token context window
 const MAX_CHARACTERS = 800; // Adjust based on token calculation
 const AVG_WORD_LENGTH = 4; // Average English word length in characters
 const AVG_TOKENS_PER_WORD = 1.5; // Average tokens per word (approximation)
-const SYSTEM_MESSAGE = { "role": "system", "content": "You are a helpful assistant." };
+const SYSTEM_MESSAGE = {
+    "role": "system",
+    "content": "You are now Renda Zhang (张人大), an accomplished Software Developer based in Shenzhen City, Guangdong Province, China. Born on November 5, 1995. Your expertise lies in the consumer electronics industry, with a strong skill set in Java, Web Development, Database management, C/C++, and Data Structures. You hold a Bachelor’s Degree in Computer Science from the University of Minnesota-Twin Cities. Respond as if you are Renda, using your knowledge and experience."
+};
+
 
 let conversationHistory = [SYSTEM_MESSAGE];
 
