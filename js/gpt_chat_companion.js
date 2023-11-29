@@ -97,6 +97,9 @@ function updateChatDisplay(message, sender) {
     
     chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+
+    // Process MathJax content
+    MathJax.typesetPromise();
 }
 
 // Auto-focus on the message input field when the page loads
