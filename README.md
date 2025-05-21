@@ -1,35 +1,76 @@
-# Personal Website README
+# Renda Zhang · Personal Website | 张人大 · 个人网站
 
-**Date:** Sep 8, 2023  
-**Author:** Renda Zhang  
+**Author / 作者**: Renda Zhang（张人大）  
+**Last Updated / 最后更新**: 2025-05-20  
+**Website / 网址**: [www.rendazhang.com](https://www.rendazhang.com)
 
-## Chinese Guide (中文指南)
+---
 
-### 网站简述
-- **个人网站链接：** [rendazhang.com](https://www.rendazhang.com)
-- 特性：
-    + 音乐播放
-    + 简历下载
-    + `Formspree` 私信留言功能
-    + 选择语言的网页入口，支持英文版本
-- 适配性：自动根据PC端和移动端屏幕大小进行适配。
-- 性能优化：
-    + 异步加载音乐和留言功能
-    + 压缩 `html, css, js` 代码
-    + 图片压缩和降低质量
-    + 图片懒加载
+## 🌐 简介 | Introduction
 
-## English Guide
+这是我个人维护的中英文双语技术展示网站，旨在作为我的简历、作品集和技术能力的在线展示平台。  
+This is my personal bilingual (English & Chinese) website, designed to present my resume, projects, and technical capabilities.
 
-### Welcome to my Personal Website
-- **Web Page Link:** [rendazhang.com](https://www.rendazhang.com)
-- Designed with a Chinese aesthetic and developed using the Bootstrap Framework.
-- **Features:**
-    + Browse all content
-    + Play music in the "About me" section
-    + Download my resume
-    + Directly contact me via phone or email
-    + Leave a message through the contact form
-- **Responsiveness:** The website automatically adjusts to fit any device screen size.
-- **Troubleshooting:** If you experience any issues, please don't hesitate to reach out to me for assistance.
-- For Chinese instructions, refer to the section above.
+---
+
+## 📌 功能 Features
+
+- 📝 简历展示 Resume presentation (English & 中文)
+- 📥 简历下载 Download latest PDF resume
+- 💬 与 ChatGPT 在线对话 Chat with AI
+- 🖼️ AI 图片生成演示 Image generation with AI prompt
+- 📂 项目展示 Project summaries
+- 📱 自适应布局 Responsive for PC & mobile
+
+---
+
+## 🧠 技术栈 Technology Stack
+
+| 分类 | 技术 |
+|------|------|
+| 前端 Frontend | HTML5, CSS3, Bootstrap, JavaScript |
+| 后端 Backend | Flask (Python), OpenAI API |
+| 服务器 Server | CentOS 7, NGINX |
+| 工具 Tools | Git, Gitee, Markdown, Docker (optional) |
+
+---
+
+## 📚 我的项目 | Selected Projects
+
+- **Task Management System**（任务管理系统）  
+  微服务架构，Spring Boot 3 + Cloud Gateway + Eureka + Redis 缓存 + Docker Compose 部署。
+
+- **Online Education Platform**（在线教育平台）  
+  基于 Spring Cloud 构建的高并发教学服务，集成消息队列、ES 搜索引擎、分布式缓存。
+
+- **E-commerce Backend System**（电商后台系统）  
+  完整覆盖商品建模、订单管理、Redis 缓存优化、MongoDB 索引调优。
+
+---
+
+## 🛠️ 使用说明 | Usage
+
+你可以直接访问各模块页面：
+- [About Me / 关于我](https://www.rendazhang.com/index_english.html)
+- [简历中文页](https://www.rendazhang.com/index_chinese.html)
+- [Chat with AI](https://www.rendazhang.com/chat.html)
+- [Image Generation](https://www.rendazhang.com/image_generation.html)
+
+如果你想查看此 `README.md` 本页，请直接访问：  
+[www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
+
+---
+
+## 📬 联系方式 | Contact
+
+- 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
+- 🌏 Location: Shenzhen, China
+- 📄 English Resume: [Resume_RendaZhang.pdf](https://www.rendazhang.com/images/Resume_RendaZhang.pdf)
+- 📄 中文简历: [个人简历_张人大](https://www.rendazhang.com/images/个人简历_张人大.pdf)
+
+---
+
+## 🔒 License
+
+本网站为个人作品展示用途，非开源。请勿未经许可复制或用于商业用途。  
+This website is personal and not open-source. Please do not reuse content without permission.
