@@ -54,7 +54,7 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 - [About Me / 关于我](https://www.rendazhang.com/index_english.html)
 - [简历中文页](https://www.rendazhang.com/index_chinese.html)
 - [Chat with AI](https://www.rendazhang.com/chat.html)
-- [Image Generation](https://www.rendazhang.com/image_generation.html)
+- [Image Generation](https://www.rendazhang.com/image_generation.html)（Token消耗完了，暂时无法使用）
 
 如果你想查看此 `README.md` 本页，请直接访问：  
 [www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
