@@ -25,6 +25,28 @@ body {
     text-align: center;
     margin: 20px 0;
   }
+
+  .language-selector a,
+  .chat-section a,
+  .image-generation-section a {
+    margin: 0 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .language-selector a:hover,
+  .chat-section a:hover,
+  .image-generation-section a:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
   
   button {
     margin: 0 10px;
