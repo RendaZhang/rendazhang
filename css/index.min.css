@@ -21,14 +21,14 @@ body {
   
   .language-selector,
   .chat-section,
-  .image-generation-section {
+  .certification-section {
     text-align: center;
     margin: 20px 0;
   }
 
   .language-selector a,
   .chat-section a,
-  .image-generation-section a {
+  .certification-section a {
     margin: 0 10px;
     background-color: #4CAF50;
     color: white;
@@ -43,7 +43,7 @@ body {
 
   .language-selector a:hover,
   .chat-section a:hover,
-  .image-generation-section a:hover {
+  .certification-section a:hover {
     background-color: #45a049;
     transform: translateY(-2px);
   }
