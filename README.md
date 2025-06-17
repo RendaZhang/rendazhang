@@ -24,6 +24,14 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 
 ---
 
+## 🏅 证书展示 | Certifications showcase
+
+| Date | Credential | ID / Verify |
+|------|------------|-------------|
+| 2025-06-16 | **AWS Certified Solutions Architect – Associate (SAA-C03)** | [Credly Badge »](https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url)
+
+---
+
 ## 🧠 技术栈 Technology Stack
 
 | 分类 | 技术 |
@@ -67,14 +75,6 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 - 🌏 Location: Shenzhen, China
 - 📄 English Resume: [Resume_RendaZhang.pdf](https://www.rendazhang.com/images/Resume_RendaZhang.pdf)
 - 📄 中文简历: [个人简历_张人大](https://www.rendazhang.com/images/个人简历_张人大.pdf)
-
----
-
-## 🏅 证书 | Certifications
-
-| Date | Credential | ID / Verify |
-|------|------------|-------------|
-| 2025-06-16 | **AWS Certified Solutions Architect – Associate (SAA-C03)** | [Credly Badge »](https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url)
 
 ---
 
