@@ -18,7 +18,7 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 - 📝 简历展示 Resume presentation (English & 中文)
 - 📥 简历下载 Download latest PDF resume
 - 💬 与 ChatGPT 在线对话 Chat with AI
-- 🖼️ AI 图片生成演示 Image generation with AI prompt
+- 🎖️ 证书展示 Certifications showcase
 - 📂 项目展示 Project summaries
 - 📱 自适应布局 Responsive for PC & mobile
 

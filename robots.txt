@@ -1,4 +1,4 @@
 # robots.txt for https://www.rendazhang.com/
 User-agent: *
-Disallow: 
+Disallow: /js/
 Sitemap: https://www.rendazhang.com/sitemap.xml
