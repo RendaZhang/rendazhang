@@ -24,14 +24,6 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 
 ---
 
-## 🏅 证书展示 | Certifications showcase
-
-| Date | Credential | ID / Verify |
-|------|------------|-------------|
-| 2025-06-16 | **AWS Certified Solutions Architect – Associate (SAA-C03)** | [Credly Badge »](https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url)
-
----
-
 ## 🧠 技术栈 Technology Stack
 
 | 分类 | 技术 |
@@ -60,9 +52,9 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 
 你可以直接访问各模块页面：
 - [About Me / 关于我](https://www.rendazhang.com/index_english.html)
-- [简历中文页](https://www.rendazhang.com/index_chinese.html)
-- [Chat with AI](https://www.rendazhang.com/chat.html)
-- [Image Generation](https://www.rendazhang.com/image_generation.html)（Token消耗完了，暂时无法使用）
+- [中文介绍页](https://www.rendazhang.com/index_chinese.html)
+- [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/chat.html)
+- [Certifications / 证书](https://www.rendazhang.com/certifications.html)
 
 如果你想查看此 `README.md` 本页，请直接访问：  
 [www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
