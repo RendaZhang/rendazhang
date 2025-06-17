@@ -70,6 +70,14 @@ This is my personal bilingual (English & Chinese) website, designed to present m
 
 ---
 
+## 🏅 证书 | Certifications
+
+| Date | Credential | ID / Verify |
+|------|------------|-------------|
+| 2025-06-16 | **AWS Certified Solutions Architect – Associate (SAA-C03)** | [Credly Badge »](https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url)
+
+---
+
 ## 🔒 License
 
 本网站为个人作品展示用途，非开源。请勿未经许可复制或用于商业用途。  
