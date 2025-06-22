@@ -15,7 +15,7 @@
     <loc>https://www.rendazhang.com/index_english.html</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <lastmod>2025-06-18</lastmod>
+    <lastmod>2025-06-22</lastmod>
   </url>
 
   <!-- Chinese Resume Page -->
@@ -23,7 +23,7 @@
     <loc>https://www.rendazhang.com/index_chinese.html</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <lastmod>2025-06-18</lastmod>
+    <lastmod>2025-06-22</lastmod>
   </url>
 
   <!-- Chat with AI -->
@@ -48,7 +48,7 @@
     <loc>https://www.rendazhang.com/images/Resume_RendaZhang.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2025-05-20</lastmod>
+    <lastmod>2025-06-22</lastmod>
   </url>
 
   <!-- 中文简历 PDF -->
@@ -56,7 +56,7 @@
     <loc>https://www.rendazhang.com/images/个人简历_张人大.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2025-05-20</lastmod>
+    <lastmod>2025-06-22</lastmod>
   </url>
 
   <!-- README -->
@@ -64,7 +64,7 @@
     <loc>https://www.rendazhang.com/README.md</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <lastmod>2025-06-18</lastmod>
+    <lastmod>2025-06-22</lastmod>
   </url>
 
 </urlset>
