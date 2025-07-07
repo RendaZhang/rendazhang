@@ -1,0 +1,17 @@
+exclude: >
+  (?x)^(dist/|vendor/|node_modules/|.*\.min\.(js|css)$)
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+        files: \.(md)$
+      - id: trailing-whitespace
+        files: \.(md)$
+      - id: check-yaml
+      - id: check-added-large-files
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        files: \.(md)$
