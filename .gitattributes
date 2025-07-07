@@ -1,0 +1,46 @@
+# Normalize text files to Unix line endings
+* text=auto eol=lf
+
+# Common text-based sources
+*.html   text
+*.css    text
+*.js     text
+*.json   text
+*.xml    text
+*.md     text
+*.txt    text
+
+# Binary assets
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.webp   binary
+*.ico    binary
+*.svg    binary
+*.mp3    binary
+*.mp4    binary
+*.pdf    binary
+*.eot    binary
+*.ttf    binary
+*.woff   binary
+*.woff2  binary
+*.zip    binary
+*.jar    binary
+*.exe    binary
+*.dll    binary
+*.so     binary
+*.node   binary
+
+# Mark minified files as generated
+*.min.css linguist-generated
+*.min.js  linguist-generated
+
+# Documentation files
+README.md linguist-documentation
+
+# Vendored fonts
+fonts/**    linguist-vendored
+webfonts/** linguist-vendored
+
+# Generated on 2025-07-07
