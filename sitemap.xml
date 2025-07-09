@@ -5,7 +5,7 @@
   <!-- Main Homepage -->
   <url>
     <loc>https://www.rendazhang.com/index.html</loc>
-    <changefreq>monthly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>1.0</priority>
     <lastmod>2025-06-18</lastmod>
   </url>
@@ -26,12 +26,12 @@
     <lastmod>2025-06-22</lastmod>
   </url>
 
-  <!-- Chat with AI -->
+  <!-- Chat with AI (DeepSeek) -->
   <url>
-    <loc>https://www.rendazhang.com/chat.html</loc>
-    <changefreq>yearly</changefreq>
+    <loc>https://www.rendazhang.com/deepseek_chat.html</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <lastmod>2025-05-21</lastmod>
+    <lastmod>2025-07-09</lastmod>
   </url>
 
   <!-- Certifications -->

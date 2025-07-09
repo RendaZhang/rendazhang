@@ -2,18 +2,18 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
-  - [🌐 简介](#-%E7%AE%80%E4%BB%8B)
-  - [📌 网站功能](#-%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
-  - [🧠 技术栈](#-%E6%8A%80%E6%9C%AF%E6%A0%88)
-    - [参考架构：](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
-  - [🚀 部署 Deployment](#-%E9%83%A8%E7%BD%B2-deployment)
-    - [**后端**](#%E5%90%8E%E7%AB%AF)
+- [张人大 (Renda Zhang) · 轻量级网站](#张人大-renda-zhang--轻量级网站)
+  - [🌐 简介](#-简介)
+  - [📌 网站功能](#-网站功能)
+  - [🧠 技术栈](#-技术栈)
+    - [参考架构：](#参考架构)
+  - [🚀 部署 Deployment](#-部署-deployment)
+    - [**后端**](#后端)
     - [**Nginx**](#nginx)
-  - [🛠️ 使用说明 | Usage](#-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
-  - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
+  - [🛠️ 使用说明 | Usage](#️-使用说明--usage)
+  - [🤝 贡献指南 | Contributing Guide](#-贡献指南--contributing-guide)
   - [🔒 License](#-license)
-  - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
+  - [📬 联系方式](#-联系方式)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -141,7 +141,7 @@ proxy_redirect off;
 
 - [About Me / 关于我](https://www.rendazhang.com/index_english.html)
 - [中文介绍页](https://www.rendazhang.com/index_chinese.html)
-- [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/chat.html)
+- [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
 - [Certifications / 证书](https://www.rendazhang.com/certifications.html)
 
 如果你想查看此 `README.md` 本页，请直接访问：

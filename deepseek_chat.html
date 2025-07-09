@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Chat</title>
+    <link rel="stylesheet" href="/css/deepseek_chat.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button id="back-button" onclick="window.location.href='./index.html'">&#8592; Back</button>
+            <h1>DeepSeek Chat</h1>
+        </header>
+        <div class="chat-container" id="chat-container">
+            <div class="info-text">会话已就绪，请输入消息开始对话</div>
+        </div>
+        <div class="typing-indicator" id="typing-indicator">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+        </div>
+        <div class="input-area">
+            <textarea id="message-input" placeholder="输入消息..." rows="1" autofocus></textarea>
+            <div class="btn-container">
+                <button id="send-btn">发送</button>
+                <button id="reset-btn">重置会话</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/deepseek_chat.min.js"></script>
+</body>
+</html>
