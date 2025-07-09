@@ -97,6 +97,24 @@ body {
     background-color: #45a049;
 }
 
+.btn-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.reset-button {
+    width: 60px;
+    border: none;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+}
+
+.reset-button:hover {
+    background-color: #d32f2f;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     .chat-container {

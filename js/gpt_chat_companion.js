@@ -33,6 +33,7 @@ function saveHistory() {
 }
 
 const sendButton = document.getElementById("sendButton");
+const resetButton = document.getElementById("resetButton");
 const messageInput = document.getElementById("messageInput");
 
 sendButton.addEventListener("click", () => {
@@ -48,6 +49,10 @@ sendButton.addEventListener("click", () => {
   const userMessage = { role: "user", content: userMessageContent };
   sendMessage(userMessage);
   messageInput.value = "";
+});
+
+resetButton.addEventListener("click", () => {
+  resetChat();
 });
 
 // Press Enter to send message (Shift+Enter for newline)
@@ -106,22 +111,91 @@ async function sendMessage(userMessage) {
   showLoadingIndicator();
 
   try {
-    const response = await fetch("/cloudchat/gpt_chat", {
+    const response = await fetch("/cloudchat/deepseek_chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ conversation: conversationHistory }),
+      headers: {
+        "Content-Type": "application/json",
+        Referer: "https://www.rendazhang.com",
+      },
+      body: JSON.stringify({ message: userMessage.content }),
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+
     removeLoadingIndicator();
-    const assistantMessage = { role: "assistant", content: data.text };
+
+    const chatBox = document.getElementById("chatBox");
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "assistant");
+    const senderName = document.createElement("div");
+    senderName.classList.add("sender-name");
+    senderName.textContent = "Renda";
+    const messageContent = document.createElement("div");
+    messageDiv.appendChild(senderName);
+    messageDiv.appendChild(messageContent);
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let assistantText = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split("\n").filter((line) => line.trim());
+      for (const line of lines) {
+        try {
+          const data = JSON.parse(line);
+          if (data.text) {
+            assistantText += data.text;
+            messageContent.textContent = assistantText;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            MathJax.typesetPromise();
+          }
+        } catch (e) {
+          console.error("Parse error:", e);
+        }
+      }
+    }
+
+    const assistantMessage = { role: "assistant", content: assistantText };
     conversationHistory.push(assistantMessage);
-    updateChatDisplay(data.text, "Assistant");
     saveHistory();
   } catch (error) {
     console.error("Error:", error);
     removeLoadingIndicator();
     updateChatDisplay("Error occurred.", "System");
+  }
+}
+
+async function resetChat() {
+  if (!confirm("Are you sure you want to reset the conversation?")) {
+    return;
+  }
+  try {
+    const response = await fetch("/cloudchat/reset_chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Referer: "https://www.rendazhang.com",
+      },
+      body: JSON.stringify({}),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Reset failed: ${response.status}`);
+    }
+
+    conversationHistory = [SYSTEM_MESSAGE];
+    saveHistory();
+    document.getElementById("chatBox").innerHTML = "";
+  } catch (error) {
+    alert(`Reset failed: ${error.message}`);
+    console.error("Reset error:", error);
   }
 }
 
