@@ -2,18 +2,18 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
-  - [🌐 简介](#-%E7%AE%80%E4%BB%8B)
-  - [📌 网站功能](#-%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
-  - [🧠 技术栈](#-%E6%8A%80%E6%9C%AF%E6%A0%88)
-    - [参考架构：](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
-  - [🚀 部署 Deployment](#-%E9%83%A8%E7%BD%B2-deployment)
-    - [**后端**](#%E5%90%8E%E7%AB%AF)
+- [张人大 (Renda Zhang) · 轻量级网站](#张人大-renda-zhang--轻量级网站)
+  - [🌐 简介](#-简介)
+  - [📌 网站功能](#-网站功能)
+  - [🧠 技术栈](#-技术栈)
+    - [参考架构：](#参考架构)
+  - [🚀 部署 Deployment](#-部署-deployment)
+    - [**后端**](#后端)
     - [**Nginx**](#nginx)
-  - [🛠️ 使用说明 | Usage](#-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
-  - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
+  - [🛠️ 使用说明 | Usage](#️-使用说明--usage)
+  - [🤝 贡献指南 | Contributing Guide](#-贡献指南--contributing-guide)
   - [🔒 License](#-license)
-  - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
+  - [📬 联系方式](#-联系方式)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -52,7 +52,7 @@
 |------|------|
 | 前端 Frontend | HTML, CSS, Bootstrap, JavaScript |
 | 后端 Backend | Flask (Python), OpenAI API |
-| 服务器 Server | CentOS, NGINX, Gunicorn + Gevent |
+| 服务器 Server | Ubuntu, NGINX, Gunicorn + Gevent |
 | 工具 Tools | Git, Gitee, Markdown, Docker (optional) |
 
 ### 参考架构：
@@ -67,7 +67,7 @@ Frontend (
    HTML + CSS + Bootstrap + JavaScript
    - 负责用户界面和交互
 ) → Server (
-   CentOS (操作系统)
+   Ubuntu (操作系统)
    ↓
    NGINX (反向代理和负载均衡)
    ↓
@@ -89,7 +89,7 @@ flowchart TD
 
     subgraph Server
         direction TB
-        D[CentOS: 操作系统] --> E[NGINX: 反向代理和负载均衡]
+        D[Ubuntu: 操作系统] --> E[NGINX: 反向代理和负载均衡]
         E --> F[systemd 服务: 进程管理]
         F --> G[Gunicorn + Gevent: WSGI 服务器]
         G --> H[Backend: Flask App: 处理业务逻辑和 API 请求]
@@ -101,35 +101,9 @@ flowchart TD
 
 ### **后端**
 
-- 安装依赖：
-
-```bash
-sudo /opt/cloudchat/venv/bin/pip install gunicorn gevent
-```
-
-- 示例 systemd 服务片段：
-
-```ini
-[Service]
-ExecStart=/opt/cloudchat/venv/bin/gunicorn --worker-class gevent --workers 2 --worker-connections 50 --max-requests 1000 --max-requests-jitter 50 --timeout 300 --bind ${IP}:${PORT} app:app
-Restart=always
-```
-
 > 具体操作请参考后端项目：[Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
 
 ### **Nginx**
-
-- Nginx 中为 `/cloudchat/` 路径添加：
-
-```nginx
-proxy_read_timeout ${TIME_IN_SECONDS};
-proxy_send_timeout ${TIME_IN_SECONDS};
-proxy_buffering off;
-proxy_redirect off;
-```
-
-此配置利用 **Gunicorn + Gevent** 提升流式接口的并发处理能力，
-对轻量级服务器尤为适用。
 
 > 具体操作请参考 Nginx 项目：[Nginx Conf](https://github.com/RendaZhang/nginx-conf)
 
