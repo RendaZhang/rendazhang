@@ -251,6 +251,13 @@ button:active {
     cursor: pointer;
     color: #64748b;
     font-size: 1rem;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
 
 .copy-btn:hover {
@@ -276,6 +283,12 @@ button:active {
 
 .copy-btn:hover::after {
     opacity: 1;
+}
+
+.copy-btn i {
+    width: 1em;
+    text-align: center;
+    pointer-events: none;
 }
 
 .ai-message {
