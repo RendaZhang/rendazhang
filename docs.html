@@ -21,12 +21,14 @@
   <script defer src="/js/highlight.min.js"></script>
   <script defer src="/js/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({ startOnLoad: false });
-    $.get('README.md', function(data) {
-      const html = marked.parse(data);
-      document.getElementById('content').innerHTML = html;
-      document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
-      mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    document.addEventListener('DOMContentLoaded', function() {
+      mermaid.initialize({ startOnLoad: false });
+      $.get('README.md', function(data) {
+        const html = marked.parse(data);
+        document.getElementById('content').innerHTML = html;
+        document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+        mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+      });
     });
   </script>
 </body>
