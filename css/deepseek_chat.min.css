@@ -194,7 +194,7 @@ button:active {
 
 @media (max-width: 600px) {
     .container {
-        height: 100vh;
+        height: calc(100vh - 40px);
         border-radius: 0;
     }
 
@@ -204,6 +204,10 @@ button:active {
 
     .message {
         max-width: 90%;
+    }
+
+    .input-area {
+        padding-bottom: calc(15px + env(safe-area-inset-bottom));
     }
 }
 
