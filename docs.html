@@ -16,10 +16,10 @@
   <button id="back" class="btn btn-secondary" onclick="window.location.href='index.html'">&larr; Back to Home</button>
   <div id="content">Loading...</div>
 
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/marked.min.js"></script>
-  <script src="/js/highlight.min.js"></script>
-  <script src="/js/mermaid.min.js"></script>
+  <script defer src="/js/jquery.min.js"></script>
+  <script defer src="/js/marked.min.js"></script>
+  <script defer src="/js/highlight.min.js"></script>
+  <script defer src="/js/mermaid.min.js"></script>
   <script>
     mermaid.initialize({ startOnLoad: false });
     $.get('README.md', function(data) {

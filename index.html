@@ -36,7 +36,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/open-sans.css">
   <link rel="stylesheet" href="/css/index.min.css" />
   <script type="application/ld+json">
   {
@@ -101,12 +101,12 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <div class="loader"></div>
-      <img id="wechatQR" src="images/qrcode_wechat.jpg" alt="WeChat Official Account QR code" style="display:none;" />
+      <img id="wechatQR" src="images/qrcode_wechat.jpg" alt="WeChat Official Account QR code" style="display:none;" loading="lazy" />
     </div>
   </div>
 
-  <script src="js/jinxin.lazyload.min.js"></script>
-  <script src="js/index.min.js"></script>
+  <script defer src="js/jinxin.lazyload.min.js"></script>
+  <script defer src="js/index.min.js"></script>
 </body>
 
 </html>
