@@ -74,4 +74,19 @@ body {
   .code-icon {
     margin-right: 5px;
   }
-  
+  .social-icons {
+    text-align: center;
+    margin: 20px 0;
+}
+.social-icons img {
+    width: 32px;
+    height: 32px;
+    margin: 0 8px;
+    vertical-align: middle;
+}
+@media (max-width: 480px) {
+    .social-icons img {
+        width: 24px;
+        height: 24px;
+    }
+}
