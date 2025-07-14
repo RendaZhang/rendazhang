@@ -47,7 +47,7 @@
 - ✉️ 联系表单 (通过 Formspree)
 - 🎵 背景音乐播放开关
 - 🌏 多语言支持 (英文 + 中文)
-- 💰 捐赠支持
+- ⚙️ 技术栈展示页
 
 ---
 
@@ -108,7 +108,7 @@ flowchart TD
 
 ## 页面内容介绍
 
-- `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和捐赠信息。
+- `index.html`：简洁布局，包括语言选择区、AI 聊天入口和证书入口。
 - `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
@@ -189,6 +189,7 @@ flowchart TD
 - 🌐 [中文介绍页](https://www.rendazhang.com/index_chinese.html)
 - 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
 - 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications.html)
+- 🌐 [Tech Stack / 技术栈](https://www.rendazhang.com/tech-stack.html)
 
 如果你想查看此 `README.md` 本页，请直接访问：
 🌐 [www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
