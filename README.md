@@ -1,5 +1,6 @@
-
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
@@ -16,6 +17,27 @@
   - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
   - [🔒 License](#-license)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [张人大 (Renda Zhang) · 轻量级网站](#张人大-renda-zhang--轻量级网站)
+  - [简介](#简介)
+  - [网站功能](#网站功能)
+  - [页面功能](#页面功能)
+  - [页面跳转逻辑](#页面跳转逻辑)
+  - [页面内容介绍](#页面内容介绍)
+  - [技术栈](#技术栈)
+    - [参考架构](#参考架构)
+  - [依赖项目部署](#依赖项目部署)
+    - [**后端**](#后端)
+    - [**Nginx**](#nginx)
+  - [使用说明 | Usage](#使用说明--usage)
+  - [🤝 贡献指南 | Contributing Guide](#-贡献指南--contributing-guide)
+  - [🔒 License](#-license)
+  - [📬 联系方式](#-联系方式)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -110,7 +132,7 @@ flowchart TD
 - `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接。
 - `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
+- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息，并会在刷新后保留历史。
 - `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
 
