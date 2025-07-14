@@ -1,5 +1,4 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
@@ -23,7 +22,7 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 * **作者**: 张人大 (Renda Zhang)
-* **最后更新**: July 14, 2025, 18:30 (UTC+8)
+* **最后更新**: July 14, 2025, 21:20 (UTC+8)
 
 ---
 
@@ -47,7 +46,7 @@
 - ✉️ 联系表单 (通过 Formspree)
 - 🎵 背景音乐播放开关
 - 🌏 多语言支持 (英文 + 中文)
-- 💻 技术文档 | Tech Docs
+- 💻 技术文档展示页 (docs.html)
 
 ---
 
@@ -190,8 +189,8 @@ flowchart TD
 - 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
 - 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications.html)
 
-如果你想查看此 `README.md` 本页，请直接访问：
-🌐 [www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
+如果你想查看渲染后的技术文档页面，请访问：
+🌐 [www.rendazhang.com/docs.html](https://www.rendazhang.com/docs.html)
 
 ---
 

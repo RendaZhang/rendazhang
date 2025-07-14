@@ -59,12 +59,12 @@
     <lastmod>2025-06-22</lastmod>
   </url>
 
-  <!-- README -->
+  <!-- Documentation Page -->
   <url>
-    <loc>https://www.rendazhang.com/README.md</loc>
+    <loc>https://www.rendazhang.com/docs.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <lastmod>2025-07-13</lastmod>
+    <lastmod>2025-07-14</lastmod>
   </url>
 
 </urlset>

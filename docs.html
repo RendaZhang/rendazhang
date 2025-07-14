@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Documentation</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <style>
+    body { padding: 20px; max-width: 900px; margin: auto; }
+    pre { overflow-x: auto; }
+    #back { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <button id="back" class="btn btn-secondary" onclick="window.location.href='index.html'">&larr; Back to Home</button>
+  <div id="content">Loading...</div>
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: false });
+    $.get('README.md', function(data) {
+      const html = marked.parse(data);
+      document.getElementById('content').innerHTML = html;
+      document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+      mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    });
+  </script>
+</body>
+</html>
