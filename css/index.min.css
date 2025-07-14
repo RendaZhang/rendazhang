@@ -19,16 +19,18 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  .language-selector,
-  .chat-section,
-  .certification-section {
+.language-selector,
+.chat-section,
+.certification-section,
+.docs-section {
     text-align: center;
     margin: 20px 0;
   }
 
-  .language-selector a,
-  .chat-section a,
-  .certification-section a {
+.language-selector a,
+.chat-section a,
+.certification-section a,
+.docs-section a {
     margin: 0 10px;
     background-color: #4CAF50;
     color: white;
@@ -41,9 +43,10 @@ body {
     transition: background-color 0.3s, transform 0.3s;
   }
 
-  .language-selector a:hover,
-  .chat-section a:hover,
-  .certification-section a:hover {
+.language-selector a:hover,
+.chat-section a:hover,
+.certification-section a:hover,
+.docs-section a:hover {
     background-color: #45a049;
     transform: translateY(-2px);
   }
@@ -67,41 +70,8 @@ body {
     background-color: #45a049;
     transform: translateY(-2px);
   }
-  
-  .support-message {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
+
+  .code-icon {
+    margin-right: 5px;
   }
   
-  .payment-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .payment-option {
-    width: 100%;
-    max-width: 160px;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .payment-option img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-  }
-  
-  .payment-option img:hover {
-    transform: scale(1.05);
-  }
-  
-  .payment-option p {
-    margin: 0;
-  }  
