@@ -69,6 +69,7 @@
 - 🎵 背景音乐播放开关
 - 🌏 多语言支持 (英文 + 中文)
 - 💻 技术文档展示页 (docs.html)
+- 🔗 内容平台链接
 
 ---
 
@@ -129,7 +130,7 @@ flowchart TD
 
 ## 页面内容介绍
 
-- `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接。
+- `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
 - `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
