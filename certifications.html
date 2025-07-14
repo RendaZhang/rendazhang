@@ -40,6 +40,9 @@
     .cert-card p{margin:.25rem 0}
     .verify-btn{margin-right:.25rem;background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);box-shadow:0 4px 6px rgba(0,0,0,.1);color:#fff;padding:6px 12px;border-radius:4px;text-decoration:none;transition:filter .3s,transform .3s}
     .verify-btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
+    /* Credly 加载动画 */
+    .credly-container{position:relative}
+    .credly-container .loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10}
   </style>
   <script type="application/ld+json">
   {
@@ -68,17 +71,18 @@
 
     <section class="cert-grid">
       <article class="cert-card">
-        <h2>AWS Certified Solutions Architect – Associate (SAA-C03)</h2>
+        <h2>AWS Certified Solutions Architect - Associate (SAA-C03)</h2>
         <p><strong>Name:</strong> Renda Zhang</p>
         <p><strong>Issued:</strong> 2025-06-16&nbsp;&nbsp;•&nbsp;&nbsp;<strong>Expires:</strong> 2028-06-16</p>
 
         <!-- Credly 嵌入 -->
-        <div style="max-width:270px;margin:1rem auto">
+        <div class="credly-container" style="max-width:270px;margin:1rem auto">
+          <div class="loader"></div>
           <div data-iframe-width="150" data-iframe-height="270"
                data-share-badge-id="8a7e15fc-374b-4335-a86e-e30e5255836d"
                data-share-badge-host="https://www.credly.com"></div>
-          <script async src="js/credly_embed.js"></script>
         </div>
+        <script async src="js/custom_credly_embed.min.js"></script>
 
         <p>
           <a class="verify-btn" href="https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url" target="_blank">Verify on Credly</a>
