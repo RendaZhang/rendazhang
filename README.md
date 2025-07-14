@@ -3,17 +3,17 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
-  - [🌐 简介](#-%E7%AE%80%E4%BB%8B)
-  - [📌 网站功能](#-%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
+  - [简介](#%E7%AE%80%E4%BB%8B)
+  - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
   - [页面功能](#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD)
   - [页面跳转逻辑](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E9%80%BB%E8%BE%91)
   - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
-  - [🧠 技术栈](#-%E6%8A%80%E6%9C%AF%E6%A0%88)
+  - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
-  - [🚀 部署 Deployment](#-%E9%83%A8%E7%BD%B2-deployment)
+  - [依赖项目部署](#%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
     - [**Nginx**](#nginx)
-  - [🛠️ 使用说明 | Usage](#-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
+  - [使用说明 | Usage](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
   - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
   - [🔒 License](#-license)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -23,19 +23,19 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 * **作者**: 张人大 (Renda Zhang)
-* **最后更新**: July 14, 2025, 15:50 (UTC+8)
+* **最后更新**: July 14, 2025, 18:30 (UTC+8)
 
 ---
 
-## 🌐 简介
+## 简介
 
 这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。
 
-**网站链接**: [www.rendazhang.com](https://www.rendazhang.com)
+**网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
 ---
 
-## 📌 网站功能
+## 网站功能
 
 - 💬 与 AI 在线对话
 - 🖼️ 文本到图像生成功能（出于成本原因，暂时关闭）
@@ -58,10 +58,14 @@
 - `index.html`：入口页，提供语言选择及快捷导航。
 - `index_chinese.html`：中文版主页，展示个人信息、技能与联系方式。
 - `index_english.html`：英文版主页，内容与中文版对应。
-- `certifications.html`：证书列表页，当前展示 AWS SAA 证书。
-- `chat.html / deepseek_chat.html / gpt_chat_companion.html`：不同的 AI 聊天界面。
-- `image_generation.html`：文本转图片功能页（目前关闭）。
-- `404.html / 50x.html`：错误提示页面。
+- `certifications.html`：证书列表页。
+- `deepseek_chat.html`：AI 聊天界面。
+
+其他 HTML 页面：
+
+- `404.html`，`50x.html`：错误提示页面。
+- `image_generation.html`：文本转图片功能页（因为成本，功能暂时关闭）。
+- `chat.html`，`gpt_chat_companion.html`：作为备份的旧 AI 聊天界面。
 
 ---
 
@@ -71,19 +75,49 @@
 - 各子页面均包含返回入口页的按钮。
 - 中英文主页内部通过锚点导航跳转到 About、Skills 等板块，并提供聊天或证书链接。
 
+Mermaid Flow 图示：
+
+```mermaid
+flowchart TD
+    A[index.html 入口页] -->|关于我| B[index_chinese.html 中文主页]
+    A -->|About Me| C[index_english.html 英文主页]
+    A -->|Chat with AI| D[deepseek_chat.html 聊天页]
+    A -->|证书| E[certifications.html 证书页]
+    B -->|返回首页| A
+    B -->|证书| E
+    C -->|返回首页| A
+    C -->|证书| E
+    C -->|Chat with AI| D
+    D -->|返回首页| A
+    E -->|返回首页| A
+    F[chat.html 聊天页（备用）] -->|返回首页| A
+    G[gpt_chat_companion.html 聊天页（备用）] -->|返回首页| A
+    H[image_generation.html 图片生成（暂时无法使用）] -->|返回首页| A
+
+    style A fill:#9f9,stroke:#333
+    style B fill:#f9f,stroke:#333
+    style C fill:#f9f,stroke:#333
+    style D fill:#ff9,stroke:#333
+    style E fill:#99f,stroke:#333
+    style F fill:#ccc,stroke:#333
+    style G fill:#ccc,stroke:#333
+    style H fill:#ccc,stroke:#333
+```
+
 ---
 
 ## 页面内容介绍
 
 - `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和捐赠信息。
-- `index_chinese.html / index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
+- `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `chat.html / deepseek_chat.html / gpt_chat_companion.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
+- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
 - `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
+
 ---
 
-## 🧠 技术栈
+## 技术栈
 
 | 分类 | 技术 |
 |------|------|
@@ -135,29 +169,29 @@ flowchart TD
 ```
 ---
 
-## 🚀 部署 Deployment
+## 依赖项目部署
 
 ### **后端**
 
-> 具体操作请参考后端项目：[Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
+> 具体操作请参考后端项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
 
 ### **Nginx**
 
-> 具体操作请参考 Nginx 项目：[Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+> 具体操作请参考 Nginx 项目：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
 
 ---
 
-## 🛠️ 使用说明 | Usage
+## 使用说明 | Usage
 
 你可以直接访问各模块页面：
 
-- [About Me / 关于我](https://www.rendazhang.com/index_english.html)
-- [中文介绍页](https://www.rendazhang.com/index_chinese.html)
-- [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
-- [Certifications / 证书](https://www.rendazhang.com/certifications.html)
+- 🌐 [About Me / 关于我](https://www.rendazhang.com/index_english.html)
+- 🌐 [中文介绍页](https://www.rendazhang.com/index_chinese.html)
+- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
+- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications.html)
 
 如果你想查看此 `README.md` 本页，请直接访问：
-[www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
+🌐 [www.rendazhang.com/README.md](https://www.rendazhang.com/README.md)
 
 ---
 
