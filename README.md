@@ -132,7 +132,7 @@ flowchart TD
 - `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接。
 - `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，并会在刷新后保留历史。
+- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
 - `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
 

@@ -241,3 +241,22 @@ button:active {
 .markdown-body ol {
     margin: 0.8em 0 0.8em 2em;
 }
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+.copy-btn:hover {
+    color: #2c65b8;
+}
+
+.ai-message {
+    position: relative;
+}
