@@ -15,29 +15,9 @@
     - [**Nginx**](#nginx)
   - [使用说明 | Usage](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
   - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
+    - [本地预览 | Local Preview](#%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88--local-preview)
   - [🔒 License](#-license)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [张人大 (Renda Zhang) · 轻量级网站](#张人大-renda-zhang--轻量级网站)
-  - [简介](#简介)
-  - [网站功能](#网站功能)
-  - [页面功能](#页面功能)
-  - [页面跳转逻辑](#页面跳转逻辑)
-  - [页面内容介绍](#页面内容介绍)
-  - [技术栈](#技术栈)
-    - [参考架构](#参考架构)
-  - [依赖项目部署](#依赖项目部署)
-    - [**后端**](#后端)
-    - [**Nginx**](#nginx)
-  - [使用说明 | Usage](#使用说明--usage)
-  - [🤝 贡献指南 | Contributing Guide](#-贡献指南--contributing-guide)
-  - [🔒 License](#-license)
-  - [📬 联系方式](#-联系方式)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -236,6 +216,16 @@ pre-commit run --all-files
 ```
 
 > ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR。
+
+### 本地预览 | Local Preview
+
+想在本地查看静态页面效果，可在项目根目录运行一个简单的 HTTP 服务：
+
+```bash
+python3 -m http.server 8080
+```
+
+然后访问 <http://localhost:8080> 即可。
 
 ---
 
