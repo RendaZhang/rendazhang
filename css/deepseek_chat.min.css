@@ -7,7 +7,7 @@
 
 
 body {
-    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    font-family: 'Open Sans','Segoe UI','Microsoft YaHei',sans-serif;
     line-height: 1.6;
     color: #333;
     background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
@@ -28,7 +28,7 @@ body {
 }
 
 header {
-    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);
     color: white;
     padding: 20px;
     text-align: center;
@@ -70,7 +70,7 @@ h1 {
 
 .user-message {
     align-self: flex-end;
-    background: #3a7bd5;
+    background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);
     color: white;
     border-bottom-right-radius: 5px;
 }
@@ -142,13 +142,13 @@ h1 {
 }
 
 #message-input:focus {
-    border-color: #3a7bd5;
-    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 3px rgba(106,17,203,0.2);
 }
 
 button {
     padding: 12px 24px;
-    background: #3a7bd5;
+    background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);
     color: white;
     border: none;
     border-radius: 24px;
@@ -161,7 +161,7 @@ button {
 }
 
 button:hover {
-    background: #2c65b8;
+    filter: brightness(1.1);
     transform: translateY(-2px);
 }
 
