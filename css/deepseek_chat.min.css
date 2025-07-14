@@ -244,17 +244,38 @@ button:active {
 
 .copy-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    bottom: 8px;
+    left: 8px;
     background: none;
     border: none;
     cursor: pointer;
     color: #64748b;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .copy-btn:hover {
     color: #2c65b8;
+}
+
+.copy-btn::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
+}
+
+.copy-btn:hover::after {
+    opacity: 1;
 }
 
 .ai-message {
