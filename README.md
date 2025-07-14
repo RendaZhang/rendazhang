@@ -43,8 +43,8 @@
 
 # 张人大 (Renda Zhang) · 轻量级网站
 
-* **作者**: 张人大 (Renda Zhang)
-* **最后更新**: July 14, 2025, 21:20 (UTC+8)
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: July 15, 2025, 00:00 (UTC+8)
 
 ---
 
@@ -132,7 +132,7 @@ flowchart TD
 - `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接。
 - `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息，并会在刷新后保留历史。
+- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，并会在刷新后保留历史。
 - `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
 
@@ -140,13 +140,13 @@ flowchart TD
 
 ## 技术栈
 
-| 分类 | 技术 |
-|------|------|
-| 前端 Frontend | HTML, CSS, Bootstrap, JavaScript |
-| 后端 Backend | Flask (Python), OpenAI API |
-| 服务器 Server | Ubuntu, NGINX, Gunicorn + Gevent |
-| 工具 Tools | Git, Gitee, Markdown, Docker (optional) |
-| 页面架构 Architecture | 多页面静态网站 (MPA) |
+| 分类                  | 技术                                    |
+| --------------------- | --------------------------------------- |
+| 前端 Frontend         | HTML, CSS, Bootstrap, JavaScript        |
+| 后端 Backend          | Flask (Python), OpenAI API              |
+| 服务器 Server         | Ubuntu, NGINX, Gunicorn + Gevent        |
+| 工具 Tools            | Git, Gitee, Markdown, Docker (optional) |
+| 页面架构 Architecture | 多页面静态网站 (MPA)                    |
 
 ### 参考架构
 
@@ -188,6 +188,7 @@ flowchart TD
         G --> H[Backend: Flask App: 处理业务逻辑和 API 请求]
     end
 ```
+
 ---
 
 ## 依赖项目部署
@@ -247,8 +248,8 @@ pre-commit run --all-files
 
 - 联系人：张人大（Renda Zhang）
 - 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
-- 📄 English Resume: [Resume_RendaZhang.pdf](https://www.rendazhang.com/images/Resume_RendaZhang.pdf)
-- 📄 中文简历: [个人简历_张人大](https://www.rendazhang.com/images/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86_%E5%BC%A0%E4%BA%BA%E5%A4%A7.pdf)
+- 📄 English Resume: [Resume PDF Version](https://www.rendazhang.com/images/Resume_RendaZhang.pdf)
+- 📄 中文简历: [个人简历 PDF 格式](https://www.rendazhang.com/images/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86_%E5%BC%A0%E4%BA%BA%E5%A4%A7.pdf)
 
 
 > ⏰ **Maintainer**：@Renda — 如果本项目对你有帮助，请不要忘了点亮 ⭐️ Star 支持我们！
