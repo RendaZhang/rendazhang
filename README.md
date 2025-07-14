@@ -55,19 +55,19 @@
 
 各 HTML 页面核心职责如下：
 
-- **index.html**：入口页，提供语言选择及快捷导航。
-- **index_chinese.html**：中文版主页，展示个人信息、技能与联系方式。
-- **index_english.html**：英文版主页，内容与中文版对应。
-- **certifications.html**：证书列表页，当前展示 AWS SAA 证书。
-- **chat.html / deepseek_chat.html / gpt_chat_companion.html**：不同的 AI 聊天界面。
-- **image_generation.html**：文本转图片功能页（目前关闭）。
-- **404.html / 50x.html**：错误提示页面。
+- `index.html`：入口页，提供语言选择及快捷导航。
+- `index_chinese.html`：中文版主页，展示个人信息、技能与联系方式。
+- `index_english.html`：英文版主页，内容与中文版对应。
+- `certifications.html`：证书列表页，当前展示 AWS SAA 证书。
+- `chat.html / deepseek_chat.html / gpt_chat_companion.html`：不同的 AI 聊天界面。
+- `image_generation.html`：文本转图片功能页（目前关闭）。
+- `404.html / 50x.html`：错误提示页面。
 
 ---
 
 ## 页面跳转逻辑
 
-- **index.html** 链接到中英文主页、DeepSeek Chat 和证书页。
+- `index.html` 链接到中英文主页、DeepSeek Chat 和证书页。
 - 各子页面均包含返回入口页的按钮。
 - 中英文主页内部通过锚点导航跳转到 About、Skills 等板块，并提供聊天或证书链接。
 
@@ -75,12 +75,12 @@
 
 ## 页面内容介绍
 
-- **index.html**：简洁布局，包括语言选择区、AI 聊天入口、证书入口和捐赠信息。
-- **index_chinese.html / index_english.html**：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
-- **certifications.html**：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- **chat.html / deepseek_chat.html / gpt_chat_companion.html**：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
-- **image_generation.html**：包含文本输入框与生成按钮，展示生成的图片。
-- **404.html / 50x.html**：简单文本提示页面。
+- `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和捐赠信息。
+- `index_chinese.html / index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
+- `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
+- `chat.html / deepseek_chat.html / gpt_chat_companion.html`：聊天记录区域与输入框组成的对话界面，支持发送和重置消息。
+- `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
+- `404.html / 50x.html`：简单文本提示页面。
 ---
 
 ## 🧠 技术栈
