@@ -41,8 +41,8 @@
     .verify-btn{margin-right:.25rem;background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);box-shadow:0 4px 6px rgba(0,0,0,.1);color:#fff;padding:6px 12px;border-radius:4px;text-decoration:none;transition:filter .3s,transform .3s}
     .verify-btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
     /* Credly 加载动画 */
-    .credly-container{position:relative}
-    .credly-container .loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10}
+    .credly-container{position:relative;min-height:270px}
+    .credly-container .loader{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:10}
   </style>
   <script type="application/ld+json">
   {
@@ -93,5 +93,33 @@
       <!-- 以后要加新证书 → 复制 <article> 再改文本即可 -->
     </section>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.querySelector('.credly-container');
+      if (!container) return;
+      const loader = container.querySelector('.loader');
+
+      function hide() {
+        if (loader) loader.style.display = 'none';
+      }
+
+      const existing = container.querySelector('iframe');
+      if (existing) {
+        existing.addEventListener('load', hide);
+      } else {
+        const obs = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            for (const node of m.addedNodes) {
+              if (node.tagName === 'IFRAME') {
+                node.addEventListener('load', hide);
+                return;
+              }
+            }
+          }
+        });
+        obs.observe(container, { childList: true });
+      }
+    });
+  </script>
 </body>
 </html>
