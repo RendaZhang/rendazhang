@@ -287,6 +287,8 @@ button:active {
 
 .copy-btn i {
     width: 1em;
+    height: 1em;
+    line-height: 1em;
     text-align: center;
     pointer-events: none;
 }
