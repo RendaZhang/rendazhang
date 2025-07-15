@@ -269,3 +269,31 @@ button:active {
 .ai-message {
     position: relative;
 }
+
+/* Loading indicator styles */
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #6a11cb;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Disabled state styling */
+#message-input:disabled {
+    background: #f8fafc;
+    cursor: not-allowed;
+}
