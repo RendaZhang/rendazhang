@@ -1,6 +1,6 @@
 /* 轻量自定义：卡片排版与响应式 */
 .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;padding:2rem 0}
-.cert-card{border:1px solid #e6e6e6;border-radius:8px;padding:1.25rem;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.cert-card{border:1px solid #e6e6e6;border-radius:8px;padding:1.25rem;text-align:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.05)}
 .cert-card h2{font-size:1.2rem;margin-bottom:.5rem}
 .cert-card p{margin:.25rem 0}
 .verify-btn{margin-right:.25rem;background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);box-shadow:0 4px 6px rgba(0,0,0,.1);color:#fff;padding:6px 12px;border-radius:4px;text-decoration:none;transition:filter .3s,transform .3s}
