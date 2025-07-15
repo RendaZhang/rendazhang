@@ -343,3 +343,16 @@ button:active {
     left: 32px;
     animation-delay: 0.4s;
 }
+
+/* Basic mode styles applied when enhancement libraries fail to load */
+.basic-mode .ai-message {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.basic-mode .ai-message pre {
+    white-space: pre-wrap;
+    background: #f1f5f9;
+    padding: 10px;
+    overflow: auto;
+}
