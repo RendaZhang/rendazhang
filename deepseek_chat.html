@@ -39,55 +39,6 @@
     <script defer src="js/purify.min.js"></script>
     <script defer src="js/deepseek_chat.min.js"></script>
     
-    <!-- 大体积库异步加载 -->
-    <script>
-        // 异步加载大体积库
-        function loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // 优先加载核心功能
-            // 延迟加载大体积库
-            setTimeout(() => {
-                Promise.all([
-                    loadScript('js/highlight.min.js'),
-                    loadScript('js/mermaid.min.js')
-                ]).then(() => {
-                    // 库加载完成后初始化Mermaid
-                    if (window.mermaid) {
-                        mermaid.initialize({ startOnLoad: false });
-                    }
-                    
-                    // 设置标志表示库已加载
-                    window.librariesLoaded = true;
-                    
-                    // 增强现有消息
-                    document.querySelectorAll('.ai-message').forEach(msg => {
-                        const contentDiv = msg.querySelector('div');
-                        if (contentDiv) {
-                            // 重新应用高亮
-                            contentDiv.querySelectorAll('pre code').forEach(b => {
-                                hljs.highlightElement(b);
-                            });
-                            
-                            // 重新渲染Mermaid图表
-                            mermaid.init(undefined, contentDiv.querySelectorAll('.language-mermaid'));
-                        }
-                    });
-                    
-                    console.log('Highlight and Mermaid libraries loaded');
-                }).catch(error => {
-                    console.error('Error loading libraries:', error);
-                });
-            }, 1000); // 延迟1秒加载以优先处理用户交互
-        });
-    </script>
+    <!-- 大体积库将在历史消息渲染后由脚本异步加载 -->
 </body>
 </html>
