@@ -14,18 +14,6 @@
 
   <script defer src="/js/jquery.min.js"></script>
   <script defer src="/js/marked.min.js"></script>
-  <script defer src="/js/highlight.min.js"></script>
-  <script defer src="/js/mermaid.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      mermaid.initialize({ startOnLoad: false });
-      $.get('README.md', function(data) {
-        const html = marked.parse(data);
-        document.getElementById('content').innerHTML = html;
-        document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
-        mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-      });
-    });
-  </script>
+  <script defer src="/js/docs.min.js"></script>
 </body>
 </html>
