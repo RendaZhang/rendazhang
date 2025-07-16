@@ -1,12 +1,59 @@
+# ========================
+# 预提交钩子配置
+# ========================
 exclude: >
-  (?x)^(dist/|vendor/|node_modules/|.*\.min\.(js|css)$)
+  (?x)^(
+    dist/|
+    vendor/|
+    node_modules/|
+    \.git/|
+    \.astro/|
+    public/|
+    \.cache/|
+    .*\.min\.(js|css)$
+  )
+
 repos:
+  # 基础钩子
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: end-of-file-fixer
-        files: \.(md)$
+        types: [file]
+        exclude: \.(ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
       - id: trailing-whitespace
-        files: \.(md)$
+        types: [file]
+        exclude: \.(ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
       - id: check-yaml
-      #- id: check-added-large-files
+      - id: check-added-large-files
+        args: ['--maxkb=512']
+      - id: check-json
+      - id: check-case-conflict
+
+  # Astro 本地检查
+  - repo: local
+    hooks:
+      - id: astro-check
+        name: Astro Check
+        entry: astro check
+        language: system
+        types: [astro]
+        pass_filenames: false
+
+  # Prettier 格式化（本地钩子，自动修复）
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Prettier Format
+        entry: npx prettier --write
+        language: system
+        types_or: [javascript, jsx, astro, css]  # 这里移除了 markdown
+
+  # ESLint 检查（本地钩子，自动修复可修复问题）
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint Check
+        entry: npx eslint --fix --ext .js,.jsx,.astro src/
+        language: system
+        types: [javascript, jsx, astro]

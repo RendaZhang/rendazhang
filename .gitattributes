@@ -1,46 +1,72 @@
-# Normalize text files to Unix line endings
+# ---------- 基础规范 ----------
+# Default text handling: normalize to LF for cross-platform consistency
 * text=auto eol=lf
+* -crlf
+*.ps1 text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
 
-# Common text-based sources
-*.html   text
-*.css    text
-*.js     text
-*.json   text
-*.xml    text
-*.md     text
-*.txt    text
+# ---------- 文本源码 ----------
+*.astro     text linguist-language=astro
+*.jsx       text
+*.tsx       text
+*.js        text
+*.ts        text
+*.mjs       text
+*.cjs       text
+*.json      text
+*.html      text
+*.css       text
+*.scss      text
+*.md        text
+*.yml       text
+*.yaml      text
+*.xml       text
+*.txt       text
 
-# Binary assets
-*.png    binary
-*.jpg    binary
-*.jpeg   binary
-*.gif    binary
-*.webp   binary
-*.ico    binary
-*.svg    binary
-*.mp3    binary
-*.mp4    binary
-*.pdf    binary
-*.eot    binary
-*.ttf    binary
-*.woff   binary
-*.woff2  binary
-*.zip    binary
-*.jar    binary
-*.exe    binary
-*.dll    binary
-*.so     binary
-*.node   binary
+# ---------- 二进制 / 资源 ----------
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.webp      binary
+*.avif      binary
+*.svg       binary
+*.ico       binary
+*.mp3       binary
+*.mp4       binary
+*.pdf       binary
+*.eot       binary
+*.ttf       binary
+*.woff      binary
+*.woff2     binary
+*.wasm      binary
+*.zip       binary
+*.jar       binary
+*.exe       binary
+*.dll       binary
+*.so        binary
+*.node      binary
 
-# Mark minified files as generated
-*.min.css linguist-generated
-*.min.js  linguist-generated
+# ---------- 生成产物 ----------
+# 打包输出目录（Astro 默认 dist/）
+dist/**     linguist-generated
+# 预压缩文件
+*.gz        linguist-generated
+*.br        linguist-generated
+# Source maps & minified
+*.map       linguist-generated
+*.min.css   linguist-generated
+*.min.js    linguist-generated
+# Vite/Astro 构建临时文件
+.vite/**    linguist-generated
 
-# Documentation files
-README.md linguist-documentation
+# ---------- 第三方 / Vendored ----------
+# 外部字体、icons、静态依赖
+public/fonts/**       linguist-vendored
+public/webfonts/**    linguist-vendored
+public/vendor/**      linguist-vendored
+# （如有）node_modules 已在 .gitignore 中忽略，不再标注
 
-# Vendored fonts
-fonts/**    linguist-vendored
-webfonts/** linguist-vendored
-
-# Generated on 2025-07-07
+# ---------- 文档 ----------
+*.md                  linguist-documentation

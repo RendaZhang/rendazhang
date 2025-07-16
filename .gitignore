@@ -1,5 +1,4 @@
-node_modules
-HELP.md
+# 通用配置
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
@@ -17,7 +16,7 @@ target/
 log/
 target/
 
-### STS ###
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -26,14 +25,13 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA
 .idea/
-.idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -41,7 +39,7 @@ target/
 /.nb-gradle/
 build/
 
-### VS Code ###
+# VS Code
 .vscode/
 
 # Environments
@@ -52,23 +50,41 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env.local
+.env.development
+.env.production
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
+# 依赖目录
+node_modules/
+
+# 构建输出
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+build/
+.astro/
+
+# 缓存文件
+.cache/
+*.log
+.eslintcache
+.vite/
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# 编辑器临时文件
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+Thumbs.db
+
+# 包管理器文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Astro 特定文件
+.astro/
+vite.config.js.timestamp-*

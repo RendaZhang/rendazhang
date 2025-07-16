@@ -1,1 +1,32 @@
-.btn-custom.active,.btn-custom.focus,.btn-custom:active,.btn-custom:focus,.btn-custom:hover,.home-content h3 span,.open>.dropdown-toggle .btn-custom,.portfolioFilter a.current,.portfolioFilter a:hover,.text-custom,header .main-menu>li a:hover,header .main-menu>li.active>a{color:#006c56!important}.back-to-top i,.bg-custom,.btn-custom,.footer-social:hover,a.elemadded,header .header-logo{background:#006c56}.btn-custom,.btn-custom.active,.btn-custom.focus,.btn-custom:active,.btn-custom:focus,.btn-custom:hover,.custom-form .form-control:focus,.open>.dropdown-toggle .btn-custom{border-color:#006c56}
+.btn-custom.active,
+.btn-custom.focus,
+.btn-custom:active,
+.btn-custom:focus,
+.btn-custom:hover,
+.home-content h3 span,
+.open > .dropdown-toggle .btn-custom,
+.portfolioFilter a.current,
+.portfolioFilter a:hover,
+.text-custom,
+header .main-menu > li a:hover,
+header .main-menu > li.active > a {
+  color: #006c56 !important;
+}
+.back-to-top i,
+.bg-custom,
+.btn-custom,
+.footer-social:hover,
+a.elemadded,
+header .header-logo {
+  background: #006c56;
+}
+.btn-custom,
+.btn-custom.active,
+.btn-custom.focus,
+.btn-custom:active,
+.btn-custom:focus,
+.btn-custom:hover,
+.custom-form .form-control:focus,
+.open > .dropdown-toggle .btn-custom {
+  border-color: #006c56;
+}
