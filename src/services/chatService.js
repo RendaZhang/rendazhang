@@ -1,32 +1,74 @@
-// src/services/chatService.js
-export async function sendMessage(message) {
-  const response = await fetch('https://www.rendazhang.com/cloudchat/deepseek_chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Referer: 'https://www.rendazhang.com'
-    },
-    body: JSON.stringify({ message })
-  });
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+export async function sendMessageToAI(userInput, onChunkCallback) {
+  try {
+    const response = await fetch('/cloudchat/deepseek_chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: userInput })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let aiMessage = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n').filter((line) => line.trim());
+
+      for (const line of lines) {
+        try {
+          const data = JSON.parse(line);
+          if (data.text) {
+            aiMessage += data.text;
+            // Parse Markdown and sanitize HTML
+            const parsed = marked.parse(aiMessage);
+            const sanitized = DOMPurify.sanitize(parsed);
+            // Call callback with updated sanitized HTML
+            if (onChunkCallback) {
+              onChunkCallback(sanitized);
+            }
+          }
+        } catch (e) {
+          console.error('Parse error:', e);
+        }
+      }
+    }
+
+    return aiMessage;
+  } catch (error) {
+    console.error('API error:', error);
+    throw error;
   }
-
-  return response; // 返回响应对象，以便处理流式数据
 }
 
 export async function resetChat() {
-  const response = await fetch('https://www.rendazhang.com/cloudchat/reset_chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Referer: 'https://www.rendazhang.com'
-    },
-    body: JSON.stringify({})
-  });
+  try {
+    const response = await fetch('/cloudchat/reset_chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    });
 
-  if (!response.ok) {
-    throw new Error(`Reset failed: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`Reset failed: ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Reset error:', error);
+    throw error;
   }
 }
