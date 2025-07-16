@@ -9,8 +9,13 @@
     - [迁移目标](#%E8%BF%81%E7%A7%BB%E7%9B%AE%E6%A0%87)
   - [阶段 1：环境准备与 Astro 项目初始化](#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
     - [安装开发环境](#%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
-    - [初始化 Astro 项目：](#%E5%88%9D%E5%A7%8B%E5%8C%96-astro-%E9%A1%B9%E7%9B%AE)
+    - [初始化 Astro 项目](#%E5%88%9D%E5%A7%8B%E5%8C%96-astro-%E9%A1%B9%E7%9B%AE)
+    - [测试](#%E6%B5%8B%E8%AF%95)
   - [阶段2：集成 React 并配置项目结构](#%E9%98%B6%E6%AE%B52%E9%9B%86%E6%88%90-react-%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+    - [添加 React 支持](#%E6%B7%BB%E5%8A%A0-react-%E6%94%AF%E6%8C%81)
+    - [验证 React 集成](#%E9%AA%8C%E8%AF%81-react-%E9%9B%86%E6%88%90)
+    - [规划项目结构](#%E8%A7%84%E5%88%92%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+    - [测试](#%E6%B5%8B%E8%AF%95-1)
   - [阶段3：迁移静态资源和全局样式](#%E9%98%B6%E6%AE%B53%E8%BF%81%E7%A7%BB%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%92%8C%E5%85%A8%E5%B1%80%E6%A0%B7%E5%BC%8F)
   - [阶段4：迁移首页（导航页）到 Astro](#%E9%98%B6%E6%AE%B54%E8%BF%81%E7%A7%BB%E9%A6%96%E9%A1%B5%E5%AF%BC%E8%88%AA%E9%A1%B5%E5%88%B0-astro)
   - [阶段5：迁移其他静态内容页面](#%E9%98%B6%E6%AE%B55%E8%BF%81%E7%A7%BB%E5%85%B6%E4%BB%96%E9%9D%99%E6%80%81%E5%86%85%E5%AE%B9%E9%A1%B5%E9%9D%A2)
@@ -145,7 +150,7 @@ npm run dev  # 启动 Astro 开发服务器
 
 此阶段确认环境搭建成功，新框架可以正常运行。
 
-测试点：
+### 测试
 
 > 确认 Astro 开发服务器正常运行，默认页面正常显示。
 > 由于 Astro 默认以静态站点方式预渲染内容，后续部署不需要服务器端运行环境，仅需静态文件供 Nginx 服务。
@@ -155,45 +160,62 @@ npm run dev  # 启动 Astro 开发服务器
 
 ## 阶段2：集成 React 并配置项目结构
 
-**目的：**在 Astro 项目中添加 React 支持，搭建基础的项目架构（组件层、服务层等），为后续迁移打好基础。
+在 Astro 项目中添加 React 支持，搭建基础的项目架构（组件层、服务层等），为后续迁移打好基础。
 
-- **添加 React 支持：**Astro 提供官方集成命令来添加 React。在项目目录下运行：
+### 添加 React 支持
 
-  ```bash
-  npx astro add react
-  ```
+Astro 提供官方集成命令来添加 React。在项目目录下运行：
 
-  该命令将安装所需依赖并配置 Astro 项目以支持 React 组件渲染和客户端交互。完成后，Astro 将允许在 `.astro` 文件中使用 React 组件。
+```bash
+npx astro add react
+```
 
-- **验证 React 集成：**创建一个简单的 React 组件以测试集成是否成功。例如，新建 `src/components/Test.jsx`：
+该命令将安装所需依赖并配置 Astro 项目以支持 React 组件渲染和客户端交互。
 
-  ```jsx
-  import { useState } from 'react';
-  export default function Test() {
-    const [count, setCount] = useState(0);
-    return <button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>;
-  }
-  ```
+完成后，Astro 将允许在 `.astro` 文件中使用 React 组件。
 
-  然后在首页 `src/pages/index.astro` 中引入该组件：
+### 验证 React 集成
 
-  ```astro
-  ---
-  import Test from '../components/Test.jsx';
-  ---
+创建一个简单的 React 组件以测试集成是否成功。例如，新建 `src/components/Test.jsx`：
 
-  <Test client:load />
-  ```
+```jsx
+import { useState } from 'react';
+export default function Test() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>;
+}
+```
 
-  运行开发服务器，确认页面上出现按钮并且点击时计数增加，证明 React 组件正常工作，`useState` 等 React 特性可用。这样验证了 Astro 的**部分水合**功能，可以在静态页面中嵌入交互组件。
+然后在首页 `src/pages/index.astro` 中引入该组件：
 
-- **规划项目结构：**按照分层架构思想创建目录和文件，以备后续使用：
-  - 创建 `src/components` 目录用于存放可复用的 UI 组件（例如导航栏、页脚组件等）。
-  - 创建 `src/layouts` 目录用于页面布局组件（如通用模板，包含头部引入等）。
-  - 创建 `src/services` 目录用于封装业务逻辑或数据获取函数（例如后续聊天接口调用封装为服务）。
-  - （可选）创建 `src/context` 目录，用于放置 React 上下文定义和提供器组件，以便日后扩展全局状态管理。
+```astro
+---
+import Test from '../components/Test.jsx';
+---
 
-- **测试点：**React 集成成功后，新项目既能保持 Astro 对静态内容的预渲染优势，又能支持 React 进行动态交互。此时项目结构清晰，方便后续逐步迁移页面内容。
+<Test client:load />
+```
+
+运行开发服务器，确认页面上出现按钮并且点击时计数增加，证明 React 组件正常工作，`useState` 等 React 特性可用。
+
+这样验证了 Astro 的 **部分水合** 功能，可以在静态页面中嵌入交互组件。
+
+### 规划项目结构
+
+按照分层架构思想创建目录（里面暂时存放 .gitkeep 文件），以备后续使用：
+- 创建 `src/components` 目录，用于存放可复用的 UI 组件（例如导航栏、页脚组件等）。
+- 创建 `src/pages` 目录，定义页面和路由（如index.astro 为首页）。
+- 创建 `src/layouts` 目录，用于页面布局组件（如通用模板，包含头部引入等）。
+- 创建 `src/styles` 目录，全局 CSS 或 SCSS（如 `global.css`）。可与 Tailwind 结合。
+- 创建 `src/assets` 目录，存放图像、字体等静态资源。Astro会优化导入（如 `import img from '../assets/my-image.jpg'`）。
+- 创建 `src/services` 目录，用于封装业务逻辑或数据获取函数（例如后续聊天接口调用封装为服务）。
+- 创建 `src/context` 目录，用于放置 React 上下文定义和提供器组件，以便日后扩展全局状态管理。
+- 创建 `src/utils` 目录，通用工具函数（如helpers）。
+
+### 测试
+
+> React 集成成功后，新项目既能保持 Astro 对静态内容的预渲染优势，又能支持 React 进行动态交互。
+> 此时项目结构清晰，方便后续逐步迁移页面内容。
 
 ---
 
