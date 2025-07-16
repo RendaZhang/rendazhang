@@ -131,6 +131,9 @@ export default function Chat() {
   const applyEnhancements = (container) => {
     if (window.hljs && container) {
       container.querySelectorAll('pre code').forEach((block) => {
+        if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
+          return;
+        }
         window.hljs.highlightElement(block);
       });
     }
