@@ -1,7 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [旧版前端到 Astro+React 新前端的渐进升级计划](#%E6%97%A7%E7%89%88%E5%89%8D%E7%AB%AF%E5%88%B0-astroreact-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
   - [背景](#%E8%83%8C%E6%99%AF)
     - [新前端架构](#%E6%96%B0%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84)
@@ -161,6 +160,7 @@ Astro 会生成基础项目结构（包含 `src/pages` 等目录）。
 ```bash
 # 安装依赖
 npm install --save-dev typescript
+npm install marked dompurify
 npm install
 # 启动 Astro 开发服务器
 npm run dev

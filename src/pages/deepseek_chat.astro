@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <head>
+    <title>AI Chat</title>
+    <!-- 如果 BaseLayout 已有 <head>，可以在这里或布局中添加 -->
+    <link rel="stylesheet" href="/css/deepseek_chat.min.css" />
+    <link rel="stylesheet" href="/css/github-markdown-light.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <button id="back-button" onclick="window.location.href='./index.html'">&#8592; Back</button>
+        <h1>AI Chat</h1>
+      </header>
+      <div class="chat-container" id="chat-container">
+        <div id="loading-indicator" class="loading-indicator">
+          <div class="spinner"></div>
+          <p>正在加载历史对话...</p>
+        </div>
+        <div class="info-text">会话已就绪，请输入消息开始对话</div>
+      </div>
+      <div class="typing-indicator" id="typing-indicator">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+      <div class="input-area">
+        <textarea
+          id="message-input"
+          disabled
+          placeholder="正在加载历史对话，请稍候..."
+          rows="1"
+          autofocus></textarea>
+        <div class="btn-container">
+          <button id="send-btn">发送</button>
+          <button id="reset-btn">重置会话</button>
+        </div>
+      </div>
+    </div>
+    <!-- 核心功能库优先加载 -->
+    <script defer src="/js/marked.min.js"></script>
+    <script defer src="/js/purify.min.js"></script>
+    <script defer src="/js/deepseek_chat.min.js"></script>
+    <!-- 大体积库将在历史消息渲染后由脚本异步加载 -->
+  </body>
+</BaseLayout>
