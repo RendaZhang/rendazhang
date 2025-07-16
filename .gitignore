@@ -81,10 +81,15 @@ coverage/
 Thumbs.db
 
 # 包管理器文件
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # Astro 特定文件
 .astro/
 vite.config.js.timestamp-*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

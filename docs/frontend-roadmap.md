@@ -4,11 +4,12 @@
 
 - [旧版前端到 Astro+React 新前端的渐进迁移计划](#%E6%97%A7%E7%89%88%E5%89%8D%E7%AB%AF%E5%88%B0-astroreact-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E8%BF%81%E7%A7%BB%E8%AE%A1%E5%88%92)
   - [背景](#%E8%83%8C%E6%99%AF)
-    - [新的前端](#%E6%96%B0%E7%9A%84%E5%89%8D%E7%AB%AF)
-    - [旧的前端](#%E6%97%A7%E7%9A%84%E5%89%8D%E7%AB%AF)
-    - [目标](#%E7%9B%AE%E6%A0%87)
+    - [新前端架构](#%E6%96%B0%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84)
+    - [旧前端架构](#%E6%97%A7%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84)
+    - [迁移目标](#%E8%BF%81%E7%A7%BB%E7%9B%AE%E6%A0%87)
   - [阶段 1：环境准备与 Astro 项目初始化](#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
-    - [**安装开发环境：**](#%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
+    - [安装开发环境](#%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
+    - [初始化 Astro 项目：](#%E5%88%9D%E5%A7%8B%E5%8C%96-astro-%E9%A1%B9%E7%9B%AE)
   - [阶段2：集成 React 并配置项目结构](#%E9%98%B6%E6%AE%B52%E9%9B%86%E6%88%90-react-%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
   - [阶段3：迁移静态资源和全局样式](#%E9%98%B6%E6%AE%B53%E8%BF%81%E7%A7%BB%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%92%8C%E5%85%A8%E5%B1%80%E6%A0%B7%E5%BC%8F)
   - [阶段4：迁移首页（导航页）到 Astro](#%E9%98%B6%E6%AE%B54%E8%BF%81%E7%A7%BB%E9%A6%96%E9%A1%B5%E5%AF%BC%E8%88%AA%E9%A1%B5%E5%88%B0-astro)
@@ -29,67 +30,57 @@
 
 ## 背景
 
-### 新的前端
+### 新前端架构
 
-核心框架：Astro
+- **核心框架**：Astro
+- **交互增强**：React
+- **状态管理**：React 的 `useState` 和 `useContext`；项目扩展后可考虑引入 `Zustand` 或 `Jotai`。
+- **构建工具**：Astro 内置构建工具（基于 Vite）。
+- **前端架构**：采用分层架构，为未来扩展奠定基础，包括可复用服务层、组件层和状态管理层。
+- **部署方案**：在本地或构建服务器打包静态资源，通过 GitHub Actions 自动将静态资源从代码仓库推送到小内存（1GB RAM）生产服务器的 Nginx `/var/www/html` 目录下。
 
-交互增强：React
+### 旧前端架构
 
-状态管理：React 的 useState 和 useContext；项目扩展后再考虑 Zustand 或 Jotai。
-
-构建工具：Astro 内置构建工具（Vite）
-
-前端架构：使用分层架构，为未来扩展奠定基础；创建可复用服务层、组件层、和状态管理层。
-
-部署方案：本地/构建服务器打包静态资源，GitHub Actions 自动将静态资源从代码仓库直接推送到小内存（1GB RAM）生产服务器的 Nginx 的 /var/www/html 目录下。
-
-### 旧的前端
-
-原生 HTML+CSS+JS+Boostrap。
-
-手动管理资源和手动部署到 Nginx 的 /var/www/rendazhang 目录下。
-
-核心页面目前一共 6 个。
-
-核心目录结构：
+- **技术栈**：原生 HTML + CSS + JS + Bootstrap。
+- **资源管理与部署**：手动管理资源，并手动部署到 Nginx 的 `/var/www/rendazhang` 目录下。
+- **核心页面**：目前共有 6 个页面。
+- **核心目录结构**：
 
 ```
 rendazhang
-├─css
-│  └─colors
-├─fonts
-├─images
-│  ├─blog
-│  └─social
-├─js
-├─webfonts
-├─index.html (导航页)
-├─index_chinese.html （中文介绍页）
-├─index_english.html（英文介绍页）
-├─deepseek_chat.html （AI 聊天页面）
-├─certifications.html（证书展示页面）
-└─docs.html（技术文档页面）
+├─ css
+│  └─ colors
+├─ fonts
+├─ images
+│  ├─ blog
+│  └─ social
+├─ js
+├─ webfonts
+├─ index.html (导航页)
+├─ index_chinese.html (中文介绍页)
+├─ index_english.html (英文介绍页)
+├─ deepseek_chat.html (AI 聊天页面)
+├─ certifications.html (证书展示页面)
+└─ docs.html (技术文档页面)
 ```
 
-### 目标
+### 迁移目标
 
-在保证每一步都有可测试结果的前提下，将当前基于原生 HTML/CSS/JS+Bootstrap 的旧前端逐步迁移到以 **Astro** 为核心框架、结合 **React** 进行交互增强的新前端架构。
+在确保每一步均有可测试结果的前提下，将当前基于原生 HTML/CSS/JS + Bootstrap 的旧前端逐步迁移到以 Astro 为核心框架、结合 React 进行交互增强的新前端架构。
 
-新架构采用 Astro 静态站点生成（利用内置 **Vite** 构建），并使用 React Hooks（`useState`、`useContext` 等）进行状态管理（未来需要时可引入 Zustand 或 Jotai）。
+新架构采用 Astro 的静态站点生成（利用内置 Vite 构建），并使用 React Hooks（如 useState、useContext 等）进行状态管理（未来扩展时可引入 Zustand 或 Jotai）。
 
-最终通过 **GitHub Actions** 实现自动构建部署，将静态资源推送到生产服务器 Nginx 的 `/var/www/html` 目录下。
+最终通过 GitHub Actions 实现自动构建和部署，将静态资源推送到生产服务器 Nginx 的 `/var/www/html` 目录下。
 
-迁移将分阶段进行，在每个阶段完成后进行测试验证，再继续下一步。
+迁移过程将分阶段进行，每个阶段完成后进行测试验证，再推进下一步。
 
 ---
 
 ## 阶段 1：环境准备与 Astro 项目初始化
 
-**目的：**
-
 搭建新的 Astro 项目基础结构，并确保开发环境正常运行。
 
-### **安装开发环境：**
+### 安装开发环境
 
 确保本地安装了最新的 Node.js LTS 版本（建议使用 Node 18+）和 npm/yarn 等包管理器。
 
@@ -123,27 +114,42 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-**初始化 Astro 项目：**
+### 初始化 Astro 项目
 
-在本地运行 Astro 官方脚手架命令创建新项目目录。例如，在终端执行：
+在本地运行 Astro 官方脚手架命令创建新项目目录。
 
 ```bash
-npm create astro@latest
+# 例如，在终端执行：
+npm create astro@latest -- --template basics
+# 按照交互向导选择项目名称和模板（可选择最简模板）。
 ```
 
-按照交互向导选择项目名称和模板（可选择最简模板）。Astro 会生成基础项目结构（包含 `src/pages` 等目录）。创建完成后，进入项目目录并启动开发服务器：
+Astro 会生成基础项目结构（包含 `src/pages` 等目录）。
+
+创建完成后进入前端项目目录，把在上一步 npm 生成的 `node_modules/` `package.json` `package-lock.json` 删除，
+
+然后，把 Astro 生成的 `src/` `public/` `node_modules/` `.vscode/` `astro.config.mjs` `package-lock.json` `package.json` `tsconfig.json` 都移入前端项目的目录下。
+
+检查并手动同步 Astro 生成的 `.gitignore` 文件到前端项目的目录下。
+
+检查 pre-commit 功能, 重新安装相关依赖。
+
+进入项目目录并启动开发服务器：
 
 ```bash
-cd 新项目目录
 npm install  # 安装依赖
 npm run dev  # 启动 Astro 开发服务器
 ```
 
-打开浏览器访问本地主机端口（默认 `http://localhost:3000` 或命令行输出的端口），验证 Astro 项目跑通，看到默认的 “Welcome to Astro” 页面。此阶段确认环境搭建成功，新框架可以正常运行。
+打开浏览器访问本地主机端口（默认 `http://localhost:4321` 或命令行输出的端口），验证 Astro 项目跑通，看到默认的页面。
+
+此阶段确认环境搭建成功，新框架可以正常运行。
 
 测试点：
 
-确认 Astro 开发服务器正常运行，默认页面正常显示。由于 Astro 默认以静态站点方式预渲染内容，后续部署不需要服务器端运行环境，仅需静态文件供 Nginx 服务。这一点确保了新架构适配当前仅能提供静态文件服务的生产环境。
+> 确认 Astro 开发服务器正常运行，默认页面正常显示。
+> 由于 Astro 默认以静态站点方式预渲染内容，后续部署不需要服务器端运行环境，仅需静态文件供 Nginx 服务。
+> 这一点确保了新架构适配当前仅能提供静态文件服务的生产环境。
 
 ---
 
