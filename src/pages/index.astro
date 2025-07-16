@@ -1,5 +1,169 @@
 ---
-import Test from '../components/Test.jsx';
+// 如果需要导入其他组件或资产，在这里添加
+// 例如：import styles from '../styles/styles.css'; 但既然静态资源已好，可以链接
 ---
 
-<Test client:load />
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
+    />
+    <title>Backend Engineer - Renda Zhang</title>
+    <meta
+      name="description"
+      content="Java backend engineer in Shenzhen with 5 yrs micro-service & Kubernetes experience. Explore projects, résumé & hire Renda Zhang today."
+    />
+    <link rel="canonical" href="https://www.rendazhang.com/" />
+    <meta name="author" content="Renda Zhang" />
+    <meta name="language" content="en, zh-CN" />
+    <meta name="geo.region" content="CN-GD" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Renda Zhang · Personal Website" />
+    <meta
+      property="og:description"
+      content="Explore the bilingual website of Renda Zhang - Java backend developer showcasing resume and projects with AI demos."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.rendazhang.com/" />
+    <meta property="og:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta property="og:site_name" content="Renda Zhang" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Renda Zhang Logo" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta
+      property="og:image:secure_url"
+      content="https://www.rendazhang.com/images/social_default.jpg"
+    />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Renda Zhang · Personal Website" />
+    <meta
+      name="twitter:description"
+      content="Personal site of Renda Zhang: resume, backend projects, and AI experiments."
+    />
+    <meta name="twitter:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta name="twitter:image:alt" content="Renda Zhang Logo" />
+    <meta name="twitter:site" content="@RendaZhang" />
+    <meta name="twitter:creator" content="@RendaZhang" />
+    <meta name="twitter:domain" content="www.rendazhang.com" />
+    <!-- Favicon & Fonts -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/css/open-sans.css" />
+    <link rel="stylesheet" href="/css/index.min.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Person",
+        "name": "Renda Zhang",
+        "url": "https://www.rendazhang.com/",
+        "image": "https://www.rendazhang.com/images/logo_en.png",
+        "jobTitle": "Java Backend Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Self-Employed"
+        },
+        "sameAs": ["https://github.com/RendaZhang", "https://www.linkedin.com/in/RendaZhang"],
+        "knowsAbout": [
+          "Java backend engineering",
+          "Spring Boot",
+          "microservices",
+          "Shenzhen tech ecosystem"
+        ],
+        "skills": ["Java", "Spring Boot", "Kubernetes", "Redis"],
+        "description": "Backend engineer specialized in microservices, Kubernetes, CI/CD, and high-concurrency systems."
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="language-selector">
+        <a href="/index_chinese/" role="button" aria-label="关于我">关于我</a>
+        <a href="/index_english/" role="button" aria-label="About Me">About Me</a>
+      </div>
+      <div class="chat-section">
+        <a href="/deepseek_chat/" role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a
+        >
+      </div>
+      <div class="certification-section">
+        <a href="/certifications/" role="button" aria-label="Certifications"
+          >Certifications (证书)</a
+        >
+      </div>
+      <div class="docs-section">
+        <a href="/docs/" role="button" aria-label="Technical Documentation">
+          <span class="code-icon">&lt;/&gt;</span> 技术文档 | Tech Docs
+        </a>
+      </div>
+      <div class="social-icons" aria-label="Social Links">
+        <a href="https://www.rendazhang.com" aria-label="WeChat Official Account" id="wechatLink">
+          <img
+            src="/images/ajax-loader.gif"
+            class="jxLazyClass"
+            jxLazyImg="/images/social/wechat-logo.svg"
+            alt="WeChat logo"
+            loading="lazy"
+          />
+        </a>
+        <a href="https://www.zhihu.com/people/RendaZhang" aria-label="Zhihu">
+          <img
+            src="/images/ajax-loader.gif"
+            class="jxLazyClass"
+            jxLazyImg="/images/social/zhihu-logo.svg"
+            alt="Zhihu logo"
+            loading="lazy"
+          />
+        </a>
+        <a href="https://www.toutiao.com/c/user/50248851377/###" aria-label="Toutiao">
+          <img
+            src="/images/ajax-loader.gif"
+            class="jxLazyClass"
+            jxLazyImg="/images/social/toutiao-logo.svg"
+            alt="Toutiao logo"
+            loading="lazy"
+          />
+        </a>
+        <a href="https://blog.csdn.net/qq_40286307" aria-label="CSDN">
+          <img
+            src="/images/ajax-loader.gif"
+            class="jxLazyClass"
+            jxLazyImg="/images/social/csdn-logo.svg"
+            alt="CSDN logo"
+            loading="lazy"
+          />
+        </a>
+        <a href="https://rendazhang.medium.com" aria-label="Medium">
+          <img
+            src="/images/ajax-loader.gif"
+            class="jxLazyClass"
+            jxLazyImg="/images/social/medium-logo.svg"
+            alt="Medium logo"
+            loading="lazy"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div id="wechatModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="loader"></div>
+        <img
+          id="wechatQR"
+          data-src="/images/qrcode_wechat.jpg"
+          alt="WeChat Official Account QR code"
+          style="display:none;"
+        />
+      </div>
+    </div>
+
+    <script defer src="/js/jinxin.lazyload.min.js"></script>
+    <script defer src="/js/index.min.js"></script>
+  </body>
+</html>
