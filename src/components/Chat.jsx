@@ -123,7 +123,8 @@ export default function Chat() {
   };
 
   const applyEnhancementsToAll = () => {
-    document.querySelectorAll('.ai-message div').forEach((contentDiv) => {
+    if (!chatContainerRef.current) return;
+    chatContainerRef.current.querySelectorAll('.ai-message div').forEach((contentDiv) => {
       applyEnhancements(contentDiv);
     });
   };
@@ -146,21 +147,21 @@ export default function Chat() {
     return Math.ceil((msg.content.length / AVG_WORD_LENGTH) * AVG_TOKENS_PER_WORD);
   };
 
-  const trimHistory = () => {
-    let tokens = messages.reduce((t, m) => t + countTokens(m), 0);
-    while (tokens > MAX_TOKENS && messages.length > 0) {
-      messages.shift();
-      tokens = messages.reduce((t, m) => t + countTokens(m), 0);
+  const trimHistory = (msgList) => {
+    let tokens = msgList.reduce((t, m) => t + countTokens(m), 0);
+    while (tokens > MAX_TOKENS && msgList.length > 0) {
+      msgList.shift();
+      tokens = msgList.reduce((t, m) => t + countTokens(m), 0);
     }
-    setMessages([...messages]);
+    return msgList;
   };
 
-  const saveHistory = () => {
+  const saveHistory = (msgList) => {
     try {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(
-          messages.map((m) => ({
+          msgList.map((m) => ({
             role: m.role === 'ai' ? 'assistant' : 'user',
             content: m.content
           }))
@@ -197,7 +198,7 @@ export default function Chat() {
     scrollToBottom();
 
     try {
-      await sendMessageToAI(message, (chunkHtml) => {
+      const aiText = await sendMessageToAI(message, (chunkHtml) => {
         // Update the last AI message with chunk
         setMessages((prev) => {
           const lastMsg = prev[prev.length - 1];
@@ -212,9 +213,16 @@ export default function Chat() {
         });
         scrollToBottom();
       });
-
-      trimHistory();
-      saveHistory();
+      setMessages((prev) => {
+        const updated = [...prev];
+        const lastMsg = updated[updated.length - 1];
+        if (lastMsg && lastMsg.role === 'ai') {
+          lastMsg.content = aiText;
+        }
+        const trimmed = trimHistory(updated);
+        saveHistory(trimmed);
+        return trimmed;
+      });
     } catch (error) {
       addMessage('ai', `Error: ${error.message}`);
     } finally {
@@ -229,10 +237,7 @@ export default function Chat() {
       try {
         await resetChat();
         setMessages([]);
-        // Display reset info text (as in original)
-        chatContainerRef.current.innerHTML =
-          '<div class="info-text">会话已重置，请输入新消息</div>';
-        saveHistory();
+        saveHistory([]);
       } catch (error) {
         alert(`重置会话失败: ${error.message}`);
       }
