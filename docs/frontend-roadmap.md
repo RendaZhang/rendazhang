@@ -30,7 +30,12 @@
       - [调整优化](#%E8%B0%83%E6%95%B4%E4%BC%98%E5%8C%96)
       - [预期](#%E9%A2%84%E6%9C%9F)
   - [阶段 5：迁移其他静态内容页面](#%E9%98%B6%E6%AE%B5-5%E8%BF%81%E7%A7%BB%E5%85%B6%E4%BB%96%E9%9D%99%E6%80%81%E5%86%85%E5%AE%B9%E9%A1%B5%E9%9D%A2)
-  - [阶段6：迁移 AI 聊天页面（DeepSeek Chat）到 React 组件](#%E9%98%B6%E6%AE%B56%E8%BF%81%E7%A7%BB-ai-%E8%81%8A%E5%A4%A9%E9%A1%B5%E9%9D%A2deepseek-chat%E5%88%B0-react-%E7%BB%84%E4%BB%B6)
+  - [阶段 6：迁移 AI 聊天页面（DeepSeek Chat）到 React 组件](#%E9%98%B6%E6%AE%B5-6%E8%BF%81%E7%A7%BB-ai-%E8%81%8A%E5%A4%A9%E9%A1%B5%E9%9D%A2deepseek-chat%E5%88%B0-react-%E7%BB%84%E4%BB%B6)
+    - [分析旧版功能](#%E5%88%86%E6%9E%90%E6%97%A7%E7%89%88%E5%8A%9F%E8%83%BD)
+    - [创建 React 聊天组件](#%E5%88%9B%E5%BB%BA-react-%E8%81%8A%E5%A4%A9%E7%BB%84%E4%BB%B6)
+    - [封装服务层](#%E5%B0%81%E8%A3%85%E6%9C%8D%E5%8A%A1%E5%B1%82)
+    - [集成到页面](#%E9%9B%86%E6%88%90%E5%88%B0%E9%A1%B5%E9%9D%A2)
+    - [测试聊天功能](#%E6%B5%8B%E8%AF%95%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD)
   - [阶段7：引入全局状态管理机制（按需）](#%E9%98%B6%E6%AE%B57%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E6%8C%89%E9%9C%80)
   - [阶段8：全面测试与部署上线](#%E9%98%B6%E6%AE%B58%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
   - [阶段9：后续扩展计划（展望）](#%E9%98%B6%E6%AE%B59%E5%90%8E%E7%BB%AD%E6%89%A9%E5%B1%95%E8%AE%A1%E5%88%92%E5%B1%95%E6%9C%9B)
@@ -392,59 +397,71 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 
 ---
 
-## 阶段6：迁移 AI 聊天页面（DeepSeek Chat）到 React 组件
+## 阶段 6：迁移 AI 聊天页面（DeepSeek Chat）到 React 组件
 
-**目的：**将旧版的 AI 聊天页面（`deepseek_chat.html`）迁移到新架构下，实现为 React 组件以增强交互，并确保在 Astro 项目中正常运行。此步骤将引入**状态管理**和**服务层**的概念，提升代码可维护性。
+将旧版的 AI 聊天页面（`deepseek_chat.html`）迁移到新架构下，实现为 React 组件以增强交互，并确保在 Astro 项目中正常运行。
 
-- **分析旧版功能：**查看 `deepseek_chat.html` 中的实现方式。可能包含一个输入框和聊天记录区域，通过静态 JS 调用某个后端 API（例如调用 OpenAI 接口）获取回复。理解其工作流程（如点击发送按钮→调用 API→将返回结果追加到对话）。
+此步骤将引入 **状态管理** 和 **服务层** 的概念，提升代码可维护性。
 
-- **创建 React 聊天组件：**在 `src/components/` 新建 React 组件文件，例如 `Chat.jsx`。用 React 重写聊天界面和逻辑：
+### 分析旧版功能
 
-  ```jsx
-  import { useState } from 'react';
-  import sendMessageToAI from '../services/chatService'; // 服务层封装的API调用
-  export default function Chat() {
-    const [messages, setMessages] = useState([]); // 聊天消息列表状态
-    const [input, setInput] = useState(''); // 当前输入框内容状态
+查看 `deepseek_chat.html` 中的实现方式。可能包含一个输入框和聊天记录区域，通过静态 JS 调用某个后端 API（例如调用 OpenAI 接口）获取回复。
 
-    const handleSend = async () => {
-      if (!input) return;
-      const userMsg = { role: 'user', text: input };
-      setMessages((msgs) => [...msgs, userMsg]); // 先把用户消息加入列表
-      setInput('');
-      try {
-        const replyText = await sendMessageToAI(input); // 调用服务层函数请求 AI 回复
-        const botMsg = { role: 'bot', text: replyText };
-        setMessages((msgs) => [...msgs, botMsg]); // 将AI回复加入消息列表
-      } catch (err) {
-        console.error(err);
-        // 可以在界面上显示错误提示
-      }
-    };
+理解其工作流程（如点击发送按钮→调用 API→将返回结果追加到对话）。
 
-    return (
-      <div className="chat-container">
-        <div className="messages">
-          {messages.map((m, idx) => (
-            <p key={idx} className={m.role}>
-              {m.text}
-            </p>
-          ))}
-        </div>
-        <input
-          value={input}
-          onInput={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button onClick={handleSend}>发送</button>
+### 创建 React 聊天组件
+
+在 `src/components/` 新建 React 组件文件，例如 `Chat.jsx`。
+
+用 React 重写聊天界面和逻辑：
+
+```jsx
+import { useState } from 'react';
+import sendMessageToAI from '../services/chatService'; // 服务层封装的API调用
+export default function Chat() {
+  const [messages, setMessages] = useState([]); // 聊天消息列表状态
+  const [input, setInput] = useState(''); // 当前输入框内容状态
+
+  const handleSend = async () => {
+    if (!input) return;
+    const userMsg = { role: 'user', text: input };
+    setMessages((msgs) => [...msgs, userMsg]); // 先把用户消息加入列表
+    setInput('');
+    try {
+      const replyText = await sendMessageToAI(input); // 调用服务层函数请求 AI 回复
+      const botMsg = { role: 'bot', text: replyText };
+      setMessages((msgs) => [...msgs, botMsg]); // 将AI回复加入消息列表
+    } catch (err) {
+      console.error(err);
+      // 可以在界面上显示错误提示
+    }
+  };
+
+  return (
+    <div className="chat-container">
+      <div className="messages">
+        {messages.map((m, idx) => (
+          <p key={idx} className={m.role}>
+            {m.text}
+          </p>
+        ))}
       </div>
-    );
-  }
-  ```
+      <input
+        value={input}
+        onInput={(e) => setInput(e.target.value)}
+        placeholder="Type your message..."
+      />
+      <button onClick={handleSend}>发送</button>
+    </div>
+  );
+}
+```
 
-  上述组件使用了 React 的 `useState` 来管理聊天消息列表和当前输入内容。当用户点击发送按钮时，将调用我们封装的服务函数 `sendMessageToAI` 与后端通信，然后更新状态渲染回复。
+上述组件使用了 React 的 `useState` 来管理聊天消息列表和当前输入内容。当用户点击发送按钮时，将调用我们封装的服务函数 `sendMessageToAI` 与后端通信，然后更新状态渲染回复。
 
-- **封装服务层：**在 `src/services/` 新建文件 `chatService.js`，将调用 AI 接口的细节封装其中，例如：
+### 封装服务层
+
+在 `src/services/` 新建文件 `chatService.js`，将调用 AI 接口的细节封装其中，例如：
 
   ```js
   export default async function sendMessageToAI(userInput) {
@@ -458,32 +475,54 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
   }
   ```
 
-  *（注：*实际实现需根据后端接口细节调整。当前假定存在 `/api/chat` 端点。如无真实后端，可模拟返回固定回复以测试前端交互。）\*
-  将 API 调用逻辑与 UI 分离，有利于将来维护（例如切换到不同的后台服务，只需修改这个模块）。这体现了**服务层**的作用。
+> 实际实现需根据后端接口细节调整。
+> 当前假定存在 `/api/chat` 端点。如无真实后端，可模拟返回固定回复以测试前端交互。
 
-- **集成到页面：**在 Astro 项目中为聊天页面创建对应路由，例如 `src/pages/deepseek_chat.astro`。在其中引入 Chat 组件并启用客户端交互：
+将 API 调用逻辑与 UI 分离，有利于将来维护（例如切换到不同的后台服务，只需修改这个模块）。
 
-  ```astro
-  ---
-  import Chat from '../components/Chat.jsx';
-  import BaseLayout from '../layouts/BaseLayout.astro';
-  ---
+这体现了 **服务层** 的作用。
 
-  <BaseLayout>
-    <h1>AI 聊天</h1>
-    <Chat client:load />
-    <!-- 使用 Astro 部分水合，在浏览器加载 Chat 组件 -->
-  </BaseLayout>
-  ```
+### 集成到页面
 
-  这里采用 `client:load` 指令使 Chat 组件在页面加载时执行，可以响应用户输入。由于 Chat 内部使用了 `useState` 管理状态，并通过封装的服务请求数据，React 组件的交互应当顺利运行。
+在 Astro 项目中为聊天页面创建对应路由，例如 `src/pages/deepseek_chat.astro`。
 
-- **测试聊天功能：**在开发环境下打开 `/deepseek_chat` 页面。尝试输入消息并发送，观察：
-  - 消息是否出现在对话框中（用户消息和模拟/真实的 AI 回复都会追加）。
-  - 按钮、多次交互是否正常，组件状态是否正确更新。
-  - 检查控制台是否有报错。如果后端尚未实现，可暂时让 `chatService` 返回假数据以测试前端界面更新逻辑。
+在其中引入 Chat 组件并启用客户端交互：
 
-**测试点：**确认 React 组件的交互在 Astro 下正常工作，聊天流程顺畅。此时已经运用了 React 的 Hooks 来管理组件内部状态。同时，我们在这一过程中建立了**组件层**（Chat.jsx 等 UI组件）和**服务层**（chatService.js 调用封装）的清晰分离，为未来扩展打下基础。这也验证了在 Astro 中使用 React 进行复杂交互的能力。
+```astro
+---
+import Chat from '../components/Chat.jsx';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <h1>AI 聊天</h1>
+  <Chat client:load />
+  <!-- 使用 Astro 部分水合，在浏览器加载 Chat 组件 -->
+</BaseLayout>
+```
+
+这里采用 `client:load` 指令使 Chat 组件在页面加载时执行，可以响应用户输入。
+
+由于 Chat 内部使用了 `useState` 管理状态，并通过封装的服务请求数据，React 组件的交互应当顺利运行。
+
+### 测试聊天功能
+
+在开发环境下打开 `/deepseek_chat` 页面。
+
+尝试输入消息并发送，观察：
+- 消息是否出现在对话框中（用户消息和模拟 / 真实的 AI 回复都会追加）。
+- 按钮、多次交互是否正常，组件状态是否正确更新。
+- 检查控制台是否有报错。如果后端尚未实现，可暂时让 `chatService` 返回假数据以测试前端界面更新逻辑。
+
+**测试点：**
+
+确认 React 组件的交互在 Astro 下正常工作，聊天流程顺畅。
+
+此时已经运用了 React 的 Hooks 来管理组件内部状态。
+
+同时，我们在这一过程中建立了 **组件层** （Chat.jsx 等 UI组件）和 **服务层** （chatService.js 调用封装）的清晰分离，为未来扩展打下基础。
+
+这也验证了在 Astro 中使用 React 进行复杂交互的能力。
 
 ---
 
