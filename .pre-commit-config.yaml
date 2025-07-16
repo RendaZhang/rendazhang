@@ -56,4 +56,4 @@ repos:
         name: ESLint Check
         entry: npx eslint --fix --ext .js,.jsx,.astro src/
         language: system
-        types: [javascript, jsx, astro]
+        types: [javascript, jsx, astro, markdown]
