@@ -22,9 +22,13 @@ export default function Chat() {
   const messageInputRef = useRef(null);
   const typingIndicatorRef = useRef(null);
   const enhancementProgressRef = useRef(null); // New: ref for progress div
+  const loadedScriptsRef = useRef(new Map());
+  const coreLoadAttemptedRef = useRef(false);
 
-  // Load core markdown libraries first
+  // Load core markdown libraries first (ensure single execution even in React Strict Mode)
   useEffect(() => {
+    if (coreLoadAttemptedRef.current) return;
+    coreLoadAttemptedRef.current = true;
     loadCoreLibraries();
   }, []);
 
@@ -132,9 +136,8 @@ export default function Chat() {
       });
   };
 
-  const loadedScripts = new Map();
   const loadScript = (src, timeout = 10000) => {
-    if (loadedScripts.has(src)) return Promise.resolve();
+    if (loadedScriptsRef.current.has(src)) return Promise.resolve();
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = src;
@@ -144,7 +147,7 @@ export default function Chat() {
       }, timeout);
       script.onload = () => {
         clearTimeout(timer);
-        loadedScripts.set(src, true);
+        loadedScriptsRef.current.set(src, true);
         resolve();
       };
       script.onerror = (error) => {
