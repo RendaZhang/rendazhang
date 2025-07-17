@@ -3,6 +3,41 @@ import { useState, useEffect, useRef } from 'react';
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
 
+// Helper to render Mermaid diagrams using the recommended API
+async function renderMermaidDiagrams(container) {
+  if (!container || !window.mermaid) return;
+  const blocks = container.querySelectorAll('pre code.language-mermaid, pre code.mermaid');
+  for (const codeBlock of blocks) {
+    const pre = codeBlock.parentElement;
+    const code = codeBlock.textContent;
+    try {
+      const { svg, bindFunctions } = await window.mermaid.render(
+        `mmd-${Math.random().toString(36).slice(2)}`,
+        code
+      );
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = svg;
+      bindFunctions?.(wrapper);
+      pre.replaceWith(wrapper);
+    } catch (err) {
+      console.error('Mermaid render error:', err);
+    }
+  }
+}
+
+function applyEnhancements(container) {
+  if (!container) return;
+  if (window.hljs) {
+    container.querySelectorAll('pre code').forEach((block) => {
+      if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
+        return;
+      }
+      window.hljs.highlightElement(block);
+    });
+  }
+  renderMermaidDiagrams(container);
+}
+
 const STORAGE_KEY = 'deepseek_chat_history';
 const MAX_TOKENS = 15000;
 const AVG_WORD_LENGTH = 4;
@@ -160,23 +195,9 @@ export default function Chat() {
 
   const applyEnhancementsToAll = () => {
     if (!chatContainerRef.current) return;
-    chatContainerRef.current.querySelectorAll('.ai-message div').forEach((contentDiv) => {
-      applyEnhancements(contentDiv);
+    chatContainerRef.current.querySelectorAll('.ai-message div').forEach((div) => {
+      applyEnhancements(div);
     });
-  };
-
-  const applyEnhancements = (container) => {
-    if (window.hljs && container) {
-      container.querySelectorAll('pre code').forEach((block) => {
-        if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
-          return;
-        }
-        window.hljs.highlightElement(block);
-      });
-    }
-    if (window.mermaid && container) {
-      window.mermaid.init(undefined, container.querySelectorAll('.language-mermaid'));
-    }
   };
 
   const countTokens = (msg) => {
@@ -312,7 +333,7 @@ export default function Chat() {
             msg.role === 'ai' ? (
               <AIMessage key={idx} html={msg.html} text={msg.content} />
             ) : (
-              <div key={idx} className="message user-message markdown-body">
+              <div key={idx} className="message user-message">
                 {msg.content}
               </div>
             )
@@ -397,9 +418,7 @@ function AIMessage({ html, text }) {
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.innerHTML = html;
-      if (window.mermaid) {
-        window.mermaid.init(undefined, contentRef.current.querySelectorAll('.language-mermaid'));
-      }
+      applyEnhancements(contentRef.current);
     }
   }, [html]);
 
