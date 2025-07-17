@@ -3,6 +3,18 @@ import { useState, useEffect, useRef } from 'react';
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
 
+// Display a temporary hint message similar to the vanilla implementation
+function showHint(msg, duration = 2000) {
+  const hint = document.createElement('div');
+  hint.className = 'hint-message';
+  hint.textContent = msg;
+  document.body.appendChild(hint);
+  setTimeout(() => {
+    hint.style.opacity = '0';
+    setTimeout(() => hint.remove(), 300);
+  }, duration);
+}
+
 // Helper to render Mermaid diagrams using the recommended API
 async function renderMermaidDiagrams(container) {
   if (!container || !window.mermaid) return;
@@ -58,8 +70,6 @@ export default function Chat() {
   const messageInputRef = useRef(null);
   const typingIndicatorRef = useRef(null);
   const enhancementProgressRef = useRef(null); // New: ref for progress div
-  const [hintMessage, setHintMessage] = useState('');
-  const hintTimerRef = useRef(null);
   const loadedScriptsRef = useRef(new Map());
   const coreLoadAttemptedRef = useRef(false);
 
@@ -118,12 +128,6 @@ export default function Chat() {
       if (lastDiv) applyEnhancements(lastDiv);
     }
   }, [messages, librariesLoaded]);
-
-  useEffect(() => {
-    return () => {
-      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     if (enhancementFailed) {
@@ -207,14 +211,6 @@ export default function Chat() {
       document.head.appendChild(script);
     });
   };
-
-  function showHint(msg, duration = 2000) {
-    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
-    setHintMessage(msg);
-    hintTimerRef.current = setTimeout(() => {
-      setHintMessage('');
-    }, duration);
-  }
 
   const applyEnhancementsToAll = () => {
     if (!chatContainerRef.current) return;
@@ -378,7 +374,6 @@ export default function Chat() {
           <p>正在优化阅读体验...</p>
         </div>
       )}
-      {hintMessage && <div className="hint-message">{hintMessage}</div>}
       <div className="input-area">
         <textarea
           id="message-input"
