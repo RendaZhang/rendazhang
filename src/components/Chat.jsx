@@ -23,6 +23,9 @@ async function renderMermaidDiagrams(container) {
     const pre = codeBlock.parentElement;
     const code = codeBlock.textContent;
     try {
+      if (typeof window.mermaid.parse === 'function') {
+        await window.mermaid.parse(code);
+      }
       const { svg, bindFunctions } = await window.mermaid.render(
         `mmd-${Math.random().toString(36).slice(2)}`,
         code
