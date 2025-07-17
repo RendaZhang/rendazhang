@@ -1,10 +1,14 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
 import Chat from '../components/Chat.jsx';
 ---
 
-<BaseLayout>
+<html lang="zh-CN">
   <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
+    />
     <title>AI Chat</title>
     <!-- 核心样式提前加载，非关键资源后续由组件异步加载 -->
     <link rel="preload" href="/css/deepseek_chat.min.css" as="style" />
@@ -15,4 +19,4 @@ import Chat from '../components/Chat.jsx';
   <body>
     <Chat client:load />
   </body>
-</BaseLayout>
+</html>
