@@ -21,6 +21,7 @@ async function renderMermaidDiagrams(container) {
       pre.replaceWith(wrapper);
     } catch (err) {
       console.error('Mermaid render error:', err);
+      showHint('Mermaid 图表渲染失败');
     }
   }
 }
@@ -57,6 +58,8 @@ export default function Chat() {
   const messageInputRef = useRef(null);
   const typingIndicatorRef = useRef(null);
   const enhancementProgressRef = useRef(null); // New: ref for progress div
+  const [hintMessage, setHintMessage] = useState('');
+  const hintTimerRef = useRef(null);
   const loadedScriptsRef = useRef(new Map());
   const coreLoadAttemptedRef = useRef(false);
 
@@ -115,6 +118,18 @@ export default function Chat() {
       if (lastDiv) applyEnhancements(lastDiv);
     }
   }, [messages, librariesLoaded]);
+
+  useEffect(() => {
+    return () => {
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (enhancementFailed) {
+      showHint('优化功能加载失败，基础功能不受影响');
+    }
+  }, [enhancementFailed]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -192,6 +207,14 @@ export default function Chat() {
       document.head.appendChild(script);
     });
   };
+
+  function showHint(msg, duration = 2000) {
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    setHintMessage(msg);
+    hintTimerRef.current = setTimeout(() => {
+      setHintMessage('');
+    }, duration);
+  }
 
   const applyEnhancementsToAll = () => {
     if (!chatContainerRef.current) return;
@@ -355,6 +378,7 @@ export default function Chat() {
           <p>正在优化阅读体验...</p>
         </div>
       )}
+      {hintMessage && <div className="hint-message">{hintMessage}</div>}
       <div className="input-area">
         <textarea
           id="message-input"
