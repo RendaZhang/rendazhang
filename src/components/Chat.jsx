@@ -373,6 +373,7 @@ export default function Chat() {
 function AIMessage({ html, text }) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const contentRef = useRef(null);
 
   const handleCopy = (e) => {
     e.stopPropagation();
@@ -391,6 +392,23 @@ function AIMessage({ html, text }) {
   };
   const handleClick = () => setShowBtn(true);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.innerHTML = html;
+      if (window.hljs) {
+        contentRef.current.querySelectorAll('pre code').forEach((block) => {
+          if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
+            return;
+          }
+          window.hljs.highlightElement(block);
+        });
+      }
+      if (window.mermaid) {
+        window.mermaid.init(undefined, contentRef.current.querySelectorAll('.language-mermaid'));
+      }
+    }
+  }, [html]);
+
   return (
     <div
       className="message ai-message markdown-body"
@@ -405,7 +423,7 @@ function AIMessage({ html, text }) {
       >
         {isCopied ? '已复制' : '复制'}
       </button>
-      <div dangerouslySetInnerHTML={{ __html: html }}></div>
+      <div ref={contentRef}></div>
     </div>
   );
 }
