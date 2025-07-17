@@ -1,0 +1,89 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [前端 BUG 跟踪数据库](#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
+  - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
+  - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E-1)
+  - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
+    - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
+  - [待解决问题](#%E5%BE%85%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98)
+  - [已归档问题](#%E5%B7%B2%E5%BD%92%E6%A1%A3%E9%97%AE%E9%A2%98)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# 前端 BUG 跟踪数据库
+
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: July 17, 2025, 21:10 (UTC+8)
+
+---
+
+## 文档说明
+
+本文档用于系统化跟踪前端项目中的 BUG，包含以下内容：
+
+1. 详细 BUG 记录模板
+2. 解决方案知识库
+
+> 本文档系统化记录前端项目中的 BUG，包含问题现象、根本原因、解决方案及修复状态跟踪
+
+---
+
+## 文档说明
+
+1. **目的**：建立可追溯的 BUG 知识库，避免重复问题
+2. **更新流程**：
+   - 新 BUG 发现后 24 小时内记录
+   - 解决后更新状态和解决方案
+3. **严重等级**：
+   - ⚠️ 紧急（阻塞核心功能）
+   - ⚠️ 高（影响用户体验）
+   - ⚠️ 中（非核心功能问题）
+   - ⚠️ 低（视觉/文案问题）
+
+---
+
+## BUG 详情
+
+### BUG-001: Mermaid 图表渲染异常
+
+- **发现日期**：2025-07-17
+- **重现环境**：Chrome 115+, macOS Ventura
+- **问题现象**：
+  - Mermaid 图表成功渲染后 1 秒内被还原为原始代码
+  - 仅影响图表渲染，代码高亮功能正常
+- **根本原因**：
+  - React 重渲染覆盖了 Mermaid 生成的 SVG DOM
+  - 状态更新导致组件重新渲染原始 Markdown
+- **解决方案**：
+  - 使用 ref 直接管理图表容器 DOM
+  - 将 Mermaid 渲染移出 React 生命周期控制
+  - 添加渲染状态持久化机制
+- **相关代码**：
+  ```jsx
+  // AIMessage 组件修改
+  const contentRef = useRef(null);
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.innerHTML = html;
+      // Mermaid 渲染逻辑...
+    }
+  }, [html]);
+  ```
+- **验证结果**：✅ 所有图表渲染稳定
+- **经验总结**：第三方 DOM 操作库需要与 React 渲染机制解耦
+
+---
+
+## 待解决问题
+
+这里是还未修复的 BUG
+
+---
+
+## 已归档问题
+
+这里是已经修复的 BUG
+
+- [x] BUG-001: Mermaid 图表渲染异常 (v1.0)
