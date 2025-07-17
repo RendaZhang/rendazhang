@@ -4,30 +4,18 @@
 
 - [前端 BUG 跟踪数据库](#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
-  - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E-1)
-  - [BUG 记录格式要求](#bug-%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F%E8%A6%81%E6%B1%82)
+    - [BUG 记录格式要求](#bug-%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F%E8%A6%81%E6%B1%82)
+    - [问题状态](#%E9%97%AE%E9%A2%98%E7%8A%B6%E6%80%81)
   - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
     - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
     - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
-  - [问题状态](#%E9%97%AE%E9%A2%98%E7%8A%B6%E6%80%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 17, 2025, 21:10 (UTC+8)
-
----
-
-## 文档说明
-
-本文档用于系统化跟踪前端项目中的 BUG，包含以下内容：
-
-1. 详细 BUG 记录模板
-2. 解决方案知识库
-
-> 本文档系统化记录前端项目中的 BUG，包含问题现象、根本原因、解决方案及修复状态跟踪
+- **最后更新**: July 18, 2025, 01:00 (UTC+8)
 
 ---
 
@@ -43,9 +31,7 @@
    - ⚠️ 中（非核心功能问题）
    - ⚠️ 低（视觉/文案问题）
 
----
-
-## BUG 记录格式要求
+### BUG 记录格式要求
 
 统一的记录格式便于后续检索和统计，推荐模版如下：
 
@@ -65,7 +51,12 @@
 - **经验总结**：可选的额外说明
 ```
 
-状态跟踪通过在「问题状态」章节中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
+状态跟踪通过在「问题状态」小节中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
+
+### 问题状态
+
+- [x] BUG-001: Mermaid 图表渲染异常
+- [x] BUG-002: highlight.js 与 Mermaid 冲突
 
 ---
 
@@ -116,10 +107,3 @@
     hljs.highlightElement(block);
   });
   ```
-
----
-
-## 问题状态
-
-- [x] BUG-001: Mermaid 图表渲染异常
-- [x] BUG-002: highlight.js 与 Mermaid 冲突
