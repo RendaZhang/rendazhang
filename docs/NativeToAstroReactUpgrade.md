@@ -1,7 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [旧版前端到 Astro+React 新前端的渐进升级计划](#%E6%97%A7%E7%89%88%E5%89%8D%E7%AB%AF%E5%88%B0-astroreact-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
+- [旧版原生前端到 Astro + React 新前端的渐进升级计划](#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
   - [背景](#%E8%83%8C%E6%99%AF)
     - [新前端架构](#%E6%96%B0%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84)
     - [旧前端架构](#%E6%97%A7%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84)
@@ -41,14 +41,19 @@
   - [阶段 8：全面测试与部署上线](#%E9%98%B6%E6%AE%B5-8%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
     - [本地全面测试](#%E6%9C%AC%E5%9C%B0%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95)
     - [配置 GitHub Actions](#%E9%85%8D%E7%BD%AE-github-actions)
-    - [切换上线](#%E5%88%87%E6%8D%A2%E4%B8%8A%E7%BA%BF)
+      - [准备服务器端](#%E5%87%86%E5%A4%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF)
+      - [在 GitHub 仓库中设置 Secrets](#%E5%9C%A8-github-%E4%BB%93%E5%BA%93%E4%B8%AD%E8%AE%BE%E7%BD%AE-secrets)
+      - [创建 GitHub Actions 工作流文件](#%E5%88%9B%E5%BB%BA-github-actions-%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%96%87%E4%BB%B6)
+      - [测试 GitHub Actions](#%E6%B5%8B%E8%AF%95-github-actions)
+      - [调整 Nginx 配置并上线](#%E8%B0%83%E6%95%B4-nginx-%E9%85%8D%E7%BD%AE%E5%B9%B6%E4%B8%8A%E7%BA%BF)
+      - [后续优化和监控](#%E5%90%8E%E7%BB%AD%E4%BC%98%E5%8C%96%E5%92%8C%E7%9B%91%E6%8E%A7)
     - [回归和优化](#%E5%9B%9E%E5%BD%92%E5%92%8C%E4%BC%98%E5%8C%96)
   - [阶段9：后续扩展计划（展望）](#%E9%98%B6%E6%AE%B59%E5%90%8E%E7%BB%AD%E6%89%A9%E5%B1%95%E8%AE%A1%E5%88%92%E5%B1%95%E6%9C%9B)
   - [总结](#%E6%80%BB%E7%BB%93)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 旧版前端到 Astro+React 新前端的渐进升级计划
+# 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
 - **最后更新**: July 17, 2025, 23:20 (UTC+8)
@@ -654,59 +659,138 @@ Astro+Vite 已自动优化打包体积和性能，观察网页加载速度是否
 
 这些都是新的改进点。
 
-**部署前备份：**
-
-在正式替换站点前，备份旧版前端文件（如将 `/var/www/rendazhang` 内容打包保存），以便必要时快速回滚。
-
-更新 Nginx 配置，使站点根目录指向 `/var/www/html`（如果之前未改动，则 Nginx 默认就是此目录）。
-
-确认 Nginx 权限和配置允许服务新的静态文件（MIME 类型等一般默认OK）。
-
 ### 配置 GitHub Actions
 
-编写 CI/CD 工作流文件，实现代码变更自动部署：
+这个需要确保项目仓库已经在 GitHub 上（例如，仓库名为 `rendazhang` 或类似），并且有服务器的 SSH 访问权限（用于部署）。
 
-1. 在项目仓库中添加服务器部署所需的机密信息（Secrets），例如：`SERVER_IP`（服务器 IP或域名）、`SSH_USER`（SSH 用户名，如 root）、以及 `SSH_KEY`（用于登录服务器的私钥，建议用 Base64 或直接粘贴PEM内容）等。
+目标是让 GitHub Actions 在代码推送（push）到主分支时自动构建 Astro 项目（生成静态文件到 `dist/` 目录），然后将这些静态文件部署到服务器的 `/var/www/html` 目录下。
 
-2. 在仓库中新建 `.github/workflows/deploy.yml`，填写自动化流程，例如：
+如下操作默认 Nginx 当前根目录是 `/var/www/rendazhang`，但计划切换到 `/var/www/html`。
+
+#### 准备服务器端
+
+1. **备份当前站点**：在服务器上备份现有文件，以防万一。
+   ```bash
+   sudo tar -czf /backup/rendazhang_backup_$(date +%Y%m%d).tar.gz /var/www/rendazhang
+   ```
+
+2. **创建部署目录**：如果 `/var/www/html` 不存在，创建它并设置权限（假设 Nginx 用户是 `www-data`）。
+    ```bash
+    # 如果不存在则先创建：sudo mkdir -p /var/www/html
+    sudo chown -R www-data:www-data /var/www/html
+    sudo chmod -R 755 /var/www/html
+    ```
+   - 如果想保持部署到原来的目录，比如 `/var/www/rendazhang`，跳过此步。
+
+3. **配置 SSH 密钥登录（如果尚未配置）**：
+   - 在本地生成 SSH 密钥对（如果没有）：`ssh-keygen -t ed25519 -C "github-actions@your-email.com"`（默认路径 `~/.ssh/id_ed25519`）。
+   - 将公钥上传到服务器：`ssh-copy-id user@your-server-ip`（替换 `user` 为您的 SSH 用户，如 `root` 或 `ubuntu`）。
+   - 测试：`ssh user@your-server-ip` 应无密码登录。
+
+#### 在 GitHub 仓库中设置 Secrets
+
+1. 打开您的 GitHub 仓库页面，比如 [Renda Zhang Web](https://github.com/RendaZhang/rendazhang.github.io)。
+2. 转到 **Settings > Secrets and variables > Actions**。
+3. 添加以下 Secrets（这些值会加密存储，不会泄露）：
+   - `SERVER_IP`: 您的服务器 IP 或域名（例如 `123.45.67.89` 或 `rendazhang.com`）。
+   - `SSH_USER`: SSH 登录用户名（例如 `root` 或 `ubuntu`）。
+   - `SSH_PRIVATE_KEY`: SSH 私钥内容（打开本地 `~/.ssh/id_ed25519` 文件，复制全部内容，包括 `-----BEGIN OPENSSH PRIVATE KEY-----` 和结束标记）。
+   - `DEPLOY_PATH`: 部署目录（例如 `/var/www/html`）。如果想部署到 `/var/www/rendazhang`，设置为 `/var/www/rendazhang`。
+
+
+#### 创建 GitHub Actions 工作流文件
+
+1. 在本地项目目录中创建目录 `.github/workflows/`（如果不存在）。
+2. 在该目录下创建文件 `deploy.yml`，并粘贴以下内容（这是一个安全的、基于 SSH 密钥的示例，使用 `scp` 部署）：
 
 ```yaml
-name: Build and Deploy to Server
-on: [push] # 推送代码时触发（可限定分支）
+name: Build and Deploy Astro Site
+
+on:
+  push:
+    branches:
+      - main  # 只在 push 到 main 分支时触发。您可以改为您的主分支名。
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with: { node-version: 18 }
-      - run: npm ci && npm run build # 安装依赖并构建
-      - name: Deploy to Nginx server
-        run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
-          sshpass -p "$SERVER_PASS" rsync -avz --delete dist/ ${SSH_USER}@${SERVER_IP}:/var/www/html
-        env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          SERVER_PASS: ${{ secrets.SERVER_PASS }}
-          SSH_USER: ${{ secrets.SSH_USER }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # 使用 Node 20 LTS。
+
+      - name: Install dependencies
+        run: npm ci  # 使用 ci 以确保一致性。
+
+      - name: Build Astro project
+        run: npm run build  # 生成静态文件到 dist/ 目录。
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v0.1.7  # 使用 SCP 动作上传（简单、安全）。
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/*"  # 上传 dist/ 下的所有文件。
+          target: ${{ secrets.DEPLOY_PATH }}
+          strip_components: 1  # 去除 dist/ 层级，直接上传内容到目标目录。
+          rm: true  # 先删除目标目录旧文件（可选，防止残留；如果不想删除，设为 false）。
 ```
 
-- 上述例子使用 `rsync` 部署构建产物（需在服务器上预先安装 rsync）。
-- 也可以使用现成的 GitHub Action，如 `appleboy/scp-action` 来通过 SCP 上传文件。
-- 关键是将 `dist/` 内的静态文件同步到 `/var/www/html` 目录。
-- 部署步骤要包含添加 SSH 密钥到 agent、将主机加入 known_hosts 等操作。
+**配置解释**
 
-3. 将 workflow 推送到仓库后，在 GitHub Actions 面板观察执行过程，确保构建和上传步骤成功完成。第一次运行可以先在非业务时间触发，避免影响用户。
+- `on: push`: 代码 push 到 main 时自动运行。
+- `npm ci && npm run build`: 安装依赖并构建静态文件。
+- `appleboy/scp-action`: 使用 SCP（基于 SSH）上传文件。更简单且无需服务器额外安装（相比 rsync）。如果您偏好 rsync，可以替换为自定义步骤（但避免 sshpass）。
+- 如果部署到 `/var/www/rendazhang`，只需在 Secrets 中设置 `DEPLOY_PATH` 为 `/var/www/rendazhang`。
+- 添加 `--delete` 效果：设置 `rm: true` 会先清空目标目录（类似于 rsync --delete），确保干净部署。
 
-### 切换上线
+3. 将此文件 commit 并 push 到 GitHub 的 main 分支。这会触发第一次 Actions 运行。
 
-如果之前 Nginx 一直指向 `/var/www/rendazhang`，此时可以修改 Nginx 配置的站点根为 `/var/www/html` 并重载配置（或如果已经这么做且 old 文件未删除，则直接用新文件覆盖旧目录）。
+#### 测试 GitHub Actions
 
-由于我们部署文件直接到 `/var/www/html`，一旦操作完成，新版本站点即开始对外服务。
+1. 转到 GitHub 仓库的 **Actions** 标签页。
 
-- 访问生产环境域名，逐页检查新站点是否正常运行。特别关注静态资源加载（检查 Nginx 日志或浏览器网络面板，看是否有 404）、页面跳转是否正确。
-- 检查 AI 聊天功能在生产环境能否调用后端成功（可能需要后端同样配置CORS或接口地址正确）。
-- 监控服务器资源占用：Astro 站点完全静态，1GB 内存的小型服务器应能够轻松应对，只需保证 Nginx 进程正常。由于不再需要 Node.js 在服务器上运行，内存占用将较低，“只有静态 JS 文件”的部署模式可以充分利用服务器资源。
+2. 观察名为 "Build and Deploy Astro Site" 的工作流运行。
+   - 如果失败，检查日志：常见问题如依赖安装失败（检查 `package.json`）、构建错误（确保本地 `npm run build` 成功）、SSH 连接失败（验证 Secrets 和密钥）。
+   - 第一次运行后，检查服务器的 `/var/www/html` 目录：应有 Astro 构建的静态文件（如 `index.html`、`assets/` 等）。
+
+3. 如果一切正常，Actions 会自动构建并部署。后续每次 push 都会重复此过程。
+
+#### 调整 Nginx 配置并上线
+
+1. SSH 登录服务器，编辑 Nginx 配置（例如 `/etc/nginx/sites-available/default` 或站点配置文件）：
+   - 将 HTTPS 服务器的 `root` 改为 `/var/www/html`：
+     ```nginx
+     server {
+         listen       443 ssl http2;
+         server_name  www.rendazhang.com rendazhang.com;
+         root   /var/www/html;  # 改为新目录
+         index  index.html index.htm;
+         ...
+     }
+     ```
+   - 如果部署到 `/var/www/rendazhang`，无需修改此项。
+   - 测试配置：`sudo nginx -t`。
+   - 重载 Nginx：`sudo systemctl reload nginx`（或 `sudo nginx -s reload`）。
+
+2. 访问域名（https://www.rendazhang.com），验证新站点是否加载（应显示 Astro 构建的首页）。
+   - 检查浏览器控制台和 Nginx 日志（`/var/log/nginx/error.log`）是否有错误（如 404）。
+   - 检查 AI 聊天功能在生产环境能否调用后端成功（可能需要后端同样配置CORS或接口地址正确）。
+   - 监控服务器资源占用：Astro 站点完全静态，1GB 内存的小型服务器应能够轻松应对，只需保证 Nginx 进程正常。由于不再需要 Node.js 在服务器上运行，内存占用将较低，“只有静态 JS 文件” 的部署模式可以充分利用服务器资源。
+   - 如果有问题，回滚：将备份恢复到原来的目录，比如 `/var/www/rendazhang`，并改回 Nginx root，重载。
+
+#### 后续优化和监控
+
+- **添加分支限制**：如果只想在特定分支触发，修改 `on: push` 为 `branches: [main]`。
+- **手动触发**：在 YAML 中添加 `on: workflow_dispatch`，这样您可以在 Actions 页面手动运行。
+- **错误处理**：如果 Actions 失败，GitHub 会发邮件通知（在 Settings > Notifications 配置）。
+- **安全性**：定期轮换 SSH 密钥。避免在 Actions 中运行不必要命令。
+- **测试完整性**：在本地运行 `npm run build && npm run preview`，模拟生产环境。
 
 ### 回归和优化
 
