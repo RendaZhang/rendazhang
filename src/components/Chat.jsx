@@ -272,13 +272,15 @@ export default function Chat() {
         ) : messages.length === 0 ? (
           <div className="info-text">会话已就绪，请输入消息开始对话</div>
         ) : (
-          messages.map((msg, idx) => (
-            <div key={idx} className={`message ${msg.role}-message markdown-body`}>
-              {msg.role === 'ai' && <div dangerouslySetInnerHTML={{ __html: msg.html }}></div>}
-              {msg.role === 'user' && msg.content}
-              {msg.role === 'ai' && <CopyButton text={msg.content} />}
-            </div>
-          ))
+          messages.map((msg, idx) =>
+            msg.role === 'ai' ? (
+              <AIMessage key={idx} html={msg.html} text={msg.content} />
+            ) : (
+              <div key={idx} className="message user-message markdown-body">
+                {msg.content}
+              </div>
+            )
+          )
         )}
       </div>
       <div className="typing-indicator" id="typing-indicator" ref={typingIndicatorRef}>
@@ -321,41 +323,43 @@ export default function Chat() {
   );
 }
 
-// CopyButton component for AI messages (unchanged)
-function CopyButton({ text }) {
+// AI message with copy button
+function AIMessage({ html, text }) {
+  const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const buttonRef = useRef(null);
 
   const handleCopy = (e) => {
     e.stopPropagation();
-    showButton(); // 在复制逻辑中调用显示函数，确保点击时显示
     navigator.clipboard.writeText(text).then(() => {
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
-        buttonRef.current.style.display = 'none';
+        setShowBtn(false);
       }, 1000);
     });
   };
 
-  const showButton = () => {
-    if (!isCopied) buttonRef.current.style.display = 'inline-block';
+  const handleMouseEnter = () => setShowBtn(true);
+  const handleMouseLeave = () => {
+    if (!isCopied) setShowBtn(false);
   };
-
-  const hideButton = () => {
-    if (!isCopied) buttonRef.current.style.display = 'none';
-  };
+  const handleClick = () => setShowBtn(true);
 
   return (
-    <button
-      className="copy-btn"
-      ref={buttonRef}
-      onClick={handleCopy} // 只保留一个 onClick，用于复制
-      onMouseEnter={showButton}
-      onMouseLeave={hideButton}
-      style={{ display: 'none' }}
+    <div
+      className="message ai-message markdown-body"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
-      {isCopied ? '已复制' : '复制'}
-    </button>
+      <button
+        className="copy-btn"
+        onClick={handleCopy}
+        style={{ display: showBtn ? 'inline-block' : 'none' }}
+      >
+        {isCopied ? '已复制' : '复制'}
+      </button>
+      <div dangerouslySetInnerHTML={{ __html: html }}></div>
+    </div>
   );
 }
