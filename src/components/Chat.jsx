@@ -392,17 +392,11 @@ function AIMessage({ html, text }) {
   };
   const handleClick = () => setShowBtn(true);
 
+  // Modified the AIMessage component to maintain rendered content in a ref,
+  // applying mermaid processing after each HTML update so diagrams remain visible
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.innerHTML = html;
-      if (window.hljs) {
-        contentRef.current.querySelectorAll('pre code').forEach((block) => {
-          if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
-            return;
-          }
-          window.hljs.highlightElement(block);
-        });
-      }
       if (window.mermaid) {
         window.mermaid.init(undefined, contentRef.current.querySelectorAll('.language-mermaid'));
       }
