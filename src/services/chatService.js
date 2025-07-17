@@ -30,12 +30,9 @@ export async function sendMessageToAI(userInput, onChunkCallback) {
           const data = JSON.parse(line);
           if (data.text) {
             aiMessage += data.text;
-            // Parse Markdown and sanitize HTML
-            const parsed = window.marked.parse(aiMessage);
-            const sanitized = window.DOMPurify.sanitize(parsed);
-            // Call callback with updated sanitized HTML
+            // Pass accumulated Markdown back to caller
             if (onChunkCallback) {
-              onChunkCallback(sanitized);
+              onChunkCallback(aiMessage);
             }
           }
         } catch (e) {

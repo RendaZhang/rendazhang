@@ -2,57 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 // Core libraries will be loaded dynamically to allow graceful fallback
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
-
-// Display a temporary hint message similar to the vanilla implementation
-function showHint(msg, duration = 2000) {
-  const hint = document.createElement('div');
-  hint.className = 'hint-message';
-  hint.textContent = msg;
-  document.body.appendChild(hint);
-  setTimeout(() => {
-    hint.style.opacity = '0';
-    setTimeout(() => hint.remove(), 300);
-  }, duration);
-}
-
-// Helper to render Mermaid diagrams using the recommended API
-async function renderMermaidDiagrams(container) {
-  if (!container || !window.mermaid) return;
-  const blocks = container.querySelectorAll('pre code.language-mermaid, pre code.mermaid');
-  for (const codeBlock of blocks) {
-    const pre = codeBlock.parentElement;
-    const code = codeBlock.textContent;
-    try {
-      if (typeof window.mermaid.parse === 'function') {
-        await window.mermaid.parse(code);
-      }
-      const { svg, bindFunctions } = await window.mermaid.render(
-        `mmd-${Math.random().toString(36).slice(2)}`,
-        code
-      );
-      const wrapper = document.createElement('div');
-      wrapper.innerHTML = svg;
-      bindFunctions?.(wrapper);
-      pre.replaceWith(wrapper);
-    } catch (err) {
-      console.error('Mermaid render error:', err);
-      showHint('Mermaid 图表渲染失败');
-    }
-  }
-}
-
-function applyEnhancements(container) {
-  if (!container) return;
-  if (window.hljs) {
-    container.querySelectorAll('pre code').forEach((block) => {
-      if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
-        return;
-      }
-      window.hljs.highlightElement(block);
-    });
-  }
-  renderMermaidDiagrams(container);
-}
+import useMarkdownPipeline, { showHint } from '../hooks/useMarkdownPipeline';
 
 const STORAGE_KEY = 'deepseek_chat_history';
 const MAX_TOKENS = 15000;
@@ -96,11 +46,7 @@ export default function Chat() {
 
     const loadedMessages = conversationHistory.map((msg) => ({
       role: msg.role === 'assistant' ? 'ai' : 'user',
-      content: msg.content,
-      html:
-        msg.role === 'assistant'
-          ? window.DOMPurify.sanitize(window.marked.parse(msg.content))
-          : msg.content
+      content: msg.content
     }));
 
     setMessages(loadedMessages);
@@ -123,16 +69,10 @@ export default function Chat() {
     }
   }, [input]);
 
-  // Scroll to bottom and enhance latest AI message when messages change
-  // Skip enhancement while streaming so Mermaid is rendered only once after
-  // the full message has been received.
+  // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
-    if (librariesLoaded && !isSending) {
-      const lastDiv = chatContainerRef.current?.querySelector('.ai-message:last-child div');
-      if (lastDiv) applyEnhancements(lastDiv);
-    }
-  }, [messages, librariesLoaded, isSending]);
+  }, [messages]);
 
   useEffect(() => {
     if (enhancementFailed) {
@@ -175,8 +115,6 @@ export default function Chat() {
           window.mermaid.initialize({ startOnLoad: false });
         }
         setLibrariesLoaded(true);
-        // Apply enhancements to existing AI messages
-        applyEnhancementsToAll();
         // Hide progress with fade out
         enhancementProgressRef.current.style.opacity = '0';
         setTimeout(() => setIsEnhancing(false), 300); // Match original fade out
@@ -217,13 +155,6 @@ export default function Chat() {
     });
   };
 
-  const applyEnhancementsToAll = () => {
-    if (!chatContainerRef.current) return;
-    chatContainerRef.current.querySelectorAll('.ai-message div').forEach((div) => {
-      applyEnhancements(div);
-    });
-  };
-
   const countTokens = (msg) => {
     return Math.ceil((msg.content.length / AVG_WORD_LENGTH) * AVG_TOKENS_PER_WORD);
   };
@@ -252,20 +183,9 @@ export default function Chat() {
   };
 
   const addMessage = (role, content) => {
-    const newMessage = {
-      role,
-      content,
-      html: role === 'ai' ? window.DOMPurify.sanitize(window.marked.parse(content)) : content
-    };
+    const newMessage = { role, content };
     setMessages((prev) => [...prev, newMessage]);
     scrollToBottom();
-    if (librariesLoaded && role === 'ai') {
-      // Apply enhancements immediately if libraries are loaded
-      const lastMessageDiv = chatContainerRef.current.querySelector('.ai-message:last-child div');
-      if (lastMessageDiv) {
-        applyEnhancements(lastMessageDiv);
-      }
-    }
   };
 
   const handleSend = async () => {
@@ -279,18 +199,15 @@ export default function Chat() {
     scrollToBottom();
 
     try {
-      const aiText = await sendMessageToAI(message, (chunkHtml) => {
-        // Update the last AI message with chunk
+      const aiText = await sendMessageToAI(message, (partial) => {
+        // Update the last AI message with streamed Markdown
         setMessages((prev) => {
           const lastMsg = prev[prev.length - 1];
-          if (lastMsg.role === 'ai') {
-            // Update existing AI message
-            lastMsg.html = chunkHtml;
+          if (lastMsg && lastMsg.role === 'ai') {
+            lastMsg.content = partial;
             return [...prev.slice(0, -1), { ...lastMsg }];
-          } else {
-            // Add new AI message
-            return [...prev, { role: 'ai', content: '', html: chunkHtml }];
           }
+          return [...prev, { role: 'ai', content: partial }];
         });
         scrollToBottom();
       });
@@ -355,7 +272,7 @@ export default function Chat() {
         ) : (
           messages.map((msg, idx) =>
             msg.role === 'ai' ? (
-              <AIMessage key={idx} html={msg.html} text={msg.content} />
+              <AIMessage key={idx} text={msg.content} librariesLoaded={librariesLoaded} />
             ) : (
               <div key={idx} className="message user-message">
                 {msg.content}
@@ -415,10 +332,10 @@ export default function Chat() {
 }
 
 // AI message with copy button
-function AIMessage({ html, text }) {
+function AIMessage({ text, librariesLoaded }) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const contentRef = useRef(null);
+  const contentRef = useMarkdownPipeline(text, librariesLoaded);
 
   const handleCopy = (e) => {
     e.stopPropagation();
@@ -436,14 +353,6 @@ function AIMessage({ html, text }) {
     if (!isCopied) setShowBtn(false);
   };
   const handleClick = () => setShowBtn(true);
-
-  // Keep rendered HTML in a ref. Mermaid and syntax highlighting are applied
-  // after streaming completes by the parent component.
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.innerHTML = html;
-    }
-  }, [html]);
 
   return (
     <div
