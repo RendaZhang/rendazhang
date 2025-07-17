@@ -7,6 +7,7 @@
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E-1)
   - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
     - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
+    - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
   - [待解决问题](#%E5%BE%85%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98)
   - [已归档问题](#%E5%B7%B2%E5%BD%92%E6%A1%A3%E9%97%AE%E9%A2%98)
 
@@ -73,6 +74,18 @@
   ```
 - **验证结果**：✅ 所有图表渲染稳定
 - **经验总结**：第三方 DOM 操作库需要与 React 渲染机制解耦
+
+### BUG-002: highlight.js 与 Mermaid 冲突
+
+- **发现日期**：2025-07-18
+- **重现环境**：Chrome 115+, macOS Ventura
+- **问题现象**：
+  - 控制台出现 `WARN: Could not find the language 'mermaid'` 提示
+- **根本原因**：
+  - highlight.js 尝试解析 `language-mermaid` 代码块，但未加载对应语言模块
+- **解决方案**：
+  - 在高亮逻辑中忽略 `.language-mermaid` 区块
+- **验证结果**：✅ WARN 消失，Mermaid 渲染正常
 
 ---
 
