@@ -85,7 +85,7 @@
 
 ### GitHub Actions 自动部署
 
-Push 到 `main` 分支会触发 GitHub Actions：
+Push 到 `master` 分支会触发 GitHub Actions：
 
 1. 检出代码并安装依赖
 2. 执行 `npm run build` 生成静态文件

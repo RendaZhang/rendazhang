@@ -709,7 +709,7 @@ name: Build and Deploy Astro Site
 on:
   push:
     branches:
-      - main  # 只在 push 到 main 分支时触发。您可以改为您的主分支名。
+      - master  # 只在 push 到 master 分支时触发。您可以改为您的主分支名。
 
 jobs:
   build-and-deploy:
@@ -743,13 +743,13 @@ jobs:
 
 **配置解释**
 
-- `on: push`: 代码 push 到 main 时自动运行。
+- `on: push`: 代码 push 到 master 时自动运行。
 - `npm ci && npm run build`: 安装依赖并构建静态文件。
 - `appleboy/scp-action`: 使用 SCP（基于 SSH）上传文件。更简单且无需服务器额外安装（相比 rsync）。如果您偏好 rsync，可以替换为自定义步骤（但避免 sshpass）。
 - 如果部署到 `/var/www/rendazhang`，只需在 Secrets 中设置 `DEPLOY_PATH` 为 `/var/www/rendazhang`。
 - 添加 `--delete` 效果：设置 `rm: true` 会先清空目标目录（类似于 rsync --delete），确保干净部署。
 
-3. 将此文件 commit 并 push 到 GitHub 的 main 分支。这会触发第一次 Actions 运行。
+3. 将此文件 commit 并 push 到 GitHub 的 master 分支。这会触发第一次 Actions 运行。
 
 #### 测试 GitHub Actions
 
@@ -786,7 +786,7 @@ jobs:
 
 #### 后续优化和监控
 
-- **添加分支限制**：如果只想在特定分支触发，修改 `on: push` 为 `branches: [main]`。
+- **添加分支限制**：如果只想在特定分支触发，修改 `on: push` 为 `branches: [master]`。
 - **手动触发**：在 YAML 中添加 `on: workflow_dispatch`，这样您可以在 Actions 页面手动运行。
 - **错误处理**：如果 Actions 失败，GitHub 会发邮件通知（在 Settings > Notifications 配置）。
 - **安全性**：定期轮换 SSH 密钥。避免在 Actions 中运行不必要命令。
