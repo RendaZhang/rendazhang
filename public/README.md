@@ -11,7 +11,7 @@
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
   - [依赖项目部署](#%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
-    - [**Nginx**](#nginx)
+    - [**Nginx & GitHub Actions**](#nginx--github-actions)
   - [使用说明 | Usage](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E--usage)
   - [🤝 贡献指南 | Contributing Guide](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97--contributing-guide)
     - [本地预览 | Local Preview](#%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88--local-preview)
@@ -23,13 +23,13 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 15, 2025, 00:00 (UTC+8)
+- **最后更新**: July 18, 2025, 20:00 (UTC+8)
 
 ---
 
 ## 简介
 
-这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。
+这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。现在站点使用 **Astro + React**，采用组件、服务和状态分层架构，并通过 GitHub Actions 自动部署至 Nginx。
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
@@ -47,20 +47,20 @@
 - ✉️ 联系表单 (通过 Formspree)
 - 🎵 背景音乐播放开关
 - 🌏 多语言支持 (英文 + 中文)
-- 💻 技术文档展示页 (docs.html)
+- 💻 技术文档展示页 (docs/)
 - 🔗 内容平台链接
 
 ---
 
 ## 页面功能
 
-各 HTML 页面核心职责如下：
+各页面的职责如下（Astro 生成对应的静态 HTML）：
 
-- `index.html`：入口页，提供语言选择及快捷导航。
-- `index_chinese.html`：中文版主页，展示个人信息、技能与联系方式。
-- `index_english.html`：英文版主页，内容与中文版对应。
-- `certifications.html`：证书列表页。
-- `deepseek_chat.html`：AI 聊天界面。
+- `index.astro`：入口页，提供语言选择及快捷导航。
+- `about.zh.astro`：中文版主页，展示个人信息、技能与联系方式。
+- `about.en.astro`：英文版主页，内容与中文版对应。
+- `certifications.astro`：证书列表页。
+- `deepseek_chat.astro`：AI 聊天界面。
 
 其他 HTML 页面：
 
@@ -72,7 +72,7 @@
 
 ## 页面跳转逻辑
 
-- `index.html` 链接到中英文主页、AI Chat 和证书页。
+- `index.astro` 链接到中英文主页、AI Chat 和证书页。
 - 各子页面均包含返回入口页的按钮。
 - 中英文主页内部通过锚点导航跳转到 About、Skills 等板块，并提供聊天或证书链接。
 
@@ -80,10 +80,10 @@ Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[index.html 入口页] -->|关于我| B[index_chinese.html 中文主页]
-    A -->|About Me| C[index_english.html 英文主页]
-    A -->|Chat with AI| D[deepseek_chat.html 聊天页]
-    A -->|证书| E[certifications.html 证书页]
+    A[index.astro 入口页] -->|关于我| B[about.zh.astro 中文主页]
+    A -->|About Me| C[about.en.astro 英文主页]
+    A -->|Chat with AI| D[deepseek_chat.astro 聊天页]
+    A -->|证书| E[certifications.astro 证书页]
     B -->|返回首页| A
     B -->|证书| E
     C -->|返回首页| A
@@ -109,10 +109,10 @@ flowchart TD
 
 ## 页面内容介绍
 
-- `index.html`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
-- `index_chinese.html`，`index_english.html`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
-- `certifications.html`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `deepseek_chat.html`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
+- `index.astro`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
+- `about.zh.astro`、`about.en.astro`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
+- `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
+- `deepseek_chat.astro`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
 - `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
 
@@ -122,11 +122,11 @@ flowchart TD
 
 | 分类                  | 技术                                    |
 | --------------------- | --------------------------------------- |
-| 前端 Frontend         | HTML, CSS, Bootstrap, JavaScript        |
+| 前端 Frontend         | Astro, React, Bootstrap, TypeScript     |
 | 后端 Backend          | Flask (Python), OpenAI API              |
-| 服务器 Server         | Ubuntu, NGINX, Gunicorn + Gevent        |
-| 工具 Tools            | Git, Gitee, Markdown, Docker (optional) |
-| 页面架构 Architecture | 多页面静态网站 (MPA)                    |
+| 服务器 Server         | Ubuntu, Nginx, Gunicorn + Gevent        |
+| 部署 Deployment       | GitHub Actions 自动推送至 `/var/www/html` |
+| 页面架构 Architecture | 多页面静态站点 + React 岛屿            |
 
 ### 参考架构
 
@@ -137,12 +137,12 @@ Web Application Architecture
 ============================
 
 Frontend (
-   HTML + CSS + Bootstrap + JavaScript
+   Astro + React + Bootstrap
    - 负责用户界面和交互
 ) → Server (
    Ubuntu (操作系统)
    ↓
-   NGINX (反向代理和负载均衡)
+   Nginx (静态文件服务)
    ↓
    systemd 服务 (进程管理)
    ↓
@@ -156,13 +156,13 @@ Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[Web] --> B[Frontend: HTML, CSS, Bootstrap, JavaScript]
+    A[Web] --> B[Frontend: Astro + React + Bootstrap]
     A --> C[Server]
     B -->|负责用户界面和交互| C
 
     subgraph Server
         direction TB
-        D[Ubuntu: 操作系统] --> E[NGINX: 反向代理和负载均衡]
+        D[Ubuntu: 操作系统] --> E[Nginx: 静态服务]
         E --> F[systemd 服务: 进程管理]
         F --> G[Gunicorn + Gevent: WSGI 服务器]
         G --> H[Backend: Flask App: 处理业务逻辑和 API 请求]
@@ -177,23 +177,23 @@ flowchart TD
 
 > 具体操作请参考后端项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
 
-### **Nginx**
+### **Nginx & GitHub Actions**
 
-> 具体操作请参考 Nginx 项目：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+> 前端通过 GitHub Actions 构建后自动推送到服务器的 `/var/www/html` 目录，由 Nginx 提供静态服务。详见配置仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
 
 ---
 
 ## 使用说明 | Usage
 
-你可以直接访问各模块页面：
+部署完成后可直接访问各模块页面：
 
-- 🌐 [About Me / 关于我](https://www.rendazhang.com/index_english.html)
-- 🌐 [中文介绍页](https://www.rendazhang.com/index_chinese.html)
-- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat.html)
-- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications.html)
+- 🌐 [About Me / 关于我](https://www.rendazhang.com/about.en/)
+- 🌐 [中文介绍页](https://www.rendazhang.com/about.zh/)
+- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
+- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
 
 如果你想查看渲染后的技术文档页面，请访问：
-🌐 [www.rendazhang.com/docs.html](https://www.rendazhang.com/docs.html)
+🌐 [www.rendazhang.com/docs/](https://www.rendazhang.com/docs/)
 
 ---
 
@@ -218,13 +218,14 @@ pre-commit run --all-files
 
 ### 本地预览 | Local Preview
 
-想在本地查看静态页面效果，可在项目根目录运行一个简单的 HTTP 服务：
+开发环境启动：
 
 ```bash
-python3 -m http.server 8080
+npm install
+npm run dev
 ```
 
-然后访问 <http://localhost:8080> 即可。
+浏览器访问 `http://localhost:4321` 查看效果。构建后的静态文件可使用 `npm run preview` 验证。
 
 ---
 
