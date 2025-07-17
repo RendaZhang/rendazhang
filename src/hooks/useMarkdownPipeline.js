@@ -48,17 +48,17 @@ export function applyEnhancements(container) {
   renderMermaidDiagrams(container);
 }
 
-export default function useMarkdownPipeline(markdown, librariesLoaded) {
+export default function useMarkdownPipeline(markdown, enhance) {
   const ref = useRef(null);
 
   useEffect(() => {
     if (!ref.current) return;
     const html = window.DOMPurify.sanitize(window.marked.parse(markdown || ''));
     ref.current.innerHTML = html;
-    if (librariesLoaded) {
+    if (enhance) {
       applyEnhancements(ref.current);
     }
-  }, [markdown, librariesLoaded]);
+  }, [markdown, enhance]);
 
   return ref;
 }

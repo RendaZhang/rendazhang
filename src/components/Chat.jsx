@@ -270,15 +270,19 @@ export default function Chat() {
         ) : messages.length === 0 ? (
           <div className="info-text">会话已就绪，请输入消息开始对话</div>
         ) : (
-          messages.map((msg, idx) =>
-            msg.role === 'ai' ? (
-              <AIMessage key={idx} text={msg.content} librariesLoaded={librariesLoaded} />
-            ) : (
+          messages.map((msg, idx) => {
+            if (msg.role === 'ai') {
+              const streaming = isSending && idx === messages.length - 1;
+              return (
+                <AIMessage key={idx} text={msg.content} enhance={librariesLoaded && !streaming} />
+              );
+            }
+            return (
               <div key={idx} className="message user-message">
                 {msg.content}
               </div>
-            )
-          )
+            );
+          })
         )}
       </div>
       <div className="typing-indicator" id="typing-indicator" ref={typingIndicatorRef}>
@@ -332,10 +336,10 @@ export default function Chat() {
 }
 
 // AI message with copy button
-function AIMessage({ text, librariesLoaded }) {
+function AIMessage({ text, enhance }) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const contentRef = useMarkdownPipeline(text, librariesLoaded);
+  const contentRef = useMarkdownPipeline(text, enhance);
 
   const handleCopy = (e) => {
     e.stopPropagation();
