@@ -31,7 +31,6 @@ async function renderMermaidDiagrams(container) {
       pre.replaceWith(wrapper);
     } catch (err) {
       console.error('Mermaid render error:', err);
-      showHint('Mermaid 图表渲染失败');
     }
   }
 }
