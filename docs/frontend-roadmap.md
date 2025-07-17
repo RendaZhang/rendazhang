@@ -35,7 +35,9 @@
     - [封装服务层](#%E5%B0%81%E8%A3%85%E6%9C%8D%E5%8A%A1%E5%B1%82)
     - [集成到页面](#%E9%9B%86%E6%88%90%E5%88%B0%E9%A1%B5%E9%9D%A2)
     - [测试聊天功能](#%E6%B5%8B%E8%AF%95%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD)
-  - [阶段7：引入全局状态管理机制（按需）](#%E9%98%B6%E6%AE%B57%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E6%8C%89%E9%9C%80)
+  - [阶段 7：引入全局状态管理机制（按需）](#%E9%98%B6%E6%AE%B5-7%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E6%8C%89%E9%9C%80)
+    - [评估需求](#%E8%AF%84%E4%BC%B0%E9%9C%80%E6%B1%82)
+    - [**使用 Context 实现示例**](#%E4%BD%BF%E7%94%A8-context-%E5%AE%9E%E7%8E%B0%E7%A4%BA%E4%BE%8B)
   - [阶段8：全面测试与部署上线](#%E9%98%B6%E6%AE%B58%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
   - [阶段9：后续扩展计划（展望）](#%E9%98%B6%E6%AE%B59%E5%90%8E%E7%BB%AD%E6%89%A9%E5%B1%95%E8%AE%A1%E5%88%92%E5%B1%95%E6%9C%9B)
   - [总结](#%E6%80%BB%E7%BB%93)
@@ -526,63 +528,92 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 ---
 
-## 阶段7：引入全局状态管理机制（按需）
+## 阶段 7：引入全局状态管理机制（按需）
 
-**目的：**根据项目需要，评估并实现全局状态管理方案，确保当出现跨组件/跨页面共享状态需求时，新前端架构能够支持。初始阶段使用 React 内置的 Context 实现简单的全局状态，在项目扩展后再考虑引入更复杂的状态库（如 Zustand 或 Jotai）。
+根据项目需要，评估并实现全局状态管理方案，确保当出现跨组件 / 跨页面共享状态需求时，新前端架构能够支持。
 
-- **评估需求：**首先判断当前站点是否需要全局状态共享。例如：主题配色切换、用户登录信息、多语言切换偏好等。如果暂时没有明显的全局状态，可以跳过实际实现，仅搭建结构以备未来使用。
+初始阶段使用 React 内置的 Context 实现简单的全局状态，在项目扩展后再考虑引入更复杂的状态库（如 Zustand 或 Jotai）。
 
-- **使用 Context 实现示例：**如果需要共享状态（例如一个全局主题开关），可以用 React Context 提供器在 Astro 应用顶层包裹整个页面组件树。实现步骤：
-  1. 定义 Context：在 `src/context/ThemeContext.jsx` 中创建：
+### 评估需求
 
-     ```jsx
-     import { createContext, useContext, useState } from 'react';
-     const ThemeContext = createContext();
-     export const useTheme = () => useContext(ThemeContext);
-     export function ThemeProvider({ children }) {
-       const [darkMode, setDarkMode] = useState(false);
-       return (
-         <ThemeContext.Provider value={{ darkMode, toggle: () => setDarkMode((m) => !m) }}>
-           {children}
-         </ThemeContext.Provider>
-       );
-     }
-     ```
+首先判断当前站点是否需要全局状态共享。
 
-  2. 在 Astro 的主布局中引入并包裹内容：修改 `BaseLayout.astro`：
+例如：主题配色切换、用户登录信息、多语言切换偏好等。
 
-     ```astro
-     ---
-     import { ThemeProvider } from '../context/ThemeContext.jsx';
-     import NavBar from '../components/NavBar.astro';
-     ---
+如果暂时没有明显的全局状态，可以跳过实际实现，仅搭建结构以备未来使用。
 
-     <ThemeProvider>
-       <html>
-         <!-- ... -->
-         <body>
-           <NavBar />
-           <slot />
-         </body>
-       </html>
-     </ThemeProvider>
-     ```
+### **使用 Context 实现示例**
 
-     这样 `<NavBar>` 以及 `<slot>` 中的所有React岛屿组件都能访问 ThemeContext。
+如果需要共享状态（例如一个全局主题开关），可以用 React Context 提供器在 Astro 应用顶层包裹整个页面组件树。
 
-  3. 在需要的组件中使用 Context：例如在 NavBar 的 React 子组件里放一个切换按钮：
+实现步骤：
 
-     ```jsx
-     import { useTheme } from '../context/ThemeContext';
-     const { darkMode, toggle } = useTheme();
-     // 点击按钮调用 toggle() 切换 darkMode 状态
-     ```
+1. 定义 Context：在 `src/context/ThemeContext.jsx` 中创建：
 
-     并根据 `darkMode` 切换样式类或 `<body>` 的 class 实现主题切换。
+```jsx
+import { createContext, useContext, useState } from 'react';
+const ThemeContext = createContext();
+export const useTheme = () => useContext(ThemeContext);
+export function ThemeProvider({ children }) {
+  const [darkMode, setDarkMode] = useState(false);
+  return (
+    <ThemeContext.Provider value={{ darkMode, toggle: () => setDarkMode((m) => !m) }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+```
 
-- **注意 Astro 限制：**Astro 的岛屿架构下，**同一个** React 岛屿内可以使用 Context 在子组件间传递状态，但无法直接在**多个**不同岛屿间共享（除非将它们都包裹在同一个 Context 提供器内）。对于跨页面的状态持久，可以使用更底层的方法（例如将状态保存在 `localStorage`，或使用更适合多组件共享的状态库）。Astro 官方建议如需跨组件/页面共享客户端状态，可考虑使用 Nano Stores 等轻量状态库。但对于当前站点规模，React 的 Context 已足够使用。未来如果站点扩展、组件增多再评估引入 Zustand/Jotai 等，它们也可以通过在 Astro 中导入使用，全局的 store 单例能够被各岛屿访问，从而实现状态共享。
+2. 在 Astro 的主布局中引入并包裹内容：修改 `BaseLayout.astro`：
 
-- **测试点：**如果实现了示例的 ThemeContext，在页面上测试全局功能（如主题切换按钮）是否有效，各组件读取的状态是否同步更新。若当前不需要全局状态，则确保有清晰的方案说明，代码结构上已留出扩展空间（比如保留了 context 目录和相应示例），以便以后快速加入。经过这一阶段，新前端已经具备基本的**状态管理层**雏形。
+```astro
+---
+import { ThemeProvider } from '../context/ThemeContext.jsx';
+import NavBar from '../components/NavBar.astro';
+---
+
+<ThemeProvider>
+  <html>
+    <!-- ... -->
+    <body>
+      <NavBar />
+      <slot />
+    </body>
+  </html>
+</ThemeProvider>
+```
+
+这样 `<NavBar>` 以及 `<slot>` 中的所有React岛屿组件都能访问 ThemeContext。
+
+3. 在需要的组件中使用 Context：例如在 NavBar 的 React 子组件里放一个切换按钮：
+
+```jsx
+import { useTheme } from '../context/ThemeContext';
+const { darkMode, toggle } = useTheme();
+// 点击按钮调用 toggle() 切换 darkMode 状态
+```
+
+并根据 `darkMode` 切换样式类或 `<body>` 的 class 实现主题切换。
+
+**注意 Astro 限制：**
+
+Astro 的岛屿架构下，**同一个** React 岛屿内可以使用 Context 在子组件间传递状态，但无法直接在 **多个** 不同岛屿间共享（除非将它们都包裹在同一个 Context 提供器内）。
+
+对于跨页面的状态持久，可以使用更底层的方法（例如将状态保存在 `localStorage`，或使用更适合多组件共享的状态库）。
+
+Astro 官方建议如需跨组件/页面共享客户端状态，可考虑使用 Nano Stores 等轻量状态库。
+
+但对于当前站点规模，React 的 Context 已足够使用。
+
+未来如果站点扩展、组件增多再评估引入 Zustand/Jotai 等，它们也可以通过在 Astro 中导入使用，全局的 store 单例能够被各岛屿访问，从而实现状态共享。
+
+**测试点：**
+
+如果实现了示例的 ThemeContext，在页面上测试全局功能（如主题切换按钮）是否有效，各组件读取的状态是否同步更新。
+
+若当前不需要全局状态，则确保有清晰的方案说明，代码结构上已留出扩展空间（比如保留了 context 目录和相应示例），以便以后快速加入。
+
+经过这一阶段，新前端已经具备基本的 **状态管理层** 雏形。
 
 ---
 
