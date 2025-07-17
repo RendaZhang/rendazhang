@@ -6,8 +6,10 @@ import Chat from '../components/Chat.jsx';
 <BaseLayout>
   <head>
     <title>AI Chat</title>
-    <!-- 如果 BaseLayout 已有 <head>，可以在这里或布局中添加 -->
+    <!-- 核心样式提前加载，非关键资源后续由组件异步加载 -->
+    <link rel="preload" href="/css/deepseek_chat.min.css" as="style" />
     <link rel="stylesheet" href="/css/deepseek_chat.min.css" />
+    <link rel="preload" href="/css/github-markdown-light.min.css" as="style" />
     <link rel="stylesheet" href="/css/github-markdown-light.min.css" />
   </head>
   <body>

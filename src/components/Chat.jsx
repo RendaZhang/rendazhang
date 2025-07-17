@@ -267,7 +267,7 @@ export default function Chat() {
         {isLoading ? (
           <div id="loading-indicator" className="loading-indicator">
             <div className="spinner"></div>
-            <p>正在加载历史对话...</p>
+            <p>加载对话中...</p>
           </div>
         ) : messages.length === 0 ? (
           <div className="info-text">会话已就绪，请输入消息开始对话</div>
@@ -306,7 +306,7 @@ export default function Chat() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading || isSending}
-          placeholder={isLoading ? '正在加载历史对话，请稍候...' : '输入消息...'}
+          placeholder={isLoading ? '加载对话中，请稍候...' : '输入消息...'}
           rows="1"
           autoFocus
         ></textarea>
