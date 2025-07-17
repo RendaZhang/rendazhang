@@ -38,10 +38,12 @@ export default function Chat() {
     }));
 
     setMessages(loadedMessages);
-    setIsLoading(false);
 
-    // Load enhancement libraries asynchronously
+    // Load enhancement libraries asynchronously while history renders
     loadEnhancementLibraries();
+
+    // History rendered - allow user interaction
+    setIsLoading(false);
 
     // Scroll to bottom
     scrollToBottom();
