@@ -78,7 +78,7 @@
 ### BUG-002: highlight.js 与 Mermaid 冲突
 
 - **发现日期**：2025-07-18
-- **重现环境**：Chrome 115+, macOS Ventura
+- **重现环境**：Chrome 138.0.7204.101, Windows 11
 - **问题现象**：
   - 控制台出现 `WARN: Could not find the language 'mermaid'` 提示
 - **根本原因**：
@@ -86,6 +86,12 @@
 - **解决方案**：
   - 在高亮逻辑中忽略 `.language-mermaid` 区块
 - **验证结果**：✅ WARN 消失，Mermaid 渲染正常
+- **相关代码**：
+  ```jsx
+  document.querySelectorAll('pre code:not(.language-mermaid)').forEach(block => {
+    hljs.highlightElement(block);
+  });
+  ```
 
 ---
 
@@ -99,4 +105,5 @@
 
 这里是已经修复的 BUG
 
-- [x] BUG-001: Mermaid 图表渲染异常 (v1.0)
+- [x] BUG-001: Mermaid 图表渲染异常
+- [x] BUG-002: highlight.js 与 Mermaid 冲突
