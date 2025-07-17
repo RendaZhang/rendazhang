@@ -38,7 +38,11 @@
   - [阶段 7：引入全局状态管理机制（按需）](#%E9%98%B6%E6%AE%B5-7%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E6%8C%89%E9%9C%80)
     - [评估需求](#%E8%AF%84%E4%BC%B0%E9%9C%80%E6%B1%82)
     - [**使用 Context 实现示例**](#%E4%BD%BF%E7%94%A8-context-%E5%AE%9E%E7%8E%B0%E7%A4%BA%E4%BE%8B)
-  - [阶段8：全面测试与部署上线](#%E9%98%B6%E6%AE%B58%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
+  - [阶段 8：全面测试与部署上线](#%E9%98%B6%E6%AE%B5-8%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
+    - [本地全面测试](#%E6%9C%AC%E5%9C%B0%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95)
+    - [配置 GitHub Actions](#%E9%85%8D%E7%BD%AE-github-actions)
+    - [切换上线](#%E5%88%87%E6%8D%A2%E4%B8%8A%E7%BA%BF)
+    - [回归和优化](#%E5%9B%9E%E5%BD%92%E5%92%8C%E4%BC%98%E5%8C%96)
   - [阶段9：后续扩展计划（展望）](#%E9%98%B6%E6%AE%B59%E5%90%8E%E7%BB%AD%E6%89%A9%E5%B1%95%E8%AE%A1%E5%88%92%E5%B1%95%E6%9C%9B)
   - [总结](#%E6%80%BB%E7%BB%93)
 
@@ -47,7 +51,7 @@
 # 旧版前端到 Astro+React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 16, 2025, 18:00 (UTC+8)
+- **最后更新**: July 17, 2025, 23:20 (UTC+8)
 
 ---
 
@@ -617,60 +621,108 @@ Astro 官方建议如需跨组件/页面共享客户端状态，可考虑使用 
 
 ---
 
-## 阶段8：全面测试与部署上线
+## 阶段 8：全面测试与部署上线
 
-**目的：**对升级后的前端进行完整的功能和性能测试，确保与旧版一致或有所改进；然后建立自动化部署流程，将新站点发布到生产服务器的 `/var/www/html` 下并切换服务。
+对升级后的前端进行完整的功能和性能测试，确保与旧版一致或有所改进；然后建立自动化部署流程，将新站点发布到生产服务器的 `/var/www/html` 下并切换服务。
 
-- **本地全面测试：**在完成上述所有页面迁移和功能实现后，使用 Astro 提供的静态构建进行一次完整测试：
+### 本地全面测试
+
+在完成上述所有页面迁移和功能实现后，使用 Astro 提供的静态构建进行一次完整测试：
 
   ```bash
   npm run build   # 生产环境构建静态文件
   npm run preview # 本地预览构建结果
   ```
 
-  逐页检查构建后的站点：所有页面内容是否正确、链接是否通畅、样式是否完整加载、交互功能是否正常（特别是聊天页面的动态行为）。对比旧版网站，确保无遗漏功能。**注意：**由于我们切换了部署目录，过去可能存在的路径差异需要验证：例如旧版部署在 `/var/www/rendazhang` 下，新版直接在根 `/var/www/html`。检查站内链接是否有依赖旧目录的情况，如有应改为相对链接或根路径。
+逐页检查构建后的站点：所有页面内容是否正确、链接是否通畅、样式是否完整加载、交互功能是否正常（特别是聊天页面的动态行为）。
 
-- **性能与兼容性：**验证页面在主流浏览器中的显示。Astro+Vite 已自动优化打包体积和性能，观察网页加载速度是否有提升。由于Astro默认进行了代码分割和部分水合，最终网站的前端资源加载更少的JS，提高性能。这些都是新的改进点。
+对比旧版网站，确保无遗漏功能。
 
-- **部署前备份：**在正式替换站点前，备份旧版前端文件（如将 `/var/www/rendazhang` 内容打包保存），以便必要时快速回滚。更新 Nginx 配置，使站点根目录指向 `/var/www/html`（如果之前未改动，则 Nginx 默认就是此目录）。确认 Nginx 权限和配置允许服务新的静态文件（MIME 类型等一般默认OK）。
+**注意：**
 
-- **配置 GitHub Actions：**编写 CI/CD 工作流文件，实现代码变更自动部署：
-  1. 在项目仓库中添加服务器部署所需的机密信息（Secrets），例如：`SERVER_IP`（服务器 IP或域名）、`SSH_USER`（SSH 用户名，如 root）、以及 `SSH_KEY`（用于登录服务器的私钥，建议用 Base64 或直接粘贴PEM内容）等。
-  2. 在仓库中新建 `.github/workflows/deploy.yml`，填写自动化流程，例如：
+由于我们切换了部署目录，过去可能存在的路径差异需要验证：例如旧版部署在 `/var/www/rendazhang` 下，新版直接在根 `/var/www/html`。
 
-     ```yaml
-     name: Build and Deploy to Server
-     on: [push] # 推送代码时触发（可限定分支）
-     jobs:
-       deploy:
-         runs-on: ubuntu-latest
-         steps:
-           - uses: actions/checkout@v3
-           - uses: actions/setup-node@v3
-             with: { node-version: 18 }
-           - run: npm ci && npm run build # 安装依赖并构建
-           - name: Deploy to Nginx server
-             run: |
-               sudo apt-get update && sudo apt-get install -y sshpass
-               sshpass -p "$SERVER_PASS" rsync -avz --delete dist/ ${SSH_USER}@${SERVER_IP}:/var/www/html
-             env:
-               SERVER_IP: ${{ secrets.SERVER_IP }}
-               SERVER_PASS: ${{ secrets.SERVER_PASS }}
-               SSH_USER: ${{ secrets.SSH_USER }}
-     ```
+检查站内链接是否有依赖旧目录的情况，如有应改为相对链接或根路径。
 
-     上述例子使用 `rsync` 部署构建产物（需在服务器上预先安装 rsync）。也可以使用现成的 GitHub Action，如 `appleboy/scp-action` 来通过 SCP 上传文件。关键是将 `dist/` 内的静态文件同步到 `/var/www/html` 目录。部署步骤要包含添加 SSH 密钥到 agent、将主机加入 known_hosts 等操作。
+**性能与兼容性：**
 
-  3. 将 workflow 推送到仓库后，在 GitHub Actions 面板观察执行过程，确保构建和上传步骤成功完成。第一次运行可以先在非业务时间触发，避免影响用户。
+验证页面在主流浏览器中的显示。
 
-- **切换上线：**如果之前 Nginx 一直指向 `/var/www/rendazhang`，此时可以修改 Nginx 配置的站点根为 `/var/www/html` 并重载配置（或如果已经这么做且 old 文件未删除，则直接用新文件覆盖旧目录）。由于我们部署文件直接到 `/var/www/html`，一旦操作完成，新版本站点即开始对外服务。
-  - 访问生产环境域名，逐页检查新站点是否正常运行。特别关注静态资源加载（检查 Nginx 日志或浏览器网络面板，看是否有 404）、页面跳转是否正确。
-  - 检查 AI 聊天功能在生产环境能否调用后端成功（可能需要后端同样配置CORS或接口地址正确）。
-  - 监控服务器资源占用：Astro 站点完全静态，1GB 内存的小型服务器应能够轻松应对，只需保证 Nginx 进程正常。由于不再需要 Node.js 在服务器上运行，内存占用将较低，“只有静态 JS 文件”的部署模式可以充分利用服务器资源。
+Astro+Vite 已自动优化打包体积和性能，观察网页加载速度是否有提升。
 
-- **回归和优化：**让一些试用用户或团队成员访问新站点，收集反馈。如果发现任何问题，及时修复后通过 GitHub Actions 部署更新。如果问题严重，可迅速回滚（将备份的旧版文件恢复到 `/var/www/html` 或切回旧目录并改Nginx配置）。但理想情况下，通过前面的分步测试，新版应平稳替代旧版。
+由于Astro默认进行了代码分割和部分水合，最终网站的前端资源加载更少的JS，提高性能。
 
-**测试点：**最终在生产环境验证新前端一切正常。至此，渐进式升级完成——旧的手工部署流程被 CI/CD 自动化取代，新架构在性能和可维护性上都有提升，站点仍以纯静态文件形式提供服务，符合最初预期。
+这些都是新的改进点。
+
+**部署前备份：**
+
+在正式替换站点前，备份旧版前端文件（如将 `/var/www/rendazhang` 内容打包保存），以便必要时快速回滚。
+
+更新 Nginx 配置，使站点根目录指向 `/var/www/html`（如果之前未改动，则 Nginx 默认就是此目录）。
+
+确认 Nginx 权限和配置允许服务新的静态文件（MIME 类型等一般默认OK）。
+
+### 配置 GitHub Actions
+
+编写 CI/CD 工作流文件，实现代码变更自动部署：
+
+1. 在项目仓库中添加服务器部署所需的机密信息（Secrets），例如：`SERVER_IP`（服务器 IP或域名）、`SSH_USER`（SSH 用户名，如 root）、以及 `SSH_KEY`（用于登录服务器的私钥，建议用 Base64 或直接粘贴PEM内容）等。
+
+2. 在仓库中新建 `.github/workflows/deploy.yml`，填写自动化流程，例如：
+
+```yaml
+name: Build and Deploy to Server
+on: [push] # 推送代码时触发（可限定分支）
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: { node-version: 18 }
+      - run: npm ci && npm run build # 安装依赖并构建
+      - name: Deploy to Nginx server
+        run: |
+          sudo apt-get update && sudo apt-get install -y sshpass
+          sshpass -p "$SERVER_PASS" rsync -avz --delete dist/ ${SSH_USER}@${SERVER_IP}:/var/www/html
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_PASS: ${{ secrets.SERVER_PASS }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+```
+
+- 上述例子使用 `rsync` 部署构建产物（需在服务器上预先安装 rsync）。
+- 也可以使用现成的 GitHub Action，如 `appleboy/scp-action` 来通过 SCP 上传文件。
+- 关键是将 `dist/` 内的静态文件同步到 `/var/www/html` 目录。
+- 部署步骤要包含添加 SSH 密钥到 agent、将主机加入 known_hosts 等操作。
+
+3. 将 workflow 推送到仓库后，在 GitHub Actions 面板观察执行过程，确保构建和上传步骤成功完成。第一次运行可以先在非业务时间触发，避免影响用户。
+
+### 切换上线
+
+如果之前 Nginx 一直指向 `/var/www/rendazhang`，此时可以修改 Nginx 配置的站点根为 `/var/www/html` 并重载配置（或如果已经这么做且 old 文件未删除，则直接用新文件覆盖旧目录）。
+
+由于我们部署文件直接到 `/var/www/html`，一旦操作完成，新版本站点即开始对外服务。
+
+- 访问生产环境域名，逐页检查新站点是否正常运行。特别关注静态资源加载（检查 Nginx 日志或浏览器网络面板，看是否有 404）、页面跳转是否正确。
+- 检查 AI 聊天功能在生产环境能否调用后端成功（可能需要后端同样配置CORS或接口地址正确）。
+- 监控服务器资源占用：Astro 站点完全静态，1GB 内存的小型服务器应能够轻松应对，只需保证 Nginx 进程正常。由于不再需要 Node.js 在服务器上运行，内存占用将较低，“只有静态 JS 文件”的部署模式可以充分利用服务器资源。
+
+### 回归和优化
+
+让一些试用用户或团队成员访问新站点，收集反馈。
+
+如果发现任何问题，及时修复后通过 GitHub Actions 部署更新。
+
+如果问题严重，可迅速回滚（将备份的旧版文件恢复到 `/var/www/html` 或切回旧目录并改Nginx配置）。
+
+但理想情况下，通过前面的分步测试，新版应平稳替代旧版。
+
+**测试点：**
+
+最终在生产环境验证新前端一切正常。
+
+至此，渐进式升级完成——旧的手工部署流程被 CI/CD 自动化取代，新架构在性能和可维护性上都有提升，站点仍以纯静态文件形式提供服务，符合最初预期。
 
 ---
 
