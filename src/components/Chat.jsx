@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+// Core libraries will be loaded dynamically to allow graceful fallback
+// if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
 
 const STORAGE_KEY = 'deepseek_chat_history';
@@ -16,13 +16,21 @@ export default function Chat() {
   const [librariesLoaded, setLibrariesLoaded] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false); // New: for progress indicator
   const [enhancementFailed, setEnhancementFailed] = useState(false); // New: for failure state
+  const [coreLoaded, setCoreLoaded] = useState(false); // core libs ready
+  const [coreLoadError, setCoreLoadError] = useState(false); // core libs failed
   const chatContainerRef = useRef(null);
   const messageInputRef = useRef(null);
   const typingIndicatorRef = useRef(null);
   const enhancementProgressRef = useRef(null); // New: ref for progress div
 
-  // Load history from localStorage
+  // Load core markdown libraries first
   useEffect(() => {
+    loadCoreLibraries();
+  }, []);
+
+  // Load history from localStorage after core libs are ready
+  useEffect(() => {
+    if (!coreLoaded) return;
     let conversationHistory = [];
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -34,7 +42,10 @@ export default function Chat() {
     const loadedMessages = conversationHistory.map((msg) => ({
       role: msg.role === 'assistant' ? 'ai' : 'user',
       content: msg.content,
-      html: msg.role === 'assistant' ? DOMPurify.sanitize(marked.parse(msg.content)) : msg.content
+      html:
+        msg.role === 'assistant'
+          ? window.DOMPurify.sanitize(window.marked.parse(msg.content))
+          : msg.content
     }));
 
     setMessages(loadedMessages);
@@ -47,7 +58,7 @@ export default function Chat() {
 
     // Scroll to bottom
     scrollToBottom();
-  }, []);
+  }, [coreLoaded]);
 
   // Auto-adjust textarea height
   useEffect(() => {
@@ -70,6 +81,22 @@ export default function Chat() {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+  };
+
+  const loadCoreLibraries = () => {
+    Promise.all([loadScript('/js/marked.min.js', 10000), loadScript('/js/purify.min.js', 10000)])
+      .then(() => {
+        if (window.marked && window.DOMPurify) {
+          setCoreLoaded(true);
+        } else {
+          throw new Error('Core libraries missing');
+        }
+      })
+      .catch((error) => {
+        console.error('Core libraries loading failed:', error);
+        setCoreLoadError(true);
+        setIsLoading(false);
+      });
   };
 
   const loadEnhancementLibraries = () => {
@@ -180,7 +207,7 @@ export default function Chat() {
     const newMessage = {
       role,
       content,
-      html: role === 'ai' ? DOMPurify.sanitize(marked.parse(content)) : content
+      html: role === 'ai' ? window.DOMPurify.sanitize(window.marked.parse(content)) : content
     };
     setMessages((prev) => [...prev, newMessage]);
     scrollToBottom();
@@ -195,7 +222,7 @@ export default function Chat() {
 
   const handleSend = async () => {
     const message = input.trim();
-    if (!message) return;
+    if (!message || coreLoadError || !coreLoaded) return;
 
     addMessage('user', message);
     setInput('');
@@ -266,7 +293,11 @@ export default function Chat() {
         <h1>AI Chat</h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
-        {isLoading ? (
+        {coreLoadError ? (
+          <div id="loading-indicator" className="loading-indicator">
+            <p>核心资源加载失败，请刷新重试</p>
+          </div>
+        ) : isLoading ? (
           <div id="loading-indicator" className="loading-indicator">
             <div className="spinner"></div>
             <p>加载对话中...</p>
@@ -307,16 +338,26 @@ export default function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          disabled={isLoading || isSending}
-          placeholder={isLoading ? '加载对话中，请稍候...' : '输入消息...'}
+          disabled={isLoading || isSending || coreLoadError}
+          placeholder={
+            isLoading ? '加载对话中，请稍候...' : coreLoadError ? '核心资源加载失败' : '输入消息...'
+          }
           rows="1"
           autoFocus
         ></textarea>
         <div className="btn-container">
-          <button id="send-btn" onClick={handleSend} disabled={isLoading || isSending}>
+          <button
+            id="send-btn"
+            onClick={handleSend}
+            disabled={isLoading || isSending || coreLoadError}
+          >
             发送
           </button>
-          <button id="reset-btn" onClick={handleReset} disabled={isLoading || isSending}>
+          <button
+            id="reset-btn"
+            onClick={handleReset}
+            disabled={isLoading || isSending || coreLoadError}
+          >
             重置会话
           </button>
         </div>

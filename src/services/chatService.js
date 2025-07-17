@@ -1,5 +1,4 @@
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+// Markdown libraries expected to be loaded globally
 
 export async function sendMessageToAI(userInput, onChunkCallback) {
   try {
@@ -32,8 +31,8 @@ export async function sendMessageToAI(userInput, onChunkCallback) {
           if (data.text) {
             aiMessage += data.text;
             // Parse Markdown and sanitize HTML
-            const parsed = marked.parse(aiMessage);
-            const sanitized = DOMPurify.sanitize(parsed);
+            const parsed = window.marked.parse(aiMessage);
+            const sanitized = window.DOMPurify.sanitize(parsed);
             // Call callback with updated sanitized HTML
             if (onChunkCallback) {
               onChunkCallback(sanitized);
