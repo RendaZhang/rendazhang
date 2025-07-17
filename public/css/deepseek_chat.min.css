@@ -169,6 +169,11 @@ button:active {
     transform: translateY(0);
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 #reset-btn {
     background: #f8fafc;
     color: #64748b;
