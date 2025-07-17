@@ -1,16 +1,20 @@
 ---
 // BaseLayout.astro
-import NavBar from '../components/NavBar.astro'; /* 假设稍后会创建导航栏组件 */
+import NavBar from '../components/NavBar.astro';
+import { ThemeProvider } from '../context/ThemeContext.jsx';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <NavBar />
-    <slot />
-    <!-- 页面主体内容插槽 -->
-  </body>
-</html>
+<ThemeProvider client:load>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/css/theme.css" />
+    </head>
+    <body>
+      <NavBar />
+      <slot />
+      <!-- 页面主体内容插槽 -->
+    </body>
+  </html>
+</ThemeProvider>
