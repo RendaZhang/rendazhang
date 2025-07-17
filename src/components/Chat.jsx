@@ -55,10 +55,14 @@ export default function Chat() {
     }
   }, [input]);
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom and enhance latest AI message when messages change
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+    if (librariesLoaded) {
+      const lastDiv = chatContainerRef.current?.querySelector('.ai-message:last-child div');
+      if (lastDiv) applyEnhancements(lastDiv);
+    }
+  }, [messages, librariesLoaded]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
