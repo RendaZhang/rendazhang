@@ -124,13 +124,15 @@ export default function Chat() {
   }, [input]);
 
   // Scroll to bottom and enhance latest AI message when messages change
+  // Skip enhancement while streaming so Mermaid is rendered only once after
+  // the full message has been received.
   useEffect(() => {
     scrollToBottom();
-    if (librariesLoaded) {
+    if (librariesLoaded && !isSending) {
       const lastDiv = chatContainerRef.current?.querySelector('.ai-message:last-child div');
       if (lastDiv) applyEnhancements(lastDiv);
     }
-  }, [messages, librariesLoaded]);
+  }, [messages, librariesLoaded, isSending]);
 
   useEffect(() => {
     if (enhancementFailed) {
@@ -435,12 +437,11 @@ function AIMessage({ html, text }) {
   };
   const handleClick = () => setShowBtn(true);
 
-  // Modified the AIMessage component to maintain rendered content in a ref,
-  // applying mermaid processing after each HTML update so diagrams remain visible
+  // Keep rendered HTML in a ref. Mermaid and syntax highlighting are applied
+  // after streaming completes by the parent component.
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.innerHTML = html;
-      applyEnhancements(contentRef.current);
     }
   }, [html]);
 
