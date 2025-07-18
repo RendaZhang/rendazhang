@@ -3,9 +3,9 @@
 
 - [项目需求清单](#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
   - [简介](#%E7%AE%80%E4%BB%8B)
-  - [🚀 核心功能](#%F0%9F%9A%80-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD)
-  - [🔧 技术需求](#%F0%9F%94%A7-%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82)
-  - [🌱 未来计划](#%F0%9F%8C%B1-%E6%9C%AA%E6%9D%A5%E8%AE%A1%E5%88%92)
+  - [🚀 核心功能](#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD)
+  - [🔧 技术需求](#-%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82)
+  - [🌱 未来计划](#-%E6%9C%AA%E6%9D%A5%E8%AE%A1%E5%88%92)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -41,7 +41,7 @@
 
 - [x] GitHub Actions 自动部署到服务器
 - [x] pre-commit 钩子（ESLint、Prettier、Astro Check 等）
-- [ ] 让 `public/` 目录下的 `README.md` 文件和 根目录下的 `README.md` 文件自动同步（使用 precommit 钩子的方式？）
+- [ ] 让 `public/` 目录下的 `README.md` 文件和 根目录下的 `README.md` 文件自动同步
 - [ ] 引入端到端测试，确保主要页面稳定
 
 ---

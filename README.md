@@ -3,18 +3,19 @@
 
 - [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
-  - [本地开发与预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E4%B8%8E%E9%A2%84%E8%A7%88)
+  - [部署与开发](#%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%BC%80%E5%8F%91)
+    - [前端](#%E5%89%8D%E7%AB%AF)
+      - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
+      - [GitHub Actions 自动部署](#github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2)
+      - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
     - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
-    - [前端](#%E5%89%8D%E7%AB%AF)
-    - [GitHub Actions 自动部署](#github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2)
   - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
   - [页面功能](#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD)
   - [页面跳转逻辑](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E9%80%BB%E8%BE%91)
   - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
-  - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 License](#-license)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -32,33 +33,27 @@
 
 这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。
 
-该站点现已依据 📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92) 迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx。
-
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
----
-
-## 本地开发与预览
-
-### **后端**
-
-> 具体部署请参考后端项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
-
-### **Nginx 服务器**
-
-> 前端通过 GitHub Actions 构建后自动推送到服务器的 `/var/www/html` 目录，由 Nginx 提供静态服务。
-
-> 其它配置详情和操作请查看 Nginx 仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+> 如果需要使用重量级的方案部署网站相关的资源，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
 
 ---
+
+## 部署与开发
 
 ### 前端
 
 本仓库就是前端项目：📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
+前端现已依据 📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92) 迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx 相关的目录下。
+
 前端相关的开发 BUG 记录：📄 [前端 BUG 跟踪数据库](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
 
 开发环境准备可以参考文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
+
+项目需求请参考文档内容：📄 [项目需求清单](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
+
+#### 本地开发和预览
 
 1. 安装依赖并启用 pre-commit：
 
@@ -83,7 +78,7 @@
 
 浏览器访问 `http://localhost:4321` 查看效果。构建后的静态文件可使用 `npm run preview` 验证。
 
-### GitHub Actions 自动部署
+#### GitHub Actions 自动部署
 
 Push 到 `master` 分支会触发 GitHub Actions：
 
@@ -93,6 +88,28 @@ Push 到 `master` 分支会触发 GitHub Actions：
 4. 部署完成后即可通过 Nginx 提供服务
 
 需要在仓库 Secrets 中配置服务器 IP、SSH 用户和私钥等信息。详情见 📄 [配置 GitHub Actions](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E9%85%8D%E7%BD%AE-github-actions)。
+
+#### 使用说明
+
+部署完成后可直接访问各模块页面：
+
+- 🌐 [About Me in Chinese / 中文介绍页](https://www.rendazhang.com/about.zh/)
+- 🌐 [About Me in English / 英文介绍页](https://www.rendazhang.com/about.en/)
+- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
+- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
+- 🌐 [渲染后的技术文档页面（基于本文档）](https://www.rendazhang.com/docs/)
+
+### **后端**
+
+> 具体部署请参考后端项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
+
+### **Nginx 服务器**
+
+> 前端通过 GitHub Actions 构建后自动推送到服务器的 `/var/www/html` 目录，由 Nginx 提供静态服务。
+
+> 其它配置详情和操作请查看 Nginx 仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+
+> 如果想使用重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
 
 ---
 
@@ -220,18 +237,6 @@ flowchart TD
         G --> H[Backend: Flask App: 处理业务逻辑和 API 请求]
     end
 ```
-
----
-
-## 使用说明
-
-部署完成后可直接访问各模块页面：
-
-- 🌐 [About Me in Chinese / 中文介绍页](https://www.rendazhang.com/about.zh/)
-- 🌐 [About Me in English / 英文介绍页](https://www.rendazhang.com/about.en/)
-- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
-- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
-- 🌐 [渲染后的技术文档页面（基于本文档）](https://www.rendazhang.com/docs/)
 
 ---
 
