@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- Main Homepage -->
@@ -37,6 +38,9 @@
   <!-- About Me Chinese Version -->
   <url>
     <loc>https://www.rendazhang.com/about.zh/</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about.en/" />
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <lastmod>2025-07-18</lastmod>
@@ -45,6 +49,9 @@
   <!-- About Me English Version -->
   <url>
     <loc>https://www.rendazhang.com/about.en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about.en/" />
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <lastmod>2025-07-18</lastmod>

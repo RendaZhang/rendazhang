@@ -39,6 +39,8 @@
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
+本网站已进行 SEO / GEO 优化：站点地图、robots.txt、地理 meta 标签等等。
+
 > 如果需要使用重量级的方案部署网站相关的资源，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
 
 ---
@@ -154,16 +156,16 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 #### 网站功能
 
-- 💬 与 AI 在线对话
-- 📱 自适应布局 (移动端和桌面端)
-- 💤 图片懒加载
-- 🎖️ 证书展示
-- 📝 简历展示和下载 (English & 中文，PDF 格式)
-- 📂 项目展示
-- ✉️ 联系表单
-- 🎵 背景音乐播放开关
-- 💻 技术文档展示页 (docs/)
-- 🔗 内容平台链接
+- 与 AI 在线对话
+- 自适应布局 (移动端和桌面端)
+- 图片懒加载
+- 证书展示
+- 简历展示和下载 (English & 中文，PDF 格式)
+- 项目展示
+- 联系表单
+- 背景音乐播放开关
+- 技术文档展示页 (docs/)
+- 内容平台链接
 
 #### 页面功能
 
