@@ -260,7 +260,7 @@ export default function Chat() {
     <div className="container">
       <header>
         {!embedded && (
-          <button id="back-button" onClick={() => (window.location.href = './index.html')}>
+          <button id="back-button" onClick={() => (window.location.href = '/')}>
             ← Back
           </button>
         )}
