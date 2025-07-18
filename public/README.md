@@ -175,7 +175,7 @@ Push 到 `master` 分支会触发 GitHub Actions：
 - `about.zh.astro`：中文版主页，展示个人信息、技能与联系方式。
 - `about.en.astro`：英文版主页，内容与中文版对应。
 - `certifications.astro`：证书列表页。
-- `deepseek_chat.astro`：AI 聊天界面。
+- `deepseek_chat.astro`：AI 聊天界面，新增 SEO 元信息提升搜索表现。
 
 其他页面：
 
