@@ -30,6 +30,15 @@ repos:
       - id: check-json
       - id: check-case-conflict
 
+  # 自动生成文档目录
+  - repo: local
+    hooks:
+      - id: doctoc
+        name: Generate TOC
+        entry: scripts/run_doctoc.sh
+        language: script
+        pass_filenames: false
+
   # 同步 README 文件
   - repo: local
     hooks:
