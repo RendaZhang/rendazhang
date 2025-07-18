@@ -41,7 +41,7 @@
 
 - [x] GitHub Actions 自动部署到服务器
 - [x] pre-commit 钩子（ESLint、Prettier、Astro Check 等）
-- [ ] 让 `public/` 目录下的 `README.md` 文件和 根目录下的 `README.md` 文件自动同步
+- [x] 让 根目录下的 `README.md` 文件 自动 覆盖 `public/` 目录下的 `README.md` 文件
 - [ ] 引入端到端测试，确保主要页面稳定
 
 ---

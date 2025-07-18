@@ -30,6 +30,16 @@ repos:
       - id: check-json
       - id: check-case-conflict
 
+  # 同步 README 文件
+  - repo: local
+    hooks:
+      - id: sync-readme
+        name: Sync README to public
+        entry: python scripts/sync_readme.py
+        language: python
+        pass_filenames: false
+        always_run: true
+
   # Astro 本地检查
   - repo: local
     hooks:

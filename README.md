@@ -16,6 +16,10 @@
       - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
     - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
+  - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
+    - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
+    - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
+    - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 License](#-license)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -25,7 +29,7 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 18, 2025, 17:10 (UTC+8)
+- **最后更新**: July 18, 2025, 18:20 (UTC+8)
 
 ---
 
@@ -99,14 +103,6 @@ flowchart TD
 ### 前端
 
 本仓库就是前端项目：📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
-
-前端现已依据 📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92) 迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx 相关的目录下。
-
-前端相关的开发 BUG 记录：📄 [前端 BUG 跟踪数据库](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
-
-开发环境准备可以参考文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
-
-项目需求请参考文档内容：📄 [项目需求清单](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
 
 #### 本地开发和预览
 
@@ -234,21 +230,46 @@ flowchart TD
 
 ---
 
+## 文档说明
+
+### BUG 记录
+
+前端相关的开发 BUG 记录：📄 [前端 BUG 跟踪数据库](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
+
+### 开发需求
+
+项目需求请参考文档内容：📄 [项目需求清单](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
+
+
+### 原生到 Astro + React 升级
+
+前端现已迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx 相关的目录下。
+
+具体操作请参考文档内容：📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
+
+开发环境准备可以参考文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
+
+---
+
 ## 🤝 贡献指南
 
 - Fork & clone this repo.
+- 进入虚拟环境：
+   ```bash
+   # 如果还没安装虚拟环境，执行命令：python -m venv venv
+   source venv/bin/activate
+   ```
 - 安装依赖并启用 **pre-commit**:
-
-```bash
-pip install pre-commit
-pre-commit install
-```
-
-- 在每次提交前，钩子会自动运行。你也可以手动触发：
-
-```bash
-pre-commit run --all-files
-```
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+- 在每次提交前，钩子会自动运行，并将根目录的 README 同步到 `public/README.md`。
+- 你也可以手动触发：
+   ```bash
+   # cp README.md public/README.md && git add public/README.md
+   pre-commit run --all-files
+   ```
 
 > ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR。
 
@@ -262,9 +283,7 @@ pre-commit run --all-files
 
 ## 📬 联系方式
 
-- 联系人：张人大（Renda Zhang）
-- 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
-- 📄 English Resume: [Resume PDF Version](https://www.rendazhang.com/images/Resume_RendaZhang.pdf)
-- 📄 中文简历: [个人简历 PDF 格式](https://www.rendazhang.com/images/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86_%E5%BC%A0%E4%BA%BA%E5%A4%A7.pdf)
+* 联系人：张人大（Renda Zhang）
+* 📧 邮箱：[952402967@qq.com](mailto:952402967@qq.com)
 
 > ⏰ **Maintainer**：@Renda — 如果本项目对你有帮助，请不要忘了点亮 ⭐️ Star 支持我们！
