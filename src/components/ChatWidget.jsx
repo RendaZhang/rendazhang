@@ -43,8 +43,8 @@ export default function ChatWidget({ defaultOpen = false }) {
           )}
         </div>
       )}
-      <button className="chat-widget-toggle" onClick={toggle} aria-label="Toggle Chat">
-        {open ? '×' : 'Chat'}
+      <button className="chat-widget-toggle" onClick={toggle} aria-label="Toggle Assistant">
+        {open ? 'x' : 'AI助理'}
       </button>
     </>
   );

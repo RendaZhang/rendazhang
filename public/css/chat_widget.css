@@ -8,10 +8,15 @@
   border: none;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 9999;
+  padding: 0%;
 }
 
 .chat-widget-panel {

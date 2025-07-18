@@ -25,12 +25,19 @@ export default function Chat() {
   const enhancementProgressRef = useRef(null); // New: ref for progress div
   const loadedScriptsRef = useRef(new Map());
   const coreLoadAttemptedRef = useRef(false);
+  const [embedded, setEmbedded] = useState(false);
 
   // Load core markdown libraries first (ensure single execution even in React Strict Mode)
   useEffect(() => {
     if (coreLoadAttemptedRef.current) return;
     coreLoadAttemptedRef.current = true;
     loadCoreLibraries();
+  }, []);
+
+  useEffect(() => {
+    if (window.self !== window.top) {
+      setEmbedded(true);
+    }
   }, []);
 
   // Load history from localStorage after core libs are ready
@@ -252,9 +259,11 @@ export default function Chat() {
   return (
     <div className="container">
       <header>
-        <button id="back-button" onClick={() => (window.location.href = './index.html')}>
-          ← Back
-        </button>
+        {!embedded && (
+          <button id="back-button" onClick={() => (window.location.href = './index.html')}>
+            ← Back
+          </button>
+        )}
         <h1>AI Chat</h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
