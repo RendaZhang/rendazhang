@@ -24,7 +24,7 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 18, 2025, 03:00 (UTC+8)
+- **最后更新**: July 18, 2025, 14:30 (UTC+8)
 
 ---
 
@@ -32,7 +32,7 @@
 
 这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。
 
-该站点现已依据 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92) 迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx。
+该站点现已依据 📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NativeToAstroReactUpgrade.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92) 迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx。
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
@@ -99,15 +99,13 @@ Push 到 `master` 分支会触发 GitHub Actions：
 ## 网站功能
 
 - 💬 与 AI 在线对话
-- 🖼️ 文本到图像生成功能（出于成本原因，暂时关闭）
 - 📱 自适应布局 (移动端和桌面端)
 - 💤 图片懒加载
 - 🎖️ 证书展示
 - 📝 简历展示和下载 (English & 中文，PDF 格式)
 - 📂 项目展示
-- ✉️ 联系表单 (通过 Formspree)
+- ✉️ 联系表单
 - 🎵 背景音乐播放开关
-- 🌏 多语言支持 (英文 + 中文)
 - 💻 技术文档展示页 (docs/)
 - 🔗 内容平台链接
 
@@ -126,8 +124,6 @@ Push 到 `master` 分支会触发 GitHub Actions：
 其他页面：
 
 - `404.html`，`50x.html`：错误提示页面。
-- `image_generation.html`：文本转图片功能页（目前已关闭）。
-- `chat.html`，`gpt_chat_companion.html`：旧版聊天界面（备用）。
 
 ---
 
@@ -141,7 +137,7 @@ Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[index.astro 入口页] -->|关于我| B[about.zh.astro 中文主页]
+    A[index 主页] -->|关于我| B[about.zh.astro 中文主页]
     A -->|About Me| C[about.en.astro 英文主页]
     A -->|Chat with AI| D[deepseek_chat.astro 聊天页]
     A -->|证书| E[certifications.astro 证书页]
@@ -152,18 +148,12 @@ flowchart TD
     C -->|Chat with AI| D
     D -->|返回首页| A
     E -->|返回首页| A
-    F[chat.html 聊天页（备用）] -->|返回首页| A
-    G[gpt_chat_companion.html 聊天页（备用）] -->|返回首页| A
-    H[image_generation.html 图片生成（暂时无法使用）] -->|返回首页| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#f9f,stroke:#333
     style D fill:#ff9,stroke:#333
     style E fill:#99f,stroke:#333
-    style F fill:#ccc,stroke:#333
-    style G fill:#ccc,stroke:#333
-    style H fill:#ccc,stroke:#333
 ```
 
 ---
@@ -174,7 +164,6 @@ flowchart TD
 - `about.zh.astro`、`about.en.astro`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.astro`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
-- `image_generation.html`：包含文本输入框与生成按钮，展示生成的图片。
 - `404.html / 50x.html`：简单文本提示页面。
 
 ---
@@ -238,13 +227,11 @@ flowchart TD
 
 部署完成后可直接访问各模块页面：
 
-- 🌐 [About Me / 关于我](https://www.rendazhang.com/about.en/)
-- 🌐 [中文介绍页](https://www.rendazhang.com/about.zh/)
+- 🌐 [About Me in Chinese / 中文介绍页](https://www.rendazhang.com/about.zh/)
+- 🌐 [About Me in English / 英文介绍页](https://www.rendazhang.com/about.en/)
 - 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
 - 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
-
-如果你想查看渲染后的技术文档页面，请访问：
-🌐 [www.rendazhang.com/docs/](https://www.rendazhang.com/docs/)
+- 🌐 [渲染后的技术文档页面（基于本文档）](https://www.rendazhang.com/docs/)
 
 ---
 
@@ -254,8 +241,7 @@ flowchart TD
 - 安装依赖并启用 **pre-commit**:
 
 ```bash
-npm install
-pip install -r requirements-dev.txt
+pip install pre-commit
 pre-commit install
 ```
 

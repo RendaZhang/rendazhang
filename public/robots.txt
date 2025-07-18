@@ -1,0 +1,4 @@
+# robots.txt for https://www.rendazhang.com/
+User-agent: *
+Disallow: /js/*.map
+Sitemap: https://www.rendazhang.com/sitemap.xml
