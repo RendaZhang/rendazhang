@@ -8,7 +8,7 @@
   border: none;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: #fff;
-  font-size: 15px;
+  font-size: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +17,12 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   padding: 0%;
+}
+
+.chat-widget-toggle svg {
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
 }
 
 .chat-widget-panel {
