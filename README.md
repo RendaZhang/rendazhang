@@ -157,6 +157,7 @@ Push 到 `master` 分支会触发 GitHub Actions：
 #### 网站功能
 
 - 与 AI 在线对话
+- 主页浮动 AI 聊天窗口
 - 自适应布局 (移动端和桌面端)
 - 图片懒加载
 - 证书展示
@@ -171,7 +172,7 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 各页面核心职责如下（均由 `.astro` 文件生成）：
 
-- `index.astro`：入口页，提供语言选择及快捷导航。
+ - `index.astro`：入口页，提供语言选择及快捷导航，并预置 ChatWidget 浮标。
 - `about.zh.astro`：中文版主页，展示个人信息、技能与联系方式。
 - `about.en.astro`：英文版主页，内容与中文版对应。
 - `certifications.astro`：证书列表页。
@@ -212,7 +213,7 @@ flowchart TD
 
 #### 页面内容介绍
 
-- `index.astro`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
+ - `index.astro`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，默认悬挂 ChatWidget 浮标，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
 - `about.zh.astro`、`about.en.astro`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.astro`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
