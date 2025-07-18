@@ -266,7 +266,7 @@ flowchart TD
    ```
 - 在每次提交前，钩子会自动运行，并执行操作：
   - 将根目录的 README 同步到 `public/README.md`。
-  - 执行 doctoc 更新 `README.md` 和 `docs/` 目录下的文档的目录结构。
+  - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
 - 你也可以手动触发：
    ```bash
    # cp README.md public/README.md && git add public/README.md
