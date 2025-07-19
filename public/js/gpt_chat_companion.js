@@ -11,7 +11,7 @@ const SYSTEM_MESSAGE = {
 // Load previous conversation from localStorage if available
 let conversationHistory = [];
 try {
-  const stored = localStorage.getItem('gpt_chat_history');
+  const stored = localStorage.getItem('deepseek_chat_history');
   if (stored) {
     conversationHistory = JSON.parse(stored);
   } else {
@@ -23,7 +23,7 @@ try {
 
 function saveHistory() {
   try {
-    localStorage.setItem('gpt_chat_history', JSON.stringify(conversationHistory));
+    localStorage.setItem('deepseek_chat_history', JSON.stringify(conversationHistory));
   } catch {
     // Ignore storage errors
   }
@@ -100,7 +100,6 @@ async function sendMessage(userMessage) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Referer: 'https://www.rendazhang.com'
       },
       body: JSON.stringify({ message: userMessage.content })
     });
@@ -166,7 +165,6 @@ async function resetChat() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Referer: 'https://www.rendazhang.com'
       },
       body: JSON.stringify({})
     });

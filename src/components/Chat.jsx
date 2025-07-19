@@ -3,7 +3,14 @@ import { useState, useEffect, useRef } from 'react';
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
 import useMarkdownPipeline, { showHint } from '../hooks/useMarkdownPipeline';
-import { STORAGE_KEY, MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../config.js';
+import {
+  STORAGE_KEY,
+  MAX_TOKENS,
+  AVG_WORD_LENGTH,
+  AVG_TOKENS_PER_WORD,
+  SCRIPT_TIMEOUTS,
+  UI_DURATIONS
+} from '../config.js';
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
@@ -90,7 +97,10 @@ export default function Chat() {
   };
 
   const loadCoreLibraries = () => {
-    Promise.all([loadScript('/js/marked.min.js', 10000), loadScript('/js/purify.min.js', 10000)])
+    Promise.all([
+      loadScript('/js/marked.min.js', SCRIPT_TIMEOUTS.DEFAULT),
+      loadScript('/js/purify.min.js', SCRIPT_TIMEOUTS.DEFAULT)
+    ])
       .then(() => {
         if (window.marked && window.DOMPurify) {
           setCoreLoaded(true);
@@ -110,8 +120,8 @@ export default function Chat() {
     setIsEnhancing(true);
 
     Promise.all([
-      loadScript('/js/highlight.min.js', 30000),
-      loadScript('/js/mermaid.min.js', 60000)
+      loadScript('/js/highlight.min.js', SCRIPT_TIMEOUTS.HIGHLIGHT),
+      loadScript('/js/mermaid.min.js', SCRIPT_TIMEOUTS.MERMAID)
     ])
       .then(() => {
         if (window.mermaid) {
@@ -120,23 +130,23 @@ export default function Chat() {
         setLibrariesLoaded(true);
         // Hide progress with fade out
         enhancementProgressRef.current.style.opacity = '0';
-        setTimeout(() => setIsEnhancing(false), 300); // Match original fade out
+        setTimeout(() => setIsEnhancing(false), UI_DURATIONS.FADE); // Match original fade out
       })
       .catch((error) => {
         console.error('Enhancement libraries loading failed:', error);
         // Show failure message (as in original)
         enhancementProgressRef.current.innerHTML = '<p>优化功能加载失败，基础功能不受影响</p>';
         document.body.classList.add('basic-mode'); // Add basic-mode class
-        // Hide after 2000ms
+        // Hide after delay
         setTimeout(() => {
           enhancementProgressRef.current.style.opacity = '0';
-          setTimeout(() => setIsEnhancing(false), 300);
-        }, 2000);
+          setTimeout(() => setIsEnhancing(false), UI_DURATIONS.FADE);
+        }, UI_DURATIONS.ERROR_HIDE_DELAY);
         setEnhancementFailed(true);
       });
   };
 
-  const loadScript = (src, timeout = 10000) => {
+  const loadScript = (src, timeout = SCRIPT_TIMEOUTS.DEFAULT) => {
     if (loadedScriptsRef.current.has(src)) return Promise.resolve();
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
@@ -353,7 +363,7 @@ function AIMessage({ text, enhance }) {
       setTimeout(() => {
         setIsCopied(false);
         setShowBtn(false);
-      }, 1000);
+      }, UI_DURATIONS.COPY_FEEDBACK);
     });
   };
 

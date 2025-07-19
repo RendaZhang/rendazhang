@@ -1,8 +1,6 @@
 ---
 import ChatWidget from '../components/ChatWidget.jsx';
-import { CHAT_PAGE_PATH } from '../config.js';
-// 如果需要导入其他组件或资产，在这里添加
-// 例如：import styles from '../styles/styles.css'; 但既然静态资源已好，可以链接
+import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
 ---
 
 <html lang="en">
@@ -14,10 +12,10 @@ import { CHAT_PAGE_PATH } from '../config.js';
     />
     <title>Software Engineer - Renda Zhang</title>
     <meta name="description" content="Renda Zhang - a Software Engineer from Shenzhen China" />
-    <link rel="canonical" href="https://www.rendazhang.com/" />
-    <link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
-    <link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/" />
+    <link rel="canonical" href={`${SITE_BASE_URL}/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content="Renda Zhang" />
     <meta name="language" content="en, zh-CN" />
     <meta name="geo.region" content="CN-GD" />
@@ -32,17 +30,14 @@ import { CHAT_PAGE_PATH } from '../config.js';
       content="Renda Zhang - a Software Engineer from Shenzhen China"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rendazhang.com/" />
-    <meta property="og:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta property="og:url" content={`${SITE_BASE_URL}/`} />
+    <meta property="og:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <meta property="og:site_name" content="Renda Zhang" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Renda Zhang Logo" />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta
-      property="og:image:secure_url"
-      content="https://www.rendazhang.com/images/social_default.jpg"
-    />
+    <meta property="og:image:secure_url" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Renda Zhang · Personal Website" />
@@ -50,7 +45,7 @@ import { CHAT_PAGE_PATH } from '../config.js';
       name="twitter:description"
       content="Renda Zhang - a Software Engineer from Shenzhen China"
     />
-    <meta name="twitter:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta name="twitter:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <meta name="twitter:image:alt" content="Renda Zhang Logo" />
     <meta name="twitter:site" content="@RendaZhang" />
     <meta name="twitter:creator" content="@RendaZhang" />
@@ -60,8 +55,8 @@ import { CHAT_PAGE_PATH } from '../config.js';
         "@context": "https://schema.org/",
         "@type": "Person",
         "name": "Renda Zhang",
-        "url": "https://www.rendazhang.com/",
-        "image": "https://www.rendazhang.com/images/logo_en.png",
+        "url": "${SITE_BASE_URL}/",
+        "image": "${SITE_BASE_URL}/images/logo_en.png",
         "jobTitle": "Software Engineer",
         "worksFor": {
           "@type": "Organization",
@@ -78,7 +73,6 @@ import { CHAT_PAGE_PATH } from '../config.js';
         "description": "Renda Zhang - a Software Engineer from Shenzhen China"
       }
     </script>
-    <!-- Favicon & Fonts -->
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
@@ -106,7 +100,7 @@ import { CHAT_PAGE_PATH } from '../config.js';
         </a>
       </div>
       <div class="social-icons" aria-label="Social Links">
-        <a href="https://www.rendazhang.com" aria-label="WeChat Official Account" id="wechatLink">
+        <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
           <img
             src="/images/ajax-loader.gif"
             class="jxLazyClass"
@@ -152,6 +146,7 @@ import { CHAT_PAGE_PATH } from '../config.js';
           />
         </a>
       </div>
+      <ChatWidget client:load />
     </div>
 
     <div id="wechatModal" class="modal">
@@ -169,6 +164,5 @@ import { CHAT_PAGE_PATH } from '../config.js';
 
     <script defer src="/js/jinxin.lazyload.min.js"></script>
     <script defer src="/js/index.min.js"></script>
-    <ChatWidget client:idle />
   </body>
 </html>

@@ -13,5 +13,19 @@ export const CHAT_PAGE_PATH = '/deepseek_chat';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const MAX_TOKENS = 15000;
+export const MAX_CHARACTERS = 800;
 export const AVG_WORD_LENGTH = 4;
 export const AVG_TOKENS_PER_WORD = 1.5;
+
+export const SCRIPT_TIMEOUTS = {
+  DEFAULT: 10000,
+  HIGHLIGHT: 30000,
+  MERMAID: 60000
+};
+
+export const UI_DURATIONS = {
+  HINT: 2000,
+  FADE: 300,
+  COPY_FEEDBACK: 1000,
+  ERROR_HIDE_DELAY: 2000
+};

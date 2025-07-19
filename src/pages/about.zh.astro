@@ -1,5 +1,6 @@
 ---
 // 你可以在这里定义任何 Astro 前言变量或导入
+import { SITE_BASE_URL } from '../config.js';
 ---
 
 <html lang="zh-CN">
@@ -11,10 +12,10 @@
       content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
     />
     <meta name="description" content="来自 深圳 的 软件开发工程师 张人大" />
-    <link rel="canonical" href="https://www.rendazhang.com/about.zh/" />
-    <link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
-    <link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/" />
+    <link rel="canonical" href={`${SITE_BASE_URL}/about.zh/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content="张人大" />
     <meta name="language" content="zh-CN, en" />
     <meta name="geo.region" content="CN-GD" />
@@ -26,23 +27,20 @@
     <meta property="og:title" content="张人大 · 软件开发工程师" />
     <meta property="og:description" content="来自 深圳 的 软件开发工程师 张人大" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rendazhang.com/about.zh/" />
-    <meta property="og:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta property="og:url" content={`${SITE_BASE_URL}/about.zh/`} />
+    <meta property="og:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:site_name" content="张人大" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="张人大 Logo" />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta
-      property="og:image:secure_url"
-      content="https://www.rendazhang.com/images/social_default.jpg"
-    />
+    <meta property="og:image:secure_url" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="张人大 · 软件开发工程师" />
     <meta name="twitter:description" content="来自 深圳 的 软件开发工程师 张人大" />
-    <meta name="twitter:image" content="https://www.rendazhang.com/images/social_default.jpg" />
+    <meta name="twitter:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
     <meta name="twitter:image:alt" content="张人大 Logo" />
     <meta name="twitter:site" content="@RendaZhang" />
     <meta name="twitter:creator" content="@RendaZhang" />
@@ -51,8 +49,8 @@
         "@context": "https://schema.org/",
         "@type": "Person",
         "name": "Renda Zhang",
-        "url": "https://www.rendazhang.com/",
-        "image": "https://www.rendazhang.com/images/logo_en.png",
+        "url": "${SITE_BASE_URL}/",
+        "image": "${SITE_BASE_URL}/images/logo_en.png",
         "jobTitle": "Software Engineer",
         "worksFor": {
           "@type": "Organization",

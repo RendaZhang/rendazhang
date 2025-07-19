@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
+import { UI_DURATIONS } from '../config.js';
 
-export function showHint(msg, duration = 2000) {
+export function showHint(msg, duration = UI_DURATIONS.HINT) {
   const hint = document.createElement('div');
   hint.className = 'hint-message';
   hint.textContent = msg;
   document.body.appendChild(hint);
   setTimeout(() => {
     hint.style.opacity = '0';
-    setTimeout(() => hint.remove(), 300);
+    setTimeout(() => hint.remove(), UI_DURATIONS.FADE);
   }, duration);
 }
 
