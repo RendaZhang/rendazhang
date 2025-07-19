@@ -9,6 +9,7 @@
   - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
     - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
     - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
+    - [BUG-003: CONTACT_FORM_ENDPOINT 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -57,6 +58,7 @@
 
 - [x] BUG-001: Mermaid 图表渲染异常
 - [x] BUG-002: highlight.js 与 Mermaid 冲突
+- [x] BUG-003: CONTACT_FORM_ENDPOINT 未定义
 
 ---
 
@@ -107,3 +109,21 @@
     hljs.highlightElement(block);
   });
   ```
+
+### BUG-003: CONTACT_FORM_ENDPOINT 未定义
+
+- **发现日期**：2025-07-18
+- **重现环境**：Chrome 最新版，macOS Ventura
+- **问题现象**：
+  - 打开 About 页面后，控制台报 `CONTACT_FORM_ENDPOINT is not defined`
+- **根本原因**：
+  - 在页面脚本中直接使用常量名，未在浏览器端声明
+- **解决方案**：
+  - 使用 `define:vars` 在脚本中注入常量
+  - 示例：
+    ```astro
+    <script define:vars={{ CONTACT_FORM_ENDPOINT }}>
+      window.CONTACT_FORM_ENDPOINT = CONTACT_FORM_ENDPOINT;
+    </script>
+    ```
+- **验证结果**：✅ 页面不再抛出错误，表单正常提交
