@@ -9,7 +9,8 @@ import {
   AVG_WORD_LENGTH,
   AVG_TOKENS_PER_WORD,
   SCRIPT_TIMEOUTS,
-  UI_DURATIONS
+  UI_DURATIONS,
+  SCRIPT_PATHS
 } from '../config.js';
 
 export default function Chat() {
@@ -98,8 +99,8 @@ export default function Chat() {
 
   const loadCoreLibraries = () => {
     Promise.all([
-      loadScript('/js/marked.min.js', SCRIPT_TIMEOUTS.DEFAULT),
-      loadScript('/js/purify.min.js', SCRIPT_TIMEOUTS.DEFAULT)
+      loadScript(SCRIPT_PATHS.MARKED, SCRIPT_TIMEOUTS.DEFAULT),
+      loadScript(SCRIPT_PATHS.PURIFY, SCRIPT_TIMEOUTS.DEFAULT)
     ])
       .then(() => {
         if (window.marked && window.DOMPurify) {
@@ -120,8 +121,8 @@ export default function Chat() {
     setIsEnhancing(true);
 
     Promise.all([
-      loadScript('/js/highlight.min.js', SCRIPT_TIMEOUTS.HIGHLIGHT),
-      loadScript('/js/mermaid.min.js', SCRIPT_TIMEOUTS.MERMAID)
+      loadScript(SCRIPT_PATHS.HIGHLIGHT, SCRIPT_TIMEOUTS.HIGHLIGHT),
+      loadScript(SCRIPT_PATHS.MERMAID, SCRIPT_TIMEOUTS.MERMAID)
     ])
       .then(() => {
         if (window.mermaid) {

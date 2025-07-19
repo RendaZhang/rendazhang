@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CHAT_PAGE_PATH } from '../config.js';
+import { CHAT_PAGE_PATH, STYLE_PATHS } from '../config.js';
 
 const loadedStyles = new Set();
 
@@ -58,7 +58,7 @@ export default function ChatWidget({ defaultOpen = false }) {
   const [loaded, setLoaded] = useState(defaultOpen);
 
   useEffect(() => {
-    loadStyle('/css/chat_widget.css');
+    loadStyle(STYLE_PATHS.CHAT_WIDGET);
   }, []);
 
   const toggle = () => setOpen((o) => !o);

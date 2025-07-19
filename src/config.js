@@ -29,3 +29,14 @@ export const UI_DURATIONS = {
   COPY_FEEDBACK: 1000,
   ERROR_HIDE_DELAY: 2000
 };
+
+export const SCRIPT_PATHS = {
+  MARKED: '/js/marked.min.js',
+  PURIFY: '/js/purify.min.js',
+  HIGHLIGHT: '/js/highlight.min.js',
+  MERMAID: '/js/mermaid.min.js'
+};
+
+export const STYLE_PATHS = {
+  CHAT_WIDGET: '/css/chat_widget.css'
+};
