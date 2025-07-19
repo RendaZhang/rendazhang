@@ -48,6 +48,7 @@
 - [x] 封装 ChatWidget 组件：在 Chat.jsx 外层创建一个新组件 ChatWidget.jsx，内部引用 Chat；该组件提供浮标按钮以及显示/隐藏聊天面板的逻辑（控制 Chat 组件的挂载）。
 - [x] 抽取共享样式与资源：Chat.jsx 依赖的 CSS 可在 ChatWidget.jsx 挂载时按需加载，或在公共布局中引用一次以便复用。
 - [x] 在 index.astro 引入 ChatWidget
+- [ ] 统一配置管理：集中放置 API 基础路径、聊天限制常量等，避免在各处硬编码路径和数字。
 - [ ] 引入端到端测试，确保主要页面稳定
 
 ---
