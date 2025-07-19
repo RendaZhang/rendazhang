@@ -3,11 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../services/chatService';
 import useMarkdownPipeline, { showHint } from '../hooks/useMarkdownPipeline';
-
-const STORAGE_KEY = 'deepseek_chat_history';
-const MAX_TOKENS = 15000;
-const AVG_WORD_LENGTH = 4;
-const AVG_TOKENS_PER_WORD = 1.5;
+import { STORAGE_KEY, MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../config.js';
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
