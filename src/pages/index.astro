@@ -16,7 +16,8 @@ import {
   PERSON_SCHEMA,
   IMAGE_PATHS,
   SCRIPT_PATHS,
-  FAVICON_PATH
+  FAVICON_PATH,
+  STYLE_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -73,7 +74,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
     <link rel="icon" type="image/png" href={FAVICON_PATH} />
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
-    <link rel="stylesheet" href="/css/index.min.css" />
+    <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
     <link rel="preload" href="/css/chat_widget.css" as="style" />
     <link rel="stylesheet" href="/css/chat_widget.css" />
   </head>

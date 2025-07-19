@@ -43,11 +43,19 @@ export const SCRIPT_PATHS = {
   HIGHLIGHT: '/js/highlight.min.js',
   MERMAID: '/js/mermaid.min.js',
   JQUERY: '/js/jquery.min.js',
-  LAZYLOAD: '/js/jinxin.lazyload.min.js'
+  LAZYLOAD: '/js/jinxin.lazyload.min.js',
+  DOCS: '/js/docs.min.js',
+  CREDLY_EMBED: '/js/credly_embed.min.js',
+  CERTIFICATIONS: '/js/certifications.min.js'
 };
 
 export const STYLE_PATHS = {
-  CHAT_WIDGET: '/css/chat_widget.css'
+  CHAT_WIDGET: '/css/chat_widget.css',
+  BOOTSTRAP: '/css/bootstrap.min.css',
+  GITHUB: '/css/github.min.css',
+  DOCS: '/css/docs.min.css',
+  INDEX: '/css/index.min.css',
+  CERTIFICATIONS: '/css/certifications.min.css'
 };
 
 export const FAVICON_PATH = '/favicon.png';

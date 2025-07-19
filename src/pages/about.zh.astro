@@ -19,7 +19,8 @@ import {
   PERSON_SCHEMA,
   IMAGE_PATHS,
   SCRIPT_PATHS,
-  FAVICON_PATH
+  FAVICON_PATH,
+  STYLE_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -69,7 +70,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <!-- Favicon & CSS -->
     <link href={FAVICON_PATH} rel="shortcut icon" type="image/x-icon" />
     <link href={FAVICON_PATH} rel="icon" type="image/png" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href={STYLE_PATHS.BOOTSTRAP} rel="stylesheet" type="text/css" media="all" />
     <link href="/css/all.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/slick.min.css" rel="stylesheet" type="text/css" media="all" />

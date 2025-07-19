@@ -10,7 +10,9 @@ import {
   CREDLY_HOST,
   CREDLY_BADGE_ID,
   CREDLY_EMBED_IFRAME,
-  FAVICON_PATH
+  FAVICON_PATH,
+  STYLE_PATHS,
+  SCRIPT_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -62,8 +64,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <!-- Favicon & CSS -->
     <meta name="theme-color" content="#ffffff" />
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
-    <link rel="stylesheet" href="/css/index.min.css" />
-    <link rel="stylesheet" href="/css/certifications.min.css" />
+    <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
+    <link rel="stylesheet" href={STYLE_PATHS.CERTIFICATIONS} />
   </head>
 
   <body>
@@ -90,7 +92,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             >
             </div>
           </div>
-          <script async src="/js/credly_embed.min.js"></script>
+          <script async src={SCRIPT_PATHS.CREDLY_EMBED}></script>
 
           <p>
             <a class="verify-btn" href={VERIFY_URLS.CREDLY} target="_blank">Verify on Credly</a>
@@ -101,6 +103,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         <!-- 以后要加新证书 → 复制 <article> 再改文本即可 -->
       </section>
     </div>
-    <script defer src="/js/certifications.min.js"></script>
+    <script defer src={SCRIPT_PATHS.CERTIFICATIONS}></script>
   </body>
 </html>
