@@ -40,3 +40,17 @@ export const SCRIPT_PATHS = {
 export const STYLE_PATHS = {
   CHAT_WIDGET: '/css/chat_widget.css'
 };
+
+export const OG_IMAGE_DIMENSIONS = {
+  WIDTH: 1200,
+  HEIGHT: 630
+};
+
+export const DEFAULT_SOCIAL_IMAGE = '/images/social_default.jpg';
+
+// Shared site metadata
+export const GEO_REGION = 'CN-GD';
+export const GEO_POSITION = '22.543096;114.057865';
+export const GEO_ICBM = '22.543096, 114.057865';
+export const GEO_PLACENAME_EN = 'Shenzhen, Guangdong, China';
+export const GEO_PLACENAME_ZH = '深圳, 广东, 中国';

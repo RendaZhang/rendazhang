@@ -1,6 +1,15 @@
 ---
 import ChatWidget from '../components/ChatWidget.jsx';
-import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
+import {
+  CHAT_PAGE_PATH,
+  SITE_BASE_URL,
+  GEO_REGION,
+  GEO_PLACENAME_EN,
+  GEO_POSITION,
+  GEO_ICBM,
+  OG_IMAGE_DIMENSIONS,
+  DEFAULT_SOCIAL_IMAGE
+} from '../config.js';
 ---
 
 <html lang="en">
@@ -18,10 +27,10 @@ import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content="Renda Zhang" />
     <meta name="language" content="en, zh-CN" />
-    <meta name="geo.region" content="CN-GD" />
-    <meta name="geo.placename" content="Shenzhen, Guangdong, China" />
-    <meta name="geo.position" content="22.543096;114.057865" />
-    <meta name="ICBM" content="22.543096, 114.057865" />
+    <meta name="geo.region" content={GEO_REGION} />
+    <meta name="geo.placename" content={GEO_PLACENAME_EN} />
+    <meta name="geo.position" content={GEO_POSITION} />
+    <meta name="ICBM" content={GEO_ICBM} />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="Renda Zhang · Personal Website" />
@@ -31,13 +40,13 @@ import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}/`} />
-    <meta property="og:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
+    <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta property="og:site_name" content="Renda Zhang" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content={OG_IMAGE_DIMENSIONS.WIDTH} />
+    <meta property="og:image:height" content={OG_IMAGE_DIMENSIONS.HEIGHT} />
     <meta property="og:image:alt" content="Renda Zhang Logo" />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:secure_url" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
+    <meta property="og:image:secure_url" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Renda Zhang · Personal Website" />
@@ -45,7 +54,7 @@ import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
       name="twitter:description"
       content="Renda Zhang - a Software Engineer from Shenzhen China"
     />
-    <meta name="twitter:image" content={`${SITE_BASE_URL}/images/social_default.jpg`} />
+    <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:image:alt" content="Renda Zhang Logo" />
     <meta name="twitter:site" content="@RendaZhang" />
     <meta name="twitter:creator" content="@RendaZhang" />
