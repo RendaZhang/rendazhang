@@ -49,6 +49,13 @@
 - [x] 抽取共享样式与资源：Chat.jsx 依赖的 CSS 可在 ChatWidget.jsx 挂载时按需加载，或在公共布局中引用一次以便复用。
 - [x] 在 index.astro 引入 ChatWidget
 - [ ] 统一配置管理：集中放置 API 基础路径、聊天限制常量等，避免在各处硬编码路径和数字。
+- [ ] 使用 TypeScript：将现有 .jsx 文件逐步转换为 .tsx，补充类型声明和接口。在 tsconfig.json 已启用的情况下，引入类型更能在编译期发现问题。
+- [ ] 拆分大型组件：Chat.jsx 内部状态与逻辑较多，可按功能拆成更小的组件或自定义 hook（例如消息列表、输入区域、加载状态等）。避免单个文件过于庞大，提升可维护性。
+- [ ] 状态管理扩展：当前仅用 useState 与 useContext 管理主题，随着页面或组件增多，可引入轻量级库（如 Zustand）集中管理共享状态。这样不同页面或“岛”之间也能更容易共享数据。
+- [ ] 异步资源加载优化：现有 loadScript 函数通过 document.createElement('script') 注入，可以改为 import() 动态导入，在打包时按需分离资源。也可配合懒加载组件，让非核心脚本在用户真正需要时再加载。
+- [ ] 公共页面模板与组件化：例如 about.zh.astro 页面中包含大量相似的 HTML 片段，建议拆分为复用组件（如 HeroSection, SkillsSection 等），以后新增语言版本或页面时更方便组合。
+- [ ] 国际化与主题持久化：目前页面通过跳转到不同 URL 实现中英文内容，可考虑引入 i18n 解决方案统一管理文案。主题切换可将状态存入 localStorage，在 ThemeProvider 初始化时读取，保持用户偏好。
+- [ ] 自动化测试与持续集成：代码库已经配置了 ESLint 和 Prettier，但缺少单元测试或端到端测试。可结合 React Testing Library 做组件测试，Playwright/Chromium 做简单的页面跳转或聊天流程验证。
 - [ ] 引入端到端测试，确保主要页面稳定
 
 ---
