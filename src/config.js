@@ -97,3 +97,36 @@ export const PERSON_SCHEMA = {
   sameAs: SOCIAL_PROFILE_URLS,
   description: 'Renda Zhang - a Software Engineer from Shenzhen China'
 };
+
+// Additional social profile links
+export const SOCIAL_LINKS = {
+  ZHIHU: 'https://www.zhihu.com/people/RendaZhang',
+  TOUTIAO: 'https://www.toutiao.com/c/user/50248851377/###',
+  CSDN: 'https://blog.csdn.net/qq_40286307',
+  MEDIUM: 'https://rendazhang.medium.com'
+};
+
+// Frequently referenced blog article URLs
+export const CSDN_ARTICLES = {
+  JAVA_21_LOCK: 'https://blog.csdn.net/qq_40286307/article/details/148540386',
+  DUAL_BOOT_TIME: 'https://blog.csdn.net/qq_40286307/article/details/83688376'
+};
+
+// Repository links
+export const REPOSITORIES = {
+  JAVA_BACKEND: 'https://github.com/RendaZhang/java-backend-development'
+};
+
+// Credential verification links and settings
+export const VERIFY_URLS = {
+  CREDLY: 'https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url',
+  AWS: 'https://aws.amazon.com/verification'
+};
+
+export const CREDLY_HOST = 'https://www.credly.com';
+export const CREDLY_BADGE_ID = '8a7e15fc-374b-4335-a86e-e30e5255836d';
+
+export const CREDLY_EMBED_IFRAME = {
+  WIDTH: 150,
+  HEIGHT: 270
+};

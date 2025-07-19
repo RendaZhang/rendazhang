@@ -5,7 +5,11 @@ import {
   TWITTER_HANDLE,
   SOCIAL_PROFILE_URLS,
   SITE_AUTHOR_EN,
-  PERSON_SCHEMA
+  PERSON_SCHEMA,
+  VERIFY_URLS,
+  CREDLY_HOST,
+  CREDLY_BADGE_ID,
+  CREDLY_EMBED_IFRAME
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -78,24 +82,18 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
           <div class="credly-container" style="max-width:270px;margin:1rem auto">
             <div class="loader"></div>
             <div
-              data-iframe-width="150"
-              data-iframe-height="270"
-              data-share-badge-id="8a7e15fc-374b-4335-a86e-e30e5255836d"
-              data-share-badge-host="https://www.credly.com"
+              data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}
+              data-iframe-height={CREDLY_EMBED_IFRAME.HEIGHT}
+              data-share-badge-id={CREDLY_BADGE_ID}
+              data-share-badge-host={CREDLY_HOST}
             >
             </div>
           </div>
           <script async src="/js/credly_embed.min.js"></script>
 
           <p>
-            <a
-              class="verify-btn"
-              href="https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url"
-              target="_blank">Verify on Credly</a
-            >
-            <a class="verify-btn" href="https://aws.amazon.com/verification" target="_blank"
-              >Verify on AWS</a
-            >
+            <a class="verify-btn" href={VERIFY_URLS.CREDLY} target="_blank">Verify on Credly</a>
+            <a class="verify-btn" href={VERIFY_URLS.AWS} target="_blank">Verify on AWS</a>
           </p>
         </article>
 

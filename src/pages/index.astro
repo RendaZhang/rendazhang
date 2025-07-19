@@ -3,6 +3,7 @@ import ChatWidget from '../components/ChatWidget.jsx';
 import {
   CHAT_PAGE_PATH,
   SITE_BASE_URL,
+  SOCIAL_LINKS,
   GEO_REGION,
   GEO_PLACENAME_EN,
   GEO_POSITION,
@@ -102,7 +103,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             loading="lazy"
           />
         </a>
-        <a href="https://www.zhihu.com/people/RendaZhang" aria-label="Zhihu">
+        <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
           <img
             src="/images/ajax-loader.gif"
             class="jxLazyClass"
@@ -111,7 +112,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             loading="lazy"
           />
         </a>
-        <a href="https://www.toutiao.com/c/user/50248851377/###" aria-label="Toutiao">
+        <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
           <img
             src="/images/ajax-loader.gif"
             class="jxLazyClass"
@@ -120,7 +121,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             loading="lazy"
           />
         </a>
-        <a href="https://blog.csdn.net/qq_40286307" aria-label="CSDN">
+        <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
           <img
             src="/images/ajax-loader.gif"
             class="jxLazyClass"
@@ -129,7 +130,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             loading="lazy"
           />
         </a>
-        <a href="https://rendazhang.medium.com" aria-label="Medium">
+        <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
           <img
             src="/images/ajax-loader.gif"
             class="jxLazyClass"

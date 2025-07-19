@@ -13,6 +13,8 @@ import {
   CONTACT_FORM_ENDPOINT,
   TWITTER_HANDLE,
   SOCIAL_PROFILE_URLS,
+  CSDN_ARTICLES,
+  REPOSITORIES,
   SITE_AUTHOR_ZH,
   PERSON_SCHEMA
 } from '../config.js';
@@ -439,10 +441,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               <div class="blog-item">
                 <div class="thumb">
                   <span class="category">CSDN</span>
-                  <a
-                    href="https://blog.csdn.net/qq_40286307/article/details/148540386"
-                    target="_blank"
-                  >
+                  <a href={CSDN_ARTICLES.JAVA_21_LOCK} target="_blank">
                     <img
                       src="/images/ajax-loader.gif"
                       class="jxLazyClass ss"
@@ -453,10 +452,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </a>
                 </div>
                 <h4 class="mt-4 mb-0">
-                  <a
-                    href="https://blog.csdn.net/qq_40286307/article/details/148540386"
-                    target="_blank"
-                  >
+                  <a href={CSDN_ARTICLES.JAVA_21_LOCK} target="_blank">
                     Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到了那把“失踪的锁”
                   </a>
                 </h4>
@@ -470,7 +466,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               <div class="blog-item">
                 <div class="thumb">
                   <span class="category">Github</span>
-                  <a href="https://github.com/RendaZhang/java-backend-development" target="_blank">
+                  <a href={REPOSITORIES.JAVA_BACKEND} target="_blank">
                     <img
                       src="/images/ajax-loader.gif"
                       class="jxLazyClass ss"
@@ -481,7 +477,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   >
                 </div>
                 <h4 class="mt-4 mb-0">
-                  <a href="https://github.com/RendaZhang/java-backend-development" target="_blank">
+                  <a href={REPOSITORIES.JAVA_BACKEND} target="_blank">
                     Java 后台开发：JavaWeb，微服务框架 以及数据库相关的代码</a
                   >
                 </h4>
@@ -495,9 +491,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               <div class="blog-item">
                 <div class="thumb">
                   <span class="category">CSDN</span>
-                  <a
-                    href="https://blog.csdn.net/qq_40286307/article/details/83688376"
-                    target="_blank"
+                  <a href={CSDN_ARTICLES.DUAL_BOOT_TIME} target="_blank"
                     ><img
                       src="/images/ajax-loader.gif"
                       class="jxLazyClass ss"
@@ -508,10 +502,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   >
                 </div>
                 <h4 class="mt-4 mb-0">
-                  <a
-                    href="https://blog.csdn.net/qq_40286307/article/details/83688376"
-                    target="_blank"
-                  >
+                  <a href={CSDN_ARTICLES.DUAL_BOOT_TIME} target="_blank">
                     装了Ubuntu 16.04 & Windows 10 双系统的电脑如何修复时间差问题</a
                   >
                 </h4>
