@@ -1,6 +1,13 @@
 ---
 // 你可以在这里定义任何 Astro 前言变量或导入
-import { SITE_BASE_URL, GEO_REGION, GEO_PLACENAME_EN, GEO_POSITION, GEO_ICBM } from '../config.js';
+import {
+  SITE_BASE_URL,
+  GEO_REGION,
+  GEO_PLACENAME_EN,
+  GEO_POSITION,
+  GEO_ICBM,
+  SCRIPT_PATHS
+} from '../config.js';
 ---
 
 <html lang="en">
@@ -28,7 +35,7 @@ import { SITE_BASE_URL, GEO_REGION, GEO_PLACENAME_EN, GEO_POSITION, GEO_ICBM } f
     <button id="back" onclick="window.location.href='/'">&larr; Back to Home</button>
     <div id="content">Loading...</div>
 
-    <script defer src="/js/jquery.min.js"></script>
+    <script defer src={SCRIPT_PATHS.JQUERY}></script>
     <script defer src="/js/marked.min.js"></script>
     <script defer src="/js/docs.min.js"></script>
   </body>

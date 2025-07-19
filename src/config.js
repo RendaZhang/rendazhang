@@ -34,11 +34,20 @@ export const SCRIPT_PATHS = {
   MARKED: '/js/marked.min.js',
   PURIFY: '/js/purify.min.js',
   HIGHLIGHT: '/js/highlight.min.js',
-  MERMAID: '/js/mermaid.min.js'
+  MERMAID: '/js/mermaid.min.js',
+  JQUERY: '/js/jquery.min.js',
+  LAZYLOAD: '/js/jinxin.lazyload.min.js'
 };
 
 export const STYLE_PATHS = {
   CHAT_WIDGET: '/css/chat_widget.css'
+};
+
+export const IMAGE_PATHS = {
+  LOADER: '/images/ajax-loader.gif',
+  LOGO_EN: '/images/logo_en.png',
+  LOGO_ZH: '/images/logo_cn.png',
+  WECHAT_QR: '/images/qrcode_wechat.jpg'
 };
 
 export const OG_IMAGE_DIMENSIONS = {

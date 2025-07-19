@@ -16,7 +16,9 @@ import {
   CSDN_ARTICLES,
   REPOSITORIES,
   SITE_AUTHOR_ZH,
-  PERSON_SCHEMA
+  PERSON_SCHEMA,
+  IMAGE_PATHS,
+  SCRIPT_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -110,9 +112,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         >
         <span class="logo"
           ><img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass ss"
-            jxLazyImg="/images/logo_cn.png"
+            jxLazyImg={IMAGE_PATHS.LOGO_ZH}
             width="150px"
             height="150px"
             alt="张人大"
@@ -128,9 +130,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         <div class="header-inner d-flex align-items-start flex-column">
           <a href="#">
             <img
-              src="/images/ajax-loader.gif"
+              src={IMAGE_PATHS.LOADER}
               class="jxLazyClass ss"
-              jxLazyImg="/images/logo_cn.png"
+              jxLazyImg={IMAGE_PATHS.LOGO_ZH}
               alt="张人大"
               width="150px"
               height="150px"
@@ -190,7 +192,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
           <div class="row">
             <div class="col-md-3">
               <img
-                src="/images/ajax-loader.gif"
+                src={IMAGE_PATHS.LOADER}
                 class="jxLazyClass ss"
                 alt="about"
                 jxLazyImg="/images/about.png"
@@ -443,7 +445,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   <span class="category">CSDN</span>
                   <a href={CSDN_ARTICLES.JAVA_21_LOCK} target="_blank">
                     <img
-                      src="/images/ajax-loader.gif"
+                      src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
                       jxLazyImg="/images/blog/2.jpg"
                       alt="Blog cover image"
@@ -468,7 +470,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   <span class="category">Github</span>
                   <a href={REPOSITORIES.JAVA_BACKEND} target="_blank">
                     <img
-                      src="/images/ajax-loader.gif"
+                      src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
                       jxLazyImg="/images/blog/1.jpg"
                       alt="Blog cover image"
@@ -493,7 +495,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   <span class="category">CSDN</span>
                   <a href={CSDN_ARTICLES.DUAL_BOOT_TIME} target="_blank"
                     ><img
-                      src="/images/ajax-loader.gif"
+                      src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
                       jxLazyImg="/images/blog/3.jpg"
                       alt="Blog cover image"
@@ -616,7 +618,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     </div><a href="javascript:" id="return-to-top" aria-label="return to top"
       ><i class="fa fa-chevron-up"></i></a
     >
-    <script defer src="/js/jquery.min.js"></script>
+    <script defer src={SCRIPT_PATHS.JQUERY}></script>
     <script defer src="/js/jquery.easing.min.js"></script>
     <script defer src="/js/popper.min.js"></script>
     <script defer src="/js/bootstrap.min.js"></script>
@@ -633,6 +635,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <script defer src="/js/contact.js"></script>
     <script defer src="/js/validator.min.js"></script>
     <script defer src="/js/custom.min.js"></script>
-    <script defer src="/js/jinxin.lazyload.min.js"></script>
+    <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
   </body>
 </html>

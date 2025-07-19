@@ -16,7 +16,9 @@ import {
   TWITTER_HANDLE,
   SOCIAL_PROFILE_URLS,
   SITE_AUTHOR_EN,
-  PERSON_SCHEMA
+  PERSON_SCHEMA,
+  IMAGE_PATHS,
+  SCRIPT_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -98,9 +100,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                         <img
                           width="150px"
                           height="150px"
-                          src="/images/ajax-loader.gif"
+                          src={IMAGE_PATHS.LOADER}
                           class="jxLazyClass ss"
-                          jxLazyImg="/images/logo_en.png"
+                          jxLazyImg={IMAGE_PATHS.LOGO_EN}
                           alt="Renda Zhang"
                           loading="lazy"
                         />
@@ -803,7 +805,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         <a href="#" class="settings" aria-label="Settings"><i class="fas fa-cog fa-spin"></i></a>
       </div>
     </div>
-    <script defer src="/js/jquery.min.js"></script>
+    <script defer src={SCRIPT_PATHS.JQUERY}></script>
     <script defer src="/js/bootstrap.bundle.min.js"></script>
     <script defer src="/js/jquery.easing.min.js"></script>
     <script defer src="/js/scrollspy.min.js"></script>
@@ -820,6 +822,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <script defer src="/js/contact-form.min.js"></script>
     <script defer src="/js/switcher.min.js"></script>
     <script defer src="/js/app.min.js"></script>
-    <script defer src="/js/jinxin.lazyload.min.js"></script>
+    <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
   </body>
 </html>

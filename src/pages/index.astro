@@ -13,7 +13,9 @@ import {
   TWITTER_HANDLE,
   SOCIAL_PROFILE_URLS,
   SITE_AUTHOR_EN,
-  PERSON_SCHEMA
+  PERSON_SCHEMA,
+  IMAGE_PATHS,
+  SCRIPT_PATHS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -96,7 +98,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       <div class="social-icons" aria-label="Social Links">
         <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
           <img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass"
             jxLazyImg="/images/social/wechat-logo.svg"
             alt="WeChat logo"
@@ -105,7 +107,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </a>
         <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
           <img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass"
             jxLazyImg="/images/social/zhihu-logo.svg"
             alt="Zhihu logo"
@@ -114,7 +116,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </a>
         <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
           <img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass"
             jxLazyImg="/images/social/toutiao-logo.svg"
             alt="Toutiao logo"
@@ -123,7 +125,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </a>
         <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
           <img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass"
             jxLazyImg="/images/social/csdn-logo.svg"
             alt="CSDN logo"
@@ -132,7 +134,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </a>
         <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
           <img
-            src="/images/ajax-loader.gif"
+            src={IMAGE_PATHS.LOADER}
             class="jxLazyClass"
             jxLazyImg="/images/social/medium-logo.svg"
             alt="Medium logo"
@@ -149,14 +151,14 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         <div class="loader"></div>
         <img
           id="wechatQR"
-          data-src="/images/qrcode_wechat.jpg"
+          data-src={IMAGE_PATHS.WECHAT_QR}
           alt="WeChat Official Account QR code"
           style="display:none;"
         />
       </div>
     </div>
 
-    <script defer src="/js/jinxin.lazyload.min.js"></script>
+    <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
     <script defer src="/js/index.min.js"></script>
   </body>
 </html>
