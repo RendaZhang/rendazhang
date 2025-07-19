@@ -7,7 +7,8 @@ import {
   GEO_PLACENAME_EN,
   GEO_POSITION,
   GEO_ICBM,
-  DEFAULT_SOCIAL_IMAGE
+  DEFAULT_SOCIAL_IMAGE,
+  TWITTER_HANDLE
 } from '../config.js';
 ---
 
@@ -42,8 +43,8 @@ import {
     <meta name="twitter:title" content="AI Chat" />
     <meta name="twitter:description" content="Chat with an AI assistant powered by DeepSeek." />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
-    <meta name="twitter:site" content="@RendaZhang" />
-    <meta name="twitter:creator" content="@RendaZhang" />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:creator" content={TWITTER_HANDLE} />
     <!-- 核心样式提前加载，非关键资源后续由组件异步加载 -->
     <link rel="preload" href="/css/deepseek_chat.min.css" as="style" />
     <link rel="stylesheet" href="/css/deepseek_chat.min.css" />

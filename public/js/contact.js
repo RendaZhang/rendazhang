@@ -3,7 +3,7 @@ $(function () {
   $('#contact-form').validator();
   $('#contact-form').on('submit', function (e) {
     if (!e.isDefaultPrevented()) {
-      var url = window.CONTACT_FORM_ENDPOINT || 'https://formspree.io/xlepgene';
+      var url = window.CONTACT_FORM_ENDPOINT;
       $.ajax({
         type: 'POST',
         url: url,

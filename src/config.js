@@ -42,8 +42,8 @@ export const STYLE_PATHS = {
 };
 
 export const OG_IMAGE_DIMENSIONS = {
-  WIDTH: 1200,
-  HEIGHT: 630
+  WIDTH: '1200',
+  HEIGHT: '630'
 };
 
 export const DEFAULT_SOCIAL_IMAGE = '/images/social_default.jpg';
@@ -61,3 +61,39 @@ export const CONTACT_EMAIL_PRIMARY = '952402967@qq.com';
 export const CONTACT_EMAIL_SECONDARY = 'dl952402967@hotmail.com';
 export const CONTACT_PHONE_LOCAL = '13925067232';
 export const CONTACT_PHONE_INTL = '+86-13925067232';
+
+// Social media and author info
+export const TWITTER_HANDLE = '@RendaZhang';
+export const SOCIAL_PROFILE_URLS = [
+  'https://github.com/RendaZhang',
+  'https://www.linkedin.com/in/RendaZhang'
+];
+export const SITE_AUTHOR_EN = 'Renda Zhang';
+export const SITE_AUTHOR_ZH = '张人大';
+
+export const PERSON_SCHEMA = {
+  '@context': 'https://schema.org/',
+  '@type': 'Person',
+  name: 'Renda Zhang',
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'AWS Certified Solutions Architect - Associate (SAA-C03)',
+      credentialCategory: 'Professional Certification',
+      identifier: '9860ad4d665a44d4b0c93dfbaf824ee2',
+      url: 'https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url',
+      validFor: 'P3Y' /* 3 years */,
+      dateIssued: '2025-06-16',
+      expires: '2028-06-16'
+    }
+  ],
+  url: SITE_BASE_URL,
+  image: `${SITE_BASE_URL}/images/logo_en.png`,
+  jobTitle: 'Software Engineer',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Self-Employed'
+  },
+  sameAs: SOCIAL_PROFILE_URLS,
+  description: 'Renda Zhang - a Software Engineer from Shenzhen China'
+};

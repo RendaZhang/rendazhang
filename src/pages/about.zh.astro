@@ -10,8 +10,13 @@ import {
   DEFAULT_SOCIAL_IMAGE,
   CONTACT_PHONE_LOCAL,
   CONTACT_EMAIL_PRIMARY,
-  CONTACT_FORM_ENDPOINT
+  CONTACT_FORM_ENDPOINT,
+  TWITTER_HANDLE,
+  SOCIAL_PROFILE_URLS,
+  SITE_AUTHOR_ZH,
+  PERSON_SCHEMA
 } from '../config.js';
+const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
 
 <html lang="zh-CN">
@@ -27,7 +32,7 @@ import {
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
-    <meta name="author" content="张人大" />
+    <meta name="author" content={SITE_AUTHOR_ZH} />
     <meta name="language" content="zh-CN, en" />
     <meta name="geo.region" content={GEO_REGION} />
     <meta name="geo.placename" content={GEO_PLACENAME_ZH} />
@@ -53,24 +58,9 @@ import {
     <meta name="twitter:description" content="来自 深圳 的 软件开发工程师 张人大" />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:image:alt" content="张人大 Logo" />
-    <meta name="twitter:site" content="@RendaZhang" />
-    <meta name="twitter:creator" content="@RendaZhang" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org/",
-        "@type": "Person",
-        "name": "Renda Zhang",
-        "url": "${SITE_BASE_URL}/",
-        "image": "${SITE_BASE_URL}/images/logo_en.png",
-        "jobTitle": "Software Engineer",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Self-Employed"
-        },
-        "sameAs": ["https://github.com/RendaZhang", "https://www.linkedin.com/in/RendaZhang"],
-        "description": "Software Engineer From Shenzhen China"
-      }
-    </script>
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:creator" content={TWITTER_HANDLE} />
+    <script type="application/ld+json" set:html={jsonLD} />
     <!-- Favicon & CSS -->
     <link href="/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="/favicon.png" rel="icon" type="image/png" />
