@@ -10,7 +10,8 @@ import {
   AVG_TOKENS_PER_WORD,
   SCRIPT_TIMEOUTS,
   UI_DURATIONS,
-  SCRIPT_PATHS
+  SCRIPT_PATHS,
+  ROLES
 } from '../config.js';
 
 export default function Chat() {
@@ -56,7 +57,7 @@ export default function Chat() {
     }
 
     const loadedMessages = conversationHistory.map((msg) => ({
-      role: msg.role === 'assistant' ? 'ai' : 'user',
+      role: msg.role === ROLES.ASSISTANT ? ROLES.AI : ROLES.USER,
       content: msg.content
     }));
 
@@ -188,7 +189,7 @@ export default function Chat() {
         STORAGE_KEY,
         JSON.stringify(
           msgList.map((m) => ({
-            role: m.role === 'ai' ? 'assistant' : 'user',
+            role: m.role === ROLES.AI ? ROLES.ASSISTANT : ROLES.USER,
             content: m.content
           }))
         )
@@ -206,7 +207,7 @@ export default function Chat() {
     const message = input.trim();
     if (!message || coreLoadError || !coreLoaded) return;
 
-    addMessage('user', message);
+    addMessage(ROLES.USER, message);
     setInput('');
     setIsSending(true);
     typingIndicatorRef.current.style.display = 'block';
@@ -217,18 +218,18 @@ export default function Chat() {
         // Update the last AI message with streamed Markdown
         setMessages((prev) => {
           const lastMsg = prev[prev.length - 1];
-          if (lastMsg && lastMsg.role === 'ai') {
+          if (lastMsg && lastMsg.role === ROLES.AI) {
             lastMsg.content = partial;
             return [...prev.slice(0, -1), { ...lastMsg }];
           }
-          return [...prev, { role: 'ai', content: partial }];
+          return [...prev, { role: ROLES.AI, content: partial }];
         });
         scrollToBottom();
       });
       setMessages((prev) => {
         const updated = [...prev];
         const lastMsg = updated[updated.length - 1];
-        if (lastMsg && lastMsg.role === 'ai') {
+        if (lastMsg && lastMsg.role === ROLES.AI) {
           lastMsg.content = aiText;
         }
         const trimmed = trimHistory(updated);
@@ -236,7 +237,7 @@ export default function Chat() {
         return trimmed;
       });
     } catch (error) {
-      addMessage('ai', `Error: ${error.message}`);
+      addMessage(ROLES.AI, `Error: ${error.message}`);
     } finally {
       setIsSending(false);
       typingIndicatorRef.current.style.display = 'none';
@@ -287,7 +288,7 @@ export default function Chat() {
           <div className="info-text">会话已就绪，请输入消息开始对话</div>
         ) : (
           messages.map((msg, idx) => {
-            if (msg.role === 'ai') {
+            if (msg.role === ROLES.AI) {
               const streaming = isSending && idx === messages.length - 1;
               return (
                 <AIMessage key={idx} text={msg.content} enhance={librariesLoaded && !streaming} />

@@ -9,7 +9,8 @@ import {
   VERIFY_URLS,
   CREDLY_HOST,
   CREDLY_BADGE_ID,
-  CREDLY_EMBED_IFRAME
+  CREDLY_EMBED_IFRAME,
+  FAVICON_PATH
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -60,7 +61,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <script type="application/ld+json" set:html={jsonLD} />
     <!-- Favicon & CSS -->
     <meta name="theme-color" content="#ffffff" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href="/css/index.min.css" />
     <link rel="stylesheet" href="/css/certifications.min.css" />
   </head>

@@ -18,7 +18,8 @@ import {
   SITE_AUTHOR_ZH,
   PERSON_SCHEMA,
   IMAGE_PATHS,
-  SCRIPT_PATHS
+  SCRIPT_PATHS,
+  FAVICON_PATH
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -66,8 +67,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
     <script type="application/ld+json" set:html={jsonLD} />
     <!-- Favicon & CSS -->
-    <link href="/favicon.png" rel="shortcut icon" type="image/x-icon" />
-    <link href="/favicon.png" rel="icon" type="image/png" />
+    <link href={FAVICON_PATH} rel="shortcut icon" type="image/x-icon" />
+    <link href={FAVICON_PATH} rel="icon" type="image/png" />
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/all.min.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" media="all" />

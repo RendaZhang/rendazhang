@@ -17,6 +17,13 @@ export const MAX_CHARACTERS = 800;
 export const AVG_WORD_LENGTH = 4;
 export const AVG_TOKENS_PER_WORD = 1.5;
 
+export const ROLES = {
+  USER: 'user',
+  AI: 'ai',
+  ASSISTANT: 'assistant',
+  SYSTEM: 'system'
+};
+
 export const SCRIPT_TIMEOUTS = {
   DEFAULT: 10000,
   HIGHLIGHT: 30000,
@@ -42,6 +49,8 @@ export const SCRIPT_PATHS = {
 export const STYLE_PATHS = {
   CHAT_WIDGET: '/css/chat_widget.css'
 };
+
+export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {
   LOADER: '/images/ajax-loader.gif',

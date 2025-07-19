@@ -15,7 +15,8 @@ import {
   SITE_AUTHOR_EN,
   PERSON_SCHEMA,
   IMAGE_PATHS,
-  SCRIPT_PATHS
+  SCRIPT_PATHS,
+  FAVICON_PATH
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -69,9 +70,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:domain" content="www.rendazhang.com" />
     <script type="application/ld+json" set:html={jsonLD} />
     <!-- Favicon & CSS -->
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
+    <link rel="icon" type="image/png" href={FAVICON_PATH} />
+    <link rel="apple-touch-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href="/css/index.min.css" />
     <link rel="preload" href="/css/chat_widget.css" as="style" />
     <link rel="stylesheet" href="/css/chat_widget.css" />
