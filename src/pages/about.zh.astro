@@ -7,7 +7,10 @@ import {
   GEO_POSITION,
   GEO_ICBM,
   OG_IMAGE_DIMENSIONS,
-  DEFAULT_SOCIAL_IMAGE
+  DEFAULT_SOCIAL_IMAGE,
+  CONTACT_PHONE_LOCAL,
+  CONTACT_EMAIL_PRIMARY,
+  CONTACT_FORM_ENDPOINT
 } from '../config.js';
 ---
 
@@ -215,8 +218,8 @@ import {
                   <p class="mb-0">生日: <span class="text-dark">1995年11月5日</span></p>
                 </div>
                 <div class="col-md-6 mt-2 mt-md-0 mt-sm-2">
-                  <p class="mb-2">电话: <span class="text-dark">13925067232</span></p>
-                  <p class="mb-0">邮箱: <span class="text-dark">952402967@qq.com</span></p>
+                  <p class="mb-2">电话: <span class="text-dark">{CONTACT_PHONE_LOCAL}</span></p>
+                  <p class="mb-0">邮箱: <span class="text-dark">{CONTACT_EMAIL_PRIMARY}</span></p>
                 </div>
               </div>
               <a
@@ -538,13 +541,13 @@ import {
               <div class="contact-info mb-5">
                 <i class="icon-phone"></i>
                 <div class="details">
-                  <h3>手机</h3><span>13925067232</span>
+                  <h3>手机</h3><span>{CONTACT_PHONE_LOCAL}</span>
                 </div>
               </div>
               <div class="contact-info mb-5">
                 <i class="icon-envelope"></i>
                 <div class="details">
-                  <h3>邮箱</h3><span>952402967@qq.com</span>
+                  <h3>邮箱</h3><span>{CONTACT_EMAIL_PRIMARY}</span>
                 </div>
               </div>
               <div class="contact-info">
@@ -643,7 +646,10 @@ import {
     <script defer src="/js/infinite-scroll.min.js"></script>
     <script defer src="/js/imagesloaded.pkgd.min.js"></script>
     <script defer src="/js/slick.min.js"></script>
-    <script defer src="/js/contact.min.js"></script>
+    <script>
+      window.CONTACT_FORM_ENDPOINT = CONTACT_FORM_ENDPOINT;
+    </script>
+    <script defer src="/js/contact.js"></script>
     <script defer src="/js/validator.min.js"></script>
     <script defer src="/js/custom.min.js"></script>
     <script defer src="/js/jinxin.lazyload.min.js"></script>

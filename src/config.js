@@ -54,3 +54,10 @@ export const GEO_POSITION = '22.543096;114.057865';
 export const GEO_ICBM = '22.543096, 114.057865';
 export const GEO_PLACENAME_EN = 'Shenzhen, Guangdong, China';
 export const GEO_PLACENAME_ZH = '深圳, 广东, 中国';
+
+// Contact information
+export const CONTACT_FORM_ENDPOINT = 'https://formspree.io/xlepgene';
+export const CONTACT_EMAIL_PRIMARY = '952402967@qq.com';
+export const CONTACT_EMAIL_SECONDARY = 'dl952402967@hotmail.com';
+export const CONTACT_PHONE_LOCAL = '13925067232';
+export const CONTACT_PHONE_INTL = '+86-13925067232';
