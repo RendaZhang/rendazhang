@@ -1,5 +1,6 @@
 ---
 // 你可以在这里定义任何 Astro 前言变量或导入
+import { CHAT_PAGE_PATH } from '../config.js';
 ---
 
 <html lang="en">
@@ -143,7 +144,7 @@
                           </ul>
                           <div class="mt-4">
                             <a
-                              href="/deepseek_chat"
+                              href={CHAT_PAGE_PATH}
                               role="button"
                               class="btn btn-sm btn-custom btn-round mr-2">Chat with AI</a
                             >

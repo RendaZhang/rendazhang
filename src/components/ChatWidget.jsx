@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { CHAT_PAGE_PATH } from '../config.js';
 
 const loadedStyles = new Set();
 
@@ -74,7 +75,7 @@ export default function ChatWidget({ defaultOpen = false }) {
         <div className="chat-widget-panel">
           {loaded && (
             <iframe
-              src="/deepseek_chat/"
+              src={`${CHAT_PAGE_PATH}/`}
               title="AI Chat"
               className="chat-widget-iframe"
               loading="lazy"

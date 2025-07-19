@@ -1,5 +1,6 @@
 ---
 import Chat from '../components/Chat.jsx';
+import { CHAT_PAGE_PATH, SITE_BASE_URL } from '../config.js';
 ---
 
 <html lang="zh-CN">
@@ -14,9 +15,9 @@ import Chat from '../components/Chat.jsx';
       name="description"
       content="Chat with an AI assistant powered by DeepSeek. Conversations are saved locally and support Markdown rendering."
     />
-    <link rel="canonical" href="https://www.rendazhang.com/deepseek_chat/" />
-    <link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/deepseek_chat/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/deepseek_chat/" />
+    <link rel="canonical" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="zh-CN" />
     <meta name="geo.region" content="CN-GD" />
@@ -26,7 +27,7 @@ import Chat from '../components/Chat.jsx';
     <meta property="og:title" content="AI Chat" />
     <meta property="og:description" content="Chat with an AI assistant powered by DeepSeek." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rendazhang.com/deepseek_chat/" />
+    <meta property="og:url" content={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <meta property="og:image" content="https://www.rendazhang.com/images/social_default.jpg" />
     <meta property="og:site_name" content="Renda Zhang" />
     <meta name="twitter:card" content="summary_large_image" />

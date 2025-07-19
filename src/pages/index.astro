@@ -1,5 +1,6 @@
 ---
 import ChatWidget from '../components/ChatWidget.jsx';
+import { CHAT_PAGE_PATH } from '../config.js';
 // 如果需要导入其他组件或资产，在这里添加
 // 例如：import styles from '../styles/styles.css'; 但既然静态资源已好，可以链接
 ---
@@ -93,7 +94,7 @@ import ChatWidget from '../components/ChatWidget.jsx';
         <a href="/about.en" role="button" aria-label="About Me">About Me</a>
       </div>
       <div class="chat-section">
-        <a href="/deepseek_chat" role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
+        <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
       </div>
       <div class="certification-section">
         <a href="/certifications" role="button" aria-label="Certifications">Certifications (证书)</a
