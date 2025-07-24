@@ -1,6 +1,8 @@
 // Centralized configuration for API endpoints and chat limits
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
+export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
+export const SITE_DESCRIPTION_ZH = '来自 深圳 的 软件开发工程师 张人大';
 
 export const ENDPOINTS = {
   CHAT: `${API_BASE_URL}/deepseek_chat`,
@@ -46,6 +48,8 @@ export const SCRIPT_PATHS = {
   LAZYLOAD: '/js/jinxin.lazyload.min.js',
   DOCS: '/js/docs.min.js',
   CREDLY_EMBED: '/js/credly_embed.min.js',
+  JQUERY_EASING: '/js/jquery.easing.min.js',
+  INDEX: '/js/index.min.js',
   CERTIFICATIONS: '/js/certifications.min.js'
 };
 
@@ -55,6 +59,8 @@ export const STYLE_PATHS = {
   GITHUB: '/css/github.min.css',
   DOCS: '/css/docs.min.css',
   INDEX: '/css/index.min.css',
+  DEEPSEEK_CHAT: '/css/deepseek_chat.min.css',
+  GITHUB_LIGHT: '/css/github-markdown-light.min.css',
   CERTIFICATIONS: '/css/certifications.min.css'
 };
 
@@ -121,7 +127,7 @@ export const PERSON_SCHEMA = {
     name: 'Self-Employed'
   },
   sameAs: SOCIAL_PROFILE_URLS,
-  description: 'Renda Zhang - a Software Engineer from Shenzhen China'
+  description: SITE_DESCRIPTION_EN
 };
 
 // Additional social profile links

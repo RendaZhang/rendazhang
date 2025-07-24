@@ -3,6 +3,7 @@ import ChatWidget from '../components/ChatWidget.jsx';
 import {
   CHAT_PAGE_PATH,
   SITE_BASE_URL,
+  SITE_DESCRIPTION_EN,
   SOCIAL_LINKS,
   GEO_REGION,
   GEO_PLACENAME_EN,
@@ -30,7 +31,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
     />
     <title>Software Engineer - Renda Zhang</title>
-    <meta name="description" content="Renda Zhang - a Software Engineer from Shenzhen China" />
+    <meta name="description" content={SITE_DESCRIPTION_EN} />
     <link rel="canonical" href={`${SITE_BASE_URL}/`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
@@ -44,10 +45,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="Renda Zhang · Personal Website" />
-    <meta
-      property="og:description"
-      content="Renda Zhang - a Software Engineer from Shenzhen China"
-    />
+    <meta property="og:description" content={SITE_DESCRIPTION_EN} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
@@ -60,10 +58,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Renda Zhang · Personal Website" />
-    <meta
-      name="twitter:description"
-      content="Renda Zhang - a Software Engineer from Shenzhen China"
-    />
+    <meta name="twitter:description" content={SITE_DESCRIPTION_EN} />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:image:alt" content="Renda Zhang Logo" />
     <meta name="twitter:site" content={TWITTER_HANDLE} />
@@ -75,8 +70,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <link rel="icon" type="image/png" href={FAVICON_PATH} />
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
-    <link rel="preload" href="/css/chat_widget.css" as="style" />
-    <link rel="stylesheet" href="/css/chat_widget.css" />
+    <link rel="preload" href={STYLE_PATHS.CHAT_WIDGET} as="style" />
+    <link rel="stylesheet" href={STYLE_PATHS.CHAT_WIDGET} />
   </head>
 
   <body>
@@ -161,6 +156,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     </div>
 
     <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
-    <script defer src="/js/index.min.js"></script>
+    <script defer src={SCRIPT_PATHS.INDEX}></script>
   </body>
 </html>

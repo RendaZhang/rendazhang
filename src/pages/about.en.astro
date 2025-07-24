@@ -3,6 +3,7 @@
 import {
   CHAT_PAGE_PATH,
   SITE_BASE_URL,
+  SITE_DESCRIPTION_EN,
   GEO_REGION,
   GEO_PLACENAME_EN,
   GEO_POSITION,
@@ -29,7 +30,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta charset="utf-8" />
     <title>Renda Zhang · Backend Engineer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Renda Zhang - a Software Engineer from Shenzhen China" />
+    <meta name="description" content={SITE_DESCRIPTION_EN} />
     <link rel="canonical" href={`${SITE_BASE_URL}/about.en/`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
@@ -43,10 +44,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
     <!-- Open Graph -->
     <meta property="og:title" content="Renda Zhang · Software Engineer" />
-    <meta
-      property="og:description"
-      content="Renda Zhang - a Software Engineer from Shenzhen China"
-    />
+    <meta property="og:description" content={SITE_DESCRIPTION_EN} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}/about.en/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
@@ -60,10 +58,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Renda Zhang · Software Engineer" />
-    <meta
-      name="twitter:description"
-      content="Renda Zhang - a Software Engineer from Shenzhen China"
-    />
+    <meta name="twitter:description" content={SITE_DESCRIPTION_EN} />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:image:alt" content="Renda Zhang Logo" />
     <meta name="twitter:site" content={TWITTER_HANDLE} />
@@ -808,7 +803,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     </div>
     <script defer src={SCRIPT_PATHS.JQUERY}></script>
     <script defer src="/js/bootstrap.bundle.min.js"></script>
-    <script defer src="/js/jquery.easing.min.js"></script>
+    <script defer src={SCRIPT_PATHS.JQUERY_EASING}></script>
     <script defer src="/js/scrollspy.min.js"></script>
     <script defer src="/js/floating-menu.min.js"></script>
     <script defer src="/js/jquery.magnific-popup.min.js"></script>

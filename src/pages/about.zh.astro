@@ -2,6 +2,7 @@
 // 你可以在这里定义任何 Astro 前言变量或导入
 import {
   SITE_BASE_URL,
+  SITE_DESCRIPTION_ZH,
   GEO_REGION,
   GEO_PLACENAME_ZH,
   GEO_POSITION,
@@ -33,7 +34,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
     />
-    <meta name="description" content="来自 深圳 的 软件开发工程师 张人大" />
+    <meta name="description" content={SITE_DESCRIPTION_ZH} />
     <link rel="canonical" href={`${SITE_BASE_URL}/about.zh/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
@@ -47,7 +48,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
     <!-- Open Graph -->
     <meta property="og:title" content="张人大 · 软件开发工程师" />
-    <meta property="og:description" content="来自 深圳 的 软件开发工程师 张人大" />
+    <meta property="og:description" content={SITE_DESCRIPTION_ZH} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}/about.zh/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
@@ -61,7 +62,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="张人大 · 软件开发工程师" />
-    <meta name="twitter:description" content="来自 深圳 的 软件开发工程师 张人大" />
+    <meta name="twitter:description" content={SITE_DESCRIPTION_ZH} />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:image:alt" content="张人大 Logo" />
     <meta name="twitter:site" content={TWITTER_HANDLE} />
@@ -621,7 +622,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       ><i class="fa fa-chevron-up"></i></a
     >
     <script defer src={SCRIPT_PATHS.JQUERY}></script>
-    <script defer src="/js/jquery.easing.min.js"></script>
+    <script defer src={SCRIPT_PATHS.JQUERY_EASING}></script>
     <script defer src="/js/popper.min.js"></script>
     <script defer src="/js/bootstrap.min.js"></script>
     <script defer src="/js/jquery.waypoints.min.js"></script>
@@ -634,8 +635,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <script define:vars={{ CONTACT_FORM_ENDPOINT }}>
       window.CONTACT_FORM_ENDPOINT = CONTACT_FORM_ENDPOINT;
     </script>
-    <script defer src="/js/contact.js"></script>
     <script defer src="/js/validator.min.js"></script>
+    <script defer src="/js/contact.js"></script>
     <script defer src="/js/custom.min.js"></script>
     <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
   </body>
