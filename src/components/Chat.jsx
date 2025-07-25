@@ -13,7 +13,8 @@ import {
   SCRIPT_PATHS,
   CHAT_TEXT,
   ROLES,
-  AI_CHAT_TITLE
+  AI_CHAT_TITLE,
+  HOME_PAGE_PATH
 } from '../config.js';
 
 export default function Chat() {
@@ -270,7 +271,7 @@ export default function Chat() {
     <div className="container">
       <header>
         {!embedded && (
-          <button id="back-button" onClick={() => (window.location.href = '/')}>
+          <button id="back-button" onClick={() => (window.location.href = HOME_PAGE_PATH)}>
             ← Back
           </button>
         )}

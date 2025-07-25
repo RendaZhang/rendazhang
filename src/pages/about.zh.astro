@@ -28,7 +28,8 @@ import {
   FAVICON_PATH,
   STYLE_PATHS,
   ABOUT_ZH_STYLES,
-  ABOUT_ZH_SCRIPTS
+  ABOUT_ZH_SCRIPTS,
+  LOGO_IMAGE_SIZE
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -120,8 +121,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             src={IMAGE_PATHS.LOADER}
             class="jxLazyClass ss"
             jxLazyImg={IMAGE_PATHS.LOGO_ZH}
-            width="150px"
-            height="150px"
+            width={LOGO_IMAGE_SIZE}
+            height={LOGO_IMAGE_SIZE}
             alt="张人大"
             loading="lazy"
           /></span
@@ -139,8 +140,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               class="jxLazyClass ss"
               jxLazyImg={IMAGE_PATHS.LOGO_ZH}
               alt="张人大"
-              width="150px"
-              height="150px"
+              width={LOGO_IMAGE_SIZE}
+              height={LOGO_IMAGE_SIZE}
               loading="lazy"
             />
           </a>

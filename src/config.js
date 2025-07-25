@@ -18,6 +18,12 @@ export const ABOUT_EN_PAGE_PATH = '/about.en';
 export const ABOUT_ZH_PAGE_PATH = '/about.zh';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
+
+// Home page path
+export const HOME_PAGE_PATH = '/';
+
+// Commonly used logo image size
+export const LOGO_IMAGE_SIZE = '150px';
 // Reusable titles and descriptions
 export const AI_CHAT_TITLE = 'AI Chat';
 export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';

@@ -28,7 +28,8 @@ import {
   FAVICON_PATH,
   STYLE_PATHS,
   ABOUT_EN_STYLES,
-  ABOUT_EN_SCRIPTS
+  ABOUT_EN_SCRIPTS,
+  LOGO_IMAGE_SIZE
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -95,8 +96,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                       <a class="logo" href="#">
                         <span>Renda Zhang</span>
                         <img
-                          width="150px"
-                          height="150px"
+                          width={LOGO_IMAGE_SIZE}
+                          height={LOGO_IMAGE_SIZE}
                           src={IMAGE_PATHS.LOADER}
                           class="jxLazyClass ss"
                           jxLazyImg={IMAGE_PATHS.LOGO_EN}
