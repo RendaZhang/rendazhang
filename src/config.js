@@ -266,9 +266,9 @@ export const CREDLY_HOST = 'https://www.credly.com';
 export const CREDLY_BADGE_ID = '8a7e15fc-374b-4335-a86e-e30e5255836d';
 
 export const CREDLY_EMBED_IFRAME = {
-  WIDTH: 150,
-  HEIGHT: 270
+  WIDTH: '150',
+  HEIGHT: '270'
 };
 
-export const CREDLY_CONTAINER_MAX_WIDTH = 270;
+export const CREDLY_CONTAINER_MAX_WIDTH = '270';
 export const SCROLL_OFFSET = 120;
