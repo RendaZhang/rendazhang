@@ -2,6 +2,9 @@
 // 你可以在这里定义任何 Astro 前言变量或导入
 import {
   CHAT_PAGE_PATH,
+  ABOUT_EN_PAGE_PATH,
+  ABOUT_ZH_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
   SITE_BASE_URL,
   SITE_DESCRIPTION_EN,
   GEO_REGION,
@@ -34,9 +37,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <title>Renda Zhang · Backend Engineer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={SITE_DESCRIPTION_EN} />
-    <link rel="canonical" href={`${SITE_BASE_URL}/about.en/`} />
-    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
-    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
+    <link rel="canonical" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content={SITE_AUTHOR_EN} />
     <meta name="language" content="en, zh-CN" />
@@ -49,7 +52,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta property="og:title" content="Renda Zhang · Software Engineer" />
     <meta property="og:description" content={SITE_DESCRIPTION_EN} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}/about.en/`} />
+    <meta property="og:url" content={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Renda Zhang" />
@@ -143,7 +146,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                               class="btn btn-sm btn-custom btn-round mr-2">Chat with AI</a
                             >
                             <a
-                              href="/certifications"
+                              href={CERTIFICATIONS_PAGE_PATH}
                               role="button"
                               class="btn btn-sm btn-custom btn-round">Certifications</a
                             >

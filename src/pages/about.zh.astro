@@ -2,6 +2,9 @@
 // 你可以在这里定义任何 Astro 前言变量或导入
 import {
   SITE_BASE_URL,
+  ABOUT_EN_PAGE_PATH,
+  ABOUT_ZH_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
   SITE_DESCRIPTION_ZH,
   GEO_REGION,
   GEO_PLACENAME_ZH,
@@ -37,9 +40,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
     />
     <meta name="description" content={SITE_DESCRIPTION_ZH} />
-    <link rel="canonical" href={`${SITE_BASE_URL}/about.zh/`} />
-    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
-    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
+    <link rel="canonical" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content={SITE_AUTHOR_ZH} />
     <meta name="language" content="zh-CN, en" />
@@ -52,7 +55,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta property="og:title" content="张人大 · 软件开发工程师" />
     <meta property="og:description" content={SITE_DESCRIPTION_ZH} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}/about.zh/`} />
+    <meta property="og:url" content={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:site_name" content="张人大" />
@@ -171,7 +174,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               ><i class="icon-envelope"></i>联系我吧</a
             >
             <div class="spacer d-md-none d-lg-none d-sm-none" data-height="10"></div>
-            <a href="/certifications" class="btn btn-default btn-lg"
+            <a href={CERTIFICATIONS_PAGE_PATH} class="btn btn-default btn-lg"
               ><i class="icon-graduation"></i>证书展示</a
             >
           </div>

@@ -2,6 +2,10 @@
 import ChatWidget from '../components/ChatWidget.jsx';
 import {
   CHAT_PAGE_PATH,
+  ABOUT_EN_PAGE_PATH,
+  ABOUT_ZH_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
+  DOCS_PAGE_PATH,
   SITE_BASE_URL,
   SITE_DESCRIPTION_EN,
   SOCIAL_LINKS,
@@ -33,8 +37,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <title>Software Engineer - Renda Zhang</title>
     <meta name="description" content={SITE_DESCRIPTION_EN} />
     <link rel="canonical" href={`${SITE_BASE_URL}/`} />
-    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}/about.en/`} />
-    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}/about.zh/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
+    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
     <meta name="author" content={SITE_AUTHOR_EN} />
     <meta name="language" content="en, zh-CN" />
@@ -77,18 +81,19 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
   <body>
     <div class="container">
       <div class="language-selector">
-        <a href="/about.zh" role="button" aria-label="关于我">关于我</a>
-        <a href="/about.en" role="button" aria-label="About Me">About Me</a>
+        <a href={ABOUT_ZH_PAGE_PATH} role="button" aria-label="关于我">关于我</a>
+        <a href={ABOUT_EN_PAGE_PATH} role="button" aria-label="About Me">About Me</a>
       </div>
       <div class="chat-section">
         <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
       </div>
       <div class="certification-section">
-        <a href="/certifications" role="button" aria-label="Certifications">Certifications (证书)</a
+        <a href={CERTIFICATIONS_PAGE_PATH} role="button" aria-label="Certifications"
+          >Certifications (证书)</a
         >
       </div>
       <div class="docs-section">
-        <a href="/docs" role="button" aria-label="Technical Documentation">
+        <a href={DOCS_PAGE_PATH} role="button" aria-label="Technical Documentation">
           <span class="code-icon">&lt;/&gt;</span> 技术文档 | Tech Docs
         </a>
       </div>

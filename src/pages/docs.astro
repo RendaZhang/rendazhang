@@ -2,6 +2,7 @@
 // 你可以在这里定义任何 Astro 前言变量或导入
 import {
   SITE_BASE_URL,
+  DOCS_PAGE_PATH,
   GEO_REGION,
   GEO_PLACENAME_EN,
   GEO_POSITION,
@@ -17,7 +18,7 @@ import {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Technical Documentation</title>
     <meta name="description" content="Renda Zhang technical documentation" />
-    <link rel="canonical" href={`${SITE_BASE_URL}/docs/`} />
+    <link rel="canonical" href={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
     <meta name="language" content="en, zh-CN" />
     <meta name="geo.region" content={GEO_REGION} />
     <meta name="geo.placename" content={GEO_PLACENAME_EN} />
@@ -26,7 +27,7 @@ import {
     <meta property="og:title" content="Technical Documentation" />
     <meta property="og:description" content="Renda Zhang technical documentation" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}/docs/`} />
+    <meta property="og:url" content={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
     <meta property="og:site_name" content="Renda Zhang" />
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="stylesheet" href={STYLE_PATHS.GITHUB} />

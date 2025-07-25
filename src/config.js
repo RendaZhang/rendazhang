@@ -13,6 +13,12 @@ export const ENDPOINTS = {
 // Path for embedding or linking to the chat page
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 
+// Additional site page paths
+export const ABOUT_EN_PAGE_PATH = '/about.en';
+export const ABOUT_ZH_PAGE_PATH = '/about.zh';
+export const CERTIFICATIONS_PAGE_PATH = '/certifications';
+export const DOCS_PAGE_PATH = '/docs';
+
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const MAX_TOKENS = 15000;
 export const MAX_CHARACTERS = 800;
