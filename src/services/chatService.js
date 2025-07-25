@@ -1,13 +1,11 @@
 // Markdown libraries expected to be loaded globally
-import { ENDPOINTS } from '../config.js';
+import { ENDPOINTS, JSON_HEADERS } from '../config.js';
 
 export async function sendMessageToAI(userInput, onChunkCallback) {
   try {
     const response = await fetch(ENDPOINTS.CHAT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: JSON_HEADERS,
       body: JSON.stringify({ message: userInput })
     });
 
@@ -53,9 +51,7 @@ export async function resetChat() {
   try {
     const response = await fetch(ENDPOINTS.RESET, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: JSON_HEADERS,
       body: JSON.stringify({})
     });
 

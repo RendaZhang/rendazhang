@@ -11,6 +11,10 @@ export const ENDPOINTS = {
   IMAGE_GENERATION: `${API_BASE_URL}/generate_image`
 };
 
+export const JSON_HEADERS = {
+  'Content-Type': 'application/json'
+};
+
 // Path for embedding or linking to the chat page
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 
