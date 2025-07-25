@@ -11,6 +11,7 @@ import {
   SCRIPT_TIMEOUTS,
   UI_DURATIONS,
   SCRIPT_PATHS,
+  CHAT_TEXT,
   ROLES,
   AI_CHAT_TITLE
 } from '../config.js';
@@ -89,7 +90,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (enhancementFailed) {
-      showHint('优化功能加载失败，基础功能不受影响');
+      showHint(CHAT_TEXT.ENHANCEMENT_FAILED);
     }
   }, [enhancementFailed]);
 
@@ -138,7 +139,7 @@ export default function Chat() {
       .catch((error) => {
         console.error('Enhancement libraries loading failed:', error);
         // Show failure message (as in original)
-        enhancementProgressRef.current.innerHTML = '<p>优化功能加载失败，基础功能不受影响</p>';
+        enhancementProgressRef.current.innerHTML = `<p>${CHAT_TEXT.ENHANCEMENT_FAILED}</p>`;
         document.body.classList.add('basic-mode'); // Add basic-mode class
         // Hide after delay
         setTimeout(() => {
@@ -247,13 +248,13 @@ export default function Chat() {
   };
 
   const handleReset = async () => {
-    if (window.confirm('确定要重置会话吗？这将清除所有对话历史。')) {
+    if (window.confirm(CHAT_TEXT.RESET_CONFIRM)) {
       try {
         await resetChat();
         setMessages([]);
         saveHistory([]);
       } catch (error) {
-        alert(`重置会话失败: ${error.message}`);
+        alert(`${CHAT_TEXT.RESET_FAILED_PREFIX}: ${error.message}`);
       }
     }
   };
@@ -278,15 +279,15 @@ export default function Chat() {
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
         {coreLoadError ? (
           <div id="loading-indicator" className="loading-indicator">
-            <p>核心资源加载失败，请刷新重试</p>
+            <p>{CHAT_TEXT.CORE_LOAD_FAILED}</p>
           </div>
         ) : isLoading ? (
           <div id="loading-indicator" className="loading-indicator">
             <div className="spinner"></div>
-            <p>加载对话中...</p>
+            <p>{CHAT_TEXT.LOADING}</p>
           </div>
         ) : messages.length === 0 ? (
-          <div className="info-text">会话已就绪，请输入消息开始对话</div>
+          <div className="info-text">{CHAT_TEXT.CHAT_READY}</div>
         ) : (
           messages.map((msg, idx) => {
             if (msg.role === ROLES.AI) {
@@ -327,7 +328,11 @@ export default function Chat() {
           onKeyDown={handleKeyDown}
           disabled={isLoading || isSending || coreLoadError}
           placeholder={
-            isLoading ? '加载对话中，请稍候...' : coreLoadError ? '核心资源加载失败' : '输入消息...'
+            isLoading
+              ? CHAT_TEXT.INPUT_PLACEHOLDER_LOADING
+              : coreLoadError
+                ? CHAT_TEXT.INPUT_PLACEHOLDER_ERROR
+                : CHAT_TEXT.INPUT_PLACEHOLDER_DEFAULT
           }
           rows="1"
           autoFocus

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_TITLE } from '../config.js';
+import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_TITLE, ICON_SIZES } from '../config.js';
 
 const loadedStyles = new Set();
 
@@ -14,7 +14,7 @@ function loadStyle(href) {
   loadedStyles.add(href);
 }
 
-function RobotIcon({ size = 24 }) {
+function RobotIcon({ size = ICON_SIZES.DEFAULT }) {
   return (
     <svg
       width={size}
@@ -35,7 +35,7 @@ function RobotIcon({ size = 24 }) {
   );
 }
 
-function CloseIcon({ size = 24 }) {
+function CloseIcon({ size = ICON_SIZES.DEFAULT }) {
   return (
     <svg
       width={size}
@@ -88,7 +88,7 @@ export default function ChatWidget({ defaultOpen = false }) {
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
       >
-        {open ? <CloseIcon size={28} /> : <RobotIcon size={28} />}
+        {open ? <CloseIcon size={ICON_SIZES.LARGE} /> : <RobotIcon size={ICON_SIZES.LARGE} />}
       </button>
     </>
   );

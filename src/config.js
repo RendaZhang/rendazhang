@@ -48,6 +48,23 @@ export const UI_DURATIONS = {
   ERROR_HIDE_DELAY: 2000
 };
 
+export const ICON_SIZES = {
+  DEFAULT: 24,
+  LARGE: 28
+};
+
+export const CHAT_TEXT = {
+  ENHANCEMENT_FAILED: '优化功能加载失败，基础功能不受影响',
+  CORE_LOAD_FAILED: '核心资源加载失败，请刷新重试',
+  CHAT_READY: '会话已就绪，请输入消息开始对话',
+  LOADING: '加载对话中...',
+  INPUT_PLACEHOLDER_LOADING: '加载对话中，请稍候...',
+  INPUT_PLACEHOLDER_ERROR: '核心资源加载失败',
+  INPUT_PLACEHOLDER_DEFAULT: '输入消息...',
+  RESET_CONFIRM: '确定要重置会话吗？这将清除所有对话历史。',
+  RESET_FAILED_PREFIX: '重置会话失败'
+};
+
 export const SCRIPT_PATHS = {
   MARKED: '/js/marked.min.js',
   PURIFY: '/js/purify.min.js',
