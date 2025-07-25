@@ -321,3 +321,19 @@ export const CREDLY_EMBED_IFRAME = {
 
 export const CREDLY_CONTAINER_MAX_WIDTH = '270';
 export const SCROLL_OFFSET = 120;
+
+// Legacy standalone scripts expect these globals
+export const LEGACY_CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
+export const TYPING_INTERVAL = 30;
+
+// Expose minimal config for non-module scripts
+export const GLOBAL_CONFIG = {
+  API_BASE_URL,
+  ENDPOINTS,
+  LEGACY_CHAT_ENDPOINT,
+  TYPING_INTERVAL
+};
+
+if (typeof window !== 'undefined') {
+  window.config = GLOBAL_CONFIG;
+}
