@@ -23,6 +23,7 @@ import {
   SITE_NAME_ZH,
   PERSON_SCHEMA,
   IMAGE_PATHS,
+  ABOUT_IMAGES,
   RESUME_ZH_DOWNLOAD,
   SCRIPT_PATHS,
   FAVICON_PATH,
@@ -201,7 +202,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                 src={IMAGE_PATHS.LOADER}
                 class="jxLazyClass ss"
                 alt="about"
-                jxLazyImg="/images/about.png"
+                jxLazyImg={ABOUT_IMAGES.ABOUT_SECTION}
                 loading="lazy"
               />
             </div>
@@ -453,7 +454,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                     <img
                       src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
-                      jxLazyImg="/images/blog/2.jpg"
+                      jxLazyImg={ABOUT_IMAGES.BLOG2}
                       alt="Blog cover image"
                       loading="lazy"
                     />
@@ -478,7 +479,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                     <img
                       src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
-                      jxLazyImg="/images/blog/1.jpg"
+                      jxLazyImg={ABOUT_IMAGES.BLOG1}
                       alt="Blog cover image"
                       loading="lazy"
                     /></a
@@ -503,7 +504,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                     ><img
                       src={IMAGE_PATHS.LOADER}
                       class="jxLazyClass ss"
-                      jxLazyImg="/images/blog/3.jpg"
+                      jxLazyImg={ABOUT_IMAGES.BLOG3}
                       alt="Blog cover image"
                       loading="lazy"
                     /></a

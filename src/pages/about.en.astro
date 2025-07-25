@@ -23,6 +23,7 @@ import {
   SITE_NAME_EN,
   PERSON_SCHEMA,
   IMAGE_PATHS,
+  ABOUT_IMAGES,
   RESUME_EN_DOWNLOAD,
   SCRIPT_PATHS,
   FAVICON_PATH,
@@ -769,7 +770,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                       <div class="contact-info text-center">
                         <div class="contact-img">
                           <img
-                            src="/images/img1.jpg"
+                            src={ABOUT_IMAGES.CONTACT_PHOTO}
                             class="img-fluid rounded-circle"
                             alt="Renda Zhang contact photo"
                             loading="lazy"

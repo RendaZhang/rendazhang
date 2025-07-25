@@ -206,6 +206,24 @@ export const IMAGE_PATHS = {
   RESUME_ZH: '/images/个人简历_张人大.pdf'
 };
 
+// Social icon paths used on the homepage
+export const SOCIAL_ICON_PATHS = {
+  WECHAT: '/images/social/wechat-logo.svg',
+  ZHIHU: '/images/social/zhihu-logo.svg',
+  TOUTIAO: '/images/social/toutiao-logo.svg',
+  CSDN: '/images/social/csdn-logo.svg',
+  MEDIUM: '/images/social/medium-logo.svg'
+};
+
+// Image assets for the About pages
+export const ABOUT_IMAGES = {
+  CONTACT_PHOTO: '/images/img1.jpg',
+  ABOUT_SECTION: '/images/about.png',
+  BLOG1: '/images/blog/1.jpg',
+  BLOG2: '/images/blog/2.jpg',
+  BLOG3: '/images/blog/3.jpg'
+};
+
 export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
 export const RESUME_ZH_DOWNLOAD = '个人简历_张人大_20250622.pdf';
 
