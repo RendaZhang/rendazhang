@@ -17,7 +17,8 @@ import {
   IMAGE_PATHS,
   STYLE_PATHS,
   SCRIPT_PATHS,
-  VIEWPORT_ZOOM_ALLOWED
+  VIEWPORT_ZOOM_ALLOWED,
+  HOME_PAGE_PATH
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -72,7 +73,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
 
   <body>
     <div class="container">
-      <button onclick="location.href='/'" role="button">← Back</button>
+      <button onclick={`location.href='${HOME_PAGE_PATH}'`} role="button">← Back</button>
       <h1 style="margin-top:1.5rem;text-align:center;">Professional Certifications</h1>
 
       <section class="cert-grid">

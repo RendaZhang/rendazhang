@@ -10,7 +10,8 @@ import {
   SCRIPT_PATHS,
   STYLE_PATHS,
   SITE_NAME_EN,
-  VIEWPORT_NO_ZOOM
+  VIEWPORT_NO_ZOOM,
+  HOME_PAGE_PATH
 } from '../config.js';
 ---
 
@@ -36,7 +37,9 @@ import {
     <link rel="stylesheet" href={STYLE_PATHS.DOCS} />
   </head>
   <body>
-    <button id="back" onclick="window.location.href='/'">&larr; Back to Home</button>
+    <button id="back" onclick={`window.location.href='${HOME_PAGE_PATH}'`}
+      >&larr; Back to Home</button
+    >
     <div id="content">Loading...</div>
 
     <script defer src={SCRIPT_PATHS.JQUERY}></script>

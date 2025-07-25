@@ -27,7 +27,8 @@ import {
   STYLE_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
   PAGE_TITLES,
-  LOGO_ALT
+  LOGO_ALT,
+  HOME_PAGE_PATH
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -38,10 +39,10 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
     <title>{PAGE_TITLES.ABOUT_EN}</title>
     <meta name="description" content={SITE_DESCRIPTION_EN} />
-    <link rel="canonical" href={`${SITE_BASE_URL}/`} />
+    <link rel="canonical" href={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
-    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}/`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
     <meta name="author" content={SITE_AUTHOR_EN} />
     <meta name="language" content="en, zh-CN" />
     <meta name="geo.region" content={GEO_REGION} />
@@ -53,7 +54,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta property="og:title" content={PAGE_TITLES.INDEX_OG} />
     <meta property="og:description" content={SITE_DESCRIPTION_EN} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}/`} />
+    <meta property="og:url" content={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta property="og:site_name" content={SITE_NAME_EN} />
     <meta property="og:image:width" content={OG_IMAGE_DIMENSIONS.WIDTH} />
