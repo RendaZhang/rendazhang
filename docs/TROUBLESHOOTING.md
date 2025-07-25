@@ -11,13 +11,14 @@
     - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
     - [BUG-003: CONTACT_FORM_ENDPOINT 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
     - [BUG-004: jQuery.validator 加载顺序错误](#bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
+    - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 25, 2025, 02:01 (UTC+8)
+- **最后更新**: July 25, 2025, 16:20 (UTC+8)
 
 ---
 
@@ -61,6 +62,7 @@
 - [x] BUG-002: highlight.js 与 Mermaid 冲突
 - [x] BUG-003: CONTACT_FORM_ENDPOINT 未定义
 - [x] BUG-004: jQuery.validator 加载顺序错误
+- [x] BUG-005: jQuery.easing 插件缺失
 
 ---
 
@@ -142,3 +144,15 @@
 - **解决方案**：
   - 调整脚本顺序，先引入 `validator.min.js` 后引入 `contact.js`
 - **验证结果**：✅ 控制台不再报错，表单校验正常
+
+### BUG-005: jQuery.easing 插件缺失
+
+- **发现日期**：2025-07-25
+- **重现环境**：Chrome 最新版，开发服务器
+- **问题现象**：
+  - About 英文页面报 `E.easing[this.easing] is not a function`
+- **根本原因**：
+  - 页面未加载 `jquery.easing.min.js`，但 `switcher.min.js` 依赖该插件
+- **解决方案**：
+  - 在 about.en 页面中引入 `SCRIPT_PATHS.JQUERY_EASING`，置于 jQuery 之后
+- **验证结果**：✅ 控制台不再报错，动画正常
