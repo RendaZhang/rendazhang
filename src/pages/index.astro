@@ -29,7 +29,8 @@ import {
   VIEWPORT_ZOOM_ALLOWED,
   PAGE_TITLES,
   LOGO_ALT,
-  HOME_PAGE_PATH
+  HOME_PAGE_PATH,
+  THEME_COLOR_LIGHT
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -50,7 +51,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="geo.placename" content={GEO_PLACENAME_EN} />
     <meta name="geo.position" content={GEO_POSITION} />
     <meta name="ICBM" content={GEO_ICBM} />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content={THEME_COLOR_LIGHT} />
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content={PAGE_TITLES.INDEX_OG} />
     <meta property="og:description" content={SITE_DESCRIPTION_EN} />

@@ -34,7 +34,9 @@ import {
   SCROLL_OFFSET,
   VIEWPORT_NO_ZOOM,
   PAGE_TITLES,
-  LOGO_ALT
+  LOGO_ALT,
+  THEME_COLOR_LIGHT,
+  LOADING_TEXT
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -55,7 +57,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="geo.placename" content={GEO_PLACENAME_EN} />
     <meta name="geo.position" content={GEO_POSITION} />
     <meta name="ICBM" content={GEO_ICBM} />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content={THEME_COLOR_LIGHT} />
     <!-- Open Graph -->
     <meta property="og:title" content={PAGE_TITLES.ABOUT_EN_OG} />
     <meta property="og:description" content={SITE_DESCRIPTION_EN} />
@@ -87,7 +89,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
 
   <body data-spy="scroll" data-offset={SCROLL_OFFSET}>
     <div class="animationload">
-      <div class="loader">Loading...</div>
+      <div class="loader">{LOADING_TEXT}</div>
     </div>
     <section class="">
       <div class="container">

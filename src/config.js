@@ -36,7 +36,9 @@ export const PAGE_TITLES = {
   ABOUT_ZH: '张人大 · 软件开发工程师',
   ABOUT_EN: 'Renda Zhang · Software Engineer',
   ABOUT_EN_OG: 'Renda Zhang · Software Engineer',
-  INDEX_OG: 'Renda Zhang · Personal Website'
+  INDEX_OG: 'Renda Zhang · Personal Website',
+  CERTIFICATIONS: 'Professional Certifications · Renda Zhang',
+  DOCS: 'Technical Documentation'
 };
 
 // Alt text for logo images
@@ -47,6 +49,8 @@ export const LOGO_ALT = {
 // Reusable titles and descriptions
 export const AI_CHAT_TITLE = 'AI Chat';
 export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';
+export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
+export const LOADING_TEXT = 'Loading...';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const MAX_TOKENS = 15000;
@@ -193,6 +197,7 @@ export const ABOUT_EN_SCRIPTS = [
   '/js/app.min.js'
 ];
 
+export const THEME_COLOR_LIGHT = '#ffffff';
 export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {

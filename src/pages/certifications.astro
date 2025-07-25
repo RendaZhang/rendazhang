@@ -19,7 +19,9 @@ import {
   SCRIPT_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
   HOME_PAGE_PATH,
-  NAV_TEXT
+  NAV_TEXT,
+  THEME_COLOR_LIGHT,
+  PAGE_TITLES
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -27,7 +29,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Professional Certifications · Renda Zhang</title>
+    <title>{PAGE_TITLES.CERTIFICATIONS}</title>
     <link rel="canonical" href={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`} />
     <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
     <meta
@@ -36,7 +38,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     />
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Professional Certifications · Renda Zhang" />
+    <meta property="og:title" content={PAGE_TITLES.CERTIFICATIONS} />
     <meta
       property="og:description"
       content="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials."
@@ -53,7 +55,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       content={`${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`}
     />
     <!-- Twitter Card -->
-    <meta name="twitter:title" content="Professional Certifications · Renda Zhang" />
+    <meta name="twitter:title" content={PAGE_TITLES.CERTIFICATIONS} />
     <meta
       name="twitter:description"
       content="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang."
@@ -66,7 +68,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:image:alt" content="Renda Zhang Certifications" />
     <script type="application/ld+json" set:html={jsonLD} />
     <!-- Favicon & CSS -->
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content={THEME_COLOR_LIGHT} />
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
     <link rel="stylesheet" href={STYLE_PATHS.CERTIFICATIONS} />
