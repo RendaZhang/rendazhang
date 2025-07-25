@@ -142,8 +142,14 @@ export const IMAGE_PATHS = {
   LOADER: '/images/ajax-loader.gif',
   LOGO_EN: '/images/logo_en.png',
   LOGO_ZH: '/images/logo_cn.png',
-  WECHAT_QR: '/images/qrcode_wechat.jpg'
+  WECHAT_QR: '/images/qrcode_wechat.jpg',
+  CERTIFICATIONS_COVER: '/images/certifications_cover.jpg',
+  RESUME_EN: '/images/Resume_RendaZhang.pdf',
+  RESUME_ZH: '/images/个人简历_张人大.pdf'
 };
+
+export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
+export const RESUME_ZH_DOWNLOAD = '个人简历_张人大_20250622.pdf';
 
 export const OG_IMAGE_DIMENSIONS = {
   WIDTH: '1200',

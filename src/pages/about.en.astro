@@ -23,6 +23,7 @@ import {
   SITE_NAME_EN,
   PERSON_SCHEMA,
   IMAGE_PATHS,
+  RESUME_EN_DOWNLOAD,
   SCRIPT_PATHS,
   FAVICON_PATH,
   STYLE_PATHS,
@@ -220,8 +221,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                         <div class="clear"></div>
                         <div class="text-center mt-5">
                           <a
-                            href="/images/Resume_RendaZhang.pdf"
-                            download="Resume_RendaZhang_20250622.pdf"
+                            href={IMAGE_PATHS.RESUME_EN}
+                            download={RESUME_EN_DOWNLOAD}
                             class="btn btn-sm btn-custom btn-round"
                           >
                             <i class="fa fa-download"></i> Download Resume

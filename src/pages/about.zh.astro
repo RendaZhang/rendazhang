@@ -23,6 +23,7 @@ import {
   SITE_NAME_ZH,
   PERSON_SCHEMA,
   IMAGE_PATHS,
+  RESUME_ZH_DOWNLOAD,
   SCRIPT_PATHS,
   FAVICON_PATH,
   STYLE_PATHS,
@@ -221,8 +222,8 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                 </div>
               </div>
               <a
-                href="/images/个人简历_张人大.pdf"
-                download="个人简历_张人大_20250622.pdf"
+                href={IMAGE_PATHS.RESUME_ZH}
+                download={RESUME_ZH_DOWNLOAD}
                 class="btn btn-default mr-3"><i class="icon-cloud-download"></i> 下载我的简历</a
               >
               <a href="#contact" class="btn btn-alt mt-2 mt-md-0 mt-xs-2"
