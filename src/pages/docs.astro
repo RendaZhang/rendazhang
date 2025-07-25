@@ -11,7 +11,8 @@ import {
   STYLE_PATHS,
   SITE_NAME_EN,
   VIEWPORT_NO_ZOOM,
-  HOME_PAGE_PATH
+  HOME_PAGE_PATH,
+  NAV_TEXT
 } from '../config.js';
 ---
 
@@ -38,7 +39,7 @@ import {
   </head>
   <body>
     <button id="back" onclick={`window.location.href='${HOME_PAGE_PATH}'`}
-      >&larr; Back to Home</button
+      >{NAV_TEXT.BACK_HOME}</button
     >
     <div id="content">Loading...</div>
 

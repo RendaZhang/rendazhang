@@ -14,7 +14,8 @@ import {
   CHAT_TEXT,
   ROLES,
   AI_CHAT_TITLE,
-  HOME_PAGE_PATH
+  HOME_PAGE_PATH,
+  NAV_TEXT
 } from '../config.js';
 
 export default function Chat() {
@@ -272,7 +273,7 @@ export default function Chat() {
       <header>
         {!embedded && (
           <button id="back-button" onClick={() => (window.location.href = HOME_PAGE_PATH)}>
-            ← Back
+            {NAV_TEXT.BACK}
           </button>
         )}
         <h1>{AI_CHAT_TITLE}</h1>
@@ -317,7 +318,7 @@ export default function Chat() {
             <div className="pulse-dot pulse-dot-2"></div>
             <div className="pulse-dot pulse-dot-3"></div>
           </div>
-          <p>正在优化阅读体验...</p>
+          <p>{CHAT_TEXT.ENHANCEMENT_PROGRESS}</p>
         </div>
       )}
       <div className="input-area">
@@ -344,14 +345,14 @@ export default function Chat() {
             onClick={handleSend}
             disabled={isLoading || isSending || coreLoadError}
           >
-            发送
+            {CHAT_TEXT.SEND_BUTTON}
           </button>
           <button
             id="reset-btn"
             onClick={handleReset}
             disabled={isLoading || isSending || coreLoadError}
           >
-            重置会话
+            {CHAT_TEXT.RESET_BUTTON}
           </button>
         </div>
       </div>
@@ -394,7 +395,7 @@ function AIMessage({ text, enhance }) {
         onClick={handleCopy}
         style={{ display: showBtn ? 'inline-block' : 'none' }}
       >
-        {isCopied ? '已复制' : '复制'}
+        {isCopied ? CHAT_TEXT.COPIED_LABEL : CHAT_TEXT.COPY_LABEL}
       </button>
       <div ref={contentRef}></div>
     </div>

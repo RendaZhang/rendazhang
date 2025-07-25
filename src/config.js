@@ -84,6 +84,7 @@ export const CHAT_TEXT = {
   CORE_LOAD_FAILED: '核心资源加载失败，请刷新重试',
   CHAT_READY: '会话已就绪，请输入消息开始对话',
   LOADING: '加载对话中...',
+  ENHANCEMENT_PROGRESS: '正在优化阅读体验...',
   INPUT_PLACEHOLDER_LOADING: '加载对话中，请稍候...',
   INPUT_PLACEHOLDER_ERROR: '核心资源加载失败',
   INPUT_PLACEHOLDER_DEFAULT: '输入消息...',
@@ -92,7 +93,16 @@ export const CHAT_TEXT = {
   RESET_CONFIRM_EN: 'Are you sure you want to reset the conversation?',
   RESET_FAILED_PREFIX_EN: 'Reset failed',
   MESSAGE_TOO_LONG: 'Your message is too long. Please shorten it.',
-  REQUEST_ERROR: 'An error occurred while processing your request.'
+  REQUEST_ERROR: 'An error occurred while processing your request.',
+  COPY_LABEL: '复制',
+  COPIED_LABEL: '已复制',
+  SEND_BUTTON: '发送',
+  RESET_BUTTON: '重置会话'
+};
+
+export const NAV_TEXT = {
+  BACK: '← Back',
+  BACK_HOME: '← Back to Home'
 };
 
 export const SCRIPT_PATHS = {
