@@ -8,7 +8,8 @@ import {
   GEO_POSITION,
   GEO_ICBM,
   SCRIPT_PATHS,
-  STYLE_PATHS
+  STYLE_PATHS,
+  SITE_NAME_EN
 } from '../config.js';
 ---
 
@@ -28,7 +29,7 @@ import {
     <meta property="og:description" content="Renda Zhang technical documentation" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
-    <meta property="og:site_name" content="Renda Zhang" />
+    <meta property="og:site_name" content={SITE_NAME_EN} />
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="stylesheet" href={STYLE_PATHS.GITHUB} />
     <link rel="stylesheet" href={STYLE_PATHS.DOCS} />

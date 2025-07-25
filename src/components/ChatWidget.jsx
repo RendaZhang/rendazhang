@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CHAT_PAGE_PATH, STYLE_PATHS } from '../config.js';
+import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_TITLE } from '../config.js';
 
 const loadedStyles = new Set();
 
@@ -76,7 +76,7 @@ export default function ChatWidget({ defaultOpen = false }) {
           {loaded && (
             <iframe
               src={`${CHAT_PAGE_PATH}/`}
-              title="AI Chat"
+              title={AI_CHAT_TITLE}
               className="chat-widget-iframe"
               loading="lazy"
             />

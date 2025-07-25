@@ -18,6 +18,9 @@ export const ABOUT_EN_PAGE_PATH = '/about.en';
 export const ABOUT_ZH_PAGE_PATH = '/about.zh';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
+// Reusable titles and descriptions
+export const AI_CHAT_TITLE = 'AI Chat';
+export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const MAX_TOKENS = 15000;
@@ -171,6 +174,8 @@ export const SOCIAL_PROFILE_URLS = [
 ];
 export const SITE_AUTHOR_EN = 'Renda Zhang';
 export const SITE_AUTHOR_ZH = '张人大';
+export const SITE_NAME_EN = SITE_AUTHOR_EN;
+export const SITE_NAME_ZH = SITE_AUTHOR_ZH;
 
 export const PERSON_SCHEMA = {
   '@context': 'https://schema.org/',

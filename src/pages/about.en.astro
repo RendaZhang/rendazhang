@@ -20,6 +20,7 @@ import {
   TWITTER_HANDLE,
   SOCIAL_PROFILE_URLS,
   SITE_AUTHOR_EN,
+  SITE_NAME_EN,
   PERSON_SCHEMA,
   IMAGE_PATHS,
   SCRIPT_PATHS,
@@ -55,7 +56,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta property="og:url" content={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Renda Zhang" />
+    <meta property="og:site_name" content={SITE_NAME_EN} />
     <meta property="og:image:width" content={OG_IMAGE_DIMENSIONS.WIDTH} />
     <meta property="og:image:height" content={OG_IMAGE_DIMENSIONS.HEIGHT} />
     <meta property="og:image:alt" content="Renda Zhang Logo" />

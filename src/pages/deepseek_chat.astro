@@ -9,7 +9,10 @@ import {
   GEO_ICBM,
   DEFAULT_SOCIAL_IMAGE,
   TWITTER_HANDLE,
-  STYLE_PATHS
+  STYLE_PATHS,
+  AI_CHAT_TITLE,
+  AI_CHAT_DESCRIPTION,
+  SITE_NAME_EN
 } from '../config.js';
 ---
 
@@ -20,10 +23,10 @@ import {
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
     />
-    <title>AI Chat</title>
+    <title>{AI_CHAT_TITLE}</title>
     <meta
       name="description"
-      content="Chat with an AI assistant powered by DeepSeek. Conversations are saved locally and support Markdown rendering."
+      content={`${AI_CHAT_DESCRIPTION} Conversations are saved locally and support Markdown rendering.`}
     />
     <link rel="canonical" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
@@ -34,15 +37,15 @@ import {
     <meta name="geo.placename" content={GEO_PLACENAME_EN} />
     <meta name="geo.position" content={GEO_POSITION} />
     <meta name="ICBM" content={GEO_ICBM} />
-    <meta property="og:title" content="AI Chat" />
-    <meta property="og:description" content="Chat with an AI assistant powered by DeepSeek." />
+    <meta property="og:title" content={AI_CHAT_TITLE} />
+    <meta property="og:description" content={AI_CHAT_DESCRIPTION} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
-    <meta property="og:site_name" content="Renda Zhang" />
+    <meta property="og:site_name" content={SITE_NAME_EN} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI Chat" />
-    <meta name="twitter:description" content="Chat with an AI assistant powered by DeepSeek." />
+    <meta name="twitter:title" content={AI_CHAT_TITLE} />
+    <meta name="twitter:description" content={AI_CHAT_DESCRIPTION} />
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:site" content={TWITTER_HANDLE} />
     <meta name="twitter:creator" content={TWITTER_HANDLE} />

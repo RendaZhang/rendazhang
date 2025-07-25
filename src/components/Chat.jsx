@@ -11,7 +11,8 @@ import {
   SCRIPT_TIMEOUTS,
   UI_DURATIONS,
   SCRIPT_PATHS,
-  ROLES
+  ROLES,
+  AI_CHAT_TITLE
 } from '../config.js';
 
 export default function Chat() {
@@ -272,7 +273,7 @@ export default function Chat() {
             ← Back
           </button>
         )}
-        <h1>AI Chat</h1>
+        <h1>{AI_CHAT_TITLE}</h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
         {coreLoadError ? (
