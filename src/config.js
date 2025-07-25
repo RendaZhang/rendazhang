@@ -1,6 +1,7 @@
 // Centralized configuration for API endpoints and chat limits
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
+export const SITE_DOMAIN = 'www.rendazhang.com';
 export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
 export const SITE_DESCRIPTION_ZH = '来自 深圳 的 软件开发工程师 张人大';
 
@@ -29,6 +30,20 @@ export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
 
 // Commonly used logo image size
 export const LOGO_IMAGE_SIZE = '150px';
+
+// Commonly used page titles
+export const PAGE_TITLES = {
+  ABOUT_ZH: '张人大 · 软件开发工程师',
+  ABOUT_EN: 'Renda Zhang · Software Engineer',
+  ABOUT_EN_OG: 'Renda Zhang · Software Engineer',
+  INDEX_OG: 'Renda Zhang · Personal Website'
+};
+
+// Alt text for logo images
+export const LOGO_ALT = {
+  EN: 'Renda Zhang Logo',
+  ZH: '张人大 Logo'
+};
 // Reusable titles and descriptions
 export const AI_CHAT_TITLE = 'AI Chat';
 export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';
