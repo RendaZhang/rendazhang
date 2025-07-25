@@ -269,3 +269,6 @@ export const CREDLY_EMBED_IFRAME = {
   WIDTH: 150,
   HEIGHT: 270
 };
+
+export const CREDLY_CONTAINER_MAX_WIDTH = 270;
+export const SCROLL_OFFSET = 120;

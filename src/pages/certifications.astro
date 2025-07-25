@@ -12,6 +12,7 @@ import {
   CREDLY_HOST,
   CREDLY_BADGE_ID,
   CREDLY_EMBED_IFRAME,
+  CREDLY_CONTAINER_MAX_WIDTH,
   FAVICON_PATH,
   IMAGE_PATHS,
   STYLE_PATHS,
@@ -85,7 +86,10 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
           </p>
 
           <!-- Credly 嵌入 -->
-          <div class="credly-container" style="max-width:270px;margin:1rem auto">
+          <div
+            class="credly-container"
+            style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:1rem auto`}
+          >
             <div class="loader"></div>
             <div
               data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}

@@ -29,7 +29,8 @@ import {
   STYLE_PATHS,
   ABOUT_EN_STYLES,
   ABOUT_EN_SCRIPTS,
-  LOGO_IMAGE_SIZE
+  LOGO_IMAGE_SIZE,
+  SCROLL_OFFSET
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -80,7 +81,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     {ABOUT_EN_STYLES.map((href) => <link href={href} rel="stylesheet" type="text/css" />)}
   </head>
 
-  <body data-spy="scroll" data-offset="120">
+  <body data-spy="scroll" data-offset="{SCROLL_OFFSET}">
     <div class="animationload">
       <div class="loader">Loading...</div>
     </div>
