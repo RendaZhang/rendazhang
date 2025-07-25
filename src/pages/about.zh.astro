@@ -29,7 +29,8 @@ import {
   STYLE_PATHS,
   ABOUT_ZH_STYLES,
   ABOUT_ZH_SCRIPTS,
-  LOGO_IMAGE_SIZE
+  LOGO_IMAGE_SIZE,
+  VIEWPORT_ZOOM_ALLOWED
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -38,10 +39,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
   <head>
     <meta charset="UTF-8" />
     <title>张人大 · 软件开发工程师</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-    />
+    <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
     <meta name="description" content={SITE_DESCRIPTION_ZH} />
     <link rel="canonical" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
@@ -164,7 +162,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         <section
           class="hero background parallax shadow-dark d-flex align-items-center"
           id="home"
-          data-image-src="/images/hero.jpg"
+          data-image-src={IMAGE_PATHS.HERO}
         >
           <div class="cta mx-auto mt-2">
             <h1 class="mt-0 mb-4">欢迎来到我的个人网站<span class="dot"></span></h1>

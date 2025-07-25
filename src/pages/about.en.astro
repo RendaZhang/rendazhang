@@ -30,7 +30,8 @@ import {
   ABOUT_EN_STYLES,
   ABOUT_EN_SCRIPTS,
   LOGO_IMAGE_SIZE,
-  SCROLL_OFFSET
+  SCROLL_OFFSET,
+  VIEWPORT_NO_ZOOM
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -39,7 +40,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
   <head>
     <meta charset="utf-8" />
     <title>Renda Zhang · Backend Engineer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content={VIEWPORT_NO_ZOOM} />
     <meta name="description" content={SITE_DESCRIPTION_EN} />
     <link rel="canonical" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />

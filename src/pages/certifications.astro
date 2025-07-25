@@ -16,7 +16,8 @@ import {
   FAVICON_PATH,
   IMAGE_PATHS,
   STYLE_PATHS,
-  SCRIPT_PATHS
+  SCRIPT_PATHS,
+  VIEWPORT_ZOOM_ALLOWED
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -26,10 +27,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta charset="utf-8" />
     <title>Professional Certifications · Renda Zhang</title>
     <link rel="canonical" href={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`} />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-    />
+    <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
     <meta
       name="description"
       content="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang."

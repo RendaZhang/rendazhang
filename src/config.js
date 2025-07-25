@@ -22,6 +22,11 @@ export const DOCS_PAGE_PATH = '/docs';
 // Home page path
 export const HOME_PAGE_PATH = '/';
 
+// Standard viewport meta tag values
+export const VIEWPORT_ZOOM_ALLOWED =
+  'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
+export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
+
 // Commonly used logo image size
 export const LOGO_IMAGE_SIZE = '150px';
 // Reusable titles and descriptions
@@ -170,6 +175,7 @@ export const IMAGE_PATHS = {
   LOGO_EN: '/images/logo_en.png',
   LOGO_ZH: '/images/logo_cn.png',
   WECHAT_QR: '/images/qrcode_wechat.jpg',
+  HERO: '/images/hero.jpg',
   CERTIFICATIONS_COVER: '/images/certifications_cover.jpg',
   RESUME_EN: '/images/Resume_RendaZhang.pdf',
   RESUME_ZH: '/images/个人简历_张人大.pdf'
