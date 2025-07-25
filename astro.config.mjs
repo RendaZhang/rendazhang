@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import { SITE_BASE_URL } from './src/config.js';
+import { SITE_BASE_URL, API_BASE_URL } from './src/config.js';
 
 import react from '@astrojs/react';
 
@@ -10,12 +10,12 @@ export default defineConfig({
   vite: {
     server: {
       proxy: {
-        // Proxy all /cloudchat/* requests to the production backend
-        '/cloudchat': {
+        // Proxy API requests in development
+        [API_BASE_URL]: {
           target: SITE_BASE_URL,
-          changeOrigin: true, // Rewrite host header to match target
-          secure: true, // Allow HTTPS
-          rewrite: (path) => path.replace(/^\/cloudchat/, '/cloudchat') // Keep the path intact
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(new RegExp(`^${API_BASE_URL}`), API_BASE_URL)
         }
       }
     }
