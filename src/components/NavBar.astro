@@ -1,8 +1,9 @@
 ---
 import ThemeToggle from './ThemeToggle.jsx';
+import { HOME_PAGE_PATH } from '../config.js';
 ---
 
 <nav>
-  <a href="/">Home</a>
+  <a href={HOME_PAGE_PATH}>Home</a>
   <ThemeToggle client:only="react" />
 </nav>
