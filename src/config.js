@@ -68,7 +68,11 @@ export const CHAT_TEXT = {
   INPUT_PLACEHOLDER_ERROR: '核心资源加载失败',
   INPUT_PLACEHOLDER_DEFAULT: '输入消息...',
   RESET_CONFIRM: '确定要重置会话吗？这将清除所有对话历史。',
-  RESET_FAILED_PREFIX: '重置会话失败'
+  RESET_FAILED_PREFIX: '重置会话失败',
+  RESET_CONFIRM_EN: 'Are you sure you want to reset the conversation?',
+  RESET_FAILED_PREFIX_EN: 'Reset failed',
+  MESSAGE_TOO_LONG: 'Your message is too long. Please shorten it.',
+  REQUEST_ERROR: 'An error occurred while processing your request.'
 };
 
 export const SCRIPT_PATHS = {

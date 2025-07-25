@@ -4,7 +4,8 @@ import {
   AVG_WORD_LENGTH,
   AVG_TOKENS_PER_WORD,
   ENDPOINTS,
-  STORAGE_KEY
+  STORAGE_KEY,
+  CHAT_TEXT
 } from '../../src/config.js';
 
 // Slightly lower than the 16K token context window
@@ -43,7 +44,7 @@ const messageInput = document.getElementById('messageInput');
 sendButton.addEventListener('click', () => {
   const userMessageContent = messageInput.value;
   if (!userMessageContent.trim() || userMessageContent.length > MAX_CHARACTERS) {
-    alert('Your message is too long. Please shorten it.');
+    alert(CHAT_TEXT.MESSAGE_TOO_LONG);
     return;
   }
 
@@ -159,12 +160,12 @@ async function sendMessage(userMessage) {
   } catch (error) {
     console.error('Error:', error);
     removeLoadingIndicator();
-    updateChatDisplay('Error occurred.', 'System');
+    updateChatDisplay(CHAT_TEXT.REQUEST_ERROR, 'System');
   }
 }
 
 async function resetChat() {
-  if (!confirm('Are you sure you want to reset the conversation?')) {
+  if (!confirm(CHAT_TEXT.RESET_CONFIRM_EN)) {
     return;
   }
   try {
@@ -177,14 +178,14 @@ async function resetChat() {
     });
 
     if (!response.ok) {
-      throw new Error(`Reset failed: ${response.status}`);
+      throw new Error(`${CHAT_TEXT.RESET_FAILED_PREFIX_EN}: ${response.status}`);
     }
 
     conversationHistory = [SYSTEM_MESSAGE];
     saveHistory();
     document.getElementById('chatBox').innerHTML = '';
   } catch (error) {
-    alert(`Reset failed: ${error.message}`);
+    alert(`${CHAT_TEXT.RESET_FAILED_PREFIX_EN}: ${error.message}`);
     console.error('Reset error:', error);
   }
 }
