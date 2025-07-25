@@ -21,7 +21,9 @@ import {
   HOME_PAGE_PATH,
   NAV_TEXT,
   THEME_COLOR_LIGHT,
-  PAGE_TITLES
+  PAGE_TITLES,
+  DEFAULT_MARGIN,
+  PAGE_TITLE_MARGIN_TOP
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -77,7 +79,9 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
   <body>
     <div class="container">
       <button onclick={`location.href='${HOME_PAGE_PATH}'`} role="button">{NAV_TEXT.BACK}</button>
-      <h1 style="margin-top:1.5rem;text-align:center;">Professional Certifications</h1>
+      <h1 style={`margin-top:${PAGE_TITLE_MARGIN_TOP};text-align:center;`}>
+        Professional Certifications
+      </h1>
 
       <section class="cert-grid">
         <article class="cert-card">
@@ -90,7 +94,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
           <!-- Credly 嵌入 -->
           <div
             class="credly-container"
-            style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:1rem auto`}
+            style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:${DEFAULT_MARGIN} auto`}
           >
             <div class="loader"></div>
             <div

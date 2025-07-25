@@ -34,7 +34,8 @@ import {
   VIEWPORT_ZOOM_ALLOWED,
   PAGE_TITLES,
   LOGO_ALT,
-  THEME_COLOR_LIGHT
+  THEME_COLOR_LIGHT,
+  SPACER_HEIGHT
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -174,11 +175,13 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
             <a href="#about" class="btn btn-default btn-lg mr-3"
               ><i class="icon-grid"></i>查看简历</a
             >
-            <div class="spacer d-md-none d-lg-none d-sm-none" data-height="10"></div>
+            <div class="spacer d-md-none d-lg-none d-sm-none" data-height={SPACER_HEIGHT.SMALL}>
+            </div>
             <a href="#contact" class="btn btn-border-light btn-lg mr-3"
               ><i class="icon-envelope"></i>联系我吧</a
             >
-            <div class="spacer d-md-none d-lg-none d-sm-none" data-height="10"></div>
+            <div class="spacer d-md-none d-lg-none d-sm-none" data-height={SPACER_HEIGHT.SMALL}>
+            </div>
             <a href={CERTIFICATIONS_PAGE_PATH} class="btn btn-default btn-lg"
               ><i class="icon-graduation"></i>证书展示</a
             >
@@ -187,7 +190,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </section>
         <section id="about" class="shadow-blue white-bg padding">
           <h2 class="section-title">关于我</h2>
-          <div class="spacer" data-height="40"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
           <div id="backgroundMusic">
             <div id="musciButton" class="alert alert-info alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="false"
@@ -196,7 +199,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
               如需背景音乐，请点击这里^_^
             </div>
           </div>
-          <div class="spacer" data-height="40"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
           <div class="row">
             <div class="col-md-3">
               <img
@@ -237,7 +240,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </section>
         <section id="skills" class="shadow-blue white-bg padding">
           <h2 class="section-title">技能与能力</h2>
-          <div class="spacer" data-height="40"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
           <p class="mb-0">以下是我熟练掌握的后端开发与工程化相关技术栈：</p>
           <div class="row mt-5">
             <div class="col-md-6">
@@ -256,7 +259,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">Spring Boot / Cloud</h4>
@@ -272,7 +275,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">中间件与缓存</h4>
@@ -288,7 +291,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">数据库技术</h4>
@@ -304,7 +307,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">微服务架构与安全</h4>
@@ -320,7 +323,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">运维与部署工具</h4>
@@ -336,7 +339,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">前端与协作开发</h4>
@@ -352,7 +355,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
                   </div>
                 </div>
               </div>
-              <div class="spacer" data-height="40"></div>
+              <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
               <div class="skill-item">
                 <div class="skill-info clearfix">
                   <h4 class="float-left mb-3 mt-0">开发工具与平台</h4>
@@ -373,7 +376,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </section>
         <section id="resume" class="shadow-blue white-bg padding">
           <h2 class="section-title">个人经历</h2>
-          <div class="spacer" data-height="80"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.LARGE}></div>
           <div class="timeline">
             <div class="entry">
               <div class="title"><span>2020年11月 - 2024年4月</span></div>
@@ -445,7 +448,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </section>
         <section id="blog" class="shadow-blue white-bg padding">
           <h2 class="section-title">代码和博客</h2>
-          <div class="spacer" data-height="80"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.LARGE}></div>
           <div class="row">
             <div class="col-md-4">
               <div class="blog-item">
@@ -526,7 +529,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         </section>
         <section id="contact" class="shadow-blue white-bg padding">
           <h2 class="section-title">联系我吧</h2>
-          <div class="spacer" data-height="80"></div>
+          <div class="spacer" data-height={SPACER_HEIGHT.LARGE}></div>
           <div class="row">
             <div class="col-md-4 mb-4 mb-md-0">
               <div class="contact-info mb-5">

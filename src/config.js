@@ -87,6 +87,15 @@ export const ICON_SIZES = {
   LARGE: 28
 };
 
+export const SPACER_HEIGHT = {
+  SMALL: 10,
+  MEDIUM: 40,
+  LARGE: 80
+};
+
+export const DEFAULT_MARGIN = '1rem';
+export const PAGE_TITLE_MARGIN_TOP = '1.5rem';
+
 export const CHAT_TEXT = {
   ENHANCEMENT_FAILED: '优化功能加载失败，基础功能不受影响',
   CORE_LOAD_FAILED: '核心资源加载失败，请刷新重试',
