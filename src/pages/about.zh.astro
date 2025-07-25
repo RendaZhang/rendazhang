@@ -21,7 +21,9 @@ import {
   IMAGE_PATHS,
   SCRIPT_PATHS,
   FAVICON_PATH,
-  STYLE_PATHS
+  STYLE_PATHS,
+  ABOUT_ZH_STYLES,
+  ABOUT_ZH_SCRIPTS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -72,16 +74,11 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <link href={FAVICON_PATH} rel="shortcut icon" type="image/x-icon" />
     <link href={FAVICON_PATH} rel="icon" type="image/png" />
     <link href={STYLE_PATHS.BOOTSTRAP} rel="stylesheet" type="text/css" media="all" />
-    <link href="/css/all.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/css/slick.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link
-      href="/css/jquery.mCustomScrollbar.min.css"
-      rel="stylesheet"
-      type="text/css"
-      media="all"
-    />
-    <link href="/css/style.min.css" rel="stylesheet" type="text/css" media="all" />
+    {
+      ABOUT_ZH_STYLES.map((href) => (
+        <link href={href} rel="stylesheet" type="text/css" media="all" />
+      ))
+    }
   </head>
 
   <body>
@@ -623,21 +620,10 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     >
     <script defer src={SCRIPT_PATHS.JQUERY}></script>
     <script defer src={SCRIPT_PATHS.JQUERY_EASING}></script>
-    <script defer src="/js/popper.min.js"></script>
-    <script defer src="/js/bootstrap.min.js"></script>
-    <script defer src="/js/jquery.waypoints.min.js"></script>
-    <script defer src="/js/jquery.counterup.min.js"></script>
-    <script defer src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script defer src="/js/isotope.pkgd.min.js"></script>
-    <script defer src="/js/infinite-scroll.min.js"></script>
-    <script defer src="/js/imagesloaded.pkgd.min.js"></script>
-    <script defer src="/js/slick.min.js"></script>
+    {ABOUT_ZH_SCRIPTS.map((src) => <script defer src={src} />)}
     <script define:vars={{ CONTACT_FORM_ENDPOINT }}>
       window.CONTACT_FORM_ENDPOINT = CONTACT_FORM_ENDPOINT;
     </script>
-    <script defer src="/js/validator.min.js"></script>
-    <script defer src="/js/contact.js"></script>
-    <script defer src="/js/custom.min.js"></script>
     <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
   </body>
 </html>

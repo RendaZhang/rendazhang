@@ -56,13 +56,76 @@ export const SCRIPT_PATHS = {
 export const STYLE_PATHS = {
   CHAT_WIDGET: '/css/chat_widget.css',
   BOOTSTRAP: '/css/bootstrap.min.css',
+  BOOTSTRAP_EN: '/css/bootstrap-en.min.css',
+  THEME: '/css/theme.css',
   GITHUB: '/css/github.min.css',
   DOCS: '/css/docs.min.css',
   INDEX: '/css/index.min.css',
   DEEPSEEK_CHAT: '/css/deepseek_chat.min.css',
   GITHUB_LIGHT: '/css/github-markdown-light.min.css',
-  CERTIFICATIONS: '/css/certifications.min.css'
+  CERTIFICATIONS: '/css/certifications.min.css',
+  ALL: '/css/all.min.css',
+  SIMPLE_ICONS: '/css/simple-line-icons.min.css',
+  SLICK: '/css/slick.min.css',
+  MCUSTOM_SCROLLBAR: '/css/jquery.mCustomScrollbar.min.css',
+  STYLE: '/css/style.min.css',
+  ANIMATE: '/css/animate.min.css',
+  MAGNIFIC_POPUP: '/css/magnific-popup.min.css',
+  PE_ICON: '/css/pe-icon-7.min.css',
+  FONTAWESOME: '/css/fontawesome.min.css',
+  STYLE_EN: '/css/style-en.min.css',
+  COLORS_DEFAULT: '/css/colors/default.css',
+  OSWALD: '/css/oswald.min.css'
 };
+
+export const ABOUT_ZH_STYLES = [
+  STYLE_PATHS.ALL,
+  STYLE_PATHS.SIMPLE_ICONS,
+  STYLE_PATHS.SLICK,
+  STYLE_PATHS.MCUSTOM_SCROLLBAR,
+  STYLE_PATHS.STYLE
+];
+
+export const ABOUT_ZH_SCRIPTS = [
+  '/js/popper.min.js',
+  '/js/bootstrap.min.js',
+  '/js/jquery.waypoints.min.js',
+  '/js/jquery.counterup.min.js',
+  '/js/jquery.mCustomScrollbar.concat.min.js',
+  '/js/isotope.pkgd.min.js',
+  '/js/infinite-scroll.min.js',
+  '/js/imagesloaded.pkgd.min.js',
+  '/js/slick.min.js',
+  '/js/validator.min.js',
+  '/js/contact.js',
+  '/js/custom.min.js'
+];
+
+export const ABOUT_EN_STYLES = [
+  STYLE_PATHS.BOOTSTRAP_EN,
+  STYLE_PATHS.ANIMATE,
+  STYLE_PATHS.MAGNIFIC_POPUP,
+  STYLE_PATHS.PE_ICON,
+  STYLE_PATHS.FONTAWESOME,
+  STYLE_PATHS.STYLE_EN,
+  STYLE_PATHS.COLORS_DEFAULT,
+  STYLE_PATHS.OSWALD
+];
+
+export const ABOUT_EN_SCRIPTS = [
+  '/js/bootstrap.bundle.min.js',
+  '/js/scrollspy.min.js',
+  '/js/floating-menu.min.js',
+  '/js/jquery.magnific-popup.min.js',
+  '/js/isotope.min.js',
+  '/js/masonry.pkgd.min.js',
+  '/js/jquery.textillate.min.js',
+  '/js/jquery.lettering.min.js',
+  '/js/portfolio-filtr.min.js',
+  '/js/contact-form.min.js',
+  '/js/switcher.min.js',
+  '/js/app.min.js'
+];
 
 export const FAVICON_PATH = '/favicon.png';
 

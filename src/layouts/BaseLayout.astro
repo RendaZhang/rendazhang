@@ -2,7 +2,7 @@
 // BaseLayout.astro
 import NavBar from '../components/NavBar.astro';
 import { ThemeProvider } from '../context/ThemeContext.jsx';
-import { FAVICON_PATH } from '../config.js';
+import { FAVICON_PATH, STYLE_PATHS } from '../config.js';
 ---
 
 <ThemeProvider client:load>
@@ -16,7 +16,7 @@ import { FAVICON_PATH } from '../config.js';
       <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
       <link rel="icon" type="image/png" href={FAVICON_PATH} />
       <link rel="apple-touch-icon" href={FAVICON_PATH} />
-      <link rel="stylesheet" href="/css/theme.css" />
+      <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     </head>
     <body>
       <NavBar />

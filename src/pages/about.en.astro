@@ -20,7 +20,10 @@ import {
   PERSON_SCHEMA,
   IMAGE_PATHS,
   SCRIPT_PATHS,
-  FAVICON_PATH
+  FAVICON_PATH,
+  STYLE_PATHS,
+  ABOUT_EN_STYLES,
+  ABOUT_EN_SCRIPTS
 } from '../config.js';
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
@@ -68,14 +71,7 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <link href={FAVICON_PATH} rel="shortcut icon" type="image/x-icon" />
     <link href={FAVICON_PATH} rel="icon" type="image/png" />
     <link href={FAVICON_PATH} rel="apple-touch-icon" />
-    <link href="/css/bootstrap-en.min.css" rel="stylesheet" type="text/css" />
-    <link href="/css/animate.min.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="/css/magnific-popup.min.css" rel="stylesheet" type="text/css" />
-    <link href="/css/pe-icon-7.min.css" rel="stylesheet" />
-    <link href="/css/fontawesome.min.css" rel="stylesheet" />
-    <link href="/css/style-en.min.css" rel="stylesheet" type="text/css" />
-    <link href="/css/colors/default.css" rel="stylesheet" id="color-opt" />
-    <link href="/css/oswald.min.css" rel="stylesheet" type="text/css" />
+    {ABOUT_EN_STYLES.map((href) => <link href={href} rel="stylesheet" type="text/css" />)}
   </head>
 
   <body data-spy="scroll" data-offset="120">
@@ -802,22 +798,10 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       </div>
     </div>
     <script defer src={SCRIPT_PATHS.JQUERY}></script>
-    <script defer src="/js/bootstrap.bundle.min.js"></script>
-    <script defer src={SCRIPT_PATHS.JQUERY_EASING}></script>
-    <script defer src="/js/scrollspy.min.js"></script>
-    <script defer src="/js/floating-menu.min.js"></script>
-    <script defer src="/js/jquery.magnific-popup.min.js"></script>
-    <script defer src="/js/isotope.min.js"></script>
-    <script defer src="/js/masonry.pkgd.min.js"></script>
-    <script defer src="/js/jquery.textillate.min.js"></script>
-    <script defer src="/js/jquery.lettering.min.js"></script>
-    <script defer src="/js/portfolio-filtr.min.js"></script>
+    {ABOUT_EN_SCRIPTS.map((src) => <script defer src={src} />)}
     <script define:vars={{ CONTACT_FORM_ENDPOINT }}>
       window.CONTACT_FORM_ENDPOINT = CONTACT_FORM_ENDPOINT;
     </script>
-    <script defer src="/js/contact-form.min.js"></script>
-    <script defer src="/js/switcher.min.js"></script>
-    <script defer src="/js/app.min.js"></script>
     <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
   </body>
 </html>

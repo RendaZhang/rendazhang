@@ -1,7 +1,14 @@
-const MAX_TOKENS = 15000; // Slightly lower than the 16K token context window
-const MAX_CHARACTERS = 800; // Adjust based on token calculation
-const AVG_WORD_LENGTH = 4; // Average English word length in characters
-const AVG_TOKENS_PER_WORD = 1.5; // Average tokens per word (approximation)
+import {
+  MAX_TOKENS,
+  MAX_CHARACTERS,
+  AVG_WORD_LENGTH,
+  AVG_TOKENS_PER_WORD,
+  ENDPOINTS,
+  STORAGE_KEY
+} from '../../src/config.js';
+
+// Slightly lower than the 16K token context window
+// MAX_TOKENS etc. imported from config
 const SYSTEM_MESSAGE = {
   role: 'system',
   content:
@@ -11,7 +18,7 @@ const SYSTEM_MESSAGE = {
 // Load previous conversation from localStorage if available
 let conversationHistory = [];
 try {
-  const stored = localStorage.getItem('deepseek_chat_history');
+  const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     conversationHistory = JSON.parse(stored);
   } else {
@@ -23,7 +30,7 @@ try {
 
 function saveHistory() {
   try {
-    localStorage.setItem('deepseek_chat_history', JSON.stringify(conversationHistory));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(conversationHistory));
   } catch {
     // Ignore storage errors
   }
@@ -96,7 +103,7 @@ async function sendMessage(userMessage) {
   showLoadingIndicator();
 
   try {
-    const response = await fetch('/cloudchat/deepseek_chat', {
+    const response = await fetch(ENDPOINTS.CHAT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -161,7 +168,7 @@ async function resetChat() {
     return;
   }
   try {
-    const response = await fetch('/cloudchat/reset_chat', {
+    const response = await fetch(ENDPOINTS.RESET, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
