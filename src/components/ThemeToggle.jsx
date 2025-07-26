@@ -13,7 +13,7 @@ export default function ThemeToggle() {
 
   return (
     <button onClick={toggle} style={{ marginLeft: DEFAULT_MARGIN }}>
-      {isClient ? (darkMode ? 'Light Mode' : 'Dark Mode') : 'Loading...'}
+      {isClient ? (darkMode ? 'Light Mode' : 'Dark Mode') : 'Loading.......'}
     </button>
   );
 }

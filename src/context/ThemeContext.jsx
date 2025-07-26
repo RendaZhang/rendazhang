@@ -14,8 +14,13 @@ export function ThemeProvider({ children }) {
   // 使用 ref 跟踪初始状态是否已设置
   const initialSet = useRef(false);
 
-  // 初始状态设为 false，但会在客户端立即更新
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    // 从DOM获取初始值（由内联脚本设置）
+    if (typeof window !== 'undefined') {
+      return document.documentElement.dataset.initialTheme === 'dark';
+    }
+    return false; // SSR默认值
+  });
 
   // 同步主题状态到 DOM 和 localStorage
   useEffect(() => {
