@@ -59,6 +59,7 @@ export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
 export const LOADING_TEXT = 'Loading...';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
+export const THEME_STORAGE_KEY = 'preferred_theme';
 export const MAX_TOKENS = 15000;
 export const MAX_CHARACTERS = 800;
 export const AVG_WORD_LENGTH = 4;
