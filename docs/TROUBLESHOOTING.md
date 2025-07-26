@@ -16,13 +16,14 @@
     - [BUG-007: ThemeToggle context undefined](#bug-007-themetoggle-context-undefined)
     - [BUG-008: Dark mode hydration error](#bug-008-dark-mode-hydration-error)
     - [BUG-009: Certifications card overflow on small screens](#bug-009-certifications-card-overflow-on-small-screens)
+    - [BUG-010: Certifications page overlaps nav on short screens](#bug-010-certifications-page-overlaps-nav-on-short-screens)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 26, 2025, 19:00 (UTC+8)
+- **最后更新**: July 27, 2025, 01:40 (UTC+8)
 
 ---
 
@@ -71,6 +72,7 @@
 - [x] BUG-007: ThemeToggle context undefined
 - [x] BUG-008: Dark mode hydration error
 - [x] BUG-009: Certifications card overflow on small screens
+- [x] BUG-010: Certifications page overlaps nav on short screens
 
 ---
 
@@ -211,3 +213,17 @@
 - **解决方案**：
   - 调整为 `repeat(auto-fit, minmax(min(320px, 100%), 1fr))`，保证卡片在窄屏下不会超出容器
 - **验证结果**：✅ 页面在 375px 及以下宽度无溢出
+
+### BUG-010: Certifications page overlaps nav on short screens
+
+- **发现日期**：2025-07-28
+- **重现环境**：Chrome 115+, 浏览器高度 600px
+- **问题现象**：
+  - 证书页顶部内容被固定导航遮挡
+- **根本原因**：
+  - `index.min.css` 全局设置 `body` 为 `display:flex; height:100vh;`
+    且取消了顶部间距，导致非首页也沿用该布局
+- **解决方案**：
+  - 为证书页设置 `bodyClass="cert-page"` 并在 `certifications.min.css`
+    中恢复 `padding-top` 和常规布局
+- **验证结果**：✅ 调整后在 600px 高度下页面不再与导航重叠

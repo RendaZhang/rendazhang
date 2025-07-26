@@ -8,3 +8,6 @@
 /* Credly 加载动画 */
 .credly-container{position:relative;min-height:270px}
 .credly-container .loader{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:10}
+body.cert-page{display:block;min-height:100vh;padding:60px 0 0;align-items:initial;justify-content:initial}
+@media (max-width:768px){body.cert-page{padding-top:70px}}
+@media (max-width:480px){body.cert-page{padding-top:80px}}
