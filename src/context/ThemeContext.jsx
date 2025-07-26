@@ -12,16 +12,18 @@ const ThemeContext = createContext(defaultContext);
 export const useTheme = () => useContext(ThemeContext) || defaultContext;
 
 export function ThemeProvider({ children }) {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Lazily load stored preference after hydration to avoid SSR mismatch
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (stored === 'dark') setDarkMode(true);
-      if (stored === 'light') setDarkMode(false);
-    } catch {}
-  }, []);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        if (document.documentElement.classList.contains('dark-mode')) {
+          return true;
+        }
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (stored === 'dark') return true;
+      } catch {}
+    }
+    return false;
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark-mode', darkMode);
