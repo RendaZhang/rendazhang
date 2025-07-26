@@ -49,6 +49,13 @@ import {
     <meta name="twitter:site" content={TWITTER_HANDLE} />
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
   </Fragment>
+  <Fragment slot="bodyEnd">
+    <script>
+      if (window.self !== window.top) {
+        document.body.classList.add('embedded');
+      }
+    </script>
+  </Fragment>
 
   <Chat client:load />
 </BaseLayout>
