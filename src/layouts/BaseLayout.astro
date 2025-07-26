@@ -36,6 +36,14 @@ const jsonLD = personSchemaJson;
     <!-- Ensure consistent nav layout across pages -->
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="canonical" href={canonical} />
+    <script>
+      try {
+        const stored = localStorage.getItem('preferred_theme');
+        if (stored === 'dark') {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } catch {}
+    </script>
     <script type="application/ld+json" set:html={jsonLD} />
     {
       preloadStyles.map((href: string | URL | null | undefined) => (

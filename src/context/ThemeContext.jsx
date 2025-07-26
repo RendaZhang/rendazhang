@@ -24,7 +24,7 @@ export function ThemeProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('dark-mode', darkMode);
+    document.documentElement.classList.toggle('dark-mode', darkMode);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
     } catch {}

@@ -10,12 +10,14 @@ body {
   min-height: 100vh;
 }
 
+html.dark-mode body,
 body.dark-mode {
   background-color: #222;
   color: #eee;
 }
 
 /* 黑暗模式适配 */
+html.dark-mode nav,
 body.dark-mode nav {
   background-color: #333;
 }
@@ -143,11 +145,14 @@ main.main-content {
 }
 
 /* ---------------- Dark Mode Enhancements ---------------- */
+html.dark-mode body,
 body.dark-mode {
   background-color: #121212;
   color: #e0e0e0;
 }
 
+html.dark-mode main.main-content,
+html.dark-mode .container,
 body.dark-mode main.main-content,
 body.dark-mode .container {
   background-color: #1e1e1e;
@@ -155,10 +160,15 @@ body.dark-mode .container {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
+html.dark-mode nav,
 body.dark-mode nav {
   background-color: #333;
 }
 
+html.dark-mode nav a,
+html.dark-mode nav button,
+html.dark-mode a[role="button"],
+html.dark-mode button,
 body.dark-mode nav a,
 body.dark-mode nav button,
 body.dark-mode a[role="button"],
@@ -167,42 +177,50 @@ body.dark-mode button {
   color: #fff;
 }
 
+html.dark-mode .chat-container,
 body.dark-mode .chat-container {
   background: #242424;
 }
 
+html.dark-mode .user-message,
 body.dark-mode .user-message {
   background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: #fff;
 }
 
+html.dark-mode .ai-message,
 body.dark-mode .ai-message {
   background: #333;
   color: #e0e0e0;
 }
 
+html.dark-mode .input-area,
 body.dark-mode .input-area {
   background: #1e1e1e;
   border-top: 1px solid #333;
 }
 
+html.dark-mode #message-input,
 body.dark-mode #message-input {
   background: #242424;
   color: #e0e0e0;
   border: 1px solid #444;
 }
 
+html.dark-mode #message-input:focus,
 body.dark-mode #message-input:focus {
   border-color: #8f94fb;
   box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.4);
 }
 
+html.dark-mode .cert-card,
 body.dark-mode .cert-card {
   background: #2a2a2a;
   color: #e0e0e0;
   border-color: #444;
 }
 
+html.dark-mode .verify-btn,
 body.dark-mode .verify-btn {
   background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: #fff;

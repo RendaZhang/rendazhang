@@ -18,13 +18,14 @@
     - [BUG-009: Certifications card overflow on small screens](#bug-009-certifications-card-overflow-on-small-screens)
     - [BUG-010: Certifications page overlaps nav on short screens](#bug-010-certifications-page-overlaps-nav-on-short-screens)
     - [BUG-011: Verify buttons not responsive on small screens](#bug-011-verify-buttons-not-responsive-on-small-screens)
+    - [BUG-012: Dark mode flashes before applying](#bug-012-dark-mode-flashes-before-applying)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 27, 2025, 02:00 (UTC+8)
+- **最后更新**: July 27, 2025, 03:20 (UTC+8)
 
 ---
 
@@ -75,6 +76,7 @@
 - [x] BUG-009: Certifications card overflow on small screens
 - [x] BUG-010: Certifications page overlaps nav on short screens
 - [x] BUG-011: Verify buttons not responsive on small screens
+- [x] BUG-012: Dark mode flashes before applying
 
 ---
 
@@ -241,3 +243,16 @@
 - **解决方案**：
   - 将按钮容器设为 flex 布局并给予按钮 `flex:1`，同时统一 margin
 - **验证结果**：✅ 在 380px 宽度下按钮可均匀收缩，无溢出
+
+### BUG-012: Dark mode flashes before applying
+
+- **发现日期**：2025-07-30
+- **重现环境**：所有页面在启用深色主题后刷新
+- **问题现象**：
+  - 页面加载时先以亮色显示，随后立即切换至暗色
+- **根本原因**：
+  - 主题脚本在 React Hydration 之后才执行，初始渲染始终为亮色
+- **解决方案**：
+  - 在 `<head>` 中注入行内脚本，页面加载前读取 localStorage 并给 `<html>` 添加 `dark-mode` 类
+  - 同时在 `ThemeContext` 中切换 `document.documentElement` 的类名
+- **验证结果**：✅ 刷新页面不会再出现闪烁
