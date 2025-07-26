@@ -23,6 +23,8 @@ export const ABOUT_EN_PAGE_PATH = '/about.en';
 export const ABOUT_ZH_PAGE_PATH = '/about.zh';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
+export const LOGIN_PAGE_PATH = '/login';
+export const REGISTER_PAGE_PATH = '/register';
 
 // Home page path
 export const HOME_PAGE_PATH = '/';
