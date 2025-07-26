@@ -9,7 +9,12 @@ const {
   title = '',
   description = '',
   viewport = VIEWPORT_ZOOM_ALLOWED,
-  canonical = ''
+  canonical = '',
+  extraStyles = [],
+  extraScripts = [],
+  showNav = true,
+  bodyClass = '',
+  mainClass = 'main-content'
 } = Astro.props;
 ---
 
@@ -24,12 +29,16 @@ const {
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
+    {extraStyles.map((href) => <link rel="stylesheet" href={href} />)}
     <slot name="head" />
   </head>
-  <body>
+  <body class={bodyClass}>
     <ThemeProvider client:load>
-      <NavBar />
-      <slot />
+      {showNav && <NavBar />}
+      <main class={mainClass}>
+        <slot />
+      </main>
+      {extraScripts.map((src) => <script src={src} />)}
       <!-- 页面主体内容插槽 -->
     </ThemeProvider>
   </body>
