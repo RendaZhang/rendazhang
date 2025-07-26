@@ -33,12 +33,25 @@ const jsonLD = personSchemaJson;
     <link rel="icon" type="image/png" href={FAVICON_PATH} />
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
     <script is:inline>
-      try {
-        const stored = localStorage.getItem('preferred_theme');
-        if (stored === 'dark') {
-          document.documentElement.classList.add('dark-mode');
+      (function () {
+        try {
+          // 1. 尝试读取本地存储
+          const storedTheme = localStorage.getItem('preferred_theme');
+          // 2. 如果无存储值，检测系统偏好
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          // 3. 决策逻辑
+          const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+          // 4. 立即应用主题
+          if (shouldUseDarkMode) {
+            document.documentElement.classList.add('dark-mode');
+          }
+          // 5. 设置数据属性供React使用
+          document.documentElement.dataset.initialTheme =
+            storedTheme || (systemPrefersDark ? 'dark' : 'light');
+        } catch (e) {
+          console.error('主题初始化失败', e);
         }
-      } catch {}
+      })();
     </script>
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <!-- Ensure consistent nav layout across pages -->

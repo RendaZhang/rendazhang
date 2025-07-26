@@ -1,9 +1,8 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { THEME_STORAGE_KEY } from '../config.js';
 
 const defaultContext = {
   darkMode: false,
-  // noop toggle when provider is absent
   toggle: () => {}
 };
 
@@ -12,33 +11,48 @@ const ThemeContext = createContext(defaultContext);
 export const useTheme = () => useContext(ThemeContext) || defaultContext;
 
 export function ThemeProvider({ children }) {
+  // 使用 ref 跟踪初始状态是否已设置
+  const initialSet = useRef(false);
+
+  // 初始状态设为 false，但会在客户端立即更新
   const [darkMode, setDarkMode] = useState(false);
-  const mounted = useRef(false);
 
-  // Apply the stored preference immediately after hydration
-  useLayoutEffect(() => {
-    try {
-      if (document.documentElement.classList.contains('dark-mode')) {
-        setDarkMode(true);
-        return;
-      }
-      const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (stored === 'dark') setDarkMode(true);
-    } catch {}
-  }, []);
-
+  // 同步主题状态到 DOM 和 localStorage
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
+    // 1. 只在客户端执行
+    if (typeof window === 'undefined') return;
+
+    // 2. 首次渲染时设置初始状态
+    if (!initialSet.current) {
+      initialSet.current = true;
+
+      // 优先读取 DOM 类名
+      const hasDarkClass = document.documentElement.classList.contains('dark-mode');
+
+      // 其次读取 localStorage
+      let storedValue = false;
+      try {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        storedValue = stored === 'dark';
+      } catch {}
+
+      // 设置初始状态
+      const shouldBeDark = hasDarkClass || storedValue;
+      setDarkMode(shouldBeDark);
+
+      // 确保 DOM 状态正确
+      document.documentElement.classList.toggle('dark-mode', shouldBeDark);
       return;
     }
+
+    // 3. 后续状态变化时同步
     document.documentElement.classList.toggle('dark-mode', darkMode);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
     } catch {}
   }, [darkMode]);
 
-  const toggle = () => setDarkMode((m) => !m);
+  const toggle = () => setDarkMode((prev) => !prev);
 
   return <ThemeContext.Provider value={{ darkMode, toggle }}>{children}</ThemeContext.Provider>;
 }
