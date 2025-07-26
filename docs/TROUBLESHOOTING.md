@@ -14,13 +14,14 @@
     - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
     - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
     - [BUG-007: ThemeToggle context undefined](#bug-007-themetoggle-context-undefined)
+    - [BUG-008: Dark mode hydration error](#bug-008-dark-mode-hydration-error)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 26, 2025, 17:20 (UTC+8)
+- **最后更新**: July 26, 2025, 19:00 (UTC+8)
 
 ---
 
@@ -67,6 +68,7 @@
 - [x] BUG-005: jQuery.easing 插件缺失
 - [x] BUG-006: BaseLayout 中文乱码
 - [x] BUG-007: ThemeToggle context undefined
+- [x] BUG-008: Dark mode hydration error
 
 ---
 
@@ -184,3 +186,15 @@
 - **解决方案**：
   - 为 `createContext` 提供默认值并在 `useTheme` 中兜底，避免 Provider 缺失导致报错
 - **验证结果**：✅ 页面不再报错，未包裹 Provider 时按钮失效但不会崩溃
+
+### BUG-008: Dark mode hydration error
+
+- **发现日期**：2025-07-27
+- **重现环境**：Chrome 最新版，开发服务器
+- **问题现象**：
+  - 在 Login 或 Register 页面切换到 Dark Mode 后刷新，控制台报 `Minified React error #418`
+- **根本原因**：
+  - 服务器渲染始终使用亮色主题，而客户端根据 localStorage 初始化为暗色，导致 Hydration 不匹配
+- **解决方案**：
+  - 初始状态固定为 `false`，在 `useEffect` 中读取 localStorage 并更新，确保 SSR 与客户端一致
+- **验证结果**：✅ 刷新页面不再报错，主题切换正常
