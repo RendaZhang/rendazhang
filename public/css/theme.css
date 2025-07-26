@@ -15,38 +15,43 @@ body.dark-mode {
   color: #eee;
 }
 
+/* 黑暗模式适配 */
+body.dark-mode nav {
+  background-color: #333;
+}
+
 nav {
-  width: 100%; /* Makes the nav take up the full width of the body */
-  background-color: #fff; /* Match the lighter style used on the index page */
-  color: #333; /* Darker text color for consistency */
-  padding: 10px 0; /* Adds padding inside the nav (10px top and bottom, 0 left and right) */
-  text-align: center; /* Centers the text horizontally within the nav */
-  position: fixed; /* Fixes the nav at the top of the page, so it stays visible even when scrolling */
-  top: 0; /* Positions the nav at the very top of the page */
-  z-index: 1000; /* Ensures the nav stays above other content */
-  display: flex; /* Makes the nav a flex container */
-  justify-content: center; /* Centers the buttons horizontally */
-  gap: 1rem; /* Adds space between the buttons */
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  padding: 10px 0;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 nav a {
   color: #fff;
   text-decoration: none;
-  padding: 10px 20px; /* Adds padding inside the buttons */
+  padding: 10px 20px;
   margin: 0 10px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Same gradient as index */
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 4px; /* Match index button styling */
-  transition: filter 0.3s, transform 0.3s; /* Adds smooth transitions for hover effects */
+  border-radius: 4px;
+  transition: filter 0.3s, transform 0.3s;
 }
 
 nav a:hover {
-  filter: brightness(1.1); /* Brighten on hover */
-  transform: translateY(-2px); /* Slightly lifts the button on hover */
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 
 nav a:active {
-  transform: translateY(0); /* Resets the button position when clicked */
+  transform: translateY(0);
 }
 
 nav button {
@@ -75,4 +80,44 @@ main.main-content {
   width: 100%;
   max-width: 600px;
   text-align: center;
+}
+
+/* 响应式设计 - 手机适配 */
+@media (max-width: 768px) {
+  body {
+    padding-top: 110px; /* 增加顶部内边距以适应更高的导航栏 */
+  }
+  
+  nav {
+    flex-direction: column; /* 垂直排列导航项 */
+    align-items: stretch; /* 拉伸子项填满宽度 */
+    padding: 5px 15px; /* 调整内边距 */
+    gap: 0.5rem; /* 减小间距 */
+    height: auto; /* 自动高度 */
+  }
+  
+  nav a, nav button {
+    width: 100%; /* 填满可用宽度 */
+    margin: 5px 0; /* 垂直间距 */
+    padding: 12px 10px; /* 调整内边距 */
+    box-sizing: border-box; /* 包含内边距和边框 */
+    text-align: center; /* 居中文本 */
+    font-size: 0.9rem; /* 调整字体大小 */
+  }
+}
+
+/* 小屏幕优化 (小于480px) */
+@media (max-width: 480px) {
+  body {
+    padding-top: 130px; /* 进一步增加顶部内边距 */
+  }
+  
+  nav {
+    padding: 5px 10px;
+  }
+  
+  nav a, nav button {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
 }
