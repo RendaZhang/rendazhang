@@ -21,7 +21,6 @@ import {
   SOCIAL_PROFILE_URLS,
   SITE_AUTHOR_EN,
   SITE_NAME_EN,
-  PERSON_SCHEMA,
   IMAGE_PATHS,
   SOCIAL_ICON_PATHS,
   SCRIPT_PATHS,
@@ -32,7 +31,6 @@ import {
   HOME_PAGE_PATH,
   THEME_COLOR_LIGHT
 } from '../config.js';
-const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
 
 <BaseLayout
@@ -74,7 +72,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:site" content={TWITTER_HANDLE} />
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
     <meta name="twitter:domain" content={SITE_DOMAIN} />
-    <script type="application/ld+json" set:html={jsonLD} />
   </Fragment>
 
   <div class="container">

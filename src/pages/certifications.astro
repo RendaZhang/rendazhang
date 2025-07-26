@@ -1,44 +1,35 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
   OG_IMAGE_DIMENSIONS,
   TWITTER_HANDLE,
-  SOCIAL_PROFILE_URLS,
-  SITE_AUTHOR_EN,
   SITE_NAME_EN,
-  PERSON_SCHEMA,
   VERIFY_URLS,
   CREDLY_HOST,
   CREDLY_BADGE_ID,
   CREDLY_EMBED_IFRAME,
   CREDLY_CONTAINER_MAX_WIDTH,
-  FAVICON_PATH,
   IMAGE_PATHS,
   STYLE_PATHS,
   SCRIPT_PATHS,
-  VIEWPORT_ZOOM_ALLOWED,
-  HOME_PAGE_PATH,
-  NAV_TEXT,
-  THEME_COLOR_LIGHT,
   PAGE_TITLES,
   DEFAULT_MARGIN,
-  PAGE_TITLE_MARGIN_TOP
+  PAGE_TITLE_MARGIN_TOP,
+  THEME_COLOR_LIGHT
 } from '../config.js';
-const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{PAGE_TITLES.CERTIFICATIONS}</title>
-    <link rel="canonical" href={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`} />
-    <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
-    <meta
-      name="description"
-      content="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang."
-    />
-    <!-- Open Graph -->
+<BaseLayout
+  lang="en"
+  title={PAGE_TITLES.CERTIFICATIONS}
+  description="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang."
+  canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
+  extraStyles={[STYLE_PATHS.INDEX, STYLE_PATHS.CERTIFICATIONS]}
+  extraScripts={[SCRIPT_PATHS.CERTIFICATIONS]}
+>
+  <Fragment slot="head">
     <meta property="og:type" content="website" />
     <meta property="og:title" content={PAGE_TITLES.CERTIFICATIONS} />
     <meta
@@ -56,7 +47,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
       property="og:image:secure_url"
       content={`${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`}
     />
-    <!-- Twitter Card -->
     <meta name="twitter:title" content={PAGE_TITLES.CERTIFICATIONS} />
     <meta
       name="twitter:description"
@@ -68,54 +58,44 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:image" content={`${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`} />
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
     <meta name="twitter:image:alt" content="Renda Zhang Certifications" />
-    <script type="application/ld+json" set:html={jsonLD} />
-    <!-- Favicon & CSS -->
     <meta name="theme-color" content={THEME_COLOR_LIGHT} />
-    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
-    <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
-    <link rel="stylesheet" href={STYLE_PATHS.CERTIFICATIONS} />
-  </head>
+  </Fragment>
 
-  <body>
-    <div class="container">
-      <button onclick={`location.href='${HOME_PAGE_PATH}'`} role="button">{NAV_TEXT.BACK}</button>
-      <h1 style={`margin-top:${PAGE_TITLE_MARGIN_TOP};text-align:center;`}>
-        Professional Certifications
-      </h1>
+  <div class="container">
+    <h1 style={`margin-top:${PAGE_TITLE_MARGIN_TOP};text-align:center;`}>
+      Professional Certifications
+    </h1>
 
-      <section class="cert-grid">
-        <article class="cert-card">
-          <h2>AWS Certified Solutions Architect - Associate (SAA-C03)</h2>
-          <p><strong>Name:</strong> Renda Zhang</p>
-          <p>
-            <strong>Issued:</strong> 2025-06-16&nbsp;&nbsp;•&nbsp;&nbsp;<strong>Expires:</strong> 2028-06-16
-          </p>
+    <section class="cert-grid">
+      <article class="cert-card">
+        <h2>AWS Certified Solutions Architect - Associate (SAA-C03)</h2>
+        <p><strong>Name:</strong> Renda Zhang</p>
+        <p>
+          <strong>Issued:</strong> 2025-06-16&nbsp;&nbsp;•&nbsp;&nbsp;<strong>Expires:</strong> 2028-06-16
+        </p>
 
-          <!-- Credly 嵌入 -->
+        <div
+          class="credly-container"
+          style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:${DEFAULT_MARGIN} auto`}
+        >
+          <div class="loader"></div>
           <div
-            class="credly-container"
-            style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:${DEFAULT_MARGIN} auto`}
+            data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}
+            data-iframe-height={CREDLY_EMBED_IFRAME.HEIGHT}
+            data-share-badge-id={CREDLY_BADGE_ID}
+            data-share-badge-host={CREDLY_HOST}
           >
-            <div class="loader"></div>
-            <div
-              data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}
-              data-iframe-height={CREDLY_EMBED_IFRAME.HEIGHT}
-              data-share-badge-id={CREDLY_BADGE_ID}
-              data-share-badge-host={CREDLY_HOST}
-            >
-            </div>
           </div>
-          <script async src={SCRIPT_PATHS.CREDLY_EMBED}></script>
+        </div>
+        <script async src={SCRIPT_PATHS.CREDLY_EMBED}></script>
 
-          <p>
-            <a class="verify-btn" href={VERIFY_URLS.CREDLY} target="_blank">Verify on Credly</a>
-            <a class="verify-btn" href={VERIFY_URLS.AWS} target="_blank">Verify on AWS</a>
-          </p>
-        </article>
+        <p>
+          <a class="verify-btn" href={VERIFY_URLS.CREDLY} target="_blank">Verify on Credly</a>
+          <a class="verify-btn" href={VERIFY_URLS.AWS} target="_blank">Verify on AWS</a>
+        </p>
+      </article>
 
-        <!-- 以后要加新证书 → 复制 <article> 再改文本即可 -->
-      </section>
-    </div>
-    <script defer src={SCRIPT_PATHS.CERTIFICATIONS}></script>
-  </body>
-</html>
+      <!-- 以后要加新证书 → 复制 <article> 再改文本即可 -->
+    </section>
+  </div>
+</BaseLayout>
