@@ -133,9 +133,9 @@ main.main-content {
 /* 超小屏幕优化 (小于360px) */
 @media (max-width: 360px) {
   nav a, nav button {
-    flex: 1 1 100%; /* 单列布局 */
-    margin: 4px 0; /* 垂直间距 */
-    padding: 12px 5px; /* 增大点击区域 */
-    font-size: 0.85rem; /* 确保可读性 */
+    flex: 1 1 100%;
+    margin: 4px 3px;
+    padding: 12px 5px;
+    font-size: 0.85rem;
   }
 }
