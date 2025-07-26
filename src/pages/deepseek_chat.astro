@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Chat from '../components/Chat.jsx';
 import {
   CHAT_PAGE_PATH,
@@ -17,16 +18,16 @@ import {
 } from '../config.js';
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
-    <title>{AI_CHAT_TITLE}</title>
-    <meta
-      name="description"
-      content={`${AI_CHAT_DESCRIPTION} Conversations are saved locally and support Markdown rendering.`}
-    />
-    <link rel="canonical" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
+<BaseLayout
+  lang="zh-CN"
+  title={AI_CHAT_TITLE}
+  description={`${AI_CHAT_DESCRIPTION} Conversations are saved locally and support Markdown rendering.`}
+  viewport={VIEWPORT_ZOOM_ALLOWED}
+  canonical={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`}
+  preloadStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
+  extraStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
+>
+  <Fragment slot="head">
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <meta name="robots" content="index, follow" />
@@ -47,13 +48,7 @@ import {
     <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
     <meta name="twitter:site" content={TWITTER_HANDLE} />
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
-    <!-- 核心样式提前加载，非关键资源后续由组件异步加载 -->
-    <link rel="preload" href={STYLE_PATHS.DEEPSEEK_CHAT} as="style" />
-    <link rel="stylesheet" href={STYLE_PATHS.DEEPSEEK_CHAT} />
-    <link rel="preload" href={STYLE_PATHS.GITHUB_LIGHT} as="style" />
-    <link rel="stylesheet" href={STYLE_PATHS.GITHUB_LIGHT} />
-  </head>
-  <body>
-    <Chat client:load />
-  </body>
-</html>
+  </Fragment>
+
+  <Chat client:load />
+</BaseLayout>

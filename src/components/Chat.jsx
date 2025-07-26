@@ -13,9 +13,7 @@ import {
   SCRIPT_PATHS,
   CHAT_TEXT,
   ROLES,
-  AI_CHAT_TITLE,
-  HOME_PAGE_PATH,
-  NAV_TEXT
+  AI_CHAT_TITLE
 } from '../config.js';
 
 export default function Chat() {
@@ -271,11 +269,6 @@ export default function Chat() {
   return (
     <div className="container">
       <header>
-        {!embedded && (
-          <button id="back-button" onClick={() => (window.location.href = HOME_PAGE_PATH)}>
-            {NAV_TEXT.BACK}
-          </button>
-        )}
         <h1>{AI_CHAT_TITLE}</h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
