@@ -1,16 +1,48 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 body.dark-mode {
   background-color: #222;
   color: #eee;
 }
 
 nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  width: 100%; /* Makes the nav take up the full width of the body */
+  background-color: #333; /* Sets a dark background color for the nav */
+  color: white; /* Sets the text color to white */
+  padding: 10px 0; /* Adds padding inside the nav (10px top and bottom, 0 left and right) */
+  text-align: center; /* Centers the text horizontally within the nav */
+  position: fixed; /* Fixes the nav at the top of the page, so it stays visible even when scrolling */
+  top: 0; /* Positions the nav at the very top of the page */
+  z-index: 1000; /* Ensures the nav stays above other content */
+  display: flex; /* Makes the nav a flex container */
+  justify-content: center; /* Centers the buttons horizontally */
+  gap: 1rem; /* Adds space between the buttons */
 }
 
 nav a {
   color: inherit;
   text-decoration: none;
+  padding: 10px 20px; /* Adds padding inside the buttons */
+  background-color: #555; /* Sets a background color for the buttons */
+  border-radius: 5px; /* Rounds the corners of the buttons */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Adds smooth transitions for hover effects */
+}
+
+nav a:hover {
+  background-color: #777; /* Changes the background color on hover */
+  transform: translateY(-2px); /* Slightly lifts the button on hover */
+}
+
+nav a:active {
+  transform: translateY(0); /* Resets the button position when clicked */
 }
