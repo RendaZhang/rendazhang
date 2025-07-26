@@ -79,6 +79,8 @@ nav button:active {
 main.main-content {
   width: 100%;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 }
 
