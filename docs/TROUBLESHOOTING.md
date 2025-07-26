@@ -15,6 +15,7 @@
     - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
     - [BUG-007: ThemeToggle context undefined](#bug-007-themetoggle-context-undefined)
     - [BUG-008: Dark mode hydration error](#bug-008-dark-mode-hydration-error)
+    - [BUG-009: Certifications card overflow on small screens](#bug-009-certifications-card-overflow-on-small-screens)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -69,6 +70,7 @@
 - [x] BUG-006: BaseLayout 中文乱码
 - [x] BUG-007: ThemeToggle context undefined
 - [x] BUG-008: Dark mode hydration error
+- [x] BUG-009: Certifications card overflow on small screens
 
 ---
 
@@ -198,3 +200,14 @@
 - **解决方案**：
   - 初始状态固定为 `false`，在 `useEffect` 中读取 localStorage 并更新，确保 SSR 与客户端一致
 - **验证结果**：✅ 刷新页面不再报错，主题切换正常
+### BUG-009: Certifications card overflow on small screens
+
+- **发现日期**：2025-07-27
+- **重现环境**：Chrome 开发工具，375px 宽度
+- **问题现象**：
+  - 当屏幕宽度小于 400px 时，证书卡片最小宽度 320px，导致父容器右侧出现空白
+- **根本原因**：
+  - `.cert-grid` 的 `grid-template-columns` 使用 `minmax(320px, 1fr)`，无法在更窄屏幕收缩
+- **解决方案**：
+  - 调整为 `repeat(auto-fit, minmax(min(320px, 100%), 1fr))`，保证卡片在窄屏下不会超出容器
+- **验证结果**：✅ 页面在 375px 及以下宽度无溢出
