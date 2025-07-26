@@ -1,7 +1,6 @@
 ---
 // BaseLayout.astro
-import NavBar from '../components/NavBar.astro';
-import { ThemeProvider } from '../context/ThemeContext.jsx';
+import NavBarWrapper from '../components/NavBarWrapper.jsx';
 import { FAVICON_PATH, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED } from '../config.js';
 
 const {
@@ -37,13 +36,11 @@ const {
     <slot name="head" />
   </head>
   <body class={bodyClass}>
-    <ThemeProvider client:load>
-      {showNav && <NavBar />}
-      <main class={mainClass}>
-        <slot />
-      </main>
-      {extraScripts.map((src: string | null | undefined) => <script src={src} />)}
-      <!-- 页面主体内容插槽 -->
-    </ThemeProvider>
+    {showNav && <NavBarWrapper client:load />}
+    <main class={mainClass}>
+      <slot />
+    </main>
+    {extraScripts.map((src: string | null | undefined) => <script src={src} />)}
+    <!-- 页面主体内容插槽 -->
   </body>
 </html>
