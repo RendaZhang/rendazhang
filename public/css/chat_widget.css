@@ -38,6 +38,11 @@
   overflow: hidden;
 }
 
+html.dark-mode .chat-widget-panel,
+body.dark-mode .chat-widget-panel {
+  background: #1e1e1e;
+}
+
 .chat-widget-iframe {
   width: 100%;
   height: 70vh;

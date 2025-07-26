@@ -20,6 +20,7 @@
     - [BUG-011: Verify buttons not responsive on small screens](#bug-011-verify-buttons-not-responsive-on-small-screens)
     - [BUG-012: Dark mode flashes before applying](#bug-012-dark-mode-flashes-before-applying)
     - [BUG-013: Hydration mismatch when dark mode is enabled](#bug-013-hydration-mismatch-when-dark-mode-is-enabled)
+    - [BUG-014: Chat widget panel flashes in dark mode](#bug-014-chat-widget-panel-flashes-in-dark-mode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -79,6 +80,7 @@
 - [x] BUG-011: Verify buttons not responsive on small screens
 - [x] BUG-012: Dark mode flashes before applying
 - [x] BUG-013: Hydration mismatch when dark mode is enabled
+- [x] BUG-014: Chat widget panel flashes in dark mode
 
 ---
 
@@ -316,3 +318,15 @@
     }
   }, []);
   ```
+
+### BUG-014: Chat widget panel flashes in dark mode
+
+- **发现日期**：2025-07-27
+- **重现环境**：深色主题下的首页
+- **问题现象**：
+  - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
+- **根本原因**：
+  - `chat_widget.css` 默认背景为白色，未针对 `.dark-mode` 提供样式
+- **解决方案**：
+  - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
+- **验证结果**：✅ 弹窗不再闪烁
