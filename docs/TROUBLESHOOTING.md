@@ -12,13 +12,14 @@
     - [BUG-003: CONTACT_FORM_ENDPOINT 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
     - [BUG-004: jQuery.validator 加载顺序错误](#bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
     - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
+    - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 25, 2025, 16:20 (UTC+8)
+- **最后更新**: July 26, 2025, 17:20 (UTC+8)
 
 ---
 
@@ -63,6 +64,7 @@
 - [x] BUG-003: CONTACT_FORM_ENDPOINT 未定义
 - [x] BUG-004: jQuery.validator 加载顺序错误
 - [x] BUG-005: jQuery.easing 插件缺失
+- [x] BUG-006: BaseLayout 中文乱码
 
 ---
 
@@ -156,3 +158,15 @@
 - **解决方案**：
   - 在 about.en 页面中引入 `SCRIPT_PATHS.JQUERY_EASING`，置于 jQuery 之后
 - **验证结果**：✅ 控制台不再报错，动画正常
+
+### BUG-006: BaseLayout 中文乱码
+
+- **发现日期**：2025-07-26
+- **重现环境**：Chrome 最新版，开发服务器
+- **问题现象**：
+  - 登录页面引入 BaseLayout 后中文字符变成乱码
+- **根本原因**：
+  - `<html>` 标签被包装在 `<ThemeProvider>` 内，Astro 构建时丢失 `lang` 与 `charset`
+- **解决方案**：
+  - 将 `<ThemeProvider>` 移至 `<body>` 中，保持 `<html lang>` 为顶级元素
+- **验证结果**：✅ 页面可正常显示中文

@@ -13,24 +13,24 @@ const {
 } = Astro.props;
 ---
 
-<ThemeProvider client:load>
-  <html lang={lang}>
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content={viewport} />
-      {title && <title>{title}</title>}
-      {description && <meta name="description" content={description} />}
-      <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
-      <link rel="icon" type="image/png" href={FAVICON_PATH} />
-      <link rel="apple-touch-icon" href={FAVICON_PATH} />
-      <link rel="stylesheet" href={STYLE_PATHS.THEME} />
-      <link rel="canonical" href={canonical} />
-      <slot name="head" />
-    </head>
-    <body>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content={viewport} />
+    {title && <title>{title}</title>}
+    {description && <meta name="description" content={description} />}
+    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
+    <link rel="icon" type="image/png" href={FAVICON_PATH} />
+    <link rel="apple-touch-icon" href={FAVICON_PATH} />
+    <link rel="stylesheet" href={STYLE_PATHS.THEME} />
+    <link rel="canonical" href={canonical} />
+    <slot name="head" />
+  </head>
+  <body>
+    <ThemeProvider client:load>
       <NavBar />
       <slot />
       <!-- 页面主体内容插槽 -->
-    </body>
-  </html>
-</ThemeProvider>
+    </ThemeProvider>
+  </body>
+</html>
