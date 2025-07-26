@@ -19,6 +19,7 @@
     - [BUG-010: Certifications page overlaps nav on short screens](#bug-010-certifications-page-overlaps-nav-on-short-screens)
     - [BUG-011: Verify buttons not responsive on small screens](#bug-011-verify-buttons-not-responsive-on-small-screens)
     - [BUG-012: Dark mode flashes before applying](#bug-012-dark-mode-flashes-before-applying)
+    - [BUG-013: Hydration mismatch when dark mode is enabled](#bug-013-hydration-mismatch-when-dark-mode-is-enabled)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -256,3 +257,17 @@
   - 在 `<head>` 中注入行内脚本，页面加载前读取 localStorage 并给 `<html>` 添加 `dark-mode` 类
   - 同时在 `ThemeContext` 中切换 `document.documentElement` 的类名
 - **验证结果**：✅ 刷新页面不会再出现闪烁
+
+### BUG-013: Hydration mismatch when dark mode is enabled
+
+- **发现日期**：2025-07-31
+- **重现环境**：Dark Mode 状态下刷新任意页面
+- **问题现象**：
+  - 控制台报 `Hydration failed because the server rendered HTML didn't match the client`
+  - 页面在亮色与暗色之间闪烁
+- **根本原因**：
+  - `ThemeContext` 根据 DOM 状态初始化 `darkMode`，而服务端渲染始终为 `false`，导致首次 Hydration 输出不一致
+- **解决方案**：
+  - 初始状态固定为 `false`，在 `useLayoutEffect` 中读取 DOM/LocalStorage 决定是否切换
+  - `useEffect` 首次执行时跳过更新，避免覆盖 `<head>` 脚本设置
+- **验证结果**：✅ Dark Mode 下刷新页面无闪烁，控制台无错误
