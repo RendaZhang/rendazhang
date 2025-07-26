@@ -85,12 +85,17 @@ nav button:not(.theme-toggle-btn):active {
 .theme-toggle {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: 1rem;
+  gap: 2px;
+  margin-left: auto;
 }
 
 .theme-toggle-label {
   font-size: 0.9rem;
+  color: #333;
+}
+
+html.dark-mode .theme-toggle-label {
+  color: #eee;
 }
 
 .theme-toggle-btn {
@@ -109,12 +114,12 @@ nav button:not(.theme-toggle-btn):active {
 }
 
 .theme-toggle-btn.light {
-  background-color: #f0f0f0;
+  background-color: #fafafa;
   color: #333;
 }
 
 .theme-toggle-btn.dark {
-  background-color: #333;
+  background-color: #111;
   color: #fff;
 }
 
@@ -127,12 +132,12 @@ nav button:not(.theme-toggle-btn):active {
 }
 
 html.dark-mode .theme-toggle-btn.light {
-  background-color: #e0e0e0;
+  background-color: #ddd;
   color: #222;
 }
 
 html.dark-mode .theme-toggle-btn.dark {
-  background-color: #444;
+  background-color: #222;
   color: #fff;
 }
 
@@ -171,6 +176,12 @@ main.main-content {
     font-size: 0.85rem; /* 微调字体大小 */
     border-radius: 8px; /* 增大圆角更符合移动端 */
   }
+
+  .theme-toggle {
+    flex-basis: 100%;
+    justify-content: center;
+    margin: 4px 0 0;
+  }
 }
 
 /* 小屏幕优化 (小于480px) */
@@ -192,6 +203,12 @@ main.main-content {
     font-size: 0.8rem; /* 字体大小 */
     border-radius: 6px; /* 圆角 */
   }
+
+  .theme-toggle {
+    flex-basis: 100%;
+    justify-content: center;
+    margin-top: 4px;
+  }
 }
 
 /* 超小屏幕优化 (小于360px) */
@@ -202,6 +219,12 @@ main.main-content {
     margin: 4px 3px;
     padding: 12px 5px;
     font-size: 0.85rem;
+  }
+
+  .theme-toggle {
+    flex-basis: 100%;
+    justify-content: center;
+    margin-top: 4px;
   }
 }
 
