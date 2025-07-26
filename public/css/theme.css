@@ -141,3 +141,69 @@ main.main-content {
     font-size: 0.85rem;
   }
 }
+
+/* ---------------- Dark Mode Enhancements ---------------- */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode main.main-content,
+body.dark-mode .container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode nav {
+  background-color: #333;
+}
+
+body.dark-mode nav a,
+body.dark-mode nav button,
+body.dark-mode a[role="button"],
+body.dark-mode button {
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  color: #fff;
+}
+
+body.dark-mode .chat-container {
+  background: #242424;
+}
+
+body.dark-mode .user-message {
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  color: #fff;
+}
+
+body.dark-mode .ai-message {
+  background: #333;
+  color: #e0e0e0;
+}
+
+body.dark-mode .input-area {
+  background: #1e1e1e;
+  border-top: 1px solid #333;
+}
+
+body.dark-mode #message-input {
+  background: #242424;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+body.dark-mode #message-input:focus {
+  border-color: #8f94fb;
+  box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.4);
+}
+
+body.dark-mode .cert-card {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+body.dark-mode .verify-btn {
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  color: #fff;
+}
