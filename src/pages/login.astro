@@ -1,15 +1,15 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, LOGIN_PAGE_PATH, SITE_NAME_EN } from '../config.js';
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content={VIEWPORT_NO_ZOOM} />
-    <title>Login – {SITE_NAME_EN}</title>
-    <link rel="canonical" href={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`} />
-  </head>
-  <body>
-    <p>登录页面开发中</p>
-  </body>
-</html>
+<BaseLayout
+  lang="zh-CN"
+  title={`Login - ${SITE_NAME_EN}`}
+  description="Login Page of Renda Zhang Website"
+  viewport={VIEWPORT_NO_ZOOM}
+  canonical={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`}
+>
+  <Fragment slot="head"> </Fragment>
+  <p>登录页面开发中</p>
+</BaseLayout>

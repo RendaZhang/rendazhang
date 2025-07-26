@@ -2,3 +2,15 @@ body.dark-mode {
   background-color: #222;
   color: #eee;
 }
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+nav a {
+  color: inherit;
+  text-decoration: none;
+}

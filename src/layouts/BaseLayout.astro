@@ -3,17 +3,29 @@
 import NavBar from '../components/NavBar.astro';
 import { ThemeProvider } from '../context/ThemeContext.jsx';
 import { FAVICON_PATH, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED } from '../config.js';
+
+const {
+  lang = 'en',
+  title = '',
+  description = '',
+  viewport = VIEWPORT_ZOOM_ALLOWED,
+  canonical = ''
+} = Astro.props;
 ---
 
 <ThemeProvider client:load>
-  <html lang="en">
+  <html lang={lang}>
     <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
+      <meta name="viewport" content={viewport} />
+      {title && <title>{title}</title>}
+      {description && <meta name="description" content={description} />}
       <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
       <link rel="icon" type="image/png" href={FAVICON_PATH} />
       <link rel="apple-touch-icon" href={FAVICON_PATH} />
       <link rel="stylesheet" href={STYLE_PATHS.THEME} />
+      <link rel="canonical" href={canonical} />
+      <slot name="head" />
     </head>
     <body>
       <NavBar />
