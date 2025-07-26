@@ -3,7 +3,8 @@ import { THEME_STORAGE_KEY } from '../config.js';
 
 const defaultContext = {
   darkMode: false,
-  toggle: () => {}
+  toggle: () => {},
+  setTheme: () => {}
 };
 
 const ThemeContext = createContext(defaultContext);
@@ -58,6 +59,9 @@ export function ThemeProvider({ children }) {
   }, [darkMode]);
 
   const toggle = () => setDarkMode((prev) => !prev);
+  const setTheme = (isDark) => setDarkMode(Boolean(isDark));
 
-  return <ThemeContext.Provider value={{ darkMode, toggle }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ darkMode, toggle, setTheme }}>{children}</ThemeContext.Provider>
+  );
 }

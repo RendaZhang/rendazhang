@@ -78,6 +78,7 @@
 - [x] BUG-010: Certifications page overlaps nav on short screens
 - [x] BUG-011: Verify buttons not responsive on small screens
 - [x] BUG-012: Dark mode flashes before applying
+- [x] BUG-013: Hydration mismatch when dark mode is enabled
 
 ---
 
@@ -189,24 +190,42 @@
 - **发现日期**：2025-07-26
 - **重现环境**：Chrome 最新版，开发服务器
 - **问题现象**：
-  - 打开 login 或 register 页面时，控制台报 `Cannot destructure property 'darkMode'` 错误
+  - 打开 login 或 register 页面时报 `Cannot destructure property 'darkMode'` 错误
+  - ThemeToggle 组件无法获取主题上下文
 - **根本原因**：
-  - ThemeToggle 组件调用 `useTheme()` 时，没有找到上层的 `ThemeProvider`，返回 `undefined`
+  - 组件未包裹在 ThemeProvider 中时，`useTheme()` 返回 `undefined`
 - **解决方案**：
-  - 为 `createContext` 提供默认值并在 `useTheme` 中兜底，避免 Provider 缺失导致报错
-- **验证结果**：✅ 页面不再报错，未包裹 Provider 时按钮失效但不会崩溃
+  - 为 `createContext` 提供默认值并在 useTheme 中兜底
+  - 修改 `ThemeContext` 默认值结构防止解构报错
+- **验证结果**：✅ 未包裹 Provider 时按钮失效但不崩溃
+- **相关代码**：
+  ```jsx
+  // 修改前
+  const defaultContext = undefined;
+
+  // 修改后
+  const defaultContext = {
+    darkMode: false,
+    toggle: () => {}
+  };
+  ```
 
 ### BUG-008: Dark mode hydration error
 
 - **发现日期**：2025-07-27
-- **重现环境**：Chrome 最新版，开发服务器
+- **重现环境**：Chrome 最新版，登录/注册页面
 - **问题现象**：
-  - 在 Login 或 Register 页面切换到 Dark Mode 后刷新，控制台报 `Minified React error #418`
+  - 暗色模式刷新后报 `Minified React error #418`
+  - 控制台显示 hydration 不匹配警告
 - **根本原因**：
-  - 服务器渲染始终使用亮色主题，而客户端根据 localStorage 初始化为暗色，导致 Hydration 不匹配
+  - 服务端始终渲染亮色主题，客户端按 localStorage 初始化
+  - SSR 与客户端初始状态不一致
 - **解决方案**：
-  - 初始状态固定为 `false`，在 `useEffect` 中读取 localStorage 并更新，确保 SSR 与客户端一致
-- **验证结果**：✅ 刷新页面不再报错，主题切换正常
+  - 初始状态固定为 false
+  - useEffect 中读取 localStorage 并更新状态
+- **验证结果**：✅ 刷新不再报错，主题切换正常
+- **经验总结**：SSR 应用必须保证初始渲染一致性
+
 ### BUG-009: Certifications card overflow on small screens
 
 - **发现日期**：2025-07-27
@@ -221,7 +240,7 @@
 
 ### BUG-010: Certifications page overlaps nav on short screens
 
-- **发现日期**：2025-07-28
+- **发现日期**：2025-07-27
 - **重现环境**：Chrome 115+, 浏览器高度 600px
 - **问题现象**：
   - 证书页顶部内容被固定导航遮挡
@@ -235,7 +254,7 @@
 
 ### BUG-011: Verify buttons not responsive on small screens
 
-- **发现日期**：2025-07-29
+- **发现日期**：2025-07-27
 - **重现环境**：Chrome 开发工具，380px 宽度
 - **问题现象**：
   - 两个验证按钮在窄屏下无法并排显示
@@ -247,27 +266,53 @@
 
 ### BUG-012: Dark mode flashes before applying
 
-- **发现日期**：2025-07-30
-- **重现环境**：所有页面在启用深色主题后刷新
+- **发现日期**：2025-07-27
+- **重现环境**：所有页面启用深色主题后刷新
 - **问题现象**：
-  - 页面加载时先以亮色显示，随后立即切换至暗色
+  - 页面加载时先显示亮色主题，短暂闪烁后切换暗色
+  - 用户体验不连贯
 - **根本原因**：
-  - 主题脚本在 React Hydration 之后才执行，初始渲染始终为亮色
+  - 主题脚本在 React Hydration 后执行
+  - 初始渲染无主题类，依赖客户端 JS 添加
 - **解决方案**：
-  - 在 `<head>` 中注入行内脚本，页面加载前读取 localStorage 并给 `<html>` 添加 `dark-mode` 类
-  - 同时在 `ThemeContext` 中切换 `document.documentElement` 的类名
-- **验证结果**：✅ 刷新页面不会再出现闪烁
+  - 在 `<head>` 注入行内脚本提前设置主题
+  - 使用 `useLayoutEffect` 确保渲染前同步状态
+- **验证结果**：✅ 完全消除主题切换闪烁
+- **关键脚本**：
+  ```html
+  <script is:inline>
+    try {
+      const stored = localStorage.getItem('preferred_theme');
+      if (stored === 'dark') document.documentElement.classList.add('dark-mode');
+    } catch {}
+  </script>
+  ```
 
 ### BUG-013: Hydration mismatch when dark mode is enabled
 
-- **发现日期**：2025-07-31
-- **重现环境**：Dark Mode 状态下刷新任意页面
+- **发现日期**：2025-07-27
+- **重现环境**：暗色模式下刷新任意页面
 - **问题现象**：
-  - 控制台报 `Hydration failed because the server rendered HTML didn't match the client`
-  - 页面在亮色与暗色之间闪烁
+  - 控制台报 `Hydration failed` 错误
+  - 页面在亮/暗色间闪烁
 - **根本原因**：
-  - `ThemeContext` 根据 DOM 状态初始化 `darkMode`，而服务端渲染始终为 `false`，导致首次 Hydration 输出不一致
+  - ThemeContext 依赖 DOM 状态初始化
+  - 服务端无 DOM 访问能力，始终返回 false
 - **解决方案**：
-  - 初始状态固定为 `false`，在 `useLayoutEffect` 中读取 DOM/LocalStorage 决定是否切换
-  - `useEffect` 首次执行时跳过更新，避免覆盖 `<head>` 脚本设置
-- **验证结果**：✅ Dark Mode 下刷新页面无闪烁，控制台无错误
+  1. 服务端/客户端统一初始值（false）
+  2. 使用 `useLayoutEffect` 读取 DOM/LocalStorage
+  3. 添加 mounted ref 跳过首次副作用
+- **验证结果**：✅ 无闪烁无水合错误
+- **核心逻辑**：
+  ```jsx
+  const [darkMode, setDarkMode] = useState(false); // SSR统一值
+  const mounted = useRef(false);
+
+  useLayoutEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      const isDark = document.documentElement.classList.contains('dark-mode');
+      setDarkMode(isDark);
+    }
+  }, []);
+  ```
