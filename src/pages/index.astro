@@ -1,5 +1,6 @@
 ---
 import ChatWidget from '../components/ChatWidget.jsx';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   CHAT_PAGE_PATH,
   ABOUT_EN_PAGE_PATH,
@@ -24,7 +25,6 @@ import {
   IMAGE_PATHS,
   SOCIAL_ICON_PATHS,
   SCRIPT_PATHS,
-  FAVICON_PATH,
   STYLE_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
   PAGE_TITLES,
@@ -35,13 +35,16 @@ import {
 const jsonLD = JSON.stringify(PERSON_SCHEMA);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content={VIEWPORT_ZOOM_ALLOWED} />
-    <title>{PAGE_TITLES.ABOUT_EN}</title>
-    <meta name="description" content={SITE_DESCRIPTION_EN} />
-    <link rel="canonical" href={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
+<BaseLayout
+  lang="en"
+  title={PAGE_TITLES.ABOUT_EN}
+  description={SITE_DESCRIPTION_EN}
+  canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
+  preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
+  extraStyles={[STYLE_PATHS.INDEX, STYLE_PATHS.CHAT_WIDGET]}
+  extraScripts={[SCRIPT_PATHS.LAZYLOAD, SCRIPT_PATHS.INDEX]}
+>
+  <Fragment slot="head">
     <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
@@ -52,7 +55,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="geo.position" content={GEO_POSITION} />
     <meta name="ICBM" content={GEO_ICBM} />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content={THEME_COLOR_LIGHT} />
-    <!-- Open Graph for social sharing -->
     <meta property="og:title" content={PAGE_TITLES.INDEX_OG} />
     <meta property="og:description" content={SITE_DESCRIPTION_EN} />
     <meta property="og:type" content="website" />
@@ -64,7 +66,6 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta property="og:image:alt" content={LOGO_ALT.EN} />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:secure_url" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={PAGE_TITLES.INDEX_OG} />
     <meta name="twitter:description" content={SITE_DESCRIPTION_EN} />
@@ -74,84 +75,77 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
     <meta name="twitter:creator" content={TWITTER_HANDLE} />
     <meta name="twitter:domain" content={SITE_DOMAIN} />
     <script type="application/ld+json" set:html={jsonLD} />
-    <!-- Favicon & CSS -->
-    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
-    <link rel="icon" type="image/png" href={FAVICON_PATH} />
-    <link rel="apple-touch-icon" href={FAVICON_PATH} />
-    <link rel="stylesheet" href={STYLE_PATHS.INDEX} />
-    <link rel="preload" href={STYLE_PATHS.CHAT_WIDGET} as="style" />
-    <link rel="stylesheet" href={STYLE_PATHS.CHAT_WIDGET} />
-  </head>
+  </Fragment>
 
-  <body>
-    <div class="container">
-      <div class="language-selector">
-        <a href={ABOUT_ZH_PAGE_PATH} role="button" aria-label="关于我">关于我</a>
-        <a href={ABOUT_EN_PAGE_PATH} role="button" aria-label="About Me">About Me</a>
-      </div>
-      <div class="chat-section">
-        <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
-      </div>
-      <div class="certification-section">
-        <a href={CERTIFICATIONS_PAGE_PATH} role="button" aria-label="Certifications"
-          >Certifications (证书)</a
-        >
-      </div>
-      <div class="docs-section">
-        <a href={DOCS_PAGE_PATH} role="button" aria-label="Technical Documentation">
-          <span class="code-icon">&lt;/&gt;</span> 技术文档 | Tech Docs
-        </a>
-      </div>
-      <div class="social-icons" aria-label="Social Links">
-        <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            class="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.WECHAT}
-            alt="WeChat logo"
-            loading="lazy"
-          />
-        </a>
-        <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            class="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.ZHIHU}
-            alt="Zhihu logo"
-            loading="lazy"
-          />
-        </a>
-        <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            class="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.TOUTIAO}
-            alt="Toutiao logo"
-            loading="lazy"
-          />
-        </a>
-        <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            class="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.CSDN}
-            alt="CSDN logo"
-            loading="lazy"
-          />
-        </a>
-        <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            class="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.MEDIUM}
-            alt="Medium logo"
-            loading="lazy"
-          />
-        </a>
-      </div>
-      <ChatWidget client:load />
+  <div class="container">
+    <div class="language-selector">
+      <a href={ABOUT_ZH_PAGE_PATH} role="button" aria-label="关于我">关于我</a>
+      <a href={ABOUT_EN_PAGE_PATH} role="button" aria-label="About Me">About Me</a>
     </div>
+    <div class="chat-section">
+      <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
+    </div>
+    <div class="certification-section">
+      <a href={CERTIFICATIONS_PAGE_PATH} role="button" aria-label="Certifications"
+        >Certifications (证书)</a
+      >
+    </div>
+    <div class="docs-section">
+      <a href={DOCS_PAGE_PATH} role="button" aria-label="Technical Documentation">
+        <span class="code-icon">&lt;/&gt;</span> 技术文档 | Tech Docs
+      </a>
+    </div>
+    <div class="social-icons" aria-label="Social Links">
+      <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
+        <img
+          src={IMAGE_PATHS.LOADER}
+          class="jxLazyClass"
+          jxLazyImg={SOCIAL_ICON_PATHS.WECHAT}
+          alt="WeChat logo"
+          loading="lazy"
+        />
+      </a>
+      <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
+        <img
+          src={IMAGE_PATHS.LOADER}
+          class="jxLazyClass"
+          jxLazyImg={SOCIAL_ICON_PATHS.ZHIHU}
+          alt="Zhihu logo"
+          loading="lazy"
+        />
+      </a>
+      <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
+        <img
+          src={IMAGE_PATHS.LOADER}
+          class="jxLazyClass"
+          jxLazyImg={SOCIAL_ICON_PATHS.TOUTIAO}
+          alt="Toutiao logo"
+          loading="lazy"
+        />
+      </a>
+      <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
+        <img
+          src={IMAGE_PATHS.LOADER}
+          class="jxLazyClass"
+          jxLazyImg={SOCIAL_ICON_PATHS.CSDN}
+          alt="CSDN logo"
+          loading="lazy"
+        />
+      </a>
+      <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
+        <img
+          src={IMAGE_PATHS.LOADER}
+          class="jxLazyClass"
+          jxLazyImg={SOCIAL_ICON_PATHS.MEDIUM}
+          alt="Medium logo"
+          loading="lazy"
+        />
+      </a>
+    </div>
+    <ChatWidget client:load />
+  </div>
 
+  <Fragment slot="bodyEnd">
     <div id="wechatModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -164,8 +158,5 @@ const jsonLD = JSON.stringify(PERSON_SCHEMA);
         />
       </div>
     </div>
-
-    <script defer src={SCRIPT_PATHS.LAZYLOAD}></script>
-    <script defer src={SCRIPT_PATHS.INDEX}></script>
-  </body>
-</html>
+  </Fragment>
+</BaseLayout>

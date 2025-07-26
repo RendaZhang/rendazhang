@@ -10,6 +10,7 @@ const {
   viewport = VIEWPORT_ZOOM_ALLOWED,
   canonical = '',
   extraStyles = [],
+  preloadStyles = [],
   extraScripts = [],
   showNav = true,
   bodyClass = '',
@@ -29,6 +30,11 @@ const {
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
     {
+      preloadStyles.map((href: string | URL | null | undefined) => (
+        <link rel="preload" href={href} as="style" />
+      ))
+    }
+    {
       extraStyles.map((href: string | URL | null | undefined) => (
         <link rel="stylesheet" href={href} />
       ))
@@ -36,11 +42,18 @@ const {
     <slot name="head" />
   </head>
   <body class={bodyClass}>
-    {showNav && <NavBarWrapper client:load />}
+    {
+      showNav ? (
+        <slot name="nav">
+          <NavBarWrapper client:load />
+        </slot>
+      ) : null
+    }
     <main class={mainClass}>
+      <!-- 页面主体内容插槽 -->
       <slot />
     </main>
-    {extraScripts.map((src: string | null | undefined) => <script src={src} />)}
-    <!-- 页面主体内容插槽 -->
+    <slot name="bodyEnd" />
+    {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
   </body>
 </html>
