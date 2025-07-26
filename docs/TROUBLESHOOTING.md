@@ -13,6 +13,7 @@
     - [BUG-004: jQuery.validator 加载顺序错误](#bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
     - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
     - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
+    - [BUG-007: ThemeToggle context undefined](#bug-007-themetoggle-context-undefined)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -65,6 +66,7 @@
 - [x] BUG-004: jQuery.validator 加载顺序错误
 - [x] BUG-005: jQuery.easing 插件缺失
 - [x] BUG-006: BaseLayout 中文乱码
+- [x] BUG-007: ThemeToggle context undefined
 
 ---
 
@@ -170,3 +172,15 @@
 - **解决方案**：
   - 将 `<ThemeProvider>` 移至 `<body>` 中，保持 `<html lang>` 为顶级元素
 - **验证结果**：✅ 页面可正常显示中文
+
+### BUG-007: ThemeToggle context undefined
+
+- **发现日期**：2025-07-26
+- **重现环境**：Chrome 最新版，开发服务器
+- **问题现象**：
+  - 打开 login 或 register 页面时，控制台报 `Cannot destructure property 'darkMode'` 错误
+- **根本原因**：
+  - ThemeToggle 组件调用 `useTheme()` 时，没有找到上层的 `ThemeProvider`，返回 `undefined`
+- **解决方案**：
+  - 为 `createContext` 提供默认值并在 `useTheme` 中兜底，避免 Provider 缺失导致报错
+- **验证结果**：✅ 页面不再报错，未包裹 Provider 时按钮失效但不会崩溃

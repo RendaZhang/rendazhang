@@ -1,8 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const ThemeContext = createContext();
+const defaultContext = {
+  darkMode: false,
+  // noop toggle when provider is absent
+  toggle: () => {}
+};
 
-export const useTheme = () => useContext(ThemeContext);
+const ThemeContext = createContext(defaultContext);
+
+export const useTheme = () => useContext(ThemeContext) || defaultContext;
 
 export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
