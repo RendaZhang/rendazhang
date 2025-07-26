@@ -1,5 +1,5 @@
 ---
-// 你可以在这里定义任何 Astro 前言变量或导入
+import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   SITE_BASE_URL,
   DOCS_PAGE_PATH,
@@ -11,21 +11,24 @@ import {
   STYLE_PATHS,
   SITE_NAME_EN,
   VIEWPORT_NO_ZOOM,
-  HOME_PAGE_PATH,
-  NAV_TEXT,
   PAGE_TITLES,
   DOCS_DESCRIPTION,
   LOADING_TEXT
 } from '../config.js';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content={VIEWPORT_NO_ZOOM} />
-    <title>{PAGE_TITLES.DOCS}</title>
-    <meta name="description" content={DOCS_DESCRIPTION} />
-    <link rel="canonical" href={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
+<BaseLayout
+  lang="en"
+  title={PAGE_TITLES.DOCS}
+  description={DOCS_DESCRIPTION}
+  viewport={VIEWPORT_NO_ZOOM}
+  canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
+  extraStyles={[STYLE_PATHS.BOOTSTRAP, STYLE_PATHS.GITHUB, STYLE_PATHS.DOCS]}
+  extraScripts={[SCRIPT_PATHS.JQUERY, SCRIPT_PATHS.MARKED, SCRIPT_PATHS.DOCS]}
+  bodyClass="docs-page"
+  mainClass="main-content docs-main"
+>
+  <Fragment slot="head">
     <meta name="language" content="en, zh-CN" />
     <meta name="geo.region" content={GEO_REGION} />
     <meta name="geo.placename" content={GEO_PLACENAME_EN} />
@@ -36,18 +39,7 @@ import {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
     <meta property="og:site_name" content={SITE_NAME_EN} />
-    <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
-    <link rel="stylesheet" href={STYLE_PATHS.GITHUB} />
-    <link rel="stylesheet" href={STYLE_PATHS.DOCS} />
-  </head>
-  <body>
-    <button id="back" onclick={`window.location.href='${HOME_PAGE_PATH}'`}
-      >{NAV_TEXT.BACK_HOME}</button
-    >
-    <div id="content">{LOADING_TEXT}</div>
+  </Fragment>
 
-    <script defer src={SCRIPT_PATHS.JQUERY}></script>
-    <script defer src={SCRIPT_PATHS.MARKED}></script>
-    <script defer src={SCRIPT_PATHS.DOCS}></script>
-  </body>
-</html>
+  <div id="content">{LOADING_TEXT}</div>
+</BaseLayout>

@@ -15,7 +15,9 @@ const {
   showNav = true,
   showFooter = false,
   bodyClass = '',
-  mainClass = 'main-content'
+  mainClass = 'main-content',
+  bodyAttrs = {},
+  mainAttrs = {}
 } = Astro.props;
 
 const jsonLD = personSchemaJson;
@@ -45,7 +47,7 @@ const jsonLD = personSchemaJson;
     }
     <slot name="head" />
   </head>
-  <body class={bodyClass}>
+  <body class={bodyClass} {...bodyAttrs}>
     {
       showNav ? (
         <slot name="nav">
@@ -53,7 +55,7 @@ const jsonLD = personSchemaJson;
         </slot>
       ) : null
     }
-    <main class={mainClass}>
+    <main class={mainClass} {...mainAttrs}>
       <!-- 页面主体内容插槽 -->
       <slot />
     </main>
