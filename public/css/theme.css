@@ -17,8 +17,8 @@ body.dark-mode {
 
 nav {
   width: 100%; /* Makes the nav take up the full width of the body */
-  background-color: #333; /* Sets a dark background color for the nav */
-  color: white; /* Sets the text color to white */
+  background-color: #fff; /* Match the lighter style used on the index page */
+  color: #333; /* Darker text color for consistency */
   padding: 10px 0; /* Adds padding inside the nav (10px top and bottom, 0 left and right) */
   text-align: center; /* Centers the text horizontally within the nav */
   position: fixed; /* Fixes the nav at the top of the page, so it stays visible even when scrolling */
@@ -30,16 +30,18 @@ nav {
 }
 
 nav a {
-  color: inherit;
+  color: #fff;
   text-decoration: none;
   padding: 10px 20px; /* Adds padding inside the buttons */
-  background-color: #555; /* Sets a background color for the buttons */
-  border-radius: 5px; /* Rounds the corners of the buttons */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Adds smooth transitions for hover effects */
+  margin: 0 10px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Same gradient as index */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px; /* Match index button styling */
+  transition: filter 0.3s, transform 0.3s; /* Adds smooth transitions for hover effects */
 }
 
 nav a:hover {
-  background-color: #777; /* Changes the background color on hover */
+  filter: brightness(1.1); /* Brighten on hover */
   transform: translateY(-2px); /* Slightly lifts the button on hover */
 }
 
@@ -48,18 +50,20 @@ nav a:active {
 }
 
 nav button {
-  color: inherit;
+  color: #fff;
   text-decoration: none;
   padding: 10px 20px;
-  background-color: #555;
-  border-radius: 5px;
+  margin: 0 10px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: filter 0.3s, transform 0.3s;
 }
 
 nav button:hover {
-  background-color: #777;
+  filter: brightness(1.1);
   transform: translateY(-2px);
 }
 
