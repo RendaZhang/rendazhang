@@ -17,13 +17,14 @@
     - [BUG-008: Dark mode hydration error](#bug-008-dark-mode-hydration-error)
     - [BUG-009: Certifications card overflow on small screens](#bug-009-certifications-card-overflow-on-small-screens)
     - [BUG-010: Certifications page overlaps nav on short screens](#bug-010-certifications-page-overlaps-nav-on-short-screens)
+    - [BUG-011: Verify buttons not responsive on small screens](#bug-011-verify-buttons-not-responsive-on-small-screens)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 27, 2025, 01:40 (UTC+8)
+- **最后更新**: July 27, 2025, 02:00 (UTC+8)
 
 ---
 
@@ -73,6 +74,7 @@
 - [x] BUG-008: Dark mode hydration error
 - [x] BUG-009: Certifications card overflow on small screens
 - [x] BUG-010: Certifications page overlaps nav on short screens
+- [x] BUG-011: Verify buttons not responsive on small screens
 
 ---
 
@@ -227,3 +229,15 @@
   - 为证书页设置 `bodyClass="cert-page"` 并在 `certifications.min.css`
     中恢复 `padding-top` 和常规布局
 - **验证结果**：✅ 调整后在 600px 高度下页面不再与导航重叠
+
+### BUG-011: Verify buttons not responsive on small screens
+
+- **发现日期**：2025-07-29
+- **重现环境**：Chrome 开发工具，380px 宽度
+- **问题现象**：
+  - 两个验证按钮在窄屏下无法并排显示
+- **根本原因**：
+  - `.verify-btn` 仅使用 margin-right，缺乏弹性布局导致按钮宽度固定
+- **解决方案**：
+  - 将按钮容器设为 flex 布局并给予按钮 `flex:1`，同时统一 margin
+- **验证结果**：✅ 在 380px 宽度下按钮可均匀收缩，无溢出
