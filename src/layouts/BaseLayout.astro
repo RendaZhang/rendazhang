@@ -29,7 +29,11 @@ const {
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
-    {extraStyles.map((href) => <link rel="stylesheet" href={href} />)}
+    {
+      extraStyles.map((href: string | URL | null | undefined) => (
+        <link rel="stylesheet" href={href} />
+      ))
+    }
     <slot name="head" />
   </head>
   <body class={bodyClass}>
@@ -38,7 +42,7 @@ const {
       <main class={mainClass}>
         <slot />
       </main>
-      {extraScripts.map((src) => <script src={src} />)}
+      {extraScripts.map((src: string | null | undefined) => <script src={src} />)}
       <!-- 页面主体内容插槽 -->
     </ThemeProvider>
   </body>
