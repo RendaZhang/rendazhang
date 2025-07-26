@@ -13,13 +13,10 @@ const {
   preloadStyles = [],
   extraScripts = [],
   showNav = true,
-  navComponent = NavBarWrapper,
   showFooter = false,
   bodyClass = '',
   mainClass = 'main-content'
 } = Astro.props;
-
-const Nav = navComponent;
 
 const jsonLD = personSchemaJson;
 ---
@@ -52,7 +49,7 @@ const jsonLD = personSchemaJson;
     {
       showNav ? (
         <slot name="nav">
-          <component this={Nav} client:load />
+          <NavBarWrapper client:load />
         </slot>
       ) : null
     }
