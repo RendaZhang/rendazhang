@@ -55,6 +55,10 @@
             );
           }
         }
+        var contactBtn = container.querySelector('#contactBtn');
+        if (contactBtn) {
+          contactBtn.textContent = current.contactLabel;
+        }
         var skillsTitle = container.querySelector('#skillsTitle');
         if (skillsTitle && current.skills) skillsTitle.textContent = current.skills.title;
         var skillsBars = container.querySelector('#skillsBars');
