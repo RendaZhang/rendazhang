@@ -20,14 +20,14 @@ const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
 ---
 
 <BaseLayout
-  lang="en"
-  title={PAGE_TITLES.ABOUT_EN}
-  description={SITE_DESCRIPTION_EN}
+  lang="zh-CN"
+  title={PAGE_TITLES.ABOUT_ZH}
+  description={SITE_DESCRIPTION_ZH}
   canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
   extraStyles={styles}
   extraScripts={scripts}
 >
-  <div id="content-en">
+  <div id="content-en" style="display:none;">
     <AboutHero
       lang="en"
       heading={ABOUT_CONTENT.en.heroHeading}
@@ -64,8 +64,7 @@ const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
     <script is:inline>
       (function () {
         const storedLang = localStorage.getItem('preferred_lang');
-        const browserLang = (navigator.language || '').toLowerCase();
-        const lang = (storedLang || browserLang).startsWith('zh') ? 'zh-CN' : 'en';
+        const lang = storedLang || 'zh-CN';
         const showZh = lang.startsWith('zh');
         document.documentElement.lang = lang;
         document.getElementById('content-zh').style.display = showZh ? '' : 'none';

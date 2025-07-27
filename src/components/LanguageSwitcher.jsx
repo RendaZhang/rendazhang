@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LANG_STORAGE_KEY } from '../config.js';
 
 export default function LanguageSwitcher() {
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState('zh-CN');
 
   useEffect(() => {
     // Detect initial language
@@ -10,8 +10,7 @@ export default function LanguageSwitcher() {
     try {
       stored = localStorage.getItem(LANG_STORAGE_KEY);
     } catch {}
-    const browserLang = (navigator.language || '').toLowerCase();
-    const initial = stored || (browserLang.startsWith('zh') ? 'zh-CN' : 'en');
+    const initial = stored || 'zh-CN';
     setLang(initial);
     document.documentElement.lang = initial;
   }, []);
