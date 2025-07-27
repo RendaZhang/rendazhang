@@ -22,13 +22,14 @@
     - [BUG-013: Hydration mismatch when dark mode is enabled](#bug-013-hydration-mismatch-when-dark-mode-is-enabled)
     - [BUG-014: Chat widget panel flashes in dark mode](#bug-014-chat-widget-panel-flashes-in-dark-mode)
     - [BUG-015: Enhancement progress stuck when scripts load from memory cache](#bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
+    - [BUG-016: document is not defined during build](#bug-016-document-is-not-defined-during-build)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 28, 2025, 03:30 (UTC+8)
+- **最后更新**: July 28, 2025, 06:00 (UTC+8)
 
 ---
 
@@ -83,6 +84,7 @@
 - [x] BUG-013: Hydration mismatch when dark mode is enabled
 - [x] BUG-014: Chat widget panel flashes in dark mode
 - [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
+- [ ] BUG-016: document is not defined during build
 
 ---
 
@@ -345,3 +347,17 @@
   - 在修改进度元素样式前检查 `enhancementProgressRef.current` 是否存在
 - **验证结果**：✅ 提示正常淡出
 - **经验总结**：在状态驱动的 UI 中操作 DOM 前应做好空值判断
+
+### BUG-016: document is not defined during build
+
+- **发现日期**：2025-07-28
+- **重现环境**：Astro `astro build`
+- **问题现象**：
+  - 构建日志报 `document is not defined`
+  - 终止于 `/about/index.html`
+- **根本原因**：
+  - `ContactSection.jsx` 在服务端渲染阶段调用 `document` 和 `window`
+- **解决方案**：
+  - 检查 `document` 和 `window` 是否存在后再访问
+  - 服务器端返回空内容，客户端加载后再根据语言注入数据
+- **验证结果**：✅ 构建成功，无报错

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../config.js';
 
 function getFormTexts() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') {
+    return {};
+  }
   const lang = document.documentElement.lang.startsWith('zh') ? 'zh' : 'en';
   const content = window.aboutPageContent || {};
   return (content[lang] && content[lang].contact && content[lang].contact.form) || {};
