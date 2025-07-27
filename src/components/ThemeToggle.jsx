@@ -4,11 +4,17 @@ import { useTheme } from '../context/ThemeContext.jsx';
 export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
-  const containerRef = useRef(null);
+  const buttonRef = useRef(null);
+  const optionsRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
+      const target = e.target;
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(target) &&
+        (!optionsRef.current || !optionsRef.current.contains(target))
+      ) {
         setOpen(false);
       }
     }
@@ -22,8 +28,9 @@ export default function ThemeToggle() {
   };
 
   return (
-    <div ref={containerRef} className={`theme-toggle-container${open ? ' open' : ''}`}>
+    <>
       <button
+        ref={buttonRef}
         className="theme-toggle-main"
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
@@ -31,7 +38,7 @@ export default function ThemeToggle() {
         切换主题
       </button>
       {open && (
-        <div className="theme-options">
+        <div ref={optionsRef} className="theme-options">
           <button
             className={`theme-option light ${!darkMode ? 'active' : ''}`}
             aria-label="切换到浅色模式"
@@ -76,6 +83,6 @@ export default function ThemeToggle() {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -82,18 +82,11 @@ nav button:not(.theme-option):active {
   transform: translateY(0);
 }
 
-.theme-toggle-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin: 0 10px;
-}
-
 .theme-toggle-main {
+  position: relative;
   color: #fff;
   text-decoration: none;
   padding: 6px 12px;
-  margin: 0;
   font-size: 0.9rem;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -210,14 +203,6 @@ main.main-content {
     font-size: 0.85rem; /* 微调字体大小 */
     border-radius: 8px; /* 增大圆角更符合移动端 */
   }
-
-  .theme-toggle-container {
-    flex: 1 1 30%;
-    min-width: 100px;
-    margin: 3px;
-    display: flex;
-    justify-content: center;
-  }
 }
 
 /* 小屏幕优化 (小于480px) */
@@ -239,14 +224,6 @@ main.main-content {
     font-size: 0.8rem; /* 字体大小 */
     border-radius: 6px; /* 圆角 */
   }
-
-  .theme-toggle-container {
-    flex: 1 1 45%;
-    min-width: 80px;
-    margin: 3px;
-    display: flex;
-    justify-content: center;
-  }
 }
 
 /* 超小屏幕优化 (小于360px) */
@@ -257,13 +234,6 @@ main.main-content {
     margin: 4px 3px;
     padding: 12px 5px;
     font-size: 0.85rem;
-  }
-
-  .theme-toggle-container {
-    flex: 1 1 100%;
-    margin: 4px 3px;
-    display: flex;
-    justify-content: center;
   }
 }
 
