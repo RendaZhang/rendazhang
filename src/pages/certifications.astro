@@ -7,13 +7,12 @@ import {
   CREDLY_HOST,
   CREDLY_BADGE_ID,
   CREDLY_EMBED_IFRAME,
-  CREDLY_CONTAINER_MAX_WIDTH,
   IMAGE_PATHS,
   STYLE_PATHS,
   SCRIPT_PATHS,
   PAGE_TITLES,
-  DEFAULT_MARGIN,
-  PAGE_TITLE_MARGIN_TOP,
+  CERTIFICATIONS_DESCRIPTION,
+  CERTIFICATIONS_IMAGE_ALT,
   OG_IMAGE_DIMENSIONS
 } from '../config.js';
 ---
@@ -21,33 +20,30 @@ import {
 <BaseLayout
   lang="en"
   title={PAGE_TITLES.CERTIFICATIONS}
-  description="AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang."
+  description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
   bodyClass="cert-page"
   extraStyles={[STYLE_PATHS.CERTIFICATIONS]}
   extraScripts={[SCRIPT_PATHS.CERTIFICATIONS]}
   og={{
     title: PAGE_TITLES.CERTIFICATIONS,
-    description: 'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials.',
+    description: CERTIFICATIONS_DESCRIPTION,
     url: `${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`,
     image: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`,
     imageWidth: OG_IMAGE_DIMENSIONS.WIDTH,
     imageHeight: OG_IMAGE_DIMENSIONS.HEIGHT,
-    imageAlt: 'Renda Zhang Certifications',
+    imageAlt: CERTIFICATIONS_IMAGE_ALT,
     secureImageUrl: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`
   }}
   twitter={{
     title: PAGE_TITLES.CERTIFICATIONS,
-    description:
-      'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang.',
+    description: CERTIFICATIONS_DESCRIPTION,
     image: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`,
-    imageAlt: 'Renda Zhang Certifications'
+    imageAlt: CERTIFICATIONS_IMAGE_ALT
   }}
 >
   <div class="container">
-    <h1 style={`margin-top:${PAGE_TITLE_MARGIN_TOP};text-align:center;`}>
-      Professional Certifications
-    </h1>
+    <h1>Professional Certifications</h1>
 
     <section class="cert-grid">
       <article class="cert-card">
@@ -57,10 +53,7 @@ import {
           <strong>Issued:</strong> 2025-06-16&nbsp;&nbsp;•&nbsp;&nbsp;<strong>Expires:</strong> 2028-06-16
         </p>
 
-        <div
-          class="credly-container"
-          style={`max-width:${CREDLY_CONTAINER_MAX_WIDTH}px;margin:${DEFAULT_MARGIN} auto`}
-        >
+        <div class="credly-container">
           <div class="loader"></div>
           <div
             data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}

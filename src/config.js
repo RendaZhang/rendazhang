@@ -56,6 +56,9 @@ export const LOGO_ALT = {
 export const AI_CHAT_TITLE = 'AI Chat';
 export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';
 export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
+export const CERTIFICATIONS_DESCRIPTION =
+  'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang.';
+export const CERTIFICATIONS_IMAGE_ALT = 'Renda Zhang Certifications';
 export const LOADING_TEXT = 'Loading...';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
