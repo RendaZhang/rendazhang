@@ -8,6 +8,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  width: 100%;
 }
 
 html.dark-mode body,
@@ -29,6 +30,8 @@ nav {
   padding: 10px 0;
   text-align: center;
   position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
   z-index: 1000;
   display: flex;
