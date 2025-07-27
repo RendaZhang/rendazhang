@@ -14,8 +14,13 @@ import { ABOUT_CONTENT } from '../content/aboutContent.js';
 
 const aboutPageData = {
   titles: { en: PAGE_TITLES.ABOUT_EN, zh: PAGE_TITLES.ABOUT_ZH },
-  descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH }
+  descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH },
+  resumePaths: { en: IMAGE_PATHS.RESUME_EN, zh: IMAGE_PATHS.RESUME_ZH },
+  resumeDownloads: { en: RESUME_EN_DOWNLOAD, zh: RESUME_ZH_DOWNLOAD }
 };
+
+const langDefault = 'zh';
+const content = ABOUT_CONTENT[langDefault];
 ---
 
 <BaseLayout
@@ -26,40 +31,18 @@ const aboutPageData = {
   extraStyles={['/css/about.css']}
   extraScripts={['/js/about.js']}
 >
-  <div id="content-en">
+  <div id="content">
     <section class="hero">
-      <h1 set:html={ABOUT_CONTENT.en.heroHeading} />
+      <h1 id="heroHeading" set:html={content.heroHeading} />
     </section>
     <section class="about-section">
-      <h2>{ABOUT_CONTENT.en.title}</h2>
-      {ABOUT_CONTENT.en.paragraphs.map((p) => <p>{p}</p>)}
-      <ul>
-        {
-          ABOUT_CONTENT.en.info.map(({ label, value }) => (
-            <li>
-              <span>{label}</span>
-              {value}
-            </li>
-          ))
-        }
-      </ul>
-      <div class="resume-link">
-        <a href={IMAGE_PATHS.RESUME_EN} download={RESUME_EN_DOWNLOAD} class="btn btn-primary"
-          >{ABOUT_CONTENT.en.resumeLabel}</a
-        >
+      <h2 id="aboutTitle">{content.title}</h2>
+      <div id="aboutParagraphs">
+        {content.paragraphs.map((p) => <p>{p}</p>)}
       </div>
-    </section>
-  </div>
-  <div id="content-zh">
-    <section class="hero">
-      <h1 set:html={ABOUT_CONTENT.zh.heroHeading} />
-    </section>
-    <section class="about-section">
-      <h2>{ABOUT_CONTENT.zh.title}</h2>
-      {ABOUT_CONTENT.zh.paragraphs.map((p) => <p>{p}</p>)}
-      <ul>
+      <ul id="aboutInfo">
         {
-          ABOUT_CONTENT.zh.info.map(({ label, value }) => (
+          content.info.map(({ label, value }) => (
             <li>
               <span>{label}</span>
               {value}
@@ -68,16 +51,21 @@ const aboutPageData = {
         }
       </ul>
       <div class="resume-link">
-        <a href={IMAGE_PATHS.RESUME_ZH} download={RESUME_ZH_DOWNLOAD} class="btn btn-primary"
-          >{ABOUT_CONTENT.zh.resumeLabel}</a
+        <a
+          id="resumeLink"
+          href={IMAGE_PATHS.RESUME_ZH}
+          download={RESUME_ZH_DOWNLOAD}
+          class="btn btn-primary"
+          >{content.resumeLabel}</a
         >
       </div>
     </section>
   </div>
 
   <Fragment slot="head">
-    <script define:vars={{ aboutPageData }}>
+    <script define:vars={{ aboutPageData, aboutPageContent: ABOUT_CONTENT }}>
       window.aboutPageData = aboutPageData;
+      window.aboutPageContent = aboutPageContent;
     </script>
   </Fragment>
 </BaseLayout>
