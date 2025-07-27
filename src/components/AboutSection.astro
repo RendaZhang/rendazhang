@@ -1,0 +1,68 @@
+---
+import { IMAGE_PATHS, RESUME_EN_DOWNLOAD, RESUME_ZH_DOWNLOAD } from '../config.js';
+const {
+  lang = 'en',
+  subTitle = '',
+  title = '',
+  greeting = '',
+  paragraphs = [],
+  infoItems = [],
+  resumeLabel = '',
+  contactLabel = ''
+} = Astro.props;
+---
+
+<section class="section about bg-white wow fadeInRight animated" id="about">
+  <div class="row">
+    <div id="backgroundMusic">
+      <div id="musciButton" class="btn btn-sm btn-custom btn-round alert alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="false"
+          >&nbsp;&times;</button
+        >
+        {lang.startsWith('zh') ? '如需背景音乐，请点击这里^_^' : "Let's Play a Song ~ Click Here !"}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="title-heading">
+        {subTitle && <p class="sub-title text-muted mb-0">{subTitle}</p>}
+        {title && <h3 class="title m-0 text-uppercase">{title}</h3>}
+        <hr />
+        {greeting && <h2 class="mt-4 mt-md-0 mb-4">{greeting}</h2>}
+        {paragraphs.map((p) => <p class="mb-4">{p}</p>)}
+      </div>
+      <div class="mt-4">
+        <ul class="list-inline">
+          {
+            infoItems.map(({ label, value }) => (
+              <li class="list-inline-item">
+                <span>{label}</span>
+                {value}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="clear"></div>
+        <div class="text-center mt-5">
+          <a
+            href={lang.startsWith('zh') ? IMAGE_PATHS.RESUME_ZH : IMAGE_PATHS.RESUME_EN}
+            download={lang.startsWith('zh') ? RESUME_ZH_DOWNLOAD : RESUME_EN_DOWNLOAD}
+            class="btn btn-sm btn-custom btn-round"
+          >
+            <i class="fa fa-download"></i>
+            {resumeLabel}
+          </a>
+          {
+            contactLabel && (
+              <a href="#contact" class="btn btn-alt mt-2 mt-md-0 mt-xs-2">
+                <i class="icon-envelope" />
+                {contactLabel}
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
