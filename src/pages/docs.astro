@@ -3,13 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   SITE_BASE_URL,
   DOCS_PAGE_PATH,
-  GEO_REGION,
-  GEO_PLACENAME_EN,
-  GEO_POSITION,
-  GEO_ICBM,
   SCRIPT_PATHS,
   STYLE_PATHS,
-  SITE_NAME_EN,
   VIEWPORT_NO_ZOOM,
   PAGE_TITLES,
   DOCS_DESCRIPTION,
@@ -27,18 +22,14 @@ import {
   extraScripts={[SCRIPT_PATHS.JQUERY, SCRIPT_PATHS.MARKED, SCRIPT_PATHS.DOCS]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"
+  og={{
+    title: PAGE_TITLES.DOCS,
+    description: DOCS_DESCRIPTION,
+    url: `${SITE_BASE_URL}${DOCS_PAGE_PATH}/`
+  }}
 >
   <Fragment slot="head">
     <meta name="language" content="en, zh-CN" />
-    <meta name="geo.region" content={GEO_REGION} />
-    <meta name="geo.placename" content={GEO_PLACENAME_EN} />
-    <meta name="geo.position" content={GEO_POSITION} />
-    <meta name="ICBM" content={GEO_ICBM} />
-    <meta property="og:title" content={PAGE_TITLES.DOCS} />
-    <meta property="og:description" content={DOCS_DESCRIPTION} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`} />
-    <meta property="og:site_name" content={SITE_NAME_EN} />
   </Fragment>
 
   <div id="content">{LOADING_TEXT}</div>

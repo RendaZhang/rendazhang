@@ -4,16 +4,9 @@ import Chat from '../components/Chat.jsx';
 import {
   CHAT_PAGE_PATH,
   SITE_BASE_URL,
-  GEO_REGION,
-  GEO_PLACENAME_EN,
-  GEO_POSITION,
-  GEO_ICBM,
-  DEFAULT_SOCIAL_IMAGE,
-  TWITTER_HANDLE,
   STYLE_PATHS,
   AI_CHAT_TITLE,
   AI_CHAT_DESCRIPTION,
-  SITE_NAME_EN,
   VIEWPORT_ZOOM_ALLOWED
 } from '../config.js';
 ---
@@ -26,28 +19,11 @@ import {
   canonical={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`}
   preloadStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
   extraStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
+  og={{ url: `${SITE_BASE_URL}${CHAT_PAGE_PATH}/` }}
 >
   <Fragment slot="head">
     <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
-    <meta name="robots" content="index, follow" />
-    <meta name="language" content="zh-CN" />
-    <meta name="geo.region" content={GEO_REGION} />
-    <meta name="geo.placename" content={GEO_PLACENAME_EN} />
-    <meta name="geo.position" content={GEO_POSITION} />
-    <meta name="ICBM" content={GEO_ICBM} />
-    <meta property="og:title" content={AI_CHAT_TITLE} />
-    <meta property="og:description" content={AI_CHAT_DESCRIPTION} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
-    <meta property="og:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
-    <meta property="og:site_name" content={SITE_NAME_EN} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={AI_CHAT_TITLE} />
-    <meta name="twitter:description" content={AI_CHAT_DESCRIPTION} />
-    <meta name="twitter:image" content={`${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`} />
-    <meta name="twitter:site" content={TWITTER_HANDLE} />
-    <meta name="twitter:creator" content={TWITTER_HANDLE} />
   </Fragment>
   <Fragment slot="bodyEnd">
     <script>

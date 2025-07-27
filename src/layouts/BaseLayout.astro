@@ -1,6 +1,21 @@
 ---
 import NavBarWrapper from '../components/NavBarWrapper.jsx';
-import { FAVICON_PATH, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED, PERSON_SCHEMA } from '../config.js';
+import {
+  FAVICON_PATH,
+  STYLE_PATHS,
+  VIEWPORT_ZOOM_ALLOWED,
+  PERSON_SCHEMA,
+  SITE_BASE_URL,
+  SITE_DOMAIN,
+  SITE_NAME_EN,
+  DEFAULT_SOCIAL_IMAGE,
+  OG_IMAGE_DIMENSIONS,
+  GEO_REGION,
+  GEO_PLACENAME_EN,
+  GEO_POSITION,
+  GEO_ICBM,
+  TWITTER_HANDLE
+} from '../config.js';
 
 const {
   lang = 'en',
@@ -17,10 +32,41 @@ const {
   bodyClass = '',
   mainClass = 'main-content',
   bodyAttrs = {},
-  mainAttrs = {}
+  mainAttrs = {},
+  og = {},
+  twitter = {},
+  includeGeo = true,
+  metaRobots = 'index, follow',
+  metaLanguage = ''
 } = Astro.props;
 
 const jsonLD = personSchemaJson;
+const ogDefaults = {
+  title,
+  description,
+  url: canonical,
+  type: 'website',
+  image: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`,
+  site_name: SITE_NAME_EN,
+  imageWidth: OG_IMAGE_DIMENSIONS.WIDTH,
+  imageHeight: OG_IMAGE_DIMENSIONS.HEIGHT,
+  imageAlt: '',
+  imageType: 'image/jpeg',
+  secureImageUrl: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`
+};
+const twitterDefaults = {
+  card: 'summary_large_image',
+  title,
+  description,
+  image: ogDefaults.image,
+  imageAlt: '',
+  site: TWITTER_HANDLE,
+  creator: TWITTER_HANDLE,
+  url: canonical,
+  domain: SITE_DOMAIN
+};
+const ogProps = { ...ogDefaults, ...og };
+const twitterProps = { ...twitterDefaults, ...twitter };
 ---
 
 <html lang={lang}>
@@ -57,6 +103,46 @@ const jsonLD = personSchemaJson;
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
+    {metaRobots && <meta name="robots" content={metaRobots} />}
+    <meta name="language" content={metaLanguage || lang} />
+    {
+      includeGeo && (
+        <Fragment>
+          <meta name="geo.region" content={GEO_REGION} />
+          <meta name="geo.placename" content={GEO_PLACENAME_EN} />
+          <meta name="geo.position" content={GEO_POSITION} />
+          <meta name="ICBM" content={GEO_ICBM} />
+        </Fragment>
+      )
+    }
+    {ogProps.title && <meta property="og:title" content={ogProps.title} />}
+    {ogProps.description && <meta property="og:description" content={ogProps.description} />}
+    {ogProps.type && <meta property="og:type" content={ogProps.type} />}
+    {ogProps.url && <meta property="og:url" content={ogProps.url} />}
+    {ogProps.image && <meta property="og:image" content={ogProps.image} />}
+    {ogProps.site_name && <meta property="og:site_name" content={ogProps.site_name} />}
+    {ogProps.imageWidth && <meta property="og:image:width" content={ogProps.imageWidth} />}
+    {ogProps.imageHeight && <meta property="og:image:height" content={ogProps.imageHeight} />}
+    {ogProps.imageAlt && <meta property="og:image:alt" content={ogProps.imageAlt} />}
+    {ogProps.imageType && <meta property="og:image:type" content={ogProps.imageType} />}
+    {
+      ogProps.secureImageUrl && (
+        <meta property="og:image:secure_url" content={ogProps.secureImageUrl} />
+      )
+    }
+    {twitterProps.card && <meta name="twitter:card" content={twitterProps.card} />}
+    {twitterProps.title && <meta name="twitter:title" content={twitterProps.title} />}
+    {
+      twitterProps.description && (
+        <meta name="twitter:description" content={twitterProps.description} />
+      )
+    }
+    {twitterProps.image && <meta name="twitter:image" content={twitterProps.image} />}
+    {twitterProps.imageAlt && <meta name="twitter:image:alt" content={twitterProps.imageAlt} />}
+    {twitterProps.site && <meta name="twitter:site" content={twitterProps.site} />}
+    {twitterProps.creator && <meta name="twitter:creator" content={twitterProps.creator} />}
+    {twitterProps.url && <meta name="twitter:url" content={twitterProps.url} />}
+    {twitterProps.domain && <meta name="twitter:domain" content={twitterProps.domain} />}
     <script type="application/ld+json" set:html={jsonLD} />
     {
       preloadStyles.map((href: string | URL | null | undefined) => (
