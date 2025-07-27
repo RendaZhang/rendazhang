@@ -6,12 +6,6 @@
     var showZh = lang.startsWith('zh');
     document.documentElement.lang = lang;
 
-    var zh = document.getElementById('content-zh');
-    var en = document.getElementById('content-en');
-    if (zh && en) {
-      zh.style.display = showZh ? '' : 'none';
-      en.style.display = showZh ? 'none' : '';
-    }
 
     if (data.titles && data.descriptions) {
       var meta = document.querySelector('meta[name="description"]');

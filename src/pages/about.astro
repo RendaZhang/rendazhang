@@ -23,10 +23,10 @@ const aboutPageData = {
   title={PAGE_TITLES.ABOUT_ZH}
   description={SITE_DESCRIPTION_ZH}
   canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
-  extraStyles={["/css/about.css"]}
-  extraScripts={["/js/about.js"]}
+  extraStyles={['/css/about.css']}
+  extraScripts={['/js/about.js']}
 >
-  <div id="content-en" style="display:none;">
+  <div id="content-en">
     <section class="hero">
       <h1 set:html={ABOUT_CONTENT.en.heroHeading} />
     </section>
@@ -34,15 +34,17 @@ const aboutPageData = {
       <h2>{ABOUT_CONTENT.en.title}</h2>
       {ABOUT_CONTENT.en.paragraphs.map((p) => <p>{p}</p>)}
       <ul>
-        {ABOUT_CONTENT.en.info.map(({ label, value }) => (
-          <li><span>{label}</span>{value}</li>
-        ))}
+        {
+          ABOUT_CONTENT.en.info.map(({ label, value }) => (
+            <li>
+              <span>{label}</span>
+              {value}
+            </li>
+          ))
+        }
       </ul>
       <div class="resume-link">
-        <a
-          href={IMAGE_PATHS.RESUME_EN}
-          download={RESUME_EN_DOWNLOAD}
-          class="btn btn-primary"
+        <a href={IMAGE_PATHS.RESUME_EN} download={RESUME_EN_DOWNLOAD} class="btn btn-primary"
           >{ABOUT_CONTENT.en.resumeLabel}</a
         >
       </div>
@@ -56,15 +58,17 @@ const aboutPageData = {
       <h2>{ABOUT_CONTENT.zh.title}</h2>
       {ABOUT_CONTENT.zh.paragraphs.map((p) => <p>{p}</p>)}
       <ul>
-        {ABOUT_CONTENT.zh.info.map(({ label, value }) => (
-          <li><span>{label}</span>{value}</li>
-        ))}
+        {
+          ABOUT_CONTENT.zh.info.map(({ label, value }) => (
+            <li>
+              <span>{label}</span>
+              {value}
+            </li>
+          ))
+        }
       </ul>
       <div class="resume-link">
-        <a
-          href={IMAGE_PATHS.RESUME_ZH}
-          download={RESUME_ZH_DOWNLOAD}
-          class="btn btn-primary"
+        <a href={IMAGE_PATHS.RESUME_ZH} download={RESUME_ZH_DOWNLOAD} class="btn btn-primary"
           >{ABOUT_CONTENT.zh.resumeLabel}</a
         >
       </div>
