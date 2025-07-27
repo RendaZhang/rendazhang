@@ -1,0 +1,25 @@
+.hero {
+  background: url('/images/hero.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.about-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-section li {
+  margin-bottom: 0.5rem;
+}
+
+.resume-link {
+  margin-top: 1rem;
+}

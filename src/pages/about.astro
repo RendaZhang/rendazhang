@@ -6,17 +6,11 @@ import {
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
   ABOUT_PAGE_PATH,
-  ABOUT_EN_STYLES,
-  ABOUT_ZH_STYLES,
-  ABOUT_EN_SCRIPTS,
-  ABOUT_ZH_SCRIPTS
+  IMAGE_PATHS,
+  RESUME_EN_DOWNLOAD,
+  RESUME_ZH_DOWNLOAD
 } from '../config.js';
 import { ABOUT_CONTENT } from '../content/aboutContent.js';
-import AboutHero from '../components/AboutHero.astro';
-import AboutSection from '../components/AboutSection.astro';
-
-const styles = Array.from(new Set([...ABOUT_EN_STYLES, ...ABOUT_ZH_STYLES]));
-const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
 ---
 
 <BaseLayout
@@ -24,74 +18,60 @@ const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
   title={PAGE_TITLES.ABOUT_ZH}
   description={SITE_DESCRIPTION_ZH}
   canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
-  extraStyles={styles}
-  extraScripts={scripts}
+  extraStyles={["/css/about.css"]}
+  extraScripts={["/js/about.js"]}
 >
   <div id="content-en" style="display:none;">
-    <AboutHero
-      lang="en"
-      heading={ABOUT_CONTENT.en.heroHeading}
-      taglines={ABOUT_CONTENT.en.heroTaglines}
-    />
-    <AboutSection
-      lang="en"
-      subTitle={ABOUT_CONTENT.en.subTitle}
-      title={ABOUT_CONTENT.en.title}
-      paragraphs={ABOUT_CONTENT.en.paragraphs}
-      infoItems={ABOUT_CONTENT.en.info}
-      resumeLabel={ABOUT_CONTENT.en.resumeLabel}
-    />
+    <section class="hero">
+      <h1 set:html={ABOUT_CONTENT.en.heroHeading} />
+    </section>
+    <section class="about-section">
+      <h2>{ABOUT_CONTENT.en.title}</h2>
+      {ABOUT_CONTENT.en.paragraphs.map((p) => <p>{p}</p>)}
+      <ul>
+        {ABOUT_CONTENT.en.info.map(({ label, value }) => (
+          <li><span>{label}</span>{value}</li>
+        ))}
+      </ul>
+      <div class="resume-link">
+        <a
+          href={IMAGE_PATHS.RESUME_EN}
+          download={RESUME_EN_DOWNLOAD}
+          class="btn btn-primary"
+          >{ABOUT_CONTENT.en.resumeLabel}</a
+        >
+      </div>
+    </section>
   </div>
   <div id="content-zh">
-    <AboutHero
-      lang="zh-CN"
-      heading={ABOUT_CONTENT.zh.heroHeading}
-      taglines={ABOUT_CONTENT.zh.heroTaglines}
-    />
-    <AboutSection
-      lang="zh-CN"
-      subTitle={ABOUT_CONTENT.zh.subTitle}
-      title={ABOUT_CONTENT.zh.title}
-      greeting={ABOUT_CONTENT.zh.greeting}
-      paragraphs={ABOUT_CONTENT.zh.paragraphs}
-      infoItems={ABOUT_CONTENT.zh.info}
-      resumeLabel={ABOUT_CONTENT.zh.resumeLabel}
-      contactLabel={ABOUT_CONTENT.zh.contactLabel}
-    />
+    <section class="hero">
+      <h1 set:html={ABOUT_CONTENT.zh.heroHeading} />
+    </section>
+    <section class="about-section">
+      <h2>{ABOUT_CONTENT.zh.title}</h2>
+      {ABOUT_CONTENT.zh.paragraphs.map((p) => <p>{p}</p>)}
+      <ul>
+        {ABOUT_CONTENT.zh.info.map(({ label, value }) => (
+          <li><span>{label}</span>{value}</li>
+        ))}
+      </ul>
+      <div class="resume-link">
+        <a
+          href={IMAGE_PATHS.RESUME_ZH}
+          download={RESUME_ZH_DOWNLOAD}
+          class="btn btn-primary"
+          >{ABOUT_CONTENT.zh.resumeLabel}</a
+        >
+      </div>
+    </section>
   </div>
 
   <Fragment slot="head">
     <script is:inline>
-      (function () {
-        function applyLang() {
-          const storedLang = localStorage.getItem('preferred_lang');
-          const lang = storedLang || 'zh-CN';
-          const showZh = lang.startsWith('zh');
-          document.documentElement.lang = lang;
-
-          const zh = document.getElementById('content-zh');
-          const en = document.getElementById('content-en');
-          if (zh && en) {
-            zh.style.display = showZh ? '' : 'none';
-            en.style.display = showZh ? 'none' : '';
-          }
-
-          const meta = document.querySelector('meta[name="description"]');
-          if (showZh) {
-            document.title = PAGE_TITLES.ABOUT_ZH;
-            if (meta) meta.setAttribute('content', SITE_DESCRIPTION_ZH);
-          } else {
-            document.title = PAGE_TITLES.ABOUT_EN;
-            if (meta) meta.setAttribute('content', SITE_DESCRIPTION_EN);
-          }
-        }
-
-        if (document.readyState === 'loading') {
-          window.addEventListener('DOMContentLoaded', applyLang);
-        } else {
-          applyLang();
-        }
-      })();
+      window.aboutPageData = {
+        titles: { en: PAGE_TITLES.ABOUT_EN, zh: PAGE_TITLES.ABOUT_ZH },
+        descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH }
+      };
     </script>
   </Fragment>
 </BaseLayout>
