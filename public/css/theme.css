@@ -184,7 +184,7 @@ main.main-content {
 
   nav {
     flex-direction: row; /* 保持水平排列 */
-    flex-wrap: wrap; /* 允许项目换行 */
+    flex-wrap: nowrap; /* 在小屏幕保持单行 */
     justify-content: center; /* 居中项目 */
     padding: 8px 10px; /* 优化内边距 */
     gap: 8px; /* 项目间间隙 */
@@ -194,8 +194,8 @@ main.main-content {
 
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 30%; /* 弹性项目基础宽度 */
-    min-width: 100px; /* 最小宽度防止过小 */
+    flex: 1 1 auto; /* 允许自适应缩放 */
+    min-width: 0; /* 允许更小的宽度 */
     margin: 3px; /* 减少外边距 */
     padding: 10px 5px; /* 优化内边距 */
     box-sizing: border-box;
@@ -214,13 +214,14 @@ main.main-content {
   nav {
     padding: 6px 8px;
     gap: 6px; /* 减小间隙 */
+    flex-wrap: nowrap; /* 保持单行 */
   }
 
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 45%; /* 每行显示两个项目 */
-    min-width: 80px; /* 最小宽度 */
-    padding: 10px 3px; /* 紧凑内边距 */
+    flex: 1 1 auto; /* 自适应宽度 */
+    min-width: 0;
+    padding: 8px 3px; /* 紧凑内边距 */
     font-size: 0.8rem; /* 字体大小 */
     border-radius: 6px; /* 圆角 */
   }
@@ -230,10 +231,11 @@ main.main-content {
 @media (max-width: 360px) {
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 100%;
+    flex: 1 1 auto;
+    min-width: 0;
     margin: 4px 3px;
-    padding: 12px 5px;
-    font-size: 0.85rem;
+    padding: 8px 3px;
+    font-size: 0.75rem;
   }
 }
 
