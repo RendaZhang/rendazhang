@@ -3,12 +3,12 @@ import { useTheme } from '../context/ThemeContext.jsx';
 import { NAV_CONTENT } from '../content/navContent.js';
 import { getCurrentLang } from '../utils/lang.js';
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ lang: langProp }) {
   const { darkMode, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const optionsRef = useRef(null);
-  const lang = getCurrentLang();
+  const lang = langProp || getCurrentLang();
   const texts = (NAV_CONTENT[lang] && NAV_CONTENT[lang].theme) || {};
 
   useEffect(() => {

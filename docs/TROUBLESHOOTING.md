@@ -23,13 +23,14 @@
     - [BUG-014: Chat widget panel flashes in dark mode](#bug-014-chat-widget-panel-flashes-in-dark-mode)
     - [BUG-015: Enhancement progress stuck when scripts load from memory cache](#bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
     - [BUG-016: document is not defined during build](#bug-016-document-is-not-defined-during-build)
+    - [BUG-017: NavBar hydration mismatch when language differs](#bug-017-navbar-hydration-mismatch-when-language-differs)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 28, 2025, 06:00 (UTC+8)
+- **最后更新**: July 28, 2025, 07:13 (UTC+8)
 
 ---
 
@@ -84,7 +85,8 @@
 - [x] BUG-013: Hydration mismatch when dark mode is enabled
 - [x] BUG-014: Chat widget panel flashes in dark mode
 - [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
-- [ ] BUG-016: document is not defined during build
+- [x] BUG-016: document is not defined during build
+- [ ] BUG-017: NavBar hydration mismatch when language differs
 
 ---
 
@@ -361,3 +363,19 @@
   - 检查 `document` 和 `window` 是否存在后再访问
   - 服务器端返回空内容，客户端加载后再根据语言注入数据
 - **验证结果**：✅ 构建成功，无报错
+
+### BUG-017: NavBar hydration mismatch when language differs
+
+- **发现日期**：2025-07-28
+- **重现环境**：Chrome 最新版，切换语言后刷新页面
+- **问题现象**：
+  - 控制台报 "Hydration failed" 警告
+  - 页面初始显示中文导航文字后迅速切换为英文，产生闪烁
+- **根本原因**：
+  - `NavBar` 组件在服务端调用 `getCurrentLang()`，默认返回中文
+  - 客户端根据 `<html lang>` 或 localStorage 得到英文，导致首屏内容不一致
+- **解决方案**：
+  - 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
+  - 初始化语言脚本优先读取页面 lang 属性
+- **验证结果**：没有报错了，但是切换语言后，导航栏的按钮的文字没有变成对应的语言
+- **经验总结**：SSR 组件需共享同一语言来源以避免渲染不一致

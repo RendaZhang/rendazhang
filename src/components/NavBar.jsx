@@ -5,8 +5,8 @@ import { HOME_PAGE_PATH, LOGIN_PAGE_PATH, REGISTER_PAGE_PATH } from '../config.j
 import { NAV_CONTENT } from '../content/navContent.js';
 import { getCurrentLang } from '../utils/lang.js';
 
-export default function NavBar() {
-  const lang = getCurrentLang();
+export default function NavBar({ lang: langProp }) {
+  const lang = langProp || getCurrentLang();
   const texts = NAV_CONTENT[lang] || {};
   return (
     <nav>
@@ -14,7 +14,7 @@ export default function NavBar() {
       <a href={LOGIN_PAGE_PATH}>{texts.login || '登录'}</a>
       <a href={REGISTER_PAGE_PATH}>{texts.register || '注册'}</a>
       <LanguageSwitcher />
-      <ThemeToggle />
+      <ThemeToggle lang={lang} />
     </nav>
   );
 }

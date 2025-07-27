@@ -104,7 +104,8 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       (function () {
         try {
           const storedLang = localStorage.getItem('preferred_lang');
-          const lang = storedLang || 'zh-CN';
+          const attrLang = document.documentElement.getAttribute('lang');
+          const lang = storedLang || attrLang || 'zh-CN';
           document.documentElement.lang = lang;
         } catch (e) {
           console.error('语言初始化失败', e);
@@ -173,7 +174,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     {
       showNav ? (
         <slot name="nav">
-          <NavBarWrapper client:load />
+          <NavBarWrapper client:load lang={lang} />
         </slot>
       ) : null
     }
