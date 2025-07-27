@@ -35,3 +35,10 @@ html[lang|="en"] #content-en {
 html[lang|="zh"] #content-zh {
   display: block;
 }
+
+/* Override global body flex alignment so main follows nav at the top */
+body,
+html.dark-mode body,
+body.dark-mode {
+  justify-content: flex-start;
+}
