@@ -333,7 +333,7 @@ export const ABOUT_CONTENT = {
       ]
     },
     education: {
-      title: '教育经历',
+      title: '教育',
       entries: [
         {
           period: '2014年9月 - 2017年12月',
