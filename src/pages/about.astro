@@ -75,6 +75,30 @@ const content = ABOUT_CONTENT[langDefault];
         {content.skills.items.map((item) => <li>{item}</li>)}
       </ul>
     </section>
+    <section class="experience-section" id="experience">
+      <h2 id="experienceTitle">{content.experience.title}</h2>
+      <div id="experienceList">
+        {
+          content.experience.entries.map(({ period, company, title, summary, bullets }) => (
+            <div class="experience-item">
+              <div class="experience-header">
+                <span class="experience-period">{period}</span>
+                <span class="experience-company">{company}</span>
+              </div>
+              <h3 class="experience-role">{title}</h3>
+              {summary && <p>{summary}</p>}
+              {bullets && (
+                <ul>
+                  {bullets.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </section>
   </div>
 
   <Fragment slot="head">

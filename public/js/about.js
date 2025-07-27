@@ -83,6 +83,46 @@
             skillsList.appendChild(li);
           });
         }
+        var expTitle = container.querySelector('#experienceTitle');
+        if (expTitle && current.experience) expTitle.textContent = current.experience.title;
+        var expList = container.querySelector('#experienceList');
+        if (expList && current.experience) {
+          expList.innerHTML = '';
+          current.experience.entries.forEach(function (ent) {
+            var item = document.createElement('div');
+            item.className = 'experience-item';
+            var header = document.createElement('div');
+            header.className = 'experience-header';
+            var period = document.createElement('span');
+            period.className = 'experience-period';
+            period.textContent = ent.period;
+            var company = document.createElement('span');
+            company.className = 'experience-company';
+            company.textContent = ent.company;
+            header.appendChild(period);
+            header.appendChild(company);
+            item.appendChild(header);
+            var role = document.createElement('h3');
+            role.className = 'experience-role';
+            role.textContent = ent.title;
+            item.appendChild(role);
+            if (ent.summary) {
+              var p = document.createElement('p');
+              p.textContent = ent.summary;
+              item.appendChild(p);
+            }
+            if (ent.bullets) {
+              var ul = document.createElement('ul');
+              ent.bullets.forEach(function (b) {
+                var li = document.createElement('li');
+                li.textContent = b;
+                ul.appendChild(li);
+              });
+              item.appendChild(ul);
+            }
+            expList.appendChild(item);
+          });
+        }
       }
     }
   }
