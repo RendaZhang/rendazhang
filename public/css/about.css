@@ -24,11 +24,30 @@
   margin-top: 1rem;
 }
 
-
-
 /* Override global body flex alignment so main follows nav at the top */
 body,
 html.dark-mode body,
 body.dark-mode {
   justify-content: flex-start;
+}
+
+.skills-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.skill-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.skill-label {
+  flex: 0 0 200px;
+}
+
+.skill-bar progress {
+  width: 100%;
+  height: 1rem;
 }

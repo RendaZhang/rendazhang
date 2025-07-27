@@ -7,7 +7,6 @@
     var showZh = lang.startsWith('zh');
     document.documentElement.lang = lang;
 
-
     if (data.titles && data.descriptions) {
       var meta = document.querySelector('meta[name="description"]');
       document.title = showZh ? data.titles.zh : data.titles.en;
@@ -50,8 +49,39 @@
           resume.textContent = current.resumeLabel;
           if (data.resumePaths && data.resumeDownloads) {
             resume.setAttribute('href', showZh ? data.resumePaths.zh : data.resumePaths.en);
-            resume.setAttribute('download', showZh ? data.resumeDownloads.zh : data.resumeDownloads.en);
+            resume.setAttribute(
+              'download',
+              showZh ? data.resumeDownloads.zh : data.resumeDownloads.en
+            );
           }
+        }
+        var skillsTitle = container.querySelector('#skillsTitle');
+        if (skillsTitle && current.skills) skillsTitle.textContent = current.skills.title;
+        var skillsBars = container.querySelector('#skillsBars');
+        if (skillsBars && current.skills) {
+          skillsBars.innerHTML = '';
+          current.skills.categories.forEach(function (cat) {
+            var bar = document.createElement('div');
+            bar.className = 'skill-bar';
+            var label = document.createElement('span');
+            label.className = 'skill-label';
+            label.textContent = cat.label;
+            var progress = document.createElement('progress');
+            progress.setAttribute('max', '100');
+            progress.value = cat.level;
+            bar.appendChild(label);
+            bar.appendChild(progress);
+            skillsBars.appendChild(bar);
+          });
+        }
+        var skillsList = container.querySelector('#skillsList');
+        if (skillsList && current.skills) {
+          skillsList.innerHTML = '';
+          current.skills.items.forEach(function (item) {
+            var li = document.createElement('li');
+            li.textContent = item;
+            skillsList.appendChild(li);
+          });
         }
       }
     }

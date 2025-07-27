@@ -59,6 +59,22 @@ const content = ABOUT_CONTENT[langDefault];
         >
       </div>
     </section>
+    <section class="skills-section" id="skills">
+      <h2 id="skillsTitle">{content.skills.title}</h2>
+      <div id="skillsBars">
+        {
+          content.skills.categories.map(({ label, level }) => (
+            <div class="skill-bar">
+              <span class="skill-label">{label}</span>
+              <progress max="100" value={level} />
+            </div>
+          ))
+        }
+      </div>
+      <ul id="skillsList">
+        {content.skills.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
   </div>
 
   <Fragment slot="head">

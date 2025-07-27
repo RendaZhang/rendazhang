@@ -28,7 +28,33 @@ export const ABOUT_CONTENT = {
       { label: 'Status:', value: ' Actively open to work' }
     ],
     resumeLabel: 'Download Resume',
-    contactLabel: 'Feel free to reach out anytime'
+    contactLabel: 'Feel free to reach out anytime',
+    skills: {
+      title: 'Skills & Knowledge',
+      categories: [
+        { label: 'Java Backend Development', level: 98 },
+        { label: 'Spring Boot / Cloud', level: 98 },
+        { label: 'Middleware & Caching', level: 90 },
+        { label: 'Database Technologies', level: 95 },
+        { label: 'Microservices & Security', level: 92 },
+        { label: 'DevOps & Deployment Tools', level: 90 },
+        { label: 'Frontend Collaboration', level: 75 },
+        { label: 'Development Tools & Platforms', level: 90 }
+      ],
+      items: [
+        'Java, Python, SQL, HTML/CSS, JavaScript, Vue.js',
+        'Spring Boot, Spring Cloud, MyBatis, JPA, Feign',
+        'Redis, MongoDB, MySQL, ElasticSearch',
+        'RabbitMQ, Kafka, FastDFS, Eureka, Gateway',
+        'JWT, OAuth2, Load Balancing, Circuit Breaking',
+        'Docker, Docker Compose, Git, Linux Shell',
+        'Jenkins, GitLab CI/CD, Postman, OpenAPI/Swagger',
+        'RESTful API Design & System Architecture',
+        'Agile Development & Cross-team Collaboration',
+        'English (Professional Working Proficiency)',
+        'Chinese (Mandarin & Cantonese)'
+      ]
+    }
   },
   zh: {
     heroHeading: '大家好，我是<span>张人大</span>',
@@ -52,6 +78,32 @@ export const ABOUT_CONTENT = {
       { label: '求职状态:', value: ' 积极寻找工作机会' }
     ],
     resumeLabel: '下载我的简历',
-    contactLabel: '欢迎随时联系我'
+    contactLabel: '欢迎随时联系我',
+    skills: {
+      title: '技能与能力',
+      categories: [
+        { label: 'Java 后端技术', level: 98 },
+        { label: 'Spring Boot / Cloud', level: 98 },
+        { label: '中间件与缓存', level: 90 },
+        { label: '数据库技术', level: 95 },
+        { label: '微服务架构与安全', level: 92 },
+        { label: '运维与部署工具', level: 90 },
+        { label: '前端与协作开发', level: 75 },
+        { label: '开发工具与平台', level: 90 }
+      ],
+      items: [
+        'Java、Python、SQL、HTML/CSS、JavaScript、Vue.js',
+        'Spring Boot、Spring Cloud、MyBatis、JPA、Feign',
+        'Redis、MongoDB、MySQL、ElasticSearch',
+        'RabbitMQ、Kafka、FastDFS、Eureka、Gateway',
+        'JWT、OAuth2、负载均衡、熔断',
+        'Docker、Docker Compose、Git、Linux Shell',
+        'Jenkins、GitLab CI/CD、Postman、OpenAPI/Swagger',
+        'RESTful API 设计与系统架构',
+        '敏捷开发与跨团队协作',
+        '英语（专业工作水平）',
+        '中文（普通话和粤语）'
+      ]
+    }
   }
 };
