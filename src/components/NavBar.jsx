@@ -6,7 +6,7 @@ export default function NavBar() {
   return (
     <nav>
       <a href={HOME_PAGE_PATH}>Home</a>
-      <a href={LOGIN_PAGE_PATH}>Login</a>
+      <a href={LOGIN_PAGE_PATH}>登录</a>
       <a href={REGISTER_PAGE_PATH}>Register</a>
       <ThemeToggle />
     </nav>

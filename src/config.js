@@ -190,7 +190,8 @@ export const STYLE_PATHS = {
   FONTAWESOME: '/css/fontawesome.min.css',
   STYLE_EN: '/css/style-en.min.css',
   COLORS_DEFAULT: '/css/colors/default.css',
-  OSWALD: '/css/oswald.min.css'
+  OSWALD: '/css/oswald.min.css',
+  LOGIN: '/css/login.css'
 };
 
 export const ABOUT_ZH_STYLES = [

@@ -1,0 +1,85 @@
+/* Login page styles */
+.login-container {
+  margin: 80px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-strength {
+  height: 4px;
+  border-radius: 2px;
+  background: #ddd;
+  margin-top: 4px;
+}
+
+.password-strength.weak {
+  background: #e74c3c;
+}
+.password-strength.medium {
+  background: #f1c40f;
+}
+.password-strength.strong {
+  background: #2ecc71;
+}
+
+.third-party {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.third-party button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.global-error {
+  color: #e74c3c;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+html.dark-mode .login-container,
+body.dark-mode .login-container {
+  background: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+html.dark-mode .password-strength.weak,
+body.dark-mode .password-strength.weak {
+  background: #e74c3c;
+}
+html.dark-mode .password-strength.medium,
+body.dark-mode .password-strength.medium {
+  background: #f1c40f;
+}
+html.dark-mode .password-strength.strong,
+body.dark-mode .password-strength.strong {
+  background: #2ecc71;
+}
+@media (min-width:769px) and (max-width:1024px){.login-container{width:70%;}}
+@media (max-width:768px){.login-container{width:100%;}}
