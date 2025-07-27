@@ -58,10 +58,10 @@
 - [ ] 拆分大型组件：Chat.jsx 内部状态与逻辑较多，可按功能拆成更小的组件或自定义 hook（例如消息列表、输入区域、加载状态等）。避免单个文件过于庞大，提升可维护性。提供统一的服务层 API。可将输入框、消息列表、历史管理等拆分为独立组件或自定义 hooks，并提炼接口请求逻辑，便于未来接入新的 AI 服务或改变传输方式。
 - [ ] 状态管理扩展：当前仅用 useState 与 useContext 管理主题，随着页面或组件增多，可引入轻量级库（如 Zustand）集中管理共享状态。这样不同页面或“岛”之间也能更容易共享数据。如有更多共享状态，可评估使用 Zustand 或 Redux。
 - [ ] 异步资源加载优化：现有 loadScript 函数通过 document.createElement('script') 注入，可以改为 import() 动态导入，在打包时按需分离资源。也可配合懒加载组件，让非核心脚本在用户真正需要时再加载。
-- [ ] 重新改造 about.zh.astro 页面 和 about.en.astro 页面，让它们和主页的样式一致。
-- [ ] 公共页面模板与组件化：例如 about.zh.astro 页面中包含大量相似的 HTML 片段，建议拆分为复用组件（如 HeroSection, SkillsSection 等），以后新增语言版本或页面时更方便组合。
+- [ ] 重新改造 about.astro 页面，让其与主页风格保持一致。
+- [ ] 公共页面模板与组件化：例如 about.astro 页面中包含大量相似的 HTML 片段，建议拆分为复用组件（如 HeroSection, SkillsSection 等），以后新增语言版本或页面时更方便组合。
 - [ ] 统一 SEO/GEO 信息配置。
-- [ ] 创建 `<Head>` 或布局模板，减少重复代码。多个 .astro 页面（如 index.astro、about.zh.astro、about.en.astro 等）在 `<head>` 中重复声明大量 meta 标签和脚本。建议在 src/layouts 新建或扩展 BaseLayout，将这些公共内容集中维护，并通过自定义的 `<Head>` 组件或配置文件管理站点信息，以便后续扩展和多语言切换。
+- [ ] 创建 `<Head>` 或布局模板，减少重复代码。多个 .astro 页面（如 index.astro、about.astro 等）在 `<head>` 中重复声明大量 meta 标签和脚本。建议在 src/layouts 新建或扩展 BaseLayout，将这些公共内容集中维护，并通过自定义的 `<Head>` 组件或配置文件管理站点信息，以便后续扩展和多语言切换。
 - [ ] 国际化与主题持久化：目前页面通过跳转到不同 URL 实现中英文内容，可考虑引入 i18n 解决方案统一管理文案。
 - [ ] 自动化测试与持续集成：代码库已经配置了 ESLint 和 Prettier，但缺少单元测试或端到端测试。可结合 React Testing Library 做组件测试，Playwright/Chromium 做简单的页面跳转或聊天流程验证。引入端到端测试框架，覆盖主要页面。若需要，也可补充单元测试（如 vitest/react-testing-library）。
 

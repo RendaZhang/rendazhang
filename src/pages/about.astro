@@ -60,6 +60,43 @@ const content = ABOUT_CONTENT[langDefault];
         >
       </div>
     </section>
+    <section class="education-section" id="education">
+      <h2 id="educationTitle">{content.education.title}</h2>
+      <div id="educationList">
+        {
+          content.education.entries.map(({ period, school, degree, details }) => (
+            <div class="education-item">
+              <div class="education-header">
+                <span class="education-period">{period}</span>
+                <span class="education-school">{school}</span>
+              </div>
+              <h3 class="education-degree">{degree}</h3>
+              <p>{details}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+    <section class="blog-section" id="blog">
+      <h2 id="blogTitle">{content.blog.title}</h2>
+      <div id="blogList">
+        {
+          content.blog.entries.map(({ category, date, url, title }) => (
+            <div class="blog-item">
+              <div class="blog-header">
+                <span class="blog-category">{category}</span>
+                <span class="blog-date">{date}</span>
+              </div>
+              <h3 class="blog-title">
+                <a href={url} target="_blank">
+                  {title}
+                </a>
+              </h3>
+            </div>
+          ))
+        }
+      </div>
+    </section>
     <section class="skills-section" id="skills">
       <h2 id="skillsTitle">{content.skills.title}</h2>
       <div id="skillsBars">
@@ -95,43 +132,6 @@ const content = ABOUT_CONTENT[langDefault];
                   ))}
                 </ul>
               )}
-            </div>
-          ))
-        }
-      </div>
-    </section>
-    <section class="education-section" id="education">
-      <h2 id="educationTitle">{content.education.title}</h2>
-      <div id="educationList">
-        {
-          content.education.entries.map(({ period, school, degree, details }) => (
-            <div class="education-item">
-              <div class="education-header">
-                <span class="education-period">{period}</span>
-                <span class="education-school">{school}</span>
-              </div>
-              <h3 class="education-degree">{degree}</h3>
-              <p>{details}</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-    <section class="blog-section" id="blog">
-      <h2 id="blogTitle">{content.blog.title}</h2>
-      <div id="blogList">
-        {
-          content.blog.entries.map(({ category, date, url, title }) => (
-            <div class="blog-item">
-              <div class="blog-header">
-                <span class="blog-category">{category}</span>
-                <span class="blog-date">{date}</span>
-              </div>
-              <h3 class="blog-title">
-                <a href={url} target="_blank">
-                  {title}
-                </a>
-              </h3>
             </div>
           ))
         }

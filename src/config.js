@@ -19,8 +19,6 @@ export const JSON_HEADERS = {
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 
 // Additional site page paths
-export const ABOUT_EN_PAGE_PATH = '/about.en';
-export const ABOUT_ZH_PAGE_PATH = '/about.zh';
 export const ABOUT_PAGE_PATH = '/about';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
@@ -195,55 +193,6 @@ export const STYLE_PATHS = {
   REGISTER: '/css/register.css'
 };
 
-export const ABOUT_ZH_STYLES = [
-  STYLE_PATHS.ALL,
-  STYLE_PATHS.SIMPLE_ICONS,
-  STYLE_PATHS.SLICK,
-  STYLE_PATHS.MCUSTOM_SCROLLBAR,
-  STYLE_PATHS.STYLE
-];
-
-export const ABOUT_ZH_SCRIPTS = [
-  SCRIPT_PATHS.POPPER,
-  SCRIPT_PATHS.BOOTSTRAP,
-  SCRIPT_PATHS.WAYPOINTS,
-  SCRIPT_PATHS.COUNTERUP,
-  SCRIPT_PATHS.MCUSTOM_SCROLLBAR_CONCAT,
-  SCRIPT_PATHS.ISOTOPE_PKGD,
-  SCRIPT_PATHS.INFINITE_SCROLL,
-  SCRIPT_PATHS.IMAGESLOADED,
-  SCRIPT_PATHS.SLICK,
-  SCRIPT_PATHS.VALIDATOR,
-  SCRIPT_PATHS.CONTACT,
-  SCRIPT_PATHS.CUSTOM
-];
-
-export const ABOUT_EN_STYLES = [
-  STYLE_PATHS.BOOTSTRAP_EN,
-  STYLE_PATHS.ANIMATE,
-  STYLE_PATHS.MAGNIFIC_POPUP,
-  STYLE_PATHS.PE_ICON,
-  STYLE_PATHS.FONTAWESOME,
-  STYLE_PATHS.STYLE_EN,
-  STYLE_PATHS.COLORS_DEFAULT,
-  STYLE_PATHS.OSWALD
-];
-
-export const ABOUT_EN_SCRIPTS = [
-  SCRIPT_PATHS.BOOTSTRAP_BUNDLE,
-  SCRIPT_PATHS.SCROLLSPY,
-  SCRIPT_PATHS.FLOATING_MENU,
-  SCRIPT_PATHS.JQUERY_MAGNIFIC_POPUP,
-  SCRIPT_PATHS.ISOTOPE,
-  SCRIPT_PATHS.MASONRY,
-  SCRIPT_PATHS.TEXTILLATE,
-  SCRIPT_PATHS.LETTERING,
-  SCRIPT_PATHS.PORTFOLIO_FILTR,
-  SCRIPT_PATHS.CONTACT_FORM,
-  SCRIPT_PATHS.SWITCHER,
-  SCRIPT_PATHS.APP
-];
-
 export const THEME_COLOR_LIGHT = '#ffffff';
 export const FAVICON_PATH = '/favicon.png';
 
@@ -265,15 +214,6 @@ export const SOCIAL_ICON_PATHS = {
   TOUTIAO: '/images/social/toutiao-logo.svg',
   CSDN: '/images/social/csdn-logo.svg',
   MEDIUM: '/images/social/medium-logo.svg'
-};
-
-// Image assets for the About pages
-export const ABOUT_IMAGES = {
-  CONTACT_PHOTO: '/images/img1.jpg',
-  ABOUT_SECTION: '/images/about.png',
-  BLOG1: '/images/blog/1.jpg',
-  BLOG2: '/images/blog/2.jpg',
-  BLOG3: '/images/blog/3.jpg'
 };
 
 export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
