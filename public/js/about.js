@@ -123,6 +123,37 @@
             expList.appendChild(item);
           });
         }
+        var eduTitle = container.querySelector('#educationTitle');
+        if (eduTitle && current.education) eduTitle.textContent = current.education.title;
+        var eduList = container.querySelector('#educationList');
+        if (eduList && current.education) {
+          eduList.innerHTML = '';
+          current.education.entries.forEach(function (ent) {
+            var item = document.createElement('div');
+            item.className = 'education-item';
+            var header = document.createElement('div');
+            header.className = 'education-header';
+            var period = document.createElement('span');
+            period.className = 'education-period';
+            period.textContent = ent.period;
+            var school = document.createElement('span');
+            school.className = 'education-school';
+            school.textContent = ent.school;
+            header.appendChild(period);
+            header.appendChild(school);
+            item.appendChild(header);
+            var degree = document.createElement('h3');
+            degree.className = 'education-degree';
+            degree.textContent = ent.degree;
+            item.appendChild(degree);
+            if (ent.details) {
+              var p = document.createElement('p');
+              p.textContent = ent.details;
+              item.appendChild(p);
+            }
+            eduList.appendChild(item);
+          });
+        }
       }
     }
   }

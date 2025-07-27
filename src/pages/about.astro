@@ -99,6 +99,23 @@ const content = ABOUT_CONTENT[langDefault];
         }
       </div>
     </section>
+    <section class="education-section" id="education">
+      <h2 id="educationTitle">{content.education.title}</h2>
+      <div id="educationList">
+        {
+          content.education.entries.map(({ period, school, degree, details }) => (
+            <div class="education-item">
+              <div class="education-header">
+                <span class="education-period">{period}</span>
+                <span class="education-school">{school}</span>
+              </div>
+              <h3 class="education-degree">{degree}</h3>
+              <p>{details}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
   </div>
 
   <Fragment slot="head">

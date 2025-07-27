@@ -73,3 +73,25 @@ body.dark-mode {
 .experience-role {
   margin: 0.5rem 0;
 }
+
+.education-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.education-item {
+  margin-bottom: 1.5rem;
+}
+
+.education-header {
+  font-weight: bold;
+}
+
+.education-period {
+  margin-right: 0.5rem;
+}
+
+.education-degree {
+  margin: 0.5rem 0;
+}

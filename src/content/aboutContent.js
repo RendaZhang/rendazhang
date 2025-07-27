@@ -126,6 +126,25 @@ export const ABOUT_CONTENT = {
             'Participated in school competitions and training; demonstrated endurance and team collaboration.'
         }
       ]
+    },
+    education: {
+      title: 'Education',
+      entries: [
+        {
+          period: 'Sep 2014 - Dec 2017',
+          school: 'University of Minnesota - Twin Cities',
+          degree: 'Bachelor of Science in Computer Science',
+          details:
+            'College of Science and Engineering; GPA: 3.79. Core courses: Data Structures & Algorithms, Software Engineering, Operating Systems, Computer Networking, Programming Languages, Internet Programming, UI Design, and Theory of Computation.'
+        },
+        {
+          period: 'Aug 2012 - Jun 2014',
+          school: 'Lee Academy, Maine',
+          degree: 'High School Diploma',
+          details:
+            'Completed college-preparatory curriculum in the U.S. with activities in cross-country, math tutoring, and part-time work.'
+        }
+      ]
     }
   },
   zh: {
@@ -240,6 +259,24 @@ export const ABOUT_CONTENT = {
           company: 'Lee Academy',
           title: '越野跑队员',
           summary: '参与校内比赛与训练，展现耐力与团队协作。'
+        }
+      ]
+    },
+    education: {
+      title: '教育经历',
+      entries: [
+        {
+          period: '2014年9月 - 2017年12月',
+          school: '明尼苏达大学双城校区',
+          degree: '计算机科学 理学学士',
+          details:
+            '主修课程包括：程序设计、软件工程、数据库系统、操作系统、网络编程、形式语言与自动机、算法与数据结构、编程语言原理等。 GPA 3.79。'
+        },
+        {
+          period: '2012年8月 - 2014年6月',
+          school: '美国缅因州李学院',
+          degree: '高中学历',
+          details: '完成大学预科课程，参与越野跑、数学辅导及兼职工作。'
         }
       ]
     }
