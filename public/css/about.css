@@ -95,3 +95,24 @@ body.dark-mode {
 .education-degree {
   margin: 0.5rem 0;
 }
+
+/* Blog section */
+.blog-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.blog-item {
+  margin-bottom: 1.5rem;
+}
+
+.blog-header {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.blog-category {
+  margin-right: 0.5rem;
+}

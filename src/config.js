@@ -352,6 +352,12 @@ export const CSDN_ARTICLES = {
   DUAL_BOOT_TIME: 'https://blog.csdn.net/qq_40286307/article/details/83688376'
 };
 
+// Frequently referenced Medium article URLs
+export const MEDIUM_ARTICLES = {
+  QUANT_TRADING_AI_BOT:
+    'https://rendazhang.medium.com/quantitative-trading-101-building-your-ai-trading-bot-from-scratch-cb928c834fc1'
+};
+
 // Repository links
 export const REPOSITORIES = {
   JAVA_BACKEND: 'https://github.com/RendaZhang/java-backend-development'

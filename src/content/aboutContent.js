@@ -1,4 +1,10 @@
-import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_INTL, CONTACT_PHONE_LOCAL } from '../config.js';
+import {
+  CONTACT_EMAIL_PRIMARY,
+  CONTACT_PHONE_INTL,
+  CONTACT_PHONE_LOCAL,
+  CSDN_ARTICLES,
+  MEDIUM_ARTICLES
+} from '../config.js';
 
 export const ABOUT_CONTENT = {
   en: {
@@ -124,6 +130,17 @@ export const ABOUT_CONTENT = {
           title: 'Cross-Country Runner',
           summary:
             'Participated in school competitions and training; demonstrated endurance and team collaboration.'
+        }
+      ]
+    },
+    blog: {
+      title: 'Blog & Code',
+      entries: [
+        {
+          category: 'Medium',
+          title: 'Quantitative Trading 101: Building Your AI Trading Bot from Scratch',
+          date: '2024-03-15',
+          url: MEDIUM_ARTICLES.QUANT_TRADING_AI_BOT
         }
       ]
     },
@@ -259,6 +276,17 @@ export const ABOUT_CONTENT = {
           company: 'Lee Academy',
           title: '越野跑队员',
           summary: '参与校内比赛与训练，展现耐力与团队协作。'
+        }
+      ]
+    },
+    blog: {
+      title: '代码和博客',
+      entries: [
+        {
+          category: 'CSDN',
+          title: 'Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到那把“失踪的锁”',
+          date: '2025-06-09',
+          url: CSDN_ARTICLES.JAVA_21_LOCK
         }
       ]
     },

@@ -154,6 +154,36 @@
             eduList.appendChild(item);
           });
         }
+
+        var blogTitle = container.querySelector('#blogTitle');
+        if (blogTitle && current.blog) blogTitle.textContent = current.blog.title;
+        var blogList = container.querySelector('#blogList');
+        if (blogList && current.blog) {
+          blogList.innerHTML = '';
+          current.blog.entries.forEach(function (ent) {
+            var item = document.createElement('div');
+            item.className = 'blog-item';
+            var header = document.createElement('div');
+            header.className = 'blog-header';
+            var category = document.createElement('span');
+            category.className = 'blog-category';
+            category.textContent = ent.category;
+            var date = document.createElement('span');
+            date.className = 'blog-date';
+            date.textContent = ent.date;
+            header.appendChild(category);
+            header.appendChild(date);
+            item.appendChild(header);
+            var h3 = document.createElement('h3');
+            var a = document.createElement('a');
+            a.href = ent.url;
+            a.target = '_blank';
+            a.textContent = ent.title;
+            h3.appendChild(a);
+            item.appendChild(h3);
+            blogList.appendChild(item);
+          });
+        }
       }
     }
   }

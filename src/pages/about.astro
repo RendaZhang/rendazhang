@@ -116,6 +116,26 @@ const content = ABOUT_CONTENT[langDefault];
         }
       </div>
     </section>
+    <section class="blog-section" id="blog">
+      <h2 id="blogTitle">{content.blog.title}</h2>
+      <div id="blogList">
+        {
+          content.blog.entries.map(({ category, date, url, title }) => (
+            <div class="blog-item">
+              <div class="blog-header">
+                <span class="blog-category">{category}</span>
+                <span class="blog-date">{date}</span>
+              </div>
+              <h3 class="blog-title">
+                <a href={url} target="_blank">
+                  {title}
+                </a>
+              </h3>
+            </div>
+          ))
+        }
+      </div>
+    </section>
   </div>
 
   <Fragment slot="head">
