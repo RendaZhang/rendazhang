@@ -36,7 +36,7 @@ async function renderMermaidDiagrams(container) {
   }
 }
 
-export function applyEnhancements(container) {
+export async function applyEnhancements(container) {
   if (!container) return;
   if (window.hljs) {
     container.querySelectorAll('pre code').forEach((block) => {
@@ -46,18 +46,24 @@ export function applyEnhancements(container) {
       window.hljs.highlightElement(block);
     });
   }
-  renderMermaidDiagrams(container);
+  await renderMermaidDiagrams(container);
 }
 
-export default function useMarkdownPipeline(markdown, enhance) {
+export default function useMarkdownPipeline(markdown, enhance, onDone) {
   const ref = useRef(null);
 
   useEffect(() => {
     if (!ref.current) return;
     const html = window.DOMPurify.sanitize(window.marked.parse(markdown || ''));
     ref.current.innerHTML = html;
+    const doCallback = () => {
+      if (typeof onDone === 'function') onDone();
+    };
+
     if (enhance) {
-      applyEnhancements(ref.current);
+      applyEnhancements(ref.current).then(doCallback);
+    } else {
+      doCallback();
     }
   }, [markdown, enhance]);
 

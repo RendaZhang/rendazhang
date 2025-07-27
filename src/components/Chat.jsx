@@ -288,7 +288,12 @@ export default function Chat() {
             if (msg.role === ROLES.AI) {
               const streaming = isSending && idx === messages.length - 1;
               return (
-                <AIMessage key={idx} text={msg.content} enhance={librariesLoaded && !streaming} />
+                <AIMessage
+                  key={idx}
+                  text={msg.content}
+                  enhance={librariesLoaded && !streaming}
+                  onRendered={scrollToBottom}
+                />
               );
             }
             return (
@@ -354,10 +359,10 @@ export default function Chat() {
 }
 
 // AI message with copy button
-function AIMessage({ text, enhance }) {
+function AIMessage({ text, enhance, onRendered }) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const contentRef = useMarkdownPipeline(text, enhance);
+  const contentRef = useMarkdownPipeline(text, enhance, onRendered);
 
   const handleCopy = (e) => {
     e.stopPropagation();
