@@ -158,10 +158,10 @@
 
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
-- **问题现象**：
-  - 打开中文 About 页面时控制台报 `$(...).validator is not a function`
-- **根本原因**：
-  - 在 about.zh 页面中先加载 `contact.js`，再加载 `validator.min.js`
+  - **问题现象**：
+    - 打开 About 页面时控制台报 `$(...).validator is not a function`
+  - **根本原因**：
+    - 在 about 页面中先加载 `contact.js`，再加载 `validator.min.js`
   - jQuery 插件未在脚本执行前初始化
 - **解决方案**：
   - 调整脚本顺序，先引入 `validator.min.js` 后引入 `contact.js`
@@ -171,12 +171,12 @@
 
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
-- **问题现象**：
-  - About 英文页面报 `E.easing[this.easing] is not a function`
-- **根本原因**：
-  - 页面未加载 `jquery.easing.min.js`，但 `switcher.min.js` 依赖该插件
-- **解决方案**：
-  - 在 about.en 页面中引入 `SCRIPT_PATHS.JQUERY_EASING`，置于 jQuery 之后
+  - **问题现象**：
+    - About 页面报 `E.easing[this.easing] is not a function`
+  - **根本原因**：
+    - 页面未加载 `jquery.easing.min.js`，但 `switcher.min.js` 依赖该插件
+  - **解决方案**：
+    - 在 about 页面中引入 `SCRIPT_PATHS.JQUERY_EASING`，置于 jQuery 之后
 - **验证结果**：✅ 控制台不再报错，动画正常
 
 ### BUG-006: BaseLayout 中文乱码

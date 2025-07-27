@@ -146,10 +146,9 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 部署完成后可直接访问各模块页面。
 
-如下是我的网站的每个页面的链接：
+-如下是我的网站的每个页面的链接：
 
-- 🌐 [About Me in Chinese / 中文介绍页](https://www.rendazhang.com/about.zh/)
-- 🌐 [About Me in English / 英文介绍页](https://www.rendazhang.com/about.en/)
+- 🌐 [About](https://www.rendazhang.com/about/)
 - 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
 - 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
 - 🌐 [渲染后的技术文档页面（基于本文档）](https://www.rendazhang.com/docs/)
@@ -172,9 +171,8 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 各页面核心职责如下（均由 `.astro` 文件生成）：
 
- - `index.astro`：入口页，提供语言选择及快捷导航，并预置 ChatWidget 浮标。
-- `about.zh.astro`：中文版主页，展示个人信息、技能与联系方式。
-- `about.en.astro`：英文版主页，内容与中文版对应。
+- `index.astro`：入口页，提供关于页面、AI 聊天和证书页的快捷链接，并预置 ChatWidget 浮标。
+- `about.astro`：个人介绍页，展示个人信息、教育、技能、博客及工作经验。
 - `certifications.astro`：证书列表页。
 - `deepseek_chat.astro`：AI 聊天界面。
 
@@ -184,37 +182,32 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 #### 页面跳转逻辑
 
-- `index.astro` 链接到中英文主页、AI Chat 和证书页。
+- `index.astro` 链接到 About、AI Chat 和证书页。
 - 各子页面均包含返回入口页的按钮。
-- 中英文主页内部通过锚点导航跳转到 About、Skills 等板块，并提供聊天或证书链接。
+- About 页面内部通过锚点导航跳转到 Skills、Experience 等板块，并提供博客链接。
 
 Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[index 主页] -->|关于我| B[about.zh.astro 中文主页]
-    A -->|About Me| C[about.en.astro 英文主页]
-    A -->|Chat with AI| D[deepseek_chat.astro 聊天页]
-    A -->|证书| E[certifications.astro 证书页]
+    A[index 主页] -->|About| B[about.astro 个人介绍页]
+    A -->|Chat with AI| C[deepseek_chat.astro 聊天页]
+    A -->|证书| D[certifications.astro 证书页]
     B -->|返回首页| A
-    B -->|证书| E
+    B -->|证书| D
     C -->|返回首页| A
-    C -->|证书| E
-    C -->|Chat with AI| D
     D -->|返回首页| A
-    E -->|返回首页| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#f9f,stroke:#333
     style D fill:#ff9,stroke:#333
-    style E fill:#99f,stroke:#333
 ```
 
 #### 页面内容介绍
 
- - `index.astro`：简洁布局，包括语言选择区、AI 聊天入口、证书入口和技术文档链接，默认悬挂 ChatWidget 浮标，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
-- `about.zh.astro`、`about.en.astro`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Skills"、"Resume/Experience"、"Blog/Projects"、"Contact" 等模块。
+- `index.astro`：简洁布局，包括关于页、AI 聊天入口、证书入口和技术文档链接，默认悬挂 ChatWidget 浮标，并展示五个指向微信公众号、知乎、今日头条、CSDN 与 Medium 的内容平台图标。
+- `about.astro`：带侧边菜单的多 Section 页面，包含 "Hero"、"About"、"Education"、"Blog"、"Skills"、"Experience"、"Contact" 等模块。
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.astro`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
 - `404.html / 50x.html`：简单文本提示页面。
