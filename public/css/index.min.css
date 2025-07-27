@@ -52,26 +52,6 @@ body {
   transform: translateY(-2px);
 }
 
-button {
-  margin: 0 10px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: filter 0.3s, transform 0.3s;
-}
-  
-button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-}
 
 .code-icon {
   margin-right: 5px;
