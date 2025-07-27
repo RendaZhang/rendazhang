@@ -8,7 +8,7 @@ export default function NavBar() {
     <nav>
       <a href={HOME_PAGE_PATH}>Home</a>
       <a href={LOGIN_PAGE_PATH}>登录</a>
-      <a href={REGISTER_PAGE_PATH}>Register</a>
+      <a href={REGISTER_PAGE_PATH}>注册</a>
       <LanguageSwitcher />
       <ThemeToggle />
     </nav>

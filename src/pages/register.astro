@@ -1,6 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, REGISTER_PAGE_PATH, SITE_NAME_EN } from '../config.js';
+import RegisterForm from '../components/RegisterForm.jsx';
+import {
+  SITE_BASE_URL,
+  VIEWPORT_NO_ZOOM,
+  REGISTER_PAGE_PATH,
+  SITE_NAME_EN,
+  STYLE_PATHS
+} from '../config.js';
 ---
 
 <BaseLayout
@@ -9,6 +16,7 @@ import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, REGISTER_PAGE_PATH, SITE_NAME_EN } fro
   description="Register Page of Renda Zhang Website"
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${REGISTER_PAGE_PATH}/`}
+  extraStyles={[STYLE_PATHS.REGISTER]}
 >
-  <p>注册页面开发中</p>
+  <RegisterForm client:load />
 </BaseLayout>

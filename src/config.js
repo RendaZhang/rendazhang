@@ -191,7 +191,8 @@ export const STYLE_PATHS = {
   STYLE_EN: '/css/style-en.min.css',
   COLORS_DEFAULT: '/css/colors/default.css',
   OSWALD: '/css/oswald.min.css',
-  LOGIN: '/css/login.css'
+  LOGIN: '/css/login.css',
+  REGISTER: '/css/register.css'
 };
 
 export const ABOUT_ZH_STYLES = [
