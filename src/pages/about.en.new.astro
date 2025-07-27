@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  SITE_BASE_URL,
+  PAGE_TITLES,
+  SITE_DESCRIPTION_EN,
+  VIEWPORT_NO_ZOOM,
+  ABOUT_EN_NEW_PAGE_PATH,
+  ABOUT_EN_STYLES,
+  ABOUT_EN_SCRIPTS
+} from '../config.js';
+---
+
+<BaseLayout
+  lang="en"
+  title={PAGE_TITLES.ABOUT_EN}
+  description={SITE_DESCRIPTION_EN}
+  viewport={VIEWPORT_NO_ZOOM}
+  canonical={`${SITE_BASE_URL}${ABOUT_EN_NEW_PAGE_PATH}/`}
+  extraStyles={ABOUT_EN_STYLES}
+  extraScripts={ABOUT_EN_SCRIPTS}
+>
+  <p>Coming soon</p>
+</BaseLayout>

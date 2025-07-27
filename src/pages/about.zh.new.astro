@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  SITE_BASE_URL,
+  PAGE_TITLES,
+  SITE_DESCRIPTION_ZH,
+  VIEWPORT_ZOOM_ALLOWED,
+  ABOUT_ZH_NEW_PAGE_PATH,
+  ABOUT_ZH_STYLES,
+  ABOUT_ZH_SCRIPTS
+} from '../config.js';
+---
+
+<BaseLayout
+  lang="zh-CN"
+  title={PAGE_TITLES.ABOUT_ZH}
+  description={SITE_DESCRIPTION_ZH}
+  viewport={VIEWPORT_ZOOM_ALLOWED}
+  canonical={`${SITE_BASE_URL}${ABOUT_ZH_NEW_PAGE_PATH}/`}
+  extraStyles={ABOUT_ZH_STYLES}
+  extraScripts={ABOUT_ZH_SCRIPTS}
+>
+  <p>Coming soon</p>
+</BaseLayout>

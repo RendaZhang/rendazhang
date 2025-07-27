@@ -21,6 +21,8 @@ export const CHAT_PAGE_PATH = '/deepseek_chat';
 // Additional site page paths
 export const ABOUT_EN_PAGE_PATH = '/about.en';
 export const ABOUT_ZH_PAGE_PATH = '/about.zh';
+export const ABOUT_EN_NEW_PAGE_PATH = '/about.en.new';
+export const ABOUT_ZH_NEW_PAGE_PATH = '/about.zh.new';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
 export const LOGIN_PAGE_PATH = '/login';
