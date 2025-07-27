@@ -11,6 +11,11 @@ import {
   RESUME_ZH_DOWNLOAD
 } from '../config.js';
 import { ABOUT_CONTENT } from '../content/aboutContent.js';
+
+const aboutPageData = {
+  titles: { en: PAGE_TITLES.ABOUT_EN, zh: PAGE_TITLES.ABOUT_ZH },
+  descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH }
+};
 ---
 
 <BaseLayout
@@ -67,11 +72,8 @@ import { ABOUT_CONTENT } from '../content/aboutContent.js';
   </div>
 
   <Fragment slot="head">
-    <script is:inline>
-      window.aboutPageData = {
-        titles: { en: PAGE_TITLES.ABOUT_EN, zh: PAGE_TITLES.ABOUT_ZH },
-        descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH }
-      };
+    <script define:vars={{ aboutPageData }}>
+      window.aboutPageData = aboutPageData;
     </script>
   </Fragment>
 </BaseLayout>
