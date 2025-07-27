@@ -133,17 +133,23 @@ export default function Chat() {
         }
         setLibrariesLoaded(true);
         // Hide progress with fade out
-        enhancementProgressRef.current.style.opacity = '0';
+        if (enhancementProgressRef.current) {
+          enhancementProgressRef.current.style.opacity = '0';
+        }
         setTimeout(() => setIsEnhancing(false), UI_DURATIONS.FADE); // Match original fade out
       })
       .catch((error) => {
         console.error('Enhancement libraries loading failed:', error);
         // Show failure message (as in original)
-        enhancementProgressRef.current.innerHTML = `<p>${CHAT_TEXT.ENHANCEMENT_FAILED}</p>`;
+        if (enhancementProgressRef.current) {
+          enhancementProgressRef.current.innerHTML = `<p>${CHAT_TEXT.ENHANCEMENT_FAILED}</p>`;
+        }
         document.body.classList.add('basic-mode'); // Add basic-mode class
         // Hide after delay
         setTimeout(() => {
-          enhancementProgressRef.current.style.opacity = '0';
+          if (enhancementProgressRef.current) {
+            enhancementProgressRef.current.style.opacity = '0';
+          }
           setTimeout(() => setIsEnhancing(false), UI_DURATIONS.FADE);
         }, UI_DURATIONS.ERROR_HIDE_DELAY);
         setEnhancementFailed(true);

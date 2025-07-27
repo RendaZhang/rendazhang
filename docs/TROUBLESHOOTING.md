@@ -21,13 +21,14 @@
     - [BUG-012: Dark mode flashes before applying](#bug-012-dark-mode-flashes-before-applying)
     - [BUG-013: Hydration mismatch when dark mode is enabled](#bug-013-hydration-mismatch-when-dark-mode-is-enabled)
     - [BUG-014: Chat widget panel flashes in dark mode](#bug-014-chat-widget-panel-flashes-in-dark-mode)
+    - [BUG-015: Enhancement progress stuck when scripts load from memory cache](#bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 27, 2025, 03:20 (UTC+8)
+- **最后更新**: July 28, 2025, 03:30 (UTC+8)
 
 ---
 
@@ -81,6 +82,7 @@
 - [x] BUG-012: Dark mode flashes before applying
 - [x] BUG-013: Hydration mismatch when dark mode is enabled
 - [x] BUG-014: Chat widget panel flashes in dark mode
+- [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
 
 ---
 
@@ -330,3 +332,16 @@
 - **解决方案**：
   - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
+
+### BUG-015: Enhancement progress stuck when scripts load from memory cache
+
+- **发现日期**：2025-07-28
+- **重现环境**：Chrome 最新版，重复打开聊天页面
+- **问题现象**：
+  - highlight.min.js 和 mermaid.min.js 从 memory cache 加载时，“正在优化阅读体验...” 提示不会消失
+- **根本原因**：
+  - 脚本瞬间完成加载，Promise 回调早于进度元素渲染执行，导致 `enhancementProgressRef.current` 为 `null`，后续样式修改抛错
+- **解决方案**：
+  - 在修改进度元素样式前检查 `enhancementProgressRef.current` 是否存在
+- **验证结果**：✅ 提示正常淡出
+- **经验总结**：在状态驱动的 UI 中操作 DOM 前应做好空值判断
