@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext.jsx';
+import { NAV_CONTENT } from '../content/navContent.js';
+import { getCurrentLang } from '../utils/lang.js';
 
 export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const optionsRef = useRef(null);
+  const lang = getCurrentLang();
+  const texts = (NAV_CONTENT[lang] && NAV_CONTENT[lang].theme) || {};
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -35,14 +39,14 @@ export default function ThemeToggle() {
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
       >
-        切换主题
+        {texts.button || '切换主题'}
       </button>
       {open && (
         <div ref={optionsRef} className="theme-options">
           <button
             className={`theme-option light ${!darkMode ? 'active' : ''}`}
-            aria-label="切换到浅色模式"
-            title="切换到浅色模式"
+            aria-label={texts.light || '切换到浅色模式'}
+            title={texts.light || '切换到浅色模式'}
             onClick={() => handleSelect(false)}
           >
             <svg
@@ -68,8 +72,8 @@ export default function ThemeToggle() {
           </button>
           <button
             className={`theme-option dark ${darkMode ? 'active' : ''}`}
-            aria-label="切换到深色模式"
-            title="切换到深色模式"
+            aria-label={texts.dark || '切换到深色模式'}
+            title={texts.dark || '切换到深色模式'}
             onClick={() => handleSelect(true)}
           >
             <svg
