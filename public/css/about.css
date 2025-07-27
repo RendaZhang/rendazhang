@@ -24,17 +24,7 @@
   margin-top: 1rem;
 }
 
-/* Show content based on language */
-#content-en,
-#content-zh {
-  display: none;
-}
-html[lang|="en"] #content-en {
-  display: block;
-}
-html[lang|="zh"] #content-zh {
-  display: block;
-}
+
 
 /* Override global body flex alignment so main follows nav at the top */
 body,
