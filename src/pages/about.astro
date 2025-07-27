@@ -63,16 +63,33 @@ const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
   <Fragment slot="head">
     <script is:inline>
       (function () {
-        const storedLang = localStorage.getItem('preferred_lang');
-        const lang = storedLang || 'zh-CN';
-        const showZh = lang.startsWith('zh');
-        document.documentElement.lang = lang;
-        document.getElementById('content-zh').style.display = showZh ? '' : 'none';
-        document.getElementById('content-en').style.display = showZh ? 'none' : '';
-        if (showZh) {
-          document.title = PAGE_TITLES.ABOUT_ZH;
+        function applyLang() {
+          const storedLang = localStorage.getItem('preferred_lang');
+          const lang = storedLang || 'zh-CN';
+          const showZh = lang.startsWith('zh');
+          document.documentElement.lang = lang;
+
+          const zh = document.getElementById('content-zh');
+          const en = document.getElementById('content-en');
+          if (zh && en) {
+            zh.style.display = showZh ? '' : 'none';
+            en.style.display = showZh ? 'none' : '';
+          }
+
           const meta = document.querySelector('meta[name="description"]');
-          if (meta) meta.setAttribute('content', SITE_DESCRIPTION_ZH);
+          if (showZh) {
+            document.title = PAGE_TITLES.ABOUT_ZH;
+            if (meta) meta.setAttribute('content', SITE_DESCRIPTION_ZH);
+          } else {
+            document.title = PAGE_TITLES.ABOUT_EN;
+            if (meta) meta.setAttribute('content', SITE_DESCRIPTION_EN);
+          }
+        }
+
+        if (document.readyState === 'loading') {
+          window.addEventListener('DOMContentLoaded', applyLang);
+        } else {
+          applyLang();
         }
       })();
     </script>
