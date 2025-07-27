@@ -116,3 +116,26 @@ body.dark-mode {
 .blog-category {
   margin-right: 0.5rem;
 }
+
+/* Contact section */
+.contact-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-info strong {
+  display: block;
+}
+
+.contact-form .form-message {
+  margin-top: 0.5rem;
+}
+
+.form-message.success {
+  color: #28a745;
+}
+
+.form-message.error {
+  color: #dc3545;
+}

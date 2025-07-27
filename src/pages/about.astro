@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.jsx';
 import {
   SITE_BASE_URL,
   PAGE_TITLES,
@@ -136,6 +137,7 @@ const content = ABOUT_CONTENT[langDefault];
         }
       </div>
     </section>
+    <ContactSection client:load />
   </div>
 
   <Fragment slot="head">
