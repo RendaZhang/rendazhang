@@ -34,6 +34,27 @@ export const ABOUT_CONTENT = {
       { label: 'Status:', value: ' Actively open to work' }
     ],
     resumeLabel: 'Download Resume',
+    contact: {
+      title: 'Contact Me',
+      info: [
+        { label: 'Phone', value: ` ${CONTACT_PHONE_INTL}` },
+        { label: 'Email', value: ` ${CONTACT_EMAIL_PRIMARY}` },
+        { label: 'Address', value: ' Shenzhen, Guangdong, China' }
+      ],
+      form: {
+        placeholders: {
+          name: 'Your Name',
+          contact: 'Email or Phone',
+          subject: 'Subject',
+          message: 'Message'
+        },
+        button: 'Send Message',
+        sending: 'Sending...',
+        success: 'Sent to my mailbox',
+        errorEmpty: 'Please fill all fields',
+        failed: 'Failed to send'
+      }
+    },
     contactLabel: 'Feel free to reach out anytime',
     skills: {
       title: 'Skills & Knowledge',
@@ -186,6 +207,27 @@ export const ABOUT_CONTENT = {
       { label: '求职状态:', value: ' 积极寻找工作机会' }
     ],
     resumeLabel: '下载我的简历',
+    contact: {
+      title: '联系我吧',
+      info: [
+        { label: '手机', value: ` ${CONTACT_PHONE_LOCAL}` },
+        { label: '邮箱', value: ` ${CONTACT_EMAIL_PRIMARY}` },
+        { label: '地址', value: ' 广东省深圳市' }
+      ],
+      form: {
+        placeholders: {
+          name: '你的名字',
+          contact: '你的联系方式',
+          subject: '主题',
+          message: '内容描述'
+        },
+        button: '发送消息',
+        sending: '发送中...',
+        success: '已经发送到我的邮箱哦',
+        errorEmpty: '请填写所有字段',
+        failed: '发送失败'
+      }
+    },
     contactLabel: '欢迎随时联系我',
     skills: {
       title: '技能与能力',

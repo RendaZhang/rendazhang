@@ -184,6 +184,31 @@
             blogList.appendChild(item);
           });
         }
+
+        var contactTitle = container.querySelector('#contact .section-title');
+        if (contactTitle && current.contact) contactTitle.textContent = current.contact.title;
+        var contactLabels = container.querySelectorAll('#contact .contact-info strong');
+        var contactValues = container.querySelectorAll('#contact .contact-info div');
+        if (current.contact && contactLabels.length) {
+          current.contact.info.forEach(function (info, i) {
+            if (contactLabels[i]) contactLabels[i].textContent = info.label;
+            if (contactValues[i]) contactValues[i].textContent = info.value;
+          });
+        }
+        var form = container.querySelector('#contact form.contact-form');
+        if (form && current.contact && current.contact.form) {
+          var placeholders = current.contact.form.placeholders || {};
+          var nameInput = form.querySelector('input[name="name"]');
+          if (nameInput) nameInput.placeholder = placeholders.name;
+          var contactInput = form.querySelector('input[name="contact"]');
+          if (contactInput) contactInput.placeholder = placeholders.contact;
+          var subjectInput = form.querySelector('input[name="_subject"]');
+          if (subjectInput) subjectInput.placeholder = placeholders.subject;
+          var messageInput = form.querySelector('textarea[name="message"]');
+          if (messageInput) messageInput.placeholder = placeholders.message;
+          var btn = form.querySelector('button[type="submit"]');
+          if (btn) btn.textContent = current.contact.form.button;
+        }
       }
     }
   }

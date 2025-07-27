@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../config.js';
 
+function getFormTexts() {
+  const lang = document.documentElement.lang.startsWith('zh') ? 'zh' : 'en';
+  const content = window.aboutPageContent || {};
+  return (content[lang] && content[lang].contact && content[lang].contact.form) || {};
+}
+
 export default function ContactForm() {
+  const texts = getFormTexts();
   const initialForm = {
     name: '',
     contact: '',
@@ -20,7 +27,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.contact || !form._subject || !form.message) {
-      setError('请填写所有字段');
+      setError(texts.errorEmpty || '请填写所有字段');
       setStatus('error');
       return;
     }
@@ -42,11 +49,11 @@ export default function ContactForm() {
         setForm(initialForm);
       } else {
         setStatus('error');
-        setError('发送失败');
+        setError(texts.failed || '发送失败');
       }
     } catch {
       setStatus('error');
-      setError('发送失败');
+      setError(texts.failed || '发送失败');
     }
   };
 
@@ -57,7 +64,7 @@ export default function ContactForm() {
           type="text"
           name="name"
           className="form-control"
-          placeholder="你的名字"
+          placeholder={texts.placeholders?.name || '你的名字'}
           value={form.name}
           onChange={handleChange}
           required
@@ -68,7 +75,7 @@ export default function ContactForm() {
           type="text"
           name="contact"
           className="form-control"
-          placeholder="你的联系方式"
+          placeholder={texts.placeholders?.contact || '你的联系方式'}
           value={form.contact}
           onChange={handleChange}
           required
@@ -79,7 +86,7 @@ export default function ContactForm() {
           type="text"
           name="_subject"
           className="form-control"
-          placeholder="主题"
+          placeholder={texts.placeholders?.subject || '主题'}
           value={form._subject}
           onChange={handleChange}
           required
@@ -90,17 +97,17 @@ export default function ContactForm() {
           name="message"
           className="form-control"
           rows="5"
-          placeholder="内容描述"
+          placeholder={texts.placeholders?.message || '内容描述'}
           value={form.message}
           onChange={handleChange}
           required
         />
       </div>
       <button type="submit" className="btn btn-primary" disabled={status === 'loading'}>
-        {status === 'loading' ? '发送中...' : '发送消息'}
+        {status === 'loading' ? texts.sending || '发送中...' : texts.button || '发送消息'}
       </button>
       {status === 'success' && (
-        <div className="form-message success mt-2">已经发送到我的邮箱哦</div>
+        <div className="form-message success mt-2">{texts.success || '已经发送到我的邮箱哦'}</div>
       )}
       {status === 'error' && error && <div className="form-message error mt-2">{error}</div>}
     </form>
