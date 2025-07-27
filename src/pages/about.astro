@@ -55,14 +55,16 @@ const content = ABOUT_CONTENT[langDefault];
           id="resumeLink"
           href={IMAGE_PATHS.RESUME_ZH}
           download={RESUME_ZH_DOWNLOAD}
-          class="btn btn-primary"
-          >{content.resumeLabel}</a
+          class="btn btn-primary">{content.resumeLabel}</a
         >
       </div>
     </section>
   </div>
 
   <Fragment slot="head">
+    <script is:inline>
+      document.documentElement.style.visibility = 'hidden';
+    </script>
     <script define:vars={{ aboutPageData, aboutPageContent: ABOUT_CONTENT }}>
       window.aboutPageData = aboutPageData;
       window.aboutPageContent = aboutPageContent;

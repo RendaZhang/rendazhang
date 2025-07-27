@@ -58,8 +58,12 @@
   }
 
   if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', applyLang);
+    window.addEventListener('DOMContentLoaded', function () {
+      applyLang();
+      document.documentElement.style.visibility = 'visible';
+    });
   } else {
     applyLang();
+    document.documentElement.style.visibility = 'visible';
   }
 })();
