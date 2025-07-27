@@ -57,7 +57,7 @@
         }
         var contactBtn = container.querySelector('#contactBtn');
         if (contactBtn) {
-          contactBtn.textContent = current.contactLabel;
+          contactBtn.textContent = current.contact.title;
         }
         var skillsTitle = container.querySelector('#skillsTitle');
         if (skillsTitle && current.skills) skillsTitle.textContent = current.skills.title;
