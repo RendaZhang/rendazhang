@@ -23,6 +23,7 @@ export const ABOUT_EN_PAGE_PATH = '/about.en';
 export const ABOUT_ZH_PAGE_PATH = '/about.zh';
 export const ABOUT_EN_NEW_PAGE_PATH = '/about.en.new';
 export const ABOUT_ZH_NEW_PAGE_PATH = '/about.zh.new';
+export const ABOUT_PAGE_PATH = '/about';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
 export const LOGIN_PAGE_PATH = '/login';
@@ -65,6 +66,7 @@ export const LOADING_TEXT = 'Loading...';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const THEME_STORAGE_KEY = 'preferred_theme';
+export const LANG_STORAGE_KEY = 'preferred_lang';
 export const MAX_TOKENS = 15000;
 export const MAX_CHARACTERS = 800;
 export const AVG_WORD_LENGTH = 4;

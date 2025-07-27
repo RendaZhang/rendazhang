@@ -1,5 +1,6 @@
 import React from 'react';
 import ThemeToggle from './ThemeToggle.jsx';
+import LanguageSwitcher from './LanguageSwitcher.jsx';
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH, REGISTER_PAGE_PATH } from '../config.js';
 
 export default function NavBar() {
@@ -8,6 +9,7 @@ export default function NavBar() {
       <a href={HOME_PAGE_PATH}>Home</a>
       <a href={LOGIN_PAGE_PATH}>登录</a>
       <a href={REGISTER_PAGE_PATH}>Register</a>
+      <LanguageSwitcher />
       <ThemeToggle />
     </nav>
   );

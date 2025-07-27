@@ -100,6 +100,19 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         }
       })();
     </script>
+    <script is:inline>
+      (function () {
+        try {
+          const storedLang = localStorage.getItem('preferred_lang');
+          const browserLang = (navigator.language || '').toLowerCase();
+          const isZh = (storedLang || browserLang).startsWith('zh');
+          const lang = isZh ? 'zh-CN' : 'en';
+          document.documentElement.lang = lang;
+        } catch (e) {
+          console.error('语言初始化失败', e);
+        }
+      })();
+    </script>
     <!-- Load Bootstrap first so custom styles can override -->
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />

@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  SITE_BASE_URL,
+  PAGE_TITLES,
+  SITE_DESCRIPTION_EN,
+  SITE_DESCRIPTION_ZH,
+  ABOUT_PAGE_PATH,
+  ABOUT_EN_STYLES,
+  ABOUT_ZH_STYLES,
+  ABOUT_EN_SCRIPTS,
+  ABOUT_ZH_SCRIPTS,
+  CHAT_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
+  CONTACT_EMAIL_PRIMARY,
+  CONTACT_PHONE_INTL,
+  CONTACT_PHONE_LOCAL,
+  IMAGE_PATHS,
+  SPACER_HEIGHT,
+  ABOUT_IMAGES,
+  RESUME_EN_DOWNLOAD,
+  RESUME_ZH_DOWNLOAD
+} from '../config.js';
+
+const styles = Array.from(new Set([...ABOUT_EN_STYLES, ...ABOUT_ZH_STYLES]));
+const scripts = Array.from(new Set([...ABOUT_EN_SCRIPTS, ...ABOUT_ZH_SCRIPTS]));
+---
+
+<BaseLayout
+  lang="en"
+  title={PAGE_TITLES.ABOUT_EN}
+  description={SITE_DESCRIPTION_EN}
+  canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
+  extraStyles={styles}
+  extraScripts={scripts}
+>
+  <section id="content-en">
+    <section class="bg-home wow fadeInLeft animated" id="home">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-content text-center">
+            <h3>Hello ! I am<span> Renda Zhang</span></h3>
+            <div class="tlt">
+              <ul class="texts home-desc">
+                <li class="list-inline-item">Software Engineer</li>
+                <li class="list-inline-item">Backend Developer</li>
+                <li class="list-inline-item">Frontend Developer</li>
+                <li class="list-inline-item">Android Developer</li>
+                <li class="list-inline-item">Web Developer</li>
+              </ul>
+              <div class="mt-4">
+                <a href={CHAT_PAGE_PATH} role="button" class="btn btn-sm btn-custom btn-round mr-2"
+                  >Chat with AI</a
+                >
+                <a
+                  href={CERTIFICATIONS_PAGE_PATH}
+                  role="button"
+                  class="btn btn-sm btn-custom btn-round">Certifications</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section about bg-white wow fadeInRight animated" id="about">
+      <div class="row">
+        <div id="backgroundMusic">
+          <div id="musciButton" class="btn btn-sm btn-custom btn-round alert alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="false">
+              &nbsp;&times;
+            </button>
+            Let's Play a Song ~ Click Here !
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="title-heading">
+            <p class="sub-title text-muted mb-0">Who am I?</p>
+            <h3 class="title m-0 text-uppercase">About Me</h3>
+            <hr />
+            <p class="mb-4">
+              Hello! I'm <strong>Renda Zhang</strong>, a software engineer based in Shenzhen, China.
+            </p>
+            <p class="mb-4">
+              I specialize in Java backend development, with 5 years of experience building robust
+              and scalable systems using Spring Boot, Spring Cloud, and microservice architectures.
+            </p>
+            <p class="mb-4">
+              I hold a B.S. degree in Computer Science from the University of Minnesota - Twin
+              Cities, and I'm fluent in both English and Mandarin with international study and work
+              experience.
+            </p>
+            <p class="mb-4">
+              I'm passionate about solving real-world problems through clean architecture, efficient
+              data design, and backend system optimization. I've led multiple full-lifecycle backend
+              projects involving high concurrency, distributed systems, and team collaboration
+              across departments.
+            </p>
+            <p class="mb-4">
+              I'm currently seeking new opportunities where I can make impactful contributions and
+              continue growing as an engineer.
+            </p>
+          </div>
+          <div class="mt-4">
+            <ul class="list-inline">
+              <li class="list-inline-item"><span>Name:</span> Renda Zhang</li>
+              <li class="list-inline-item">
+                <span>Email:</span>
+                <a href={`mailto:${CONTACT_EMAIL_PRIMARY}`}>{CONTACT_EMAIL_PRIMARY}</a>
+              </li>
+              <li class="list-inline-item"><span>Phone:</span> {CONTACT_PHONE_INTL}</li>
+              <li class="list-inline-item">
+                <span>Address:</span> Shenzhen, Guangdong, China
+              </li>
+              <li class="list-inline-item">
+                <span>Status:</span> Actively open to work
+              </li>
+            </ul>
+            <div class="clear"></div>
+            <div class="text-center mt-5">
+              <a
+                href={IMAGE_PATHS.RESUME_EN}
+                download={RESUME_EN_DOWNLOAD}
+                class="btn btn-sm btn-custom btn-round"
+              >
+                <i class="fa fa-download"></i> Download Resume
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section id="content-zh">
+    <section
+      class="hero background parallax shadow-dark d-flex align-items-center"
+      id="home"
+      data-image-src={IMAGE_PATHS.HERO}
+    >
+      <div class="cta mx-auto mt-2">
+        <h1 class="mt-0 mb-4">欢迎来到我的个人网站<span class="dot"></span></h1>
+        <p class="mb-4">天行健，君子以自强不息！</p>
+        <a href="#about" class="btn btn-default btn-lg mr-3"><i class="icon-grid"></i>查看简历</a>
+        <div class="spacer d-md-none d-lg-none d-sm-none" data-height={SPACER_HEIGHT.SMALL}></div>
+        <a href="#contact" class="btn btn-border-light btn-lg mr-3"
+          ><i class="icon-envelope"></i>联系我吧</a
+        >
+        <div class="spacer d-md-none d-lg-none d-sm-none" data-height={SPACER_HEIGHT.SMALL}></div>
+        <a href={CERTIFICATIONS_PAGE_PATH} class="btn btn-default btn-lg"
+          ><i class="icon-graduation"></i>证书展示</a
+        >
+      </div>
+      <div class="overlay"></div>
+    </section>
+    <section id="about" class="shadow-blue white-bg padding">
+      <h2 class="section-title">关于我</h2>
+      <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
+      <div id="backgroundMusic">
+        <div id="musciButton" class="alert alert-info alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="false">
+            &times;
+          </button>
+          如需背景音乐，请点击这里^_^
+        </div>
+      </div>
+      <div class="spacer" data-height={SPACER_HEIGHT.MEDIUM}></div>
+      <div class="row">
+        <div class="col-md-3">
+          <img
+            src={IMAGE_PATHS.LOADER}
+            class="jxLazyClass ss"
+            alt="about"
+            jxLazyImg={ABOUT_IMAGES.ABOUT_SECTION}
+            loading="lazy"
+          />
+        </div>
+        <div class="col-md-9">
+          <h2 class="mt-4 mt-md-0 mb-4">你好，</h2>
+          <p class="mb-4">
+            我是张人大，5 年 Java 后端工程经验，主导建设面向 C 端的电商平台（如
+            Michaels、MakerPlace）， 熟练运用微服务架构、Kubernetes 容器化部署与 CI/CD
+            流水线，专注于高并发系统性能优化，具备跨国团队协作能力。欢迎访问我的简历和项目介绍。
+          </p>
+          <div class="row my-4">
+            <div class="col-md-6">
+              <p class="mb-2">名字: <span class="text-dark">张人大</span></p>
+              <p class="mb-0">生日: <span class="text-dark">1995年11月5日</span></p>
+            </div>
+            <div class="col-md-6 mt-2 mt-md-0 mt-sm-2">
+              <p class="mb-2">电话: <span class="text-dark">{CONTACT_PHONE_LOCAL}</span></p>
+              <p class="mb-0">邮箱: <span class="text-dark">{CONTACT_EMAIL_PRIMARY}</span></p>
+            </div>
+          </div>
+          <a href={IMAGE_PATHS.RESUME_ZH} download={RESUME_ZH_DOWNLOAD} class="btn btn-default mr-3"
+            ><i class="icon-cloud-download"></i> 下载我的简历</a
+          >
+          <a href="#contact" class="btn btn-alt mt-2 mt-md-0 mt-xs-2"
+            ><i class="icon-envelope"></i>欢迎随时联系我</a
+          >
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <Fragment slot="head">
+    <script is:inline>
+      (function () {
+        const storedLang = localStorage.getItem('preferred_lang');
+        const browserLang = (navigator.language || '').toLowerCase();
+        const lang = (storedLang || browserLang).startsWith('zh') ? 'zh-CN' : 'en';
+        const showZh = lang.startsWith('zh');
+        document.documentElement.lang = lang;
+        document.getElementById('content-zh').style.display = showZh ? '' : 'none';
+        document.getElementById('content-en').style.display = showZh ? 'none' : '';
+        if (showZh) {
+          document.title = PAGE_TITLES.ABOUT_ZH;
+          const meta = document.querySelector('meta[name="description"]');
+          if (meta) meta.setAttribute('content', SITE_DESCRIPTION_ZH);
+        }
+      })();
+    </script>
+  </Fragment>
+</BaseLayout>
