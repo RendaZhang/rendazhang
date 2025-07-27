@@ -21,10 +21,6 @@ import {
   extraStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
   og={{ url: `${SITE_BASE_URL}${CHAT_PAGE_PATH}/` }}
 >
-  <Fragment slot="head">
-    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
-    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`} />
-  </Fragment>
   <Fragment slot="bodyEnd">
     <script>
       if (window.self !== window.top) {

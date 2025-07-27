@@ -51,16 +51,9 @@ import {
     imageAlt: LOGO_ALT.EN,
     domain: SITE_DOMAIN
   }}
+  metaAuthor={SITE_AUTHOR_EN}
+  metaLanguage="en, zh-CN"
 >
-  <Fragment slot="head">
-    <link rel="alternate" hreflang="en" href={`${SITE_BASE_URL}${ABOUT_EN_PAGE_PATH}/`} />
-    <link rel="alternate" hreflang="zh" href={`${SITE_BASE_URL}${ABOUT_ZH_PAGE_PATH}/`} />
-    <link rel="alternate" hreflang="x-default" href={`${SITE_BASE_URL}${HOME_PAGE_PATH}`} />
-    <meta name="author" content={SITE_AUTHOR_EN} />
-    <meta name="language" content="en, zh-CN" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content={THEME_COLOR_LIGHT} />
-  </Fragment>
-
   <div class="container">
     <div class="language-selector">
       <a href={ABOUT_ZH_PAGE_PATH} role="button" aria-label="关于我">关于我</a>

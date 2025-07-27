@@ -37,7 +37,8 @@ const {
   twitter = {},
   includeGeo = true,
   metaRobots = 'index, follow',
-  metaLanguage = ''
+  metaLanguage = '',
+  metaAuthor = ''
 } = Astro.props;
 
 const jsonLD = personSchemaJson;
@@ -104,6 +105,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
     {metaRobots && <meta name="robots" content={metaRobots} />}
+    {metaAuthor && <meta name="author" content={metaAuthor} />}
     <meta name="language" content={metaLanguage || lang} />
     {
       includeGeo && (
