@@ -28,7 +28,7 @@ export default function ThemeToggle() {
   };
 
   return (
-    <>
+    <div className="theme-toggle-wrapper">
       <button
         ref={buttonRef}
         className="theme-toggle-main"
@@ -42,6 +42,7 @@ export default function ThemeToggle() {
           <button
             className={`theme-option light ${!darkMode ? 'active' : ''}`}
             aria-label="切换到浅色模式"
+            title="切换到浅色模式"
             onClick={() => handleSelect(false)}
           >
             <svg
@@ -68,6 +69,7 @@ export default function ThemeToggle() {
           <button
             className={`theme-option dark ${darkMode ? 'active' : ''}`}
             aria-label="切换到深色模式"
+            title="切换到深色模式"
             onClick={() => handleSelect(true)}
           >
             <svg
@@ -83,6 +85,6 @@ export default function ThemeToggle() {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }

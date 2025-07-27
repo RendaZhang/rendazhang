@@ -110,6 +110,11 @@ nav button:not(.theme-option):active {
   transform: translateY(0);
 }
 
+.theme-toggle-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .theme-options {
   position: absolute;
   top: calc(100% + 4px);
