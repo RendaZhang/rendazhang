@@ -136,7 +136,31 @@ export const SCRIPT_PATHS = {
   CREDLY_EMBED: '/js/credly_embed.min.js',
   JQUERY_EASING: '/js/jquery.easing.min.js',
   INDEX: '/js/index.min.js',
-  CERTIFICATIONS: '/js/certifications.min.js'
+  CERTIFICATIONS: '/js/certifications.min.js',
+  POPPER: '/js/popper.min.js',
+  BOOTSTRAP: '/js/bootstrap.min.js',
+  WAYPOINTS: '/js/jquery.waypoints.min.js',
+  COUNTERUP: '/js/jquery.counterup.min.js',
+  MCUSTOM_SCROLLBAR_CONCAT: '/js/jquery.mCustomScrollbar.concat.min.js',
+  ISOTOPE_PKGD: '/js/isotope.pkgd.min.js',
+  INFINITE_SCROLL: '/js/infinite-scroll.min.js',
+  IMAGESLOADED: '/js/imagesloaded.pkgd.min.js',
+  SLICK: '/js/slick.min.js',
+  VALIDATOR: '/js/validator.min.js',
+  CONTACT: '/js/contact.js',
+  CUSTOM: '/js/custom.min.js',
+  BOOTSTRAP_BUNDLE: '/js/bootstrap.bundle.min.js',
+  SCROLLSPY: '/js/scrollspy.min.js',
+  FLOATING_MENU: '/js/floating-menu.min.js',
+  JQUERY_MAGNIFIC_POPUP: '/js/jquery.magnific-popup.min.js',
+  ISOTOPE: '/js/isotope.min.js',
+  MASONRY: '/js/masonry.pkgd.min.js',
+  TEXTILLATE: '/js/jquery.textillate.min.js',
+  LETTERING: '/js/jquery.lettering.min.js',
+  PORTFOLIO_FILTR: '/js/portfolio-filtr.min.js',
+  CONTACT_FORM: '/js/contact-form.min.js',
+  SWITCHER: '/js/switcher.min.js',
+  APP: '/js/app.min.js'
 };
 
 export const STYLE_PATHS = {
@@ -173,18 +197,18 @@ export const ABOUT_ZH_STYLES = [
 ];
 
 export const ABOUT_ZH_SCRIPTS = [
-  '/js/popper.min.js',
-  '/js/bootstrap.min.js',
-  '/js/jquery.waypoints.min.js',
-  '/js/jquery.counterup.min.js',
-  '/js/jquery.mCustomScrollbar.concat.min.js',
-  '/js/isotope.pkgd.min.js',
-  '/js/infinite-scroll.min.js',
-  '/js/imagesloaded.pkgd.min.js',
-  '/js/slick.min.js',
-  '/js/validator.min.js',
-  '/js/contact.js',
-  '/js/custom.min.js'
+  SCRIPT_PATHS.POPPER,
+  SCRIPT_PATHS.BOOTSTRAP,
+  SCRIPT_PATHS.WAYPOINTS,
+  SCRIPT_PATHS.COUNTERUP,
+  SCRIPT_PATHS.MCUSTOM_SCROLLBAR_CONCAT,
+  SCRIPT_PATHS.ISOTOPE_PKGD,
+  SCRIPT_PATHS.INFINITE_SCROLL,
+  SCRIPT_PATHS.IMAGESLOADED,
+  SCRIPT_PATHS.SLICK,
+  SCRIPT_PATHS.VALIDATOR,
+  SCRIPT_PATHS.CONTACT,
+  SCRIPT_PATHS.CUSTOM
 ];
 
 export const ABOUT_EN_STYLES = [
@@ -199,18 +223,18 @@ export const ABOUT_EN_STYLES = [
 ];
 
 export const ABOUT_EN_SCRIPTS = [
-  '/js/bootstrap.bundle.min.js',
-  '/js/scrollspy.min.js',
-  '/js/floating-menu.min.js',
-  '/js/jquery.magnific-popup.min.js',
-  '/js/isotope.min.js',
-  '/js/masonry.pkgd.min.js',
-  '/js/jquery.textillate.min.js',
-  '/js/jquery.lettering.min.js',
-  '/js/portfolio-filtr.min.js',
-  '/js/contact-form.min.js',
-  '/js/switcher.min.js',
-  '/js/app.min.js'
+  SCRIPT_PATHS.BOOTSTRAP_BUNDLE,
+  SCRIPT_PATHS.SCROLLSPY,
+  SCRIPT_PATHS.FLOATING_MENU,
+  SCRIPT_PATHS.JQUERY_MAGNIFIC_POPUP,
+  SCRIPT_PATHS.ISOTOPE,
+  SCRIPT_PATHS.MASONRY,
+  SCRIPT_PATHS.TEXTILLATE,
+  SCRIPT_PATHS.LETTERING,
+  SCRIPT_PATHS.PORTFOLIO_FILTR,
+  SCRIPT_PATHS.CONTACT_FORM,
+  SCRIPT_PATHS.SWITCHER,
+  SCRIPT_PATHS.APP
 ];
 
 export const THEME_COLOR_LIGHT = '#ffffff';
