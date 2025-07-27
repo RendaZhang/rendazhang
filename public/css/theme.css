@@ -58,7 +58,7 @@ nav a:active {
   transform: translateY(0);
 }
 
-nav button:not(.theme-toggle-btn) {
+nav button:not(.theme-option) {
   color: #fff;
   text-decoration: none;
   padding: 10px 20px;
@@ -73,32 +73,65 @@ nav button:not(.theme-toggle-btn) {
     transform 0.3s;
 }
 
-nav button:not(.theme-toggle-btn):hover {
+nav button:not(.theme-option):hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
 }
 
-nav button:not(.theme-toggle-btn):active {
+nav button:not(.theme-option):active {
   transform: translateY(0);
 }
 
-.theme-toggle {
+.theme-toggle-container {
+  position: relative;
+  margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-left: auto;
 }
 
-.theme-toggle-label {
-  font-size: 0.9rem;
-  color: #333;
+.theme-toggle-main {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition:
+    filter 0.3s,
+    transform 0.3s;
 }
 
-html.dark-mode .theme-toggle-label {
-  color: #eee;
+.theme-toggle-main:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 
-.theme-toggle-btn {
+.theme-toggle-main:active {
+  transform: translateY(0);
+}
+
+.theme-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+html.dark-mode .theme-options {
+  background-color: #333;
+}
+
+.theme-option {
   width: 28px;
   height: 28px;
   padding: 0;
@@ -113,30 +146,30 @@ html.dark-mode .theme-toggle-label {
     box-shadow 0.2s;
 }
 
-.theme-toggle-btn.light {
+.theme-option.light {
   background-color: #fafafa;
   color: #333;
 }
 
-.theme-toggle-btn.dark {
+.theme-option.dark {
   background-color: #111;
   color: #fff;
 }
 
-.theme-toggle-btn:hover {
+.theme-option:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
-.theme-toggle-btn.active {
+.theme-option.active {
   border-color: #ff9800;
 }
 
-html.dark-mode .theme-toggle-btn.light {
+html.dark-mode .theme-option.light {
   background-color: #ddd;
   color: #222;
 }
 
-html.dark-mode .theme-toggle-btn.dark {
+html.dark-mode .theme-option.dark {
   background-color: #222;
   color: #fff;
 }
@@ -166,7 +199,7 @@ main.main-content {
   }
 
   nav a,
-  nav button:not(.theme-toggle-btn) {
+  nav button:not(.theme-option) {
     flex: 1 1 30%; /* 弹性项目基础宽度 */
     min-width: 100px; /* 最小宽度防止过小 */
     margin: 3px; /* 减少外边距 */
@@ -177,8 +210,9 @@ main.main-content {
     border-radius: 8px; /* 增大圆角更符合移动端 */
   }
 
-  .theme-toggle {
+  .theme-toggle-container {
     flex-basis: 100%;
+    display: flex;
     justify-content: center;
     margin: 4px 0 0;
   }
@@ -196,7 +230,7 @@ main.main-content {
   }
 
   nav a,
-  nav button:not(.theme-toggle-btn) {
+  nav button:not(.theme-option) {
     flex: 1 1 45%; /* 每行显示两个项目 */
     min-width: 80px; /* 最小宽度 */
     padding: 10px 3px; /* 紧凑内边距 */
@@ -204,8 +238,9 @@ main.main-content {
     border-radius: 6px; /* 圆角 */
   }
 
-  .theme-toggle {
+  .theme-toggle-container {
     flex-basis: 100%;
+    display: flex;
     justify-content: center;
     margin-top: 4px;
   }
@@ -214,15 +249,16 @@ main.main-content {
 /* 超小屏幕优化 (小于360px) */
 @media (max-width: 360px) {
   nav a,
-  nav button:not(.theme-toggle-btn) {
+  nav button:not(.theme-option) {
     flex: 1 1 100%;
     margin: 4px 3px;
     padding: 12px 5px;
     font-size: 0.85rem;
   }
 
-  .theme-toggle {
+  .theme-toggle-container {
     flex-basis: 100%;
+    display: flex;
     justify-content: center;
     margin-top: 4px;
   }
@@ -250,13 +286,13 @@ body.dark-mode nav {
 }
 
 html.dark-mode nav a,
-html.dark-mode nav button:not(.theme-toggle-btn),
+html.dark-mode nav button:not(.theme-option),
 html.dark-mode a[role='button'],
-html.dark-mode button:not(.theme-toggle-btn),
+html.dark-mode button:not(.theme-option),
 body.dark-mode nav a,
-body.dark-mode nav button:not(.theme-toggle-btn),
+body.dark-mode nav button:not(.theme-option),
 body.dark-mode a[role='button'],
-body.dark-mode button:not(.theme-toggle-btn) {
+body.dark-mode button:not(.theme-option) {
   background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: #fff;
 }
