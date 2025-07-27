@@ -53,9 +53,9 @@ const jsonLD = personSchemaJson;
         }
       })();
     </script>
-    <link rel="stylesheet" href={STYLE_PATHS.THEME} />
-    <!-- Ensure consistent nav layout across pages -->
+    <!-- Load Bootstrap first so custom styles can override -->
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
+    <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
     <script type="application/ld+json" set:html={jsonLD} />
     {
