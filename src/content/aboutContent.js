@@ -134,7 +134,7 @@ export const ABOUT_CONTENT = {
       ]
     },
     blog: {
-      title: 'Blog & Code',
+      title: 'Blog',
       entries: [
         {
           category: 'Medium',
@@ -280,7 +280,7 @@ export const ABOUT_CONTENT = {
       ]
     },
     blog: {
-      title: '代码和博客',
+      title: '博客',
       entries: [
         {
           category: 'CSDN',
