@@ -84,16 +84,17 @@ nav button:not(.theme-option):active {
 
 .theme-toggle-container {
   position: relative;
-  margin-left: auto;
   display: flex;
   align-items: center;
+  margin: 0 10px;
 }
 
 .theme-toggle-main {
   color: #fff;
   text-decoration: none;
-  padding: 10px 20px;
-  margin: 0 10px;
+  padding: 6px 12px;
+  margin: 0;
+  font-size: 0.9rem;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -211,10 +212,11 @@ main.main-content {
   }
 
   .theme-toggle-container {
-    flex-basis: 100%;
+    flex: 1 1 30%;
+    min-width: 100px;
+    margin: 3px;
     display: flex;
     justify-content: center;
-    margin: 4px 0 0;
   }
 }
 
@@ -239,10 +241,11 @@ main.main-content {
   }
 
   .theme-toggle-container {
-    flex-basis: 100%;
+    flex: 1 1 45%;
+    min-width: 80px;
+    margin: 3px;
     display: flex;
     justify-content: center;
-    margin-top: 4px;
   }
 }
 
@@ -257,10 +260,10 @@ main.main-content {
   }
 
   .theme-toggle-container {
-    flex-basis: 100%;
+    flex: 1 1 100%;
+    margin: 4px 3px;
     display: flex;
     justify-content: center;
-    margin-top: 4px;
   }
 }
 
@@ -287,10 +290,12 @@ body.dark-mode nav {
 
 html.dark-mode nav a,
 html.dark-mode nav button:not(.theme-option),
+html.dark-mode .theme-toggle-main,
 html.dark-mode a[role='button'],
 html.dark-mode button:not(.theme-option),
 body.dark-mode nav a,
 body.dark-mode nav button:not(.theme-option),
+body.dark-mode .theme-toggle-main,
 body.dark-mode a[role='button'],
 body.dark-mode button:not(.theme-option) {
   background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
