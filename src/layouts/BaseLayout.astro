@@ -17,6 +17,7 @@ import {
   TWITTER_HANDLE,
   LANG_STORAGE_KEY
 } from '../config.js';
+import { NAV_CONTENT } from '../content/navContent.js';
 
 const {
   lang: langProp,
@@ -109,8 +110,8 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         try {
           // 语言初始化逻辑
           const storedLang = localStorage.getItem('${LANG_STORAGE_KEY}');
-          const attrLang = document.documentElement.getAttribute('lang');
-          const lang = storedLang || attrLang || 'zh-CN';
+          const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
+          const lang = storedLang || 'zh-CN';
           document.documentElement.lang = lang;
           document.documentElement.dataset.initialLang = lang;
 

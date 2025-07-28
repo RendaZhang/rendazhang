@@ -6,17 +6,10 @@ const LanguageContext = createContext();
 export function LanguageProvider({ children, initialLang }) {
   const initialSet = useRef(false);
 
-  const [lang, setLang] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return (
-        document.documentElement.dataset.initialLang ||
-        document.documentElement.lang ||
-        initialLang ||
-        'zh-CN'
-      );
-    }
-    return initialLang || 'zh-CN';
-  });
+  // Use the server-rendered language as the initial state to avoid
+  // hydration mismatches. The actual preferred language will be
+  // resolved on the client in the effect below.
+  const [lang, setLang] = useState(initialLang || 'zh-CN');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -33,7 +26,8 @@ export function LanguageProvider({ children, initialLang }) {
       try {
         storedLang = localStorage.getItem(LANG_STORAGE_KEY);
       } catch {}
-      const effectiveLang = domLang || storedLang;
+      // 首次挂载时优先使用本地存储的语言设置
+      const effectiveLang = storedLang || domLang;
       setLang(effectiveLang);
       document.documentElement.lang = effectiveLang;
       try {
