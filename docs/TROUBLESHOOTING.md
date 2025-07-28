@@ -25,13 +25,15 @@
     - [BUG-016: document is not defined during build](#bug-016-document-is-not-defined-during-build)
     - [BUG-017: NavBar hydration mismatch when language differs](#bug-017-navbar-hydration-mismatch-when-language-differs)
     - [BUG-018: About page hydration mismatch and flicker](#bug-018-about-page-hydration-mismatch-and-flicker)
+    - [BUG-019: Contact form placeholders flicker on first render](#bug-019-contact-form-placeholders-flicker-on-first-render)
+    - [BUG-020: THEME_STORAGE_KEY 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 28, 2025, 23:40 (UTC+8)
+- **最后更新**: July 29, 2025, 03:30 (UTC+8)
 
 ---
 
@@ -89,6 +91,8 @@
 - [x] BUG-016: document is not defined during build
 - [x] BUG-017: NavBar hydration mismatch when language differs
 - [x] BUG-018: About page hydration mismatch and flicker
+- [x] BUG-019: Contact form placeholders flicker on first render
+- [x] BUG-020: THEME_STORAGE_KEY 读取为 null
 
 ---
 
@@ -398,3 +402,31 @@
   2. `data-initial-lang` 保持与服务器输出一致，避免 React 水合差异
 - **验证结果**：✅ 切换和刷新 About 页面均无闪烁，也无 Hydration 报错
 - **经验总结**：多语言页面在 SSR 场景下应让服务端获得初始语言，并同时输出所有语言版本以保持 DOM 一致
+
+### BUG-019: Contact form placeholders flicker on first render
+
+- **发现日期**：2025-07-29
+- **重现环境**：About 页面，切换语言后刷新
+- **问题现象**：
+  - ContactForm 按钮和占位符先显示默认语言后切换，出现闪烁
+- **根本原因**：
+  - 服务端仅渲染当前语言文本，客户端初始化后替换为用户语言导致水合差异
+  - 占位符在语言未确定前已渲染
+- **解决方案**：
+  1. ContactSection 同时传递中英文表单文本并双语渲染按钮与提示
+  2. 占位符在检测到语言后再设置
+- **验证结果**：✅ 刷新页面无闪烁，表单文本一致
+- **经验总结**：SSR 多语言表单应输出所有语言，延迟注入占位符以避免闪烁
+
+### BUG-020: THEME_STORAGE_KEY 读取为 null
+
+- **发现日期**：2025-07-29
+- **重现环境**：Chrome 最新版
+- **问题现象**：
+  - 在 BaseLayout 主题初始化脚本中使用 `localStorage.getItem('${THEME_STORAGE_KEY}')` 时返回 null
+- **根本原因**：
+  - 该字符串在构建阶段被 Astro 当作模板字符串处理，无法在脚本运行时得到常量值
+- **解决方案**：
+  - 通过 `define:vars={{ themeKey: THEME_STORAGE_KEY }}` 将常量值注入行内脚本
+  - 使用 `localStorage.getItem(themeKey)` 读取存储值
+- **验证结果**：✅ 控制台能够正确获取主题值
