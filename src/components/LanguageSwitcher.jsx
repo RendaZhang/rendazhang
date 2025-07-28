@@ -5,7 +5,6 @@ export default function LanguageSwitcher() {
   const [lang, setLang] = useState('zh-CN');
 
   useEffect(() => {
-    // 检测初始语言
     let stored;
     try {
       stored = localStorage.getItem(LANG_STORAGE_KEY);
@@ -21,10 +20,7 @@ export default function LanguageSwitcher() {
       localStorage.setItem(LANG_STORAGE_KEY, newLang);
     } catch {}
     document.documentElement.lang = newLang;
-    // 触发自定义事件
     window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
-    // Force reload to update multi-language content
-    window.location.reload();
   };
 
   return (

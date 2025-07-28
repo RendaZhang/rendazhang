@@ -185,7 +185,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     {
       showNav ? (
         <slot name="nav">
-          <NavBarWrapper client:load lang={lang} />
+          <NavBarWrapper client:load />
         </slot>
       ) : null
     }
