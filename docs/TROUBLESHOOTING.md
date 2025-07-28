@@ -30,7 +30,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 28, 2025, 07:13 (UTC+8)
+- **最后更新**: July 28, 2025, 23:40 (UTC+8)
 
 ---
 
@@ -86,7 +86,7 @@
 - [x] BUG-014: Chat widget panel flashes in dark mode
 - [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
 - [x] BUG-016: document is not defined during build
-- [ ] BUG-017: NavBar hydration mismatch when language differs
+- [x] BUG-017: NavBar hydration mismatch when language differs
 
 ---
 
@@ -375,7 +375,8 @@
   - `NavBar` 组件在服务端调用 `getCurrentLang()`，默认返回中文
   - 客户端根据 `<html lang>` 或 localStorage 得到英文，导致首屏内容不一致
 - **解决方案**：
-  - 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
-  - 初始化语言脚本优先读取页面 lang 属性
-- **验证结果**：切换语言后，无报错，但是使用中文的时候，会产生闪烁
-- **经验总结**：SSR 组件需共享同一语言来源以避免渲染不一致
+  1. 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
+  2. 初始化语言脚本优先读取页面 lang 属性
+  3. 导航栏和主题切换同时渲染中英文文本，通过 CSS 根据 `html[lang]` 隐藏未选语言
+- **验证结果**：✅ 中英文模式下刷新页面均无闪烁，也无 Hydration 报错
+- **经验总结**：SSR 组件需共享同一语言来源并同时渲染多语言文本，以避免渲染不一致

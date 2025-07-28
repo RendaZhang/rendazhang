@@ -39,6 +39,14 @@ nav {
   gap: 1rem;
 }
 
+/* 根据 html lang 属性控制显示语言 */
+html[lang^='en'] .lang-zh {
+  display: none;
+}
+html[lang^='zh'] .lang-en {
+  display: none;
+}
+
 nav a {
   color: #fff;
   text-decoration: none;

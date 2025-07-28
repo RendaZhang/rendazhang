@@ -9,6 +9,10 @@ export default function ThemeToggle() {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const optionsRef = useRef(null);
+
+  // 渲染中英文两套文本，避免首次挂载语言切换造成闪烁
+  const textsZh = NAV_CONTENT.zh.theme;
+  const textsEn = NAV_CONTENT.en.theme;
   const texts = (NAV_CONTENT[lang] && NAV_CONTENT[lang].theme) || {};
 
   useEffect(() => {
@@ -39,7 +43,8 @@ export default function ThemeToggle() {
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
       >
-        {texts.button || '切换主题'}
+        <span className="lang-zh">{textsZh.button}</span>
+        <span className="lang-en">{textsEn.button}</span>
       </button>
       {open && (
         <div ref={optionsRef} className="theme-options">

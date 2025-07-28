@@ -111,7 +111,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           // 语言初始化逻辑
           const storedLang = localStorage.getItem('${LANG_STORAGE_KEY}');
           const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
-          const lang = storedLang || 'zh-CN';
+          const lang = storedLang || attrLang;
           document.documentElement.lang = lang;
           document.documentElement.dataset.initialLang = lang;
 
