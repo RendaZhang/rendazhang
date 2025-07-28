@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import RegisterForm from '../components/RegisterForm.jsx';
+import RegisterContent from '../components/RegisterContent.jsx';
 import {
   SITE_BASE_URL,
   VIEWPORT_NO_ZOOM,
@@ -17,5 +17,5 @@ import {
   canonical={`${SITE_BASE_URL}${REGISTER_PAGE_PATH}/`}
   extraStyles={[STYLE_PATHS.REGISTER]}
 >
-  <RegisterForm client:load />
+  <RegisterContent client:load />
 </BaseLayout>
