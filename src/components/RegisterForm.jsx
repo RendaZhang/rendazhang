@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LOGIN_PAGE_PATH, LOADING_TEXT } from '../config.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { REGISTER_CONTENT } from '../content/registerContent.js';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   const { lang } = useLanguage();
@@ -133,13 +134,11 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   return (
     <form onSubmit={handleSubmit} className="register-container">
       <h1 className="register-title">
-        <span className="lang-zh">{textsZh.title}</span>
-        <span className="lang-en">{textsEn.title}</span>
+        <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
       </h1>
       <div className="mb-3">
         <label htmlFor="email" className="form-label">
-          <span className="lang-zh">{textsZh.emailLabel}</span>
-          <span className="lang-en">{textsEn.emailLabel}</span>
+          <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
         </label>
         <input
           id="email"
@@ -154,8 +153,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
       </div>
       <div className="mb-3">
         <label htmlFor="username" className="form-label">
-          <span className="lang-zh">{textsZh.usernameLabel}</span>
-          <span className="lang-en">{textsEn.usernameLabel}</span>
+          <LocalizedSection zhContent={textsZh.usernameLabel} enContent={textsEn.usernameLabel} />
         </label>
         <input
           id="username"
@@ -169,16 +167,17 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         {usernameError && <div className="invalid-feedback">{usernameError}</div>}
         {!usernameError && username && (
           <div className="valid-feedback">
-            <span className="lang-zh">{textsZh.usernameAvailable}</span>
-            <span className="lang-en">{textsEn.usernameAvailable}</span>
+            <LocalizedSection
+              zhContent={textsZh.usernameAvailable}
+              enContent={textsEn.usernameAvailable}
+            />
           </div>
         )}
       </div>
       <div className="row g-3">
         <div className="col-sm-6 password-wrapper">
           <label htmlFor="password" className="form-label">
-            <span className="lang-zh">{textsZh.passwordLabel}</span>
-            <span className="lang-en">{textsEn.passwordLabel}</span>
+            <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
           </label>
           <input
             id="password"
@@ -195,15 +194,16 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           <div className={passwordStrengthClass}></div>
           {strength && (
             <div className="password-strength-label">
-              <span className="lang-zh">{textsZh.strength[strength]}</span>
-              <span className="lang-en">{textsEn.strength[strength]}</span>
+              <LocalizedSection
+                zhContent={textsZh.strength[strength]}
+                enContent={textsEn.strength[strength]}
+              />
             </div>
           )}
         </div>
         <div className="col-sm-6">
           <label htmlFor="confirm" className="form-label">
-            <span className="lang-zh">{textsZh.confirmLabel}</span>
-            <span className="lang-en">{textsEn.confirmLabel}</span>
+            <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
           </label>
           <input
             id="confirm"
@@ -218,8 +218,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         </div>
       </div>
       <div className="form-text mt-2">
-        <span className="lang-zh">{textsZh.passwordHint}</span>
-        <span className="lang-en">{textsEn.passwordHint}</span>
+        <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
       </div>
       <div className="form-check mt-3">
         <input
@@ -231,13 +230,19 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           required
         />
         <label htmlFor="agree" className="form-check-label">
-          <span className="lang-zh">
-            {textsZh.agreePrefix} <a href="#">{textsZh.agreementLink}</a>
-          </span>
-          <span className="lang-en">
-            {textsEn.agreePrefix}
-            <a href="#">{textsEn.agreementLink}</a>
-          </span>
+          <LocalizedSection
+            zhContent={
+              <>
+                {textsZh.agreePrefix} <a href="#">{textsZh.agreementLink}</a>
+              </>
+            }
+            enContent={
+              <>
+                {textsEn.agreePrefix}
+                <a href="#">{textsEn.agreementLink}</a>
+              </>
+            }
+          />
         </label>
       </div>
       <div className="progress-container">
@@ -251,33 +256,29 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         {status === 'loading' ? (
           LOADING_TEXT
         ) : status === 'success' ? (
-          <>
-            <span className="lang-zh">{textsZh.success}</span>
-            <span className="lang-en">{textsEn.success}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         ) : (
-          <>
-            <span className="lang-zh">{textsZh.registerButton}</span>
-            <span className="lang-en">{textsEn.registerButton}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.registerButton} enContent={textsEn.registerButton} />
         )}
       </button>
       <div className="third-party">
         <button type="button" aria-label={activeTexts.thirdParty.google}>
-          <span className="lang-zh">{textsZh.thirdParty.google}</span>
-          <span className="lang-en">{textsEn.thirdParty.google}</span>
+          <LocalizedSection
+            zhContent={textsZh.thirdParty.google}
+            enContent={textsEn.thirdParty.google}
+          />
         </button>
         <button type="button" aria-label={activeTexts.thirdParty.apple}>
-          <span className="lang-zh">{textsZh.thirdParty.apple}</span>
-          <span className="lang-en">{textsEn.thirdParty.apple}</span>
+          <LocalizedSection
+            zhContent={textsZh.thirdParty.apple}
+            enContent={textsEn.thirdParty.apple}
+          />
         </button>
       </div>
       <div className="text-center mt-3">
-        <span className="lang-zh">{textsZh.existingUser}</span>
-        <span className="lang-en">{textsEn.existingUser}</span>{' '}
+        <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
         <a href={LOGIN_PAGE_PATH}>
-          <span className="lang-zh">{textsZh.loginNow}</span>
-          <span className="lang-en">{textsEn.loginNow}</span>
+          <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
         </a>
       </div>
     </form>
