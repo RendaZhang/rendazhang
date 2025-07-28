@@ -7,17 +7,14 @@ export function getLangContent() {
   return (content[lang] && content[lang].contact) || null;
 }
 
-export function getLangFromRequest(astroContext) {
-  // 1. 尝试从cookie获取
-  const cookieLang = astroContext.cookies.get('preferred_lang')?.value;
-  if (cookieLang) return cookieLang;
+export function getLangFromRequest(astroContext = {}) {
+  // 仅当在服务器环境且 request 可用时读取 Accept-Language 头部
+  const header = astroContext.request?.headers?.get?.('accept-language');
+  const htmlLang = header?.split(',')[0];
+  if (htmlLang && htmlLang.toLowerCase().startsWith('zh')) return 'zh-CN';
+  if (htmlLang && htmlLang.toLowerCase().startsWith('en')) return 'en';
 
-  // 2. 尝试从HTML标签获取
-  const htmlLang = astroContext.request.headers.get('accept-language')?.split(',')[0];
-  if (htmlLang && htmlLang.startsWith('zh')) return 'zh-CN';
-  if (htmlLang && htmlLang.startsWith('en')) return 'en';
-
-  // 3. 默认值
+  // 默认值
   return 'zh-CN';
 }
 

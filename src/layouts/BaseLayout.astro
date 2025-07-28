@@ -1,7 +1,6 @@
 ---
 import NavBarWrapper from '../components/NavBarWrapper.jsx';
 import { LanguageProvider } from '../context/LanguageContext.jsx';
-import { getLangFromRequest } from '../utils/lang.js';
 import {
   FAVICON_PATH,
   STYLE_PATHS,
@@ -19,7 +18,8 @@ import {
   TWITTER_HANDLE
 } from '../config.js';
 
-const initialLang = getLangFromRequest(Astro);
+// 默认语言，可在客户端根据本地存储或浏览器设置进行调整
+const initialLang = 'zh-CN';
 
 const {
   lang = 'zh',

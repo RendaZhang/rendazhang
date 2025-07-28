@@ -33,7 +33,7 @@ export function LanguageProvider({ children, initialLang }) {
       try {
         storedLang = localStorage.getItem(LANG_STORAGE_KEY);
       } catch {}
-      const effectiveLang = storedLang || domLang;
+      const effectiveLang = domLang || storedLang;
       setLang(effectiveLang);
       document.documentElement.lang = effectiveLang;
       try {
