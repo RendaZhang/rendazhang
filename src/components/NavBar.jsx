@@ -6,7 +6,9 @@ import { NAV_CONTENT } from '../content/navContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 
 export default function NavBar() {
-  const { lang } = useLanguage();
+  const languageContext = useLanguage() || {};
+  const lang = languageContext.lang || 'zh';
+  // 直接从内容文件中获取文本，避免状态切换时的闪烁
   const texts = NAV_CONTENT[lang.startsWith('zh') ? 'zh' : 'en'] || {};
   return (
     <nav>

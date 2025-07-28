@@ -1,6 +1,7 @@
 ---
 import NavBarWrapper from '../components/NavBarWrapper.jsx';
 import { LanguageProvider } from '../context/LanguageContext.jsx';
+import { getLangFromRequest } from '../utils/lang.js';
 import {
   FAVICON_PATH,
   STYLE_PATHS,
@@ -18,7 +19,7 @@ import {
   TWITTER_HANDLE
 } from '../config.js';
 
-const initialLang = Astro.cookies.get('preferred_lang')?.value || 'zh-CN';
+const initialLang = getLangFromRequest(Astro);
 
 const {
   lang = 'zh',
