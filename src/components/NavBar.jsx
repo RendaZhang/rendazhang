@@ -4,6 +4,7 @@ import LanguageSwitcher from './LanguageSwitcher.jsx';
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH, REGISTER_PAGE_PATH } from '../config.js';
 import { NAV_CONTENT } from '../content/navContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function NavBar() {
   const languageContext = useLanguage() || {};
@@ -15,16 +16,13 @@ export default function NavBar() {
   return (
     <nav>
       <a href={HOME_PAGE_PATH}>
-        <span className="lang-zh">{textsZh.home}</span>
-        <span className="lang-en">{textsEn.home}</span>
+        <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
       </a>
       <a href={LOGIN_PAGE_PATH}>
-        <span className="lang-zh">{textsZh.login}</span>
-        <span className="lang-en">{textsEn.login}</span>
+        <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
       </a>
       <a href={REGISTER_PAGE_PATH}>
-        <span className="lang-zh">{textsZh.register}</span>
-        <span className="lang-en">{textsEn.register}</span>
+        <LocalizedSection zhContent={textsZh.register} enContent={textsEn.register} />
       </a>
       <LanguageSwitcher />
       <ThemeToggle />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../config.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function ContactForm({ texts = {} }) {
   const { lang } = useLanguage();
@@ -115,21 +116,14 @@ export default function ContactForm({ texts = {} }) {
       </div>
       <button type="submit" className="btn btn-primary" disabled={status === 'loading'}>
         {status === 'loading' ? (
-          <>
-            <span className="lang-zh">{textsZh.sending}</span>
-            <span className="lang-en">{textsEn.sending}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.sending} enContent={textsEn.sending} />
         ) : (
-          <>
-            <span className="lang-zh">{textsZh.button}</span>
-            <span className="lang-en">{textsEn.button}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.button} enContent={textsEn.button} />
         )}
       </button>
       {status === 'success' && (
         <div className="form-message success mt-2">
-          <span className="lang-zh">{textsZh.success}</span>
-          <span className="lang-en">{textsEn.success}</span>
+          <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         </div>
       )}
       {status === 'error' && error && <div className="form-message error mt-2">{error}</div>}

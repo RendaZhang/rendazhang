@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext.jsx';
 import { NAV_CONTENT } from '../content/navContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
@@ -43,8 +44,7 @@ export default function ThemeToggle() {
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <span className="lang-zh">{textsZh.button}</span>
-        <span className="lang-en">{textsEn.button}</span>
+        <LocalizedSection zhContent={textsZh.button} enContent={textsEn.button} />
       </button>
       {open && (
         <div ref={optionsRef} className="theme-options">
