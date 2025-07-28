@@ -103,10 +103,21 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <script is:inline>
       (function () {
         try {
+          // 语言初始化逻辑
           const storedLang = localStorage.getItem('preferred_lang');
           const attrLang = document.documentElement.getAttribute('lang');
           const lang = storedLang || attrLang || 'zh-CN';
           document.documentElement.lang = lang;
+
+          // 添加监听器保持脚本与React组件同步
+          window.addEventListener('langChanged', (e) => {
+            try {
+              localStorage.setItem('preferred_lang', e.detail);
+              document.documentElement.lang = e.detail;
+            } catch (error) {
+              console.error('语言同步失败', error);
+            }
+          });
         } catch (e) {
           console.error('语言初始化失败', e);
         }

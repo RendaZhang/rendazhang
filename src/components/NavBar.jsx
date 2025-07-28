@@ -9,10 +9,16 @@ export default function NavBar({ lang: langProp }) {
   const [lang, setLang] = useState(langProp || getCurrentLang());
 
   useEffect(() => {
-    const current = getCurrentLang();
-    if (current !== lang) {
-      setLang(current);
-    }
+    // 监听语言变化事件
+    const handleLangChange = (event) => {
+      setLang(event.detail);
+    };
+
+    window.addEventListener('langChanged', handleLangChange);
+
+    return () => {
+      window.removeEventListener('langChanged', handleLangChange);
+    };
   }, []);
 
   const texts = NAV_CONTENT[lang] || {};
