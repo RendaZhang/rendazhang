@@ -1,121 +1,58 @@
 ---
-import ChatWidget from '../components/ChatWidget.jsx';
+import IndexContent from '../components/IndexContent.jsx';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
-  CHAT_PAGE_PATH,
-  ABOUT_PAGE_PATH,
-  CERTIFICATIONS_PAGE_PATH,
-  DOCS_PAGE_PATH,
   SITE_BASE_URL,
   SITE_DOMAIN,
   SITE_DESCRIPTION_EN,
-  SOCIAL_LINKS,
+  SITE_DESCRIPTION_ZH,
   SITE_AUTHOR_EN,
-  IMAGE_PATHS,
-  SOCIAL_ICON_PATHS,
   SCRIPT_PATHS,
   STYLE_PATHS,
   PAGE_TITLES,
   LOGO_ALT,
   HOME_PAGE_PATH,
   DEFAULT_SOCIAL_IMAGE,
-  OG_IMAGE_DIMENSIONS
+  OG_IMAGE_DIMENSIONS,
+  IMAGE_PATHS
 } from '../config.js';
+import { getCurrentLang } from '../utils/langUtils.js';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const title = langKey === 'zh' ? PAGE_TITLES.ABOUT_ZH : PAGE_TITLES.ABOUT_EN;
+const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN;
 ---
 
 <BaseLayout
-  title={PAGE_TITLES.ABOUT_EN}
-  description={SITE_DESCRIPTION_EN}
+  lang={langDefault}
+  title={title}
+  description={description}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
   extraStyles={[STYLE_PATHS.INDEX, STYLE_PATHS.CHAT_WIDGET]}
   extraScripts={[SCRIPT_PATHS.LAZYLOAD, SCRIPT_PATHS.INDEX]}
   og={{
     title: PAGE_TITLES.INDEX_OG,
-    description: SITE_DESCRIPTION_EN,
+    description,
     url: `${SITE_BASE_URL}${HOME_PAGE_PATH}`,
     image: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`,
     imageWidth: OG_IMAGE_DIMENSIONS.WIDTH,
     imageHeight: OG_IMAGE_DIMENSIONS.HEIGHT,
-    imageAlt: LOGO_ALT.EN,
+    imageAlt: langKey === 'zh' ? LOGO_ALT.ZH : LOGO_ALT.EN,
     secureImageUrl: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`
   }}
   twitter={{
     title: PAGE_TITLES.INDEX_OG,
-    description: SITE_DESCRIPTION_EN,
+    description,
     image: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`,
-    imageAlt: LOGO_ALT.EN,
+    imageAlt: langKey === 'zh' ? LOGO_ALT.ZH : LOGO_ALT.EN,
     domain: SITE_DOMAIN
   }}
   metaAuthor={SITE_AUTHOR_EN}
   metaLanguage="en, zh-CN"
 >
-  <div class="container">
-    <div class="about-section">
-      <a href={ABOUT_PAGE_PATH} role="button" aria-label="About">About</a>
-    </div>
-    <div class="chat-section">
-      <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">Chat with AI (与AI聊天)</a>
-    </div>
-    <div class="certification-section">
-      <a href={CERTIFICATIONS_PAGE_PATH} role="button" aria-label="Certifications"
-        >Certifications (证书)</a
-      >
-    </div>
-    <div class="docs-section">
-      <a href={DOCS_PAGE_PATH} role="button" aria-label="Technical Documentation">
-        <span class="code-icon">&lt;/&gt;</span> 技术文档 | Tech Docs
-      </a>
-    </div>
-    <div class="social-icons" aria-label="Social Links">
-      <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
-        <img
-          src={IMAGE_PATHS.LOADER}
-          class="jxLazyClass"
-          jxLazyImg={SOCIAL_ICON_PATHS.WECHAT}
-          alt="WeChat logo"
-          loading="lazy"
-        />
-      </a>
-      <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
-        <img
-          src={IMAGE_PATHS.LOADER}
-          class="jxLazyClass"
-          jxLazyImg={SOCIAL_ICON_PATHS.ZHIHU}
-          alt="Zhihu logo"
-          loading="lazy"
-        />
-      </a>
-      <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
-        <img
-          src={IMAGE_PATHS.LOADER}
-          class="jxLazyClass"
-          jxLazyImg={SOCIAL_ICON_PATHS.TOUTIAO}
-          alt="Toutiao logo"
-          loading="lazy"
-        />
-      </a>
-      <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
-        <img
-          src={IMAGE_PATHS.LOADER}
-          class="jxLazyClass"
-          jxLazyImg={SOCIAL_ICON_PATHS.CSDN}
-          alt="CSDN logo"
-          loading="lazy"
-        />
-      </a>
-      <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
-        <img
-          src={IMAGE_PATHS.LOADER}
-          class="jxLazyClass"
-          jxLazyImg={SOCIAL_ICON_PATHS.MEDIUM}
-          alt="Medium logo"
-          loading="lazy"
-        />
-      </a>
-    </div>
-    <ChatWidget client:load />
-  </div>
+  <IndexContent client:load />
 
   <Fragment slot="bodyEnd">
     <div id="wechatModal" class="modal">
