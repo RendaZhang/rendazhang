@@ -11,12 +11,17 @@ import {
   SCRIPT_TIMEOUTS,
   UI_DURATIONS,
   SCRIPT_PATHS,
-  CHAT_TEXT,
-  ROLES,
-  AI_CHAT_TITLE
+  ROLES
 } from '../config.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
+import { DEEPSEEK_CHAT_CONTENT } from '../content/deepseekChatContent.js';
 
-export default function Chat() {
+export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
+  const { lang } = useLanguage();
+  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
+  const textsZh = texts.zh;
+  const textsEn = texts.en;
+  const activeTexts = langKey === 'zh' ? textsZh : textsEn;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -90,9 +95,9 @@ export default function Chat() {
 
   useEffect(() => {
     if (enhancementFailed) {
-      showHint(CHAT_TEXT.ENHANCEMENT_FAILED);
+      showHint(activeTexts.enhancementFailed);
     }
-  }, [enhancementFailed]);
+  }, [enhancementFailed, activeTexts]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -142,7 +147,7 @@ export default function Chat() {
         console.error('Enhancement libraries loading failed:', error);
         // Show failure message (as in original)
         if (enhancementProgressRef.current) {
-          enhancementProgressRef.current.innerHTML = `<p>${CHAT_TEXT.ENHANCEMENT_FAILED}</p>`;
+          enhancementProgressRef.current.innerHTML = `<p><span class="lang-zh">${textsZh.enhancementFailed}</span><span class="lang-en">${textsEn.enhancementFailed}</span></p>`;
         }
         document.body.classList.add('basic-mode'); // Add basic-mode class
         // Hide after delay
@@ -254,13 +259,13 @@ export default function Chat() {
   };
 
   const handleReset = async () => {
-    if (window.confirm(CHAT_TEXT.RESET_CONFIRM)) {
+    if (window.confirm(activeTexts.resetConfirm)) {
       try {
         await resetChat();
         setMessages([]);
         saveHistory([]);
       } catch (error) {
-        alert(`${CHAT_TEXT.RESET_FAILED_PREFIX}: ${error.message}`);
+        alert(`${activeTexts.resetFailedPrefix}: ${error.message}`);
       }
     }
   };
@@ -275,20 +280,32 @@ export default function Chat() {
   return (
     <div className="container">
       <header>
-        <h1>{AI_CHAT_TITLE}</h1>
+        <h1>
+          <span className="lang-zh">{textsZh.title}</span>
+          <span className="lang-en">{textsEn.title}</span>
+        </h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
         {coreLoadError ? (
           <div id="loading-indicator" className="loading-indicator">
-            <p>{CHAT_TEXT.CORE_LOAD_FAILED}</p>
+            <p>
+              <span className="lang-zh">{textsZh.coreLoadFailed}</span>
+              <span className="lang-en">{textsEn.coreLoadFailed}</span>
+            </p>
           </div>
         ) : isLoading ? (
           <div id="loading-indicator" className="loading-indicator">
             <div className="spinner"></div>
-            <p>{CHAT_TEXT.LOADING}</p>
+            <p>
+              <span className="lang-zh">{textsZh.loading}</span>
+              <span className="lang-en">{textsEn.loading}</span>
+            </p>
           </div>
         ) : messages.length === 0 ? (
-          <div className="info-text">{CHAT_TEXT.CHAT_READY}</div>
+          <div className="info-text">
+            <span className="lang-zh">{textsZh.chatReady}</span>
+            <span className="lang-en">{textsEn.chatReady}</span>
+          </div>
         ) : (
           messages.map((msg, idx) => {
             if (msg.role === ROLES.AI) {
@@ -299,6 +316,8 @@ export default function Chat() {
                   text={msg.content}
                   enhance={librariesLoaded && !streaming}
                   onRendered={scrollToBottom}
+                  textsZh={textsZh}
+                  textsEn={textsEn}
                 />
               );
             }
@@ -322,7 +341,10 @@ export default function Chat() {
             <div className="pulse-dot pulse-dot-2"></div>
             <div className="pulse-dot pulse-dot-3"></div>
           </div>
-          <p>{CHAT_TEXT.ENHANCEMENT_PROGRESS}</p>
+          <p>
+            <span className="lang-zh">{textsZh.enhancementProgress}</span>
+            <span className="lang-en">{textsEn.enhancementProgress}</span>
+          </p>
         </div>
       )}
       <div className="input-area">
@@ -335,10 +357,10 @@ export default function Chat() {
           disabled={isLoading || isSending || coreLoadError}
           placeholder={
             isLoading
-              ? CHAT_TEXT.INPUT_PLACEHOLDER_LOADING
+              ? activeTexts.placeholders.loading
               : coreLoadError
-                ? CHAT_TEXT.INPUT_PLACEHOLDER_ERROR
-                : CHAT_TEXT.INPUT_PLACEHOLDER_DEFAULT
+                ? activeTexts.placeholders.error
+                : activeTexts.placeholders.default
           }
           rows="1"
           autoFocus
@@ -349,14 +371,16 @@ export default function Chat() {
             onClick={handleSend}
             disabled={isLoading || isSending || coreLoadError}
           >
-            {CHAT_TEXT.SEND_BUTTON}
+            <span className="lang-zh">{textsZh.sendButton}</span>
+            <span className="lang-en">{textsEn.sendButton}</span>
           </button>
           <button
             id="reset-btn"
             onClick={handleReset}
             disabled={isLoading || isSending || coreLoadError}
           >
-            {CHAT_TEXT.RESET_BUTTON}
+            <span className="lang-zh">{textsZh.resetButton}</span>
+            <span className="lang-en">{textsEn.resetButton}</span>
           </button>
         </div>
       </div>
@@ -365,7 +389,7 @@ export default function Chat() {
 }
 
 // AI message with copy button
-function AIMessage({ text, enhance, onRendered }) {
+function AIMessage({ text, enhance, onRendered, textsZh, textsEn }) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
@@ -399,7 +423,17 @@ function AIMessage({ text, enhance, onRendered }) {
         onClick={handleCopy}
         style={{ display: showBtn ? 'inline-block' : 'none' }}
       >
-        {isCopied ? CHAT_TEXT.COPIED_LABEL : CHAT_TEXT.COPY_LABEL}
+        {isCopied ? (
+          <>
+            <span className="lang-zh">{textsZh.copiedLabel}</span>
+            <span className="lang-en">{textsEn.copiedLabel}</span>
+          </>
+        ) : (
+          <>
+            <span className="lang-zh">{textsZh.copyLabel}</span>
+            <span className="lang-en">{textsEn.copyLabel}</span>
+          </>
+        )}
       </button>
       <div ref={contentRef}></div>
     </div>

@@ -23,9 +23,9 @@ export const CERTIFICATIONS_CONTENT = {
         nameLabel: '姓名:',
         name: '张人大',
         issuedLabel: '颁发:',
-        issued: '2025年6月16日',
+        issued: '2025 年 6 月 16 日',
         expiresLabel: '到期:',
-        expires: '2028年6月16日',
+        expires: '2028 年 6 月 16 日',
         verifyCredly: 'Credly 验证',
         verifyAws: 'AWS 验证'
       }
