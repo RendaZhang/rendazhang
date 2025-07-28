@@ -55,9 +55,36 @@ export function LanguageProvider({ children, initialLang }) {
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
-  if (!context) {
-    // 默认返回中文
-    return { lang: 'zh', updateLang: () => {} };
-  }
-  return context;
+
+  const getDomLang = () => {
+    if (typeof document === 'undefined') return 'zh-CN';
+    return document.documentElement.dataset.initialLang || document.documentElement.lang || 'zh-CN';
+  };
+
+  const [lang, setLang] = useState(() => context?.lang || getDomLang());
+
+  useEffect(() => {
+    if (context) {
+      setLang(context.lang);
+      return;
+    }
+    const handler = (e) => setLang(e.detail);
+    window.addEventListener('langChanged', handler);
+    return () => window.removeEventListener('langChanged', handler);
+  }, [context]);
+
+  const updateLang =
+    context?.updateLang ||
+    ((newLang) => {
+      setLang(newLang);
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = newLang;
+        try {
+          localStorage.setItem(LANG_STORAGE_KEY, newLang);
+        } catch {}
+        window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
+      }
+    });
+
+  return { lang, updateLang };
 }
