@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LoginForm from '../components/LoginForm.jsx';
+import LoginContent from '../components/LoginContent.jsx';
 import {
   SITE_BASE_URL,
   VIEWPORT_NO_ZOOM,
@@ -17,5 +17,5 @@ import {
   canonical={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`}
   extraStyles={[STYLE_PATHS.LOGIN]}
 >
-  <LoginForm client:load />
+  <LoginContent client:load />
 </BaseLayout>

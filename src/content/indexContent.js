@@ -7,7 +7,7 @@ export const INDEX_CONTENT = {
   },
   zh: {
     aboutLink: '关于我',
-    chatLink: '与AI聊天',
+    chatLink: '与 AI 聊天',
     certLink: '证书',
     docsLink: '技术文档'
   }

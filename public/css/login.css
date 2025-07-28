@@ -4,7 +4,7 @@
   padding: 20px;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 450px;
 }
@@ -31,6 +31,10 @@
   height: 4px;
   border-radius: 2px;
   background: #ddd;
+  margin-top: 4px;
+}
+.password-strength-label {
+  font-size: 0.875rem;
   margin-top: 4px;
 }
 
@@ -66,7 +70,7 @@
 html.dark-mode .login-container,
 body.dark-mode .login-container {
   background: #1e1e1e;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 html.dark-mode .password-strength.weak,
@@ -81,5 +85,13 @@ html.dark-mode .password-strength.strong,
 body.dark-mode .password-strength.strong {
   background: #2ecc71;
 }
-@media (min-width:769px) and (max-width:1024px){.login-container{width:70%;}}
-@media (max-width:768px){.login-container{width:100%;}}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-container {
+    width: 70%;
+  }
+}
+@media (max-width: 768px) {
+  .login-container {
+    width: 100%;
+  }
+}
