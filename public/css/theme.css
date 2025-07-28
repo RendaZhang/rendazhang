@@ -328,3 +328,16 @@ body.dark-mode .verify-btn {
   background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   color: #fff;
 }
+
+html.dark-mode header,
+body.dark-mode header {
+  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  color: #fff;
+}
+
+html.dark-mode #enhancement-progress,
+body.dark-mode #enhancement-progress {
+  background: rgba(34, 34, 34, 0.95);
+  color: #e0e0e0;
+  border-color: #444;
+}
