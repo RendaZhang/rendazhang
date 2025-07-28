@@ -15,6 +15,7 @@ import {
 } from '../config.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { DEEPSEEK_CHAT_CONTENT } from '../content/deepseekChatContent.js';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const { lang } = useLanguage();
@@ -292,30 +293,29 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
     <div className="container">
       <header>
         <h1>
-          <span className="lang-zh">{textsZh.title}</span>
-          <span className="lang-en">{textsEn.title}</span>
+          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
         </h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
         {coreLoadError ? (
           <div id="loading-indicator" className="loading-indicator">
             <p>
-              <span className="lang-zh">{textsZh.coreLoadFailed}</span>
-              <span className="lang-en">{textsEn.coreLoadFailed}</span>
+              <LocalizedSection
+                zhContent={textsZh.coreLoadFailed}
+                enContent={textsEn.coreLoadFailed}
+              />
             </p>
           </div>
         ) : isLoading ? (
           <div id="loading-indicator" className="loading-indicator">
             <div className="spinner"></div>
             <p>
-              <span className="lang-zh">{textsZh.loading}</span>
-              <span className="lang-en">{textsEn.loading}</span>
+              <LocalizedSection zhContent={textsZh.loading} enContent={textsEn.loading} />
             </p>
           </div>
         ) : messages.length === 0 ? (
           <div className="info-text">
-            <span className="lang-zh">{textsZh.chatReady}</span>
-            <span className="lang-en">{textsEn.chatReady}</span>
+            <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
           </div>
         ) : (
           messages.map((msg, idx) => {
@@ -353,8 +353,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
             <div className="pulse-dot pulse-dot-3"></div>
           </div>
           <p>
-            <span className="lang-zh">{textsZh.enhancementProgress}</span>
-            <span className="lang-en">{textsEn.enhancementProgress}</span>
+            <LocalizedSection
+              zhContent={textsZh.enhancementProgress}
+              enContent={textsEn.enhancementProgress}
+            />
           </p>
         </div>
       )}
@@ -376,16 +378,14 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
             onClick={handleSend}
             disabled={isLoading || isSending || coreLoadError}
           >
-            <span className="lang-zh">{textsZh.sendButton}</span>
-            <span className="lang-en">{textsEn.sendButton}</span>
+            <LocalizedSection zhContent={textsZh.sendButton} enContent={textsEn.sendButton} />
           </button>
           <button
             id="reset-btn"
             onClick={handleReset}
             disabled={isLoading || isSending || coreLoadError}
           >
-            <span className="lang-zh">{textsZh.resetButton}</span>
-            <span className="lang-en">{textsEn.resetButton}</span>
+            <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
           </button>
         </div>
       </div>
@@ -429,15 +429,9 @@ function AIMessage({ text, enhance, onRendered, textsZh, textsEn }) {
         style={{ display: showBtn ? 'inline-block' : 'none' }}
       >
         {isCopied ? (
-          <>
-            <span className="lang-zh">{textsZh.copiedLabel}</span>
-            <span className="lang-en">{textsEn.copiedLabel}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.copiedLabel} enContent={textsEn.copiedLabel} />
         ) : (
-          <>
-            <span className="lang-zh">{textsZh.copyLabel}</span>
-            <span className="lang-en">{textsEn.copyLabel}</span>
-          </>
+          <LocalizedSection zhContent={textsZh.copyLabel} enContent={textsEn.copyLabel} />
         )}
       </button>
       <div ref={contentRef}></div>

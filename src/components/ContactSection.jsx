@@ -3,6 +3,7 @@ import ContactForm from './ContactForm.jsx';
 import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../config.js';
 import { ABOUT_CONTENT } from '../content/aboutContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function ContactSection() {
   const { lang } = useLanguage();
@@ -15,39 +16,41 @@ export default function ContactSection() {
   return (
     <section className="contact-section" id="contact">
       <h2 className="section-title">
-        <span className="lang-zh">{contactZh.title}</span>
-        <span className="lang-en">{contactEn.title}</span>
+        <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
       </h2>
       <div className="row">
         <div className="col-md-4 mb-4">
           <div className="contact-info mb-3">
             <strong>
-              <span className="lang-zh">{infosZh[0]?.label}</span>
-              <span className="lang-en">{infosEn[0]?.label}</span>
+              <LocalizedSection zhContent={infosZh[0]?.label} enContent={infosEn[0]?.label} />
             </strong>
             <div>
-              <span className="lang-zh">{infosZh[0]?.value || CONTACT_PHONE_LOCAL}</span>
-              <span className="lang-en">{infosEn[0]?.value || CONTACT_PHONE_LOCAL}</span>
+              <LocalizedSection
+                zhContent={infosZh[0]?.value || CONTACT_PHONE_LOCAL}
+                enContent={infosEn[0]?.value || CONTACT_PHONE_LOCAL}
+              />
             </div>
           </div>
           <div className="contact-info mb-3">
             <strong>
-              <span className="lang-zh">{infosZh[1]?.label}</span>
-              <span className="lang-en">{infosEn[1]?.label}</span>
+              <LocalizedSection zhContent={infosZh[1]?.label} enContent={infosEn[1]?.label} />
             </strong>
             <div>
-              <span className="lang-zh">{infosZh[1]?.value || CONTACT_EMAIL_PRIMARY}</span>
-              <span className="lang-en">{infosEn[1]?.value || CONTACT_EMAIL_PRIMARY}</span>
+              <LocalizedSection
+                zhContent={infosZh[1]?.value || CONTACT_EMAIL_PRIMARY}
+                enContent={infosEn[1]?.value || CONTACT_EMAIL_PRIMARY}
+              />
             </div>
           </div>
           <div className="contact-info">
             <strong>
-              <span className="lang-zh">{infosZh[2]?.label}</span>
-              <span className="lang-en">{infosEn[2]?.label}</span>
+              <LocalizedSection zhContent={infosZh[2]?.label} enContent={infosEn[2]?.label} />
             </strong>
             <div>
-              <span className="lang-zh">{infosZh[2]?.value || '广东省深圳市'}</span>
-              <span className="lang-en">{infosEn[2]?.value || 'Shenzhen, Guangdong, China'}</span>
+              <LocalizedSection
+                zhContent={infosZh[2]?.value || '广东省深圳市'}
+                enContent={infosEn[2]?.value || 'Shenzhen, Guangdong, China'}
+              />
             </div>
           </div>
         </div>
