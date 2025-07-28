@@ -112,7 +112,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
           const lang = storedLang || attrLang;
           document.documentElement.lang = lang;
-          document.documentElement.dataset.initialLang = lang;
+          // Keep the server-rendered language as the initialLang value so that
+          // React hydrates using the same language as the static HTML.
+          document.documentElement.dataset.initialLang = attrLang;
 
           // 添加监听器保持脚本与React组件同步
           window.addEventListener('langChanged', (e) => {
