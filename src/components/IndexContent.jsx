@@ -6,12 +6,12 @@ import {
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
   DOCS_PAGE_PATH,
-  IMAGE_PATHS,
   SOCIAL_ICON_PATHS,
   SOCIAL_LINKS
 } from '../config.js';
 import { INDEX_CONTENT } from '../content/indexContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import LocalizedSection from './LocalizedSection.jsx';
 
 export default function IndexContent() {
   const { lang } = useLanguage();
@@ -24,27 +24,23 @@ export default function IndexContent() {
     <div className="container">
       <div className="about-section">
         <a href={ABOUT_PAGE_PATH} role="button" aria-label="About">
-          <span className="lang-zh">{textsZh.aboutLink}</span>
-          <span className="lang-en">{textsEn.aboutLink}</span>
+          <LocalizedSection zhContent={textsZh.aboutLink} enContent={textsEn.aboutLink} />
         </a>
       </div>
       <div className="chat-section">
         <a href={CHAT_PAGE_PATH} role="button" aria-label="Chat with AI">
-          <span className="lang-zh">{textsZh.chatLink}</span>
-          <span className="lang-en">{textsEn.chatLink}</span>
+          <LocalizedSection zhContent={textsZh.chatLink} enContent={textsEn.chatLink} />
         </a>
       </div>
       <div className="certification-section">
         <a href={CERTIFICATIONS_PAGE_PATH} role="button" aria-label="Certifications">
-          <span className="lang-zh">{textsZh.certLink}</span>
-          <span className="lang-en">{textsEn.certLink}</span>
+          <LocalizedSection zhContent={textsZh.certLink} enContent={textsEn.certLink} />
         </a>
       </div>
       <div className="docs-section">
         <a href={DOCS_PAGE_PATH} role="button" aria-label="Tech Docs">
           <span className="code-icon">&lt;/&gt;</span>{' '}
-          <span className="lang-zh">{textsZh.docsLink}</span>
-          <span className="lang-en">{textsEn.docsLink}</span>
+          <LocalizedSection zhContent={textsZh.docsLink} enContent={textsEn.docsLink} />
         </a>
       </div>
       <div className="social-icons" aria-label="Social Links">
