@@ -1,6 +1,5 @@
 ---
 import NavBarWrapper from '../components/NavBarWrapper.jsx';
-import { LanguageProvider } from '../context/LanguageContext.jsx';
 import {
   FAVICON_PATH,
   STYLE_PATHS,
@@ -15,12 +14,12 @@ import {
   GEO_PLACENAME_EN,
   GEO_POSITION,
   GEO_ICBM,
-  TWITTER_HANDLE
+  TWITTER_HANDLE,
+  LANG_STORAGE_KEY
 } from '../config.js';
 
 const {
-  lang = 'zh-CN',
-  initialLang = lang,
+  lang: langProp,
   title = '',
   description = '',
   viewport = VIEWPORT_ZOOM_ALLOWED,
@@ -42,6 +41,9 @@ const {
   metaLanguage = '',
   metaAuthor = ''
 } = Astro.props;
+
+const lang = langProp || 'zh-CN';
+const initialLang = lang;
 
 const jsonLD = personSchemaJson;
 const ogDefaults = {
@@ -106,7 +108,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       (function () {
         try {
           // 语言初始化逻辑
-          const storedLang = localStorage.getItem('preferred_lang');
+          const storedLang = localStorage.getItem('${LANG_STORAGE_KEY}');
           const attrLang = document.documentElement.getAttribute('lang');
           const lang = storedLang || attrLang || 'zh-CN';
           document.documentElement.lang = lang;
@@ -115,7 +117,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           // 添加监听器保持脚本与React组件同步
           window.addEventListener('langChanged', (e) => {
             try {
-              localStorage.setItem('preferred_lang', e.detail);
+              localStorage.setItem('${LANG_STORAGE_KEY}', e.detail);
               document.documentElement.lang = e.detail;
             } catch (error) {
               console.error('语言同步失败', error);
