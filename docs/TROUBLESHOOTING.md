@@ -86,7 +86,7 @@
 - [x] BUG-014: Chat widget panel flashes in dark mode
 - [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
 - [x] BUG-016: document is not defined during build
-- [x] BUG-017: NavBar hydration mismatch when language differs
+- [ ] BUG-017: NavBar hydration mismatch when language differs
 
 ---
 
@@ -377,5 +377,5 @@
 - **解决方案**：
   - 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
   - 初始化语言脚本优先读取页面 lang 属性
-- **验证结果**：✅ 切换语言后，导航栏文本立即更新，无报错
+- **验证结果**：切换语言后，无报错，但是使用中文的时候，会产生闪烁
 - **经验总结**：SSR 组件需共享同一语言来源以避免渲染不一致
