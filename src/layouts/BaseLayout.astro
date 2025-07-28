@@ -112,6 +112,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const attrLang = document.documentElement.getAttribute('lang');
           const lang = storedLang || attrLang || 'zh-CN';
           document.documentElement.lang = lang;
+          document.documentElement.dataset.initialLang = lang;
 
           // 添加监听器保持脚本与React组件同步
           window.addEventListener('langChanged', (e) => {

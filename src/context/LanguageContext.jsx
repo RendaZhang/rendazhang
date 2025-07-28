@@ -1,23 +1,57 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useRef } from 'react';
+import { LANG_STORAGE_KEY } from '../config.js';
 
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children, initialLang }) {
-  const [lang, setLang] = useState(initialLang);
+  const initialSet = useRef(false);
+
+  const [lang, setLang] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return (
+        document.documentElement.dataset.initialLang ||
+        document.documentElement.lang ||
+        initialLang ||
+        'zh-CN'
+      );
+    }
+    return initialLang || 'zh-CN';
+  });
 
   useEffect(() => {
-    // 确保客户端与服务器端语言一致
-    if (typeof window !== 'undefined' && initialLang !== lang) {
-      setLang(initialLang);
-      document.documentElement.lang = initialLang;
+    if (typeof window === 'undefined') return;
+
+    if (!initialSet.current) {
+      initialSet.current = true;
+
+      const domLang =
+        document.documentElement.dataset.initialLang ||
+        document.documentElement.lang ||
+        initialLang ||
+        'zh-CN';
+      let storedLang = null;
+      try {
+        storedLang = localStorage.getItem(LANG_STORAGE_KEY);
+      } catch {}
+      const effectiveLang = storedLang || domLang;
+      setLang(effectiveLang);
+      document.documentElement.lang = effectiveLang;
+      try {
+        localStorage.setItem(LANG_STORAGE_KEY, effectiveLang);
+      } catch {}
+      window.dispatchEvent(new CustomEvent('langChanged', { detail: effectiveLang }));
+      return;
     }
-  }, [initialLang]);
+
+    document.documentElement.lang = lang;
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch {}
+    window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
+  }, [lang, initialLang]);
 
   const updateLang = (newLang) => {
     setLang(newLang);
-    localStorage.setItem('preferred_lang', newLang);
-    document.documentElement.lang = newLang;
-    window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
   };
 
   return (
