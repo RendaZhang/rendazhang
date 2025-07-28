@@ -11,7 +11,7 @@ export default function ContactSection() {
   const contactEn = ABOUT_CONTENT.en.contact;
   const infosZh = contactZh.info || [];
   const infosEn = contactEn.info || [];
-  const formTexts = langKey === 'zh' ? contactZh.form : contactEn.form;
+  const formTexts = { zh: contactZh.form, en: contactEn.form };
   return (
     <section className="contact-section" id="contact">
       <h2 className="section-title">

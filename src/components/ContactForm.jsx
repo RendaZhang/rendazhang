@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../config.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
 
 export default function ContactForm({ texts = {} }) {
+  const { lang } = useLanguage();
+  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
+  const textsZh = texts.zh || {};
+  const textsEn = texts.en || {};
+  const activeTexts = texts[langKey] || {};
   const initialForm = {
     name: '',
     contact: '',
@@ -11,6 +17,17 @@ export default function ContactForm({ texts = {} }) {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [error, setError] = useState('');
+  const [placeholders, setPlaceholders] = useState({
+    name: '',
+    contact: '',
+    subject: '',
+    message: ''
+  });
+
+  useEffect(() => {
+    const ph = (texts[langKey] && texts[langKey].placeholders) || {};
+    setPlaceholders(ph);
+  }, [langKey, texts]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +37,7 @@ export default function ContactForm({ texts = {} }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.contact || !form._subject || !form.message) {
-      setError(texts.errorEmpty || '请填写所有字段');
+      setError(activeTexts.errorEmpty || '请填写所有字段');
       setStatus('error');
       return;
     }
@@ -42,11 +59,11 @@ export default function ContactForm({ texts = {} }) {
         setForm(initialForm);
       } else {
         setStatus('error');
-        setError(texts.failed || '发送失败');
+        setError(activeTexts.failed || '发送失败');
       }
     } catch {
       setStatus('error');
-      setError(texts.failed || '发送失败');
+      setError(activeTexts.failed || '发送失败');
     }
   };
 
@@ -57,7 +74,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="name"
           className="form-control"
-          placeholder={texts.placeholders?.name || ''}
+          placeholder={placeholders.name || ''}
           value={form.name}
           onChange={handleChange}
           required
@@ -68,7 +85,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="contact"
           className="form-control"
-          placeholder={texts.placeholders?.contact || ''}
+          placeholder={placeholders.contact || ''}
           value={form.contact}
           onChange={handleChange}
           required
@@ -79,7 +96,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="_subject"
           className="form-control"
-          placeholder={texts.placeholders?.subject || ''}
+          placeholder={placeholders.subject || ''}
           value={form._subject}
           onChange={handleChange}
           required
@@ -90,17 +107,30 @@ export default function ContactForm({ texts = {} }) {
           name="message"
           className="form-control"
           rows="5"
-          placeholder={texts.placeholders?.message || ''}
+          placeholder={placeholders.message || ''}
           value={form.message}
           onChange={handleChange}
           required
         />
       </div>
       <button type="submit" className="btn btn-primary" disabled={status === 'loading'}>
-        {status === 'loading' ? texts.sending || '发送中...' : texts.button || '发送消息'}
+        {status === 'loading' ? (
+          <>
+            <span className="lang-zh">{textsZh.sending}</span>
+            <span className="lang-en">{textsEn.sending}</span>
+          </>
+        ) : (
+          <>
+            <span className="lang-zh">{textsZh.button}</span>
+            <span className="lang-en">{textsEn.button}</span>
+          </>
+        )}
       </button>
       {status === 'success' && (
-        <div className="form-message success mt-2">{texts.success || '已经发送到我的邮箱哦'}</div>
+        <div className="form-message success mt-2">
+          <span className="lang-zh">{textsZh.success}</span>
+          <span className="lang-en">{textsEn.success}</span>
+        </div>
       )}
       {status === 'error' && error && <div className="form-message error mt-2">{error}</div>}
     </form>
