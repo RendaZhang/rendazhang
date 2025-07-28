@@ -1,6 +1,8 @@
+import { LANG_STORAGE_KEY } from '../config.js';
+
 export function getCurrentLang() {
   if (typeof document === 'undefined') {
-    return 'zh';
+    return 'zh-CN';
   }
   // 优先使用当前文档的语言设置
   const docLang = document.documentElement.lang;
@@ -8,7 +10,7 @@ export function getCurrentLang() {
 
   // 后备方案：检查本地存储
   try {
-    const storedLang = localStorage.getItem('preferred_lang');
+    const storedLang = localStorage.getItem(LANG_STORAGE_KEY);
     if (storedLang) return storedLang;
   } catch (e) {
     console.error('读取语言存储失败', e);
