@@ -15,7 +15,8 @@ import {
   GEO_POSITION,
   GEO_ICBM,
   TWITTER_HANDLE,
-  LANG_STORAGE_KEY
+  LANG_STORAGE_KEY,
+  THEME_STORAGE_KEY
 } from '../config.js';
 
 const {
@@ -83,11 +84,11 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
     <link rel="icon" type="image/png" href={FAVICON_PATH} />
     <link rel="apple-touch-icon" href={FAVICON_PATH} />
-    <script is:inline>
+    <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
       (function () {
         try {
           // 1. 尝试读取本地存储
-          const storedTheme = localStorage.getItem('preferred_theme');
+          const storedTheme = localStorage.getItem(themeKey);
           // 2. 如果无存储值，检测系统偏好
           const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           // 3. 决策逻辑
@@ -104,11 +105,11 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         }
       })();
     </script>
-    <script is:inline>
+    <script is:inline define:vars={{ langKey: LANG_STORAGE_KEY }}>
       (function () {
         try {
           // 语言初始化逻辑
-          const storedLang = localStorage.getItem('${LANG_STORAGE_KEY}');
+          const storedLang = localStorage.getItem(langKey);
           const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
           const lang = storedLang || attrLang;
           document.documentElement.lang = lang;
@@ -119,7 +120,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           // 添加监听器保持脚本与React组件同步
           window.addEventListener('langChanged', (e) => {
             try {
-              localStorage.setItem('${LANG_STORAGE_KEY}', e.detail);
+              localStorage.setItem(langKey, e.detail);
               document.documentElement.lang = e.detail;
             } catch (error) {
               console.error('语言同步失败', error);
