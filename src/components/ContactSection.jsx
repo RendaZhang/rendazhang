@@ -1,14 +1,16 @@
 import React from 'react';
 import ContactForm from './ContactForm.jsx';
 import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../config.js';
-import { getLangContent } from '../utils/lang.js';
+import { ABOUT_CONTENT } from '../content/aboutContent.js';
+import useContent from '../hooks/useContent.js';
 
 export default function ContactSection() {
-  const langContent = getLangContent();
-  const infos = langContent?.info || [];
+  const contact = useContent(ABOUT_CONTENT)?.contact || {};
+  const infos = contact.info || [];
+  const formTexts = contact.form || {};
   return (
     <section className="contact-section" id="contact">
-      <h2 className="section-title">{langContent?.title || '联系我吧'}</h2>
+      <h2 className="section-title">{contact.title || '联系我吧'}</h2>
       <div className="row">
         <div className="col-md-4 mb-4">
           <div className="contact-info mb-3">
@@ -25,7 +27,7 @@ export default function ContactSection() {
           </div>
         </div>
         <div className="col-md-8">
-          <ContactForm />
+          <ContactForm texts={formTexts} />
         </div>
       </div>
     </section>

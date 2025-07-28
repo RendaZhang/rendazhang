@@ -1,153 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactSection from '../components/ContactSection.jsx';
+import AboutContent from '../components/AboutContent.jsx';
 import {
   SITE_BASE_URL,
   PAGE_TITLES,
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
-  ABOUT_PAGE_PATH,
-  IMAGE_PATHS,
-  RESUME_EN_DOWNLOAD,
-  RESUME_ZH_DOWNLOAD
+  ABOUT_PAGE_PATH
 } from '../config.js';
-import { ABOUT_CONTENT } from '../content/aboutContent.js';
+import { getCurrentLang } from '../utils/langUtils.js';
 
-const aboutPageData = {
-  titles: { en: PAGE_TITLES.ABOUT_EN, zh: PAGE_TITLES.ABOUT_ZH },
-  descriptions: { en: SITE_DESCRIPTION_EN, zh: SITE_DESCRIPTION_ZH },
-  resumePaths: { en: IMAGE_PATHS.RESUME_EN, zh: IMAGE_PATHS.RESUME_ZH },
-  resumeDownloads: { en: RESUME_EN_DOWNLOAD, zh: RESUME_ZH_DOWNLOAD }
-};
-
-const langDefault = 'zh';
-const content = ABOUT_CONTENT[langDefault];
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const title = langKey === 'zh' ? PAGE_TITLES.ABOUT_ZH : PAGE_TITLES.ABOUT_EN;
+const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN;
 ---
 
 <BaseLayout
-  title={PAGE_TITLES.ABOUT_ZH}
-  description={SITE_DESCRIPTION_ZH}
+  lang={langDefault}
+  title={title}
+  description={description}
   canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
   extraStyles={['/css/about.css']}
-  extraScripts={['/js/about.js']}
 >
-  <div id="content">
-    <section class="hero">
-      <h1 id="heroHeading" set:html={content.heroHeading} />
-    </section>
-    <section class="about-section">
-      <h2 id="aboutTitle">{content.title}</h2>
-      <div id="aboutParagraphs">
-        {content.paragraphs.map((p) => <p>{p}</p>)}
-      </div>
-      <ul id="aboutInfo">
-        {
-          content.info.map(({ label, value }) => (
-            <li>
-              <span>{label}</span>
-              {value}
-            </li>
-          ))
-        }
-      </ul>
-      <div class="resume-link">
-        <a
-          id="resumeLink"
-          href={IMAGE_PATHS.RESUME_ZH}
-          download={RESUME_ZH_DOWNLOAD}
-          class="btn btn-primary">{content.resumeLabel}</a
-        >
-        <a id="contactBtn" href="#contact" class="btn btn-secondary ms-2">{content.contact.title}</a
-        >
-      </div>
-    </section>
-    <section class="education-section" id="education">
-      <h2 id="educationTitle">{content.education.title}</h2>
-      <div id="educationList">
-        {
-          content.education.entries.map(({ period, school, degree, details }) => (
-            <div class="education-item">
-              <div class="education-header">
-                <span class="education-period">{period}</span>
-                <span class="education-school">{school}</span>
-              </div>
-              <h3 class="education-degree">{degree}</h3>
-              <p>{details}</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-    <section class="blog-section" id="blog">
-      <h2 id="blogTitle">{content.blog.title}</h2>
-      <div id="blogList">
-        {
-          content.blog.entries.map(({ category, date, url, title }) => (
-            <div class="blog-item">
-              <div class="blog-header">
-                <span class="blog-category">{category}</span>
-                <span class="blog-date">{date}</span>
-              </div>
-              <h3 class="blog-title">
-                <a href={url} target="_blank">
-                  {title}
-                </a>
-              </h3>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-    <section class="skills-section" id="skills">
-      <h2 id="skillsTitle">{content.skills.title}</h2>
-      <div id="skillsBars">
-        {
-          content.skills.categories.map(({ label, level }) => (
-            <div class="skill-bar">
-              <span class="skill-label">{label}</span>
-              <progress max="100" value={level} />
-            </div>
-          ))
-        }
-      </div>
-      <ul id="skillsList">
-        {content.skills.items.map((item) => <li>{item}</li>)}
-      </ul>
-    </section>
-    <section class="experience-section" id="experience">
-      <h2 id="experienceTitle">{content.experience.title}</h2>
-      <div id="experienceList">
-        {
-          content.experience.entries.map(({ period, company, title, summary, bullets }) => (
-            <div class="experience-item">
-              <div class="experience-header">
-                <span class="experience-period">{period}</span>
-                <span class="experience-company">{company}</span>
-              </div>
-              <h3 class="experience-role">{title}</h3>
-              {summary && <p>{summary}</p>}
-              {bullets && (
-                <ul>
-                  {bullets.map((b) => (
-                    <li>{b}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))
-        }
-      </div>
-    </section>
-    <ContactSection client:load />
-  </div>
-
-  <Fragment slot="head">
-    <script is:inline>
-      document.documentElement.style.visibility = 'hidden';
-    </script>
-    <script define:vars={{ aboutPageData, aboutPageContent: ABOUT_CONTENT }}>
-      window.aboutPageData = aboutPageData;
-      window.aboutPageContent = aboutPageContent;
-    </script>
-  </Fragment>
+  <AboutContent client:load />
 </BaseLayout>

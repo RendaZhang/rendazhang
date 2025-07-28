@@ -17,7 +17,6 @@ import {
   TWITTER_HANDLE,
   LANG_STORAGE_KEY
 } from '../config.js';
-import { NAV_CONTENT } from '../content/navContent.js';
 
 const {
   lang: langProp,
@@ -188,19 +187,13 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    {
-      showNav ? (
-        <slot name="nav">
-          <NavBarWrapper client:load initialLang={initialLang} />
-        </slot>
-      ) : null
-    }
-    <main class={mainClass} {...mainAttrs}>
-      <!-- 页面主体内容插槽 -->
-      <slot />
-    </main>
-    <slot name="bodyEnd" />
-    {showFooter && <slot name="footer" />}
+    <NavBarWrapper client:load initialLang={initialLang} showNav={showNav}>
+      <main class={mainClass} {...mainAttrs}>
+        <slot />
+      </main>
+      <slot name="bodyEnd" />
+      {showFooter && <slot name="footer" />}
+    </NavBarWrapper>
     {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
   </body>
 </html>
