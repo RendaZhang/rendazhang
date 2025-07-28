@@ -31,6 +31,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const [enhancementFailed, setEnhancementFailed] = useState(false); // New: for failure state
   const [coreLoaded, setCoreLoaded] = useState(false); // core libs ready
   const [coreLoadError, setCoreLoadError] = useState(false); // core libs failed
+  const [placeholder, setPlaceholder] = useState('');
   const chatContainerRef = useRef(null);
   const messageInputRef = useRef(null);
   const typingIndicatorRef = useRef(null);
@@ -98,6 +99,16 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
       showHint(activeTexts.enhancementFailed);
     }
   }, [enhancementFailed, activeTexts]);
+
+  // Update placeholder after language or loading state changes
+  useEffect(() => {
+    const ph = isLoading
+      ? activeTexts.placeholders.loading
+      : coreLoadError
+        ? activeTexts.placeholders.error
+        : activeTexts.placeholders.default;
+    setPlaceholder(ph);
+  }, [langKey, isLoading, coreLoadError, activeTexts]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -355,13 +366,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading || isSending || coreLoadError}
-          placeholder={
-            isLoading
-              ? activeTexts.placeholders.loading
-              : coreLoadError
-                ? activeTexts.placeholders.error
-                : activeTexts.placeholders.default
-          }
+          placeholder={placeholder}
           rows="1"
           autoFocus
         ></textarea>
