@@ -49,49 +49,19 @@ export default function IndexContent() {
       </div>
       <div className="social-icons" aria-label="Social Links">
         <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            className="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.WECHAT}
-            alt="WeChat logo"
-            loading="lazy"
-          />
+          <img src={SOCIAL_ICON_PATHS.WECHAT} alt="WeChat logo" loading="lazy" />
         </a>
         <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            className="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.ZHIHU}
-            alt="Zhihu logo"
-            loading="lazy"
-          />
+          <img src={SOCIAL_ICON_PATHS.ZHIHU} alt="Zhihu logo" loading="lazy" />
         </a>
         <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            className="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.TOUTIAO}
-            alt="Toutiao logo"
-            loading="lazy"
-          />
+          <img src={SOCIAL_ICON_PATHS.TOUTIAO} alt="Toutiao logo" loading="lazy" />
         </a>
         <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            className="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.CSDN}
-            alt="CSDN logo"
-            loading="lazy"
-          />
+          <img src={SOCIAL_ICON_PATHS.CSDN} alt="CSDN logo" loading="lazy" />
         </a>
         <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
-          <img
-            src={IMAGE_PATHS.LOADER}
-            className="jxLazyClass"
-            jxLazyImg={SOCIAL_ICON_PATHS.MEDIUM}
-            alt="Medium logo"
-            loading="lazy"
-          />
+          <img src={SOCIAL_ICON_PATHS.MEDIUM} alt="Medium logo" loading="lazy" />
         </a>
       </div>
       <ChatWidget />

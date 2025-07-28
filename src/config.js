@@ -134,7 +134,6 @@ export const SCRIPT_PATHS = {
   HIGHLIGHT: '/js/highlight.min.js',
   MERMAID: '/js/mermaid.min.js',
   JQUERY: '/js/jquery.min.js',
-  LAZYLOAD: '/js/jinxin.lazyload.min.js',
   DOCS: '/js/docs.min.js',
   CREDLY_EMBED: '/js/credly_embed.min.js',
   JQUERY_EASING: '/js/jquery.easing.min.js',
@@ -197,7 +196,6 @@ export const THEME_COLOR_LIGHT = '#ffffff';
 export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {
-  LOADER: '/images/ajax-loader.gif',
   LOGO_EN: '/images/logo_en.png',
   LOGO_ZH: '/images/logo_cn.png',
   WECHAT_QR: '/images/qrcode_wechat.jpg',

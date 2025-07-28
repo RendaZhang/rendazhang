@@ -31,7 +31,7 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
   extraStyles={[STYLE_PATHS.INDEX, STYLE_PATHS.CHAT_WIDGET]}
-  extraScripts={[SCRIPT_PATHS.LAZYLOAD, SCRIPT_PATHS.INDEX]}
+  extraScripts={[SCRIPT_PATHS.INDEX]}
   og={{
     title: PAGE_TITLES.INDEX_OG,
     description,
@@ -58,7 +58,11 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
     <div id="wechatModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <div class="loader"></div>
+        <div class="loader">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
         <img
           id="wechatQR"
           data-src={IMAGE_PATHS.WECHAT_QR}
