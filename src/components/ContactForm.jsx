@@ -57,7 +57,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="name"
           className="form-control"
-          placeholder={texts.placeholders?.name || '你的名字'}
+          placeholder={texts.placeholders?.name || ''}
           value={form.name}
           onChange={handleChange}
           required
@@ -68,7 +68,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="contact"
           className="form-control"
-          placeholder={texts.placeholders?.contact || '你的联系方式'}
+          placeholder={texts.placeholders?.contact || ''}
           value={form.contact}
           onChange={handleChange}
           required
@@ -79,7 +79,7 @@ export default function ContactForm({ texts = {} }) {
           type="text"
           name="_subject"
           className="form-control"
-          placeholder={texts.placeholders?.subject || '主题'}
+          placeholder={texts.placeholders?.subject || ''}
           value={form._subject}
           onChange={handleChange}
           required
@@ -90,7 +90,7 @@ export default function ContactForm({ texts = {} }) {
           name="message"
           className="form-control"
           rows="5"
-          placeholder={texts.placeholders?.message || '内容描述'}
+          placeholder={texts.placeholders?.message || ''}
           value={form.message}
           onChange={handleChange}
           required

@@ -24,6 +24,7 @@
     - [BUG-015: Enhancement progress stuck when scripts load from memory cache](#bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
     - [BUG-016: document is not defined during build](#bug-016-document-is-not-defined-during-build)
     - [BUG-017: NavBar hydration mismatch when language differs](#bug-017-navbar-hydration-mismatch-when-language-differs)
+    - [BUG-018: About page hydration mismatch and flicker](#bug-018-about-page-hydration-mismatch-and-flicker)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -87,6 +88,7 @@
 - [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
 - [x] BUG-016: document is not defined during build
 - [x] BUG-017: NavBar hydration mismatch when language differs
+- [x] BUG-018: About page hydration mismatch and flicker
 
 ---
 
@@ -290,7 +292,7 @@
   ```html
   <script is:inline>
     try {
-      const stored = localStorage.getItem('preferred_theme');
+      const stored = localStorage.getItem('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');
     } catch {}
   </script>
@@ -380,3 +382,19 @@
   3. 导航栏和主题切换同时渲染中英文文本，通过 CSS 根据 `html[lang]` 隐藏未选语言
 - **验证结果**：✅ 中英文模式下刷新页面均无闪烁，也无 Hydration 报错
 - **经验总结**：SSR 组件需共享同一语言来源并同时渲染多语言文本，以避免渲染不一致
+
+### BUG-018: About page hydration mismatch and flicker
+
+- **发现日期**：2025-07-28
+- **重现环境**：Chrome 最新版，切换语言后刷新 About 页面
+- **问题现象**：
+  - 首次加载时先显示中文内容后切换为英文，页面发生闪烁
+  - 控制台报 `Hydration failed` 错误
+- **根本原因**：
+  - 服务端无法访问浏览器 localStorage，默认返回中文
+  - AboutContent 仅渲染当前语言文本，服务端与客户端标记不一致
+- **解决方案**：
+  1. About 页面同时渲染中英文内容，CSS 根据 `html[lang]` 隐藏未选语言
+  2. `data-initial-lang` 保持与服务器输出一致，避免 React 水合差异
+- **验证结果**：✅ 切换和刷新 About 页面均无闪烁，也无 Hydration 报错
+- **经验总结**：多语言页面在 SSR 场景下应让服务端获得初始语言，并同时输出所有语言版本以保持 DOM 一致
