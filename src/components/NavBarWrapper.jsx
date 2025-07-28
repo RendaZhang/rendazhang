@@ -1,10 +1,13 @@
 import { ThemeProvider } from '../context/ThemeContext.jsx';
+import { LanguageProvider } from '../context/LanguageContext.jsx';
 import NavBar from './NavBar.jsx';
 
-export default function NavBarWrapper() {
+export default function NavBarWrapper({ initialLang }) {
   return (
     <ThemeProvider>
-      <NavBar />
+      <LanguageProvider initialLang={initialLang}>
+        <NavBar />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

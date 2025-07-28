@@ -186,21 +186,19 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    <LanguageProvider initialLang={initialLang}>
-      {
-        showNav ? (
-          <slot name="nav">
-            <NavBarWrapper client:load />
-          </slot>
-        ) : null
-      }
-      <main class={mainClass} {...mainAttrs}>
-        <!-- 页面主体内容插槽 -->
-        <slot />
-      </main>
-      <slot name="bodyEnd" />
-      {showFooter && <slot name="footer" />}
-      {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
-    </LanguageProvider>
+    {
+      showNav ? (
+        <slot name="nav">
+          <NavBarWrapper client:load initialLang={initialLang} />
+        </slot>
+      ) : null
+    }
+    <main class={mainClass} {...mainAttrs}>
+      <!-- 页面主体内容插槽 -->
+      <slot />
+    </main>
+    <slot name="bodyEnd" />
+    {showFooter && <slot name="footer" />}
+    {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
   </body>
 </html>
