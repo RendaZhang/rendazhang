@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  CREDLY_HOST,
-  CREDLY_BADGE_ID,
-  CREDLY_EMBED_IFRAME,
-  SCRIPT_PATHS,
-  VERIFY_URLS
-} from '../config.js';
+import { VERIFY_URLS } from '../config.js';
 import { CERTIFICATIONS_CONTENT } from '../content/certificationsContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import LocalizedSection from './LocalizedSection.jsx';
+import CredlyBadge from './CredlyBadge.jsx';
 
 export default function CertificationsContent() {
   const { lang } = useLanguage();
@@ -62,16 +57,7 @@ export default function CertificationsContent() {
                   }
                 />
               </p>
-              <div className="credly-container">
-                <div className="loader"></div>
-                <div
-                  data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}
-                  data-iframe-height={CREDLY_EMBED_IFRAME.HEIGHT}
-                  data-share-badge-id={CREDLY_BADGE_ID}
-                  data-share-badge-host={CREDLY_HOST}
-                ></div>
-              </div>
-              <script async src={SCRIPT_PATHS.CREDLY_EMBED}></script>
+              <CredlyBadge />
               <p className="verify-links">
                 <a
                   className="verify-btn"
