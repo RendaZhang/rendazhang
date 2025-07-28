@@ -1,5 +1,6 @@
 ---
 import NavBarWrapper from '../components/NavBarWrapper.jsx';
+import { LanguageProvider } from '../context/LanguageContext.jsx';
 import {
   FAVICON_PATH,
   STYLE_PATHS,
@@ -16,6 +17,8 @@ import {
   GEO_ICBM,
   TWITTER_HANDLE
 } from '../config.js';
+
+const initialLang = Astro.cookies.get('preferred_lang')?.value || 'zh-CN';
 
 const {
   lang = 'zh',
@@ -182,19 +185,21 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    {
-      showNav ? (
-        <slot name="nav">
-          <NavBarWrapper client:load />
-        </slot>
-      ) : null
-    }
-    <main class={mainClass} {...mainAttrs}>
-      <!-- 页面主体内容插槽 -->
-      <slot />
-    </main>
-    <slot name="bodyEnd" />
-    {showFooter && <slot name="footer" />}
-    {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
+    <LanguageProvider initialLang={initialLang}>
+      {
+        showNav ? (
+          <slot name="nav">
+            <NavBarWrapper client:load />
+          </slot>
+        ) : null
+      }
+      <main class={mainClass} {...mainAttrs}>
+        <!-- 页面主体内容插槽 -->
+        <slot />
+      </main>
+      <slot name="bodyEnd" />
+      {showFooter && <slot name="footer" />}
+      {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
+    </LanguageProvider>
   </body>
 </html>

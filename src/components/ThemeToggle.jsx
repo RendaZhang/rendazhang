@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext.jsx';
 import { NAV_CONTENT } from '../content/navContent.js';
-import { getCurrentLang } from '../utils/lang.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
 
-export default function ThemeToggle({ lang: langProp }) {
+export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
+  const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const optionsRef = useRef(null);
-  const lang = langProp || getCurrentLang();
   const texts = (NAV_CONTENT[lang] && NAV_CONTENT[lang].theme) || {};
 
   useEffect(() => {
