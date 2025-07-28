@@ -1,15 +1,7 @@
 import React from 'react';
 import ContactForm from './ContactForm.jsx';
 import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../config.js';
-
-function getLangContent() {
-  if (typeof document === 'undefined' || typeof window === 'undefined') {
-    return null;
-  }
-  const lang = document.documentElement.lang.startsWith('zh') ? 'zh' : 'en';
-  const content = window.aboutPageContent || {};
-  return (content[lang] && content[lang].contact) || null;
-}
+import { getLangContent } from '../utils/lang.js';
 
 export default function ContactSection() {
   const langContent = getLangContent();
