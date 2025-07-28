@@ -27,13 +27,14 @@
     - [BUG-018: About page hydration mismatch and flicker](#bug-018-about-page-hydration-mismatch-and-flicker)
     - [BUG-019: Contact form placeholders flicker on first render](#bug-019-contact-form-placeholders-flicker-on-first-render)
     - [BUG-020: THEME_STORAGE_KEY 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
+    - [BUG-021: Chat input placeholder flickers when switching languages](#bug-021-chat-input-placeholder-flickers-when-switching-languages)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 29, 2025, 03:30 (UTC+8)
+- **最后更新**: July 29, 2025, 06:00 (UTC+8)
 
 ---
 
@@ -93,6 +94,7 @@
 - [x] BUG-018: About page hydration mismatch and flicker
 - [x] BUG-019: Contact form placeholders flicker on first render
 - [x] BUG-020: THEME_STORAGE_KEY 读取为 null
+- [x] BUG-021: Chat input placeholder flickers when switching languages
 
 ---
 
@@ -430,3 +432,15 @@
   - 通过 `define:vars={{ themeKey: THEME_STORAGE_KEY }}` 将常量值注入行内脚本
   - 使用 `localStorage.getItem(themeKey)` 读取存储值
 - **验证结果**：✅ 控制台能够正确获取主题值
+
+### BUG-021: Chat input placeholder flickers when switching languages
+
+- **发现日期**：2025-07-29
+- **重现环境**：DeepSeek Chat 页面，切换语言后刷新
+- **问题现象**：
+  - 聊天输入框占位文本先显示上一次语言的内容再切换
+- **根本原因**：
+  - `Chat` 组件在渲染时直接根据 `langKey` 设置 placeholder，语言尚未确定时会渲染默认值
+- **解决方案**：
+  - 新增 `placeholder` 状态，待语言和加载状态确定后再更新
+- **验证结果**：✅ 切换语言时占位符不再闪烁
