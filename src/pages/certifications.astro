@@ -1,12 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CertificationsContent from '../components/CertificationsContent.jsx';
 import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
-  VERIFY_URLS,
-  CREDLY_HOST,
-  CREDLY_BADGE_ID,
-  CREDLY_EMBED_IFRAME,
   IMAGE_PATHS,
   STYLE_PATHS,
   SCRIPT_PATHS,
@@ -15,9 +12,13 @@ import {
   CERTIFICATIONS_IMAGE_ALT,
   OG_IMAGE_DIMENSIONS
 } from '../config.js';
+import { getCurrentLang } from '../utils/langUtils.js';
+
+const langDefault = getCurrentLang();
 ---
 
 <BaseLayout
+  lang={langDefault}
   title={PAGE_TITLES.CERTIFICATIONS}
   description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
@@ -41,36 +42,5 @@ import {
     imageAlt: CERTIFICATIONS_IMAGE_ALT
   }}
 >
-  <div class="container">
-    <h1>Professional Certifications</h1>
-
-    <section class="cert-grid">
-      <article class="cert-card">
-        <h2>AWS Certified Solutions Architect - Associate (SAA-C03)</h2>
-        <p><strong>Name:</strong> Renda Zhang</p>
-        <p>
-          <strong>Issued:</strong> 2025-06-16&nbsp;&nbsp;•&nbsp;&nbsp;<strong>Expires:</strong> 2028-06-16
-        </p>
-
-        <div class="credly-container">
-          <div class="loader"></div>
-          <div
-            data-iframe-width={CREDLY_EMBED_IFRAME.WIDTH}
-            data-iframe-height={CREDLY_EMBED_IFRAME.HEIGHT}
-            data-share-badge-id={CREDLY_BADGE_ID}
-            data-share-badge-host={CREDLY_HOST}
-          >
-          </div>
-        </div>
-        <script async src={SCRIPT_PATHS.CREDLY_EMBED}></script>
-
-        <p class="verify-links">
-          <a class="verify-btn" href={VERIFY_URLS.CREDLY} target="_blank">Verify on Credly</a>
-          <a class="verify-btn" href={VERIFY_URLS.AWS} target="_blank">Verify on AWS</a>
-        </p>
-      </article>
-
-      <!-- 以后要加新证书 → 复制 <article> 再改文本即可 -->
-    </section>
-  </div>
+  <CertificationsContent client:load />
 </BaseLayout>
