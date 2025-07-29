@@ -37,16 +37,6 @@
     <lastmod>2025-07-29</lastmod>
   </url>
 
-  <!-- About Page -->
-  <url>
-    <loc>https://www.rendazhang.com/about/</loc>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about/" />
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2025-07-29</lastmod>
-  </url>
 
   <!-- 中文简历 PDF -->
   <url>

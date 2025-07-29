@@ -1,20 +1,17 @@
 ---
-import { IndexContent } from '../components/sections';
 import { BaseLayout } from '../layouts';
+import { AboutContent } from '../components/sections';
+import '../styles/about.css';
+import '../styles/social-icons.css';
 import {
   SITE_BASE_URL,
-  SITE_DOMAIN,
+  PAGE_TITLES,
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
-  SITE_AUTHOR_EN,
-  PAGE_TITLES,
-  LOGO_ALT,
   HOME_PAGE_PATH,
-  DEFAULT_SOCIAL_IMAGE,
-  OG_IMAGE_DIMENSIONS
+  STYLE_PATHS
 } from '../config.js';
 import { getCurrentLang } from '../utils';
-import '../styles/index.css';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
@@ -27,25 +24,8 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
   title={title}
   description={description}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
-  og={{
-    title: PAGE_TITLES.INDEX_OG,
-    description,
-    url: `${SITE_BASE_URL}${HOME_PAGE_PATH}`,
-    image: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`,
-    imageWidth: OG_IMAGE_DIMENSIONS.WIDTH,
-    imageHeight: OG_IMAGE_DIMENSIONS.HEIGHT,
-    imageAlt: langKey === 'zh' ? LOGO_ALT.ZH : LOGO_ALT.EN,
-    secureImageUrl: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`
-  }}
-  twitter={{
-    title: PAGE_TITLES.INDEX_OG,
-    description,
-    image: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`,
-    imageAlt: langKey === 'zh' ? LOGO_ALT.ZH : LOGO_ALT.EN,
-    domain: SITE_DOMAIN
-  }}
-  metaAuthor={SITE_AUTHOR_EN}
-  metaLanguage="en, zh-CN"
+  preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
+  extraStyles={[STYLE_PATHS.CHAT_WIDGET]}
 >
-  <IndexContent client:load />
+  <AboutContent client:load />
 </BaseLayout>

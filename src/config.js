@@ -7,7 +7,6 @@ import csdnLogo from './assets/social/csdn-logo.svg';
 import mediumLogo from './assets/social/medium-logo.svg';
 import chatWidgetCssUrl from './styles/chat_widget.css?url';
 import docsCssUrl from './styles/docs.css?url';
-import indexCssUrl from './styles/index.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
 import certificationsCssUrl from './styles/certifications.css?url';
 import bootstrapCssUrl from './styles/bootstrap.min.css?url';
@@ -39,7 +38,7 @@ export const JSON_HEADERS = {
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 
 // Additional site page paths
-export const ABOUT_PAGE_PATH = '/about';
+export const ABOUT_PAGE_PATH = '/';
 export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
 export const LOGIN_PAGE_PATH = '/login';
@@ -143,7 +142,6 @@ export const STYLE_PATHS = {
   BOOTSTRAP: bootstrapCssUrl,
   GITHUB: githubCssUrl,
   DOCS: docsCssUrl,
-  INDEX: indexCssUrl,
   DEEPSEEK_CHAT: deepseekChatCssUrl,
   GITHUB_DARK: githubDarkCssUrl,
   GITHUB_LIGHT: githubLightCssUrl,

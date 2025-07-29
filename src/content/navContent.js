@@ -6,7 +6,6 @@ export const NAV_CONTENT = {
     menu: 'Menu',
     drawer: {
       home: 'Home',
-      about: 'About',
       chat: 'AI Chat',
       certs: 'Certifications',
       docs: 'Tech Docs'
@@ -24,8 +23,7 @@ export const NAV_CONTENT = {
     menu: '菜单',
     drawer: {
       home: '首页',
-      about: '关于我',
-      chat: '与 AI 聊天',
+      chat: 'AI 聊天',
       certs: '证书',
       docs: '技术文档'
     },

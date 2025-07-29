@@ -166,7 +166,7 @@ After deployment you can access each page directly.
 
 Sample links:
 
-- 🌐 [About](https://www.rendazhang.com/about/)
+- 🌐 [Home](https://www.rendazhang.com/)
 - 🌐 [Chat with AI](https://www.rendazhang.com/deepseek_chat/)
 - 🌐 [Certifications](https://www.rendazhang.com/certifications/)
 - 🌐 [Rendered Tech Docs](https://www.rendazhang.com/docs/)
@@ -190,8 +190,7 @@ Sample links:
 
 Key responsibilities of each page (generated from `.astro` files):
 
-- `index.astro`: Entry page with quick links to About, AI Chat and Certifications, with ChatWidget by default.
-- `about.astro`: Personal info, education, skills, blog and work experience.
+- `index.astro`: Personal info, education, skills, blog and work experience, with ChatWidget by default.
 - `certifications.astro`: Certificate list.
 - `deepseek_chat.astro`: AI chat interface.
 
@@ -201,32 +200,27 @@ Other pages:
 
 #### Routing Logic
 
-- `index.astro` links to About, AI Chat and Certifications.
-- Sub‑pages include a return button to the entry page.
-- The About page uses anchor navigation for Skills, Experience, etc., and links to the blog.
+- `index.astro` links to AI Chat and Certifications.
+- Sub‑pages include a return button to the home page.
+- The homepage uses anchor navigation for Skills, Experience, etc., and links to the blog.
 
 Mermaid Flow:
 
 ```mermaid
 flowchart TD
-    A[index] -->|About| B[about.astro]
-    A -->|Chat with AI| C[deepseek_chat.astro]
-    A -->|Certifications| D[certifications.astro]
+    A[index] -->|Chat with AI| B[deepseek_chat.astro]
+    A -->|Certifications| C[certifications.astro]
     B -->|Home| A
-    B -->|Certifications| D
     C -->|Home| A
-    D -->|Home| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
-    style C fill:#f9f,stroke:#333
-    style D fill:#ff9,stroke:#333
+    style C fill:#ff9,stroke:#333
 ```
 
 #### Page Descriptions
 
-- `index.astro`: Simple layout with links to About, AI Chat, Certifications and docs. ChatWidget floats by default with icons linking to WeChat Official Account, Zhihu, Toutiao, CSDN and Medium.
-- `about.astro`: Multi‑section page with side menu: "Hero", "About", "Education", "Blog", "Skills", "Experience", "Contact".
+- `index.astro`: Multi-section homepage with side menu: "Hero", "About", "Education", "Blog", "Skills", "Experience", "Contact". ChatWidget floats by default with icons linking to WeChat Official Account, Zhihu, Toutiao, CSDN and Medium.
 - `certifications.astro`: Grid cards showing certificates with Credly links.
 - `deepseek_chat.astro`: Chat view rendering AI Markdown, copy one‑click, history persists after refresh.
 - `404.html / 50x.html`: Simple text pages.
