@@ -30,6 +30,9 @@ import '../styles/docs.css';
   }}
   metaLanguage="en, zh-CN"
 >
+  <Fragment slot="head">
+    <link rel="stylesheet" href={STYLE_PATHS.GITHUB_DARK} />
+  </Fragment>
   <div id="content-zh" class="lang-zh">{LOADING_TEXT}</div>
   <div id="content-en" class="lang-en">{LOADING_TEXT}</div>
   <Fragment slot="bodyEnd">

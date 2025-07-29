@@ -13,6 +13,7 @@ import certificationsCssUrl from './styles/certifications.css?url';
 import bootstrapCssUrl from './styles/bootstrap.min.css?url';
 import githubCssUrl from './styles/github.min.css?url';
 import githubLightCssUrl from './styles/github-markdown-light.min.css?url';
+import githubDarkCssUrl from './styles/github-dark.css?url';
 import markedUrl from './scripts/marked.min.js?url';
 import purifyUrl from './scripts/purify.min.js?url';
 import highlightUrl from './scripts/highlight.min.js?url';
@@ -144,6 +145,7 @@ export const STYLE_PATHS = {
   DOCS: docsCssUrl,
   INDEX: indexCssUrl,
   DEEPSEEK_CHAT: deepseekChatCssUrl,
+  GITHUB_DARK: githubDarkCssUrl,
   GITHUB_LIGHT: githubLightCssUrl,
   CERTIFICATIONS: certificationsCssUrl
 };
