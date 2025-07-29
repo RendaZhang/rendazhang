@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatWidget from './ChatWidget.jsx';
 import {
   SITE_BASE_URL,
@@ -12,6 +12,21 @@ import {
 import { INDEX_CONTENT } from '../content/indexContent.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import LocalizedSection from './LocalizedSection.jsx';
+
+function SocialIcon({ href, id, src, alt, ariaLabel }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <a href={href} aria-label={ariaLabel} id={id}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className={loaded ? 'loaded' : 'loading'}
+        onLoad={() => setLoaded(true)}
+      />
+    </a>
+  );
+}
 
 export default function IndexContent() {
   const { lang } = useLanguage();
@@ -44,21 +59,37 @@ export default function IndexContent() {
         </a>
       </div>
       <div className="social-icons" aria-label="Social Links">
-        <a href={SITE_BASE_URL} aria-label="WeChat Official Account" id="wechatLink">
-          <img src={SOCIAL_ICON_PATHS.WECHAT} alt="WeChat logo" loading="lazy" />
-        </a>
-        <a href={SOCIAL_LINKS.ZHIHU} aria-label="Zhihu">
-          <img src={SOCIAL_ICON_PATHS.ZHIHU} alt="Zhihu logo" loading="lazy" />
-        </a>
-        <a href={SOCIAL_LINKS.TOUTIAO} aria-label="Toutiao">
-          <img src={SOCIAL_ICON_PATHS.TOUTIAO} alt="Toutiao logo" loading="lazy" />
-        </a>
-        <a href={SOCIAL_LINKS.CSDN} aria-label="CSDN">
-          <img src={SOCIAL_ICON_PATHS.CSDN} alt="CSDN logo" loading="lazy" />
-        </a>
-        <a href={SOCIAL_LINKS.MEDIUM} aria-label="Medium">
-          <img src={SOCIAL_ICON_PATHS.MEDIUM} alt="Medium logo" loading="lazy" />
-        </a>
+        <SocialIcon
+          href={SITE_BASE_URL}
+          ariaLabel="WeChat Official Account"
+          id="wechatLink"
+          src={SOCIAL_ICON_PATHS.WECHAT}
+          alt="WeChat logo"
+        />
+        <SocialIcon
+          href={SOCIAL_LINKS.ZHIHU}
+          ariaLabel="Zhihu"
+          src={SOCIAL_ICON_PATHS.ZHIHU}
+          alt="Zhihu logo"
+        />
+        <SocialIcon
+          href={SOCIAL_LINKS.TOUTIAO}
+          ariaLabel="Toutiao"
+          src={SOCIAL_ICON_PATHS.TOUTIAO}
+          alt="Toutiao logo"
+        />
+        <SocialIcon
+          href={SOCIAL_LINKS.CSDN}
+          ariaLabel="CSDN"
+          src={SOCIAL_ICON_PATHS.CSDN}
+          alt="CSDN logo"
+        />
+        <SocialIcon
+          href={SOCIAL_LINKS.MEDIUM}
+          ariaLabel="Medium"
+          src={SOCIAL_ICON_PATHS.MEDIUM}
+          alt="Medium logo"
+        />
       </div>
       <ChatWidget />
     </div>

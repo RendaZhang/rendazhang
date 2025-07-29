@@ -6,7 +6,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-  
+
 .about-section,
 .chat-section,
 .certification-section,
@@ -21,7 +21,7 @@
 .docs-section a {
   margin: 0 10px;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -29,7 +29,9 @@
   display: inline-block;
   font-size: 16px;
   border-radius: 4px;
-  transition: filter 0.3s, transform 0.3s;
+  transition:
+    filter 0.3s,
+    transform 0.3s;
 }
 
 .about-section a:hover,
@@ -39,7 +41,6 @@
   filter: brightness(1.1);
   transform: translateY(-2px);
 }
-
 
 .code-icon {
   margin-right: 5px;
@@ -54,10 +55,18 @@
   margin: 0 8px;
   vertical-align: middle;
 }
+.social-icons img.loading {
+  opacity: 0.5;
+  animation: spin 1s linear infinite;
+}
+.social-icons img.loaded {
+  opacity: 1;
+  animation: none;
+}
 @media (max-width: 480px) {
   .social-icons img {
-      width: 24px;
-      height: 24px;
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -113,10 +122,29 @@
   border-radius: 50%;
   animation: bounce 1.4s infinite both;
 }
-.loader .dot:nth-child(1) { animation-delay: -0.32s; }
-.loader .dot:nth-child(2) { animation-delay: -0.16s; }
+.loader .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.loader .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
 
 @keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
