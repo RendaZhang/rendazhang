@@ -28,13 +28,14 @@
     - [BUG-019: Contact form placeholders flicker on first render](#bug-019-contact-form-placeholders-flicker-on-first-render)
     - [BUG-020: THEME_STORAGE_KEY 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
     - [BUG-021: Chat input placeholder flickers when switching languages](#bug-021-chat-input-placeholder-flickers-when-switching-languages)
+    - [BUG-022: Docs page Mermaid errors when hidden diagrams render](#bug-022-docs-page-mermaid-errors-when-hidden-diagrams-render)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 29, 2025, 06:00 (UTC+8)
+- **最后更新**: July 29, 2025, 21:07 (UTC+8)
 
 ---
 
@@ -95,6 +96,7 @@
 - [x] BUG-019: Contact form placeholders flicker on first render
 - [x] BUG-020: THEME_STORAGE_KEY 读取为 null
 - [x] BUG-021: Chat input placeholder flickers when switching languages
+- [x] BUG-022: Docs page Mermaid errors when hidden diagrams render
 
 ---
 
@@ -444,3 +446,16 @@
 - **解决方案**：
   - 新增 `placeholder` 状态，待语言和加载状态确定后再更新
 - **验证结果**：✅ 切换语言时占位符不再闪烁
+
+### BUG-022: Docs page Mermaid errors when hidden diagrams render
+
+- **发现日期**：2025-07-30
+- **重现环境**：Docs 页面，默认语言与另一语种同时渲染
+- **问题现象**：
+  - 控制台报 `translate(undefined, NaN)` 和 `Could not find a suitable point for the given distance`
+  - Mermaid 图表未显示
+- **根本原因**：
+  - 初始化 Mermaid 时同时处理被 `display:none` 的隐藏语言容器，元素尺寸为 0 导致布局计算失败
+- **解决方案**：
+  - 根据 `document.documentElement.lang` 仅选择可见语言容器内的 `.language-mermaid` 代码块渲染
+- **验证结果**：✅ 页面加载不再报错，图表正确呈现
