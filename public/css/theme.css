@@ -214,7 +214,6 @@ main.main-content {
   }
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 auto; /* 允许自适应缩放 */
     min-width: 0; /* 允许更小的宽度 */
     margin: 3px; /* 减少外边距 */
     padding: 10px 5px; /* 优化内边距 */
@@ -235,7 +234,6 @@ main.main-content {
   }
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 auto; /* 自适应宽度 */
     min-width: 0;
     padding: 8px 3px; /* 紧凑内边距 */
     font-size: 0.8rem; /* 字体大小 */
@@ -247,7 +245,6 @@ main.main-content {
 @media (max-width: 360px) {
   nav a,
   nav button:not(.theme-option) {
-    flex: 1 1 auto;
     min-width: 0;
     margin: 4px 3px;
     padding: 8px 3px;
