@@ -1,67 +1,46 @@
-/* 根据 html lang 属性控制显示语言 */
-html[lang^='en'] .lang-zh {
-  display: none;
-}
-html[lang^='zh'] .lang-en {
-  display: none;
+/* ====================================================================== */
+/* Theme Styles - improved readability and responsiveness */
+/* ====================================================================== */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  --color-bg: #f5f5f5;
+  --color-text: #333;
+  --color-nav-bg: #fff;
+  --color-nav-text: #333;
+  --gradient-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  --gradient-dark: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 响应式设计 */
-/*  手机适配 (小于 768px) */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: row; /* 保持水平排列 */
-    flex-wrap: nowrap; /* 在小屏幕保持单行 */
-    justify-content: center; /* 居中项目 */
-    padding: 8px 10px; /* 优化内边距 */
-    padding-left: 60px;
-    gap: 8px; /* 项目间间隙 */
-    height: auto; /* 自动高度 */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 添加阴影提升层次感 */
-  }
-  nav a,
-  nav button:not(.theme-option) {
-    min-width: 0; /* 允许更小的宽度 */
-    margin: 3px; /* 减少外边距 */
-    padding: 10px 5px; /* 优化内边距 */
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 0.85rem; /* 微调字体大小 */
-    border-radius: 8px; /* 增大圆角更符合移动端 */
-  }
-}
-/* 小屏幕优化 (小于 480px) */
-@media (max-width: 480px) {
-  nav {
-    padding: 6px 8px;
-    gap: 6px; /* 减小间隙 */
-    flex-wrap: nowrap; /* 保持单行 */
-  }
-  nav a,
-  nav button:not(.theme-option) {
-    min-width: 0;
-    padding: 8px 3px; /* 紧凑内边距 */
-    font-size: 0.8rem; /* 字体大小 */
-    border-radius: 6px; /* 圆角 */
-  }
-}
-/* 超小屏幕优化 (小于 360px) */
-@media (max-width: 360px) {
-  nav a,
-  nav button:not(.theme-option) {
-    min-width: 0;
-    margin: 4px 3px;
-    padding: 8px 3px;
-    font-size: 0.75rem;
-  }
+/* Dark mode overrides */
+html.dark-mode {
+  --color-bg: #121212;
+  --color-text: #e0e0e0;
+  --color-nav-bg: #333;
+  --gradient-primary: var(--gradient-dark);
 }
 
-/* Body styles */
+/* ---------- Global Reset ---------- */
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* ---------- Language Helpers ---------- */
+html[lang^='en'] .lang-zh { display: none; }
+html[lang^='zh'] .lang-en { display: none; }
+
+/* ---------- Layout ---------- */
 body {
-  font-family: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif !important;
+  font-family: var(--font-body) !important;
   margin: 0;
   padding: 5rem 0 0;
-  background-color: #f5f5f5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -70,7 +49,6 @@ body {
   width: 100%;
 }
 
-/* Main Content styles */
 main.main-content {
   width: 100%;
   max-width: 100%;
@@ -79,65 +57,48 @@ main.main-content {
   text-align: left;
 }
 
-/* Navigation Bar styles */
+/* ---------- Navigation ---------- */
 nav {
   width: 100%;
-  box-sizing: border-box;
-  background-color: #fff;
-  color: #333;
-  padding: 0.5rem 0.5rem;
-  align-items: center;
-  text-align: center;
+  background-color: var(--color-nav-bg);
+  color: var(--color-nav-text);
+  padding: 0.5rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  text-align: center;
   position: fixed;
+  top: 0;
   left: 0;
   right: 0;
-  top: 0;
   z-index: 1000;
 }
-/* 导航栏的 a 样式 */
-nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
-}
-nav a:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-}
-nav a:active {
-  transform: translateY(0);
-}
-/* 导航栏 button 的样式 */
-/* Theme Option Button 的样式另外设计 */
+
+nav a,
 nav button:not(.theme-option) {
   color: #fff;
   text-decoration: none;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-elevated);
   border-radius: 4px;
+  transition: filter 0.3s, transform 0.3s;
+}
+nav button:not(.theme-option) {
   border: none;
   cursor: pointer;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
 }
+nav a:hover,
 nav button:not(.theme-option):hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
 }
+nav a:active,
 nav button:not(.theme-option):active {
   transform: translateY(0);
 }
-/* 导航栏 Hamburger menu 样式 */
+
+/* Hamburger menu */
 nav .hamburger-btn:hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
@@ -149,9 +110,7 @@ nav .hamburger-btn span {
   margin: 3px 0;
   background: #fff;
   border-radius: 1px;
-  transition:
-    transform 0.3s,
-    opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
 }
 nav .hamburger-btn.open span:nth-child(1) {
   transform: translateY(5px) rotate(45deg);
@@ -162,6 +121,8 @@ nav .hamburger-btn.open span:nth-child(2) {
 nav .hamburger-btn.open span:nth-child(3) {
   transform: translateY(-5px) rotate(-45deg);
 }
+
+/* Side menu */
 nav .side-menu-overlay {
   position: fixed;
   inset: 0;
@@ -183,7 +144,7 @@ nav .side-menu {
   width: 220px;
   max-width: 80%;
   padding: 60px 20px 20px;
-  background: #fff;
+  background: var(--color-nav-bg);
   transform: translateX(-100%);
   transition: transform 0.3s;
   z-index: 1002;
@@ -191,16 +152,17 @@ nav .side-menu {
   flex-direction: column;
   gap: 1rem;
 }
+nav .side-menu.open {
+  transform: translateX(0);
+}
 nav .side-menu a {
   color: #fff;
   text-decoration: none;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-elevated);
   border-radius: 4px;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
+  transition: filter 0.3s, transform 0.3s;
 }
 nav .side-menu a:hover {
   filter: brightness(1.1);
@@ -209,24 +171,24 @@ nav .side-menu a:hover {
 nav .side-menu a:active {
   transform: translateY(0);
 }
-nav .side-menu.open {
-  transform: translateX(0);
+
+/* Theme toggle */
+nav .theme-toggle-wrapper {
+  position: relative;
+  display: inline-block;
 }
-/* theme toggle styles */
 nav .theme-toggle-main {
   position: relative;
   color: #fff;
   text-decoration: none;
   padding: 6px 12px;
   font-size: 0.9rem;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-elevated);
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
+  transition: filter 0.3s, transform 0.3s;
 }
 nav .theme-toggle-main:hover {
   filter: brightness(1.1);
@@ -235,10 +197,7 @@ nav .theme-toggle-main:hover {
 nav .theme-toggle-main:active {
   transform: translateY(0);
 }
-nav .theme-toggle-wrapper {
-  position: relative;
-  display: inline-block;
-}
+
 nav .theme-options {
   position: absolute;
   top: calc(100% + 4px);
@@ -247,12 +206,11 @@ nav .theme-options {
   display: flex;
   gap: 4px;
   padding: 4px;
-  background-color: #fff;
+  background-color: var(--color-nav-bg);
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 1001;
 }
-/* them option styles */
 nav .theme-option {
   width: 28px;
   height: 28px;
@@ -263,9 +221,7 @@ nav .theme-option {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition:
-    background-color 0.2s,
-    box-shadow 0.2s;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 nav .theme-option.light {
   background-color: #fafafa;
@@ -282,32 +238,10 @@ nav .theme-option.active {
   border-color: #ff9800;
 }
 
-/* ---------------- Dark Mode Enhancements ---------------- */
-/* 黑暗模式适配 */
-html.dark-mode body,
-body.dark-mode {
-  background-color: #222;
-  color: #eee;
-}
-html.dark-mode nav,
-body.dark-mode nav {
-  background-color: #333;
-}
-html.dark-mode body,
-body.dark-mode {
-  background-color: #222;
-  color: #eee;
-}
-html.dark-mode nav,
-body.dark-mode nav {
-  background-color: #333;
-}
-html.dark-mode .side-menu {
-  background: #333;
-  color: #eee;
-}
+/* ---------- Dark Mode Components ---------- */
+html.dark-mode .side-menu,
 html.dark-mode .theme-options {
-  background-color: #333;
+  background: #333;
 }
 html.dark-mode .theme-option.light {
   background-color: #ddd;
@@ -317,91 +251,99 @@ html.dark-mode .theme-option.dark {
   background-color: #222;
   color: #fff;
 }
-html.dark-mode body,
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
 html.dark-mode main.main-content,
-html.dark-mode .container,
-body.dark-mode main.main-content,
-body.dark-mode .container {
+html.dark-mode .container {
   background-color: #1e1e1e;
-  color: #e0e0e0;
+  color: var(--color-text);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
-html.dark-mode nav,
-body.dark-mode nav {
-  background-color: #333;
-}
-html.dark-mode nav a,
-html.dark-mode nav button:not(.theme-option),
-html.dark-mode .theme-toggle-main,
-html.dark-mode a[role='button'],
-html.dark-mode button:not(.theme-option),
-body.dark-mode nav a,
-body.dark-mode nav button:not(.theme-option),
-body.dark-mode .theme-toggle-main,
-body.dark-mode a[role='button'],
-body.dark-mode button:not(.theme-option) {
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
-  color: #fff;
-}
-html.dark-mode .chat-container,
-body.dark-mode .chat-container {
+html.dark-mode .chat-container {
   background: #242424;
 }
-html.dark-mode .user-message,
-body.dark-mode .user-message {
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+html.dark-mode .user-message {
+  background: var(--gradient-dark);
   color: #fff;
 }
-html.dark-mode .ai-message,
-body.dark-mode .ai-message {
+html.dark-mode .ai-message {
   background: #333;
-  color: #e0e0e0;
+  color: var(--color-text);
 }
-html.dark-mode .input-area,
-body.dark-mode .input-area {
+html.dark-mode .input-area {
   background: #1e1e1e;
   border-top: 1px solid #333;
 }
-html.dark-mode #message-input,
-body.dark-mode #message-input {
+html.dark-mode #message-input {
   background: #242424;
-  color: #e0e0e0;
+  color: var(--color-text);
   border: 1px solid #444;
 }
-html.dark-mode #message-input:focus,
-body.dark-mode #message-input:focus {
+html.dark-mode #message-input:focus {
   border-color: #8f94fb;
   box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.4);
 }
-html.dark-mode .cert-card,
-body.dark-mode .cert-card {
+html.dark-mode .cert-card {
   background: #2a2a2a;
-  color: #e0e0e0;
+  color: var(--color-text);
   border-color: #444;
 }
 html.dark-mode .verify-btn,
-body.dark-mode .verify-btn {
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+html.dark-mode header {
+  background: var(--gradient-dark);
   color: #fff;
 }
-html.dark-mode header,
-body.dark-mode header {
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
-  color: #fff;
-}
-html.dark-mode #enhancement-progress,
-body.dark-mode #enhancement-progress {
+html.dark-mode #enhancement-progress {
   background: rgba(34, 34, 34, 0.95);
-  color: #e0e0e0;
+  color: var(--color-text);
   border-color: #444;
 }
 html.dark-mode .social-icons img[alt='CSDN logo'],
-body.dark-mode .social-icons img[alt='CSDN logo'],
-html.dark-mode .social-icons img[alt='Medium logo'],
-body.dark-mode .social-icons img[alt='Medium logo'] {
+html.dark-mode .social-icons img[alt='Medium logo'] {
   filter: brightness(0) invert(1);
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 8px 10px;
+    padding-left: 60px;
+    gap: 8px;
+    height: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  nav a,
+  nav button:not(.theme-option) {
+    min-width: 0;
+    margin: 3px;
+    padding: 10px 5px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+}
+@media (max-width: 480px) {
+  nav {
+    padding: 6px 8px;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  nav a,
+  nav button:not(.theme-option) {
+    min-width: 0;
+    padding: 8px 3px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+}
+@media (max-width: 360px) {
+  nav a,
+  nav button:not(.theme-option) {
+    min-width: 0;
+    margin: 4px 3px;
+    padding: 8px 3px;
+    font-size: 0.75rem;
+  }
 }
