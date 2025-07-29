@@ -274,7 +274,7 @@ import Test from '../components/Test.jsx';
 比如：
 
 ```
-public/css/...
+src/styles/...
 public/fonts/...
 public/images/...
 ...
@@ -288,13 +288,13 @@ public/images/...
 
 可以将 Bootstrap 的 CSS 引入到全局。
 
-例如，将旧项目 HTML `<head>`中的 Bootstrap `<link>`标签加入 Astro 的主布局组件中，或者 直接把 Bootstrap 的 CSS 文件放入 `public/css` 并在页面中通过 `<link rel="stylesheet">` 引入。
+例如，将旧项目 HTML `<head>`中的 Bootstrap `<link>`标签加入 Astro 的主布局组件中，或者 将 Bootstrap 的 CSS 文件放入 `src/styles` 并在页面中通过 `<link rel="stylesheet">` 引入。
 
 #### 迁移自定义 CSS
 
-将旧 `css` 目录下自定义的样式表文件复制到 `public/css`（或根据需要置于 `src/styles` 后通过`@import`引入）。
+将旧 `css` 目录下自定义的样式表文件复制到 `src/styles`，必要时可通过 `@import` 或配置中的构建后 URL 引入。
 
-优先快速起效，可直接在主布局的 `<head>` 中以 `<link href="/css/your-styles.css" rel="stylesheet">` 方式引入旧有样式。
+优先快速起效，可直接在主布局的 `<head>` 中以 `<link href="/styles/your-styles.css" rel="stylesheet">` 方式引入旧有样式。
 
 随着重构推进，一些页面级样式已迁移到 `src/styles`，如 `theme.css`、`login.css`、`register.css`、`about.css`、`chat_widget.css`、`docs.css`、`index.css`、`deepseek_chat.css` 和 `certifications.css`，在对应的布局或页面中直接通过 `import '../styles/foo.css'` 或在配置中引用构建后的 URL。
 早期自定义脚本也陆续迁移至 `src/scripts`，如 `pages/index.js` 和 `pages/certifications.js` 已重构为 React 组件 `HomeEffects.jsx` 与 `CertificationsEffects.jsx`，Docs 页面的逻辑也提炼为 `DocsEffects.jsx`。这些组件分别在对应页面通过 `<HomeEffects client:load />`、`<CertificationsEffects client:load />` 与 `<DocsEffects client:load />` 调用，`credly_embed.js` 则被整合为 `CredlyBadge` 无需额外脚本。
@@ -315,8 +315,8 @@ import NavBar from '../components/NavBar.astro'; /* 假设稍后会创建导航�
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/custom.css" />
+    <link rel="stylesheet" href="/styles/bootstrap.min.css" />
+    <link rel="stylesheet" href="/styles/custom.css" />
   </head>
   <body>
     <NavBar />

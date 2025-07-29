@@ -10,6 +10,9 @@ import docsCssUrl from './styles/docs.css?url';
 import indexCssUrl from './styles/index.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
 import certificationsCssUrl from './styles/certifications.css?url';
+import bootstrapCssUrl from './styles/bootstrap.min.css?url';
+import githubCssUrl from './styles/github.min.css?url';
+import githubLightCssUrl from './styles/github-markdown-light.min.css?url';
 import markedUrl from './scripts/marked.min.js?url';
 import purifyUrl from './scripts/purify.min.js?url';
 import highlightUrl from './scripts/highlight.min.js?url';
@@ -136,12 +139,12 @@ export const SCRIPT_PATHS = {
 
 export const STYLE_PATHS = {
   CHAT_WIDGET: chatWidgetCssUrl,
-  BOOTSTRAP: '/css/bootstrap.min.css',
-  GITHUB: '/css/github.min.css',
+  BOOTSTRAP: bootstrapCssUrl,
+  GITHUB: githubCssUrl,
   DOCS: docsCssUrl,
   INDEX: indexCssUrl,
   DEEPSEEK_CHAT: deepseekChatCssUrl,
-  GITHUB_LIGHT: '/css/github-markdown-light.min.css',
+  GITHUB_LIGHT: githubLightCssUrl,
   CERTIFICATIONS: certificationsCssUrl
 };
 
