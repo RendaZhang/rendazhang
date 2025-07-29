@@ -25,6 +25,8 @@ export default function AboutContent() {
           />
         </h1>
       </section>
+      <SocialIcons />
+      <SocialIconsEffects />
       <section className="about-section">
         <h2 id="aboutTitle">
           <LocalizedSection zhContent={contentZh.title} enContent={contentEn.title} />
@@ -214,8 +216,6 @@ export default function AboutContent() {
         </div>
       </section>
       <ContactSection />
-      <SocialIcons />
-      <SocialIconsEffects />
     </div>
   );
 }
