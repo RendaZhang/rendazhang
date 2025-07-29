@@ -158,15 +158,6 @@
    | 技术文档       | ✅       |
    | 全局组件       | ✅       |
 
-- **文档页面特殊处理**：
-   - 同时渲染 `README.md` 和 `README.EN.md`
-   - 保持章节结构完全一致
-   - 图片本地化方案：
-     ```html
-     <img src="diagram_zh.png" class="img-zh">
-     <img src="diagram_en.png" class="img-en">
-     ```
-
 - **状态管理规划**：
    ```mermaid
    graph TD
