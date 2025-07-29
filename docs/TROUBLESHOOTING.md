@@ -489,7 +489,7 @@
 - **根本原因**：
   - WeChat QR 图片通过 Vite 资源对象传递，`data-src` 变成 `[object Object]`
 - **解决方案**：
-  - 使用 `?url` 导入 `qrcode_wechat.jpg`，确保得到字符串 URL
+  - 使用 `?url` 导入 `qrcode-wechat-medium-square-258x258.jpg`，确保得到字符串 URL
 - **验证结果**：✅ 图片成功加载
 
 ### BUG-025: Scripts run before React hydration

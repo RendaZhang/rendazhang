@@ -1,5 +1,5 @@
 // Centralized configuration for API endpoints and chat limits
-import wechatQr from './assets/qrcode_wechat.jpg?url';
+import wechatQr from './assets/qrcode-wechat-medium-square-258x258.jpg?url';
 import wechatLogo from './assets/social/wechat-logo.svg';
 import zhihuLogo from './assets/social/zhihu-logo.svg';
 import toutiaoLogo from './assets/social/toutiao-logo.svg';
@@ -153,11 +153,9 @@ export const STYLE_PATHS = {
 export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {
-  LOGO_EN: '/images/logo_en.png',
-  LOGO_ZH: '/images/logo_cn.png',
   WECHAT_QR: wechatQr,
-  HERO: '/images/hero.jpg',
-  CERTIFICATIONS_COVER: '/images/certifications_cover.jpg',
+  HERO: '/images/hero-default-low-rectangle-900x600.jpg',
+  CERTIFICATIONS_COVER: '/images/cover-certifications-high-rectangle-1200x630.jpg',
   RESUME_EN: '/images/Resume_RendaZhang.pdf',
   RESUME_ZH: '/images/个人简历_张人大.pdf'
 };
@@ -179,7 +177,7 @@ export const OG_IMAGE_DIMENSIONS = {
   HEIGHT: '630'
 };
 
-export const DEFAULT_SOCIAL_IMAGE = '/images/social_default.jpg';
+export const DEFAULT_SOCIAL_IMAGE = '/images/cover-certifications-high-rectangle-1200x630.jpg';
 
 // Shared site metadata
 export const GEO_REGION = 'CN-GD';
@@ -221,7 +219,7 @@ export const PERSON_SCHEMA = {
     }
   ],
   url: SITE_BASE_URL,
-  image: `${SITE_BASE_URL}/images/logo_en.png`,
+  image: `${SITE_BASE_URL}/images/logo-v4-high-circle-300x300.png`,
   jobTitle: 'Software Engineer',
   worksFor: {
     '@type': 'Organization',
