@@ -263,11 +263,11 @@ flowchart TD
    pre-commit install
    ```
 - 在每次提交前，钩子会自动运行，并执行操作：
-  - 将根目录的 README 同步到 `public/README.md`。
+  - 将根目录的 README 与 README_EN 同步到 `public/` 目录下。
   - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
 - 你也可以手动触发：
    ```bash
-   # cp README.md public/README.md && git add public/README.md
+   # cp README.md public/README.md && cp README_EN.md public/README_EN.md && git add public/README.md public/README_EN.md
    pre-commit run --all-files
    ```
 
