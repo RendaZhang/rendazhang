@@ -46,6 +46,24 @@ nav .hamburger-btn {
   top: 50%;
   transform: translateY(-50%);
 }
+nav a.avatar-link {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+}
+nav a.avatar-link svg {
+  width: 24px;
+  height: 24px;
+}
 
 /* 根据 html lang 属性控制显示语言 */
 html[lang^='en'] .lang-zh {
