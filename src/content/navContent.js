@@ -1,7 +1,6 @@
 export const NAV_CONTENT = {
   en: {
     home: 'Home',
-    // Deprecated keys kept for backward compatibility
     login: 'Login',
     register: 'Register',
     menu: 'Menu',
@@ -20,7 +19,6 @@ export const NAV_CONTENT = {
   },
   zh: {
     home: '首页',
-    // Deprecated keys kept for backward compatibility
     login: '登录',
     register: '注册',
     menu: '菜单',
