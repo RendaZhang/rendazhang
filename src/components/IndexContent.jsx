@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ChatWidget from './ChatWidget.jsx';
 import {
   SITE_BASE_URL,
@@ -15,9 +15,19 @@ import LocalizedSection from './LocalizedSection.jsx';
 
 function SocialIcon({ href, id, src, alt, ariaLabel }) {
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setLoaded(true);
+    }
+  }, []);
+
   return (
     <a href={href} aria-label={ariaLabel} id={id}>
+      {!loaded && <span className="spinner" aria-hidden="true" />}
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         loading="lazy"
