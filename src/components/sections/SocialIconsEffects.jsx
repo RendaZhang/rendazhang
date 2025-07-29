@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function HomeEffects() {
+export default function SocialIconsEffects() {
   useEffect(() => {
     const wechatLink = document.getElementById('wechatLink');
     const modal = document.getElementById('wechatModal');

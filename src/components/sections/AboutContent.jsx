@@ -3,7 +3,8 @@ import { ABOUT_CONTENT } from '../../content';
 import { IMAGE_PATHS, RESUME_EN_DOWNLOAD, RESUME_ZH_DOWNLOAD } from '../../config.js';
 import ContactSection from './ContactSection.jsx';
 import { useLanguage } from '../providers';
-import { LocalizedSection } from '../ui';
+import { LocalizedSection, SocialIcons } from '../ui';
+import SocialIconsEffects from './SocialIconsEffects.jsx';
 
 export default function AboutContent() {
   const { lang } = useLanguage();
@@ -213,6 +214,8 @@ export default function AboutContent() {
         </div>
       </section>
       <ContactSection />
+      <SocialIcons />
+      <SocialIconsEffects />
     </div>
   );
 }

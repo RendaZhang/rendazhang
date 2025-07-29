@@ -5,5 +5,5 @@ export { default as ContactSection } from './ContactSection.jsx';
 export { default as IndexContent } from './IndexContent.jsx';
 export { default as LoginContent } from './LoginContent.jsx';
 export { default as RegisterContent } from './RegisterContent.jsx';
-export { default as HomeEffects } from './HomeEffects.jsx';
+export { default as SocialIconsEffects } from './SocialIconsEffects.jsx';
 export { default as DocsEffects } from './DocsEffects.jsx';

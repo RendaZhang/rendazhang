@@ -1,48 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { ChatWidget } from '../chat';
 import {
-  SITE_BASE_URL,
   ABOUT_PAGE_PATH,
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
-  DOCS_PAGE_PATH,
-  SOCIAL_ICON_PATHS,
-  SOCIAL_LINKS
+  DOCS_PAGE_PATH
 } from '../../config.js';
 import { INDEX_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
-
-function SocialIcon({ href, id, src, alt, ariaLabel }) {
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef(null);
-
-  const srcUrl = typeof src === 'string' ? src : src.src;
-  const imgWidth = typeof src === 'object' ? src.width : undefined;
-  const imgHeight = typeof src === 'object' ? src.height : undefined;
-
-  useEffect(() => {
-    if (imgRef.current && imgRef.current.complete) {
-      setLoaded(true);
-    }
-  }, []);
-
-  return (
-    <a href={href} aria-label={ariaLabel} id={id}>
-      {!loaded && <span className="spinner" aria-hidden="true" />}
-      <img
-        ref={imgRef}
-        src={srcUrl}
-        alt={alt}
-        width={imgWidth}
-        height={imgHeight}
-        loading="lazy"
-        className={loaded ? 'loaded' : 'loading'}
-        onLoad={() => setLoaded(true)}
-      />
-    </a>
-  );
-}
 
 export default function IndexContent() {
   const { lang } = useLanguage();
@@ -73,39 +39,6 @@ export default function IndexContent() {
           <span className="code-icon">&lt;/&gt;</span>{' '}
           <LocalizedSection zhContent={textsZh.docsLink} enContent={textsEn.docsLink} />
         </a>
-      </div>
-      <div className="social-icons" aria-label="Social Links">
-        <SocialIcon
-          href={SITE_BASE_URL}
-          ariaLabel="WeChat Official Account"
-          id="wechatLink"
-          src={SOCIAL_ICON_PATHS.WECHAT}
-          alt="WeChat logo"
-        />
-        <SocialIcon
-          href={SOCIAL_LINKS.ZHIHU}
-          ariaLabel="Zhihu"
-          src={SOCIAL_ICON_PATHS.ZHIHU}
-          alt="Zhihu logo"
-        />
-        <SocialIcon
-          href={SOCIAL_LINKS.TOUTIAO}
-          ariaLabel="Toutiao"
-          src={SOCIAL_ICON_PATHS.TOUTIAO}
-          alt="Toutiao logo"
-        />
-        <SocialIcon
-          href={SOCIAL_LINKS.CSDN}
-          ariaLabel="CSDN"
-          src={SOCIAL_ICON_PATHS.CSDN}
-          alt="CSDN logo"
-        />
-        <SocialIcon
-          href={SOCIAL_LINKS.MEDIUM}
-          ariaLabel="Medium"
-          src={SOCIAL_ICON_PATHS.MEDIUM}
-          alt="Medium logo"
-        />
       </div>
       <ChatWidget />
     </div>
