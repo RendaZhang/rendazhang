@@ -29,13 +29,17 @@
     - [BUG-020: THEME_STORAGE_KEY 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
     - [BUG-021: Chat input placeholder flickers when switching languages](#bug-021-chat-input-placeholder-flickers-when-switching-languages)
     - [BUG-022: Docs page Mermaid errors when hidden diagrams render](#bug-022-docs-page-mermaid-errors-when-hidden-diagrams-render)
+    - [BUG-023: Invalid image src value in SocialIcon](#bug-023-invalid-image-src-value-in-socialicon)
+    - [BUG-024: Homepage QR code fails to load](#bug-024-homepage-qr-code-fails-to-load)
+    - [BUG-025: Scripts run before React hydration](#bug-025-scripts-run-before-react-hydration)
+    - [BUG-026: Docs page fails to render README](#bug-026-docs-page-fails-to-render-readme)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 29, 2025, 21:07 (UTC+8)
+- **最后更新**: July 30, 2025, 02:40 (UTC+8)
 
 ---
 
@@ -97,6 +101,10 @@
 - [x] BUG-020: THEME_STORAGE_KEY 读取为 null
 - [x] BUG-021: Chat input placeholder flickers when switching languages
 - [x] BUG-022: Docs page Mermaid errors when hidden diagrams render
+- [x] BUG-023: Invalid image src value in SocialIcon
+- [x] BUG-024: Homepage QR code fails to load
+- [x] BUG-025: Scripts run before React hydration
+- [x] BUG-026: Docs page fails to render README
 
 ---
 
@@ -263,10 +271,10 @@
 - **问题现象**：
   - 证书页顶部内容被固定导航遮挡
 - **根本原因**：
-  - `index.min.css` 全局设置 `body` 为 `display:flex; height:100vh;`
+  - `index.css` 全局设置 `body` 为 `display:flex; height:100vh;`
     且取消了顶部间距，导致非首页也沿用该布局
 - **解决方案**：
-  - 为证书页设置 `bodyClass="cert-page"` 并在 `certifications.min.css`
+  - 为证书页设置 `bodyClass="cert-page"` 并在 `certifications.css`
     中恢复 `padding-top` 和常规布局
 - **验证结果**：✅ 调整后在 600px 高度下页面不再与导航重叠
 
@@ -342,7 +350,7 @@
 - **问题现象**：
   - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
 - **根本原因**：
-  - `chat_widget.css` 默认背景为白色，未针对 `.dark-mode` 提供样式
+  - `chat_widget.css`（现位于 `src/styles/`）默认背景为白色，未针对 `.dark-mode` 提供样式
 - **解决方案**：
   - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
@@ -459,3 +467,52 @@
 - **解决方案**：
   - 根据 `document.documentElement.lang` 仅选择可见语言容器内的 `.language-mermaid` 代码块渲染
 - **验证结果**：✅ 页面加载不再报错，图表正确呈现
+
+### BUG-023: Invalid image src value in SocialIcon
+
+- **发现日期**：2025-07-30
+- **重现环境**：Index 页面，React 控制台
+- **问题现象**：
+  - 控制台报 `Invalid value for prop \`src\` on <img> tag`
+- **根本原因**：
+  - `SocialIcon` 直接将 Vite 资源对象传给 `src`，并非字符串 URL
+- **解决方案**：
+  - 使用 `src.src`、`src.width`、`src.height` 赋值给 `<img>`
+- **验证结果**：✅ 控制台无报错
+
+### BUG-024: Homepage QR code fails to load
+
+- **发现日期**：2025-07-30
+- **重现环境**：Index 页面，Chrome 开发者工具
+- **问题现象**：
+  - 控制台报 `[object Object]:1 GET http://localhost:4321/[object%20Object] 404`
+- **根本原因**：
+  - WeChat QR 图片通过 Vite 资源对象传递，`data-src` 变成 `[object Object]`
+- **解决方案**：
+  - 使用 `?url` 导入 `qrcode_wechat.jpg`，确保得到字符串 URL
+- **验证结果**：✅ 图片成功加载
+
+### BUG-025: Scripts run before React hydration
+
+- **发现日期**：2025-07-30
+- **重现环境**：Home 与 Docs 页面
+- **问题现象**：
+  - 点击或悬停微信图标无反应
+  - 文档页面始终显示加载文本
+- **根本原因**：
+  - 页脚脚本在 DOMContentLoaded 触发时执行，而 React 组件尚未完成挂载
+- **解决方案**：
+  - 改用 `window.addEventListener('load', ...)` 确保脚本在组件挂载后运行
+  - **验证结果**：✅ 模态框与文档内容均正常显示
+
+### BUG-026: Docs page fails to render README
+
+- **发现日期**：2025-07-30
+- **重现环境**：Docs 页面，生产环境
+- **问题现象**：
+  - 页面只显示 "Loading..."，控制台无明显报错
+- **根本原因**：
+  - jQuery 异步加载导致请求被阻塞，README 内容未能返回
+- **解决方案**：
+  - 移除对 jQuery 的依赖，改用 `fetch` 加载文档
+- **验证结果**：✅ 页面渲染正常，文档内容显示完整

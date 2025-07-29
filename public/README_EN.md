@@ -56,6 +56,22 @@ The site is SEO/GEO optimized.
 | Backend               | Flask + OpenAI API                               |
 | Deployment            | GitHub Actions + Nginx                           |
 
+### Project Structure Overview
+
+```text
+src/
+├── assets/
+├── styles/
+├── scripts/
+└── components/
+    ├── ui/
+    ├── layouts/
+    ├── forms/
+    ├── chat/
+    ├── sections/
+    └── providers/
+```
+
 ### Reference Architecture
 
 ASCII diagram:

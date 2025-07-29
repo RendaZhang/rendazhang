@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 18, 2025, 14:20 (UTC+8)
+- **最后更新**: July 30, 2025, 02:40 (UTC+8)
 
 ---
 
@@ -244,9 +244,10 @@ import Test from '../components/Test.jsx';
 - 创建 `src/pages` 目录，定义页面和路由（如index.astro 为首页）。
 - 创建 `src/layouts` 目录，用于页面布局组件（如通用模板，包含头部引入等）。
 - 创建 `src/styles` 目录，全局 CSS 或 SCSS（如 `global.css`）。可与 Tailwind 结合。
-- 创建 `src/assets` 目录，存放图像、字体等静态资源。Astro会优化导入（如 `import img from '../assets/my-image.jpg'`）。
+- 创建 `src/assets` 目录，存放图像、字体等静态资源。Astro会优化导入（如 `import img from '../assets/my-image.jpg'`）。已将微信二维码和社交图标迁移至该目录。
+- 创建 `src/scripts` 目录，存放自定义页面脚本，可按 `pages/`、`modules/` 等子目录组织。
 - 创建 `src/services` 目录，用于封装业务逻辑或数据获取函数（例如后续聊天接口调用封装为服务）。
-- 创建 `src/context` 目录，用于放置 React 上下文定义和提供器组件，以便日后扩展全局状态管理。
+- 创建 `src/components/providers` 目录，存放全局 React 提供器（主题、国际化等），以便日后扩展状态管理。
 - 创建 `src/utils` 目录，通用工具函数（如helpers）。
 
 ### 测试
@@ -294,6 +295,9 @@ public/images/...
 将旧 `css` 目录下自定义的样式表文件复制到 `public/css`（或根据需要置于 `src/styles` 后通过`@import`引入）。
 
 优先快速起效，可直接在主布局的 `<head>` 中以 `<link href="/css/your-styles.css" rel="stylesheet">` 方式引入旧有样式。
+
+随着重构推进，一些页面级样式已迁移到 `src/styles`，如 `theme.css`、`login.css`、`register.css`、`about.css`、`chat_widget.css`、`docs.css`、`index.css`、`deepseek_chat.css` 和 `certifications.css`，在对应的布局或页面中直接通过 `import '../styles/foo.css'` 或在配置中引用构建后的 URL。
+早期自定义脚本也陆续迁移至 `src/scripts`，如 `pages/index.js` 和 `pages/certifications.js` 已重构为 React 组件 `HomeEffects.jsx` 与 `CertificationsEffects.jsx`，Docs 页面的逻辑也提炼为 `DocsEffects.jsx`。这些组件分别在对应页面通过 `<HomeEffects client:load />`、`<CertificationsEffects client:load />` 与 `<DocsEffects client:load />` 调用，`credly_embed.js` 则被整合为 `CredlyBadge` 无需额外脚本。
 
 Astro 支持直接使用现有的 CSS 文件或库，无需完全重写样式。这样做能确保页面迁移初期视觉效果一致。
 
@@ -427,7 +431,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 
 ### 创建 React 聊天组件
 
-在 `src/components/` 新建 React 组件文件，例如 `Chat.jsx`。
+在 `src/components/chat/` 新建 React 组件文件 `Chat.jsx`。
 
 用 React 重写聊天界面和逻辑：
 
@@ -506,7 +510,7 @@ export default function Chat() {
 
 ```astro
 ---
-import Chat from '../components/Chat.jsx';
+import Chat from '../components/chat';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
@@ -562,7 +566,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 实现步骤：
 
-1. 定义 Context：在 `src/context/ThemeContext.jsx` 中创建：
+1. 定义 Context：在 `src/components/providers/ThemeProvider.jsx` 中创建：
 
 ```jsx
 import { createContext, useContext, useState } from 'react';
@@ -582,7 +586,7 @@ export function ThemeProvider({ children }) {
 
 ```astro
 ---
-import { ThemeProvider } from '../context/ThemeContext.jsx';
+import { ThemeProvider } from '../components/providers/ThemeProvider.jsx';
 import NavBar from '../components/NavBar.astro';
 ---
 
@@ -602,7 +606,7 @@ import NavBar from '../components/NavBar.astro';
 3. 在需要的组件中使用 Context：例如在 NavBar 的 React 子组件里放一个切换按钮：
 
 ```jsx
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../components/providers/ThemeProvider.jsx';
 const { darkMode, toggle } = useTheme();
 // 点击按钮调用 toggle() 切换 darkMode 状态
 ```
@@ -625,7 +629,7 @@ Astro 官方建议如需跨组件/页面共享客户端状态，可考虑使用 
 
 如果实现了示例的 ThemeContext，在页面上测试全局功能（如主题切换按钮）是否有效，各组件读取的状态是否同步更新。
 
-若当前不需要全局状态，则确保有清晰的方案说明，代码结构上已留出扩展空间（比如保留了 context 目录和相应示例），以便以后快速加入。
+若当前不需要全局状态，也应保留 providers 目录及示例代码，为未来扩展留好接口。
 
 经过这一阶段，新前端已经具备基本的 **状态管理层** 雏形。
 

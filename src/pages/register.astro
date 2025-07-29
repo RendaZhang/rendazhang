@@ -1,13 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import RegisterContent from '../components/RegisterContent.jsx';
-import {
-  SITE_BASE_URL,
-  VIEWPORT_NO_ZOOM,
-  REGISTER_PAGE_PATH,
-  SITE_NAME_EN,
-  STYLE_PATHS
-} from '../config.js';
+import { RegisterContent } from '../components/sections';
+import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, REGISTER_PAGE_PATH, SITE_NAME_EN } from '../config.js';
+import '../styles/register.css';
 ---
 
 <BaseLayout
@@ -15,7 +10,7 @@ import {
   description="Register Page of Renda Zhang Website"
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${REGISTER_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.REGISTER]}
+  metaRobots="noindex, nofollow"
 >
   <RegisterContent client:load />
 </BaseLayout>

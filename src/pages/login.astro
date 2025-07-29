@@ -1,13 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LoginContent from '../components/LoginContent.jsx';
-import {
-  SITE_BASE_URL,
-  VIEWPORT_NO_ZOOM,
-  LOGIN_PAGE_PATH,
-  SITE_NAME_EN,
-  STYLE_PATHS
-} from '../config.js';
+import { LoginContent } from '../components/sections';
+import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, LOGIN_PAGE_PATH, SITE_NAME_EN } from '../config.js';
+import '../styles/login.css';
 ---
 
 <BaseLayout
@@ -15,7 +10,7 @@ import {
   description="Login Page of Renda Zhang Website"
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.LOGIN]}
+  metaRobots="noindex, nofollow"
 >
   <LoginContent client:load />
 </BaseLayout>

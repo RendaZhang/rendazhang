@@ -1,5 +1,5 @@
 ---
-import IndexContent from '../components/IndexContent.jsx';
+import { IndexContent, HomeEffects } from '../components/sections';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   SITE_BASE_URL,
@@ -7,7 +7,6 @@ import {
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
   SITE_AUTHOR_EN,
-  SCRIPT_PATHS,
   STYLE_PATHS,
   PAGE_TITLES,
   LOGO_ALT,
@@ -17,6 +16,7 @@ import {
   IMAGE_PATHS
 } from '../config.js';
 import { getCurrentLang } from '../utils/langUtils.js';
+import '../styles/index.css';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
@@ -30,8 +30,7 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
   description={description}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
-  extraStyles={[STYLE_PATHS.INDEX, STYLE_PATHS.CHAT_WIDGET]}
-  extraScripts={[SCRIPT_PATHS.INDEX]}
+  extraStyles={[STYLE_PATHS.CHAT_WIDGET]}
   og={{
     title: PAGE_TITLES.INDEX_OG,
     description,
@@ -71,5 +70,6 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
         />
       </div>
     </div>
+    <HomeEffects client:load />
   </Fragment>
 </BaseLayout>

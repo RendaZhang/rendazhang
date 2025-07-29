@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import DeepseekChatContent from '../components/DeepseekChatContent.jsx';
+import { DeepseekChatContent } from '../components/chat';
 import { DEEPSEEK_CHAT_CONTENT } from '../content/deepseekChatContent.js';
 import { getCurrentLang } from '../utils/langUtils.js';
 import { CHAT_PAGE_PATH, SITE_BASE_URL, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED } from '../config.js';
+import '../styles/deepseek_chat.css';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
@@ -16,8 +17,8 @@ const pageTexts = DEEPSEEK_CHAT_CONTENT[langKey];
   description={`${pageTexts.description} Conversations are saved locally and support Markdown rendering.`}
   viewport={VIEWPORT_ZOOM_ALLOWED}
   canonical={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`}
-  preloadStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
-  extraStyles={[STYLE_PATHS.DEEPSEEK_CHAT, STYLE_PATHS.GITHUB_LIGHT]}
+  preloadStyles={[STYLE_PATHS.GITHUB_LIGHT]}
+  extraStyles={[STYLE_PATHS.GITHUB_LIGHT]}
   og={{ url: `${SITE_BASE_URL}${CHAT_PAGE_PATH}/` }}
 >
   <Fragment slot="bodyEnd">

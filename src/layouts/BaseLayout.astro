@@ -1,5 +1,5 @@
 ---
-import NavBarWrapper from '../components/NavBarWrapper.jsx';
+import { NavBarWrapper } from '../components/layouts';
 import {
   FAVICON_PATH,
   STYLE_PATHS,
@@ -18,6 +18,7 @@ import {
   LANG_STORAGE_KEY,
   THEME_STORAGE_KEY
 } from '../config.js';
+import '../styles/theme.css';
 
 const {
   lang: langProp,
@@ -133,7 +134,6 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     </script>
     <!-- Load Bootstrap first so custom styles can override -->
     <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
-    <link rel="stylesheet" href={STYLE_PATHS.THEME} />
     <link rel="canonical" href={canonical} />
     {metaRobots && <meta name="robots" content={metaRobots} />}
     {metaAuthor && <meta name="author" content={metaAuthor} />}

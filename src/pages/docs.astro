@@ -10,6 +10,8 @@ import {
   DOCS_DESCRIPTION,
   LOADING_TEXT
 } from '../config.js';
+import { DocsEffects } from '../components/sections';
+import '../styles/docs.css';
 ---
 
 <BaseLayout
@@ -17,8 +19,8 @@ import {
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.DOCS]}
-  extraScripts={[SCRIPT_PATHS.JQUERY, SCRIPT_PATHS.MARKED, SCRIPT_PATHS.DOCS]}
+  extraStyles={[STYLE_PATHS.GITHUB]}
+  extraScripts={[SCRIPT_PATHS.MARKED]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"
   og={{
@@ -30,4 +32,7 @@ import {
 >
   <div id="content-zh" class="lang-zh">{LOADING_TEXT}</div>
   <div id="content-en" class="lang-en">{LOADING_TEXT}</div>
+  <Fragment slot="bodyEnd">
+    <DocsEffects client:load />
+  </Fragment>
 </BaseLayout>

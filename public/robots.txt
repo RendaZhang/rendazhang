@@ -2,5 +2,7 @@
 User-agent: *
 Allow: /
 Disallow: /js/*.map
+Disallow: /login/
+Disallow: /register/
 Sitemap: https://www.rendazhang.com/sitemap.xml
 Host: https://www.rendazhang.com

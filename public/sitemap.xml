@@ -8,7 +8,7 @@
     <loc>https://www.rendazhang.com/</loc>
     <changefreq>yearly</changefreq>
     <priority>1.0</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
   <!-- Chat with AI (DeepSeek) -->
@@ -18,7 +18,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/deepseek_chat/" />
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
   <!-- Certifications -->
@@ -26,7 +26,7 @@
     <loc>https://www.rendazhang.com/certifications/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
   <!-- Documentation Page -->
@@ -34,29 +34,18 @@
     <loc>https://www.rendazhang.com/docs/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
-  <!-- About Me Chinese Version -->
+  <!-- About Page -->
   <url>
-    <loc>https://www.rendazhang.com/about.zh/</loc>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about.en/" />
+    <loc>https://www.rendazhang.com/about/</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about/" />
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <lastmod>2025-07-18</lastmod>
-  </url>
-
-  <!-- About Me English Version -->
-  <url>
-    <loc>https://www.rendazhang.com/about.en/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.rendazhang.com/about.en/" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.rendazhang.com/about.zh/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.rendazhang.com/about.en/" />
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
   <!-- 中文简历 PDF -->
@@ -64,7 +53,7 @@
     <loc>https://www.rendazhang.com/images/个人简历_张人大.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
   <!-- English Resume PDF -->
@@ -72,7 +61,7 @@
     <loc>https://www.rendazhang.com/images/Resume_RendaZhang.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2025-07-18</lastmod>
+    <lastmod>2025-07-29</lastmod>
   </url>
 
 </urlset>

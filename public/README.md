@@ -4,6 +4,7 @@
 - [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
+    - [目录结构概览](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
   - [部署与开发](#%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%BC%80%E5%8F%91)
     - [前端](#%E5%89%8D%E7%AB%AF)
@@ -55,6 +56,22 @@
 | 构建工具 Build        | Astro 内置 (基于 Vite)                              |
 | 后端 Backend          | Flask + OpenAI API                                  |
 | 部署 Deploy           | GitHub Actions + Nginx                              |
+
+### 目录结构概览
+
+```text
+src/
+├── assets/
+├── styles/
+├── scripts/
+└── components/
+    ├── ui/
+    ├── layouts/
+    ├── forms/
+    ├── chat/
+    ├── sections/
+    └── providers/
+```
 
 ### 参考架构
 

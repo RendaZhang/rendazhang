@@ -1,0 +1,9 @@
+export { default as AboutContent } from './AboutContent.jsx';
+export { default as CertificationsContent } from './CertificationsContent.jsx';
+export { default as CertificationsEffects } from './CertificationsEffects.jsx';
+export { default as ContactSection } from './ContactSection.jsx';
+export { default as IndexContent } from './IndexContent.jsx';
+export { default as LoginContent } from './LoginContent.jsx';
+export { default as RegisterContent } from './RegisterContent.jsx';
+export { default as HomeEffects } from './HomeEffects.jsx';
+export { default as DocsEffects } from './DocsEffects.jsx';

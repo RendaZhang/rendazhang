@@ -1,4 +1,15 @@
 // Centralized configuration for API endpoints and chat limits
+import wechatQr from './assets/qrcode_wechat.jpg?url';
+import wechatLogo from './assets/social/wechat-logo.svg';
+import zhihuLogo from './assets/social/zhihu-logo.svg';
+import toutiaoLogo from './assets/social/toutiao-logo.svg';
+import csdnLogo from './assets/social/csdn-logo.svg';
+import mediumLogo from './assets/social/medium-logo.svg';
+import chatWidgetCssUrl from './styles/chat_widget.css?url';
+import docsCssUrl from './styles/docs.css?url';
+import indexCssUrl from './styles/index.css?url';
+import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
+import certificationsCssUrl from './styles/certifications.css?url';
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
@@ -25,6 +36,12 @@ export const DOCS_PAGE_PATH = '/docs';
 export const LOGIN_PAGE_PATH = '/login';
 export const REGISTER_PAGE_PATH = '/register';
 
+// Paths to the documentation markdown files
+export const DOC_PATHS = {
+  README_ZH: '/README.md',
+  README_EN: '/README_EN.md'
+};
+
 // Home page path
 export const HOME_PAGE_PATH = '/';
 
@@ -34,7 +51,6 @@ export const VIEWPORT_ZOOM_ALLOWED =
 export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
 
 // Commonly used logo image size
-export const LOGO_IMAGE_SIZE = '150px';
 
 // Commonly used page titles
 export const PAGE_TITLES = {
@@ -53,7 +69,6 @@ export const LOGO_ALT = {
 };
 // Reusable titles and descriptions
 export const AI_CHAT_TITLE = 'AI Chat';
-export const AI_CHAT_DESCRIPTION = 'Chat with an AI assistant powered by DeepSeek.';
 export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
 export const CERTIFICATIONS_DESCRIPTION =
   'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang.';
@@ -64,7 +79,6 @@ export const STORAGE_KEY = 'deepseek_chat_history';
 export const THEME_STORAGE_KEY = 'preferred_theme';
 export const LANG_STORAGE_KEY = 'preferred_lang';
 export const MAX_TOKENS = 15000;
-export const MAX_CHARACTERS = 800;
 export const AVG_WORD_LENGTH = 4;
 export const AVG_TOKENS_PER_WORD = 1.5;
 
@@ -93,74 +107,45 @@ export const ICON_SIZES = {
   LARGE: 28
 };
 
-export const SPACER_HEIGHT = {
-  SMALL: 10,
-  MEDIUM: 40,
-  LARGE: 80
+// Timeouts and delays used across authentication forms
+export const AUTH_TIMINGS = {
+  LOGIN_REQUEST: 1000,
+  LOGIN_REDIRECT: 3000,
+  REGISTER_VALIDATE: 500,
+  REGISTER_PROGRESS_INTERVAL: 500,
+  REGISTER_PROGRESS_TOTAL: 1600,
+  REGISTER_REDIRECT: 5000,
+  REGISTER_PROGRESS_STEP: 33
 };
 
-export const DEFAULT_MARGIN = '1rem';
-export const PAGE_TITLE_MARGIN_TOP = '1.5rem';
-
-export const CHAT_TEXT = {
-  ENHANCEMENT_FAILED: '优化功能加载失败，基础功能不受影响',
-  CORE_LOAD_FAILED: '核心资源加载失败，请刷新重试',
-  CHAT_READY: '会话已就绪，请输入消息开始对话',
-  LOADING: '加载对话中...',
-  ENHANCEMENT_PROGRESS: '正在优化阅读体验...',
-  INPUT_PLACEHOLDER_LOADING: '加载对话中，请稍候...',
-  INPUT_PLACEHOLDER_ERROR: '核心资源加载失败',
-  INPUT_PLACEHOLDER_DEFAULT: '输入消息...',
-  RESET_CONFIRM: '确定要重置会话吗？这将清除所有对话历史。',
-  RESET_FAILED_PREFIX: '重置会话失败',
-  RESET_CONFIRM_EN: 'Are you sure you want to reset the conversation?',
-  RESET_FAILED_PREFIX_EN: 'Reset failed',
-  MESSAGE_TOO_LONG: 'Your message is too long. Please shorten it.',
-  REQUEST_ERROR: 'An error occurred while processing your request.',
-  COPY_LABEL: '复制',
-  COPIED_LABEL: '已复制',
-  SEND_BUTTON: '发送',
-  RESET_BUTTON: '重置会话'
-};
-
-export const NAV_TEXT = {
-  BACK: '← Back',
-  BACK_HOME: '← Back to Home'
-};
+// Local storage keys
+export const REGISTER_DRAFT_KEY = 'register_draft';
 
 export const SCRIPT_PATHS = {
   MARKED: '/js/marked.min.js',
   PURIFY: '/js/purify.min.js',
   HIGHLIGHT: '/js/highlight.min.js',
   MERMAID: '/js/mermaid.min.js',
-  JQUERY: '/js/jquery.min.js',
-  DOCS: '/js/docs.min.js',
-  CREDLY_EMBED: '/js/credly_embed.min.js',
-  INDEX: '/js/index.min.js',
-  CERTIFICATIONS: '/js/certifications.min.js'
+  JQUERY: '/js/jquery.min.js'
 };
 
 export const STYLE_PATHS = {
-  CHAT_WIDGET: '/css/chat_widget.css',
+  CHAT_WIDGET: chatWidgetCssUrl,
   BOOTSTRAP: '/css/bootstrap.min.css',
-  THEME: '/css/theme.css',
   GITHUB: '/css/github.min.css',
-  DOCS: '/css/docs.min.css',
-  INDEX: '/css/index.min.css',
-  DEEPSEEK_CHAT: '/css/deepseek_chat.min.css',
+  DOCS: docsCssUrl,
+  INDEX: indexCssUrl,
+  DEEPSEEK_CHAT: deepseekChatCssUrl,
   GITHUB_LIGHT: '/css/github-markdown-light.min.css',
-  CERTIFICATIONS: '/css/certifications.min.css',
-  LOGIN: '/css/login.css',
-  REGISTER: '/css/register.css'
+  CERTIFICATIONS: certificationsCssUrl
 };
 
-export const THEME_COLOR_LIGHT = '#ffffff';
 export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {
   LOGO_EN: '/images/logo_en.png',
   LOGO_ZH: '/images/logo_cn.png',
-  WECHAT_QR: '/images/qrcode_wechat.jpg',
+  WECHAT_QR: wechatQr,
   HERO: '/images/hero.jpg',
   CERTIFICATIONS_COVER: '/images/certifications_cover.jpg',
   RESUME_EN: '/images/Resume_RendaZhang.pdf',
@@ -169,11 +154,11 @@ export const IMAGE_PATHS = {
 
 // Social icon paths used on the homepage
 export const SOCIAL_ICON_PATHS = {
-  WECHAT: '/images/social/wechat-logo.svg',
-  ZHIHU: '/images/social/zhihu-logo.svg',
-  TOUTIAO: '/images/social/toutiao-logo.svg',
-  CSDN: '/images/social/csdn-logo.svg',
-  MEDIUM: '/images/social/medium-logo.svg'
+  WECHAT: wechatLogo,
+  ZHIHU: zhihuLogo,
+  TOUTIAO: toutiaoLogo,
+  CSDN: csdnLogo,
+  MEDIUM: mediumLogo
 };
 
 export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
@@ -191,12 +176,10 @@ export const GEO_REGION = 'CN-GD';
 export const GEO_POSITION = '22.543096;114.057865';
 export const GEO_ICBM = '22.543096, 114.057865';
 export const GEO_PLACENAME_EN = 'Shenzhen, Guangdong, China';
-export const GEO_PLACENAME_ZH = '深圳, 广东, 中国';
 
 // Contact information
 export const CONTACT_FORM_ENDPOINT = 'https://formspree.io/xlepgene';
 export const CONTACT_EMAIL_PRIMARY = '952402967@qq.com';
-export const CONTACT_EMAIL_SECONDARY = 'dl952402967@hotmail.com';
 export const CONTACT_PHONE_LOCAL = '13925067232';
 export const CONTACT_PHONE_INTL = '+86-13925067232';
 
@@ -276,9 +259,6 @@ export const CREDLY_EMBED_IFRAME = {
   WIDTH: '150',
   HEIGHT: '270'
 };
-
-export const CREDLY_CONTAINER_MAX_WIDTH = '270';
-export const SCROLL_OFFSET = 120;
 
 // Legacy standalone scripts expect these globals
 export const LEGACY_CHAT_ENDPOINT = `${API_BASE_URL}/chat`;

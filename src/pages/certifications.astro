@@ -1,18 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CertificationsContent from '../components/CertificationsContent.jsx';
+import { CertificationsContent } from '../components/sections';
 import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
   IMAGE_PATHS,
   STYLE_PATHS,
-  SCRIPT_PATHS,
   PAGE_TITLES,
   CERTIFICATIONS_DESCRIPTION,
   CERTIFICATIONS_IMAGE_ALT,
   OG_IMAGE_DIMENSIONS
 } from '../config.js';
+import { CertificationsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils/langUtils.js';
+import '../styles/certifications.css';
 
 const langDefault = getCurrentLang();
 ---
@@ -23,8 +24,6 @@ const langDefault = getCurrentLang();
   description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
   bodyClass="cert-page"
-  extraStyles={[STYLE_PATHS.CERTIFICATIONS]}
-  extraScripts={[SCRIPT_PATHS.CERTIFICATIONS]}
   og={{
     title: PAGE_TITLES.CERTIFICATIONS,
     description: CERTIFICATIONS_DESCRIPTION,
@@ -43,4 +42,5 @@ const langDefault = getCurrentLang();
   }}
 >
   <CertificationsContent client:load />
+  <CertificationsEffects client:load />
 </BaseLayout>
