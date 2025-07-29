@@ -7,7 +7,6 @@ import {
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
   SITE_AUTHOR_EN,
-  STYLE_PATHS,
   PAGE_TITLES,
   LOGO_ALT,
   HOME_PAGE_PATH,
@@ -28,8 +27,6 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
   title={title}
   description={description}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
-  preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
-  extraStyles={[STYLE_PATHS.CHAT_WIDGET]}
   og={{
     title: PAGE_TITLES.INDEX_OG,
     description,

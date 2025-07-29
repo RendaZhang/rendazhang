@@ -1,5 +1,4 @@
 import React from 'react';
-import { ChatWidget } from '../chat';
 import {
   ABOUT_PAGE_PATH,
   CHAT_PAGE_PATH,
@@ -40,7 +39,6 @@ export default function IndexContent() {
           <LocalizedSection zhContent={textsZh.docsLink} enContent={textsEn.docsLink} />
         </a>
       </div>
-      <ChatWidget />
     </div>
   );
 }

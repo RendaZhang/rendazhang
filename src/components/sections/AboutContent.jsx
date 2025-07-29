@@ -5,6 +5,7 @@ import ContactSection from './ContactSection.jsx';
 import { useLanguage } from '../providers';
 import { LocalizedSection, SocialIcons } from '../ui';
 import SocialIconsEffects from './SocialIconsEffects.jsx';
+import { ChatWidget } from '../chat';
 
 export default function AboutContent() {
   const { lang } = useLanguage();
@@ -216,6 +217,7 @@ export default function AboutContent() {
         </div>
       </section>
       <ContactSection />
+      <ChatWidget />
     </div>
   );
 }

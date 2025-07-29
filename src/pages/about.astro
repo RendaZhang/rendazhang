@@ -8,7 +8,8 @@ import {
   PAGE_TITLES,
   SITE_DESCRIPTION_EN,
   SITE_DESCRIPTION_ZH,
-  ABOUT_PAGE_PATH
+  ABOUT_PAGE_PATH,
+  STYLE_PATHS
 } from '../config.js';
 import { getCurrentLang } from '../utils';
 
@@ -23,6 +24,8 @@ const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN
   title={title}
   description={description}
   canonical={`${SITE_BASE_URL}${ABOUT_PAGE_PATH}/`}
+  preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
+  extraStyles={[STYLE_PATHS.CHAT_WIDGET]}
 >
   <AboutContent client:load />
 </BaseLayout>
