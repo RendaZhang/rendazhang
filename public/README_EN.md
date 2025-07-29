@@ -29,7 +29,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 29, 2025, 15:19 (UTC+8)
+- **Last Updated**: July 29, 2025, 20:36 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---

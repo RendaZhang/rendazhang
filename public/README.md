@@ -29,7 +29,7 @@
 # 张人大 (Renda Zhang) · 轻量级网站
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 29, 2025, 15:19 (UTC+8)
+- **最后更新**: July 29, 2025, 20:36 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---

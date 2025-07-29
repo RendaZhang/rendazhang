@@ -1,6 +1,6 @@
 import React from 'react';
 import ThemeToggle from './ThemeToggle.jsx';
-import LanguageSwitcher from './LanguageSwitcher.jsx';
+import LanguageSelector from './LanguageSelector.jsx';
 import HamburgerMenu from './HamburgerMenu.jsx';
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '../config.js';
 import AvatarIcon from './AvatarIcon.jsx';
@@ -18,7 +18,7 @@ export default function NavBar() {
       <a href={HOME_PAGE_PATH}>
         <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
       </a>
-      <LanguageSwitcher />
+      <LanguageSelector />
       <ThemeToggle />
       <a href={LOGIN_PAGE_PATH} aria-label="Login" className="avatar-link">
         <AvatarIcon />
