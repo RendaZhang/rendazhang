@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { BaseLayout } from '../layouts';
 import { DeepseekChatContent } from '../components/chat';
-import { DEEPSEEK_CHAT_CONTENT } from '../content/deepseekChatContent.js';
-import { getCurrentLang } from '../utils/langUtils.js';
+import { DEEPSEEK_CHAT_CONTENT } from '../content';
+import { getCurrentLang } from '../utils';
 import { CHAT_PAGE_PATH, SITE_BASE_URL, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED } from '../config.js';
 import '../styles/deepseek_chat.css';
 

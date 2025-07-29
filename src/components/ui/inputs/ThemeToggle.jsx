@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../providers';
-import { NAV_CONTENT } from '../../../content/navContent.js';
+import { NAV_CONTENT } from '../../../content';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '..';
 

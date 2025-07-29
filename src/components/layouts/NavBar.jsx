@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeToggle, LanguageSelector, AvatarIcon, LocalizedSection } from '../ui';
 import HamburgerMenu from './HamburgerMenu.jsx';
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '../../config.js';
-import { NAV_CONTENT } from '../../content/navContent.js';
+import { NAV_CONTENT } from '../../content';
 
 export default function NavBar() {
   // 不再根据当前语言只渲染一种文本，避免刷新时语言切换产生闪烁

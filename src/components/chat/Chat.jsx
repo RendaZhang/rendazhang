@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 // Core libraries will be loaded dynamically to allow graceful fallback
 // if the resources fail to load.
-import { sendMessageToAI, resetChat } from '../../services/chatService';
-import useMarkdownPipeline, { showHint } from '../../hooks/useMarkdownPipeline';
+import { sendMessageToAI, resetChat } from '../../services';
+import { useMarkdownPipeline, showHint } from '../../hooks';
 import {
   STORAGE_KEY,
   MAX_TOKENS,
@@ -14,7 +14,7 @@ import {
   ROLES
 } from '../../config.js';
 import { useLanguage } from '../providers';
-import { DEEPSEEK_CHAT_CONTENT } from '../../content/deepseekChatContent.js';
+import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';
 
 export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {

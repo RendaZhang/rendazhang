@@ -1,7 +1,7 @@
 import React from 'react';
 import { ContactForm } from '../forms';
 import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../config.js';
-import { ABOUT_CONTENT } from '../../content/aboutContent.js';
+import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
 

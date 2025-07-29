@@ -1,6 +1,6 @@
 ---
 import { IndexContent, HomeEffects } from '../components/sections';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { BaseLayout } from '../layouts';
 import {
   SITE_BASE_URL,
   SITE_DOMAIN,
@@ -15,7 +15,7 @@ import {
   OG_IMAGE_DIMENSIONS,
   IMAGE_PATHS
 } from '../config.js';
-import { getCurrentLang } from '../utils/langUtils.js';
+import { getCurrentLang } from '../utils';
 import '../styles/index.css';
 
 const langDefault = getCurrentLang();

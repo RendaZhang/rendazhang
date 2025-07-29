@@ -1,6 +1,6 @@
 import React from 'react';
 import { VERIFY_URLS } from '../../config.js';
-import { CERTIFICATIONS_CONTENT } from '../../content/certificationsContent.js';
+import { CERTIFICATIONS_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection, CredlyBadge } from '../ui';
 

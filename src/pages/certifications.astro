@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { BaseLayout } from '../layouts';
 import { CertificationsContent } from '../components/sections';
 import {
   SITE_BASE_URL,
@@ -12,7 +12,7 @@ import {
   OG_IMAGE_DIMENSIONS
 } from '../config.js';
 import { CertificationsEffects } from '../components/sections';
-import { getCurrentLang } from '../utils/langUtils.js';
+import { getCurrentLang } from '../utils';
 import '../styles/certifications.css';
 
 const langDefault = getCurrentLang();

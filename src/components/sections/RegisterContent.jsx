@@ -1,6 +1,6 @@
 import React from 'react';
 import { RegisterForm } from '../forms';
-import { REGISTER_CONTENT } from '../../content/registerContent.js';
+import { REGISTER_CONTENT } from '../../content';
 
 export default function RegisterContent() {
   return <RegisterForm texts={REGISTER_CONTENT} />;

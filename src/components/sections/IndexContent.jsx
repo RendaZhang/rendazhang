@@ -9,7 +9,7 @@ import {
   SOCIAL_ICON_PATHS,
   SOCIAL_LINKS
 } from '../../config.js';
-import { INDEX_CONTENT } from '../../content/indexContent.js';
+import { INDEX_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
 

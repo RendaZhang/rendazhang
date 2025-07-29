@@ -7,7 +7,7 @@ import {
   CERTIFICATIONS_PAGE_PATH,
   DOCS_PAGE_PATH
 } from '../../config.js';
-import { NAV_CONTENT } from '../../content/navContent.js';
+import { NAV_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
 

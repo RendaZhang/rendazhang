@@ -6,7 +6,7 @@ import {
   REGISTER_DRAFT_KEY
 } from '../../../config.js';
 import { useLanguage } from '../../providers';
-import { REGISTER_CONTENT } from '../../../content/registerContent.js';
+import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 
 export default function RegisterForm({ texts = REGISTER_CONTENT }) {
