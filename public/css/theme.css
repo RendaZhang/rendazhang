@@ -304,11 +304,7 @@ html.dark-mode .social-icons img[alt='Medium logo'] {
 /* ---------- Responsive Design ---------- */
 @media (max-width: 768px) {
   nav {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
     padding: 8px 10px;
-    padding-left: 60px;
     gap: 8px;
     height: auto;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
