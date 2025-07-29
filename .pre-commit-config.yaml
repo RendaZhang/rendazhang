@@ -49,6 +49,15 @@ repos:
         pass_filenames: false
         always_run: true
 
+  # 静态资源命名验证
+  - repo: local
+    hooks:
+      - id: validate-assets
+        name: Validate Asset Names
+        entry: npm run validate-assets
+        language: system
+        pass_filenames: false
+
   # Astro 本地检查
   - repo: local
     hooks:

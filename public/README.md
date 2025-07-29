@@ -21,6 +21,7 @@
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
     - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
+    - [静态资源命名验证](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -264,6 +265,10 @@ flowchart TD
 
 开发环境准备可以参考文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
 
+### 静态资源命名验证
+
+执行 `npm run validate-assets` 检查图片与音乐文件命名。文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+
 ---
 
 ## 🤝 贡献指南
@@ -282,6 +287,7 @@ flowchart TD
 - 在每次提交前，钩子会自动运行，并执行操作：
   - 将根目录的 README 与 README_EN 同步到 `public/` 目录下。
   - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
+  - 执行静态资源命名验证脚本，确保 `public/images` 与 `src/assets` 命名规范。
 - 你也可以手动触发：
    ```bash
    # cp README.md public/README.md && cp README_EN.md public/README_EN.md && git add public/README.md public/README_EN.md

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "validate-assets": "node scripts/validate_assets.cjs",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -1,13 +1,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
+    - [Project Structure Overview](#project-structure-overview)
     - [Reference Architecture](#reference-architecture)
-  - [Deployment \& Development](#deployment--development)
+  - [Deployment & Development](#deployment--development)
     - [Frontend](#frontend)
-      - [Local Development \& Preview](#local-development--preview)
+      - [Local Development & Preview](#local-development--preview)
       - [GitHub Actions Deployment](#github-actions-deployment)
       - [Usage](#usage)
       - [Site Features](#site-features)
@@ -20,6 +21,7 @@
     - [Bug Tracker](#bug-tracker)
     - [Requirements](#requirements)
     - [Native to Astro + React Upgrade](#native-to-astro--react-upgrade)
+    - [Asset Naming Validation](#asset-naming-validation)
   - [🤝 Contributing](#-contributing)
   - [🔒 License](#-license)
   - [📬 Contact](#-contact)
@@ -261,6 +263,10 @@ For details see 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blo
 
 Environment setup: 📄 [Environment Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
 
+### Asset Naming Validation
+
+Run `npm run validate-assets` to check naming for images and music files. See 📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+
 ---
 
 ## 🤝 Contributing
@@ -279,6 +285,8 @@ Environment setup: 📄 [Environment Setup](https://github.com/RendaZhang/rendaz
 - Before each commit the hooks will:
   - Copy the root README and README_EN to the `public/` directory.
   - Update Doctoc for README and docs (if Doctoc is installed).
+  - Run the asset naming validation script to ensure files in `public/images` and
+    `src/assets` follow conventions.
 - You can also run manually:
    ```bash
    # cp README.md public/README.md && cp README_EN.md public/README_EN.md && git add public/README.md public/README_EN.md
