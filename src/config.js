@@ -10,6 +10,11 @@ import docsCssUrl from './styles/docs.css?url';
 import indexCssUrl from './styles/index.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
 import certificationsCssUrl from './styles/certifications.css?url';
+import markedUrl from './scripts/marked.min.js?url';
+import purifyUrl from './scripts/purify.min.js?url';
+import highlightUrl from './scripts/highlight.min.js?url';
+import mermaidUrl from './scripts/mermaid.min.js?url';
+import jqueryUrl from './scripts/jquery.min.js?url';
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
@@ -122,11 +127,11 @@ export const AUTH_TIMINGS = {
 export const REGISTER_DRAFT_KEY = 'register_draft';
 
 export const SCRIPT_PATHS = {
-  MARKED: '/js/marked.min.js',
-  PURIFY: '/js/purify.min.js',
-  HIGHLIGHT: '/js/highlight.min.js',
-  MERMAID: '/js/mermaid.min.js',
-  JQUERY: '/js/jquery.min.js'
+  MARKED: markedUrl,
+  PURIFY: purifyUrl,
+  HIGHLIGHT: highlightUrl,
+  MERMAID: mermaidUrl,
+  JQUERY: jqueryUrl
 };
 
 export const STYLE_PATHS = {
