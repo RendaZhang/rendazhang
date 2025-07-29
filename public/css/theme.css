@@ -341,3 +341,10 @@ body.dark-mode #enhancement-progress {
   color: #e0e0e0;
   border-color: #444;
 }
+
+html.dark-mode .social-icons img[alt='CSDN logo'],
+body.dark-mode .social-icons img[alt='CSDN logo'],
+html.dark-mode .social-icons img[alt='Medium logo'],
+body.dark-mode .social-icons img[alt='Medium logo'] {
+  filter: brightness(0) invert(1);
+}
