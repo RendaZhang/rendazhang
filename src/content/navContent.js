@@ -3,6 +3,13 @@ export const NAV_CONTENT = {
     home: 'Home',
     login: 'Login',
     register: 'Register',
+    menu: 'Menu',
+    drawer: {
+      about: 'About',
+      chat: 'AI Chat',
+      certs: 'Certifications',
+      docs: 'Tech Docs'
+    },
     theme: {
       button: 'Theme',
       light: 'Switch to Light Mode',
@@ -13,6 +20,13 @@ export const NAV_CONTENT = {
     home: '首页',
     login: '登录',
     register: '注册',
+    menu: '菜单',
+    drawer: {
+      about: '关于我',
+      chat: '与 AI 聊天',
+      certs: '证书',
+      docs: '技术文档'
+    },
     theme: {
       button: '切换主题',
       light: '切换到浅色模式',
