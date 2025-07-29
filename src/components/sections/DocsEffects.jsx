@@ -11,25 +11,33 @@ export default function DocsEffects() {
         const htmlZh = marked.parse(zhData);
         const htmlEn = marked.parse(enData);
 
-        const tocMatch = htmlEn.match(/<!-- START doctoc[\s\S]*?-->([\s\S]*?)<!-- END doctoc/);
-        let anchorIds = [];
-        if (tocMatch) {
-          const temp = document.createElement('div');
-          temp.innerHTML = tocMatch[1];
-          anchorIds = Array.from(temp.querySelectorAll('a[href^="#"]')).map((a) =>
+        const extractIds = (html) => {
+          const match = html.match(/<!-- START doctoc[\s\S]*?-->([\s\S]*?)<!-- END doctoc/);
+          if (!match) return [];
+          const div = document.createElement('div');
+          div.innerHTML = match[1];
+          return Array.from(div.querySelectorAll('a[href^="#"]')).map((a) =>
             decodeURIComponent(a.getAttribute('href').slice(1))
           );
-        }
+        };
+
+        const anchorIdsZh = extractIds(htmlZh);
+        const anchorIdsEn = extractIds(htmlEn);
 
         const parser = new DOMParser();
         const docZh = parser.parseFromString(htmlZh, 'text/html');
         const docEn = parser.parseFromString(htmlEn, 'text/html');
 
-        if (anchorIds.length) {
+        if (anchorIdsZh.length) {
           const headingsZh = docZh.querySelectorAll('h1, h2, h3, h4, h5, h6');
-          const headingsEn = docEn.querySelectorAll('h1, h2, h3, h4, h5, h6');
-          anchorIds.forEach((id, i) => {
+          anchorIdsZh.forEach((id, i) => {
             if (headingsZh[i]) headingsZh[i].id = id;
+          });
+        }
+
+        if (anchorIdsEn.length) {
+          const headingsEn = docEn.querySelectorAll('h1, h2, h3, h4, h5, h6');
+          anchorIdsEn.forEach((id, i) => {
             if (headingsEn[i]) headingsEn[i].id = id;
           });
         }
