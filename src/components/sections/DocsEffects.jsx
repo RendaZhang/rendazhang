@@ -17,7 +17,7 @@ export default function DocsEffects() {
           const temp = document.createElement('div');
           temp.innerHTML = tocMatch[1];
           anchorIds = Array.from(temp.querySelectorAll('a[href^="#"]')).map((a) =>
-            a.getAttribute('href').slice(1)
+            decodeURIComponent(a.getAttribute('href').slice(1))
           );
         }
 
