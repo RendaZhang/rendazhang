@@ -5,6 +5,7 @@ export const NAV_CONTENT = {
     register: 'Register',
     menu: 'Menu',
     drawer: {
+      home: 'Home',
       about: 'About',
       chat: 'AI Chat',
       certs: 'Certifications',
@@ -22,6 +23,7 @@ export const NAV_CONTENT = {
     register: '注册',
     menu: '菜单',
     drawer: {
+      home: '首页',
       about: '关于我',
       chat: '与 AI 聊天',
       certs: '证书',

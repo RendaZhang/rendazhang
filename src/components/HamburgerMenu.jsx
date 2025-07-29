@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import {
+  HOME_PAGE_PATH,
   ABOUT_PAGE_PATH,
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
@@ -34,6 +35,7 @@ export default function HamburgerMenu() {
   }, [open]);
 
   const items = [
+    { href: HOME_PAGE_PATH, key: 'home' },
     { href: ABOUT_PAGE_PATH, key: 'about' },
     { href: CHAT_PAGE_PATH, key: 'chat' },
     { href: CERTIFICATIONS_PAGE_PATH, key: 'certs' },
