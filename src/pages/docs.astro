@@ -43,8 +43,20 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   <Fragment slot="head">
     <link rel="stylesheet" href={STYLE_PATHS.GITHUB_DARK} />
   </Fragment>
-  <div id="content-zh" class="lang-zh markdown-body">{LOADING_TEXT}</div>
-  <div id="content-en" class="lang-en markdown-body">{LOADING_TEXT}</div>
+  <div id="content-zh" class="lang-zh markdown-body">
+    <div class="doc-loader" aria-label={LOADING_TEXT}>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+  <div id="content-en" class="lang-en markdown-body">
+    <div class="doc-loader" aria-label={LOADING_TEXT}>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
   <Fragment slot="bodyEnd">
     <DocsEffects client:load />
   </Fragment>
