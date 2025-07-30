@@ -259,7 +259,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         disabled={!canSubmit || status === 'loading' || status === 'success'}
       >
         {status === 'loading' ? (
-          LOADING_TEXT
+          <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
         ) : status === 'success' ? (
           <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         ) : (

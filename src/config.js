@@ -90,7 +90,10 @@ export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
 export const CERTIFICATIONS_DESCRIPTION =
   'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang.';
 export const CERTIFICATIONS_IMAGE_ALT = 'Renda Zhang Certifications';
-export const LOADING_TEXT = 'Loading...';
+export const LOADING_TEXT = {
+  ZH: '加载中...',
+  EN: 'Loading...'
+};
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const THEME_STORAGE_KEY = 'preferred_theme';
