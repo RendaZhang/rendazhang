@@ -34,6 +34,7 @@
     - [BUG-025: Scripts run before React hydration](#bug-025-scripts-run-before-react-hydration)
     - [BUG-026: Docs page fails to render README](#bug-026-docs-page-fails-to-render-readme)
     - [BUG-027: Page title does not switch languages](#bug-027-page-title-does-not-switch-languages)
+    - [BUG-028: Markdown styles inconsistent between pages](#bug-028-markdown-styles-inconsistent-between-pages)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -107,6 +108,7 @@
 - [x] BUG-025: Scripts run before React hydration
 - [x] BUG-026: Docs page fails to render README
 - [x] BUG-027: Page title does not switch languages
+- [x] BUG-028: Markdown styles inconsistent between pages
 
 ---
 
@@ -533,3 +535,17 @@
   3. 监听 `langChanged` 事件在语言切换时更新标题
   4. 页面传入 `titleZh`、`titleEn`，未提供则回退到单一 `title`
 - **验证结果**：✅ 切换语言后标题即时切换
+
+### BUG-028: Markdown styles inconsistent between pages
+
+- **发现日期**：2025-07-30
+- **重现环境**：Docs 页面与 DeepSeek Chat 页面
+- **问题现象**：
+  - Chat 页面代码块无语法着色
+  - Docs 页面排版不具备 GitHub 风格
+- **根本原因**：
+  - Chat 页面仅引入 `github-markdown-light.min.css`
+  - Docs 页面仅引入 `github.min.css`
+- **解决方案**：
+  - 两个页面同时加载 `github.min.css` 与 `github-markdown-light.min.css`
+- **验证结果**：✅ 两页面的代码高亮与排版均保持一致

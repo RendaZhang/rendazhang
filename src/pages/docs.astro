@@ -29,7 +29,7 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.GITHUB]}
+  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_LIGHT]}
   extraScripts={[SCRIPT_PATHS.MARKED]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"
@@ -43,8 +43,8 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   <Fragment slot="head">
     <link rel="stylesheet" href={STYLE_PATHS.GITHUB_DARK} />
   </Fragment>
-  <div id="content-zh" class="lang-zh">{LOADING_TEXT}</div>
-  <div id="content-en" class="lang-en">{LOADING_TEXT}</div>
+  <div id="content-zh" class="lang-zh markdown-body">{LOADING_TEXT}</div>
+  <div id="content-en" class="lang-en markdown-body">{LOADING_TEXT}</div>
   <Fragment slot="bodyEnd">
     <DocsEffects client:load />
   </Fragment>

@@ -191,6 +191,7 @@ Core responsibilities (generated from `.astro` files):
 - `index.astro`: Personal intro with ChatWidget
 - `certifications.astro`: Certification gallery
 - `deepseek_chat.astro`: AI chat interface
+- `docs.astro`: Technical documentation page
 - `404.html`, `50x.html`: Error pages
 - `login.astro`：Login page
 - `register.astro`：Registration page
@@ -232,7 +233,8 @@ flowchart TD
 
 - `index.astro`: A multi-section homepage containing modules such as "Hero", "About Me", "Education", "Blog", "Skills & Abilities", "Experience", and "Contact Me", with a default floating `ChatWidget` badge.
 - `certifications.astro`: Grid-based certification cards with Credly verification
-- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh.
+- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github.min.css` and `github-markdown-light.min.css` for consistent GitHub-style code highlighting.
+- `docs.astro`: Technical documentation page that loads both `github.min.css` and `github-markdown-light.min.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
 - `login.astro`: Login form page.
 - `register.astro`: Register form page.
 - `404.html/50x.html`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (50x) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
