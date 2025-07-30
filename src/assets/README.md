@@ -9,6 +9,11 @@
   - [部署与开发](#%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%BC%80%E5%8F%91)
     - [前端](#%E5%89%8D%E7%AB%AF)
       - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
+      - [GitHub Actions 自动部署](#github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2)
+      - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
+      - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
+      - [页面功能](#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD)
+      - [页面跳转逻辑](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E9%80%BB%E8%BE%91)
       - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
     - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
@@ -139,9 +144,9 @@ flowchart TD
 3. 构建并预览生产版本：
 
    ```bash
-  npm run build
-  npm run preview
-  ```
+   npm run build
+   npm run preview
+   ```
 
 执行 `npm run build` 后，`dist/_astro` 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。
 
@@ -312,7 +317,7 @@ location /_astro/ {
    pre-commit install
    ```
 - 在每次提交前，钩子会自动运行，并执行操作：
-  - 将根目录的 README 与 README_EN 同步到 `public/` 目录下。
+  - 将根目录的 README 与 README_EN 同步到 `src/assets/` 目录下。
   - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
   - 执行静态资源命名验证脚本，确保 `src/assets` 下的命名规范。
 - 你也可以手动触发：

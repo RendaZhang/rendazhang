@@ -303,7 +303,7 @@ Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang
   pre-commit install
   ```
 - Pre-commit hooks automatically:
-  - Sync root README/README_EN to `public/`
+  - Sync root README/README_EN to `src/assets/`
   - Update Doctoc TOC for docs
   - Validate naming inside `src/assets`
 - Manual trigger:

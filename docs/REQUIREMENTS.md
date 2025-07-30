@@ -83,8 +83,8 @@
   - 配置 pre-commit 钩子（ESLint、Prettier、Astro Check），保证了代码质量
   - 提交前自动运行 doctoc 更新文档目录结构，确保了文档自动化
 - [x] **Pre Commit 功能**
-  - Pre Commit 自动将根目录 `README.md` 同步到 `public/` 目录
-  - Pre Commit 自动将根目录 `README.EN.md` 同步到 `public/` 目录
+  - Pre Commit 自动将根目录 `README.md` 同步到 `src/assets/` 目录
+  - Pre Commit 自动将根目录 `README.EN.md` 同步到 `src/assets/` 目录
   - Pre Commit 自动更新 README 和 `docs/` 目录下的文档的 Doctoc 目录
   - 新增 `validate-assets` 脚本确保图片与音乐文件命名规范
   - Pre Commit 自动执行静态资源命名验证脚本

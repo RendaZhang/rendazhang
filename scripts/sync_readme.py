@@ -10,9 +10,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 root = pathlib.Path(__file__).resolve().parents[1]
 root_readme = root / "README.md"
-public_readme = root / "public" / "README.md"
+assets_readme = root / "src" / "assets" / "README.md"
 root_readme_en = root / "README_EN.md"
-public_readme_en = root / "public" / "README_EN.md"
+assets_readme_en = root / "src" / "assets" / "README_EN.md"
 
 
 def copy_and_stage(src: pathlib.Path, dest: pathlib.Path) -> None:
@@ -34,5 +34,5 @@ def copy_and_stage(src: pathlib.Path, dest: pathlib.Path) -> None:
         sys.exit(1)
 
 
-copy_and_stage(root_readme, public_readme)
-copy_and_stage(root_readme_en, public_readme_en)
+copy_and_stage(root_readme, assets_readme)
+copy_and_stage(root_readme_en, assets_readme_en)

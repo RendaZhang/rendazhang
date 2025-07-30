@@ -36,13 +36,14 @@
     - [BUG-027: Page title does not switch languages](#bug-027-page-title-does-not-switch-languages)
     - [BUG-028: Markdown styles inconsistent between pages](#bug-028-markdown-styles-inconsistent-between-pages)
     - [BUG-029: DOMPurify source map warning during dev](#bug-029-dompurify-source-map-warning-during-dev)
+    - [BUG-030: highlight.js 缺少 nginx 语言模块](#bug-030-highlightjs-%E7%BC%BA%E5%B0%91-nginx-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 30, 2025, 23:13 (UTC+8)
+- **最后更新**: July 31, 2025, 03:13 (UTC+8)
 
 ---
 
@@ -111,6 +112,7 @@
 - [x] BUG-027: Page title does not switch languages
 - [x] BUG-028: Markdown styles inconsistent between pages
 - [x] BUG-029: DOMPurify source map warning during dev
+- [x] BUG-030: highlight.js 缺少 nginx 语言模块
 
 ---
 
@@ -520,7 +522,8 @@
 - **根本原因**：
   - jQuery 异步加载导致请求被阻塞，README 内容未能返回
 - **解决方案**：
-  - 移除对 jQuery 的依赖，改用 `fetch` 加载文档
+  - 移除对 jQuery 的依赖，在构建阶段通过 `import` 静态加载 README
+    内容
 - **验证结果**：✅ 页面渲染正常，文档内容显示完整
 
 ### BUG-027: Page title does not switch languages
@@ -567,3 +570,16 @@
   - 若需消除警告，可从 DOMPurify 发布包下载 `purify.min.js.map` 并放入 `src/scripts/`
   - 或移除 `purify.min.js` 中的 `sourceMappingURL` 注释
 - **验证结果**：✅ 添加 `.map` 后警告消失
+
+### BUG-030: highlight.js 缺少 nginx 语言模块
+
+- **发现日期**：2025-07-31
+- **重现环境**：Chat 页面加载 nginx 配置代码块
+- **问题现象**：
+  - 控制台出现 `WARN: Could not find the language 'nginx'`
+  - 随后提示 `Falling back to no-highlight mode for this block`
+- **根本原因**：
+  - `highlight.min.js` 未包含 nginx 语法模块
+- **解决方案**：
+  - 使用 `node_modules/highlight.js/tools/build.js` 重新构建，加入 `nginx` 语言
+- **验证结果**：✅ 页面不再报 WARN，nginx 语法高亮正常

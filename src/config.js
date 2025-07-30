@@ -24,6 +24,8 @@ import markedUrl from './scripts/marked.min.js?url';
 import purifyUrl from './scripts/purify.min.js?url';
 import highlightUrl from './scripts/highlight.min.js?url';
 import mermaidUrl from './scripts/mermaid.min.js?url';
+import readmeZh from './assets/README.md?raw';
+import readmeEn from './assets/README_EN.md?raw';
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
@@ -50,9 +52,9 @@ export const LOGIN_PAGE_PATH = '/login';
 export const REGISTER_PAGE_PATH = '/register';
 
 // Paths to the documentation markdown files
-export const DOC_PATHS = {
-  README_ZH: '/README.md',
-  README_EN: '/README_EN.md'
+export const DOC_CONTENT = {
+  README_ZH: readmeZh,
+  README_EN: readmeEn
 };
 
 // Home page path
