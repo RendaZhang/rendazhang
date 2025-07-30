@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { SITE_BASE_URL, SOCIAL_ICON_PATHS, SOCIAL_LINKS, IMAGE_PATHS } from '../../../config.js';
 
 function SocialIcon({ href, id, src, alt, ariaLabel }) {

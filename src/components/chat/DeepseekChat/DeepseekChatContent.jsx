@@ -1,4 +1,3 @@
-import React from 'react';
 import Chat from '../Chat.jsx';
 import { DEEPSEEK_CHAT_CONTENT } from '../../../content';
 

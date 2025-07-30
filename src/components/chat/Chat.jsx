@@ -39,19 +39,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const enhancementProgressRef = useRef(null); // New: ref for progress div
   const loadedScriptsRef = useRef(new Map());
   const coreLoadAttemptedRef = useRef(false);
-  const [embedded, setEmbedded] = useState(false);
 
   // Load core markdown libraries first (ensure single execution even in React Strict Mode)
   useEffect(() => {
     if (coreLoadAttemptedRef.current) return;
     coreLoadAttemptedRef.current = true;
     loadCoreLibraries();
-  }, []);
-
-  useEffect(() => {
-    if (window.self !== window.top) {
-      setEmbedded(true);
-    }
   }, []);
 
   // Load history from localStorage after core libs are ready

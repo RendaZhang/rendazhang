@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeToggle, LanguageSelector, AvatarIcon, LocalizedSection } from '../ui';
 import HamburgerMenu from './HamburgerMenu.jsx';
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '../../config.js';

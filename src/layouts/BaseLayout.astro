@@ -2,7 +2,6 @@
 import { NavBarWrapper } from '../components/layouts';
 import {
   FAVICON_PATH,
-  STYLE_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
   PERSON_SCHEMA,
   SITE_BASE_URL,
@@ -202,7 +201,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     {twitterProps.creator && <meta name="twitter:creator" content={twitterProps.creator} />}
     {twitterProps.url && <meta name="twitter:url" content={twitterProps.url} />}
     {twitterProps.domain && <meta name="twitter:domain" content={twitterProps.domain} />}
-    <script type="application/ld+json" set:html={jsonLD} />
+    <script type="application/ld+json" is:inline set:html={jsonLD} />
     {
       preloadStyles.map((href: string | URL | null | undefined) => (
         <link rel="preload" href={href} as="style" />
@@ -223,6 +222,6 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       <slot name="bodyEnd" />
       {showFooter && <slot name="footer" />}
     </NavBarWrapper>
-    {extraScripts.map((src: string | null | undefined) => <script defer src={src} />)}
+    {extraScripts.map((src: string | null | undefined) => <script is:inline defer src={src} />)}
   </body>
 </html>

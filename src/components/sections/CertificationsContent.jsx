@@ -1,12 +1,10 @@
-import React from 'react';
 import { VERIFY_URLS } from '../../config.js';
 import { CERTIFICATIONS_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection, CredlyBadge } from '../ui';
 
 export default function CertificationsContent() {
-  const { lang } = useLanguage();
-  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
+  useLanguage();
   const textsEn = CERTIFICATIONS_CONTENT.en;
   const textsZh = CERTIFICATIONS_CONTENT.zh;
 

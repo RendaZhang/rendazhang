@@ -1,4 +1,3 @@
-import React from 'react';
 import { RegisterForm } from '../forms';
 import { REGISTER_CONTENT } from '../../content';
 

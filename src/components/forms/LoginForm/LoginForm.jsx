@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../config.js';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';

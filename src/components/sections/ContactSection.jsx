@@ -1,4 +1,3 @@
-import React from 'react';
 import { ContactForm } from '../forms';
 import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../config.js';
 import { ABOUT_CONTENT } from '../../content';
@@ -6,8 +5,7 @@ import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
 
 export default function ContactSection() {
-  const { lang } = useLanguage();
-  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
+  useLanguage();
   const contactZh = ABOUT_CONTENT.zh.contact;
   const contactEn = ABOUT_CONTENT.en.contact;
   const infosZh = contactZh.info || [];

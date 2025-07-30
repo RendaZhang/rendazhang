@@ -1,4 +1,3 @@
-import React from 'react';
 import { ABOUT_CONTENT } from '../../content';
 import { IMAGE_PATHS, RESUME_EN_DOWNLOAD, RESUME_ZH_DOWNLOAD } from '../../config.js';
 import ContactSection from './ContactSection.jsx';

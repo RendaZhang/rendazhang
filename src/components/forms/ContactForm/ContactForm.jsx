@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../../../config.js';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';

@@ -26,8 +26,6 @@ export default function CredlyBadge() {
         ref={iframeRef}
         name="acclaim-badge"
         allowtransparency="true"
-        frameBorder="0"
-        scrolling="no"
         id={`embedded-badge-${CREDLY_BADGE_ID}`}
         title="View my verified achievement on Credly."
         src={iframeSrc}
