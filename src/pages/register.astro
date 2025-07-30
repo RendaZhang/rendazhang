@@ -1,13 +1,29 @@
 ---
 import { BaseLayout } from '../layouts';
 import { RegisterContent } from '../components/sections';
-import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, REGISTER_PAGE_PATH, SITE_NAME_EN } from '../config.js';
+import {
+  SITE_BASE_URL,
+  VIEWPORT_NO_ZOOM,
+  REGISTER_PAGE_PATH,
+  PAGE_TITLES,
+  REGISTER_DESCRIPTION
+} from '../config.js';
 import '../styles/register.css';
+import { getCurrentLang } from '../utils';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const titleZh = PAGE_TITLES.REGISTER_ZH;
+const titleEn = PAGE_TITLES.REGISTER_EN;
+const title = langKey === 'zh' ? titleZh : titleEn;
 ---
 
 <BaseLayout
-  title={`Register - ${SITE_NAME_EN}`}
-  description="Register Page of Renda Zhang Website"
+  lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
+  description={REGISTER_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${REGISTER_PAGE_PATH}/`}
   metaRobots="noindex, nofollow"

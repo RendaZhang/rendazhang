@@ -23,6 +23,8 @@ import '../styles/theme.css';
 const {
   lang: langProp,
   title = '',
+  titleZh = '',
+  titleEn = '',
   description = '',
   viewport = VIEWPORT_ZOOM_ALLOWED,
   canonical = '',
@@ -46,6 +48,9 @@ const {
 
 const lang = langProp || 'zh-CN';
 const initialLang = lang;
+const effectiveTitleZh = titleZh || title;
+const effectiveTitleEn = titleEn || title;
+const initialTitle = initialLang.startsWith('zh') ? effectiveTitleZh : effectiveTitleEn;
 
 const jsonLD = personSchemaJson;
 const ogDefaults = {
@@ -80,7 +85,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content={viewport} />
-    {title && <title>{title}</title>}
+    {initialTitle && <title>{initialTitle}</title>}
     {description && <meta name="description" content={description} />}
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
     <link rel="icon" type="image/png" href={FAVICON_PATH} />
@@ -130,6 +135,29 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         } catch (e) {
           console.error('语言初始化失败', e);
         }
+      })();
+    </script>
+    <script
+      is:inline
+      define:vars={{
+        titleZh: effectiveTitleZh,
+        titleEn: effectiveTitleEn
+      }}
+    >
+      (function () {
+        var zh = titleZh;
+        var en = titleEn;
+        if (!zh && !en) return;
+        function setTitle() {
+          var lang = document.documentElement.lang || 'zh-CN';
+          if (lang.startsWith('zh') && zh) {
+            document.title = zh;
+          } else if (!lang.startsWith('zh') && en) {
+            document.title = en;
+          }
+        }
+        setTitle();
+        window.addEventListener('langChanged', setTitle);
       })();
     </script>
     <!-- Load Bootstrap first so custom styles can override -->

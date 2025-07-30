@@ -1,6 +1,6 @@
 export const CERTIFICATIONS_CONTENT = {
   en: {
-    heading: 'Professional Certifications',
+    heading: 'Professional Certifications · Renda Zhang',
     certificates: [
       {
         title: 'AWS Certified Solutions Architect - Associate (SAA-C03)',
@@ -16,7 +16,7 @@ export const CERTIFICATIONS_CONTENT = {
     ]
   },
   zh: {
-    heading: '专业证书',
+    heading: '专业证书 · 张人大',
     certificates: [
       {
         title: 'AWS 认证解决方案架构师 - 助理级 (SAA-C03)',

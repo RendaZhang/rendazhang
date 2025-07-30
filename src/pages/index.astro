@@ -7,7 +7,6 @@ import {
   SITE_BASE_URL,
   PAGE_TITLES,
   SITE_DESCRIPTION_EN,
-  SITE_DESCRIPTION_ZH,
   HOME_PAGE_PATH,
   STYLE_PATHS
 } from '../config.js';
@@ -15,14 +14,17 @@ import { getCurrentLang } from '../utils';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
-const title = langKey === 'zh' ? PAGE_TITLES.ABOUT_ZH : PAGE_TITLES.ABOUT_EN;
-const description = langKey === 'zh' ? SITE_DESCRIPTION_ZH : SITE_DESCRIPTION_EN;
+const titleZh = PAGE_TITLES.ABOUT_ZH;
+const titleEn = PAGE_TITLES.ABOUT_EN;
+const title = langKey === 'zh' ? titleZh : titleEn;
 ---
 
 <BaseLayout
   lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
   title={title}
-  description={description}
+  description={SITE_DESCRIPTION_EN}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
   extraStyles={[STYLE_PATHS.CHAT_WIDGET]}

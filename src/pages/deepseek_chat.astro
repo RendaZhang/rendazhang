@@ -9,10 +9,14 @@ import '../styles/deepseek_chat.css';
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const pageTexts = DEEPSEEK_CHAT_CONTENT[langKey];
+const titleZh = DEEPSEEK_CHAT_CONTENT.zh.title;
+const titleEn = DEEPSEEK_CHAT_CONTENT.en.title;
 ---
 
 <BaseLayout
   lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
   title={pageTexts.title}
   description={`${pageTexts.description} Conversations are saved locally and support Markdown rendering.`}
   viewport={VIEWPORT_ZOOM_ALLOWED}

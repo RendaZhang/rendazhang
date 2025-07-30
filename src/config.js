@@ -22,7 +22,6 @@ export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
 export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
-export const SITE_DESCRIPTION_ZH = '来自 深圳 的 软件开发工程师 张人大';
 
 export const ENDPOINTS = {
   CHAT: `${API_BASE_URL}/deepseek_chat`,
@@ -64,10 +63,12 @@ export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
 export const PAGE_TITLES = {
   ABOUT_ZH: '张人大 · 软件开发工程师',
   ABOUT_EN: 'Renda Zhang · Software Engineer',
-  ABOUT_EN_OG: 'Renda Zhang · Software Engineer',
-  INDEX_OG: 'Renda Zhang · Personal Website',
-  CERTIFICATIONS: 'Professional Certifications · Renda Zhang',
-  DOCS: 'Technical Documentation'
+  DOCS_ZH: '技术文档 · 张人大',
+  DOCS_EN: 'Technical Documentation · Renda Zhang',
+  LOGIN_ZH: '登录 · 张人大',
+  LOGIN_EN: 'Login · Renda Zhang',
+  REGISTER_ZH: '注册 · 张人大',
+  REGISTER_EN: 'Register · Renda Zhang'
 };
 
 // Alt text for logo images
@@ -76,7 +77,9 @@ export const LOGO_ALT = {
   ZH: '张人大 Logo'
 };
 // Reusable titles and descriptions
-export const AI_CHAT_TITLE = 'AI Chat';
+export const LOGIN_DESCRIPTION = 'The Login Page of Renda Zhang';
+export const REGISTER_DESCRIPTION = 'The Register Page of Renda Zhang';
+export const AI_CHAT_WIDGET_TITLE = 'AI Chat';
 export const DOCS_DESCRIPTION = 'Renda Zhang technical documentation';
 export const CERTIFICATIONS_DESCRIPTION =
   'AWS Certified Solutions Architect - Associate (SAA-C03) and future credentials of Renda Zhang.';

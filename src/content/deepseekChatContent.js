@@ -20,7 +20,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     copiedLabel: 'Copied'
   },
   zh: {
-    title: 'AI对话',
+    title: 'AI 对话',
     description: '由 DeepSeek 提供支持的 AI 助手',
     loading: '加载对话中...',
     chatReady: '会话已准备，请输入消息开始对话',

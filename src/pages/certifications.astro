@@ -5,27 +5,32 @@ import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
   IMAGE_PATHS,
-  STYLE_PATHS,
-  PAGE_TITLES,
   CERTIFICATIONS_DESCRIPTION,
   CERTIFICATIONS_IMAGE_ALT,
   OG_IMAGE_DIMENSIONS
 } from '../config.js';
+import { CERTIFICATIONS_CONTENT } from '../content';
 import { CertificationsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils';
 import '../styles/certifications.css';
 
 const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const title = CERTIFICATIONS_CONTENT[langKey].heading;
+const titleZh = CERTIFICATIONS_CONTENT.zh.heading;
+const titleEn = CERTIFICATIONS_CONTENT.en.heading;
 ---
 
 <BaseLayout
   lang={langDefault}
-  title={PAGE_TITLES.CERTIFICATIONS}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
   description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
   bodyClass="cert-page"
   og={{
-    title: PAGE_TITLES.CERTIFICATIONS,
+    title: titleEn,
     description: CERTIFICATIONS_DESCRIPTION,
     url: `${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`,
     image: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`,
@@ -35,7 +40,7 @@ const langDefault = getCurrentLang();
     secureImageUrl: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`
   }}
   twitter={{
-    title: PAGE_TITLES.CERTIFICATIONS,
+    title: titleEn,
     description: CERTIFICATIONS_DESCRIPTION,
     image: `${SITE_BASE_URL}${IMAGE_PATHS.CERTIFICATIONS_COVER}`,
     imageAlt: CERTIFICATIONS_IMAGE_ALT

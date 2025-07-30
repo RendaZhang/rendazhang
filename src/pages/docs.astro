@@ -12,10 +12,20 @@ import {
 } from '../config.js';
 import { DocsEffects } from '../components/sections';
 import '../styles/docs.css';
+import { getCurrentLang } from '../utils';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const titleZh = PAGE_TITLES.DOCS_ZH;
+const titleEn = PAGE_TITLES.DOCS_EN;
+const title = langKey === 'zh' ? titleZh : titleEn;
 ---
 
 <BaseLayout
-  title={PAGE_TITLES.DOCS}
+  lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
@@ -24,7 +34,7 @@ import '../styles/docs.css';
   bodyClass="docs-page"
   mainClass="main-content docs-main"
   og={{
-    title: PAGE_TITLES.DOCS,
+    title: PAGE_TITLES.DOCS_EN,
     description: DOCS_DESCRIPTION,
     url: `${SITE_BASE_URL}${DOCS_PAGE_PATH}/`
   }}

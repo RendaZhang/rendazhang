@@ -1,13 +1,29 @@
 ---
 import { BaseLayout } from '../layouts';
 import { LoginContent } from '../components/sections';
-import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, LOGIN_PAGE_PATH, SITE_NAME_EN } from '../config.js';
+import {
+  SITE_BASE_URL,
+  VIEWPORT_NO_ZOOM,
+  LOGIN_PAGE_PATH,
+  PAGE_TITLES,
+  LOGIN_DESCRIPTION
+} from '../config.js';
 import '../styles/login.css';
+import { getCurrentLang } from '../utils';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const titleZh = PAGE_TITLES.LOGIN_ZH;
+const titleEn = PAGE_TITLES.LOGIN_EN;
+const title = langKey === 'zh' ? titleZh : titleEn;
 ---
 
 <BaseLayout
-  title={`Login - ${SITE_NAME_EN}`}
-  description="Login Page of Renda Zhang Website"
+  lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
+  description={LOGIN_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`}
   metaRobots="noindex, nofollow"
