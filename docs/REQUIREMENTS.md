@@ -110,6 +110,8 @@
   - 主页改变：About 页面（原来的 `about.astro`）已经变为 Index 页面（`index.atro`）
 - [x] **性能增强方案**
   - 所有图片资源懒加载
+  - 异步加载优化：将脚本注入改为 `import()` 动态导入
+  - 确保所有放置在 `src/assets` 目录下的资源都通过 import 方式引用，这样 Astro 会自动为它们生成哈希指纹
   - 运行 `npm run build` 后，`dist/_astro` 目录会包含带有哈希后缀的文件，Astro/Vite 自动启用文件指纹机制，便于利用长效缓存
 
 
@@ -119,22 +121,20 @@
   - Low Quality Image Placeholder
   - 针对对需要使用高质量图片的页面
   - 采用「低质量图片占位 → 高质量图片懒加载替换」方案
-- [ ] **聊天组件全局化**
-  - 除 deepseek_chat 外，在所有页面展示 ChatWidget
 - [ ] **实现登录和注册功能**
   - 使用轻量级方案做一个登录注册功能
-- [ ] **TypeScript 迁移**
-  - 逐步将 .jsx 转为 .tsx 并添加类型声明
 - [ ] **组件拆分优化**
   - 将 Chat.jsx 拆分为：消息列表、输入区、加载状态等独立组件
-- [ ] **状态管理升级**
-  - 引入 Zustand 管理跨组件共享状态
-- [ ] **异步加载优化**
-  - 将脚本注入改为 `import()` 动态导入
 - [ ] **组件化重构**
   - 创建复用组件（HeroSection, SkillsSection 等）
 - [ ] **Head 组件封装**
   - 创建复用 `<Head>` 组件管理公共 meta 标签
+- [ ] **聊天组件全局化**
+  - 除 deepseek_chat 外，在所有页面展示 ChatWidget
+- [ ] **状态管理升级**
+  - 引入 Zustand 管理跨组件共享状态
+- [ ] **TypeScript 迁移**
+  - 逐步将 .jsx 转为 .tsx 并添加类型声明
 - [ ] **测试体系建设**
   - 引入 React Testing Library + Playwright 测试框架
 - [ ] **i18n 方案升级**
