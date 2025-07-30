@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 31, 2025, 00:28 (UTC+8)
+- **最后更新**: July 31, 2025, 01:28 (UTC+8)
 
 ---
 
@@ -265,7 +265,7 @@ import Test from '../components/Test.jsx';
 
 将项目中的 `css/`, `fonts/`, `images/`, `webfonts/` 等目录复制到 `public/` 目录下（按照 Astro 的约定，以便构建时原样拷贝）。
 
-将项目的 `favicon*` 相关的文件也复制到 `public/` 目录下。
+将项目的 `favicon*` 相关的文件复制到 `src/assets/favicons` 目录，并在代码中通过 `import` 的方式引用。
 
 将项目的 `50x.html`, `404.html` 相关的错误页面文件也复制到 `public/` 目录下。
 
@@ -829,7 +829,7 @@ jobs:
 
 完成后，做一些基础的清理操作，比如删除项目根目录下的 `css/`, `fonts/`, `images/`, `webfonts/`, `favicon*`， `50x.html`, `404.html`, `robots.txt`, `sitemap.xml`。
 
-因为它们已经复制到 `public/` 目录下了。
+这些文件已经分别移动至 `public/` 或 `src/assets` 目录，并在页面中通过 `import` 方式使用。
 
 更新一下 `public/sitemap.xml` 文件，跟最新的信息对齐。
 

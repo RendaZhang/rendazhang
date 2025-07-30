@@ -10,6 +10,9 @@ import coverCertificationsUrl from './assets/cover-certifications-high-rectangle
 import resumeEnUrl from './assets/Resume_RendaZhang.pdf?url';
 import resumeZhUrl from './assets/个人简历_张人大.pdf?url';
 import logoV4Url from './assets/logo-v4-high-circle-300x300.png?url';
+import faviconPngUrl from './assets/favicons/favicon.png?url';
+import faviconIcoUrl from './assets/favicons/favicon.ico?url';
+import favicon16Url from './assets/favicons/favicon-16x16.png?url';
 import chatWidgetCssUrl from './styles/chat_widget.css?url';
 import docsCssUrl from './styles/docs.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
@@ -152,7 +155,13 @@ export const STYLE_PATHS = {
   CERTIFICATIONS: certificationsCssUrl
 };
 
-export const FAVICON_PATH = '/favicon.png';
+export const FAVICON_PATHS = {
+  ICO: faviconIcoUrl,
+  PNG: faviconPngUrl,
+  SMALL: favicon16Url
+};
+
+export const FAVICON_PATH = FAVICON_PATHS.PNG;
 
 export const IMAGE_PATHS = {
   WECHAT_QR: wechatQr,

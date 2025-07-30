@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const imageRegex =
-  /^[\w-]+-[\w-]+-(?:low|medium|high)-(?:square|circle|rectangle)-(\d+)x(\d+)\.(?:jpg|png)$/i;
+  /^[\w-]+-[\w-]+-(?:low|medium|high)-(?:square|circle|rectangle)-(\d+)x(\d+)\.(?:jpg|png|ico)$/i;
 const pdfRegex = /^[\w\u4e00-\u9fa5_]+\.pdf$/i;
 const musicRegex = /^[\w-]+-[\w-]+-[\w-]+-[\w-]+\.mp3$/i;
 const qrcodeRegex =

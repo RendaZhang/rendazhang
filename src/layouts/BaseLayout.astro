@@ -1,7 +1,7 @@
 ---
 import { NavBarWrapper } from '../components/layouts';
 import {
-  FAVICON_PATH,
+  FAVICON_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
   PERSON_SCHEMA,
   SITE_BASE_URL,
@@ -86,9 +86,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <meta name="viewport" content={viewport} />
     {initialTitle && <title>{initialTitle}</title>}
     {description && <meta name="description" content={description} />}
-    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATH} />
-    <link rel="icon" type="image/png" href={FAVICON_PATH} />
-    <link rel="apple-touch-icon" href={FAVICON_PATH} />
+    <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATHS.ICO} />
+    <link rel="icon" type="image/png" href={FAVICON_PATHS.PNG} />
+    <link rel="apple-touch-icon" href={FAVICON_PATHS.SMALL} />
     <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
       (function () {
         try {
