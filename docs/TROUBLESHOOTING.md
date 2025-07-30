@@ -33,6 +33,7 @@
     - [BUG-024: Homepage QR code fails to load](#bug-024-homepage-qr-code-fails-to-load)
     - [BUG-025: Scripts run before React hydration](#bug-025-scripts-run-before-react-hydration)
     - [BUG-026: Docs page fails to render README](#bug-026-docs-page-fails-to-render-readme)
+    - [BUG-027: Page title does not switch languages](#bug-027-page-title-does-not-switch-languages)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -105,6 +106,7 @@
 - [x] BUG-024: Homepage QR code fails to load
 - [x] BUG-025: Scripts run before React hydration
 - [x] BUG-026: Docs page fails to render README
+- [x] BUG-027: Page title does not switch languages
 
 ---
 
@@ -516,3 +518,18 @@
 - **解决方案**：
   - 移除对 jQuery 的依赖，改用 `fetch` 加载文档
 - **验证结果**：✅ 页面渲染正常，文档内容显示完整
+
+### BUG-027: Page title does not switch languages
+
+- **发现日期**：2025-07-30
+- **重现环境**：Home 和 DeepSeek Chat 页面，切换语言后观察标题
+- **问题现象**：
+  - 切换语言后浏览器标签标题仍保持初始语言
+- **根本原因**：
+  - BaseLayout 仅接收单一 `title`，未监听语言变更
+- **解决方案**：
+  1. 新增 `titleZh`、`titleEn` 可选属性并在初始语言下渲染对应标题
+  2. 行内脚本定义 `setTitle` 函数，根据 `document.documentElement.lang` 更新 `document.title`
+  3. 监听 `langChanged` 事件在语言切换时更新标题
+  4. 页面传入 `titleZh`、`titleEn`，未提供则回退到单一 `title`
+- **验证结果**：✅ 切换语言后标题即时切换
