@@ -17,7 +17,6 @@ import markedUrl from './scripts/marked.min.js?url';
 import purifyUrl from './scripts/purify.min.js?url';
 import highlightUrl from './scripts/highlight.min.js?url';
 import mermaidUrl from './scripts/mermaid.min.js?url';
-import jqueryUrl from './scripts/jquery.min.js?url';
 export const API_BASE_URL = '/cloudchat';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
@@ -137,7 +136,6 @@ export const SCRIPT_PATHS = {
   PURIFY: purifyUrl,
   HIGHLIGHT: highlightUrl,
   MERMAID: mermaidUrl,
-  JQUERY: jqueryUrl
 };
 
 export const STYLE_PATHS = {
