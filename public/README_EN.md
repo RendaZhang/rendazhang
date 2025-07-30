@@ -31,7 +31,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 30, 2025, 16:27 (UTC+8)
+- **Last Updated**: July 31, 2025, 00:28 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
@@ -305,7 +305,7 @@ Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang
 - Pre-commit hooks automatically:
   - Sync root README/README_EN to `public/`
   - Update Doctoc TOC for docs
-  - Validate `public/images` and `src/assets` naming
+  - Validate naming inside `src/assets`
 - Manual trigger:
   ```bash
   pre-commit run --all-files

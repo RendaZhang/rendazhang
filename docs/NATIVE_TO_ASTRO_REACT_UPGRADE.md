@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 30, 2025, 02:40 (UTC+8)
+- **最后更新**: July 31, 2025, 00:28 (UTC+8)
 
 ---
 
@@ -276,7 +276,7 @@ import Test from '../components/Test.jsx';
 ```
 src/styles/...
 public/fonts/...
-public/images/...
+src/assets/...
 ...
 ```
 
@@ -396,7 +396,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 要迁移的页面列表（旧版文件名 -> 新 Astro 页面路径）：
 
 - **个人介绍页** (`index_chinese.html`、`index_english.html`): 合并内容到 `about.astro`，统一布局与样式，测试多语言文本显示和站内链接是否正确。
-- **证书展示页** (`certifications.html`): 创建 `certifications.astro` 并迁移内容。该页可能包含证书图片列表或画廊。确保图像文件已在 `public/images` 下，链接正确。可以考虑将证书数据（如图片 URL 及描述）提取为一个 JSON / 数组，让 Astro 页面动态生成列表，从而演示 **服务层** 和组件复用：例如创建一个 `certList.js` 服务模块导出证书数据数组，页面通过导入数据生成多个证书项组件。这样将数据与呈现分离，便于后续扩展。
+- **证书展示页** (`certifications.html`): 创建 `certifications.astro` 并迁移内容。该页可能包含证书图片列表或画廊。确保图像文件已在 `src/assets` 下，链接正确。可以考虑将证书数据（如图片 URL 及描述）提取为一个 JSON / 数组，让 Astro 页面动态生成列表，从而演示 **服务层** 和组件复用：例如创建一个 `certList.js` 服务模块导出证书数据数组，页面通过导入数据生成多个证书项组件。这样将数据与呈现分离，便于后续扩展。
 - **技术文档页** (`docs.html`): 创建 `docs.astro` 迁移内容。如果该页只是静态文章或链接集合，可直接搬内容。如果有很多重复的样式结构，考虑提取为组件（例如文档条目组件）。
 
 对于每个页面：

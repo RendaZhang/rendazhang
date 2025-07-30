@@ -5,6 +5,11 @@ import zhihuLogo from './assets/social/zhihu-logo.svg';
 import toutiaoLogo from './assets/social/toutiao-logo.svg';
 import csdnLogo from './assets/social/csdn-logo.svg';
 import mediumLogo from './assets/social/medium-logo.svg';
+import heroImgUrl from './assets/hero-default-low-rectangle-900x600.jpg?url';
+import coverCertificationsUrl from './assets/cover-certifications-high-rectangle-1200x630.jpg?url';
+import resumeEnUrl from './assets/Resume_RendaZhang.pdf?url';
+import resumeZhUrl from './assets/个人简历_张人大.pdf?url';
+import logoV4Url from './assets/logo-v4-high-circle-300x300.png?url';
 import chatWidgetCssUrl from './styles/chat_widget.css?url';
 import docsCssUrl from './styles/docs.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
@@ -151,10 +156,11 @@ export const FAVICON_PATH = '/favicon.png';
 
 export const IMAGE_PATHS = {
   WECHAT_QR: wechatQr,
-  HERO: '/images/hero-default-low-rectangle-900x600.jpg',
-  CERTIFICATIONS_COVER: '/images/cover-certifications-high-rectangle-1200x630.jpg',
-  RESUME_EN: '/images/Resume_RendaZhang.pdf',
-  RESUME_ZH: '/images/个人简历_张人大.pdf'
+  HERO: heroImgUrl,
+  CERTIFICATIONS_COVER: coverCertificationsUrl,
+  RESUME_EN: resumeEnUrl,
+  RESUME_ZH: resumeZhUrl,
+  LOGO_V4: logoV4Url
 };
 
 // Social icon paths used on the homepage
@@ -174,7 +180,7 @@ export const OG_IMAGE_DIMENSIONS = {
   HEIGHT: '630'
 };
 
-export const DEFAULT_SOCIAL_IMAGE = '/images/cover-certifications-high-rectangle-1200x630.jpg';
+export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.CERTIFICATIONS_COVER;
 
 // Shared site metadata
 export const GEO_REGION = 'CN-GD';
@@ -216,7 +222,7 @@ export const PERSON_SCHEMA = {
     }
   ],
   url: SITE_BASE_URL,
-  image: `${SITE_BASE_URL}/images/logo-v4-high-circle-300x300.png`,
+  image: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
   jobTitle: 'Software Engineer',
   worksFor: {
     '@type': 'Organization',

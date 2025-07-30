@@ -18,7 +18,7 @@ export default function AboutContent() {
 
   return (
     <div id="content">
-      <section className="hero">
+      <section className="hero" style={{ backgroundImage: `url(${IMAGE_PATHS.HERO})` }}>
         <h1 id="heroHeading">
           <LocalizedSection
             zhContent={<span dangerouslySetInnerHTML={{ __html: contentZh.heroHeading }} />}

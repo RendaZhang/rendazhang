@@ -26,7 +26,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 30, 2025, 16:27 (UTC+8)
+- **最后更新**: July 31, 2025, 00:28 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
@@ -314,7 +314,7 @@ location /_astro/ {
 - 在每次提交前，钩子会自动运行，并执行操作：
   - 将根目录的 README 与 README_EN 同步到 `public/` 目录下。
   - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
-  - 执行静态资源命名验证脚本，确保 `public/images` 与 `src/assets` 命名规范。
+  - 执行静态资源命名验证脚本，确保 `src/assets` 下的命名规范。
 - 你也可以手动触发：
    ```bash
    pre-commit run --all-files

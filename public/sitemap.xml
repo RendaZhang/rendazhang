@@ -37,21 +37,4 @@
     <lastmod>2025-07-30</lastmod>
   </url>
 
-
-  <!-- 中文简历 PDF -->
-  <url>
-    <loc>https://www.rendazhang.com/images/个人简历_张人大.pdf</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
-    <lastmod>2025-07-29</lastmod>
-  </url>
-
-  <!-- English Resume PDF -->
-  <url>
-    <loc>https://www.rendazhang.com/images/Resume_RendaZhang.pdf</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-    <lastmod>2025-07-29</lastmod>
-  </url>
-
 </urlset>

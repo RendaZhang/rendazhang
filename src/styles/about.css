@@ -1,8 +1,10 @@
 .hero {
-  background: url('/images/hero-default-low-rectangle-900x600.jpg') center/cover no-repeat;
   color: var(--color-white);
   padding: 4rem 1rem;
   text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .about-section {

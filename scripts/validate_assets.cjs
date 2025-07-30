@@ -20,19 +20,16 @@ function validate(dir, regexes) {
   return errors;
 }
 
-const imageErrors = validate(path.join(__dirname, '..', 'public', 'images'), [
+const assetErrors = validate(path.join(__dirname, '..', 'src', 'assets'), [
+  musicRegex,
+  qrcodeRegex,
   imageRegex,
   pdfRegex
 ]);
-const assetErrors = validate(path.join(__dirname, '..', 'src', 'assets'), [
-  musicRegex,
-  qrcodeRegex
-]);
 
-if (imageErrors.length || assetErrors.length) {
+if (assetErrors.length) {
   console.error('Invalid file names detected:');
-  if (imageErrors.length) console.error('Images:', imageErrors.join(', '));
-  if (assetErrors.length) console.error('Assets:', assetErrors.join(', '));
+  console.error('Assets:', assetErrors.join(', '));
   process.exit(1);
 }
 console.log('All asset file names follow the expected conventions.');
