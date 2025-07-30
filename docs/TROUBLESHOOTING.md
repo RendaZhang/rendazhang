@@ -35,13 +35,14 @@
     - [BUG-026: Docs page fails to render README](#bug-026-docs-page-fails-to-render-readme)
     - [BUG-027: Page title does not switch languages](#bug-027-page-title-does-not-switch-languages)
     - [BUG-028: Markdown styles inconsistent between pages](#bug-028-markdown-styles-inconsistent-between-pages)
+    - [BUG-029: DOMPurify source map warning during dev](#bug-029-dompurify-source-map-warning-during-dev)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 30, 2025, 02:40 (UTC+8)
+- **最后更新**: July 30, 2025, 23:13 (UTC+8)
 
 ---
 
@@ -109,6 +110,7 @@
 - [x] BUG-026: Docs page fails to render README
 - [x] BUG-027: Page title does not switch languages
 - [x] BUG-028: Markdown styles inconsistent between pages
+- [x] BUG-029: DOMPurify source map warning during dev
 
 ---
 
@@ -549,3 +551,19 @@
 - **解决方案**：
   - 两个页面同时加载 `github.min.css` 与 `github-markdown-light.min.css`
 - **验证结果**：✅ 两页面的代码高亮与排版均保持一致
+
+### BUG-029: DOMPurify source map warning during dev
+
+- **发现日期**：2025-07-30
+- **重现环境**：`vite dev` 过程中加载 `src/scripts/purify.min.js`
+- **问题现象**：
+  - 终端与浏览器控制台提示 `Failed to load source map for purify.min.js`
+  - 日志显示 `ENOENT: no such file or directory, open 'purify.min.js.map'`
+- **根本原因**：
+  - `purify.min.js` 末尾包含 `//# sourceMappingURL=purify.min.js.map`
+  - 仓库未提供对应的 `.map` 文件，Vite 在调试阶段尝试读取失败
+- **解决方案**：
+  - 警告不影响运行，可忽略
+  - 若需消除警告，可从 DOMPurify 发布包下载 `purify.min.js.map` 并放入 `src/scripts/`
+  - 或移除 `purify.min.js` 中的 `sourceMappingURL` 注释
+- **验证结果**：✅ 添加 `.map` 后警告消失
