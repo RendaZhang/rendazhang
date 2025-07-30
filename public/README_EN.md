@@ -169,6 +169,8 @@ Access all modules post-deployment:
 
 #### Website Features
 
+For details on the core functionality system of the website, please refer to the following documentation link: 📄 [Core Functionality System](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB). This document provides a detailed description of the website's core functional modules, including feature design and technical implementation. It serves as an essential reference for development and maintenance.
+
 - Real-time AI chat
 - Floating AI chat widget
 - Responsive layout (mobile/desktop)

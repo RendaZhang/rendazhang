@@ -176,6 +176,8 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 #### 网站功能
 
+关于网站的核心功能体系，请参考以下文档链接：📄 [核心功能体系](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB)。该文档详细描述了网站的核心功能模块，包括功能设计和技术实现，是开发与维护的重要参考。
+
 - 与 AI 在线对话
 - 浮动 AI 聊天窗口
 - 自适应布局 (移动端和桌面端)
