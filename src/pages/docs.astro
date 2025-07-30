@@ -29,7 +29,7 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_LIGHT]}
+  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_CODE_HIGHLIGHT]}
   extraScripts={[SCRIPT_PATHS.MARKED]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"
@@ -40,9 +40,6 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   }}
   metaLanguage="en, zh-CN"
 >
-  <Fragment slot="head">
-    <link rel="stylesheet" href={STYLE_PATHS.GITHUB_DARK} />
-  </Fragment>
   <div id="content-zh" class="lang-zh markdown-body">
     <div class="doc-loader" aria-label={LOADING_TEXT.ZH}>
       <span class="dot"></span>

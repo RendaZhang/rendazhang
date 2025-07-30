@@ -6,15 +6,6 @@ pre {
   overflow-x: auto;
 }
 
-html.dark-mode pre {
-  background-color: #161b22;
-}
-
-html.dark-mode code {
-  background-color: #161b22;
-  color: #c9d1d9;
-}
-
 /* Loading animation for docs page */
 .doc-loader {
   padding: 20px;

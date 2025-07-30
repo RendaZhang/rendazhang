@@ -18,8 +18,7 @@ import docsCssUrl from './styles/docs.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
 import certificationsCssUrl from './styles/certifications.css?url';
 import githubCssUrl from './styles/github.min.css?url';
-import githubLightCssUrl from './styles/github-markdown-light.min.css?url';
-import githubDarkCssUrl from './styles/github-dark.css?url';
+import githubCodeHighlightCssUrl from './styles/github-markdown-light.min.css?url';
 import markedUrl from './scripts/marked.min.js?url';
 import purifyUrl from './scripts/purify.min.js?url';
 import highlightUrl from './scripts/highlight.min.js?url';
@@ -155,8 +154,7 @@ export const STYLE_PATHS = {
   GITHUB: githubCssUrl,
   DOCS: docsCssUrl,
   DEEPSEEK_CHAT: deepseekChatCssUrl,
-  GITHUB_DARK: githubDarkCssUrl,
-  GITHUB_LIGHT: githubLightCssUrl,
+  GITHUB_CODE_HIGHLIGHT: githubCodeHighlightCssUrl,
   CERTIFICATIONS: certificationsCssUrl
 };
 

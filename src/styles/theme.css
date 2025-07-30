@@ -493,10 +493,6 @@ html.dark-mode .user-message {
   background: var(--gradient-dark);
   color: #fff;
 }
-html.dark-mode .ai-message {
-  background: #333;
-  color: var(--color-text);
-}
 html.dark-mode .input-area {
   background: #1e1e1e;
   border-top: 1px solid #333;

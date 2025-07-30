@@ -60,7 +60,7 @@
 
 ### 目录结构概览
 
-```text
+```bash
 src/
 ├── assets/
 ├── styles/
@@ -78,7 +78,7 @@ src/
 
 ASCII 图示：
 
-```text
+```bash
 Web Application Architecture
 ============================
 
