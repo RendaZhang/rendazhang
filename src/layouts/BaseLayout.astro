@@ -160,8 +160,6 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         window.addEventListener('langChanged', setTitle);
       })();
     </script>
-    <!-- Load Bootstrap first so custom styles can override -->
-    <link rel="stylesheet" href={STYLE_PATHS.BOOTSTRAP} />
     <link rel="canonical" href={canonical} />
     {metaRobots && <meta name="robots" content={metaRobots} />}
     {metaAuthor && <meta name="author" content={metaAuthor} />}

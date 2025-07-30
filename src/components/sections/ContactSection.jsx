@@ -18,8 +18,8 @@ export default function ContactSection() {
       <h2 className="section-title">
         <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
       </h2>
-      <div className="row">
-        <div className="col-md-4 mb-4">
+      <div className="grid-row">
+        <div className="grid-col-md-4 mb-4">
           <div className="contact-info mb-3">
             <strong>
               <LocalizedSection zhContent={infosZh[0]?.label} enContent={infosEn[0]?.label} />
@@ -54,7 +54,7 @@ export default function ContactSection() {
             </div>
           </div>
         </div>
-        <div className="col-md-8">
+        <div className="grid-col-md-8">
           <ContactForm texts={formTexts} />
         </div>
       </div>

@@ -17,7 +17,7 @@
     - [测试](#%E6%B5%8B%E8%AF%95-1)
   - [阶段 3：静态资源和全局样式](#%E9%98%B6%E6%AE%B5-3%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%92%8C%E5%85%A8%E5%B1%80%E6%A0%B7%E5%BC%8F)
     - [复制静态资源](#%E5%A4%8D%E5%88%B6%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90)
-      - [集成 Bootstrap](#%E9%9B%86%E6%88%90-bootstrap)
+      - [移除 Bootstrap](#%E7%A7%BB%E9%99%A4-bootstrap)
       - [迁移自定义 CSS](#%E8%BF%81%E7%A7%BB%E8%87%AA%E5%AE%9A%E4%B9%89-css)
     - [建立通用布局](#%E5%BB%BA%E7%AB%8B%E9%80%9A%E7%94%A8%E5%B8%83%E5%B1%80)
     - [验证静态资源](#%E9%AA%8C%E8%AF%81%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90)
@@ -282,13 +282,9 @@ public/images/...
 
 这样在 Astro 页面中引用这些资源时，可以直接使用绝对路径 `/images/…` 等，对应到 `public` 下文件。
 
-#### 集成 Bootstrap
+#### 移除 Bootstrap
 
-如果旧版使用了 Bootstrap 样式库，确保在新项目中继续加载。
-
-可以将 Bootstrap 的 CSS 引入到全局。
-
-例如，将旧项目 HTML `<head>`中的 Bootstrap `<link>`标签加入 Astro 的主布局组件中，或者 将 Bootstrap 的 CSS 文件放入 `src/styles` 并在页面中通过 `<link rel="stylesheet">` 引入。
+早期迁移阶段曾暂时引入 Bootstrap，但随着页面样式逐步重构，已完全改用自定义 CSS，无需再加载 Bootstrap 文件。
 
 #### 迁移自定义 CSS
 
@@ -315,8 +311,7 @@ import NavBar from '../components/NavBar.astro'; /* 假设稍后会创建导航�
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/bootstrap.min.css" />
-    <link rel="stylesheet" href="/styles/custom.css" />
+    <link rel="stylesheet" href="/styles/theme.css" />
   </head>
   <body>
     <NavBar />
@@ -364,7 +359,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 
 ### 保持结构一致
 
-如果旧版导航页包含 Bootstrap 的栅格或组件代码，Astro 页面中可以直接保留这部分 HTML，因为先前已经全局引入了 Bootstrap CSS / JS（如需 Bootstrap JS 可能还需引入 `bootstrap.bundle.js` 脚本）。Astro 对现有 UI 框架代码的兼容性很高，很多现成的 HTML 片段直接改扩展名即可运行。
+如果旧版导航页使用了 Bootstrap 的栅格或组件代码，可在迁移时改写为自定义的等效样式，并继续复用原有的 HTML 结构。
 
 ### 测试首页
 
@@ -408,7 +403,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 
 - **应用布局和组件：** 确保每个 Astro 页面文件使用了统一的 `BaseLayout`（或包含导航栏组件），这样这些页面的头部导航、样式加载都与首页一致。
 - **迁移脚本：** 如果某些页面有自己的 `<script>`（比如简单的表单验证或页面交互），可以将这些脚本复制到 Astro 页面底部，使用 `<script>` 标签包裹（Astro 会保留原始脚本运行在浏览器）。由于 Astro 使用 Vite 构建，脚本会被打包优化。
-- **注意：** 纯静态 JS 无依赖情况下直接迁移即可；如依赖 jQuery 或特定全局对象，需确保通过 `<script src="...">` 正确引入相关库（可以在布局的底部统一引入 jQuery 和 Bootstrap JS，以供所有页面使用）。
+- **注意：** 纯静态 JS 无依赖情况下直接迁移即可；如依赖 jQuery 或其他全局对象，确保通过 `<script src="...">` 正确引入相关库。
 - **测试验证：** 逐页在开发环境中查看效果，对比旧站：文本内容、排版样式、图像显示都应一致。所有链接点击应导航到对应的新 Astro 页面（如果目标页面尚未迁移，可暂时仍指向旧页面 URL 以避免死链，待迁移完成后统一更新链接）。确保控制台无报错。
 
 **测试点：**

@@ -179,8 +179,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           </div>
         )}
       </div>
-      <div className="row g-3">
-        <div className="col-sm-6 password-wrapper">
+      <div className="grid-row">
+        <div className="grid-col-sm-6 password-wrapper">
           <label htmlFor="password" className="form-label">
             <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
           </label>
@@ -206,7 +206,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
             </div>
           )}
         </div>
-        <div className="col-sm-6">
+        <div className="grid-col-sm-6">
           <label htmlFor="confirm" className="form-label">
             <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
           </label>
