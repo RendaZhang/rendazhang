@@ -9,7 +9,7 @@
   - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
     - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
     - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
-    - [BUG-003: CONTACT_FORM_ENDPOINT 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
+    - [BUG-003: `CONTACT_FORM_ENDPOINT` 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
     - [BUG-004: jQuery.validator 加载顺序错误](#bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
     - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
     - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
@@ -26,7 +26,7 @@
     - [BUG-017: NavBar hydration mismatch when language differs](#bug-017-navbar-hydration-mismatch-when-language-differs)
     - [BUG-018: About page hydration mismatch and flicker](#bug-018-about-page-hydration-mismatch-and-flicker)
     - [BUG-019: Contact form placeholders flicker on first render](#bug-019-contact-form-placeholders-flicker-on-first-render)
-    - [BUG-020: THEME_STORAGE_KEY 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
+    - [BUG-020: `THEME_STORAGE_KEY` 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
     - [BUG-021: Chat input placeholder flickers when switching languages](#bug-021-chat-input-placeholder-flickers-when-switching-languages)
     - [BUG-022: Docs page Mermaid errors when hidden diagrams render](#bug-022-docs-page-mermaid-errors-when-hidden-diagrams-render)
     - [BUG-023: Invalid image src value in SocialIcon](#bug-023-invalid-image-src-value-in-socialicon)
@@ -162,7 +162,7 @@
   });
   ```
 
-### BUG-003: CONTACT_FORM_ENDPOINT 未定义
+### BUG-003: `CONTACT_FORM_ENDPOINT` 未定义
 
 - **发现日期**：2025-07-18
 - **重现环境**：Chrome 最新版，macOS Ventura
@@ -436,7 +436,7 @@
 - **验证结果**：✅ 刷新页面无闪烁，表单文本一致
 - **经验总结**：SSR 多语言表单应输出所有语言，延迟注入占位符以避免闪烁
 
-### BUG-020: THEME_STORAGE_KEY 读取为 null
+### BUG-020: `THEME_STORAGE_KEY` 读取为 null
 
 - **发现日期**：2025-07-29
 - **重现环境**：Chrome 最新版

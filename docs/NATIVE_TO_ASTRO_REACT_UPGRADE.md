@@ -37,7 +37,7 @@
     - [测试聊天功能](#%E6%B5%8B%E8%AF%95%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD)
   - [阶段 7：引入全局状态管理机制（按需）](#%E9%98%B6%E6%AE%B5-7%E5%BC%95%E5%85%A5%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%E6%8C%89%E9%9C%80)
     - [评估需求](#%E8%AF%84%E4%BC%B0%E9%9C%80%E6%B1%82)
-    - [**使用 Context 实现示例**](#%E4%BD%BF%E7%94%A8-context-%E5%AE%9E%E7%8E%B0%E7%A4%BA%E4%BE%8B)
+    - [使用 Context 实现示例](#%E4%BD%BF%E7%94%A8-context-%E5%AE%9E%E7%8E%B0%E7%A4%BA%E4%BE%8B)
   - [阶段 8：全面测试与部署上线](#%E9%98%B6%E6%AE%B5-8%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF)
     - [本地全面测试](#%E6%9C%AC%E5%9C%B0%E5%85%A8%E9%9D%A2%E6%B5%8B%E8%AF%95)
     - [配置 GitHub Actions](#%E9%85%8D%E7%BD%AE-github-actions)
@@ -555,7 +555,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 如果暂时没有明显的全局状态，可以跳过实际实现，仅搭建结构以备未来使用。
 
-### **使用 Context 实现示例**
+### 使用 Context 实现示例
 
 如果需要共享状态（例如一个全局主题开关），可以用 React Context 提供器在 Astro 应用顶层包裹整个页面组件树。
 
