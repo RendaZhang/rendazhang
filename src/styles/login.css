@@ -2,7 +2,7 @@
 .login-container {
   margin: 80px auto;
   padding: 20px;
-  background: #fff;
+  background: var(--color-surface);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -30,7 +30,7 @@
 .password-strength {
   height: 4px;
   border-radius: 2px;
-  background: #ddd;
+  background: var(--color-gray);
   margin-top: 4px;
 }
 .password-strength-label {
@@ -39,13 +39,13 @@
 }
 
 .password-strength.weak {
-  background: #e74c3c;
+  background: var(--color-error);
 }
 .password-strength.medium {
-  background: #f1c40f;
+  background: var(--color-warning);
 }
 .password-strength.strong {
-  background: #2ecc71;
+  background: var(--color-success);
 }
 
 .third-party {
@@ -62,28 +62,28 @@
 }
 
 .global-error {
-  color: #e74c3c;
+  color: var(--color-error);
   text-align: center;
   margin-bottom: 1rem;
 }
 
 html.dark-mode .login-container,
 body.dark-mode .login-container {
-  background: #1e1e1e;
+  background: var(--color-surface);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 html.dark-mode .password-strength.weak,
 body.dark-mode .password-strength.weak {
-  background: #e74c3c;
+  background: var(--color-error);
 }
 html.dark-mode .password-strength.medium,
 body.dark-mode .password-strength.medium {
-  background: #f1c40f;
+  background: var(--color-warning);
 }
 html.dark-mode .password-strength.strong,
 body.dark-mode .password-strength.strong {
-  background: #2ecc71;
+  background: var(--color-success);
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .login-container {

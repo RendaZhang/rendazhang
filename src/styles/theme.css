@@ -9,6 +9,15 @@
   --color-text: #333;
   --color-nav-bg: #fff;
   --color-nav-text: #333;
+  --color-success: #2ecc71;
+  --color-warning: #f1c40f;
+  --color-error: #e74c3c;
+  --color-surface: #fff;
+  --color-gray: #ddd;
+  --color-brand-blue: #4361ee;
+  --color-spinner: #3498db;
+  --color-white: #fff;
+  --color-border-light: #e6e6e6;
   --gradient-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   --gradient-dark: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -19,7 +28,16 @@ html.dark-mode {
   --color-bg: #121212;
   --color-text: #e0e0e0;
   --color-nav-bg: #333;
+  --color-success: #28a745;
+  --color-warning: #f39c12;
+  --color-error: #dc3545;
   --gradient-primary: var(--gradient-dark);
+  --color-surface: #1e1e1e;
+  --color-gray: #444;
+  --color-brand-blue: #4361ee;
+  --color-spinner: #3498db;
+  --color-white: #fff;
+  --color-border-light: #444;
 }
 
 /* ---------- Global Reset ---------- */

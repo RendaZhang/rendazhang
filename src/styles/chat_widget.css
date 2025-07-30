@@ -7,7 +7,7 @@
   border-radius: 50%;
   border: none;
   background: var(--gradient-primary);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@
   width: 360px;
   max-height: 80vh;
   z-index: 9999;
-  background: #fff;
+  background: var(--color-surface);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -40,7 +40,7 @@
 
 html.dark-mode .chat-widget-panel,
 body.dark-mode .chat-widget-panel {
-  background: #1e1e1e;
+  background: var(--color-surface);
 }
 
 html.dark-mode .chat-widget-toggle,

@@ -1,6 +1,6 @@
 .hero {
   background: url('/images/hero-default-low-rectangle-900x600.jpg') center/cover no-repeat;
-  color: #fff;
+  color: var(--color-white);
   padding: 4rem 1rem;
   text-align: center;
 }
@@ -133,9 +133,9 @@ body.dark-mode {
 }
 
 .form-message.success {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .form-message.error {
-  color: #dc3545;
+  color: var(--color-error);
 }
