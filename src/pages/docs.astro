@@ -11,7 +11,6 @@ import {
   LOADING_TEXT
 } from '../config.js';
 import { DocsEffects } from '../components/sections';
-import '../styles/docs.css';
 import { getCurrentLang } from '../utils';
 
 const langDefault = getCurrentLang();
@@ -29,7 +28,12 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
-  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_CODE_HIGHLIGHT]}
+  extraStyles={[
+    STYLE_PATHS.GITHUB,
+    STYLE_PATHS.GITHUB_CODE_HIGHLIGHT,
+    STYLE_PATHS.DOCS,
+    STYLE_PATHS.MARKDOWN_DARK_MODE
+  ]}
   extraScripts={[SCRIPT_PATHS.MARKED]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"

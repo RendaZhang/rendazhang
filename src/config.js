@@ -13,10 +13,11 @@ import logoV4Url from './assets/logo-v4-high-circle-300x300.png?url';
 import faviconPngUrl from './assets/favicons/favicon.png?url';
 import faviconIcoUrl from './assets/favicons/favicon.ico?url';
 import favicon16Url from './assets/favicons/favicon-16x16.png?url';
-import chatWidgetCssUrl from './styles/chat_widget.css?url';
 import docsCssUrl from './styles/docs.css?url';
+import chatWidgetCssUrl from './styles/chat_widget.css?url';
 import deepseekChatCssUrl from './styles/deepseek_chat.css?url';
 import certificationsCssUrl from './styles/certifications.css?url';
+import markdownDarkModeCssUrl from './styles/markdown-dark-mode.css?url';
 import githubCssUrl from './styles/github.min.css?url';
 import githubCodeHighlightCssUrl from './styles/github-markdown-light.min.css?url';
 import markedUrl from './scripts/marked.min.js?url';
@@ -150,11 +151,12 @@ export const SCRIPT_PATHS = {
 };
 
 export const STYLE_PATHS = {
-  CHAT_WIDGET: chatWidgetCssUrl,
+  MARKDOWN_DARK_MODE: markdownDarkModeCssUrl,
   GITHUB: githubCssUrl,
-  DOCS: docsCssUrl,
-  DEEPSEEK_CHAT: deepseekChatCssUrl,
   GITHUB_CODE_HIGHLIGHT: githubCodeHighlightCssUrl,
+  DOCS: docsCssUrl,
+  CHAT_WIDGET: chatWidgetCssUrl,
+  DEEPSEEK_CHAT: deepseekChatCssUrl,
   CERTIFICATIONS: certificationsCssUrl
 };
 

@@ -1,0 +1,96 @@
+html.dark-mode .markdown-body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* 标题层级优化 */
+html.dark-mode .markdown-body h1 {
+  border-bottom: 1px solid #3a3a5c;
+  color: #f0f0ff;
+}
+html.dark-mode .markdown-body h2 {
+  color: #d0d0ff;
+  border-bottom: 1px solid #2d2d44; /* 次级标题添加下划线 */
+}
+html.dark-mode .markdown-body h3 {
+  color: #c0c0ff;
+  font-size: 1.25em; /* 明确层级区分 */
+}
+html.dark-mode .markdown-body h4 {
+  color: #b0b0ff;
+  font-size: 1.1em;
+}
+
+/* 精准控制强调文本 */
+html.dark-mode .markdown-body strong:not(a strong):not(table strong) {
+  color: #ffffff;
+}
+html.dark-mode .markdown-body a strong {
+  color: inherit; /* 链接内强调文本继承链接颜色 */
+}
+
+/* 表格深度优化 */
+html.dark-mode .markdown-body table {
+  background-color: #1e1e2d;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 24px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+html.dark-mode .markdown-body th {
+  background-color: #2a2a3f;
+  color: #e0e0ff;
+  font-weight: 600;
+  text-align: left;
+}
+html.dark-mode .markdown-body td {
+  color: #d7d7f0; /* 提高单元格文本可读性 */
+  background-color: #232336;
+}
+html.dark-mode .markdown-body td,
+html.dark-mode .markdown-body th {
+  border: 1px solid #3d3d5c;
+  padding: 12px 16px; /* 增加单元格内边距 */
+}
+/* 表格内强调文本特殊处理 */
+html.dark-mode .markdown-body table strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+/* 斑马条纹提升可读性 */
+html.dark-mode .markdown-body tr:nth-child(even) td {
+  background-color: #1c1c2a;
+}
+
+/* 代码块优化 */
+html.dark-mode .markdown-body pre,
+html.dark-mode .markdown-body code {
+  background-color: #afb1ff;
+  color: #0c0908;
+  border-radius: 4px;
+}
+
+/* 链接优化 */
+html.dark-mode .markdown-body a {
+  color: #8f94fb;
+  transition: color 0.2s;
+}
+html.dark-mode .markdown-body a:hover {
+  color: #a7abff;
+  text-decoration: underline;
+}
+
+/* 引用块优化 */
+html.dark-mode .markdown-body blockquote {
+  color: #b8b9ff;
+  border-left: 4px solid #4e54c8;
+  background-color: #1c1c2d;
+  padding: 12px 20px;
+}
+
+/* 水平线优化 */
+html.dark-mode .markdown-body hr {
+  background-color: #333355;
+  height: 1px;
+  margin: 28px 0;
+}

@@ -21,8 +21,16 @@ const titleEn = DEEPSEEK_CHAT_CONTENT.en.title;
   description={`${pageTexts.description} Conversations are saved locally and support Markdown rendering.`}
   viewport={VIEWPORT_ZOOM_ALLOWED}
   canonical={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`}
-  preloadStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_CODE_HIGHLIGHT]}
-  extraStyles={[STYLE_PATHS.GITHUB, STYLE_PATHS.GITHUB_CODE_HIGHLIGHT]}
+  preloadStyles={[
+    STYLE_PATHS.GITHUB,
+    STYLE_PATHS.GITHUB_CODE_HIGHLIGHT,
+    STYLE_PATHS.MARKDOWN_DARK_MODE
+  ]}
+  extraStyles={[
+    STYLE_PATHS.GITHUB,
+    STYLE_PATHS.GITHUB_CODE_HIGHLIGHT,
+    STYLE_PATHS.MARKDOWN_DARK_MODE
+  ]}
   og={{ url: `${SITE_BASE_URL}${CHAT_PAGE_PATH}/` }}
 >
   <Fragment slot="bodyEnd">
