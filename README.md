@@ -9,11 +9,6 @@
   - [部署与开发](#%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%BC%80%E5%8F%91)
     - [前端](#%E5%89%8D%E7%AB%AF)
       - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
-      - [GitHub Actions 自动部署](#github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2)
-      - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
-      - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
-      - [页面功能](#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD)
-      - [页面跳转逻辑](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E9%80%BB%E8%BE%91)
       - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
     - [**后端**](#%E5%90%8E%E7%AB%AF)
     - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
@@ -144,9 +139,11 @@ flowchart TD
 3. 构建并预览生产版本：
 
    ```bash
-   npm run build
-   npm run preview
-   ```
+  npm run build
+  npm run preview
+  ```
+
+执行 `npm run build` 后，`dist/_astro` 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。
 
 浏览器访问 `http://localhost:4321` 查看效果。构建后的静态文件可使用 `npm run preview` 验证。
 
@@ -261,6 +258,15 @@ flowchart TD
 > 前端项目通过 GitHub Actions 自动化构建后，会直接推送到服务器的 `/var/www/html` 目录，并由 Nginx 提供静态资源服务。
 
 > 关于 Nginx 的详细配置和操作说明，请查看以下仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)。该仓库包含了常用的 Nginx 配置文件和使用示例，方便您快速上手。
+
+> 为充分利用构建生成的指纹文件，可在 Nginx 中为 `/_astro/` 路径添加长效缓存配置：
+
+```nginx
+location /_astro/ {
+    access_log off;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+}
+```
 
 > 如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。
 

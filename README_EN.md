@@ -128,22 +128,23 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 #### Local Development & Preview
 
 1. Install dependencies and enable pre-commit:
-   ```bash
-   npm install
-   pip install pre-commit
-   pre-commit install
-   ```
+    ```bash
+    npm install
+    pip install pre-commit
+    pre-commit install
+    ```
 
 2. Start local dev server:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 3. Build and preview production version:
-   ```bash
-   npm run build
-   npm run preview
-   ```
+    ```bash
+    npm run build
+    npm run preview
+    ```
+After running `npm run build`, the `dist/_astro` directory will contain fingerprinted files with hash suffixes, allowing browsers to cache them long-term.
 Access via `http://localhost:4321`. Verify builds using `npm run preview`.
 
 #### GitHub Actions Auto-Deployment
@@ -248,6 +249,15 @@ flowchart TD
 > The frontend project is automatically built via GitHub Actions and pushed to the `/var/www/html` directory on the server, where Nginx serves the static resources.
 
 > For detailed Nginx configurations and operational instructions, please check the following repository: 📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf). This repository includes commonly used Nginx configuration files and examples, making it easy for you to get started.
+
+> To fully leverage the hashed assets under `/_astro`, add a long-term cache rule in Nginx:
+
+```nginx
+location /_astro/ {
+    access_log off;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+}
+```
 
 > If you need a more robust server solution, you can refer to my cloud-native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab). This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.
 

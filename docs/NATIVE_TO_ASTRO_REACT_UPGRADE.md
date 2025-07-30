@@ -638,10 +638,11 @@ Astro 官方建议如需跨组件/页面共享客户端状态，可考虑使用 
 
 在完成上述所有页面迁移和功能实现后，使用 Astro 提供的静态构建进行一次完整测试：
 
-  ```bash
-  npm run build   # 生产环境构建静态文件
-  npm run preview # 本地预览构建结果
-  ```
+```bash
+npm run build   # 生产环境构建静态文件
+npm run preview # 本地预览构建结果
+```
+执行 `npm run build` 后，`dist/_astro` 目录会出现带哈希后缀的文件，说明已启用文件指纹，可在 Nginx 中配置长效缓存。
 
 逐页检查构建后的站点：所有页面内容是否正确、链接是否通畅、样式是否完整加载、交互功能是否正常（特别是聊天页面的动态行为）。
 
@@ -772,10 +773,18 @@ jobs:
      ```nginx
      server {
          listen       443 ssl http2;
-         server_name  www.rendazhang.com rendazhang.com;
-         root   /var/www/html;  # 改为新目录
-         index  index.html index.htm;
-         ...
+    server_name  www.rendazhang.com rendazhang.com;
+    root   /var/www/html;  # 改为新目录
+    index  index.html index.htm;
+    ...
+    }
+    ```
+   - 为了让浏览器长期缓存 `/_astro` 中的指纹文件，可额外加入：
+
+     ```nginx
+     location /_astro/ {
+         access_log off;
+         add_header Cache-Control "public, max-age=31536000, immutable";
      }
      ```
    - 如果部署到 `/var/www/rendazhang`，无需修改此项。
