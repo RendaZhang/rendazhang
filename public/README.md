@@ -1,7 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [张人大 (Renda Zhang) · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-renda-zhang-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
+- [张人大 · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
     - [目录结构概览](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88)
@@ -28,35 +28,35 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 张人大 (Renda Zhang) · 轻量级网站
+# 张人大 · 轻量级网站
 
-- **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 29, 2025, 20:36 (UTC+8)
+- **作者**: 张人大
+- **最后更新**: July 30, 2025, 16:27 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
 
 ## 简介
 
-这是我个人维护的中英文双语技术展示的 **轻量级** 网站，旨在作为我的简历、作品集和技术能力的在线展示平台。
+这是我个人维护的 **轻量级** 网站，旨在作为我的技术能力的在线展示平台。
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
 本网站已进行 SEO / GEO 优化。
 
-> 如果需要使用重量级的方案部署网站相关的资源，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
+> 如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。
 
 ---
 
 ## 技术栈
 
-| 分类                  | 技术                                               |
-| --------------------- | -------------------------------------------------- |
-| 前端 Frontend         | **Astro**, **React**, TypeScript, Bootstrap        |
-| 状态管理 State        | React `useState`、`useContext`（可扩展 Zustand 等） |
-| 构建工具 Build        | Astro 内置 (基于 Vite)                              |
-| 后端 Backend          | Flask + OpenAI API                                  |
-| 部署 Deploy           | GitHub Actions + Nginx                              |
+| 分类     | 技术                                               |
+| -------- | -------------------------------------------------- |
+| 前端      | **Astro**, **React**, TypeScript                  |
+| 状态管理  | React `useState`、`useContext`（可扩展 Zustand 等） |
+| 构建工具  | Astro 内置 (基于 Vite)                              |
+| 后端     | Flask + OpenAI API                                  |
+| 部署     | GitHub Actions + Nginx                              |
 
 ### 目录结构概览
 
@@ -83,7 +83,7 @@ Web Application Architecture
 ============================
 
 Frontend (
-   Astro + React + Bootstrap
+   Astro + React
    - 负责用户界面和交互
 ) → CI/CD (
    GitHub Actions 自动构建部署
@@ -104,7 +104,7 @@ Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[Web] --> B[Frontend: Astro + React + Bootstrap]
+    A[Web] --> B[Frontend: Astro + React]
     A --> C[Server]
     B -->|负责用户界面和交互| C
 
@@ -131,7 +131,7 @@ flowchart TD
 
    ```bash
    npm install
-   pip install -r requirements-dev.txt
+   pip install pre-commit
    pre-commit install
    ```
 
@@ -165,35 +165,40 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 部署完成后可直接访问各模块页面。
 
--如下是我的网站的每个页面的链接：
+如下是我的网站的每个页面的链接：
 
-- 🌐 [Home](https://www.rendazhang.com/)
-- 🌐 [Chat with AI / 与 AI 聊天](https://www.rendazhang.com/deepseek_chat/)
-- 🌐 [Certifications / 证书](https://www.rendazhang.com/certifications/)
-- 🌐 [渲染后的技术文档页面（基于本文档）](https://www.rendazhang.com/docs/)
+- 🌐 [主页](https://www.rendazhang.com/)
+- 🌐 [AI 聊天页面](https://www.rendazhang.com/deepseek_chat/)
+- 🌐 [证书页面](https://www.rendazhang.com/certifications/)
+- 🌐 [基于本文档渲染后的技术文档页面](https://www.rendazhang.com/docs/)
+- 🌐 [登录页面](https://www.rendazhang.com/login/)
+- 🌐 [注册页面](https://www.rendazhang.com/register/)
 
 #### 网站功能
 
 - 与 AI 在线对话
-- 主页浮动 AI 聊天窗口
+- 浮动 AI 聊天窗口
 - 自适应布局 (移动端和桌面端)
 - 图片懒加载
 - 证书展示
-- 简历展示和下载 (English & 中文，PDF 格式)
+- 简历展示和下载
 - 项目展示
 - 联系表单
 - 主题切换（浅色 / 深色）
-- 语言切换（中文 / English）
-- 技术文档展示页 (docs/)
+- 语言切换（中文 / 英文）
+- 技术文档渲染展示页 (docs/)
 - 内容平台链接
+- 登录与注册表单
 
 #### 页面功能
 
--各页面核心职责如下（均由 `.astro` 文件生成）：
+各页面核心职责如下（均由 `.astro` 文件生成）：
 
 - `index.astro`：个人介绍页，展示个人信息、教育、技能、博客及工作经验，并预置 ChatWidget 浮标。
 - `certifications.astro`：证书列表页。
 - `deepseek_chat.astro`：AI 聊天界面。
+- `login.astro`：登录页。
+- `register.astro`：注册页。
 
 其他页面：
 
@@ -201,42 +206,59 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 #### 页面跳转逻辑
 
-- `index.astro` 链接到 AI Chat 和证书页。
-- 各子页面均包含返回主页的按钮。
-- 主页内部通过锚点导航跳转到 Skills、Experience 等板块，并提供博客链接。
+1. **返回主页**
+   - 所有页面均包含导航栏中的“主页”按钮，点击后可返回主页。
+
+2. **导航栏菜单跳转**
+   - 通过点击导航栏的“汉堡菜单”按钮，用户可选择跳转到以下四个页面：
+     - 首页
+     - AI 聊天页
+     - 证书页
+     - 技术文档页
+
+3. **登录页面跳转**
+   - 通过点击导航栏的“人像图标”按钮，用户可跳转到登录页面。
 
 Mermaid Flow 图示：
 
 ```mermaid
 flowchart TD
-    A[index 主页] -->|Chat with AI| B[deepseek_chat.astro 聊天页]
-    A -->|证书| C[certifications.astro 证书页]
-    B -->|返回首页| A
-    C -->|返回首页| A
+    A[主页] -->|汉堡菜单| B[AI 聊天页]
+    A -->|汉堡菜单| C[证书页]
+    A -->|汉堡菜单| D[技术文档页]
+    A -->|人像图标| E[登录页面]
+    B -->|主页按钮| A
+    C -->|主页按钮| A
+    D -->|主页按钮| A
+    E -->|主页按钮| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#ff9,stroke:#333
+    style D fill:#99f,stroke:#333
+    style E fill:#f99,stroke:#333
 ```
 
 #### 页面内容介绍
 
-- `index.astro`：带侧边菜单的多 Section 主页，包含 "Hero"、"About"、"Education"、"Blog"、"Skills"、"Experience"、"Contact" 等模块，并默认悬挂 ChatWidget 浮标。
+- `index.astro`：多 Section 主页，包含 "Hero"、"自我介绍"、"教育"、"博客"、"技能与能力"、"经历"、"联系我吧" 等模块，并默认悬挂 `ChatWidget` 浮标。
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
-- `deepseek_chat.astro`：聊天记录区域与输入框组成的对话界面，可渲染 AI 返回的 Markdown，支持一键复制原始内容，并会在刷新后保留历史。
-- `404.html / 50x.html`：简单文本提示页面。
+- `deepseek_chat.astro`：由聊天记录区域与输入框组成的对话界面，支持流式输出并实时渲染 AI 返回的 Markdown 内容，提供一键复制原始内容的功能，并在页面刷新后自动保留历史记录。
+- `login.astro`：登录表单页。
+- `register.astro`：注册表单页。
+- `404.html / 50x.html`：用于处理页面不存在（404）和服务器内部错误（50x）的定制化错误提示页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。
 
 ### **后端**
 
-> 具体部署请参考后端项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
+> 后端部署的具体步骤和配置，请参考以下项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)。该项目提供了完整的后端实现和部署指南，帮助您快速搭建和运行后端服务。
 
 ### **Nginx 服务器**
 
-> 前端通过 GitHub Actions 构建后自动推送到服务器的 `/var/www/html` 目录，由 Nginx 提供静态服务。
+> 前端项目通过 GitHub Actions 自动化构建后，会直接推送到服务器的 `/var/www/html` 目录，并由 Nginx 提供静态资源服务。
 
-> 其它配置详情和操作请查看 Nginx 仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+> 关于 Nginx 的详细配置和操作说明，请查看以下仓库：📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)。该仓库包含了常用的 Nginx 配置文件和使用示例，方便您快速上手。
 
-> 如果想使用重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
+> 如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。
 
 ---
 
@@ -244,30 +266,31 @@ flowchart TD
 
 ### BUG 记录
 
-前端相关的开发 BUG 记录：📄 [前端 BUG 跟踪数据库](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
+> 前端开发过程中遇到的 BUG 及其解决方案，请参考以下文档：📄 [前端 BUG 跟踪数据库](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)。该文档详细记录了 BUG 的描述、复现步骤、解决方案以及相关开发者的处理记录，帮助您快速定位和解决问题。
 
 ### 开发需求
 
-项目需求请参考文档内容：📄 [项目需求清单](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
-
+> 项目的功能需求、优先级以及开发计划，请参考以下文档：📄 [项目需求清单](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)。该文档列出了当前版本的所有需求，并提供了需求的详细描述和开发状态，方便您了解项目进展和规划开发任务。
 
 ### 原生到 Astro + React 升级
 
-前端现已迁移至 **Astro** + **React** 架构，采用分层设计，并通过 **GitHub Actions** 自动构建产物并部署到服务器的 Nginx 相关的目录下。
+前端目前采用 **Astro** + **React** 的架构，基于分层设计理念，通过 **GitHub Actions** 实现自动化构建，并将构建产物部署到服务器 Nginx 的指定目录下。
 
-具体操作请参考文档内容：📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
+具体的从原生前端升级的操作步骤，请参考以下文档内容：📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)。该文档详细描述了从旧版原生前端逐步迁移到基于 Astro 和 React 的新前端架构的完整计划与实施步骤。
 
-开发环境准备可以参考文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
+开发环境准备的具体步骤，请参考以下文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)。该文档详细说明了如何完成开发环境的配置以及 Astro 项目的初始化工作，确保您能够顺利开始后续的开发任务。
 
 ### 静态资源命名验证
 
-执行 `npm run validate-assets` 检查图片与音乐文件命名。文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+执行 `npm run validate-assets` 检查图片与音乐文件命名。
+
+文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
 
 ---
 
 ## 🤝 贡献指南
 
-- Fork & clone this repo.
+- Fork 并克隆这个仓库。
 - 进入虚拟环境：
    ```bash
    # 如果还没安装虚拟环境，执行命令：python -m venv venv
@@ -284,7 +307,6 @@ flowchart TD
   - 执行静态资源命名验证脚本，确保 `public/images` 与 `src/assets` 命名规范。
 - 你也可以手动触发：
    ```bash
-   # cp README.md public/README.md && cp README_EN.md public/README_EN.md && git add public/README.md public/README_EN.md
    pre-commit run --all-files
    ```
 

@@ -1,29 +1,29 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
-    - [Project Structure Overview](#project-structure-overview)
+    - [Directory Structure Overview](#directory-structure-overview)
     - [Reference Architecture](#reference-architecture)
-  - [Deployment & Development](#deployment--development)
+  - [Deployment \& Development](#deployment--development)
     - [Frontend](#frontend)
-      - [Local Development & Preview](#local-development--preview)
-      - [GitHub Actions Deployment](#github-actions-deployment)
-      - [Usage](#usage)
-      - [Site Features](#site-features)
-      - [Page Features](#page-features)
-      - [Routing Logic](#routing-logic)
-      - [Page Descriptions](#page-descriptions)
+      - [Local Development \& Preview](#local-development--preview)
+      - [GitHub Actions Auto-Deployment](#github-actions-auto-deployment)
+      - [Usage Guide](#usage-guide)
+      - [Website Features](#website-features)
+      - [Page Functionality](#page-functionality)
+      - [Page Navigation Logic](#page-navigation-logic)
+      - [Page Content Overview](#page-content-overview)
     - [**Backend**](#backend)
     - [**Nginx Server**](#nginx-server)
   - [Documentation](#documentation)
-    - [Bug Tracker](#bug-tracker)
-    - [Requirements](#requirements)
-    - [Native to Astro + React Upgrade](#native-to-astro--react-upgrade)
-    - [Asset Naming Validation](#asset-naming-validation)
-  - [🤝 Contributing](#-contributing)
-  - [🔒 License](#-license)
+    - [BUG Tracking](#bug-tracking)
+    - [Development Requirements](#development-requirements)
+    - [Native to Astro + React Migration](#native-to-astro--react-migration)
+    - [Static Asset Naming Validation](#static-asset-naming-validation)
+  - [🤝 Contribution Guidelines](#-contribution-guidelines)
+  - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -31,34 +31,34 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 29, 2025, 20:36 (UTC+8)
+- **Last Updated**: July 30, 2025, 16:27 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
 
 ## Introduction
 
-This is a **lightweight** website showcasing my technical skills and projects in both English and Chinese.
+This is my personally maintained **lightweight** technical showcase website, serving as an online portfolio of my technical capabilities.
 
-**Website**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
+**Live Site**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
-The site is SEO/GEO optimized.
+The website is optimized for SEO and GEO.
 
-> For a more heavy‑weight deployment solution, check out my cloud‑native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
+> If you need a more robust server solution, you can refer to my cloud-native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab). This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.
 
 ---
 
 ## Tech Stack
 
-| Category              | Technology                                       |
-| --------------------- | ------------------------------------------------ |
-| Frontend              | **Astro**, **React**, TypeScript, Bootstrap      |
-| State Management      | React `useState`, `useContext` (extensible with Zustand, etc.) |
-| Build Tool            | Astro built‑in (Vite based)                      |
-| Backend               | Flask + OpenAI API                               |
-| Deployment            | GitHub Actions + Nginx                           |
+| Category               | Technologies                                      |
+| ---------------------- | ------------------------------------------------- |
+| Frontend               | **Astro**, **React**, TypeScript                  |
+| State Management       | React `useState`, `useContext` (Zustand compatible) |
+| Build Tools            | Astro built-in (Vite-based)                       |
+| Backend                | Flask + OpenAI API                                |
+| Deployment             | GitHub Actions + Nginx                            |
 
-### Project Structure Overview
+### Directory Structure Overview
 
 ```text
 src/
@@ -76,44 +76,44 @@ src/
 
 ### Reference Architecture
 
-ASCII diagram:
+ASCII Diagram:
 
 ```text
 Web Application Architecture
 ============================
 
 Frontend (
-   Astro + React + Bootstrap
-   - handles UI and interaction
+   Astro + React
+   - Handles UI and interactions
 ) → CI/CD (
-   GitHub Actions for automatic builds and deploy
+   GitHub Actions auto-build & deploy
 ) → Server (
    Ubuntu (OS)
    ↓
-   Nginx (static file service)
+   Nginx (static file serving)
    ↓
    systemd service (process management)
    ↓
    Gunicorn + Gevent (WSGI server)
    ↓
-   Backend: Flask App (business logic & API)
+   Backend: Flask App (business logic & API handling)
 )
 ```
 
-Mermaid flowchart:
+Mermaid Flow Diagram:
 
 ```mermaid
 flowchart TD
-    A[Web] --> B[Frontend: Astro + React + Bootstrap]
+    A[Web] --> B[Frontend: Astro + React]
     A --> C[Server]
-    B -->|handles UI| C
+    B -->|Handles UI and interactions| C
 
     subgraph Server
         direction TB
-        D[Ubuntu: OS] --> E[Nginx: static service]
-        E --> F[systemd: process manager]
-        F --> G[Gunicorn + Gevent: WSGI]
-        G --> H[Backend: Flask App]
+        D[Ubuntu: OS] --> E[Nginx: Static serving]
+        E --> F[systemd: Process management]
+        F --> G[Gunicorn + Gevent: WSGI server]
+        G --> H[Backend: Flask App: Business logic & APIs]
     end
 ```
 
@@ -123,183 +123,193 @@ flowchart TD
 
 ### Frontend
 
-This repository is the frontend project: 📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
+This repository contains the frontend project: 📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
 #### Local Development & Preview
 
-1. Install dependencies and enable pre‑commit:
-
+1. Install dependencies and enable pre-commit:
    ```bash
    npm install
+   pip install pre-commit
    pre-commit install
    ```
 
-2. Start the local dev server:
-
+2. Start local dev server:
    ```bash
    npm run dev
    ```
 
-3. Build and preview production:
-
+3. Build and preview production version:
    ```bash
    npm run build
    npm run preview
    ```
+Access via `http://localhost:4321`. Verify builds using `npm run preview`.
 
-Visit `http://localhost:4321` in the browser. Use `npm run preview` to verify the built files.
+#### GitHub Actions Auto-Deployment
 
-#### GitHub Actions Deployment
+Pushing to `master` triggers:
+1. Code checkout & dependency installation
+2. `npm run build` generates static files
+3. `appleboy/scp-action` deploys `dist/` to server (e.g., `/var/www/html`)
+4. Nginx serves content post-deployment
 
-Pushing to the `master` branch triggers GitHub Actions:
+Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
 
-1. Checkout code and install deps
-2. Run `npm run build` to generate static files
-3. Upload `dist/` to the server (e.g. `/var/www/html`) via `appleboy/scp-action`
-4. Nginx serves the deployed site
+#### Usage Guide
 
-Configure server IP, SSH user and private key in repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions).
+Access all modules post-deployment:
 
-#### Usage
-
-After deployment you can access each page directly.
-
-Sample links:
-
-- 🌐 [Home](https://www.rendazhang.com/)
-- 🌐 [Chat with AI](https://www.rendazhang.com/deepseek_chat/)
+- 🌐 [Homepage](https://www.rendazhang.com/)
+- 🌐 [AI Chat](https://www.rendazhang.com/deepseek_chat/)
 - 🌐 [Certifications](https://www.rendazhang.com/certifications/)
-- 🌐 [Rendered Tech Docs](https://www.rendazhang.com/docs/)
+- 🌐 [Tech Docs](https://www.rendazhang.com/docs/)
+- 🌐 [Login](https://www.rendazhang.com/login/)
+- 🌐 [Register](https://www.rendazhang.com/register/)
 
-#### Site Features
+#### Website Features
 
-- Chat online with AI
-- Floating chat widget on the homepage
-- Responsive layout (mobile & desktop)
-- Lazy‑loaded images
+- Real-time AI chat
+- Floating AI chat widget
+- Responsive layout (mobile/desktop)
+- Image lazy loading
 - Certification showcase
-- Resume display & download (English & Chinese, PDF)
-- Project showcase
+- Resume display/download
+- Project portfolio
 - Contact form
-- Theme switcher (light / dark)
-- Language switcher (Chinese / English)
-- Documentation pages (`docs/`)
-- Links to content platforms
+- Theme switching (light/dark)
+- Language toggle (Chinese/English)
+- Tech documentation rendering (docs/)
+- Content platform links
+- Login/registration forms
 
-#### Page Features
+#### Page Functionality
 
-Key responsibilities of each page (generated from `.astro` files):
+Core responsibilities (generated from `.astro` files):
+- `index.astro`: Personal intro with ChatWidget
+- `certifications.astro`: Certification gallery
+- `deepseek_chat.astro`: AI chat interface
+- `404.html`, `50x.html`: Error pages
+- `login.astro`：Login page
+- `register.astro`：Registration page
 
-- `index.astro`: Personal info, education, skills, blog and work experience, with ChatWidget by default.
-- `certifications.astro`: Certificate list.
-- `deepseek_chat.astro`: AI chat interface.
+#### Page Navigation Logic
 
-Other pages:
+1. **Return to Homepage**
+   All pages have "Home" button in navigation
 
-- `404.html`, `50x.html`: Error message pages.
+2. **Menu Navigation**
+   Hamburger menu provides access to:
+   - Homepage
+   - AI Chat
+   - Certifications
+   - Tech Docs
 
-#### Routing Logic
-
-- `index.astro` links to AI Chat and Certifications.
-- Sub‑pages include a return button to the home page.
-- The homepage uses anchor navigation for Skills, Experience, etc., and links to the blog.
-
-Mermaid Flow:
+3. **Login Page Access**
+   Profile icon in nav redirects to login
 
 ```mermaid
 flowchart TD
-    A[index] -->|Chat with AI| B[deepseek_chat.astro]
-    A -->|Certifications| C[certifications.astro]
-    B -->|Home| A
-    C -->|Home| A
+    A[Home] -->|Hamburger| B[AI Chat]
+    A -->|Hamburger| C[Certifications]
+    A -->|Hamburger| D[Tech Docs]
+    A -->|Profile Icon| E[Login]
+    B -->|Home Button| A
+    C -->|Home Button| A
+    D -->|Home Button| A
+    E -->|Home Button| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#ff9,stroke:#333
+    style D fill:#99f,stroke:#333
+    style E fill:#f99,stroke:#333
 ```
 
-#### Page Descriptions
+#### Page Content Overview
 
-- `index.astro`: Multi-section homepage with side menu: "Hero", "About", "Education", "Blog", "Skills", "Experience", "Contact". ChatWidget floats by default with icons linking to WeChat Official Account, Zhihu, Toutiao, CSDN and Medium.
-- `certifications.astro`: Grid cards showing certificates with Credly links.
-- `deepseek_chat.astro`: Chat view rendering AI Markdown, copy one‑click, history persists after refresh.
-- `404.html / 50x.html`: Simple text pages.
+- `index.astro`: A multi-section homepage containing modules such as "Hero", "About Me", "Education", "Blog", "Skills & Abilities", "Experience", and "Contact Me", with a default floating `ChatWidget` badge.
+- `certifications.astro`: Grid-based certification cards with Credly verification
+- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh.
+- `login.astro`: Login form page.
+- `register.astro`: Register form page.
+- `404.html/50x.html`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (50x) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
 
 ### **Backend**
 
-> For backend deployment please see 📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)
+> For detailed steps and configurations on backend deployment, please refer to the following project: 📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat). This project provides a complete backend implementation and deployment guide, helping you quickly set up and run backend services.
 
 ### **Nginx Server**
 
-> After build, static files are automatically uploaded to `/var/www/html` on the server and served by Nginx.
+> The frontend project is automatically built via GitHub Actions and pushed to the `/var/www/html` directory on the server, where Nginx serves the static resources.
 
-> More config details are in 📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf)
+> For detailed Nginx configurations and operational instructions, please check the following repository: 📁 [Nginx Conf](https://github.com/RendaZhang/nginx-conf). This repository includes commonly used Nginx configuration files and examples, making it easy for you to get started.
 
-> For a heavy‑weight server solution, refer to 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
+> If you need a more robust server solution, you can refer to my cloud-native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab). This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.
 
 ---
 
 ## Documentation
 
-### Bug Tracker
+### BUG Tracking
 
-Frontend bug records: 📄 [Frontend Bug DB](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
+> For BUGs encountered during frontend development and their solutions, please refer to the following document: 📄 [Frontend BUG Tracking Database](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93). This document provides detailed records of BUG descriptions, reproduction steps, solutions, and developer notes, helping you quickly identify and resolve issues.
 
-### Requirements
+### Development Requirements
 
-Project requirements list: 📄 [Requirements](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95)
+> For project feature requirements, priorities, and development plans, please refer to the following document: 📄 [Project Requirements List](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95). This document lists all requirements for the current version, along with detailed descriptions and development statuses, making it easy for you to track project progress and plan development tasks.
 
-### Native to Astro + React Upgrade
+### Native to Astro + React Migration
 
-The frontend has migrated to **Astro** + **React**, using a layered design and **GitHub Actions** to build and deploy to Nginx automatically.
+The front-end currently adopts an architecture based on **Astro** + **React**, following a layered design philosophy. It utilizes **GitHub Actions** for automated builds and deploys the build artifacts to a specified directory on the server's **Nginx**.
 
-For details see 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)
+For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92). This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.
 
-Environment setup: 📄 [Environment Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)
+For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
 
-### Asset Naming Validation
+### Static Asset Naming Validation
 
-Run `npm run validate-assets` to check naming for images and music files. See 📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+Run `npm run validate-assets` for image/music file validation.
 
----
-
-## 🤝 Contributing
-
-- Fork & clone this repo.
-- Activate your virtual environment:
-   ```bash
-   # If you haven't created one: python -m venv venv
-   source venv/bin/activate
-   ```
-- Install dependencies and enable **pre-commit**:
-   ```bash
-   pip install pre-commit
-   pre-commit install
-   ```
-- Before each commit the hooks will:
-  - Copy the root README and README_EN to the `public/` directory.
-  - Update Doctoc for README and docs (if Doctoc is installed).
-  - Run the asset naming validation script to ensure files in `public/images` and
-    `src/assets` follow conventions.
-- You can also run manually:
-   ```bash
-   # cp README.md public/README.md && cp README_EN.md public/README_EN.md && git add public/README.md public/README_EN.md
-   pre-commit run --all-files
-   ```
-
-> ✅ All commits must pass pre-commit checks; CI will block non-compliant PRs.
+Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
 
 ---
 
-## 🔒 License
+## 🤝 Contribution Guidelines
 
-Released under the **MIT License**. Feel free to use and modify, but keep the original license notice.
+- Fork and clone repository
+- Enter virtual environment:
+  ```bash
+  python -m venv venv  # If not created
+  source venv/bin/activate
+  ```
+- Install pre-commit:
+  ```bash
+  pip install pre-commit
+  pre-commit install
+  ```
+- Pre-commit hooks automatically:
+  - Sync root README/README_EN to `public/`
+  - Update Doctoc TOC for docs
+  - Validate `public/images` and `src/assets` naming
+- Manual trigger:
+  ```bash
+  pre-commit run --all-files
+  ```
+
+> ✅ All commits must pass pre-commit checks; CI blocks non-compliant PRs
+
+---
+
+## 🔒 Open Source License
+
+Released under **MIT License** - free for use and modification. Retain original license notices when redistributing.
 
 ---
 
 ## 📬 Contact
 
-* Maintainer: Renda Zhang
+* Contact: Renda Zhang
 * 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
 
-> ⏰ **Maintainer**: @Renda — If this project helps you, please star it!
+> ⏰ **Maintainer**: @RendaZhang — If this project helps you, please give it a ⭐️!
