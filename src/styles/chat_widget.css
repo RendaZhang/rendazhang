@@ -6,7 +6,7 @@
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: var(--gradient-primary);
   color: #fff;
   font-size: 0;
   display: flex;
@@ -41,6 +41,11 @@
 html.dark-mode .chat-widget-panel,
 body.dark-mode .chat-widget-panel {
   background: #1e1e1e;
+}
+
+html.dark-mode .chat-widget-toggle,
+body.dark-mode .chat-widget-toggle {
+  background: var(--gradient-dark);
 }
 
 .chat-widget-iframe {

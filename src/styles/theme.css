@@ -317,6 +317,36 @@ nav .language-option.active {
   border-color: #ff9800;
 }
 
+/* Buttons */
+.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  color: #fff;
+  box-shadow: var(--shadow-elevated);
+  transition:
+    filter 0.3s,
+    transform 0.3s;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-secondary {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  transition:
+    filter 0.3s,
+    transform 0.3s;
+}
+.btn-secondary:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
 /* ---------- Dark Mode Components ---------- */
 html.dark-mode .side-menu,
 html.dark-mode .theme-options {
@@ -358,6 +388,9 @@ html.dark-mode .input-area {
   background: #1e1e1e;
   border-top: 1px solid #333;
 }
+html.dark-mode .input-area button {
+  background: var(--gradient-dark);
+}
 html.dark-mode #message-input {
   background: #242424;
   color: var(--color-text);
@@ -375,6 +408,28 @@ html.dark-mode .cert-card {
 html.dark-mode .verify-btn,
 html.dark-mode header {
   background: var(--gradient-dark);
+  color: #fff;
+}
+html.dark-mode #reset-btn {
+  background: #333;
+  color: var(--color-text);
+  border: 1px solid #444;
+}
+html.dark-mode #reset-btn:hover {
+  background: #444;
+  color: #fff;
+}
+html.dark-mode .btn-primary {
+  background: var(--gradient-dark);
+  color: #fff;
+}
+html.dark-mode .btn-secondary {
+  background: #333;
+  color: var(--color-text);
+  border-color: #444;
+}
+html.dark-mode .btn-secondary:hover {
+  background: #444;
   color: #fff;
 }
 html.dark-mode #enhancement-progress {

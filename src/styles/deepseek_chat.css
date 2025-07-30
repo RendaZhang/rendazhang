@@ -11,7 +11,7 @@
 }
 
 header {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: var(--gradient-primary);
   color: white;
   padding: 20px;
   text-align: center;
@@ -53,7 +53,7 @@ h1 {
 
 .user-message {
   align-self: flex-end;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: var(--gradient-primary);
   color: white;
   border-bottom-right-radius: 5px;
 }
@@ -133,7 +133,7 @@ h1 {
 /* Scope button styles to chat inputs only */
 .input-area button {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 24px;
