@@ -1,11 +1,2 @@
 /* Login page styles */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .login-container {
-    width: 70%;
-  }
-}
-@media (max-width: 768px) {
-  .login-container {
-    width: 100%;
-  }
-}
+/* Layout widths are centralized in theme.css. */

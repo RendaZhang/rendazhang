@@ -9,7 +9,7 @@ export default function LoadingIndicator({ isError, textsZh, textsEn }) {
         </p>
       ) : (
         <>
-          <div className="spinner"></div>
+          <div className="spinner chat-spinner"></div>
           <p>
             <LocalizedSection zhContent={textsZh.loading} enContent={textsEn.loading} />
           </p>

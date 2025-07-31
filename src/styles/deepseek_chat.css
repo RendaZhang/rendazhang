@@ -186,7 +186,8 @@ h1 {
   color: var(--color-text-muted);
 }
 
-.spinner {
+.chat-spinner {
+  /* Extra spacing for the chat loading indicator */
   margin: 0 auto 10px;
 }
 

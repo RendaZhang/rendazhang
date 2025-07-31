@@ -638,6 +638,22 @@ html.dark-mode .app-header {
   width: 100%;
   max-width: 450px;
 }
+/* ------------------------------------------------------------------ */
+/* Responsive width for authentication forms                          */
+/* Centralized here so login.css and register.css stay minimal.       */
+/* ------------------------------------------------------------------ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-container,
+  .register-container {
+    width: 70%;
+  }
+}
+@media (max-width: 768px) {
+  .login-container,
+  .register-container {
+    width: 100%;
+  }
+}
 
 .login-title,
 .register-title {
