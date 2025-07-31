@@ -38,6 +38,12 @@ body.dark-mode .chat-widget-toggle {
   background: var(--gradient-dark);
 }
 
+/* Ensure panel background matches dark theme */
+html.dark-mode .chat-widget-panel,
+body.dark-mode .chat-widget-panel {
+  background: var(--color-surface);
+}
+
 .chat-widget-iframe {
   width: 100%;
   height: 70vh;

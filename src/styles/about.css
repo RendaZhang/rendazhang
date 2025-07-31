@@ -16,9 +16,7 @@
   padding: 0;
 }
 
-.about-section li {
-  margin-bottom: 0.5rem;
-}
+/* Individual list items now use .mb-2 utility */
 
 /* Margin utilities (e.g., .mt-3, .mb-4) are defined in theme.css */
 
@@ -32,7 +30,7 @@ body.dark-mode {
 .skill-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  /* vertical spacing via .mb-2 utility */
 }
 
 .skill-label {
@@ -46,19 +44,19 @@ body.dark-mode {
 
 /* Use .mb-4 for spacing between items */
 .experience-period {
-  margin-right: 0.5rem;
+  /* right spacing handled by .mr-2 */
 }
 
 .experience-role {
-  margin: 0.5rem 0;
+  /* vertical spacing handled by .my-2 */
 }
 /* Use .mb-4 for spacing between items */
 .education-period {
-  margin-right: 0.5rem;
+  /* right spacing handled by .mr-2 */
 }
 
 .education-degree {
-  margin: 0.5rem 0;
+  /* vertical spacing handled by .my-2 */
 }
 
 /* Blog section */
@@ -71,7 +69,7 @@ body.dark-mode {
 }
 
 .blog-category {
-  margin-right: 0.5rem;
+  /* right spacing handled by .mr-2 */
 }
 
 /* Contact section */

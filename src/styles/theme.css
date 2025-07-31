@@ -725,6 +725,24 @@ html.dark-mode .app-header {
   background: var(--color-success);
 }
 
+/* ------------------------------------------------------------------ */
+/* Generic horizontal progress bar used across forms                   */
+/* ------------------------------------------------------------------ */
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: var(--color-gray);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--color-brand-blue);
+  transition: width 0.3s ease;
+}
+
 .third-party {
   display: flex;
   justify-content: center;
@@ -869,6 +887,15 @@ html.dark-mode .app-header {
 }
 .ms-2 {
   margin-left: 0.5rem;
+}
+.mr-2 {
+  /* Right margin utility matching .ms-2 */
+  margin-right: 0.5rem;
+}
+.my-2 {
+  /* Vertical margin utility for consistent spacing */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Consistent bold titles for section headers */

@@ -54,7 +54,7 @@ export default function AboutContent() {
         </div>
         <ul id="aboutInfo">
           {contentZh.info.map((item, idx) => (
-            <li key={idx}>
+            <li className="mb-2" key={idx}>
               <LocalizedSection zhContent={item.label} enContent={contentEn.info[idx].label} />
               <LocalizedSection zhContent={item.value} enContent={contentEn.info[idx].value} />
             </li>
@@ -88,7 +88,7 @@ export default function AboutContent() {
           {contentZh.education.entries.map((entry, idx) => (
             <div className="education-item mb-4" key={idx}>
               <div className="section-header">
-                <span className="education-period">
+                <span className="education-period mr-2">
                   <LocalizedSection
                     zhContent={entry.period}
                     enContent={contentEn.education.entries[idx].period}
@@ -101,7 +101,7 @@ export default function AboutContent() {
                   />
                 </span>
               </div>
-              <h3 className="education-degree">
+              <h3 className="education-degree my-2">
                 <LocalizedSection
                   zhContent={entry.degree}
                   enContent={contentEn.education.entries[idx].degree}
@@ -125,7 +125,7 @@ export default function AboutContent() {
           {contentZh.blog.entries.map((entry, idx) => (
             <div className="blog-item mb-4" key={idx}>
               <div className="section-header blog-header">
-                <span className="blog-category">
+                <span className="blog-category mr-2">
                   <LocalizedSection
                     zhContent={entry.category}
                     enContent={contentEn.blog.entries[idx].category}
@@ -156,7 +156,7 @@ export default function AboutContent() {
         </h2>
         <div id="skillsBars">
           {contentZh.skills.categories.map((cat, idx) => (
-            <div className="skill-bar" key={idx}>
+            <div className="skill-bar mb-2" key={idx}>
               <span className="skill-label">
                 <LocalizedSection
                   zhContent={cat.label}
@@ -186,7 +186,7 @@ export default function AboutContent() {
           {contentZh.experience.entries.map((entry, idx) => (
             <div className="experience-item mb-4" key={idx}>
               <div className="section-header">
-                <span className="experience-period">
+                <span className="experience-period mr-2">
                   <LocalizedSection
                     zhContent={entry.period}
                     enContent={contentEn.experience.entries[idx].period}
@@ -199,7 +199,7 @@ export default function AboutContent() {
                   />
                 </span>
               </div>
-              <h3 className="experience-role">
+              <h3 className="experience-role my-2">
                 <LocalizedSection
                   zhContent={entry.title}
                   enContent={contentEn.experience.entries[idx].title}

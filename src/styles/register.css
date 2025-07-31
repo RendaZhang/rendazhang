@@ -1,16 +1,3 @@
 /* Register page styles */
 /* Layout widths are centralized in theme.css. */
-.progress-container {
-  width: 100%;
-  height: 6px;
-  background: var(--color-gray);
-  border-radius: 3px;
-  overflow: hidden;
-  /* Vertical spacing handled by .mt-3 utility */
-}
-.progress-bar {
-  height: 100%;
-  width: 0;
-  background: var(--color-brand-blue);
-  transition: width 0.3s ease;
-}
+/* Progress bar styles moved to theme.css for reuse */
