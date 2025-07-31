@@ -40,7 +40,7 @@ jobs:
           mkdir -p release
           tar -czvf release/build.tar.gz -C dist .
 
-      - name: Delete existing Release (if any)
+      - name: Delete existing Release and Tag (if any)
         id: delete_release
         uses: actions/github-script@v7
         env:
@@ -53,12 +53,20 @@ jobs:
             });
             const release = releases.find(r => r.tag_name === 'v1.0.0');
             if (release) {
+              // Delete the release
               await github.rest.repos.deleteRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 release_id: release.id,
               });
               console.log('Deleted existing release: v1.0.0');
+              // Delete the tag
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${release.tag_name}`,
+              });
+              console.log('Deleted existing tag: v1.0.0');
             } else {
               console.log('No existing release found for v1.0.0');
             }
