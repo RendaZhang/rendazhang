@@ -19,6 +19,7 @@ const SOURCE_IMAGE = path.join(process.cwd(), 'scripts/images/hero-original.jpg'
 const IMAGE_NAME = 'main-hero';
 // 输出目录
 const OUTPUT_DIR = path.join(process.cwd(), 'src/assets/heroes');
+const DATA_DIR = path.join(process.cwd(), 'src/data');
 // LQIP 数据文件路径
 const DATA_FILE = path.join(process.cwd(), 'src/data/heroes.js');
 
@@ -29,6 +30,10 @@ const WIDTHS = [3840, 2560, 1920, 1280, 1000, 800, 400];
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   console.log(`创建目录: ${OUTPUT_DIR}`);
+}
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  console.log(`创建目录: ${DATA_DIR}`);
 }
 
 /**
@@ -87,14 +92,14 @@ async function generateLqip() {
 
   const lqipBase64 = lqipBuffer.toString('base64');
 
-  // 生成完整的 ES 模块文件
-  const dataContent = `// 自动生成的LQIP数据 - 更新时间: ${new Date().toISOString()}
-export const ${IMAGE_NAME.replace(/-/g, '_')} = {
+  // 生成完整的ES模块文件
+  const dataContent = `export const ${IMAGE_NAME.replace(/-/g, '_')} = {
   base64: '${lqipBase64}',
   aspectRatio: ${(await sharp(SOURCE_IMAGE).metadata()).height / (await sharp(SOURCE_IMAGE).metadata()).width}
 };\n`;
 
   fs.writeFileSync(DATA_FILE, dataContent);
+  console.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
   console.log(
     `LQIP生成成功: ${path.relative(process.cwd(), DATA_FILE)} (${lqipBuffer.length}字节)`
   );
