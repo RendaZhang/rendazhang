@@ -57,7 +57,7 @@ export default function CertificationsContent() {
               <CredlyBadge />
               <p className="verify-links">
                 <a
-                  className="verify-btn"
+                  className="verify-btn btn-primary"
                   href={VERIFY_URLS.CREDLY}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -68,7 +68,7 @@ export default function CertificationsContent() {
                   />
                 </a>
                 <a
-                  className="verify-btn"
+                  className="verify-btn btn-primary"
                   href={VERIFY_URLS.AWS}
                   target="_blank"
                   rel="noopener noreferrer"

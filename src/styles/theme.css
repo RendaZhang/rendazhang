@@ -235,7 +235,10 @@ main.main-content {
   text-align: left;
 }
 
-/* ---------- Navigation ---------- */
+/* ------------------------------------------------------------------ */
+/* Navigation                                                          */
+/* Global nav bar styling uses primary gradient and shadow variables.  */
+/* ------------------------------------------------------------------ */
 nav {
   width: 100%;
   background-color: var(--color-nav-bg);
@@ -254,6 +257,7 @@ nav {
 
 nav a,
 nav button:not(.theme-option) {
+  /* Reusable gradient buttons used in nav and other areas */
   color: var(--color-white);
   text-decoration: none;
   padding: 10px 20px;
@@ -304,7 +308,10 @@ nav .hamburger-btn.open span:nth-child(3) {
   transform: translateY(-5px) rotate(-45deg);
 }
 
-/* Side menu */
+/* ------------------------------------------------------------------ */
+/* Side menu                                                          */
+/* Shares button colors with nav links via gradient variables.        */
+/* ------------------------------------------------------------------ */
 nav .side-menu-overlay {
   position: fixed;
   inset: 0;
@@ -489,6 +496,23 @@ nav .language-option.active {
   border-color: var(--color-warning-accent);
 }
 
+/* ------------------------------------------------------------------ */
+/* App Header - shared style for page headers                           */
+/* ------------------------------------------------------------------ */
+.app-header {
+  background: var(--gradient-primary); /* match primary navigation */
+  color: var(--color-white);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+/* Dark mode header retains unified palette */
+html.dark-mode .app-header {
+  background: var(--gradient-dark);
+  color: var(--color-white);
+}
+
 /* Buttons */
 .btn-primary {
   background: var(--gradient-primary);
@@ -518,22 +542,19 @@ nav .language-option.active {
   background: var(--color-subtle-bg-hover);
   color: var(--color-text-darker);
 }
-/* Verification buttons share primary styling */
+
+/* ------------------------------------------------------------------ */
+/* Verification buttons                                                */
+/* Reuse btn-primary styles to keep colors/shadows consistent.        */
+/* Only spacing is customized here so the class can be combined with   */
+/* .btn-primary in markup.                                             */
+/* ------------------------------------------------------------------ */
 .verify-btn {
+  /* Space buttons evenly when flex wrapped */
   margin: 0.25rem;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-cert-card-hover);
-  color: var(--color-white);
   padding: 6px 12px;
   border-radius: 4px;
   text-decoration: none;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
-}
-.verify-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
 }
 
 /* Forms */
@@ -764,7 +785,6 @@ html.dark-mode .cert-card {
   color: var(--color-text);
   border-color: var(--color-border-light);
 }
-html.dark-mode .verify-btn,
 html.dark-mode header {
   background: var(--gradient-dark);
   color: var(--color-white);

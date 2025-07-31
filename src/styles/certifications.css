@@ -25,6 +25,7 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+/* Verification buttons share gradient via .btn-primary; only layout here */
 .cert-card .verify-links .verify-btn {
   flex: 1 1 auto;
 }

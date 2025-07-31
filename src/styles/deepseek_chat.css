@@ -10,13 +10,7 @@
   overflow: hidden;
 }
 
-header {
-  background: var(--gradient-primary);
-  color: var(--color-white);
-  padding: 20px;
-  text-align: center;
-  position: relative;
-}
+/* Header styling is centralized in theme.css via `.app-header` */
 
 h1 {
   font-size: 1.8rem;
