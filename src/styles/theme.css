@@ -800,6 +800,7 @@ html.dark-mode .app-header {
   align-items: center;
   padding: 20px; /* ensures consistent spacing */
   text-align: center;
+  margin: auto; /* allow loaders to be centered in their container */
 }
 .loader .dot,
 .doc-loader .dot {
