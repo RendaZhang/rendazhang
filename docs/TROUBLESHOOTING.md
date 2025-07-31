@@ -38,6 +38,7 @@
     - [BUG-029: DOMPurify source map warning during dev](#bug-029-dompurify-source-map-warning-during-dev)
     - [BUG-030: highlight.js 缺少 nginx 语言模块](#bug-030-highlightjs-%E7%BC%BA%E5%B0%91-nginx-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97)
     - [BUG-031: 浏览器控件未随主题切换](#bug-031-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A7%E4%BB%B6%E6%9C%AA%E9%9A%8F%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2)
+    - [BUG-032: Hero 模糊占位图不会消失](#bug-032-hero-%E6%A8%A1%E7%B3%8A%E5%8D%A0%E4%BD%8D%E5%9B%BE%E4%B8%8D%E4%BC%9A%E6%B6%88%E5%A4%B1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -597,3 +598,18 @@
 - **解决方案**：
   - 在 `:root` 设置 `color-scheme: light` 并在 `.dark-mode` 设置 `color-scheme: dark`
 - **验证结果**：✅ 主题切换后控件样式一致
+
+### BUG-032: Hero 模糊占位图不会消失
+
+- **发现日期**：2025-07-31
+- **重现环境**：主页 hero 图片懒加载
+- **问题现象**：
+  - 高清图加载完成后占位图仍然显示
+  - 过渡效果未触发
+- **根本原因**：
+  - 图片已缓存导致 `onLoad` 未触发
+  - 缺少备用检测加载完成的逻辑
+- **解决方案**：
+  - 在 `useEffect` 中检查 `img.complete` 状态
+  - 加载完成后切换 CSS class 触发过渡
+- **验证结果**：✅ 模糊占位图顺利淡出

@@ -1,1 +1,1 @@
-export { MAIN_HERO } from './heroes.js';
+export { MAIN_HERO } from './mainHero.js';

@@ -1,8 +1,6 @@
 ---
 import { BaseLayout } from '../layouts';
 import { AboutContent } from '../components/sections';
-import '../styles/about.css';
-import '../styles/social-icons.css';
 import {
   SITE_BASE_URL,
   PAGE_TITLES,
@@ -27,7 +25,12 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   description={SITE_DESCRIPTION_EN}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
-  extraStyles={[STYLE_PATHS.CHAT_WIDGET]}
+  extraStyles={[
+    STYLE_PATHS.ABOUT,
+    STYLE_PATHS.SOCIAL_ICON,
+    STYLE_PATHS.CHAT_WIDGET,
+    STYLE_PATHS.RESPONSIVE_HERO
+  ]}
 >
   <AboutContent client:load />
 </BaseLayout>

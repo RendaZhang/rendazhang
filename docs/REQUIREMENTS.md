@@ -110,13 +110,14 @@
   - 导航栏包含主页/登录/注册跳转功能
   - 实现从左到右布局：汉堡菜单 → 首页图标 → 主题/语言切换 → 头像图标
   - 主页改变：About 页面（原来的 `about.astro`）已经变为 Index 页面（`index.atro`）
+  - 组件化重构：创建复用组件，比如，LocalizedSection 等。
   - 将 Chat.jsx 拆分为：消息列表、输入区、加载状态等独立组件
 - [x] **性能增强方案**
   - 所有图片资源懒加载
   - 异步加载优化：将脚本注入改为 `import()` 动态导入
-  - 确保所有放置在 `src/assets` 目录下的资源都通过 import ?url 导入引用，这样 Astro 会自动为它们生成哈希指纹；或在构建脚本中引入处理。
+  - 确保所有放置在 `src/assets` 目录下的资源都通过 `import ... ?url` 导入引用，这样 Astro 会自动为它们生成哈希指纹；或在构建脚本中引入处理
   - 运行 `npm run build` 后，`dist/_astro` 目录会包含带有哈希后缀的文件，Astro/Vite 自动启用文件指纹机制，便于利用长效缓存
-
+  - Low Quality Image Placeholder：针对对需要使用高质量图片的页面，采用「低质量图片占位 → 高质量图片懒加载替换」方案
 
 ### 待完成需求 ⏳
 
@@ -126,14 +127,8 @@
   - 更新一下 `.github/workflows/deploy.yml` 里面的逻辑，考虑在 `Package build artifacts` 步骤中只打包部分静态资源
   - 启用 CDN 缓存
   - 对比自动递进版本 Release 和 目前的固定 `v1.0.0` 版本号 Release 方式，看哪个更加合适
-- [ ] **LQIP 图片懒加载优化方案**
-  - Low Quality Image Placeholder
-  - 针对对需要使用高质量图片的页面
-  - 采用「低质量图片占位 → 高质量图片懒加载替换」方案
 - [ ] **实现登录和注册功能**
   - 使用轻量级方案做一个登录注册功能
-- [ ] **组件化重构**
-  - 创建复用组件（HeroSection, SkillsSection 等）
 - [ ] **Head 组件封装**
   - 创建复用 `<Head>` 组件管理公共 meta 标签
 - [ ] **聊天组件全局化**

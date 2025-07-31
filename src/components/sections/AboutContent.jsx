@@ -1,5 +1,12 @@
 import { ABOUT_CONTENT } from '../../content';
-import { IMAGE_PATHS, RESUME_EN_DOWNLOAD, RESUME_ZH_DOWNLOAD } from '../../config.js';
+import {
+  HERO_IMAGE_PATHS,
+  IMAGE_PATHS,
+  RESUME_EN_DOWNLOAD,
+  RESUME_ZH_DOWNLOAD
+} from '../../config.js';
+import { MAIN_HERO } from '../../data';
+import { ResponsiveHero } from '../ui';
 import ContactSection from './ContactSection.jsx';
 import { useLanguage } from '../providers';
 import { LocalizedSection, SocialIcons } from '../ui';
@@ -14,17 +21,24 @@ export default function AboutContent() {
   const isZh = langKey === 'zh';
   const resumeHref = isZh ? IMAGE_PATHS.RESUME_ZH : IMAGE_PATHS.RESUME_EN;
   const resumeDownload = isZh ? RESUME_ZH_DOWNLOAD : RESUME_EN_DOWNLOAD;
+  const WIDTHS = [3840, 2560, 1920, 1280, 1000, 800, 400];
 
   return (
     <div id="content">
-      <section className="hero" style={{ backgroundImage: `url(${IMAGE_PATHS.HERO})` }}>
+      <ResponsiveHero
+        imageName="main-hero"
+        imageMap={HERO_IMAGE_PATHS}
+        imageWidths={WIDTHS}
+        imagePlaceholder={MAIN_HERO}
+        className="hero"
+      >
         <h1 id="heroHeading">
           <LocalizedSection
             zhContent={<span dangerouslySetInnerHTML={{ __html: contentZh.heroHeading }} />}
             enContent={<span dangerouslySetInnerHTML={{ __html: contentEn.heroHeading }} />}
           />
         </h1>
-      </section>
+      </ResponsiveHero>
       <SocialIcons />
       <SocialIconsEffects />
       <section className="about-section">

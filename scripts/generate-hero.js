@@ -21,7 +21,7 @@ const IMAGE_NAME = 'main-hero';
 const OUTPUT_DIR = path.join(process.cwd(), 'src/assets/heroes');
 const DATA_DIR = path.join(process.cwd(), 'src/data');
 // LQIP 数据文件路径
-const DATA_FILE = path.join(process.cwd(), 'src/data/heroes.js');
+const DATA_FILE = path.join(process.cwd(), 'src/data/mainHero.js');
 
 // 需要生成的尺寸
 const WIDTHS = [3840, 2560, 1920, 1280, 1000, 800, 400];

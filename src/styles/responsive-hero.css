@@ -1,0 +1,39 @@
+.responsive-hero-placeholder {
+  filter: blur(20px);
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.responsive-hero-placeholder.loaded {
+  opacity: 0;
+}
+
+.responsive-hero-placeholder,
+.responsive-hero-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.responsive-hero-img {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+.responsive-hero-img.loaded {
+  opacity: 1;
+}
+
+.responsive-hero-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}

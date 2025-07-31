@@ -176,6 +176,7 @@ For details on the core functionality system of the website, please refer to the
 - Floating AI chat widget
 - Responsive layout (mobile/desktop)
 - Image lazy loading
+- High-resolution images are optimized with LQIP lazy loading (e.g., the Hero section on the homepage)
 - Certification showcase
 - Resume display/download
 - Project portfolio
