@@ -120,6 +120,12 @@
 
 ### 待完成需求 ⏳
 
+- [ ] **CDN 优化加速资源**
+  - 采用 Github Action + jsdelivr 方案
+  - 检查并思考 Github Release 后 jsdelivr 的缓存更新问题：https://cdn.jsdelivr.net/gh/rendazhang/rendazhang/
+  - 更新一下 `.github/workflows/deploy.yml` 里面的逻辑，考虑在 `Package build artifacts` 步骤中只打包部分静态资源
+  - 启用 CDN 缓存
+  - 对比自动递进版本 Release 和 目前的固定 `v1.0.0` 版本号 Release 方式，看哪个更加合适
 - [ ] **LQIP 图片懒加载优化方案**
   - Low Quality Image Placeholder
   - 针对对需要使用高质量图片的页面

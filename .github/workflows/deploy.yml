@@ -1,4 +1,4 @@
-name: Build & Deploy Astro Site v1.0.0
+name: Build & Deploy Astro Site with fixed v1.0.0 Release # 固定版本号（暂时手动管理）
 
 on:
   push:
@@ -76,7 +76,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.0  # 固定版本号（手动管理）
+          tag_name: v1.0.0
           name: Release v1.0.0
           body: "Automated release of build artifacts"
           draft: false
