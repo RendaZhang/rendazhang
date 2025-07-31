@@ -60,7 +60,7 @@ export default function AboutContent() {
             </li>
           ))}
         </ul>
-        <div className="resume-link">
+        <div className="resume-link mt-3">
           <a
             id="resumeLink"
             href={resumeHref}
@@ -86,7 +86,7 @@ export default function AboutContent() {
         </h2>
         <div id="educationList">
           {contentZh.education.entries.map((entry, idx) => (
-            <div className="education-item" key={idx}>
+            <div className="education-item mb-4" key={idx}>
               <div className="education-header">
                 <span className="education-period">
                   <LocalizedSection
@@ -123,7 +123,7 @@ export default function AboutContent() {
         </h2>
         <div id="blogList">
           {contentZh.blog.entries.map((entry, idx) => (
-            <div className="blog-item" key={idx}>
+            <div className="blog-item mb-4" key={idx}>
               <div className="blog-header">
                 <span className="blog-category">
                   <LocalizedSection
@@ -184,7 +184,7 @@ export default function AboutContent() {
         </h2>
         <div id="experienceList">
           {contentZh.experience.entries.map((entry, idx) => (
-            <div className="experience-item" key={idx}>
+            <div className="experience-item mb-4" key={idx}>
               <div className="experience-header">
                 <span className="experience-period">
                   <LocalizedSection

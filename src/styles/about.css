@@ -1,4 +1,8 @@
-/* About page uses shared layout rules from theme.css */
+/*
+  About page styles
+  - Layout and spacing utilities come from theme.css
+  - Only page-specific adjustments are defined here
+*/
 .hero {
   color: var(--color-white);
   padding: 4rem 1rem;
@@ -16,9 +20,7 @@
   margin-bottom: 0.5rem;
 }
 
-.resume-link {
-  margin-top: 1rem;
-}
+/* Margin utilities (e.g., .mt-3, .mb-4) are defined in theme.css */
 
 /* Override global body flex alignment so main follows nav at the top */
 body,
@@ -42,9 +44,7 @@ body.dark-mode {
   height: 1rem;
 }
 
-.experience-item {
-  margin-bottom: 1.5rem;
-}
+/* Use .mb-4 for spacing between items */
 
 .experience-header {
   font-weight: bold;
@@ -57,9 +57,7 @@ body.dark-mode {
 .experience-role {
   margin: 0.5rem 0;
 }
-.education-item {
-  margin-bottom: 1.5rem;
-}
+/* Use .mb-4 for spacing between items */
 
 .education-header {
   font-weight: bold;
@@ -75,9 +73,7 @@ body.dark-mode {
 
 /* Blog section */
 
-.blog-item {
-  margin-bottom: 1.5rem;
-}
+/* Use .mb-4 for spacing between items */
 
 .blog-header {
   font-weight: bold;

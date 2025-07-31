@@ -4,7 +4,7 @@ export default function CertificationsEffects() {
   useEffect(() => {
     const container = document.querySelector('.credly-container');
     if (!container) return;
-    const loader = container.querySelector('.loader');
+    const loader = container.querySelector('.credly-spinner');
 
     const hide = () => {
       if (loader) loader.style.display = 'none';

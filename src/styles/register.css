@@ -6,7 +6,7 @@
   background: var(--color-gray);
   border-radius: 3px;
   overflow: hidden;
-  margin-top: 1rem;
+  /* Vertical spacing handled by .mt-3 utility */
 }
 .progress-bar {
   height: 100%;

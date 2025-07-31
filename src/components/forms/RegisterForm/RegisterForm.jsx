@@ -250,7 +250,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           />
         </label>
       </div>
-      <div className="progress-container">
+      <div className="progress-container mt-3">
         <div className="progress-bar" style={{ width: progress + '%' }}></div>
       </div>
       <button
