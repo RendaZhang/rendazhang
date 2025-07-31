@@ -26,10 +26,20 @@ export default function ChatInput({
         autoFocus
       ></textarea>
       <div className="btn-container">
-        <button id="send-btn" onClick={onSend} disabled={disabled}>
+        <button
+          id="send-btn"
+          className="btn btn-primary btn-chat"
+          onClick={onSend}
+          disabled={disabled}
+        >
           <LocalizedSection zhContent={textsZh.sendButton} enContent={textsEn.sendButton} />
         </button>
-        <button id="reset-btn" onClick={onReset} disabled={disabled}>
+        <button
+          id="reset-btn"
+          className="btn btn-secondary btn-chat"
+          onClick={onReset}
+          disabled={disabled}
+        >
           <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
         </button>
       </div>

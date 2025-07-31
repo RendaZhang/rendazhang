@@ -543,6 +543,19 @@ html.dark-mode .app-header {
   color: var(--color-text-darker);
 }
 
+/* -------------------------------------------------------------- */
+/* Chat buttons - extend base button styles with larger radius.   */
+/* Apply alongside `.btn-primary` or `.btn-secondary`.             */
+/* -------------------------------------------------------------- */
+.btn-chat {
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ------------------------------------------------------------------ */
 /* Verification buttons                                                */
 /* Reuse btn-primary styles to keep colors/shadows consistent.        */

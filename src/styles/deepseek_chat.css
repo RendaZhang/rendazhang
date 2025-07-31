@@ -124,44 +124,23 @@ h1 {
   box-shadow: var(--shadow-focus-purple);
 }
 
-/* Scope button styles to chat inputs only */
-.input-area button {
+/* Chat action buttons build on global button styles.            */
+/* `.btn-chat` defines common layout while colors/shadows reuse  */
+/* `.btn-primary` and `.btn-secondary` from theme.css.           */
+.btn-chat {
   padding: 12px 24px;
-  background: var(--gradient-primary);
-  color: var(--color-white);
-  border: none;
   border-radius: 24px;
-  cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s;
 }
 
-.input-area button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-}
-
-.input-area button:active {
-  transform: translateY(0);
-}
-
-.input-area button:disabled {
+/* Disabled state for chat buttons */
+.btn-chat:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-#reset-btn {
-  background: var(--color-subtle-bg);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border-muted);
-}
-
-#reset-btn:hover {
-  background: var(--color-subtle-bg-hover);
-  color: var(--color-text-darker);
 }
 
 .btn-container {
