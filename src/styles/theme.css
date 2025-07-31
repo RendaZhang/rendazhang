@@ -863,6 +863,11 @@ html.dark-mode .app-header {
   margin-left: 0.5rem;
 }
 
+/* Consistent bold titles for section headers */
+.section-header {
+  font-weight: bold;
+}
+
 /* -------------------------------------------------------------- */
 /* Background & Shadow Utilities                                  */
 /* These classes centralize frequently used surface styles to     */

@@ -45,11 +45,6 @@ body.dark-mode {
 }
 
 /* Use .mb-4 for spacing between items */
-
-.experience-header {
-  font-weight: bold;
-}
-
 .experience-period {
   margin-right: 0.5rem;
 }
@@ -58,11 +53,6 @@ body.dark-mode {
   margin: 0.5rem 0;
 }
 /* Use .mb-4 for spacing between items */
-
-.education-header {
-  font-weight: bold;
-}
-
 .education-period {
   margin-right: 0.5rem;
 }
@@ -76,7 +66,6 @@ body.dark-mode {
 /* Use .mb-4 for spacing between items */
 
 .blog-header {
-  font-weight: bold;
   display: flex;
   justify-content: space-between;
 }
