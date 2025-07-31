@@ -741,6 +741,45 @@ html.dark-mode .app-header {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Dot Loader - small bouncing dots for loading states                */
+/* Shared by SocialIcons and Docs pages                               */
+/* ------------------------------------------------------------------ */
+.loader,
+.doc-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader .dot,
+.doc-loader .dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+  background: var(--color-spinner);
+  border-radius: 50%;
+  animation: dot-bounce 1.4s infinite both;
+}
+.loader .dot:nth-child(1),
+.doc-loader .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.loader .dot:nth-child(2),
+.doc-loader .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dot-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
 /* Spacing & Utility */
 .mt-2 {
   margin-top: 0.5rem;
