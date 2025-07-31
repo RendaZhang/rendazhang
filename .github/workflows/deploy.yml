@@ -1,4 +1,4 @@
-name: Build, Deploy Astro Site, and Overwrite Release
+name: Build & Deploy Astro Site v1.0.0
 
 on:
   push:
@@ -83,3 +83,7 @@ jobs:
           prerelease: false
           files: |
             ./release/build.tar.gz
+
+      - name: Purge jsDelivr Cache
+        run: |
+          curl -X PURGE https://cdn.jsdelivr.net/gh/${{ github.repository }}@v1.0.0/release/build.tar.gz
