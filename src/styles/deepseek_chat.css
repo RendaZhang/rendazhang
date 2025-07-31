@@ -54,7 +54,7 @@ h1 {
 .user-message {
   align-self: flex-end;
   background: var(--gradient-primary);
-  color: white;
+  color: var(--color-white);
   border-bottom-right-radius: 5px;
 }
 
@@ -134,7 +134,7 @@ h1 {
 .input-area button {
   padding: 12px 24px;
   background: var(--gradient-primary);
-  color: white;
+  color: var(--color-white);
   border: none;
   border-radius: 24px;
   cursor: pointer;

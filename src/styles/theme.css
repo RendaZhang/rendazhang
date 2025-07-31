@@ -78,6 +78,10 @@
   --color-dark-surface: #2a2a2a;
   --shadow-focus-blue: 0 0 0 3px rgba(143, 148, 251, 0.4);
   --shadow-nav-mobile: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-cert-card: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-cert-card-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md-table: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --overlay-modal-bg: rgba(0, 0, 0, 0.5);
 }
 
 /* Dark mode overrides */

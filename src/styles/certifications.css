@@ -11,7 +11,7 @@
   padding: 1.25rem;
   text-align: center;
   background: var(--color-surface);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-cert-card);
 }
 .cert-card h2 {
   font-size: 1.2rem;
@@ -23,7 +23,7 @@
 .verify-btn {
   margin: 0.25rem;
   background: var(--gradient-primary);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-cert-card-hover);
   color: var(--color-white);
   padding: 6px 12px;
   border-radius: 4px;
