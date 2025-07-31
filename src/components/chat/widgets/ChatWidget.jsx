@@ -72,7 +72,7 @@ export default function ChatWidget({ defaultOpen = false }) {
   return (
     <>
       {open && (
-        <div className="chat-widget-panel">
+        <div className="chat-widget-panel bg-surface rounded-8 shadow-medium">
           {loaded && (
             <iframe
               src={`${CHAT_PAGE_PATH}/`}
@@ -84,7 +84,7 @@ export default function ChatWidget({ defaultOpen = false }) {
         </div>
       )}
       <button
-        className="chat-widget-toggle"
+        className="chat-widget-toggle shadow-medium"
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
       >

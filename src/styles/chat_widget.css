@@ -14,7 +14,6 @@
   justify-content: center;
   line-height: 1;
   cursor: pointer;
-  box-shadow: var(--shadow-medium);
   z-index: 9999;
   padding: 0%;
 }
@@ -32,15 +31,8 @@
   width: 360px;
   max-height: 80vh;
   z-index: 9999;
-  background: var(--color-surface);
-  border-radius: 8px;
-  box-shadow: var(--shadow-medium);
+  /* visual styles moved to utility classes */
   overflow: hidden;
-}
-
-html.dark-mode .chat-widget-panel,
-body.dark-mode .chat-widget-panel {
-  background: var(--color-surface);
 }
 
 html.dark-mode .chat-widget-toggle,

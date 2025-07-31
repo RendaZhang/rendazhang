@@ -124,25 +124,6 @@ h1 {
   box-shadow: var(--shadow-focus-purple);
 }
 
-/* Chat action buttons build on global button styles.            */
-/* `.btn-chat` defines common layout while colors/shadows reuse  */
-/* `.btn-primary` and `.btn-secondary` from theme.css.           */
-.btn-chat {
-  padding: 12px 24px;
-  border-radius: 24px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-}
-
-/* Disabled state for chat buttons */
-.btn-chat:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 .btn-container {
   display: flex;
   gap: 10px;
@@ -206,22 +187,7 @@ h1 {
 }
 
 .spinner {
-  border: 3px solid var(--color-spinner-track);
-  border-top: 3px solid var(--color-accent-purple);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
   margin: 0 auto 10px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 /* Disabled state styling */

@@ -69,7 +69,7 @@ export default function SocialIcons() {
         />
       </div>
       <div id="wechatModal" className="modal">
-        <div className="modal-content">
+        <div className="modal-content bg-surface rounded-8">
           <span className="close">&times;</span>
           <div className="loader">
             <div className="dot"></div>
