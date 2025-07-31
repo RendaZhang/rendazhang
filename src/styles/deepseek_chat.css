@@ -30,7 +30,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  background: #fafbfc;
+  background: var(--color-subtle-bg-alt);
 }
 
 .message {
@@ -60,8 +60,8 @@ h1 {
 
 .ai-message {
   align-self: flex-start;
-  background: #f1f5f9;
-  color: #334155;
+  background: var(--color-subtle-bg-hover);
+  color: var(--color-text-deep);
   border-bottom-left-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
@@ -69,7 +69,7 @@ h1 {
 .typing-indicator {
   display: none;
   align-self: flex-start;
-  background: #f1f5f9;
+  background: var(--color-subtle-bg-hover);
   padding: 12px 18px;
   border-radius: 18px;
   margin-bottom: 15px;
@@ -80,7 +80,7 @@ h1 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #94a3b8;
+  background: var(--color-gray-medium);
   margin-right: 4px;
   animation: pulse 1.5s infinite;
 }
@@ -108,7 +108,7 @@ h1 {
 .input-area {
   padding: 15px;
   background: var(--color-surface);
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border-muted);
   display: flex;
   gap: 10px;
 }
@@ -116,7 +116,7 @@ h1 {
 #message-input {
   flex: 1;
   padding: 14px 18px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border-muted);
   border-radius: 24px;
   font-size: 1rem;
   resize: none;
@@ -126,7 +126,7 @@ h1 {
 }
 
 #message-input:focus {
-  border-color: #6a11cb;
+  border-color: var(--color-accent-purple);
   box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
 }
 
@@ -160,14 +160,14 @@ h1 {
 }
 
 #reset-btn {
-  background: #f8fafc;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
+  background: var(--color-subtle-bg);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-muted);
 }
 
 #reset-btn:hover {
-  background: #f1f5f9;
-  color: #475569;
+  background: var(--color-subtle-bg-hover);
+  color: var(--color-text-darker);
 }
 
 .btn-container {
@@ -178,7 +178,7 @@ h1 {
 .info-text {
   text-align: center;
   padding: 10px;
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
@@ -205,11 +205,11 @@ h1 {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: #e2e8f0;
-  border: 1px solid #cbd5e1;
+  background: var(--color-border-muted);
+  border: 1px solid var(--color-border-soft);
   border-radius: 4px;
   cursor: pointer;
-  color: #334155;
+  color: var(--color-text-deep);
   font-size: 0.75rem;
   padding: 2px 6px;
   display: none;
@@ -229,12 +229,12 @@ h1 {
 .loading-indicator {
   text-align: center;
   padding: 20px;
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #6a11cb;
+  border: 3px solid var(--color-spinner-track);
+  border-top: 3px solid var(--color-accent-purple);
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -253,7 +253,7 @@ h1 {
 
 /* Disabled state styling */
 #message-input:disabled {
-  background: #f8fafc;
+  background: var(--color-subtle-bg);
   cursor: not-allowed;
 }
 
@@ -271,7 +271,7 @@ h1 {
   gap: 12px;
   z-index: 1000;
   transition: opacity 0.3s ease;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border-muted);
 }
 
 .pulse-container {
@@ -285,7 +285,7 @@ h1 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #6a11cb;
+  background: var(--color-accent-purple);
   animation: pulse 1.5s infinite;
 }
 
@@ -305,13 +305,13 @@ h1 {
 
 /* Basic mode styles applied when enhancement libraries fail to load */
 .basic-mode .ai-message {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--color-subtle-bg);
+  border: 1px solid var(--color-border-muted);
 }
 
 .basic-mode .ai-message pre {
   white-space: pre-wrap;
-  background: #f1f5f9;
+  background: var(--color-subtle-bg-hover);
   padding: 10px;
   overflow: auto;
 }

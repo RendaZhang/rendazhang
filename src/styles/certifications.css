@@ -6,7 +6,7 @@
   padding: 2rem 0;
 }
 .cert-card {
-  border: 1px solid var(--color-border-light, #e6e6e6);
+  border: 1px solid var(--color-border-light);
   border-radius: 8px;
   padding: 1.25rem;
   text-align: center;
@@ -69,8 +69,8 @@ html.dark-mode .credly-container {
 }
 .credly-container .loader::after {
   content: '';
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #6a11cb;
+  border: 3px solid var(--color-spinner-track);
+  border-top: 3px solid var(--color-accent-purple);
   border-radius: 50%;
   width: 30px;
   height: 30px;
