@@ -1,3 +1,4 @@
+/* Floating chat button, centered using .flex-center */
 .chat-widget-toggle {
   position: fixed; /* anchored via .fixed-bottom-right utility */
   width: 60px;
@@ -7,10 +8,7 @@
   background: var(--gradient-primary);
   color: var(--color-white);
   font-size: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  line-height: 1; /* vertical alignment handled by flex-center */
   cursor: pointer;
   z-index: 9999;
   padding: 0%;

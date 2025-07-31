@@ -882,6 +882,20 @@ html.dark-mode .app-header {
 .d-flex {
   display: flex;
 }
+/* Utility flexbox class to center content both vertically and horizontally */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Utility class to absolutely position and stretch an element */
+.absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 .justify-content-between {
   justify-content: space-between;
 }

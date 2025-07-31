@@ -84,7 +84,7 @@ export default function ChatWidget({ defaultOpen = false }) {
         </div>
       )}
       <button
-        className="chat-widget-toggle shadow-medium fixed-bottom-right"
+        className="chat-widget-toggle flex-center shadow-medium fixed-bottom-right"
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
       >
