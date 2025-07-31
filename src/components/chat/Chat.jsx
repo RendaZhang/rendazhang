@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 // Core libraries will be loaded dynamically to allow graceful fallback
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../../services';
-import { useMarkdownPipeline, showHint } from '../../hooks';
+import { showHint } from '../../hooks';
 import {
   STORAGE_KEY,
   MAX_TOKENS,
@@ -16,6 +16,11 @@ import {
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';
+import ChatMessageList from './ChatMessageList.jsx';
+import ChatInput from './ChatInput.jsx';
+import LoadingIndicator from './LoadingIndicator.jsx';
+import TypingIndicator from './TypingIndicator.jsx';
+import EnhancementProgress from './EnhancementProgress.jsx';
 
 export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const { lang } = useLanguage();
@@ -290,144 +295,42 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
         </h1>
       </header>
       <div className="chat-container" id="chat-container" ref={chatContainerRef}>
-        {coreLoadError ? (
-          <div id="loading-indicator" className="loading-indicator">
-            <p>
-              <LocalizedSection
-                zhContent={textsZh.coreLoadFailed}
-                enContent={textsEn.coreLoadFailed}
-              />
-            </p>
-          </div>
-        ) : isLoading ? (
-          <div id="loading-indicator" className="loading-indicator">
-            <div className="spinner"></div>
-            <p>
-              <LocalizedSection zhContent={textsZh.loading} enContent={textsEn.loading} />
-            </p>
-          </div>
+        {coreLoadError || isLoading ? (
+          <LoadingIndicator isError={coreLoadError} textsZh={textsZh} textsEn={textsEn} />
         ) : messages.length === 0 ? (
           <div className="info-text">
             <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
           </div>
         ) : (
-          messages.map((msg, idx) => {
-            if (msg.role === ROLES.AI) {
-              const streaming = isSending && idx === messages.length - 1;
-              return (
-                <AIMessage
-                  key={idx}
-                  text={msg.content}
-                  enhance={librariesLoaded && !streaming}
-                  onRendered={scrollToBottom}
-                  textsZh={textsZh}
-                  textsEn={textsEn}
-                />
-              );
-            }
-            return (
-              <div key={idx} className="message user-message">
-                {msg.content}
-              </div>
-            );
-          })
+          <ChatMessageList
+            messages={messages}
+            isSending={isSending}
+            librariesLoaded={librariesLoaded}
+            textsZh={textsZh}
+            textsEn={textsEn}
+            onRendered={scrollToBottom}
+          />
         )}
       </div>
-      <div className="typing-indicator" id="typing-indicator" ref={typingIndicatorRef}>
-        <span className="typing-dot"></span>
-        <span className="typing-dot"></span>
-        <span className="typing-dot"></span>
-      </div>
-      {isEnhancing && (
-        <div id="enhancement-progress" ref={enhancementProgressRef}>
-          <div className="pulse-container">
-            <div className="pulse-dot pulse-dot-1"></div>
-            <div className="pulse-dot pulse-dot-2"></div>
-            <div className="pulse-dot pulse-dot-3"></div>
-          </div>
-          <p>
-            <LocalizedSection
-              zhContent={textsZh.enhancementProgress}
-              enContent={textsEn.enhancementProgress}
-            />
-          </p>
-        </div>
-      )}
-      <div className="input-area">
-        <textarea
-          id="message-input"
-          ref={messageInputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={isLoading || isSending || coreLoadError}
-          placeholder={placeholder}
-          rows="1"
-          autoFocus
-        ></textarea>
-        <div className="btn-container">
-          <button
-            id="send-btn"
-            onClick={handleSend}
-            disabled={isLoading || isSending || coreLoadError}
-          >
-            <LocalizedSection zhContent={textsZh.sendButton} enContent={textsEn.sendButton} />
-          </button>
-          <button
-            id="reset-btn"
-            onClick={handleReset}
-            disabled={isLoading || isSending || coreLoadError}
-          >
-            <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// AI message with copy button
-function AIMessage({ text, enhance, onRendered, textsZh, textsEn }) {
-  const [showBtn, setShowBtn] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const contentRef = useMarkdownPipeline(text, enhance, onRendered);
-
-  const handleCopy = (e) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text).then(() => {
-      setIsCopied(true);
-      setTimeout(() => {
-        setIsCopied(false);
-        setShowBtn(false);
-      }, UI_DURATIONS.COPY_FEEDBACK);
-    });
-  };
-
-  const handleMouseEnter = () => setShowBtn(true);
-  const handleMouseLeave = () => {
-    if (!isCopied) setShowBtn(false);
-  };
-  const handleClick = () => setShowBtn(true);
-
-  return (
-    <div
-      className="message ai-message markdown-body"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-    >
-      <button
-        className="copy-btn"
-        onClick={handleCopy}
-        style={{ display: showBtn ? 'inline-block' : 'none' }}
-      >
-        {isCopied ? (
-          <LocalizedSection zhContent={textsZh.copiedLabel} enContent={textsEn.copiedLabel} />
-        ) : (
-          <LocalizedSection zhContent={textsZh.copyLabel} enContent={textsEn.copyLabel} />
-        )}
-      </button>
-      <div ref={contentRef}></div>
+      <TypingIndicator innerRef={typingIndicatorRef} />
+      <EnhancementProgress
+        show={isEnhancing}
+        innerRef={enhancementProgressRef}
+        textsZh={textsZh}
+        textsEn={textsEn}
+      />
+      <ChatInput
+        value={input}
+        onChange={setInput}
+        onSend={handleSend}
+        onReset={handleReset}
+        onKeyDown={handleKeyDown}
+        disabled={isLoading || isSending || coreLoadError}
+        placeholder={placeholder}
+        inputRef={messageInputRef}
+        textsZh={textsZh}
+        textsEn={textsEn}
+      />
     </div>
   );
 }

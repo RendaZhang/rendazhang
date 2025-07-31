@@ -427,6 +427,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 ### 创建 React 聊天组件
 
 在 `src/components/chat/` 新建 React 组件文件 `Chat.jsx`。
+此组件随后被拆分为 `ChatMessageList`、`ChatInput`、`LoadingIndicator` 等子组件，以提升复用性与可维护性。
 
 用 React 重写聊天界面和逻辑：
 
@@ -535,7 +536,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 此时已经运用了 React 的 Hooks 来管理组件内部状态。
 
-同时，我们在这一过程中建立了 **组件层** （Chat.jsx 等 UI组件）和 **服务层** （chatService.js 调用封装）的清晰分离，为未来扩展打下基础。
+同时，我们在这一过程中建立了 **组件层** （Chat.jsx 及拆分出的 `ChatMessageList`、`ChatInput` 等 UI 组件）和 **服务层** （chatService.js 调用封装）的清晰分离，为未来扩展打下基础。
 
 这也验证了在 Astro 中使用 React 进行复杂交互的能力。
 

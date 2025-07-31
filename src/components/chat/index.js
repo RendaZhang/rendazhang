@@ -1,3 +1,9 @@
 export { default as Chat } from './Chat.jsx';
 export { default as ChatWidget } from './widgets';
 export { default as DeepseekChatContent } from './DeepseekChat';
+export { default as ChatInput } from './ChatInput.jsx';
+export { default as ChatMessageList } from './ChatMessageList.jsx';
+export { default as LoadingIndicator } from './LoadingIndicator.jsx';
+export { default as TypingIndicator } from './TypingIndicator.jsx';
+export { default as EnhancementProgress } from './EnhancementProgress.jsx';
+export { default as AIMessage } from './AIMessage.jsx';
