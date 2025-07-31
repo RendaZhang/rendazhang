@@ -31,14 +31,13 @@
   overflow: hidden;
 }
 
-html.dark-mode .chat-widget-toggle,
-body.dark-mode .chat-widget-toggle {
+/* Dark mode overrides - maintain accessible contrast */
+html.dark-mode .chat-widget-toggle {
   background: var(--gradient-dark);
 }
 
-/* Ensure panel background matches dark theme */
-html.dark-mode .chat-widget-panel,
-body.dark-mode .chat-widget-panel {
+/* Dark mode panel background */
+html.dark-mode .chat-widget-panel {
   background: var(--color-surface);
 }
 

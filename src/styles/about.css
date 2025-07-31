@@ -20,10 +20,8 @@
 
 /* Margin utilities (e.g., .mt-3, .mb-4) are defined in theme.css */
 
-/* Override global body flex alignment so main follows nav at the top */
-body,
-html.dark-mode body,
-body.dark-mode {
+/* Override global body flex alignment so main content starts below nav */
+body {
   justify-content: flex-start;
 }
 
