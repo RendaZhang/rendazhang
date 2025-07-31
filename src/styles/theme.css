@@ -17,6 +17,9 @@
   --color-brand-blue: #4361ee;
   --color-spinner: #3498db;
   --color-white: #fff;
+  --color-white-rgb: 255, 255, 255;
+  --color-black: #000;
+  --color-black-rgb: 0, 0, 0;
   --color-border-light: #e6e6e6;
   /* Colors extracted from component styles */
   --color-subtle-bg: #f8fafc;
@@ -54,8 +57,20 @@
   --md-blockquote-border: #4e54c8;
   --md-blockquote-bg: #1c1c2d;
   --md-hr-bg: #333355;
-  --gradient-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  --gradient-dark: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+  --gradient-primary-start: #6a11cb;
+  --gradient-primary-end: #2575fc;
+  --gradient-dark-start: #4e54c8;
+  --gradient-dark-end: #8f94fb;
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--gradient-primary-start) 0%,
+    var(--gradient-primary-end) 100%
+  );
+  --gradient-dark: linear-gradient(
+    135deg,
+    var(--gradient-dark-start) 0%,
+    var(--gradient-dark-end) 100%
+  );
   --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.1);
   --overlay-bg: rgba(0, 0, 0, 0.4);
   --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -82,6 +97,46 @@
   --shadow-cert-card-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-md-table: 0 2px 4px rgba(0, 0, 0, 0.2);
   --overlay-modal-bg: rgba(0, 0, 0, 0.5);
+  /* Colors for static error pages */
+  --gradient-404-bg: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+  --color-404-text: #2d3748;
+  --gradient-404-circle-1: linear-gradient(135deg, #81d4fa 0%, #4fc3f7 100%);
+  --gradient-404-circle-2: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
+  --gradient-404-circle-3: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+  --color-404-primary: #0288d1;
+  --color-404-primary-hover: #0277bd;
+  --color-404-primary-dark: #01579b;
+  --color-404-primary-darker: #014377;
+  --color-404-heading: #1a237e;
+  --color-404-lead: #455a64;
+  --color-404-search-border: #e3f2fd;
+  --color-404-signature: #78909c;
+  --gradient-404-signature-line: linear-gradient(to right, transparent, #90a4ae, transparent);
+  --color-404-primary-rgb: 2, 136, 209;
+  --gradient-404-btn-primary: linear-gradient(135deg, #0288d1 0%, #01579b 100%);
+  --gradient-404-btn-primary-hover: linear-gradient(135deg, #0277bd 0%, #014377 100%);
+  --color-404-btn-secondary-hover-bg: #e3f2fd;
+
+  --gradient-50x-bg: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+  --color-50x-text: #2d3748;
+  --gradient-50x-decor-1: linear-gradient(120deg, #e0f2fe 0%, #dbeafe 100%);
+  --gradient-50x-decor-2: linear-gradient(300deg, #ede9fe 0%, #f0f9ff 100%);
+  --gradient-50x-icon: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  --color-50x-error-stroke: #e53e3e;
+  --color-50x-error-rgb: 229, 62, 62;
+  --color-50x-heading: #1a202c;
+  --color-50x-lead: #4a5568;
+  --color-50x-message-bg: #f8f9fc;
+  --color-50x-message-border: #e53e3e;
+  --color-50x-signature: #718096;
+  --gradient-50x-signature-line: linear-gradient(to right, transparent, #cbd5e0, transparent);
+  --color-50x-primary-btn: #3182ce;
+  --color-50x-primary-btn-hover: #2b6cb0;
+  --color-50x-secondary-text: #4a5568;
+  --color-50x-secondary-border: #e2e8f0;
+  --color-50x-secondary-bg-hover: #f7fafc;
+  --color-50x-secondary-border-hover: #cbd5e0;
+  --color-50x-primary-rgb: 49, 130, 206;
 }
 
 /* Dark mode overrides */
@@ -578,7 +633,7 @@ html.dark-mode .language-option {
 }
 html.dark-mode main.main-content,
 html.dark-mode .container {
-  background-color: #1e1e1e;
+  background-color: var(--color-surface);
   color: var(--color-text);
   box-shadow: var(--shadow-dark);
 }
