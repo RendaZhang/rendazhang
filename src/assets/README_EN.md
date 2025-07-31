@@ -22,6 +22,7 @@
     - [Development Requirements](#development-requirements)
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Static Asset Naming Validation](#static-asset-naming-validation)
+    - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
   - [🤝 Contribution Guidelines](#-contribution-guidelines)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -31,7 +32,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 31, 2025, 15:00 (UTC+8)
+- **Last Updated**: August 01, 2025, 02:28 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
@@ -289,6 +290,10 @@ For detailed steps on setting up the development environment, please refer to th
 Run `npm run validate-assets` for image/music file validation.
 
 Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+
+### Responsive Image System Maintenance
+
+The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3) *(Chinese)*.
 
 ---
 
