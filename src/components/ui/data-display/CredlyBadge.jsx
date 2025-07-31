@@ -21,7 +21,7 @@ export default function CredlyBadge() {
 
   return (
     <div className="credly-container">
-      {!loaded && <div className="spinner credly-spinner"></div>}
+      {!loaded && <div className="spinner spinner-center credly-spinner"></div>}
       <iframe
         ref={iframeRef}
         name="acclaim-badge"

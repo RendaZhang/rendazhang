@@ -47,10 +47,6 @@ html.dark-mode .credly-container {
 /* Uses global .spinner styles defined in theme.css                     */
 /* ------------------------------------------------------------------ */
 .credly-container .credly-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 10;
 }
 .cert-page h1 {

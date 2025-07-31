@@ -17,7 +17,7 @@ function SocialIcon({ href, id, src, alt, ariaLabel }) {
 
   return (
     <a href={href} aria-label={ariaLabel} id={id}>
-      {!loaded && <span className="spinner" aria-hidden="true" />}
+      {!loaded && <span className="spinner spinner-center" aria-hidden="true" />}
       <img
         ref={imgRef}
         src={srcUrl}

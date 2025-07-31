@@ -33,7 +33,7 @@ export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn 
       onClick={handleClick}
     >
       <button
-        className="copy-btn"
+        className="copy-btn rounded-4"
         onClick={handleCopy}
         style={{ display: showBtn ? 'inline-block' : 'none' }}
       >

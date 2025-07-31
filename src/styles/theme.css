@@ -780,6 +780,14 @@ html.dark-mode .app-header {
   animation: spinner-spin 1s linear infinite;
 }
 
+/* Utility class to center spinners (or any element) absolutely */
+.spinner-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @keyframes spinner-spin {
   from {
     transform: rotate(0deg);
@@ -877,7 +885,11 @@ html.dark-mode .app-header {
   /* Common surface background used in panels and modals */
   background: var(--color-surface);
 }
-
+/* Utility border radius classes */
+.rounded-4 {
+  /* Small radius for buttons and small elements */
+  border-radius: 4px;
+}
 .rounded-8 {
   /* Standard border radius for cards and dialogs */
   border-radius: 8px;
@@ -887,7 +899,12 @@ html.dark-mode .app-header {
   /* Moderate elevation for floating elements */
   box-shadow: var(--shadow-medium);
 }
-
+/* Fixed utility positioning for floating controls */
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
 /* -------------------------------------------------------------- */
 /* Modal Styles                                                    */
 /* Basic modal layout shared by components such as SocialIcons.    */

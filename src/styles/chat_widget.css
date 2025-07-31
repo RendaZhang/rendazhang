@@ -1,7 +1,5 @@
 .chat-widget-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  position: fixed; /* anchored via .fixed-bottom-right utility */
   width: 60px;
   height: 60px;
   border-radius: 50%;

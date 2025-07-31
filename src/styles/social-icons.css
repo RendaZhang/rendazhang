@@ -19,11 +19,6 @@
 }
 .social-icons .spinner {
   --spinner-size: 32px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: calc(var(--spinner-size) / -2);
-  margin-left: calc(var(--spinner-size) / -2);
   --spinner-color: var(--color-spinner);
 }
 @media (max-width: 480px) {
