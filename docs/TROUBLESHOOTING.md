@@ -37,6 +37,7 @@
     - [BUG-028: Markdown styles inconsistent between pages](#bug-028-markdown-styles-inconsistent-between-pages)
     - [BUG-029: DOMPurify source map warning during dev](#bug-029-dompurify-source-map-warning-during-dev)
     - [BUG-030: highlight.js 缺少 nginx 语言模块](#bug-030-highlightjs-%E7%BC%BA%E5%B0%91-nginx-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97)
+    - [BUG-031: 浏览器控件未随主题切换](#bug-031-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A7%E4%BB%B6%E6%9C%AA%E9%9A%8F%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -583,3 +584,15 @@
 - **解决方案**：
   - 使用 `node_modules/highlight.js/tools/build.js` 重新构建，加入 `nginx` 语言
 - **验证结果**：✅ 页面不再报 WARN，nginx 语法高亮正常
+
+### BUG-031: 浏览器控件未随主题切换
+
+- **发现日期**：2025-07-31
+- **重现环境**：切换暗色主题后查看表单与滚动条
+- **问题现象**：
+  - 部分浏览器默认控件仍显示亮色样式
+- **根本原因**：
+  - 未在 CSS 中声明 `color-scheme`
+- **解决方案**：
+  - 在 `:root` 设置 `color-scheme: light` 并在 `.dark-mode` 设置 `color-scheme: dark`
+- **验证结果**：✅ 主题切换后控件样式一致

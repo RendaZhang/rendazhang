@@ -202,6 +202,7 @@
    - 图片懒加载：`<img loading="lazy">`
    - 资源按需加载：`import()` 动态导入
    - 主题切换零延迟：CSS 变量驱动
+   - 浏览器控件同步主题：`color-scheme`
    - LQIP：低质量图片占位，高质量图片懒加载替换
    - 构建产物指纹：`npm run build` 后 `dist/_astro` 中的文件会带有哈希后缀，可在 Nginx 中配置长效缓存
 

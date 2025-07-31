@@ -181,6 +181,7 @@ For details on the core functionality system of the website, please refer to the
 - Project portfolio
 - Contact form
 - Theme switching (light/dark)
+- Browser controls follow theme (`color-scheme`)
 - Language toggle (Chinese/English)
 - Tech documentation rendering (docs/)
 - Content platform links
