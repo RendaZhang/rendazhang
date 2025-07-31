@@ -63,23 +63,15 @@ jobs:
               console.log('No existing release found for v1.0.0');
             }
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v2
+      - name: Create GitHub Release and Upload Assets
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.0 # 固定版本号（手动管理）
-          release_name: Release v1.0.0
+          tag_name: v1.0.0  # 固定版本号（手动管理）
+          name: Release v1.0.0
+          body: "Automated release of build artifacts"
           draft: false
           prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release/build.tar.gz
-          asset_name: build.tar.gz
-          asset_content_type: application/gzip
+          files: |
+            ./release/build.tar.gz
