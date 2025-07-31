@@ -14,7 +14,7 @@
   justify-content: center;
   line-height: 1;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-medium);
   z-index: 9999;
   padding: 0%;
 }
@@ -34,7 +34,7 @@
   z-index: 9999;
   background: var(--color-surface);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-medium);
   overflow: hidden;
 }
 

@@ -6,7 +6,7 @@
   height: calc(100vh - 100px);
   background: var(--color-surface);
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-large);
   overflow: hidden;
 }
 
@@ -63,7 +63,7 @@ h1 {
   background: var(--color-subtle-bg-hover);
   color: var(--color-text-deep);
   border-bottom-left-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-message);
 }
 
 .typing-indicator {
@@ -127,7 +127,7 @@ h1 {
 
 #message-input:focus {
   border-color: var(--color-accent-purple);
-  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+  box-shadow: var(--shadow-focus-purple);
 }
 
 /* Scope button styles to chat inputs only */
@@ -262,10 +262,10 @@ h1 {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--overlay-light-bg);
   padding: 12px 20px;
   border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-dialog);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -322,7 +322,7 @@ h1 {
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--overlay-dark-bg);
   color: var(--color-white);
   padding: 8px 16px;
   border-radius: 4px;

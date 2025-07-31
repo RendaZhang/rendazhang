@@ -57,6 +57,27 @@
   --gradient-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   --gradient-dark: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
   --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-soft: 0 0 4px rgba(0, 0, 0, 0.3);
+  --shadow-large: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-dialog: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --shadow-focus-purple: 0 0 0 3px rgba(106, 17, 203, 0.2);
+  --overlay-light-bg: rgba(255, 255, 255, 0.95);
+  --overlay-dark-bg: rgba(0, 0, 0, 0.75);
+  --overlay-dark-surface: rgba(34, 34, 34, 0.95);
+  --shadow-dark: 0 4px 10px rgba(0, 0, 0, 0.5);
+  --color-border-neutral: #ccc;
+  --shadow-login-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-login-dark: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-message: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --color-light-gray: #fafafa;
+  --color-dark-gray: #111;
+  --color-dark-black: #222;
+  --color-warning-accent: #ff9800;
+  --color-dark-surface: #2a2a2a;
+  --shadow-focus-blue: 0 0 0 3px rgba(143, 148, 251, 0.4);
+  --shadow-nav-mobile: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark mode overrides */
@@ -171,7 +192,7 @@ nav {
 
 nav a,
 nav button:not(.theme-option) {
-  color: #fff;
+  color: var(--color-white);
   text-decoration: none;
   padding: 10px 20px;
   background: var(--gradient-primary);
@@ -205,7 +226,7 @@ nav .hamburger-btn span {
   width: 20px;
   height: 2px;
   margin: 3px 0;
-  background: #fff;
+  background: var(--color-white);
   border-radius: 1px;
   transition:
     transform 0.3s,
@@ -225,7 +246,7 @@ nav .hamburger-btn.open span:nth-child(3) {
 nav .side-menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay-bg);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s;
@@ -255,7 +276,7 @@ nav .side-menu.open {
   transform: translateX(0);
 }
 nav .side-menu a {
-  color: #fff;
+  color: var(--color-white);
   text-decoration: none;
   padding: 10px 20px;
   background: var(--gradient-primary);
@@ -280,7 +301,7 @@ nav .theme-toggle-wrapper {
 }
 nav .theme-toggle-main {
   position: relative;
-  color: #fff;
+  color: var(--color-white);
   text-decoration: none;
   padding: 6px 12px;
   font-size: 0.9rem;
@@ -311,7 +332,7 @@ nav .theme-options {
   padding: 4px;
   background-color: var(--color-nav-bg);
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
 nav .theme-option {
@@ -319,7 +340,7 @@ nav .theme-option {
   height: 28px;
   padding: 0;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border-neutral);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,18 +350,18 @@ nav .theme-option {
     box-shadow 0.2s;
 }
 nav .theme-option.light {
-  background-color: #fafafa;
-  color: #333;
+  background-color: var(--color-light-gray);
+  color: var(--color-nav-text);
 }
 nav .theme-option.dark {
-  background-color: #111;
-  color: #fff;
+  background-color: var(--color-dark-gray);
+  color: var(--color-white);
 }
 nav .theme-option:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-soft);
 }
 nav .theme-option.active {
-  border-color: #ff9800;
+  border-color: var(--color-warning-accent);
 }
 
 /* Language selector */
@@ -350,7 +371,7 @@ nav .language-selector-wrapper {
 }
 nav .language-selector-main {
   position: relative;
-  color: #fff;
+  color: var(--color-white);
   text-decoration: none;
   padding: 6px 12px;
   font-size: 0.9rem;
@@ -384,13 +405,13 @@ nav .language-options {
   padding: 4px;
   background-color: var(--color-nav-bg);
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
 nav .language-option {
   padding: 4px 8px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border-neutral);
   background-color: var(--color-nav-bg);
   color: var(--color-nav-text);
   cursor: pointer;
@@ -400,17 +421,17 @@ nav .language-option {
     box-shadow 0.2s;
 }
 nav .language-option:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-soft);
 }
 nav .language-option.active {
-  border-color: #ff9800;
+  border-color: var(--color-warning-accent);
 }
 
 /* Buttons */
 .btn-primary {
   background: var(--gradient-primary);
   border: none;
-  color: #fff;
+  color: var(--color-white);
   box-shadow: var(--shadow-elevated);
   transition:
     filter 0.3s,
@@ -534,88 +555,88 @@ nav .language-option.active {
 /* ---------- Dark Mode Components ---------- */
 html.dark-mode .side-menu,
 html.dark-mode .theme-options {
-  background: #333;
+  background: var(--color-subtle-bg);
 }
 html.dark-mode .theme-option.light {
-  background-color: #ddd;
-  color: #222;
+  background-color: var(--color-gray);
+  color: var(--color-dark-black);
 }
 html.dark-mode .theme-option.dark {
-  background-color: #222;
-  color: #fff;
+  background-color: var(--color-dark-black);
+  color: var(--color-white);
 }
 html.dark-mode .language-options {
-  background: #333;
+  background: var(--color-subtle-bg);
 }
 html.dark-mode .language-option {
-  background-color: #222;
-  color: #fff;
+  background-color: var(--color-dark-black);
+  color: var(--color-white);
 }
 html.dark-mode main.main-content,
 html.dark-mode .container {
   background-color: #1e1e1e;
   color: var(--color-text);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-dark);
 }
 html.dark-mode .chat-container {
-  background: #242424;
+  background: var(--color-subtle-bg-alt);
 }
 html.dark-mode .user-message {
   background: var(--gradient-dark);
-  color: #fff;
+  color: var(--color-white);
 }
 html.dark-mode .input-area {
-  background: #1e1e1e;
-  border-top: 1px solid #333;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-subtle-bg);
 }
 html.dark-mode .input-area button {
   background: var(--gradient-dark);
 }
 html.dark-mode #message-input {
-  background: #242424;
+  background: var(--color-subtle-bg-alt);
   color: var(--color-text);
-  border: 1px solid #444;
+  border: 1px solid var(--color-border-light);
 }
 html.dark-mode #message-input:focus {
-  border-color: #8f94fb;
-  box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.4);
+  border-color: var(--md-link-color);
+  box-shadow: var(--shadow-focus-blue);
 }
 html.dark-mode .cert-card {
-  background: #2a2a2a;
+  background: var(--color-dark-surface);
   color: var(--color-text);
-  border-color: #444;
+  border-color: var(--color-border-light);
 }
 html.dark-mode .verify-btn,
 html.dark-mode header {
   background: var(--gradient-dark);
-  color: #fff;
+  color: var(--color-white);
 }
 html.dark-mode #reset-btn {
-  background: #333;
+  background: var(--color-subtle-bg);
   color: var(--color-text);
-  border: 1px solid #444;
+  border: 1px solid var(--color-border-light);
 }
 html.dark-mode #reset-btn:hover {
-  background: #444;
-  color: #fff;
+  background: var(--color-subtle-bg-hover);
+  color: var(--color-white);
 }
 html.dark-mode .btn-primary {
   background: var(--gradient-dark);
-  color: #fff;
+  color: var(--color-white);
 }
 html.dark-mode .btn-secondary {
-  background: #333;
+  background: var(--color-subtle-bg);
   color: var(--color-text);
-  border-color: #444;
+  border-color: var(--color-border-light);
 }
 html.dark-mode .btn-secondary:hover {
-  background: #444;
-  color: #fff;
+  background: var(--color-subtle-bg-hover);
+  color: var(--color-white);
 }
 html.dark-mode #enhancement-progress {
-  background: rgba(34, 34, 34, 0.95);
+  background: var(--overlay-dark-surface);
   color: var(--color-text);
-  border-color: #444;
+  border-color: var(--color-border-light);
 }
 html.dark-mode .social-icons img[alt='CSDN logo'],
 html.dark-mode .social-icons img[alt='Medium logo'] {
@@ -628,7 +649,7 @@ html.dark-mode .social-icons img[alt='Medium logo'] {
     padding: 8px 10px;
     gap: 8px;
     height: auto;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-nav-mobile);
   }
   nav a,
   nav button:not(.theme-option) {
