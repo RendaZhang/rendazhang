@@ -93,7 +93,8 @@ async function generateLqip() {
   const lqipBase64 = lqipBuffer.toString('base64');
 
   // 生成完整的ES模块文件
-  const dataContent = `export const ${IMAGE_NAME.replace(/-/g, '_')} = {
+  const imageName = IMAGE_NAME.replace(/-/g, '_').toUpperCase();
+  const dataContent = `export const ${imageName} = {
   base64: '${lqipBase64}',
   aspectRatio: ${(await sharp(SOURCE_IMAGE).metadata()).height / (await sharp(SOURCE_IMAGE).metadata()).width}
 };\n`;
