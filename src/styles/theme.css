@@ -744,6 +744,27 @@ html.dark-mode .app-header {
   margin-bottom: 1rem;
 }
 
+/* -------------------------------------------------------------- */
+/* Feedback Utilities                                             */
+/* Common classes for form success and error messages.            */
+/* Keeps colors consistent across pages.                          */
+/* -------------------------------------------------------------- */
+.form-message {
+  margin-top: 0.5rem;
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
 /* ------------------------------------------------------------------ */
 /* Generic spinner used across multiple components.                   */
 /* Size and color can be customized via CSS variables.                */
@@ -859,6 +880,47 @@ html.dark-mode .app-header {
 .shadow-medium {
   /* Moderate elevation for floating elements */
   box-shadow: var(--shadow-medium);
+}
+
+/* -------------------------------------------------------------- */
+/* Modal Styles                                                    */
+/* Basic modal layout shared by components such as SocialIcons.    */
+/* -------------------------------------------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: auto;
+  width: auto;
+  background: var(--overlay-modal-bg);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  max-width: 90%;
+  height: auto;
+  width: auto;
+}
+
+.modal-content img {
+  max-width: 258px;
+  max-height: 258px;
+  height: auto;
+  width: auto;
+}
+
+.modal .close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 /* Grid */

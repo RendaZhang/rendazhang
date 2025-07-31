@@ -36,44 +36,6 @@
   }
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: auto;
-  width: auto;
-  background: var(--overlay-modal-bg);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  /* visual styles moved to utility classes */
-  padding: 20px;
-  position: relative;
-  text-align: center;
-  max-width: 90%;
-  height: auto;
-  width: auto;
-}
-
-.modal-content img {
-  max-width: 258px;
-  max-height: 258px;
-  height: auto;
-  width: auto;
-}
-
-.modal .close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
 .loader {
   margin: auto;
 }

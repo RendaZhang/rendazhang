@@ -122,11 +122,11 @@ export default function ContactForm({ texts = {} }) {
         )}
       </button>
       {status === 'success' && (
-        <div className="form-message success mt-2">
+        <div className="form-message text-success">
           <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         </div>
       )}
-      {status === 'error' && error && <div className="form-message error mt-2">{error}</div>}
+      {status === 'error' && error && <div className="form-message text-error">{error}</div>}
     </form>
   );
 }

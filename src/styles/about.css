@@ -95,15 +95,3 @@ body.dark-mode {
 .contact-info strong {
   display: block;
 }
-
-.contact-form .form-message {
-  margin-top: 0.5rem;
-}
-
-.form-message.success {
-  color: var(--color-success);
-}
-
-.form-message.error {
-  color: var(--color-error);
-}
