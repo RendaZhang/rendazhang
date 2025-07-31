@@ -31,7 +31,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 31, 2025, 08:58 (UTC+8)
+- **最后更新**: July 31, 2025, 15:00 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
@@ -190,6 +190,7 @@ Push 到 `master` 分支会触发 GitHub Actions：
 - 联系表单
 - 主题切换（浅色 / 深色）
 - 浏览器控件适配主题（`color-scheme`）
+- 公共组件样式统一由 `theme.css` 管理
 - 语言切换（中文 / 英文）
 - 技术文档渲染展示页 (docs/)
 - 内容平台链接

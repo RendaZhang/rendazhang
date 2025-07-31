@@ -31,7 +31,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 31, 2025, 08:58 (UTC+8)
+- **Last Updated**: July 31, 2025, 15:00 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
@@ -182,6 +182,7 @@ For details on the core functionality system of the website, please refer to the
 - Contact form
 - Theme switching (light/dark)
 - Browser controls follow theme (`color-scheme`)
+- Common component styles managed in `theme.css`
 - Language toggle (Chinese/English)
 - Tech documentation rendering (docs/)
 - Content platform links

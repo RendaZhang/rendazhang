@@ -20,18 +20,6 @@
 .cert-card p {
   margin: 0.25rem 0;
 }
-.verify-btn {
-  margin: 0.25rem;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-cert-card-hover);
-  color: var(--color-white);
-  padding: 6px 12px;
-  border-radius: 4px;
-  text-decoration: none;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
-}
 .cert-card .verify-links {
   display: flex;
   flex-wrap: wrap;
@@ -39,10 +27,6 @@
 }
 .cert-card .verify-links .verify-btn {
   flex: 1 1 auto;
-}
-.verify-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
 }
 /* Credly 加载动画 */
 .credly-container {

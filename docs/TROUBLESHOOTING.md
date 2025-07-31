@@ -44,7 +44,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 31, 2025, 03:13 (UTC+8)
+- **最后更新**: July 31, 2025, 15:00 (UTC+8)
 
 ---
 
@@ -297,6 +297,7 @@
   - `.verify-btn` 仅使用 margin-right，缺乏弹性布局导致按钮宽度固定
 - **解决方案**：
   - 将按钮容器设为 flex 布局并给予按钮 `flex:1`，同时统一 margin
+  - 样式已移至 `theme.css`，便于在其他页面复用
 - **验证结果**：✅ 在 380px 宽度下按钮可均匀收缩，无溢出
 
 ### BUG-012: Dark mode flashes before applying

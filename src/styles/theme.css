@@ -146,6 +146,7 @@ html.dark-mode {
   --color-bg: #121212;
   --color-text: #e0e0e0;
   --color-nav-bg: #333;
+  --color-nav-text: #fff;
   --color-success: #28a745;
   --color-warning: #f39c12;
   --color-error: #dc3545;
@@ -517,6 +518,23 @@ nav .language-option.active {
   background: var(--color-subtle-bg-hover);
   color: var(--color-text-darker);
 }
+/* Verification buttons share primary styling */
+.verify-btn {
+  margin: 0.25rem;
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-cert-card-hover);
+  color: var(--color-white);
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition:
+    filter 0.3s,
+    transform 0.3s;
+}
+.verify-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
 
 /* Forms */
 .form-label {
@@ -566,6 +584,80 @@ nav .language-option.active {
 
 .form-check-label {
   margin-left: 0.5rem;
+}
+
+/* Auth Forms */
+.login-container,
+.register-container {
+  margin: 80px auto;
+  padding: 20px;
+  background: var(--color-surface);
+  border-radius: 8px;
+  box-shadow: var(--shadow-login-light);
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-title,
+.register-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-strength {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-gray);
+  margin-top: 4px;
+}
+
+.password-strength-label {
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.password-strength.weak {
+  background: var(--color-error);
+}
+
+.password-strength.medium {
+  background: var(--color-warning);
+}
+
+.password-strength.strong {
+  background: var(--color-success);
+}
+
+.third-party {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.third-party button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.global-error {
+  color: var(--color-error);
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 /* Spacing & Utility */
@@ -632,6 +724,11 @@ html.dark-mode .language-options {
 html.dark-mode .language-option {
   background-color: var(--color-dark-black);
   color: var(--color-white);
+}
+html.dark-mode .login-container,
+html.dark-mode .register-container {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-login-dark);
 }
 html.dark-mode main.main-content,
 html.dark-mode .container {

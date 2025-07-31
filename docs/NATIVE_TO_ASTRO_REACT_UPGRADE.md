@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 31, 2025, 08:58 (UTC+8)
+- **最后更新**: July 31, 2025, 15:00 (UTC+8)
 
 ---
 
@@ -292,7 +292,7 @@ src/assets/...
 
 优先快速起效，可直接在主布局的 `<head>` 中以 `<link href="/styles/your-styles.css" rel="stylesheet">` 方式引入旧有样式。
 
-随着重构推进，一些页面级样式已迁移到 `src/styles`，如 `theme.css`、`login.css`、`register.css`、`about.css`、`chat_widget.css`、`docs.css`、`index.css`、`deepseek_chat.css` 和 `certifications.css`，在对应的布局或页面中直接通过 `import '../styles/foo.css'` 或在配置中引用构建后的 URL。
+随着重构推进，一些页面级样式已迁移到 `src/styles`，如 `theme.css`、`login.css`、`register.css`、`about.css`、`chat_widget.css`、`docs.css`、`index.css`、`deepseek_chat.css` 和 `certifications.css`，在对应的布局或页面中直接通过 `import '../styles/foo.css'` 或在配置中引用构建后的 URL。登录与注册页的公共样式已从各自文件中剥离，统一合并至 `theme.css`，便于维护和主题切换。
 早期自定义脚本也陆续迁移至 `src/scripts`，如 `pages/index.js` 和 `pages/certifications.js` 已重构为 React 组件 `SocialIconsEffects.jsx` 与 `CertificationsEffects.jsx`，Docs 页面的逻辑也提炼为 `DocsEffects.jsx`。这些组件分别在对应页面通过 `<SocialIconsEffects client:load />`、`<CertificationsEffects client:load />` 与 `<DocsEffects client:load />` 调用，`credly_embed.js` 则被整合为 `CredlyBadge` 无需额外脚本。
 
 Astro 支持直接使用现有的 CSS 文件或库，无需完全重写样式。这样做能确保页面迁移初期视觉效果一致。
