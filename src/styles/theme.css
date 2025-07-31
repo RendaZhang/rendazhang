@@ -204,6 +204,11 @@ html {
   box-sizing: inherit;
 }
 
+/* Ensure code blocks are scrollable on smaller screens */
+pre {
+  overflow-x: auto;
+}
+
 /* ---------- Language Helpers ---------- */
 html[lang^='en'] .lang-zh {
   display: none;
@@ -233,6 +238,27 @@ main.main-content {
   margin-left: auto;
   margin-right: auto;
   text-align: left;
+}
+
+/* -------------------------------------------------------------- */
+/* Shared width utilities for consistent layouts                  */
+/* -------------------------------------------------------------- */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Page section block with unified spacing */
+.about-section,
+.skills-section,
+.education-section,
+.experience-section,
+.blog-section,
+.contact-section {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* ------------------------------------------------------------------ */

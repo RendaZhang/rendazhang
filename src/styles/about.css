@@ -1,3 +1,4 @@
+/* About page uses shared layout rules from theme.css */
 .hero {
   color: var(--color-white);
   padding: 4rem 1rem;
@@ -5,12 +6,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.about-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .about-section ul {
@@ -33,12 +28,6 @@ body.dark-mode {
   justify-content: flex-start;
 }
 
-.skills-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .skill-bar {
   display: flex;
   align-items: center;
@@ -52,12 +41,6 @@ body.dark-mode {
 .skill-bar progress {
   width: 100%;
   height: 1rem;
-}
-
-.experience-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .experience-item {
@@ -75,13 +58,6 @@ body.dark-mode {
 .experience-role {
   margin: 0.5rem 0;
 }
-
-.education-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .education-item {
   margin-bottom: 1.5rem;
 }
@@ -99,11 +75,6 @@ body.dark-mode {
 }
 
 /* Blog section */
-.blog-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
 
 .blog-item {
   margin-bottom: 1.5rem;
@@ -120,11 +91,6 @@ body.dark-mode {
 }
 
 /* Contact section */
-.contact-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
 
 .contact-info strong {
   display: block;
