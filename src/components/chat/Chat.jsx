@@ -288,7 +288,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   };
 
   return (
-    <div className="container">
+    <div className="chat-wrapper">
       <header className="app-header">
         <h1>
           <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />

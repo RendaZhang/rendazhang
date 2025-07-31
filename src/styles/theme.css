@@ -241,7 +241,8 @@ main.main-content {
 }
 
 /* -------------------------------------------------------------- */
-/* Shared width utilities for consistent layouts                  */
+/* Shared width utilities for consistent layouts.                  */
+/* The `.container` class centers page content with a max width.   */
 /* -------------------------------------------------------------- */
 .container {
   max-width: 800px;
@@ -768,14 +769,16 @@ html.dark-mode .app-header {
 }
 
 /* ------------------------------------------------------------------ */
-/* Dot Loader - small bouncing dots for loading states                */
-/* Shared by SocialIcons and Docs pages                               */
+/* Dot Loader - small bouncing dots for loading states.
+   Shared by SocialIcons and Docs pages. */
 /* ------------------------------------------------------------------ */
 .loader,
 .doc-loader {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px; /* ensures consistent spacing */
+  text-align: center;
 }
 .loader .dot,
 .doc-loader .dot {

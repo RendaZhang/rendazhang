@@ -3,8 +3,4 @@ main.main-content.docs-main {
   max-width: 900px;
 }
 
-/* Loading animation for docs page */
-.doc-loader {
-  padding: 20px;
-  text-align: center;
-}
+/* Loading animation for docs page is styled globally in theme.css */
