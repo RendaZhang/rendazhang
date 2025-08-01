@@ -1,0 +1,116 @@
+:root {
+  /*! ==== \u8272\u5ea6\u7cfb\u7edf ==== */
+  --color-primary: 106 17 203; /* #6a11cb */
+  --color-accent: 37 117 252; /* #2575fc */
+  --color-secondary: 78 84 200; /* #4e54c8 */
+  --color-tertiary: 143 148 251; /* #8f94fb */
+  --color-gray-900: 15 15 30;
+  --color-gray-800: 35 35 55;
+  --color-gray-100: 245 245 255;
+  --color-gray-50: 250 250 255;
+  --color-success: 46 204 113;
+  --color-warning: 241 196 15;
+  --color-error: 231 76 60;
+  --color-white-rgb: 255 255 255;
+  --color-black-rgb: 0 0 0;
+  --color-gray: 221 221 221;
+  --color-brand-blue: 67 97 238;
+  --color-spinner: 52 152 219;
+  --color-border-light: 230 230 230;
+  --color-subtle-bg: 248 250 252;
+  --color-subtle-bg-alt: 250 251 252;
+  --color-subtle-bg-hover: 241 245 249;
+  --color-text-muted: 100 116 139;
+  --color-text-darker: 71 85 105;
+  --color-text-deep: 51 65 85;
+  --color-border-muted: 226 232 240;
+  --color-border-soft: 203 213 225;
+  --color-gray-medium: 148 163 184;
+  --color-spinner-track: 243 243 243;
+  --color-border-neutral: 204 204 204;
+  --color-light-gray: 250 250 250;
+  --color-dark-gray: 17 17 17;
+  --color-dark-black: 34 34 34;
+  --color-warning-accent: 255 152 0;
+  --color-dark-surface: 42 42 42;
+
+  /*! ==== 扩展色值 ==== */
+  --color-gray-700: 68 68 68; /* #444 */
+
+  /*! ==== Markdown 颜色系统 ==== */
+  --color-md-bg: 18 18 18; /* #121212 */
+  --color-md-text: 224 224 224; /* #e0e0e0 */
+  --color-md-heading-border: 58 58 92; /* #3a3a5c */
+  --color-md-h1: 240 240 255; /* #f0f0ff */
+  --color-md-h2: 208 208 255; /* #d0d0ff */
+  --color-md-h2-border: 45 45 68; /* #2d2d44 */
+  --color-md-h3: 192 192 255; /* #c0c0ff */
+  --color-md-h4: 176 176 255; /* #b0b0ff */
+  --color-md-strong: 255 255 255; /* #ffffff */
+  --color-md-table-bg: 30 30 45; /* #1e1e2d */
+  --color-md-th-bg: 42 42 63; /* #2a2a3f */
+  --color-md-th-color: 224 224 255; /* #e0e0ff */
+  --color-md-td-color: 215 215 240; /* #d7d7f0 */
+  --color-md-td-bg: 35 35 54; /* #232336 */
+  --color-md-table-border: 61 61 92; /* #3d3d5c */
+  --color-md-zebra-bg: 28 28 42; /* #1c1c2a */
+  --color-md-code-bg: 175 177 255; /* #afb1ff */
+  --color-md-code-color: 12 9 8; /* #0c0908 */
+  --color-md-link: 143 148 251; /* #8f94fb */
+  --color-md-link-hover: 167 171 255; /* #a7abff */
+  --color-md-blockquote: 184 185 255; /* #b8b9ff */
+  --color-md-blockquote-border: 78 84 200; /* #4e54c8 */
+  --color-md-blockquote-bg: 28 28 45; /* #1c1c2d */
+  --color-md-hr: 51 51 85; /* #333355 */
+
+  /*! ==== 404 页面配色 ==== */
+  --color-404-text: 45 55 72; /* #2d3748 */
+  --color-404-primary: 2 136 209; /* #0288d1 */
+  --color-404-primary-hover: 2 119 189; /* #0277bd */
+  --color-404-primary-dark: 1 87 155; /* #01579b */
+  --color-404-primary-darker: 1 67 119; /* #014377 */
+  --color-404-heading: 26 35 126; /* #1a237e */
+  --color-404-lead: 69 90 100; /* #455a64 */
+  --color-404-search-border: 227 242 253; /* #e3f2fd */
+  --color-404-signature: 120 144 156; /* #78909c */
+  --color-404-btn-secondary-hover-bg: 227 242 253; /* #e3f2fd */
+
+  /* ==== 404 页面渐变色 ==== */
+  --color-404-bg-start: 224 247 250; /* #e0f7fa */
+  --color-404-bg-end: 187 222 251; /* #bbdefb */
+  --color-404-circle1-start: 129 212 250; /* #81d4fa */
+  --color-404-circle1-end: 79 195 247; /* #4fc3f7 */
+  --color-404-circle2-start: 179 229 252; /* #b3e5fc */
+  --color-404-circle2-end: 129 212 250; /* #81d4fa */
+  --color-404-circle3-start: 225 245 254; /* #e1f5fe */
+  --color-404-circle3-end: 179 229 252; /* #b3e5fc */
+  --color-404-signature-line: 144 164 174; /* #90a4ae */
+
+  /*! ==== 50x 页面配色 ==== */
+  --color-50x-text: 45 55 72; /* #2d3748 */
+  --color-50x-error-stroke: 229 62 62; /* #e53e3e */
+  --color-50x-heading: 26 32 44; /* #1a202c */
+  --color-50x-lead: 74 85 104; /* #4a5568 */
+  --color-50x-message-bg: 248 249 252; /* #f8f9fc */
+  --color-50x-signature: 113 128 150; /* #718096 */
+  --color-50x-primary-btn: 49 130 206; /* #3182ce */
+  --color-50x-primary-btn-hover: 43 108 176; /* #2b6cb0 */
+  --color-50x-secondary-text: 74 85 104; /* #4a5568 */
+  --color-50x-secondary-border: 226 232 240; /* #e2e8f0 */
+  --color-50x-secondary-bg-hover: 247 250 252; /* #f7fafc */
+  --color-50x-secondary-border-hover: 203 213 224; /* #cbd5e0 */
+
+  /* ==== 50x 页面渐变色 ==== */
+  --color-50x-bg-start: 245 247 250; /* #f5f7fa */
+  --color-50x-bg-end: 228 237 249; /* #e4edf9 */
+  --color-50x-decor1-start: 224 242 254; /* #e0f2fe */
+  --color-50x-decor1-end: 219 234 254; /* #dbeafe */
+  --color-50x-decor2-start: 237 233 254; /* #ede9fe */
+  --color-50x-decor2-end: 240 249 255; /* #f0f9ff */
+  --color-50x-icon-start: 255 235 238; /* #ffebee */
+  --color-50x-icon-end: 255 205 210; /* #ffcdd2 */
+  --color-50x-signature-line: 203 213 224; /* #cbd5e0 */
+
+  /*! ==== \u8bed\u4e49\u5316\u53d8\u91cf ==== */
+  --color-text-heading: rgb(var(--color-primary));
+}

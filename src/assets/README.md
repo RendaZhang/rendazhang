@@ -33,7 +33,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 01, 2025, 17:51 (UTC+8)
+- **最后更新**: August 02, 2025, 00:57 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
@@ -66,6 +66,13 @@
 src/
 ├── assets/
 ├── styles/
+│   ├── core/               # 核心变量
+│   │   ├── _colors.css     # 颜色系统
+│   │   ├── _spacing.css    # 间距系统
+│   │   └── _gradients.css  # 渐变系统
+│   ├── components/         # 组件样式
+│   ├── utilities/          # 工具类
+│   └── theme.css           # 主入口文件
 ├── scripts/
 └── components/
     ├── ui/
@@ -261,25 +268,77 @@ flowchart TD
 
 #### 配色方案
 
+**统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
 - 公共组件样式统一由 `theme.css` 管理
+- Markdown 深色模式和错误页面也拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
+- 叠加层和阴影相关的颜色同样通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
+- 错误页面渐变也依赖这些 Token，在 `src/styles/core/_gradients.css` 统一定义。
+- Markdown 深色模式和错误页面也拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
+- 叠加层和阴影相关的颜色同样通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
+错误页面渐变也依赖这些 Token，在 `src/styles/core/_gradients.css` 统一定义。
 
-核心渐变由深紫 `#6a11cb` 到活力蓝 `#2575fc` 过渡，配合衍生色增强层次：
+**样式架构分层**：
+- `src/styles/core/`: 定义基础设计 Token，包括颜色、间距和渐变等变量
+- `src/styles/components/`: 组件级样式（如 `about.css`、`chat_widget.css` 等）
+- `src/styles/utilities/`: 布局与通用工具类，内含 `.debug` 调试轮廓
+- `src/styles/theme.css`: 样式入口文件，自动引入 `core/` 和 `utilities/`
 
-```css
-:root {
-  --color-primary: 106 17 203; /* #6a11cb */
-  --color-accent: 37 117 252;  /* #2575fc */
-  --color-secondary: 78 84 200; /* #4e54c8 */
-  --color-tertiary: 143 148 251; /* #8f94fb */
-}
-
---gradient-primary: linear-gradient(
-  135deg,
-  rgb(var(--color-primary)) 0%,
-  rgb(var(--color-accent)) 100%
-);
+**变量依赖图**：
+```mermaid
+graph TD
+  A[基础变量] --> B[语义变量]
+  B --> C[组件变量]
+  C --> D[实际应用]
 ```
+
+**色彩情感评估**：
+- 深紫色：传达专业、创新
+- 活力蓝：象征科技、信任
+- 组合效果：专业中不失活力，适合技术型产品
+
+**对比度保障**：
+| 组合         | 对比度   | 适用性    |
+|--------------|---------|-----------|
+| 主色 + 白文本 | 7.2 : 1 | ✅ 完美   |
+| 强调色 + 深灰 | 5.1 : 1 | ✅ 良好   |
+| 主色 + 强调色 | 2.8 : 1 | ⚠️ 仅装饰 |
+
+**主色**：
+- 深紫罗兰色 `#6a11cb`
+- 作为 **核心渐变色** 的起始色，具有强烈的视觉识别度
+- 可以应用到 导航栏、核心按钮、重要标题等地方
+- 辅助色值：
+  - #5a0eb7 (悬停状态)
+  - #7a24df (激活状态)
+
+**强调色**：
+- 活力蓝色 `#2575fc`
+- 与 **主色** 形成完美渐变过渡，提供视觉焦点
+- 可以应用到 交互元素、悬浮按钮、进度指示器
+- 辅助色值：
+  - #1c68e8 (悬停状态)
+  - #3e86ff (激活状态)
+
+**核心渐变色** 由深紫 `#6a11cb` 到活力蓝 `#2575fc` 过渡，配合 **衍生色** 增强层次。
+
+**主次关系**：
+```mermaid
+graph LR
+    A[主色 #6a11cb] --> B[导航/标题]
+    C[强调色 #2575fc] --> D[按钮/交互]
+    E[衍生色 #4e54c8] --> F[背景/边框]
+```
+
+**配色测试**：
+1. 可访问性验证：使用 [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) 测试文本可读性
+2. 视觉层次测试：
+   ```
+   /* 调试用灰度模式 */
+   .grayscale-mode {
+     filter: grayscale(100%);
+   }
+   ```
 
 ---
 

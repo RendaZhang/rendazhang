@@ -361,7 +361,7 @@
 - **问题现象**：
   - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
 - **根本原因**：
-  - `chat_widget.css`（现位于 `src/styles/`）默认背景为白色，未针对 `.dark-mode` 提供样式
+  - `chat_widget.css` 默认背景为白色，未针对 `.dark-mode` 提供样式
 - **解决方案**：
   - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁

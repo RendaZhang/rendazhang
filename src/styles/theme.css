@@ -1,3 +1,9 @@
+@import './core/_colors.css';
+@import './core/_spacing.css';
+@import './core/_gradients.css';
+@import './utilities/layout-system.css';
+@import './utilities/utility-classes.css';
+
 /* ====================================================================== */
 /* Theme Styles - improved readability and responsiveness */
 /* ====================================================================== */
@@ -8,21 +14,6 @@
   --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif;
 
   /* -------------------------------------------------------------- */
-  /* Core palette extracted from design spec                        */
-  /* -------------------------------------------------------------- */
-  --color-primary: 106 17 203; /* #6a11cb */
-  --color-accent: 37 117 252; /* #2575fc */
-  --color-secondary: 78 84 200; /* #4e54c8 */
-  --color-tertiary: 143 148 251; /* #8f94fb */
-  --color-gray-900: 15 15 30;
-  --color-gray-800: 35 35 55;
-  --color-gray-100: 245 245 255;
-  --color-gray-50: 250 250 255;
-  --color-success: 46 204 113;
-  --color-warning: 241 196 15;
-  --color-error: 231 76 60;
-
-  /* -------------------------------------------------------------- */
   /* Derived variables (legacy names kept for compatibility)        */
   /* -------------------------------------------------------------- */
   --color-bg: rgb(var(--color-gray-50));
@@ -30,130 +21,73 @@
   --color-nav-bg: rgb(var(--color-gray-50));
   --color-nav-text: rgb(var(--color-gray-900));
   --color-surface: rgb(var(--color-gray-100));
-  --color-gray: #ddd;
-  --color-brand-blue: #4361ee;
-  --color-spinner: #3498db;
-  --color-white: #fff;
-  --color-white-rgb: 255, 255, 255;
-  --color-black: #000;
-  --color-black-rgb: 0, 0, 0;
-  --color-border-light: #e6e6e6;
-  /* Colors extracted from component styles */
-  --color-subtle-bg: #f8fafc;
-  --color-subtle-bg-alt: #fafbfc;
-  --color-subtle-bg-hover: #f1f5f9;
-  --color-text-muted: #64748b;
-  --color-text-darker: #475569;
-  --color-text-deep: #334155;
-  --color-border-muted: #e2e8f0;
-  --color-border-soft: #cbd5e1;
-  --color-gray-medium: #94a3b8;
-  --color-spinner-track: #f3f3f3;
+  --color-gray: rgb(var(--color-gray));
+  --color-brand-blue: rgb(var(--color-brand-blue));
+  --color-spinner: rgb(var(--color-spinner));
+  --color-white: rgb(var(--color-white-rgb));
+  --color-black: rgb(var(--color-black-rgb));
+  --color-border-light: rgb(var(--color-border-light));
+  --color-subtle-bg: rgb(var(--color-subtle-bg));
+  --color-subtle-bg-alt: rgb(var(--color-subtle-bg-alt));
+  --color-subtle-bg-hover: rgb(var(--color-subtle-bg-hover));
+  --color-text-muted: rgb(var(--color-text-muted));
+  --color-text-darker: rgb(var(--color-text-darker));
+  --color-text-deep: rgb(var(--color-text-deep));
+  --color-border-muted: rgb(var(--color-border-muted));
+  --color-border-soft: rgb(var(--color-border-soft));
+  --color-gray-medium: rgb(var(--color-gray-medium));
+  --color-spinner-track: rgb(var(--color-spinner-track));
+  --color-border-neutral: rgb(var(--color-border-neutral));
+  --color-light-gray: rgb(var(--color-light-gray));
+  --color-dark-gray: rgb(var(--color-dark-gray));
+  --color-dark-black: rgb(var(--color-dark-black));
+  --color-warning-accent: rgb(var(--color-warning-accent));
+  --color-dark-surface: rgb(var(--color-dark-surface));
   --color-accent-purple: rgb(var(--color-primary));
-  --md-bg: #121212;
-  --md-text: #e0e0e0;
-  --md-heading-border: #3a3a5c;
-  --md-h1-color: #f0f0ff;
-  --md-h2-color: #d0d0ff;
-  --md-h2-border: #2d2d44;
-  --md-h3-color: #c0c0ff;
-  --md-h4-color: #b0b0ff;
-  --md-strong-color: #ffffff;
-  --md-table-bg: #1e1e2d;
-  --md-th-bg: #2a2a3f;
-  --md-th-color: #e0e0ff;
-  --md-td-color: #d7d7f0;
-  --md-td-bg: #232336;
-  --md-table-border: #3d3d5c;
-  --md-zebra-bg: #1c1c2a;
-  --md-code-bg: #afb1ff;
-  --md-code-color: #0c0908;
-  --md-link-color: #8f94fb;
-  --md-link-hover: #a7abff;
-  --md-blockquote-color: #b8b9ff;
-  --md-blockquote-border: #4e54c8;
-  --md-blockquote-bg: #1c1c2d;
-  --md-hr-bg: #333355;
-  --gradient-primary-start: rgb(var(--color-primary));
-  --gradient-primary-end: rgb(var(--color-accent));
-  --gradient-dark-start: rgb(var(--color-secondary));
-  --gradient-dark-end: rgb(var(--color-tertiary));
-  --gradient-primary: linear-gradient(
-    135deg,
-    rgb(var(--color-primary)) 0%,
-    rgb(var(--color-accent)) 100%
-  );
-  --gradient-dark: linear-gradient(
-    135deg,
-    rgb(var(--color-secondary)) 0%,
-    rgb(var(--color-tertiary)) 100%
-  );
-  --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --overlay-bg: rgba(0, 0, 0, 0.4);
-  --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-soft: 0 0 4px rgba(0, 0, 0, 0.3);
-  --shadow-large: 0 8px 30px rgba(0, 0, 0, 0.08);
-  --shadow-dialog: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --md-bg: rgb(var(--color-md-bg));
+  --md-text: rgb(var(--color-md-text));
+  --md-heading-border: rgb(var(--color-md-heading-border));
+  --md-h1-color: rgb(var(--color-md-h1));
+  --md-h2-color: rgb(var(--color-md-h2));
+  --md-h2-border: rgb(var(--color-md-h2-border));
+  --md-h3-color: rgb(var(--color-md-h3));
+  --md-h4-color: rgb(var(--color-md-h4));
+  --md-strong-color: rgb(var(--color-md-strong));
+  --md-table-bg: rgb(var(--color-md-table-bg));
+  --md-th-bg: rgb(var(--color-md-th-bg));
+  --md-th-color: rgb(var(--color-md-th-color));
+  --md-td-color: rgb(var(--color-md-td-color));
+  --md-td-bg: rgb(var(--color-md-td-bg));
+  --md-table-border: rgb(var(--color-md-table-border));
+  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
+  --md-code-bg: rgb(var(--color-md-code-bg));
+  --md-code-color: rgb(var(--color-md-code-color));
+  --md-link-color: rgb(var(--color-md-link));
+  --md-link-hover: rgb(var(--color-md-link-hover));
+  --md-blockquote-color: rgb(var(--color-md-blockquote));
+  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
+  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
+  --md-hr-bg: rgb(var(--color-md-hr));
+  --shadow-elevated: 0 4px 6px rgba(var(--color-black-rgb), 0.1);
+  --overlay-bg: rgba(var(--color-black-rgb), 0.4);
+  --shadow-medium: 0 2px 8px rgba(var(--color-black-rgb), 0.2);
+  --shadow-soft: 0 0 4px rgba(var(--color-black-rgb), 0.3);
+  --shadow-large: 0 8px 30px rgba(var(--color-black-rgb), 0.08);
+  --shadow-dialog: 0 4px 20px rgba(var(--color-black-rgb), 0.15);
   --shadow-focus-purple: 0 0 0 3px rgba(var(--color-primary) / 0.2);
-  --overlay-light-bg: rgba(255, 255, 255, 0.95);
-  --overlay-dark-bg: rgba(0, 0, 0, 0.75);
-  --overlay-dark-surface: rgba(34, 34, 34, 0.95);
-  --shadow-dark: 0 4px 10px rgba(0, 0, 0, 0.5);
-  --color-border-neutral: #ccc;
-  --shadow-login-light: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-login-dark: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-message: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --color-light-gray: #fafafa;
-  --color-dark-gray: #111;
-  --color-dark-black: #222;
-  --color-warning-accent: #ff9800;
-  --color-dark-surface: #2a2a2a;
+  --overlay-light-bg: rgba(var(--color-white-rgb), 0.95);
+  --overlay-dark-bg: rgba(var(--color-black-rgb), 0.75);
+  --overlay-dark-surface: rgba(var(--color-dark-black), 0.95);
+  --shadow-dark: 0 4px 10px rgba(var(--color-black-rgb), 0.5);
+  --shadow-login-light: 0 4px 12px rgba(var(--color-black-rgb), 0.1);
+  --shadow-login-dark: 0 4px 12px rgba(var(--color-black-rgb), 0.5);
+  --shadow-message: 0 2px 8px rgba(var(--color-black-rgb), 0.05);
   --shadow-focus-blue: 0 0 0 3px rgba(var(--color-tertiary) / 0.4);
-  --shadow-nav-mobile: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --shadow-cert-card: 0 2px 6px rgba(0, 0, 0, 0.05);
-  --shadow-cert-card-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-md-table: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --overlay-modal-bg: rgba(0, 0, 0, 0.5);
-  /* Colors for static error pages */
-  --gradient-404-bg: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
-  --color-404-text: #2d3748;
-  --gradient-404-circle-1: linear-gradient(135deg, #81d4fa 0%, #4fc3f7 100%);
-  --gradient-404-circle-2: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
-  --gradient-404-circle-3: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
-  --color-404-primary: #0288d1;
-  --color-404-primary-hover: #0277bd;
-  --color-404-primary-dark: #01579b;
-  --color-404-primary-darker: #014377;
-  --color-404-heading: #1a237e;
-  --color-404-lead: #455a64;
-  --color-404-search-border: #e3f2fd;
-  --color-404-signature: #78909c;
-  --gradient-404-signature-line: linear-gradient(to right, transparent, #90a4ae, transparent);
-  --color-404-primary-rgb: 2, 136, 209;
-  --gradient-404-btn-primary: linear-gradient(135deg, #0288d1 0%, #01579b 100%);
-  --gradient-404-btn-primary-hover: linear-gradient(135deg, #0277bd 0%, #014377 100%);
-  --color-404-btn-secondary-hover-bg: #e3f2fd;
-
-  --gradient-50x-bg: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
-  --color-50x-text: #2d3748;
-  --gradient-50x-decor-1: linear-gradient(120deg, #e0f2fe 0%, #dbeafe 100%);
-  --gradient-50x-decor-2: linear-gradient(300deg, #ede9fe 0%, #f0f9ff 100%);
-  --gradient-50x-icon: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-  --color-50x-error-stroke: #e53e3e;
-  --color-50x-error-rgb: 229, 62, 62;
-  --color-50x-heading: #1a202c;
-  --color-50x-lead: #4a5568;
-  --color-50x-message-bg: #f8f9fc;
-  --color-50x-message-border: #e53e3e;
-  --color-50x-signature: #718096;
-  --gradient-50x-signature-line: linear-gradient(to right, transparent, #cbd5e0, transparent);
-  --color-50x-primary-btn: #3182ce;
-  --color-50x-primary-btn-hover: #2b6cb0;
-  --color-50x-secondary-text: #4a5568;
-  --color-50x-secondary-border: #e2e8f0;
-  --color-50x-secondary-bg-hover: #f7fafc;
-  --color-50x-secondary-border-hover: #cbd5e0;
-  --color-50x-primary-rgb: 49, 130, 206;
+  --shadow-nav-mobile: 0 2px 10px rgba(var(--color-black-rgb), 0.1);
+  --shadow-cert-card: 0 2px 6px rgba(var(--color-black-rgb), 0.05);
+  --shadow-cert-card-hover: 0 4px 6px rgba(var(--color-black-rgb), 0.1);
+  --shadow-md-table: 0 2px 4px rgba(var(--color-black-rgb), 0.2);
+  --overlay-modal-bg: rgba(var(--color-black-rgb), 0.5);
 }
 
 /* Dark mode overrides */
@@ -168,46 +102,46 @@ html.dark-mode {
   --color-error: rgb(var(--color-error));
   --gradient-primary: var(--gradient-dark);
   --color-surface: rgb(var(--color-gray-800));
-  --color-gray: #444;
-  --color-brand-blue: #4361ee;
-  --color-spinner: #3498db;
-  --color-white: #fff;
-  --color-border-light: #444;
-  --color-subtle-bg: #333;
-  --color-subtle-bg-alt: #242424;
-  --color-subtle-bg-hover: #444;
-  --color-text-muted: #64748b;
-  --color-text-darker: #475569;
-  --color-text-deep: #334155;
-  --color-border-muted: #444;
-  --color-border-soft: #444;
-  --color-gray-medium: #94a3b8;
-  --color-spinner-track: #444;
+  --color-gray: rgb(var(--color-gray-700));
+  --color-brand-blue: rgb(var(--color-brand-blue));
+  --color-spinner: rgb(var(--color-spinner));
+  --color-white: rgb(var(--color-white-rgb));
+  --color-border-light: rgb(var(--color-gray-700));
+  --color-subtle-bg: rgb(var(--color-gray-700));
+  --color-subtle-bg-alt: rgb(var(--color-dark-black));
+  --color-subtle-bg-hover: rgb(var(--color-gray-700));
+  --color-text-muted: rgb(var(--color-text-muted));
+  --color-text-darker: rgb(var(--color-text-darker));
+  --color-text-deep: rgb(var(--color-text-deep));
+  --color-border-muted: rgb(var(--color-gray-700));
+  --color-border-soft: rgb(var(--color-gray-700));
+  --color-gray-medium: rgb(var(--color-gray-medium));
+  --color-spinner-track: rgb(var(--color-gray-700));
   --color-accent-purple: rgb(var(--color-primary));
-  --md-bg: #121212;
-  --md-text: #e0e0e0;
-  --md-heading-border: #3a3a5c;
-  --md-h1-color: #f0f0ff;
-  --md-h2-color: #d0d0ff;
-  --md-h2-border: #2d2d44;
-  --md-h3-color: #c0c0ff;
-  --md-h4-color: #b0b0ff;
-  --md-strong-color: #ffffff;
-  --md-table-bg: #1e1e2d;
-  --md-th-bg: #2a2a3f;
-  --md-th-color: #e0e0ff;
-  --md-td-color: #d7d7f0;
-  --md-td-bg: #232336;
-  --md-table-border: #3d3d5c;
-  --md-zebra-bg: #1c1c2a;
-  --md-code-bg: #afb1ff;
-  --md-code-color: #0c0908;
-  --md-link-color: #8f94fb;
-  --md-link-hover: #a7abff;
-  --md-blockquote-color: #b8b9ff;
-  --md-blockquote-border: #4e54c8;
-  --md-blockquote-bg: #1c1c2d;
-  --md-hr-bg: #333355;
+  --md-bg: rgb(var(--color-md-bg));
+  --md-text: rgb(var(--color-md-text));
+  --md-heading-border: rgb(var(--color-md-heading-border));
+  --md-h1-color: rgb(var(--color-md-h1));
+  --md-h2-color: rgb(var(--color-md-h2));
+  --md-h2-border: rgb(var(--color-md-h2-border));
+  --md-h3-color: rgb(var(--color-md-h3));
+  --md-h4-color: rgb(var(--color-md-h4));
+  --md-strong-color: rgb(var(--color-md-strong));
+  --md-table-bg: rgb(var(--color-md-table-bg));
+  --md-th-bg: rgb(var(--color-md-th-bg));
+  --md-th-color: rgb(var(--color-md-th-color));
+  --md-td-color: rgb(var(--color-md-td-color));
+  --md-td-bg: rgb(var(--color-md-td-bg));
+  --md-table-border: rgb(var(--color-md-table-border));
+  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
+  --md-code-bg: rgb(var(--color-md-code-bg));
+  --md-code-color: rgb(var(--color-md-code-color));
+  --md-link-color: rgb(var(--color-md-link));
+  --md-link-hover: rgb(var(--color-md-link-hover));
+  --md-blockquote-color: rgb(var(--color-md-blockquote));
+  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
+  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
+  --md-hr-bg: rgb(var(--color-md-hr));
 }
 
 /* ---------- Global Reset ---------- */
@@ -254,28 +188,6 @@ main.main-content {
   margin-left: auto;
   margin-right: auto;
   text-align: left;
-}
-
-/* -------------------------------------------------------------- */
-/* Shared width utilities for consistent layouts.                  */
-/* The `.container` class centers page content with a max width.   */
-/* -------------------------------------------------------------- */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Page section block with unified spacing */
-.about-section,
-.skills-section,
-.education-section,
-.experience-section,
-.blog-section,
-.contact-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 /* ------------------------------------------------------------------ */
@@ -932,149 +844,6 @@ html.dark-mode .app-header {
   }
 }
 
-/* Spacing & Utility */
-.mt-2 {
-  margin-top: 0.5rem;
-}
-.mt-3 {
-  margin-top: 1rem;
-}
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
-.mb-3 {
-  margin-bottom: 1rem;
-}
-.mb-4 {
-  margin-bottom: 1.5rem;
-}
-.w-100 {
-  width: 100%;
-}
-.text-center {
-  text-align: center;
-}
-.d-flex {
-  display: flex;
-}
-/* Utility flexbox class to center content both vertically and horizontally */
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* Utility class to absolutely position and stretch an element */
-.absolute-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.justify-content-between {
-  justify-content: space-between;
-}
-.ms-2 {
-  margin-left: 0.5rem;
-}
-.mr-2 {
-  /* Right margin utility matching .ms-2 */
-  margin-right: 0.5rem;
-}
-.my-2 {
-  /* Vertical margin utility for consistent spacing */
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Consistent bold titles for section headers */
-.section-header {
-  font-weight: bold;
-}
-
-/* -------------------------------------------------------------- */
-/* Background & Shadow Utilities                                  */
-/* These classes centralize frequently used surface styles to     */
-/* ensure consistent colors and shadows.                          */
-/* -------------------------------------------------------------- */
-.bg-surface {
-  /* Common surface background used in panels and modals */
-  background: var(--color-surface);
-}
-/* Utility border radius classes */
-.rounded-4 {
-  /* Small radius for buttons and small elements */
-  border-radius: 4px;
-}
-.rounded-8 {
-  /* Standard border radius for cards and dialogs */
-  border-radius: 8px;
-}
-
-.shadow-medium {
-  /* Moderate elevation for floating elements */
-  box-shadow: var(--shadow-medium);
-}
-/* Fixed utility positioning for floating controls */
-.fixed-bottom-right {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-/* -------------------------------------------------------------- */
-/* Modal Styles                                                    */
-/* Basic modal layout shared by components such as SocialIcons.    */
-/* -------------------------------------------------------------- */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: auto;
-  width: auto;
-  background: var(--overlay-modal-bg);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  padding: 20px;
-  position: relative;
-  text-align: center;
-  max-width: 90%;
-  height: auto;
-  width: auto;
-}
-
-.modal-content img {
-  max-width: 258px;
-  max-height: 258px;
-  height: auto;
-  width: auto;
-}
-
-.modal .close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* Grid */
-.grid-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.grid-col {
-  flex: 1 0 0%;
-}
-
-/* Grid column helpers will be adjusted in the Responsive Design section */
-
 /* ---------- Dark Mode Components ---------- */
 html.dark-mode .side-menu,
 html.dark-mode .theme-options {
@@ -1213,17 +982,7 @@ html.dark-mode .social-icons img[alt='Medium logo'] {
   }
 }
 
-@media (min-width: 576px) {
-  .grid-col-sm-6 {
-    flex: 0 0 calc(50% - 1rem);
-  }
-}
-
-@media (min-width: 768px) {
-  .grid-col-md-4 {
-    flex: 0 0 calc(33.333% - 1rem);
-  }
-  .grid-col-md-8 {
-    flex: 0 0 calc(66.667% - 1rem);
-  }
+/* Variable fallback example */
+.example-fallback {
+  color: var(--undefined-var, var(--color-text));
 }

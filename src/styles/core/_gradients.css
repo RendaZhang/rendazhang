@@ -1,0 +1,80 @@
+:root {
+  /*! ==== \u6e10\u53d8\u7cfb\u7edf ==== */
+  --gradient-direction: to right;
+  --gradient-primary: linear-gradient(
+    var(--gradient-direction),
+    rgb(var(--color-primary)),
+    rgb(var(--color-secondary))
+  );
+  --gradient-dark: linear-gradient(
+    135deg,
+    rgb(var(--color-secondary)) 0%,
+    rgb(var(--color-tertiary)) 100%
+  );
+
+  /*! ==== 404 页面渐变 ==== */
+  --gradient-404-bg: linear-gradient(
+    135deg,
+    rgb(var(--color-404-bg-start)) 0%,
+    rgb(var(--color-404-bg-end)) 100%
+  );
+  --gradient-404-circle-1: linear-gradient(
+    135deg,
+    rgb(var(--color-404-circle1-start)) 0%,
+    rgb(var(--color-404-circle1-end)) 100%
+  );
+  --gradient-404-circle-2: linear-gradient(
+    135deg,
+    rgb(var(--color-404-circle2-start)) 0%,
+    rgb(var(--color-404-circle2-end)) 100%
+  );
+  --gradient-404-circle-3: linear-gradient(
+    135deg,
+    rgb(var(--color-404-circle3-start)) 0%,
+    rgb(var(--color-404-circle3-end)) 100%
+  );
+  --gradient-404-signature-line: linear-gradient(
+    to right,
+    transparent,
+    rgb(var(--color-404-signature-line)),
+    transparent
+  );
+  --gradient-404-btn-primary: linear-gradient(
+    135deg,
+    rgb(var(--color-404-primary)) 0%,
+    rgb(var(--color-404-primary-dark)) 100%
+  );
+  --gradient-404-btn-primary-hover: linear-gradient(
+    135deg,
+    rgb(var(--color-404-primary-hover)) 0%,
+    rgb(var(--color-404-primary-darker)) 100%
+  );
+
+  /*! ==== 50x 页面渐变 ==== */
+  --gradient-50x-bg: linear-gradient(
+    135deg,
+    rgb(var(--color-50x-bg-start)) 0%,
+    rgb(var(--color-50x-bg-end)) 100%
+  );
+  --gradient-50x-decor-1: linear-gradient(
+    120deg,
+    rgb(var(--color-50x-decor1-start)) 0%,
+    rgb(var(--color-50x-decor1-end)) 100%
+  );
+  --gradient-50x-decor-2: linear-gradient(
+    300deg,
+    rgb(var(--color-50x-decor2-start)) 0%,
+    rgb(var(--color-50x-decor2-end)) 100%
+  );
+  --gradient-50x-icon: linear-gradient(
+    135deg,
+    rgb(var(--color-50x-icon-start)) 0%,
+    rgb(var(--color-50x-icon-end)) 100%
+  );
+  --gradient-50x-signature-line: linear-gradient(
+    to right,
+    transparent,
+    rgb(var(--color-50x-signature-line)),
+    transparent
+  );
+}

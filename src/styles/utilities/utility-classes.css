@@ -1,0 +1,161 @@
+/*! Utility classes extracted from theme.css */
+
+/* Spacing & Utility */
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-3 {
+  margin-top: 1rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 1rem;
+}
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+.w-100 {
+  width: 100%;
+}
+.text-center {
+  text-align: center;
+}
+.d-flex {
+  display: flex;
+}
+/* Utility flexbox class to center content both vertically and horizontally */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Utility class to absolutely position and stretch an element */
+.absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
+.ms-2 {
+  margin-left: 0.5rem;
+}
+.mr-2 {
+  /* Right margin utility matching .ms-2 */
+  margin-right: 0.5rem;
+}
+.my-2 {
+  /* Vertical margin utility for consistent spacing */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Consistent bold titles for section headers */
+.section-header {
+  font-weight: bold;
+}
+
+/* -------------------------------------------------------------- */
+/* Background & Shadow Utilities                                  */
+/* These classes centralize frequently used surface styles to     */
+/* ensure consistent colors and shadows.                          */
+/* -------------------------------------------------------------- */
+.bg-surface {
+  /* Common surface background used in panels and modals */
+  background: var(--color-surface);
+}
+/* Utility border radius classes */
+.rounded-4 {
+  /* Small radius for buttons and small elements */
+  border-radius: 4px;
+}
+.rounded-8 {
+  /* Standard border radius for cards and dialogs */
+  border-radius: 8px;
+}
+
+.shadow-medium {
+  /* Moderate elevation for floating elements */
+  box-shadow: var(--shadow-medium);
+}
+/* Fixed utility positioning for floating controls */
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+/* -------------------------------------------------------------- */
+/* Modal Styles                                                    */
+/* Basic modal layout shared by components such as SocialIcons.    */
+/* -------------------------------------------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: auto;
+  width: auto;
+  background: var(--overlay-modal-bg);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  max-width: 90%;
+  height: auto;
+  width: auto;
+}
+
+.modal-content img {
+  max-width: 258px;
+  max-height: 258px;
+  height: auto;
+  width: auto;
+}
+
+.modal .close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Grid */
+.grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.grid-col {
+  flex: 1 0 0%;
+}
+
+@media (min-width: 576px) {
+  .grid-col-sm-6 {
+    flex: 0 0 calc(50% - 1rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-col-md-4 {
+    flex: 0 0 calc(33.333% - 1rem);
+  }
+  .grid-col-md-8 {
+    flex: 0 0 calc(66.667% - 1rem);
+  }
+}
+
+.debug * {
+  outline: 1px solid magenta !important;
+}

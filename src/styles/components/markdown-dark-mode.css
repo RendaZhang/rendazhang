@@ -1,29 +1,29 @@
 html.dark-mode .markdown-body {
-  background-color: var(--md-bg);
-  color: var(--md-text);
+  background-color: rgb(var(--color-md-bg));
+  color: rgb(var(--color-md-text));
 }
 
 /* 标题层级优化 */
 html.dark-mode .markdown-body h1 {
-  border-bottom: 1px solid var(--md-heading-border);
-  color: var(--md-h1-color);
+  border-bottom: 1px solid rgb(var(--color-md-heading-border));
+  color: rgb(var(--color-md-h1));
 }
 html.dark-mode .markdown-body h2 {
-  color: var(--md-h2-color);
-  border-bottom: 1px solid var(--md-h2-border); /* 次级标题添加下划线 */
+  color: rgb(var(--color-md-h2));
+  border-bottom: 1px solid rgb(var(--color-md-h2-border)); /* 次级标题添加下划线 */
 }
 html.dark-mode .markdown-body h3 {
-  color: var(--md-h3-color);
+  color: rgb(var(--color-md-h3));
   font-size: 1.25em; /* 明确层级区分 */
 }
 html.dark-mode .markdown-body h4 {
-  color: var(--md-h4-color);
+  color: rgb(var(--color-md-h4));
   font-size: 1.1em;
 }
 
 /* 精准控制强调文本 */
 html.dark-mode .markdown-body strong:not(a strong):not(table strong) {
-  color: var(--md-strong-color);
+  color: rgb(var(--color-md-strong));
 }
 html.dark-mode .markdown-body a strong {
   color: inherit; /* 链接内强调文本继承链接颜色 */
@@ -31,66 +31,66 @@ html.dark-mode .markdown-body a strong {
 
 /* 表格深度优化 */
 html.dark-mode .markdown-body table {
-  background-color: var(--md-table-bg);
+  background-color: rgb(var(--color-md-table-bg));
   border-collapse: collapse;
   width: 100%;
   margin: 24px 0;
   box-shadow: var(--shadow-md-table);
 }
 html.dark-mode .markdown-body th {
-  background-color: var(--md-th-bg);
-  color: var(--md-th-color);
+  background-color: rgb(var(--color-md-th-bg));
+  color: rgb(var(--color-md-th-color));
   font-weight: 600;
   text-align: left;
 }
 html.dark-mode .markdown-body td {
-  color: var(--md-td-color); /* 提高单元格文本可读性 */
-  background-color: var(--md-td-bg);
+  color: rgb(var(--color-md-td-color)); /* 提高单元格文本可读性 */
+  background-color: rgb(var(--color-md-td-bg));
 }
 html.dark-mode .markdown-body td,
 html.dark-mode .markdown-body th {
-  border: 1px solid var(--md-table-border);
+  border: 1px solid rgb(var(--color-md-table-border));
   padding: 12px 16px; /* 增加单元格内边距 */
 }
 /* 表格内强调文本特殊处理 */
 html.dark-mode .markdown-body table strong {
-  color: var(--md-strong-color);
+  color: rgb(var(--color-md-strong));
   font-weight: 600;
 }
 /* 斑马条纹提升可读性 */
 html.dark-mode .markdown-body tr:nth-child(even) td {
-  background-color: var(--md-zebra-bg);
+  background-color: rgb(var(--color-md-zebra-bg));
 }
 
 /* 代码块优化 */
 html.dark-mode .markdown-body pre,
 html.dark-mode .markdown-body code {
-  background-color: var(--md-code-bg);
-  color: var(--md-code-color);
+  background-color: rgb(var(--color-md-code-bg));
+  color: rgb(var(--color-md-code-color));
   border-radius: 4px;
 }
 
 /* 链接优化 */
 html.dark-mode .markdown-body a {
-  color: var(--md-link-color);
+  color: rgb(var(--color-md-link));
   transition: color 0.2s;
 }
 html.dark-mode .markdown-body a:hover {
-  color: var(--md-link-hover);
+  color: rgb(var(--color-md-link-hover));
   text-decoration: underline;
 }
 
 /* 引用块优化 */
 html.dark-mode .markdown-body blockquote {
-  color: var(--md-blockquote-color);
-  border-left: 4px solid var(--md-blockquote-border);
-  background-color: var(--md-blockquote-bg);
+  color: rgb(var(--color-md-blockquote));
+  border-left: 4px solid rgb(var(--color-md-blockquote-border));
+  background-color: rgb(var(--color-md-blockquote-bg));
   padding: 12px 20px;
 }
 
 /* 水平线优化 */
 html.dark-mode .markdown-body hr {
-  background-color: var(--md-hr-bg);
+  background-color: rgb(var(--color-md-hr));
   height: 1px;
   margin: 28px 0;
 }

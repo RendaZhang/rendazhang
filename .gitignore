@@ -43,16 +43,11 @@ build/
 .vscode/
 
 # Environments
-.env
-.venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
-.env.local
-.env.development
-.env.production
 
 # 依赖目录
 node_modules/
