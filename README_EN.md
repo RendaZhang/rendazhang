@@ -185,6 +185,7 @@ For details on the core functionality system of the website, please refer to the
 - Theme switching (light/dark)
 - Browser controls follow theme (`color-scheme`)
 - Common component styles managed in `theme.css`
+- Unified palette: gradient from deep purple `#6a11cb` to vibrant blue `#2575fc`
 - Language toggle (Chinese/English)
 - Tech documentation rendering (docs/)
 - Content platform links
