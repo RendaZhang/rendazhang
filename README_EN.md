@@ -4,19 +4,20 @@
 - [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
-    - [Directory Structure Overview](#directory-structure-overview)
+    - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
-  - [Deployment \& Development](#deployment--development)
-    - [Frontend](#frontend)
-      - [Local Development \& Preview](#local-development--preview)
-      - [GitHub Actions Auto-Deployment](#github-actions-auto-deployment)
+  - [Frontend](#frontend)
+    - [Local Development \& Preview](#local-development--preview)
+      - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
-      - [Website Features](#website-features)
+    - [Website Features](#website-features)
       - [Page Functionality](#page-functionality)
-      - [Page Navigation Logic](#page-navigation-logic)
-      - [Page Content Overview](#page-content-overview)
-    - [**Backend**](#backend)
-    - [**Nginx Server**](#nginx-server)
+      - [Page Navigation](#page-navigation)
+      - [Page Content](#page-content)
+      - [Page Optimization](#page-optimization)
+      - [Color Scheme](#color-scheme)
+  - [**Backend**](#backend)
+  - [**Nginx Server**](#nginx-server)
   - [Documentation](#documentation)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -32,7 +33,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 01, 2025, 02:28 (UTC+8)
+- **Last Updated**: August 01, 2025, 17:51 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
@@ -51,15 +52,15 @@ The website is optimized for SEO and GEO.
 
 ## Tech Stack
 
-| Category               | Technologies                                      |
-| ---------------------- | ------------------------------------------------- |
-| Frontend               | **Astro**, **React**, TypeScript                  |
-| State Management       | React `useState`, `useContext` (Zustand compatible) |
-| Build Tools            | Astro built-in (Vite-based)                       |
-| Backend                | Flask + OpenAI API                                |
-| Deployment             | GitHub Actions + Nginx                            |
+| Category         | Technologies                                        |
+| ---------------- | --------------------------------------------------- |
+| Frontend         | **Astro**, **React**, TypeScript                    |
+| State Management | React `useState`, `useContext` (Zustand compatible) |
+| Build Tools      | Astro built-in (Vite-based)                         |
+| Backend          | Flask + OpenAI API                                  |
+| Deployment       | GitHub Actions + Nginx                              |
 
-### Directory Structure Overview
+### Directory Structure
 
 ```text
 src/
@@ -120,15 +121,14 @@ flowchart TD
 
 ---
 
-## Deployment & Development
-
-### Frontend
+## Frontend
 
 This repository contains the frontend project: 📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
-#### Local Development & Preview
+### Local Development & Preview
 
 1. Install dependencies and enable pre-commit:
+
     ```bash
     npm install
     pip install pre-commit
@@ -136,21 +136,28 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
     ```
 
 2. Start local dev server:
+
     ```bash
     npm run dev
     ```
 
 3. Build and preview production version:
+
     ```bash
     npm run build
     npm run preview
     ```
+
 After running `npm run build`, the `dist/_astro` directory will contain fingerprinted files with hash suffixes, allowing browsers to cache them long-term.
-Access via `http://localhost:4321`. Verify builds using `npm run preview`.
 
-#### GitHub Actions Auto-Deployment
+Access via `http://localhost:4321`.
 
-Pushing to `master` triggers:
+Verify builds using `npm run preview`.
+
+#### GitHub Actions
+
+Pushing to `master` triggers GitHub Actions Auto-Deployment:
+
 1. Code checkout & dependency installation
 2. `npm run build` generates static files
 3. `appleboy/scp-action` deploys `dist/` to server (e.g., `/var/www/html`)
@@ -169,27 +176,20 @@ Access all modules post-deployment:
 - 🌐 [Login](https://www.rendazhang.com/login/)
 - 🌐 [Register](https://www.rendazhang.com/register/)
 
-#### Website Features
+### Website Features
 
 For details on the core functionality system of the website, please refer to the following documentation link: 📄 [Core Functionality System](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB). This document provides a detailed description of the website's core functional modules, including feature design and technical implementation. It serves as an essential reference for development and maintenance.
 
+- Theme switching (light / dark)
+- Language toggle (Chinese / English)
 - Real-time AI chat
 - Floating AI chat widget
-- Responsive layout (mobile/desktop)
-- Image lazy loading
-- High-resolution images are optimized with LQIP lazy loading (e.g., the Hero section on the homepage)
-- Certification showcase
-- Resume display/download
-- Project portfolio
-- Contact form
-- Theme switching (light/dark)
-- Browser controls follow theme (`color-scheme`)
-- Common component styles managed in `theme.css`
-- Unified palette: gradient from deep purple `#6a11cb` to vibrant blue `#2575fc`
-- Language toggle (Chinese/English)
 - Tech documentation rendering (docs/)
-- Content platform links
 - Login/registration forms
+- Contact form
+- Content platform links
+- Certification showcase
+- Resume download
 
 #### Page Functionality
 
@@ -202,7 +202,7 @@ Core responsibilities (generated from `.astro` files):
 - `login.astro`：Login page
 - `register.astro`：Registration page
 
-#### Page Navigation Logic
+#### Page Navigation
 
 1. **Return to Homepage**
    All pages have "Home" button in navigation
@@ -235,7 +235,7 @@ flowchart TD
     style E fill:#f99,stroke:#333
 ```
 
-#### Page Content Overview
+#### Page Content
 
 - `index.astro`: A multi-section homepage containing modules such as "Hero", "About Me", "Education", "Blog", "Skills & Abilities", "Experience", and "Contact Me", with a default floating `ChatWidget` badge.
 - `certifications.astro`: Grid-based certification cards with Credly verification
@@ -245,11 +245,44 @@ flowchart TD
 - `register.astro`: Register form page.
 - `404.html/50x.html`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (50x) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
 
-### **Backend**
+#### Page Optimization
+
+**Adaptive Layout**: Optimizes the display effect of the page on different devices, reduces unnecessary resource loading and layout calculations, and thereby improves performance. Ensures that the page displays well on various screen sizes (e.g., desktop, tablet, mobile), enhancing user experience.
+
+**Lazy Loading**: All images have lazy loading enabled with a loading animation. For high-definition images, LQIP (Low-Quality Image Placeholder) lazy loading optimization is applied (e.g., the Hero section on the homepage).
+
+#### Color Scheme
+
+- Browser controls follow theme (`color-scheme`)
+- Common component styles managed in `theme.css`
+
+The interface uses a gradient from deep purple `#6a11cb` to vibrant blue `#2575fc`.
+Key palette variables:
+
+```css
+:root {
+  --color-primary: 106 17 203; /* #6a11cb */
+  --color-accent: 37 117 252; /* #2575fc */
+  --color-secondary: 78 84 200; /* #4e54c8 */
+  --color-tertiary: 143 148 251; /* #8f94fb */
+}
+
+--gradient-primary: linear-gradient(
+  135deg,
+  rgb(var(--color-primary)) 0%,
+  rgb(var(--color-accent)) 100%
+);
+```
+
+---
+
+## **Backend**
 
 > For detailed steps and configurations on backend deployment, please refer to the following project: 📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat). This project provides a complete backend implementation and deployment guide, helping you quickly set up and run backend services.
 
-### **Nginx Server**
+---
+
+## **Nginx Server**
 
 > The frontend project is automatically built via GitHub Actions and pushed to the `/var/www/html` directory on the server, where Nginx serves the static resources.
 

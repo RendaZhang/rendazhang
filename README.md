@@ -4,19 +4,20 @@
 - [张人大 · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
-    - [目录结构概览](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88)
+    - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
-  - [部署与开发](#%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%BC%80%E5%8F%91)
-    - [前端](#%E5%89%8D%E7%AB%AF)
-      - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
-      - [GitHub Actions 自动部署](#github-actions-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2)
+  - [前端](#%E5%89%8D%E7%AB%AF)
+    - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
+      - [GitHub Actions](#github-actions)
       - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
-      - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
+    - [网站功能](#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD)
       - [页面功能](#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD)
-      - [页面跳转逻辑](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E9%80%BB%E8%BE%91)
-      - [页面内容介绍](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D)
-    - [**后端**](#%E5%90%8E%E7%AB%AF)
-    - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
+      - [页面跳转](#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC)
+      - [页面内容](#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9)
+      - [页面优化](#%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96)
+      - [配色方案](#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
+  - [**后端**](#%E5%90%8E%E7%AB%AF)
+  - [**Nginx 服务器**](#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8)
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
@@ -32,14 +33,14 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 01, 2025, 02:28 (UTC+8)
+- **最后更新**: August 01, 2025, 17:51 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
 
 ## 简介
 
-这是我个人维护的 **轻量级** 网站，旨在作为我的技术能力的在线展示平台。
+这是我个人维护的 **轻量级** 网站，作为我的技术能力的在线展示平台。
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
@@ -59,7 +60,7 @@
 | 后端     | Flask + OpenAI API                                  |
 | 部署     | GitHub Actions + Nginx                              |
 
-### 目录结构概览
+### 目录结构
 
 ```bash
 src/
@@ -120,13 +121,11 @@ flowchart TD
 
 ---
 
-## 部署与开发
-
-### 前端
+## 前端
 
 本仓库就是前端项目：📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
-#### 本地开发和预览
+### 本地开发和预览
 
 1. 安装依赖并启用 pre-commit：
 
@@ -151,11 +150,13 @@ flowchart TD
 
 执行 `npm run build` 后，`dist/_astro` 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。
 
-浏览器访问 `http://localhost:4321` 查看效果。构建后的静态文件可使用 `npm run preview` 验证。
+浏览器访问 `http://localhost:4321` 查看效果。
 
-#### GitHub Actions 自动部署
+构建后的静态文件可使用 `npm run preview` 验证。
 
-Push 到 `master` 分支会触发 GitHub Actions：
+#### GitHub Actions
+
+Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 
 1. 检出代码并安装依赖
 2. 执行 `npm run build` 生成静态文件
@@ -177,27 +178,20 @@ Push 到 `master` 分支会触发 GitHub Actions：
 - 🌐 [登录页面](https://www.rendazhang.com/login/)
 - 🌐 [注册页面](https://www.rendazhang.com/register/)
 
-#### 网站功能
+### 网站功能
 
 关于网站的核心功能体系，请参考以下文档链接：📄 [核心功能体系](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB)。该文档详细描述了网站的核心功能模块，包括功能设计和技术实现，是开发与维护的重要参考。
 
+- 主题切换（浅色 / 深色）
+- 语言切换（中文 / 英文）
 - 与 AI 在线对话
 - 浮动 AI 聊天窗口
-- 自适应布局 (移动端和桌面端)
-- 图片懒加载
-- 高清图片采用 LQIP 懒加载优化（比如主页的 Hero 区域）
-- 证书展示
-- 简历展示和下载
-- 项目展示
-- 联系表单
-- 主题切换（浅色 / 深色）
-- 浏览器控件适配主题（`color-scheme`）
-- 公共组件样式统一由 `theme.css` 管理
-- 统一配色方案：深紫 `#6a11cb` 至活力蓝 `#2575fc` 渐变
-- 语言切换（中文 / 英文）
 - 技术文档渲染展示页 (docs/)
-- 内容平台链接
 - 登录与注册表单
+- 联系表单
+- 内容平台链接
+- 证书展示
+- 简历下载
 
 #### 页面功能
 
@@ -214,7 +208,7 @@ Push 到 `master` 分支会触发 GitHub Actions：
 
 - `404.html`，`50x.html`：错误提示页面。
 
-#### 页面跳转逻辑
+#### 页面跳转
 
 1. **返回主页**
    - 所有页面均包含导航栏中的“主页”按钮，点击后可返回主页。
@@ -249,7 +243,7 @@ flowchart TD
     style E fill:#f99,stroke:#333
 ```
 
-#### 页面内容介绍
+#### 页面内容
 
 - `index.astro`：多 Section 主页，包含 "Hero"、"自我介绍"、"教育"、"博客"、"技能与能力"、"经历"、"联系我吧" 等模块，并默认悬挂 `ChatWidget` 浮标。
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
@@ -259,11 +253,43 @@ flowchart TD
 - `register.astro`：注册表单页。
 - `404.html / 50x.html`：用于处理页面不存在（404）和服务器内部错误（50x）的定制化错误提示页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。
 
-### **后端**
+#### 页面优化
+
+**自适应布局**：优化页面在不同设备上的显示效果，减少不必要的资源加载和布局计算，从而提高性能。确保页面在不同屏幕尺寸（如桌面、平板、手机）上都能良好显示，提升用户体验。
+
+**懒加载**：所有图片开启了懒加载 + Loading 动画，其中，针对高清图片采用 LQIP 懒加载优化（比如主页的 Hero 区域）
+
+#### 配色方案
+
+- 浏览器控件适配主题（`color-scheme`）
+- 公共组件样式统一由 `theme.css` 管理
+
+核心渐变由深紫 `#6a11cb` 到活力蓝 `#2575fc` 过渡，配合衍生色增强层次：
+
+```css
+:root {
+  --color-primary: 106 17 203; /* #6a11cb */
+  --color-accent: 37 117 252;  /* #2575fc */
+  --color-secondary: 78 84 200; /* #4e54c8 */
+  --color-tertiary: 143 148 251; /* #8f94fb */
+}
+
+--gradient-primary: linear-gradient(
+  135deg,
+  rgb(var(--color-primary)) 0%,
+  rgb(var(--color-accent)) 100%
+);
+```
+
+---
+
+## **后端**
 
 > 后端部署的具体步骤和配置，请参考以下项目：📁 [Python Cloud Chat](https://github.com/RendaZhang/python-cloud-chat)。该项目提供了完整的后端实现和部署指南，帮助您快速搭建和运行后端服务。
 
-### **Nginx 服务器**
+---
+
+## **Nginx 服务器**
 
 > 前端项目通过 GitHub Actions 自动化构建后，会直接推送到服务器的 `/var/www/html` 目录，并由 Nginx 提供静态资源服务。
 
