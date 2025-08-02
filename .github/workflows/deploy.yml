@@ -105,7 +105,6 @@ jobs:
             release/build-info.txt
           draft: false
           prerelease: false
-          allowUpdates: true
 
       - name: Purge CDN cache
         run: |
