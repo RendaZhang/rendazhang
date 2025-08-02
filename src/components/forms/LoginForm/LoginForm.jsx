@@ -160,6 +160,9 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
             console.log('handleSubmit: 1');
+            console.log('TAG_NAME:', import.meta.env.PUBLIC_TAG_NAME);
+            console.log('NODE_ENV:', import.meta.env.PUBLIC_NODE_ENV);
+            console.log('CDN_BASE:', import.meta.env.PUBLIC_CDN_BASE);
             Sentry.captureException(new Error('Test error from login'));
             console.log('handleSubmit: 2');
           }}
