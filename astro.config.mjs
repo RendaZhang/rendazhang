@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { SITE_BASE_URL } from './src/config.js';
 import { API_BASE_URL } from './src/constants/api.js';
 import sentry from '@sentry/astro';
 import react from '@astrojs/react';
@@ -41,7 +42,7 @@ export default defineConfig({
     server: {
       proxy: {
         [API_BASE_URL]: {
-          target: API_BASE_URL,
+          target: SITE_BASE_URL,
           changeOrigin: true,
           secure: true,
           // 更安全的 rewrite

@@ -40,7 +40,7 @@ for (const [path, url] of Object.entries(heroImageModules)) {
   HERO_IMAGE_PATHS[name] = url;
 }
 
-import { API_BASE_URL, ENDPOINTS, JSON_HEADERS } from './constants/api.js';
+import { API_BASE_URL, ENDPOINTS } from './constants/api.js';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
 export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
