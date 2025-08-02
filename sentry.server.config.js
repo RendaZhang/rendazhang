@@ -1,12 +1,17 @@
 export default {
     dsn: process.env.SENTRY_DSN,
-    // 按环境调整采样率
-    tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0,
-    // 生产环境启用 replay
-    replaysOnErrorSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0,
-    // 增强安全配置
-    sendDefaultPii: false, // 禁用 PII 收集
-    autoSessionTracking: false,
+    tracesSampleRate: 0,
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 0,
+    // Logs
+    enableLogs: true,
+    // Setting this option to true will send default PII data to Sentry.
+    // For example, automatic IP address collection on events
+    sendDefaultPii: true,
+    sourceMapsUploadOptions: {
+        project: process.env.SENTRY_PROJECT,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+    },
     authToken: process.env.SENTRY_AUTH_TOKEN,
     org: process.env.SENTRY_ORG,
     project: process.env.SENTRY_PROJECT,

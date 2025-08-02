@@ -56,6 +56,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
     if (!validateAll()) return;
 
     try {
+      // TODO: refactor this code after login function is ready
+      throw new Error('This is a login error 1');
       setStatus('loading');
       // fake async login
       await new Promise((res) => setTimeout(res, AUTH_TIMINGS.LOGIN_REQUEST));
@@ -64,6 +66,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         window.location.href = HOME_PAGE_PATH + '/';
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
     } catch (err) {
+      // TODO: refactor this code after login function is ready
+      throw new Error('This is a login error 2');
       setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
       setStatus('error');
     }
