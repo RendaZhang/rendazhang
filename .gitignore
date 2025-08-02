@@ -43,7 +43,7 @@ build/
 .vscode/
 
 # Environments
-.env
+# .env # Non-sensitive environments config
 .venv
 env/
 venv/
