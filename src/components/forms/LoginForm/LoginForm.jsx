@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import * as Sentry from '@sentry/react'; // 使用 @sentry/react
 import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../config.js';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
@@ -159,12 +158,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
           type="button"
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
-            console.log('handleSubmit: 1');
-            console.log('TAG_NAME:', import.meta.env.PUBLIC_TAG_NAME);
-            console.log('NODE_ENV:', import.meta.env.PUBLIC_NODE_ENV);
-            console.log('CDN_BASE:', import.meta.env.PUBLIC_CDN_BASE);
-            Sentry.captureException(new Error('Test error from login'));
-            console.log('handleSubmit: 2');
+            // TODO: Implement this function
+            console.log('Doing Nothing by now');
           }}
         >
           <LocalizedSection

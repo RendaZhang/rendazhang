@@ -658,17 +658,17 @@
 - **解决方案**：
   1. 添加重试机制和延迟等待
   2. 增加清理整个版本目录的请求
-  3. 使用 `curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"` 清理整个版本
+  3. 使用 `curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}"` 清理整个版本
 - **验证结果**：✅ 缓存清理成功率提高到 100%
 - **相关代码**：
   ```yaml
   - name: Purge CDN cache
     run: |
       # 清理整个版本目录
-      curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"
+      curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}"
 
       # 清理特定资源
-      url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}/release/build.tar.gz"
+      url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}/release/build.tar.gz"
       for i in {1..3}; do
         response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
         [ "$response" -eq 200 ] && break
@@ -681,7 +681,7 @@
 - **发现日期**：2025-08-02
 - **重现环境**：生产环境
 - **问题现象**：
-  - 客户端代码访问 `import.meta.env.TAG_NAME` 返回 undefined
+  - 客户端代码访问 `import.meta.env.PUBLIC_TAG_NAME` 返回 undefined
   - CDN 资源路径未正确生成
 - **根本原因**：
   - `astro.config.mjs` 中的 `vite.define` 配置未生效
@@ -694,7 +694,7 @@
      export default defineConfig({
        vite: {
          define: {
-           'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(process.env.TAG_NAME || ''),
+           'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(process.env.PUBLIC_TAG_NAME || ''),
            'import.meta.env.PUBLIC_CDN_BASE': JSON.stringify(process.env.CDN_BASE_URL || '/')
          }
        }

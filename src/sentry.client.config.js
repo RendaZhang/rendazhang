@@ -1,9 +1,14 @@
-const NODE_ENV = import.meta.env.NODE_ENV;
-export default {
-  // 客户端专用配置 (最高优先级)
-  // 启用详细日志便于调试
+import * as Sentry from '@sentry/astro';
+
+Sentry.init({
+  dsn: import.meta.env.PUBLIC_SENTRY_DSN,
+  release: import.meta.env.PUBLIC_TAG_NAME,
+  environment: import.meta.env.PUBLIC_NODE_ENV,
+  tracesSampleRate: 0.2,
+  replaysSessionSampleRate: 0,
+  replaysOnErrorSampleRate: 0,
+  sendDefaultPii: true,
   debug: true,
-  // 过滤错误
   beforeSend(event, hint) {
     // 过滤浏览器扩展错误
     const isExtensionError = event.exception?.values?.some(
@@ -27,4 +32,4 @@ export default {
     }
     return event;
   }
-};
+});
