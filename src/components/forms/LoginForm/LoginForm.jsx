@@ -53,19 +53,6 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
   }, [password]);
 
   const handleSubmit = async (e) => {
-    // TODO: refactor this code after login function is ready
-    // 捕获普通错误
-    console.log('handleSubmit: 1');
-    Sentry.captureException(new Error('Test error from login'));
-    // 捕获带上下文的错误
-    Sentry.captureException(err, {
-      tags: { component: 'LoginForm' },
-      extra: {
-        message: err.message,
-        historyLength: '1'
-      }
-    });
-    console.log('handleSubmit: 2');
     e.preventDefault();
     if (!validateAll()) return;
     try {
@@ -168,7 +155,15 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         )}
       </button>
       <div className="third-party">
-        <button type="button" aria-label={activeTexts.thirdParty.google}>
+        <button
+          type="button"
+          aria-label={activeTexts.thirdParty.google}
+          onClick={() => {
+            console.log('handleSubmit: 1');
+            Sentry.captureException(new Error('Test error from login'));
+            console.log('handleSubmit: 2');
+          }}
+        >
           <LocalizedSection
             zhContent={textsZh.thirdParty.google}
             enContent={textsEn.thirdParty.google}
