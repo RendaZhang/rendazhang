@@ -42,14 +42,46 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           TAG_NAME: ${{ env.TAG_NAME }}
 
-      - name: Delete existing release branch (if any)
+      - name: Delete existing release, tag, and branch (if any)
         uses: actions/github-script@v7
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const branch = `release/${process.env.TAG_NAME}`;
+            const tag = process.env.TAG_NAME;
+            const branch = `release/${tag}`;
+
+            // Delete release
+            try {
+              const release = await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag,
+              });
+              await github.rest.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: release.data.id,
+              });
+              console.log(`Deleted release: ${tag}`);
+            } catch (error) {
+              console.log(`Release for tag ${tag} does not exist`);
+            }
+
+            // Delete tag
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${tag}`,
+              });
+              console.log(`Deleted tag: ${tag}`);
+            } catch (error) {
+              console.log(`Tag ${tag} does not exist`);
+            }
+
+            // Delete branch
             try {
               await github.rest.git.deleteRef({
                 owner: context.repo.owner,
@@ -69,6 +101,16 @@ jobs:
           publish_branch: release/${{ env.TAG_NAME }}
           force_orphan: true
           commit_message: Release ${{ env.TAG_NAME }}
+
+      - name: Create tag for current release
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -d "$TAG_NAME" 2>/dev/null || true
+          git tag "$TAG_NAME"
+          git push origin "refs/tags/$TAG_NAME" --force
 
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.7
