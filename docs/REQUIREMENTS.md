@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: Auguest 03, 2025, 02:20 (UTC+8)
+- **最后更新**: Auguest 03, 2025, 02:51 (UTC+8)
 - **项目状态**: 稳定运行，持续开发中
 
 ---
@@ -128,6 +128,35 @@
 
 ### 待完成需求 ⏳
 
+- [ ] **Sentry 错误监控集成**
+  - 实现生产环境前端错误实时监控与源码映射
+  - 集成 `@sentry/astro` SDK 实现错误自动捕获
+  - 配置 source maps 自动上传机制
+  - 添加用户反馈收集组件
+  - 实现环境敏感的错误过滤规则
+  - 设置开发/生产环境差异化上报策略
+  - Sentry 控制台可查看带源码映射的错误报告
+  - 关键错误自动触发 邮件 通知
+  - 用户可附加反馈信息的错误报告 > 30%
+  - 开发环境错误上报率为 0%
+- [ ] **错误监控增强方案**
+  - 提升错误上下文信息质量
+  - 添加用户会话追踪（session replay）
+  - 实现面包屑导航（breadcrumbs）记录用户操作路径
+  - 集成性能监控指标（FCP, LCP, CLS）
+  - 添加自定义标签区分页面类型和功能模块
+  - 错误报告包含完整用户操作路径
+  - 关键性能指标与错误率关联分析
+  - 错误分类准确率 > 95%
+- [ ] **Sentry 部署验证**
+  - 确保生产环境监控系统可靠性
+  - 创建自动化测试错误脚本
+  - 添加部署后健康检查流程
+  - 实现 source map 上传验证机制
+  - 配置监控仪表板与报警规则
+  - 每次部署后自动发送测试错误
+  - source map 匹配成功率 100%
+  - 关键错误 5 分钟内通知到人
 - [ ] **CDN 资源自动注入**
   - 通过环境变量将 CDN 基础路径注入客户端代码
   - 实现资源路径自动生成功能
@@ -261,6 +290,44 @@
   | 单个文件       | `curl -X PURGE https://cdn.jsdelivr.net/gh/user/repo@version/file`   |
   | 整个目录       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version/path` |
   | 整个版本       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version`      |
+
+- **Sentry 监控架构**：
+  ```mermaid
+  graph LR
+    A[客户端错误] --> B(Sentry SDK)
+    B --> C{环境判断}
+    C -->|生产环境| D[Sentry 生产项目]
+    C -->|开发环境| E[Sentry 开发项目]
+    D --> F[报警通知]
+    D --> G[数据仪表盘]
+  ```
+
+- **Source Map 上传流程**：
+  1. 构建生成带 hash 的资源文件
+  2. Sentry CLI 扫描 dist 目录
+  3. 上传 source map 到指定 release
+  4. 错误发生时匹配对应版本 map 文件
+
+- **安全过滤规则**：
+  ```js
+  // 示例配置
+  denyUrls: [/chrome-extension:/],
+  beforeSend: (event) => {
+    // 移除敏感数据
+    delete event.request.cookies;
+    return event;
+  }
+  ```
+
+- **CDN 安全策略**：
+  ```nginx
+  # 添加 Sentry 域名到 CSP
+  add_header Content-Security-Policy
+      "...;
+      script-src 'self' https://js.sentry-cdn.com;
+      connect-src 'self' https://*.sentry.io;
+      img-src 'self' https://*.sentry.io;";
+  ```
 
 ---
 

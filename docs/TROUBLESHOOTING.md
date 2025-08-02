@@ -43,13 +43,17 @@
     - [BUG-034: CDN 缓存清理失败](#bug-034-cdn-%E7%BC%93%E5%AD%98%E6%B8%85%E7%90%86%E5%A4%B1%E8%B4%A5)
     - [BUG-035: 客户端环境变量未注入](#bug-035-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E6%B3%A8%E5%85%A5)
     - [BUG-036: 版本标签创建冲突](#bug-036-%E7%89%88%E6%9C%AC%E6%A0%87%E7%AD%BE%E5%88%9B%E5%BB%BA%E5%86%B2%E7%AA%81)
+    - [BUG-037: Sentry source map 上传失败](#bug-037-sentry-source-map-%E4%B8%8A%E4%BC%A0%E5%A4%B1%E8%B4%A5)
+    - [BUG-038: 开发环境错误上报污染](#bug-038-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E4%B8%8A%E6%8A%A5%E6%B1%A1%E6%9F%93)
+    - [BUG-039: 敏感数据泄露风险](#bug-039-%E6%95%8F%E6%84%9F%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9)
+    - [BUG-040: Source map 版本不匹配](#bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: Auguest 03, 2025, 02:20 (UTC+8)
+- **最后更新**: Auguest 03, 2025, 02:51 (UTC+8)
 
 ---
 
@@ -125,6 +129,9 @@
 - [x] BUG-034: CDN 缓存清理失败
 - [x] BUG-035: 客户端环境变量未注入
 - [x] BUG-036: 版本标签创建冲突
+- [x] BUG-037: Sentry source map 上传失败
+- [x] BUG-038: 开发环境错误上报污染BUG-039: 敏感数据泄露风险
+- [x] BUG-040: Source map 版本不匹配
 
 ---
 
@@ -698,7 +705,7 @@
 
 ### BUG-036: 版本标签创建冲突
 
-- **发现日期**：2025-08-04
+- **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 工作流
 - **问题现象**：
   - `Create and push tag` 步骤失败，提示 "tag already exists"
@@ -719,3 +726,135 @@
          done
      ```
 - **验证结果**：✅ 标签创建成功率达到 100%
+
+### BUG-037: Sentry source map 上传失败
+
+- **发现日期**：2025-08-02
+- **重现环境**：GitHub Actions 构建流程
+- **问题现象**：
+  - 构建日志显示 `Sentry CLI` 403 错误
+  - 生产环境错误堆栈未映射到源码
+  - 错误报告显示 `Source code not found`
+- **根本原因**：
+  - `SENTRY_AUTH_TOKEN` 未注入 CI 环境
+  - `astro.config.mjs` 中 org/project 名称拼写错误
+  - 未启用 Vite source map 生成
+- **解决方案**：
+  1. 在 GitHub Secrets 添加 SENTRY_AUTH_TOKEN
+  2. 验证 astro.config.mjs 配置：
+     ```js
+     sentry({
+       sourceMapsUploadOptions: {
+         authToken: import.meta.env.SENTRY_AUTH_TOKEN,
+         org: "correct-org-slug", // 确认组织名称
+         project: "correct-project-slug", // 确认项目名称
+       }
+     })
+     ```
+  3. 确保 Vite 配置启用 sourcemap：
+     ```js
+     export default defineConfig({
+       build: { sourcemap: true }
+     })
+     ```
+- **验证结果**：✅ source map 成功上传，错误堆栈正确映射
+
+### BUG-038: 开发环境错误上报污染
+
+- **发现日期**：2025-08-03
+- **重现环境**：本地开发服务器
+- **问题现象**：
+  - 开发模式下错误上报到 Sentry 生产项目
+  - 测试错误污染生产数据统计
+- **根本原因**：
+  - Sentry 初始化未区分环境
+  - DSN 未按环境隔离
+- **解决方案**：
+  1. 添加环境判断逻辑：
+     ```js
+     // astro.config.mjs
+     const isProduction = import.meta.env.PROD;
+
+     sentry({
+       enabled: isProduction,
+       dsn: isProduction
+         ? import.meta.env.SENTRY_DSN_PROD
+         : import.meta.env.SENTRY_DSN_DEV
+     })
+     ```
+  2. 创建 Sentry 开发环境项目
+  3. 更新 .env 文件：
+     ```env
+     # .env.production
+     SENTRY_DSN_PROD="https://prod-key@sentry.io/1"
+
+     # .env.development
+     SENTRY_DSN_DEV="https://dev-key@sentry.io/2"
+     ```
+- **验证结果**：✅ 开发环境错误仅上报到开发项目
+
+### BUG-039: 敏感数据泄露风险
+
+- **发现日期**：2025-08-03
+- **重现环境**：错误报告详情页
+- **问题现象**：
+  - 错误报告包含 localStorage 敏感数据
+  - 用户身份信息出现在面包屑记录中
+- **根本原因**：
+  - 未配置数据擦除规则
+  - SDK 默认捕获所有上下文数据
+- **解决方案**：
+  1. 添加 beforeSend 过滤钩子：
+     ```js
+     // src/sentry.client.config.js
+     export default {
+       beforeSend(event) {
+         // 移除敏感字段
+         if (event.request) {
+           delete event.request.cookies;
+           delete event.request.data;
+         }
+         return event;
+       },
+       denyUrls: [
+         /localhost/,
+         /chrome-extension:/
+       ]
+     }
+     ```
+  2. 禁用敏感数据收集：
+     ```js
+     sendDefaultPii: false
+     ```
+- **验证结果**：✅ 错误报告不再包含敏感信息
+
+### BUG-040: Source map 版本不匹配
+
+- **发现日期**：2025-08-03
+- **重现环境**：生产环境错误报告
+- **问题现象**：
+  - 错误堆栈行号与源码不符
+  - 控制台警告 `Source map mismatch detected`
+- **根本原因**：
+  - 构建版本与 source map 版本不一致
+  - 未注入唯一 release ID
+- **解决方案**：
+  1. 注入 Git commit 作为 release ID：
+     ```js
+     // astro.config.mjs
+     const commitHash = process.env.COMMIT_SHA || 'dev';
+
+     sentry({
+       release: commitHash,
+       sourceMapsUploadOptions: {
+         release: commitHash
+       }
+     })
+     ```
+  2. 在 CI 中设置环境变量：
+     ```yaml
+     # GitHub Actions
+     - name: Set env
+       run: echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+     ```
+- **验证结果**：✅ 错误报告准确映射到对应版本源码
