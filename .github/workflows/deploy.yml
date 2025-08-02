@@ -43,9 +43,18 @@ jobs:
           TAG_NAME: ${{ env.TAG_NAME }}
 
       - name: Upload sourcemaps to Sentry
+        if: ${{ secrets.SENTRY_AUTH_TOKEN != '' }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         run: |
-          npx @sentry/cli sourcemaps inject --org=${{ secrets.SENTRY_ORG }} --project=${{ secrets.SENTRY_PROJECT }} dist/
-          npx @sentry/cli sourcemaps upload --org=${{ secrets.SENTRY_ORG }} --project=${{ secrets.SENTRY_PROJECT }} dist/ \
+          # 确保 sentry-cli 已安装
+          npm install -g @sentry/cli
+
+          # 注入并上传 sourcemaps
+          sentry-cli sourcemaps inject --org=$SENTRY_ORG --project=$SENTRY_PROJECT dist/
+          sentry-cli sourcemaps upload --org=$SENTRY_ORG --project=$SENTRY_PROJECT dist/ \
             --url-prefix="~/"
 
       - name: Deploy to server
