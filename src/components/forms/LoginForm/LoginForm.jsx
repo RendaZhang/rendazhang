@@ -53,13 +53,22 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
   }, [password]);
 
   const handleSubmit = async (e) => {
+    // TODO: refactor this code after login function is ready
+    // 捕获普通错误
+    console.log('handleSubmit: 1');
+    Sentry.captureException(new Error('Test error from login'));
+    // 捕获带上下文的错误
+    Sentry.captureException(err, {
+      tags: { component: 'LoginForm' },
+      extra: {
+        message: err.message,
+        historyLength: '1'
+      }
+    });
+    console.log('handleSubmit: 2');
     e.preventDefault();
     if (!validateAll()) return;
-
     try {
-      // TODO: refactor this code after login function is ready
-      Sentry.captureException(new Error('Test error from login'));
-      throw new Error('This is a login error');
       setStatus('loading');
       // fake async login
       await new Promise((res) => setTimeout(res, AUTH_TIMINGS.LOGIN_REQUEST));
@@ -68,8 +77,6 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         window.location.href = HOME_PAGE_PATH + '/';
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
     } catch (err) {
-      // TODO: refactor this code after login function is ready
-      Sentry.captureException(err);
       setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
       setStatus('error');
     }

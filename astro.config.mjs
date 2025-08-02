@@ -39,7 +39,7 @@ export default defineConfig({
   security: {
     headers: {
       'Content-Security-Policy':
-        "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.sentry-cdn.com;"
+        "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.sentry-cdn.com; connect-src 'self' https://*.sentry.io"
     }
   }
 });

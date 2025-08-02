@@ -1,4 +1,5 @@
 export default {
+    debug: true,
     dsn: process.env.SENTRY_DSN,
     tracesSampleRate: 0,
     replaysSessionSampleRate: 0,

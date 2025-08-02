@@ -1,4 +1,5 @@
 export default {
+  debug: true,
   dsn: import.meta.env.PUBLIC_SENTRY_DSN,
   tracesSampleRate: 0,
   replaysSessionSampleRate: 0,
