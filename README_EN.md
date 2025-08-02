@@ -65,6 +65,17 @@ The website is optimized for SEO and GEO.
 ```text
 src/
 ├── assets/
+├── constants/           # Path constants and API endpoints
+├── features/            # Feature-based modules
+│   ├── chat/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── services/
+│   └── auth/
+│       ├── components/
+│       ├── hooks/
+│       └── services/
+├── hooks/               # Custom hooks for business logic
 ├── styles/
 │   ├── core/               # Core variables
 │   │   ├── _colors.css     # Color system
@@ -74,6 +85,9 @@ src/
 │   ├── utilities/          # Utility classes
 │   └── theme.css           # Main entry file
 ├── scripts/
+├── utils/               # Utility helpers
+├── models/              # Domain models
+├── services/           # API interaction layer
 └── components/
     ├── ui/
     ├── layouts/
@@ -136,24 +150,38 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 1. Install dependencies and enable pre-commit:
 
-    ```bash
-    npm install
-    pip install pre-commit
-    pre-commit install
-    ```
+   ```bash
+   npm install
+   pip install pre-commit
+   pre-commit install
+   ```
 
 2. Start local dev server:
 
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
 3. Build and preview production version:
 
-    ```bash
-    npm run build
-    npm run preview
-    ```
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+4. To point the frontend at a custom backend, create a `.env` file and set `PUBLIC_API_BASE_URL`:
+
+   ```bash
+   PUBLIC_API_BASE_URL=https://api.example.com
+   ```
+
+   Sentry integration also requires:
+
+   ```bash
+   SENTRY_DSN=<your dsn>
+   SENTRY_PROJECT=<your project>
+   SENTRY_AUTH_TOKEN=<auth token>
+   ```
 
 After running `npm run build`, the `dist/_astro` directory will contain fingerprinted files with hash suffixes, allowing browsers to cache them long-term.
 
@@ -201,6 +229,7 @@ For details on the core functionality system of the website, please refer to the
 #### Page Functionality
 
 Core responsibilities (generated from `.astro` files):
+
 - `index.astro`: Personal intro with ChatWidget
 - `certifications.astro`: Certification gallery
 - `deepseek_chat.astro`: AI chat interface
@@ -261,6 +290,7 @@ flowchart TD
 #### Color Scheme
 
 **Unified Management**:
+
 - Browser controls adapt to the theme (`color-scheme`).
 - Public component styles are uniformly managed by `theme.css`.
 - Markdown dark mode and error pages also have independent color tokens, which can be maintained in `src/styles/core/_colors.css`.
@@ -268,12 +298,14 @@ flowchart TD
 - Error page gradients also rely on these tokens, defined uniformly in `src/styles/core/_gradients.css`.
 
 **Style Architecture Layering**:
+
 - `src/styles/core/`: Defines foundational design tokens, including variables for colors, spacing, gradients, etc.
 - `src/styles/components/`: Component-level styles (e.g., `about.css`, `chat_widget.css`, etc.).
 - `src/styles/utilities/`: Layout and general utility classes, including `.debug` for debugging outlines.
 - `src/styles/theme.css`: The entry point for styles, automatically importing `core/` and `utilities/`.
 
 **Variable Dependency Diagram**:
+
 ```mermaid
 graph TD
   A[Foundational Variables] --> B[Semantic Variables]
@@ -282,18 +314,20 @@ graph TD
 ```
 
 **Color Emotion Evaluation**:
+
 - Deep Purple: Conveys professionalism and innovation.
 - Vibrant Blue: Symbolizes technology and trust.
 - Combined Effect: Professional yet vibrant, suitable for tech products.
 
 **Contrast Assurance**:
-| Combination          | Contrast Ratio | Suitability |
+| Combination | Contrast Ratio | Suitability |
 |----------------------|----------------|-------------|
-| Primary + White Text | 7.2 : 1        | ✅ Perfect  |
-| Accent + Dark Gray   | 5.1 : 1        | ✅ Good     |
-| Primary + Accent     | 2.8 : 1        | ⚠️ Decorative Only |
+| Primary + White Text | 7.2 : 1 | ✅ Perfect |
+| Accent + Dark Gray | 5.1 : 1 | ✅ Good |
+| Primary + Accent | 2.8 : 1 | ⚠️ Decorative Only |
 
 **Primary Color**:
+
 - Deep Violet `#6a11cb`
 - Serves as the **core gradient** starting color, with strong visual recognition.
 - Can be applied to navigation bars, core buttons, important headings, etc.
@@ -302,6 +336,7 @@ graph TD
   - #7a24df (active state)
 
 **Accent Color**:
+
 - Vibrant Blue `#2575fc`
 - Forms a perfect gradient transition with the **primary color**, providing visual focus.
 - Can be applied to interactive elements, floating buttons, progress indicators.
@@ -312,6 +347,7 @@ graph TD
 **Core Gradient** transitions from Deep Purple `#6a11cb` to Vibrant Blue `#2575fc`, enhanced by **derived colors** for added depth.
 
 **Primary-Secondary Relationship**:
+
 ```mermaid
 graph LR
     A[Primary #6a11cb] --> B[Navigation/Headings]
@@ -320,6 +356,7 @@ graph LR
 ```
 
 **Color Testing**:
+
 1. Accessibility Verification: Use [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) to test text readability.
 2. Visual Hierarchy Test:
    ```
@@ -382,7 +419,11 @@ Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang
 
 ### Responsive Image System Maintenance
 
-The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3) *(Chinese)*.
+The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3) _(Chinese)_.
+
+### Error Tracking
+
+Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](docs/ERROR_TRACKING.md) for configuration.
 
 ---
 
@@ -420,7 +461,7 @@ Released under **MIT License** - free for use and modification. Retain original 
 
 ## 📬 Contact
 
-* Contact: Renda Zhang
-* 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
+- Contact: Renda Zhang
+- 📧 Email: [952402967@qq.com](mailto:952402967@qq.com)
 
 > ⏰ **Maintainer**: @RendaZhang — If this project helps you, please give it a ⭐️!

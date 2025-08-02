@@ -24,6 +24,7 @@
     - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
     - [静态资源命名验证](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81)
     - [响应式图片系统维护](#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4)
+    - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -65,6 +66,17 @@
 ```bash
 src/
 ├── assets/
+├── constants/           # 路径常量与 API 端点
+├── features/            # 按业务划分的模块
+│   ├── chat/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── services/
+│   └── auth/
+│       ├── components/
+│       ├── hooks/
+│       └── services/
+├── hooks/               # 业务逻辑自定义 hooks
 ├── styles/
 │   ├── core/               # 核心变量
 │   │   ├── _colors.css     # 颜色系统
@@ -74,6 +86,9 @@ src/
 │   ├── utilities/          # 工具类
 │   └── theme.css           # 主入口文件
 ├── scripts/
+├── utils/               # 通用工具函数
+├── models/              # 领域模型
+├── services/           # API interaction layer
 └── components/
     ├── ui/
     ├── layouts/
@@ -153,6 +168,20 @@ flowchart TD
    ```bash
    npm run build
    npm run preview
+   ```
+
+4. 如需连接自定义后端接口，可在根目录创建 `.env` 文件并设置 `PUBLIC_API_BASE_URL`：
+
+   ```bash
+   PUBLIC_API_BASE_URL=https://api.example.com
+   ```
+
+   Sentry integration also requires the following variables:
+
+   ```bash
+   SENTRY_DSN=<your dsn>
+   SENTRY_PROJECT=<your project>
+   SENTRY_AUTH_TOKEN=<auth token>
    ```
 
 执行 `npm run build` 后，`dist/_astro` 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。
@@ -396,6 +425,10 @@ location /_astro/ {
 网站图片通过自动化脚本生成响应式版本并内置 LQIP 占位效果，方便在不同设备上快速加载。
 
 详细操作流程与扩展指南请参阅：📄 [通用响应式图片处理系统维护文档](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3)
+
+### 错误跟踪
+
+Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](docs/ERROR_TRACKING.md).
 
 ---
 

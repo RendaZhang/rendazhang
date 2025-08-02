@@ -1,5 +1,5 @@
 // Markdown libraries expected to be loaded globally
-import { ENDPOINTS, JSON_HEADERS } from '../config.js';
+import { ENDPOINTS, JSON_HEADERS } from '../constants/api.js';
 
 export async function sendMessageToAI(userInput, onChunkCallback) {
   try {

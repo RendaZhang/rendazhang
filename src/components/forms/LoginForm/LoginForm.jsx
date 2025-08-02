@@ -3,6 +3,7 @@ import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
+import { useFormValidation } from '../../../hooks';
 
 export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const { lang } = useLanguage();
@@ -10,25 +11,27 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, errors, handleChange, validateAll, reset } = useFormValidation(
+    { email: '', password: '' },
+    {
+      email: (val) => {
+        if (!val) return activeTexts.errors?.emailRequired || '邮箱不能为空';
+        if (!val.includes('@')) return activeTexts.errors?.emailInvalid || '邮箱格式错误';
+        return '';
+      },
+      password: (val) => {
+        if (!val) return activeTexts.errors?.passwordRequired || '密码不能为空';
+        return '';
+      }
+    }
+  );
+  const { email, password } = values;
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [globalError, setGlobalError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [strength, setStrength] = useState('');
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [placeholders, setPlaceholders] = useState({ email: '', password: '' });
-
-  useEffect(() => {
-    // email validation
-    if (email && !email.includes('@')) {
-      setEmailError(activeTexts.errors?.emailInvalid || '邮箱格式错误');
-    } else {
-      setEmailError('');
-    }
-  }, [email, activeTexts]);
 
   useEffect(() => {
     const ph = (texts[langKey] && texts[langKey].placeholders) || {};
@@ -46,23 +49,11 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
     } else {
       setStrength('strong');
     }
-    if (password) {
-      setPasswordError('');
-    }
-  }, [password, activeTexts]);
+  }, [password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let valid = true;
-    if (!email) {
-      setEmailError(activeTexts.errors?.emailRequired || '邮箱不能为空');
-      valid = false;
-    }
-    if (!password) {
-      setPasswordError(activeTexts.errors?.passwordRequired || '密码不能为空');
-      valid = false;
-    }
-    if (!valid) return;
+    if (!validateAll()) return;
 
     try {
       setStatus('loading');
@@ -93,13 +84,13 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         <input
           id="email"
           type="email"
-          className={`form-control ${emailError ? 'is-invalid' : ''}`}
+          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
           placeholder={placeholders.email}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleChange('email', e.target.value)}
           autoFocus
         />
-        {emailError && <div className="invalid-feedback">{emailError}</div>}
+        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
       </div>
       <div className="mb-3 password-wrapper">
         <label htmlFor="password" className="form-label">
@@ -108,10 +99,10 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         <input
           id="password"
           type={showPassword ? 'text' : 'password'}
-          className={`form-control ${passwordError ? 'is-invalid' : ''}`}
+          className={`form-control ${errors.password ? 'is-invalid' : ''}`}
           placeholder={placeholders.password}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => handleChange('password', e.target.value)}
         />
         <span
           className="password-toggle"
@@ -131,7 +122,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
             />
           </div>
         )}
-        {passwordError && <div className="invalid-feedback">{passwordError}</div>}
+        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
       </div>
       <div className="mb-3 form-check d-flex justify-content-between">
         <div>

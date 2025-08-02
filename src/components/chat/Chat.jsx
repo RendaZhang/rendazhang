@@ -2,17 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 // Core libraries will be loaded dynamically to allow graceful fallback
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../../services';
-import { showHint } from '../../hooks';
-import {
-  STORAGE_KEY,
-  MAX_TOKENS,
-  AVG_WORD_LENGTH,
-  AVG_TOKENS_PER_WORD,
-  SCRIPT_TIMEOUTS,
-  UI_DURATIONS,
-  SCRIPT_PATHS,
-  ROLES
-} from '../../config.js';
+import { showHint, useChatHistory } from '../../hooks';
+import { SCRIPT_TIMEOUTS, UI_DURATIONS, SCRIPT_PATHS, ROLES } from '../../config.js';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';
@@ -28,7 +19,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const textsZh = texts.zh;
   const textsEn = texts.en;
   const activeTexts = langKey === 'zh' ? textsZh : textsEn;
-  const [messages, setMessages] = useState([]);
+  const { messages, addMessage, setMessages, clearHistory } = useChatHistory();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
@@ -52,31 +43,11 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
     loadCoreLibraries();
   }, []);
 
-  // Load history from localStorage after core libs are ready
+  // After core libs are ready, enable interaction and enhancements
   useEffect(() => {
     if (!coreLoaded) return;
-    let conversationHistory = [];
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      conversationHistory = stored ? JSON.parse(stored) : [];
-    } catch (e) {
-      conversationHistory = [];
-    }
-
-    const loadedMessages = conversationHistory.map((msg) => ({
-      role: msg.role === ROLES.ASSISTANT ? ROLES.AI : ROLES.USER,
-      content: msg.content
-    }));
-
-    setMessages(loadedMessages);
-
-    // Load enhancement libraries asynchronously while history renders
     loadEnhancementLibraries();
-
-    // History rendered - allow user interaction
     setIsLoading(false);
-
-    // Scroll to bottom
     scrollToBottom();
   }, [coreLoaded]);
 
@@ -193,39 +164,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
     });
   };
 
-  const countTokens = (msg) => {
-    return Math.ceil((msg.content.length / AVG_WORD_LENGTH) * AVG_TOKENS_PER_WORD);
-  };
-
-  const trimHistory = (msgList) => {
-    let tokens = msgList.reduce((t, m) => t + countTokens(m), 0);
-    while (tokens > MAX_TOKENS && msgList.length > 0) {
-      msgList.shift();
-      tokens = msgList.reduce((t, m) => t + countTokens(m), 0);
-    }
-    return msgList;
-  };
-
-  const saveHistory = (msgList) => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-          msgList.map((m) => ({
-            role: m.role === ROLES.AI ? ROLES.ASSISTANT : ROLES.USER,
-            content: m.content
-          }))
-        )
-      );
-    } catch (e) {}
-  };
-
-  const addMessage = (role, content) => {
-    const newMessage = { role, content };
-    setMessages((prev) => [...prev, newMessage]);
-    scrollToBottom();
-  };
-
   const handleSend = async () => {
     const message = input.trim();
     if (!message || coreLoadError || !coreLoaded) return;
@@ -255,9 +193,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
         if (lastMsg && lastMsg.role === ROLES.AI) {
           lastMsg.content = aiText;
         }
-        const trimmed = trimHistory(updated);
-        saveHistory(trimmed);
-        return trimmed;
+        return updated;
       });
     } catch (error) {
       addMessage(ROLES.AI, `Error: ${error.message}`);
@@ -272,8 +208,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
     if (window.confirm(activeTexts.resetConfirm)) {
       try {
         await resetChat();
-        setMessages([]);
-        saveHistory([]);
+        clearHistory();
       } catch (error) {
         alert(`${activeTexts.resetFailedPrefix}: ${error.message}`);
       }

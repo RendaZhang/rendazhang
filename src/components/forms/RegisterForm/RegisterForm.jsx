@@ -8,6 +8,8 @@ import {
 import { useLanguage } from '../../providers';
 import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
+import { useFormValidation } from '../../../hooks';
+import { storage } from '../../../utils/index.js';
 
 export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   const { lang } = useLanguage();
@@ -15,15 +17,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
-  const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [confirmError, setConfirmError] = useState('');
   const [strength, setStrength] = useState('');
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState('idle');
@@ -34,15 +28,32 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
     confirm: ''
   });
 
-  useEffect(() => {
-    const saved = localStorage.getItem(REGISTER_DRAFT_KEY);
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setEmail(data.email || '');
-        setUsername(data.username || '');
-      } catch {}
+  const { values, errors, handleChange, validateAll } = useFormValidation(
+    { email: '', username: '', password: '', confirm: '', agree: false },
+    {
+      email: (val) => {
+        if (!val) return activeTexts.errors?.emailRequired || '邮箱不能为空';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+          return activeTexts.errors?.emailInvalid || '邮箱格式错误';
+        }
+        return '';
+      },
+      username: (val) => (!val ? activeTexts.errors?.usernameRequired || '用户名不能为空' : ''),
+      password: (val) => (!val ? activeTexts.errors?.passwordRequired || '密码不能为空' : ''),
+      confirm: (val, all) =>
+        val !== all.password ? activeTexts.errors?.passwordMismatch || '两次密码不一致' : '',
+      agree: (val) => (!val ? activeTexts.errors?.agreement || '请勾选同意' : '')
     }
+  );
+  const { email, username, password, confirm, agree } = values;
+
+  useEffect(() => {
+    const saved = storage.get(REGISTER_DRAFT_KEY);
+    if (saved) {
+      handleChange('email', saved.email || '');
+      handleChange('username', saved.username || '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -51,47 +62,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   }, [langKey, texts]);
 
   useEffect(() => {
-    localStorage.setItem(REGISTER_DRAFT_KEY, JSON.stringify({ email, username }));
+    storage.set(REGISTER_DRAFT_KEY, { email, username });
   }, [email, username]);
-
-  useEffect(() => {
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError(activeTexts.errors?.emailInvalid || '邮箱格式错误');
-    } else if (email) {
-      setEmailError(activeTexts.checking || '检查中...');
-      const t = setTimeout(() => {
-        if (email.toLowerCase() === 'taken@example.com') {
-          setEmailError(
-            <>
-              {activeTexts.emailTakenPrefix}
-              <a href={LOGIN_PAGE_PATH}>{activeTexts.loginNow}</a>
-            </>
-          );
-        } else {
-          setEmailError('');
-        }
-      }, AUTH_TIMINGS.REGISTER_VALIDATE);
-      return () => clearTimeout(t);
-    } else {
-      setEmailError('');
-    }
-  }, [email, activeTexts]);
-
-  useEffect(() => {
-    if (username) {
-      setUsernameError(activeTexts.checking || '检查中...');
-      const t = setTimeout(() => {
-        if (username.toLowerCase() === 'taken') {
-          setUsernameError(activeTexts.errors?.usernameTaken || '用户名已被占用');
-        } else {
-          setUsernameError('');
-        }
-      }, AUTH_TIMINGS.REGISTER_VALIDATE);
-      return () => clearTimeout(t);
-    } else {
-      setUsernameError('');
-    }
-  }, [username, activeTexts]);
 
   useEffect(() => {
     if (!password) {
@@ -105,20 +77,12 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
     }
   }, [password]);
 
-  useEffect(() => {
-    if (confirm && confirm !== password) {
-      setConfirmError(activeTexts.errors?.passwordMismatch || '两次密码不一致');
-    } else {
-      setConfirmError('');
-    }
-  }, [confirm, password, activeTexts]);
-
   const canSubmit =
-    email && username && password && !emailError && !usernameError && !confirmError && agree;
+    email && username && password && confirm && agree && Object.keys(errors).length === 0;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!canSubmit) return;
+    if (!validateAll()) return;
     setStatus('loading');
     setProgress(0);
     const step = AUTH_TIMINGS.REGISTER_PROGRESS_STEP;
@@ -148,13 +112,13 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         <input
           id="email"
           type="email"
-          className={`form-control ${emailError ? 'is-invalid' : email ? 'is-valid' : ''}`}
+          className={`form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
           placeholder={placeholders.email}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleChange('email', e.target.value)}
           required
         />
-        {emailError && <div className="invalid-feedback">{emailError}</div>}
+        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
       </div>
       <div className="mb-3">
         <label htmlFor="username" className="form-label">
@@ -163,14 +127,14 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
         <input
           id="username"
           type="text"
-          className={`form-control ${usernameError ? 'is-invalid' : username ? 'is-valid' : ''}`}
+          className={`form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
           placeholder={placeholders.username}
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => handleChange('username', e.target.value)}
           required
         />
-        {usernameError && <div className="invalid-feedback">{usernameError}</div>}
-        {!usernameError && username && (
+        {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+        {!errors.username && username && (
           <div className="valid-feedback">
             <LocalizedSection
               zhContent={textsZh.usernameAvailable}
@@ -190,7 +154,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
             className="form-control"
             placeholder={placeholders.password}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleChange('password', e.target.value)}
             required
           />
           <span className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
@@ -213,13 +177,13 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           <input
             id="confirm"
             type={showPassword ? 'text' : 'password'}
-            className={`form-control ${confirmError ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
+            className={`form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
             placeholder={placeholders.confirm}
             value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
+            onChange={(e) => handleChange('confirm', e.target.value)}
             required
           />
-          {confirmError && <div className="invalid-feedback">{confirmError}</div>}
+          {errors.confirm && <div className="invalid-feedback">{errors.confirm}</div>}
         </div>
       </div>
       <div className="form-text mt-2">
@@ -231,7 +195,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           className="form-check-input"
           type="checkbox"
           checked={agree}
-          onChange={(e) => setAgree(e.target.checked)}
+          onChange={(e) => handleChange('agree', e.target.checked)}
           required
         />
         <label htmlFor="agree" className="form-check-label">

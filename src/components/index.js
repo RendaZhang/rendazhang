@@ -4,3 +4,4 @@ export * from './layouts';
 export * from './providers';
 export * from './sections';
 export * from './ui';
+export { default as ErrorBoundary } from './ErrorBoundary.jsx';

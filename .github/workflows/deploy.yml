@@ -1,4 +1,4 @@
-name: Build & Deploy Astro Site with fixed v1.0.0 Release # 固定版本号（暂时手动管理）
+name: Build & Deploy Astro Site
 
 on:
   push:
@@ -6,23 +6,42 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  TAG_NAME: v$(date +%Y.%m.%d) # 定义当天的标签名称
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build Astro project
         run: npm run build
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          PUBLIC_API_BASE_URL: ${{ secrets.PUBLIC_API_BASE_URL }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+
+      - name: Upload sourcemaps to Sentry
+        if: success() && env.SENTRY_AUTH_TOKEN != ''
+        run: |
+          npx @sentry/cli sourcemaps inject --org=${{ secrets.SENTRY_ORG }} --project=${{ secrets.SENTRY_PROJECT }} dist/
+          npx @sentry/cli sourcemaps upload --org=${{ secrets.SENTRY_ORG }} --project=${{ secrets.SENTRY_PROJECT }} dist/ \
+            --url-prefix="~/"
 
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.7
@@ -30,60 +49,79 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
+          source: 'dist/*'
           target: ${{ secrets.DEPLOY_PATH }}
           strip_components: 1
           rm: true
 
-      - name: Package build artifacts
+      - name: Create release artifacts
         run: |
           mkdir -p release
           tar -czvf release/build.tar.gz -C dist .
+          echo "Build date: $(date)" > release/build-info.txt
+          echo "Commit: $GITHUB_SHA" >> release/build-info.txt
+          echo "Tag: ${{ env.TAG_NAME }}" >> release/build-info.txt
 
+      # 删除当天已存在的 Release 和 Tag
       - name: Delete existing Release and Tag (if any)
         id: delete_release
         uses: actions/github-script@v7
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ env.TAG_NAME }}
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const { TAG_NAME } = process.env;
+            console.log(`Checking for existing release with tag: ${TAG_NAME}`);
+
+            // 查找匹配的 release
             const { data: releases } = await github.rest.repos.listReleases({
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            const release = releases.find(r => r.tag_name === 'v1.0.0');
-            if (release) {
-              // Delete the release
+
+            const existingRelease = releases.find(release => release.tag_name === TAG_NAME);
+
+            if (existingRelease) {
+              console.log(`Deleting existing release: ${existingRelease.id}`);
+              // 删除 release
               await github.rest.repos.deleteRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                release_id: release.id,
+                release_id: existingRelease.id,
               });
-              console.log('Deleted existing release: v1.0.0');
-              // Delete the tag
+
+              console.log(`Deleted release: ${existingRelease.id}`);
+
+              // 删除标签
               await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: `tags/${release.tag_name}`,
+                ref: `tags/${TAG_NAME}`,
               });
-              console.log('Deleted existing tag: v1.0.0');
+
+              console.log(`Deleted tag: ${TAG_NAME}`);
             } else {
-              console.log('No existing release found for v1.0.0');
+              console.log('No existing release found for this tag');
             }
 
-      - name: Create GitHub Release and Upload Assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.ref == 'refs/heads/master'
         with:
-          tag_name: v1.0.0
-          name: Release v1.0.0
-          body: "Automated release of build artifacts"
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          body: |
+            Production release
+            - Build date: $(date)
+            - Commit: ${{ github.sha }}
+            - Tag: ${{ env.TAG_NAME }}
+          files: |
+            release/build.tar.gz
+            release/build-info.txt
           draft: false
           prerelease: false
-          files: |
-            ./release/build.tar.gz
 
-      - name: Purge jsDelivr Cache
+      - name: Purge CDN cache
         run: |
-          curl -X PURGE https://cdn.jsdelivr.net/gh/${{ github.repository }}@v1.0.0/release/build.tar.gz
+          curl -X PURGE ${{ env.SITE_BASE_URL }} || echo "CDN purge failed"

@@ -40,20 +40,10 @@ for (const [path, url] of Object.entries(heroImageModules)) {
   HERO_IMAGE_PATHS[name] = url;
 }
 
-export const API_BASE_URL = '/cloudchat';
+import { API_BASE_URL, ENDPOINTS, JSON_HEADERS } from './constants/api.js';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
 export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
-
-export const ENDPOINTS = {
-  CHAT: `${API_BASE_URL}/deepseek_chat`,
-  RESET: `${API_BASE_URL}/reset_chat`,
-  IMAGE_GENERATION: `${API_BASE_URL}/generate_image`
-};
-
-export const JSON_HEADERS = {
-  'Content-Type': 'application/json'
-};
 
 // Path for embedding or linking to the chat page
 export const CHAT_PAGE_PATH = '/deepseek_chat';
