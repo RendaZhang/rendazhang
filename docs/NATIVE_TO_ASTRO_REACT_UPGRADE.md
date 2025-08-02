@@ -732,7 +732,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # 使用 Node 20 LTS。
+          node-version: '22'  # 使用 Node 22 LTS。
 
       - name: Install dependencies
         run: npm ci  # 使用 ci 以确保一致性。

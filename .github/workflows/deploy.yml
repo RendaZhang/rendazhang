@@ -1,4 +1,4 @@
-name: Build & Deploy Astro Site
+name: Build & Deploy Astro Site with fixed v1.0.0 Release # 固定版本号（手动管理）
 
 on:
   push:
@@ -7,31 +7,31 @@ on:
   workflow_dispatch:
 
 env:
-  TAG_NAME: v$(date +%Y.%m.%d) # 定义当天的标签名称
+  TAG_NAME: v1.0.0
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Astro Project code
+        id: checkout-code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
-      - name: Generate tag name
-        id: tag_name
-        run: echo "TAG_NAME=v$(date +%Y.%m.%d)" >> $GITHUB_ENV
-
-      - name: Install dependencies
+      - name: Install NPM dependencies
+        id: install-dependencies
         run: npm ci
 
-      - name: Build Astro project
+      - name: Build Astro Project with Sentry config
+        id: build-project
         run: npm run build
         env:
           NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -42,7 +42,20 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           TAG_NAME: ${{ env.TAG_NAME }}
 
-      - name: Delete existing release, tag, and branch (if any)
+      - name: Deploy to Ubuntu server
+        id: deploy-to-server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 'dist/*'
+          target: ${{ secrets.DEPLOY_PATH }}
+          strip_components: 1
+          rm: true
+
+      - name: Delete existing release, tag, and release branch (if any)
+        id: delete-release-tag-branch
         uses: actions/github-script@v7
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
@@ -51,7 +64,6 @@ jobs:
           script: |
             const tag = process.env.TAG_NAME;
             const branch = `release/${tag}`;
-
             // Delete release
             try {
               const release = await github.rest.repos.getReleaseByTag({
@@ -68,7 +80,6 @@ jobs:
             } catch (error) {
               console.log(`Release for tag ${tag} does not exist`);
             }
-
             // Delete tag
             try {
               await github.rest.git.deleteRef({
@@ -80,7 +91,6 @@ jobs:
             } catch (error) {
               console.log(`Tag ${tag} does not exist`);
             }
-
             // Delete branch
             try {
               await github.rest.git.deleteRef({
@@ -93,7 +103,8 @@ jobs:
               console.log(`Branch ${branch} does not exist`);
             }
 
-      - name: Publish dist to release branch
+      - name: Publish dist/ directory to release branch
+        id: publish-release-branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -102,52 +113,74 @@ jobs:
           force_orphan: true
           commit_message: Release ${{ env.TAG_NAME }}
 
-      - name: Create tag for current release
+      - name: Get release branch commit SHA
+        id: get-release-branch-sha
+        run: |
+          # 获取 release 分支的最新提交 SHA
+          SHA=$(git ls-remote origin refs/heads/release/$TAG_NAME | awk '{print $1}')
+          echo "SHA=$SHA" >> $GITHUB_ENV
+          echo "Commit SHA: $SHA"
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
+
+      - name: Create and push tag
+        id: create-tag
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git tag -d "$TAG_NAME" 2>/dev/null || true
-          git tag "$TAG_NAME"
-          git push origin "refs/tags/$TAG_NAME" --force
-
-      - name: Deploy to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'dist/*'
-          target: ${{ secrets.DEPLOY_PATH }}
-          strip_components: 1
-          rm: true
+          # 基于 release 分支的提交创建标签
+          git fetch origin release/$TAG_NAME
+          git tag -f $TAG_NAME $SHA
+          git push origin $TAG_NAME --force
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+          SHA: ${{ env.SHA }}
 
       - name: Create release artifacts
         run: |
           mkdir -p release
           tar -czvf release/build.tar.gz -C dist .
-          echo "Build date: $(date)" > release/build-info.txt
+          # 添加校验和
+          sha256sum release/build.tar.gz > release/build.tar.gz.sha256
+          echo "Build date: $(date -u)" > release/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release/build-info.txt
           echo "Tag: ${{ env.TAG_NAME }}" >> release/build-info.txt
+          # 准备发布说明
+          cat <<EOF > release/notes.md
+          ## Production Release ($(date -u))
 
-      - name: Create GitHub Release
+          **Details**:
+          - **Build date**: $(date -u)
+          - **Commit**: [$GITHUB_SHA](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA)
+          - **Tag**: ${{ env.TAG_NAME }}
+          - **Artifact**: [build.tar.gz](https://cdn.jsdelivr.net/gh/$GITHUB_REPOSITORY@${{ env.TAG_NAME }}/release/build.tar.gz)
+
+          **Changes since last release**:
+          \`\`\`
+          $(git log --pretty=format:"%h - %s (%an)" -n 10)
+          \`\`\`
+          EOF
+
+      - name: Create GitHub release and upload release artifacts
         uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/master'
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ env.TAG_NAME }}
-          name: Release ${{ env.TAG_NAME }}
-          body: |
-            Production release
-            - Build date: $(date)
-            - Commit: ${{ github.sha }}
-            - Tag: ${{ env.TAG_NAME }}
+          name: ${{ env.TAG_NAME }}
+          body_path: release/notes.md
           files: |
             release/build.tar.gz
+            release/build.tar.gz.sha256
             release/build-info.txt
           draft: false
           prerelease: false
 
       - name: Purge CDN cache
         run: |
-          curl -X PURGE ${{ env.SITE_BASE_URL }} || echo "CDN purge failed"
+          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}/release/build.tar.gz"
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
+          if [ "$response" -eq 200 ]; then
+            echo "CDN cache purged successfully"
+          else
+            echo "::warning::CDN purge failed with status $response for $url"
+          fi
