@@ -42,20 +42,6 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           TAG_NAME: ${{ env.TAG_NAME }}
 
-      - name: Upload sourcemaps to Sentry
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        run: |
-          # 确保 sentry-cli 已安装
-          npm install -g @sentry/cli
-
-          # 注入并上传 sourcemaps
-          sentry-cli sourcemaps inject --org=$SENTRY_ORG --project=$SENTRY_PROJECT dist/
-          sentry-cli sourcemaps upload --org=$SENTRY_ORG --project=$SENTRY_PROJECT dist/ \
-            --url-prefix="~/"
-
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.7
         with:
