@@ -142,6 +142,7 @@ jobs:
           SHA: ${{ env.SHA }}
 
       - name: Create release artifacts
+        id: create-release-artifacts
         run: |
           mkdir -p release
           tar -czvf release/build.tar.gz -C dist .
@@ -167,6 +168,7 @@ jobs:
           EOF
 
       - name: Create GitHub release and upload release artifacts
+        id: create-release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.TAG_NAME }}
@@ -179,9 +181,11 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Purge CDN cache
+      - name: Purge jsdelivr CDN cache
+        id: purge-cdn-cache
         run: |
-          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}/release/build.tar.gz"
+          TAG_NAME_WITHOUT_V=$(echo "${{ env.TAG_NAME }}" | sed 's/^v//')
+          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${TAG_NAME_WITHOUT_V}/release/build.tar.gz"
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
           if [ "$response" -eq 200 ]; then
             echo "CDN cache purged successfully"
