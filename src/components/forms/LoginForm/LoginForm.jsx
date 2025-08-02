@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import sentry from '@sentry/astro';
 import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../config.js';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
@@ -57,7 +58,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
 
     try {
       // TODO: refactor this code after login function is ready
-      Sentry.captureException(new Error('Test error from login'));
+      sentry.captureException(new Error('Test error from login'));
       throw new Error('This is a login error');
       setStatus('loading');
       // fake async login
@@ -68,7 +69,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
     } catch (err) {
       // TODO: refactor this code after login function is ready
-      Sentry.captureException(err);
+      sentry.captureException(err);
       setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
       setStatus('error');
     }
