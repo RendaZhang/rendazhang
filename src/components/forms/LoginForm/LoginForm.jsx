@@ -4,6 +4,7 @@ import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
+import * as Sentry from '@sentry/react'; // 使用 @sentry/react
 
 export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const { lang } = useLanguage();
@@ -158,8 +159,9 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
           type="button"
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
-            // TODO: Implement this function
-            console.log('Doing Nothing by now');
+            // TODO: Remove below and implement this function
+            console.log('Testing Sentry with login button');
+            Sentry.captureException(new Error('Test Error from login button'));
           }}
         >
           <LocalizedSection

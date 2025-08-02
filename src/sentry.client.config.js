@@ -8,7 +8,7 @@ Sentry.init({
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
   sendDefaultPii: true,
-  debug: true,
+  debug: false,  // true if you need to debug
   beforeSend(event, hint) {
     // 过滤浏览器扩展错误
     const isExtensionError = event.exception?.values?.some(
