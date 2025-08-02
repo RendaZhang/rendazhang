@@ -6,9 +6,13 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout Astro Project code
         id: checkout-code
@@ -31,12 +35,12 @@ jobs:
         id: build-project
         run: npm run build
         env:
-          PUBLIC_API_BASE_URL: ${{ env.PUBLIC_API_BASE_URL }}
-          PUBLIC_CDN_BASE: ${{ env.PUBLIC_CDN_BASE }}
-          PUBLIC_NODE_ENV: ${{ env.PUBLIC_NODE_ENV }}
-          PUBLIC_SENTRY_DSN: ${{ env.PUBLIC_SENTRY_DSN }}
-          PUBLIC_SITE_BASE_URL: ${{ env.PUBLIC_SITE_BASE_URL }}
-          PUBLIC_TAG_NAME: ${{ env.PUBLIC_TAG_NAME }}
+          PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
+          PUBLIC_CDN_BASE: ${{ vars.PUBLIC_CDN_BASE }}
+          PUBLIC_NODE_ENV: ${{ vars.PUBLIC_NODE_ENV }}
+          PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
+          PUBLIC_SITE_BASE_URL: ${{ vars.PUBLIC_SITE_BASE_URL }}
+          PUBLIC_TAG_NAME: ${{ env.TAG_NAME }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
@@ -59,11 +63,11 @@ jobs:
         id: delete-release-tag-branch
         uses: actions/github-script@v7
         env:
-          TAG_NAME: ${{ env.PUBLIC_TAG_NAME }}
+          TAG_NAME: ${{ env.TAG_NAME }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const tag = process.env.PUBLIC_TAG_NAME;
+            const tag = process.env.TAG_NAME;
             const branch = `release/${tag}`;
             // Delete release
             try {
@@ -110,9 +114,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          publish_branch: release/${{ env.PUBLIC_TAG_NAME }}
+          publish_branch: release/${{ env.TAG_NAME }}
           force_orphan: true
-          commit_message: Release ${{ env.PUBLIC_TAG_NAME }}
+          commit_message: Release ${{ env.TAG_NAME }}
 
       - name: Get release branch commit SHA
         id: get-release-branch-sha
@@ -122,7 +126,7 @@ jobs:
           echo "SHA=$SHA" >> $GITHUB_ENV
           echo "Commit SHA: $SHA"
         env:
-          TAG_NAME: ${{ env.PUBLIC_TAG_NAME }}
+          TAG_NAME: ${{ env.TAG_NAME }}
 
       - name: Create and push tag
         id: create-tag
@@ -134,7 +138,7 @@ jobs:
           git tag -f $TAG_NAME $SHA
           git push origin $TAG_NAME --force
         env:
-          TAG_NAME: ${{ env.PUBLIC_TAG_NAME }}
+          TAG_NAME: ${{ env.TAG_NAME }}
           SHA: ${{ env.SHA }}
 
       - name: Create release artifacts
@@ -145,7 +149,7 @@ jobs:
           sha256sum release/build.tar.gz > release/build.tar.gz.sha256
           echo "Build date: $(date -u)" > release/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release/build-info.txt
-          echo "Tag: ${{ env.PUBLIC_TAG_NAME }}" >> release/build-info.txt
+          echo "Tag: ${{ env.TAG_NAME }}" >> release/build-info.txt
           # 准备发布说明
           cat <<EOF > release/notes.md
           ## Production Release ($(date -u))
@@ -153,8 +157,8 @@ jobs:
           **Details**:
           - **Build date**: $(date -u)
           - **Commit**: [$GITHUB_SHA](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA)
-          - **Tag**: ${{ env.PUBLIC_TAG_NAME }}
-          - **Artifact**: [build.tar.gz](https://cdn.jsdelivr.net/gh/$GITHUB_REPOSITORY@${{ env.PUBLIC_TAG_NAME }}/release/build.tar.gz)
+          - **Tag**: ${{ env.TAG_NAME }}
+          - **Artifact**: [build.tar.gz](https://cdn.jsdelivr.net/gh/$GITHUB_REPOSITORY@${{ env.TAG_NAME }}/release/build.tar.gz)
 
           **Changes since last release**:
           \`\`\`
@@ -165,8 +169,8 @@ jobs:
       - name: Create GitHub release and upload release artifacts
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.PUBLIC_TAG_NAME }}
-          name: ${{ env.PUBLIC_TAG_NAME }}
+          tag_name: ${{ env.TAG_NAME }}
+          name: ${{ env.TAG_NAME }}
           body_path: release/notes.md
           files: |
             release/build.tar.gz
@@ -177,7 +181,7 @@ jobs:
 
       - name: Purge CDN cache
         run: |
-          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}/release/build.tar.gz"
+          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}/release/build.tar.gz"
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
           if [ "$response" -eq 200 ]; then
             echo "CDN cache purged successfully"

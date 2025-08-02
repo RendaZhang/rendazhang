@@ -26,7 +26,7 @@ Sentry.init({
       return null;
     }
     // 过滤开发环境错误
-    if (NODE_ENV !== 'production') {
+    if (import.meta.env.PUBLIC_NODE_ENV !== 'production') {
       console.warn('Sentry event filtered in development:', hint.originalException);
       return null;
     }
