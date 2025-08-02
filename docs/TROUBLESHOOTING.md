@@ -47,6 +47,8 @@
     - [BUG-038: 开发环境错误上报污染](#bug-038-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E4%B8%8A%E6%8A%A5%E6%B1%A1%E6%9F%93)
     - [BUG-039: 敏感数据泄露风险](#bug-039-%E6%95%8F%E6%84%9F%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9)
     - [BUG-040: Source map 版本不匹配](#bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
+    - [BUG-041: Sentry CORS 403 on localhost](#bug-041-sentry-cors-403-on-localhost)
+    - [BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined](#bug-042-github-actions-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E7%BB%91%E5%AE%9A%E5%AF%BC%E8%87%B4-tag-undefined)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -132,6 +134,8 @@
 - [x] BUG-037: Sentry source map 上传失败
 - [x] BUG-038: 开发环境错误上报污染BUG-039: 敏感数据泄露风险
 - [x] BUG-040: Source map 版本不匹配
+- [x] BUG-041: Sentry CORS 403 on localhost
+- [x] BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
 
 ---
 
@@ -858,3 +862,39 @@
        run: echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
      ```
 - **验证结果**：✅ 错误报告准确映射到对应版本源码
+
+### BUG-041: Sentry CORS 403 on localhost
+
+- **发现日期**：2025-08-03
+- **重现环境**：本地 `vite dev`，Chrome 115+
+- **问题现象**：
+  - 发送 Sentry envelope 到 `o***.ingest.us.sentry.io` 时返回 403
+  - 控制台报 `CORS  Forbidden`，Network 显示 `reason: Cors`
+- **根本原因**：
+  - Sentry 项目 *Allowed Domains* 未包含 `localhost`
+- **解决方案**：
+  1. 打开 Sentry → *Settings → Security & Privacy → Allowed Domains*
+  2. 添加 `localhost`, `127.0.0.1`, `www.rendazhang.com`
+- **验证结果**：✅ 本地强制触发错误可正常上报
+- **经验总结**：本地调试需在 Allowed Domains 加入开发域名；仅修改 CSP 无法解决 Sentry 侧 CORS 拒绝
+
+### BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
+
+- **发现日期**：2025-08-03
+- **重现环境**：GitHub Actions `deploy.yml`
+- **问题现象**：
+  - 步骤 `Release for tag undefined does not exist`
+  - `${{ vars.PUBLIC_TAG_NAME }}` 在 step 中为 `undefined`
+- **根本原因**：
+  - 将变量迁移至 *Environments* 后，Job 未声明 `environment:`，导致无法读取 `vars.*`
+- **解决方案**：
+  1. 在 `deploy` job 加入
+     ```yaml
+     environment: production
+     env:
+       PUBLIC_TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
+     ```
+  2. 若脚本使用 `process.env.TAG_NAME`，在 `env:` 再做别名
+     `TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}`
+- **验证结果**：✅ Workflow 日志显示正确 tag，发布成功
+- **经验总结**：GitHub *Environment* 的 `vars/​secrets` 只有绑定到同名 `environment:` 的 Job 才可用

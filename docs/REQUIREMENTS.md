@@ -125,20 +125,30 @@
   - 实现自动化版本管理（TAG_NAME）
   - 部署后自动清理 CDN 缓存
   - 资源路径带版本号：`https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/`
-
-### 待完成需求 ⏳
-
-- [ ] **Sentry 错误监控集成**
-  - 实现生产环境前端错误实时监控与源码映射
-  - 集成 `@sentry/astro` SDK 实现错误自动捕获
-  - 配置 source maps 自动上传机制
-  - 添加用户反馈收集组件
+- [x] **Sentry 错误监控集成**
+  - 接入 `@sentry/astro` + `Sentry.init()`，区分客户端/构建期配置
+  - Source Map 自动上传（GitHub Actions + sourceMapsUploadOptions）
+  - 本地与生产错误均可精准映射源码
+  - 通过 Allowed Domains & CSP 放行，解决本地 CORS 403
+  - CI 使用 Environment `secrets/vars` 注入 `SENTRY_AUTH_TOKEN` 等敏感信息
   - 实现环境敏感的错误过滤规则
   - 设置开发/生产环境差异化上报策略
   - Sentry 控制台可查看带源码映射的错误报告
   - 关键错误自动触发 邮件 通知
+
+### 待完成需求 ⏳
+
+- [ ] **Sentry 使用体验强化**
+  - 引入 `tracePropagationTargets` 减少跨域预检
+  - 根据业务模块设置 `scope.setTag('feature', ...)` 以改进聚合
+  - 生产默认关闭 `debug`，通过环境变量可临时开启
+- [ ] **Actions 环境变量治理**
+  - 编写脚本自动检查 Job 是否绑定正确 `environment`
+  - 迁移所有公开变量到 `vars.*`，敏感信息到 `secrets.*`
+  - Pipeline 失败时输出缺失变量列表
+- [ ] **Sentry 错误监控集成**
+  - 添加用户反馈收集组件
   - 用户可附加反馈信息的错误报告 > 30%
-  - 开发环境错误上报率为 0%
 - [ ] **错误监控增强方案**
   - 提升错误上下文信息质量
   - 添加用户会话追踪（session replay）
@@ -156,7 +166,6 @@
   - 配置监控仪表板与报警规则
   - 每次部署后自动发送测试错误
   - source map 匹配成功率 100%
-  - 关键错误 5 分钟内通知到人
 - [ ] **CDN 资源自动注入**
   - 通过环境变量将 CDN 基础路径注入客户端代码
   - 实现资源路径自动生成功能
