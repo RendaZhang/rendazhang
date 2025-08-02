@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   build: {
-    sourcemap: true,
-    // 生产环境优化配置
-    minify: mode === 'production' ? 'terser' : false,
+    sourcemap: true // Source map generation must be turned on
   },
-  plugins: [mode === 'production' && sentryVitePlugin()].filter(Boolean)
-}));
+  plugins: [
+    // Put the Sentry vite plugin after all other plugins
+    sentryVitePlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT
+    })
+  ]
+});

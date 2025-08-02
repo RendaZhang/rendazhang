@@ -57,7 +57,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
 
     try {
       // TODO: refactor this code after login function is ready
-      throw new Error('This is a login error 1');
+      Sentry.captureException(new Error('Test error from login'));
+      throw new Error('This is a login error');
       setStatus('loading');
       // fake async login
       await new Promise((res) => setTimeout(res, AUTH_TIMINGS.LOGIN_REQUEST));
@@ -67,7 +68,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
     } catch (err) {
       // TODO: refactor this code after login function is ready
-      throw new Error('This is a login error 2');
+      Sentry.captureException(err);
       setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
       setStatus('error');
     }
