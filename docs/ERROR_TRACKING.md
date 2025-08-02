@@ -20,7 +20,8 @@ This project integrates Sentry for runtime error monitoring and analysis.
    ```
 2. Provide the following environment variables in `.env`:
    ```bash
-   SENTRY_DSN=<project dsn>
+   SENTRY_DSN=<server dsn>
+   PUBLIC_SENTRY_DSN=<browser dsn>
    SENTRY_PROJECT=<project name>
    SENTRY_AUTH_TOKEN=<auth token>
    ```

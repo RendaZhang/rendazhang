@@ -179,7 +179,8 @@ flowchart TD
    Sentry integration also requires the following variables:
 
    ```bash
-   SENTRY_DSN=<your dsn>
+   SENTRY_DSN=<server dsn>
+   PUBLIC_SENTRY_DSN=<browser dsn>
    SENTRY_PROJECT=<your project>
    SENTRY_AUTH_TOKEN=<auth token>
    ```

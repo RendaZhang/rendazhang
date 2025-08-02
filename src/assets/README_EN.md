@@ -24,6 +24,7 @@
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Static Asset Naming Validation](#static-asset-naming-validation)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
+    - [Error Tracking](#error-tracking)
   - [🤝 Contribution Guidelines](#-contribution-guidelines)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -178,7 +179,8 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
    Sentry integration also requires:
 
    ```bash
-   SENTRY_DSN=<your dsn>
+   SENTRY_DSN=<server dsn>
+   PUBLIC_SENTRY_DSN=<browser dsn>
    SENTRY_PROJECT=<your project>
    SENTRY_AUTH_TOKEN=<auth token>
    ```
