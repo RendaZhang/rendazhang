@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TAG_NAME: v1.0.0
+  TAG_NAME: v1.0.1
 
 jobs:
   build-and-deploy:
@@ -164,7 +164,6 @@ jobs:
       - name: Create GitHub release and upload release artifacts
         uses: softprops/action-gh-release@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ env.TAG_NAME }}
           name: ${{ env.TAG_NAME }}
           body_path: release/notes.md
