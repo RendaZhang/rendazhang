@@ -43,7 +43,6 @@ jobs:
           TAG_NAME: ${{ env.TAG_NAME }}
 
       - name: Upload sourcemaps to Sentry
-        if: ${{ secrets.SENTRY_AUTH_TOKEN != '' }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
