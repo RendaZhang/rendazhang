@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     mode === 'production' && sentryVitePlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: 'renda-nh',
-      project: 'renda-website',
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
       // 关键优化：上传后删除 sourcemap
       cleanArtifacts: true,
       // 只上传生产环境 sourcemap
