@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 01, 2025, 17:27 (UTC+8)
+- **最后更新**: Auguest 03, 2025, 02:20 (UTC+8)
 - **项目状态**: 稳定运行，持续开发中
 
 ---
@@ -120,15 +120,22 @@
   - 确保所有放置在 `src/assets` 目录下的资源都通过 `import ... ?url` 导入引用，这样 Astro 会自动为它们生成哈希指纹；或在构建脚本中引入处理
   - 运行 `npm run build` 后，`dist/_astro` 目录会包含带有哈希后缀的文件，Astro/Vite 自动启用文件指纹机制，便于利用长效缓存
   - Low Quality Image Placeholder：针对对需要使用高质量图片的页面，采用「低质量图片占位 → 高质量图片懒加载替换」方案
+- [x] **CDN 优化加速资源**
+  - 采用 Github Action + jsdelivr 方案
+  - 实现自动化版本管理（TAG_NAME）
+  - 部署后自动清理 CDN 缓存
+  - 资源路径带版本号：`https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/`
 
 ### 待完成需求 ⏳
 
-- [ ] **CDN 优化加速资源**
-  - 采用 Github Action + jsdelivr 方案
-  - 检查并思考 Github Release 后 jsdelivr 的缓存更新问题：https://cdn.jsdelivr.net/gh/rendazhang/rendazhang/
-  - 更新一下 `.github/workflows/deploy.yml` 里面的逻辑，考虑在 `Package build artifacts` 步骤中只打包部分静态资源
-  - 启用 CDN 缓存
-  - 对比自动递进版本 Release 和 目前的固定 `v1.0.0` 版本号 Release 方式，看哪个更加合适
+- [ ] **CDN 资源自动注入**
+  - 通过环境变量将 CDN 基础路径注入客户端代码
+  - 实现资源路径自动生成功能
+  - 确保开发和生产环境使用不同资源路径
+- [ ] **版本管理自动化**
+  - 实现语义化版本自动递增
+  - 添加预发布版本支持（alpha/beta）
+  - 创建版本发布说明生成器
 - [ ] **实现登录和注册功能**
   - 使用轻量级方案做一个登录注册功能
 - [ ] **Head 组件封装**
@@ -143,6 +150,18 @@
   - 引入 React Testing Library + Playwright 测试框架
 - [ ] **i18n 方案升级**
   - 评估引入专业 i18n 库管理多语言内容
+- [ ] **资源指纹策略优化**
+  - 为所有静态资源添加内容哈希
+  - 配置长效缓存策略（max-age=31536000）
+  - 实现哈希变化自动更新引用
+- [ ] **部署健康检查**
+  - 添加部署后自动化测试
+  - 检查 CDN 资源可用性
+  - 验证关键功能是否正常
+- [ ] **环境变量管理**
+  - 创建统一环境变量配置文件
+  - 区分开发/测试/生产环境
+  - 实现敏感变量加密存储
 
 ---
 
@@ -219,6 +238,29 @@
      服务器->>生产环境: 安全部署
      生产环境-->>用户: 实时更新
    ```
+
+- **CDN 加速架构**：
+  ```mermaid
+  graph LR
+    A[GitHub Actions] --> B[构建静态资源]
+    B --> C[创建版本标签]
+    C --> D[上传至 CDN]
+    D --> E[清理旧缓存]
+    E --> F[用户访问加速资源]
+  ```
+
+- **环境变量注入流程**：
+  1. GitHub Actions 设置构建环境变量
+  2. Astro 配置读取环境变量
+  3. Vite 通过 `define` 注入客户端
+  4. 客户端代码通过 `import.meta.env` 访问
+
+- **缓存清理策略**：
+  | 清理类型       | 命令                                                                 |
+  |----------------|----------------------------------------------------------------------|
+  | 单个文件       | `curl -X PURGE https://cdn.jsdelivr.net/gh/user/repo@version/file`   |
+  | 整个目录       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version/path` |
+  | 整个版本       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version`      |
 
 ---
 

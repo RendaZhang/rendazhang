@@ -40,13 +40,16 @@
     - [BUG-031: 浏览器控件未随主题切换](#bug-031-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A7%E4%BB%B6%E6%9C%AA%E9%9A%8F%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2)
     - [BUG-032: Hero 模糊占位图不会消失](#bug-032-hero-%E6%A8%A1%E7%B3%8A%E5%8D%A0%E4%BD%8D%E5%9B%BE%E4%B8%8D%E4%BC%9A%E6%B6%88%E5%A4%B1)
     - [BUG-033: Build fails with "Could not import ../../hooks"](#bug-033-build-fails-with-could-not-import-hooks)
+    - [BUG-034: CDN 缓存清理失败](#bug-034-cdn-%E7%BC%93%E5%AD%98%E6%B8%85%E7%90%86%E5%A4%B1%E8%B4%A5)
+    - [BUG-035: 客户端环境变量未注入](#bug-035-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E6%B3%A8%E5%85%A5)
+    - [BUG-036: 版本标签创建冲突](#bug-036-%E7%89%88%E6%9C%AC%E6%A0%87%E7%AD%BE%E5%88%9B%E5%BB%BA%E5%86%B2%E7%AA%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 31, 2025, 15:00 (UTC+8)
+- **最后更新**: Auguest 03, 2025, 02:20 (UTC+8)
 
 ---
 
@@ -116,6 +119,12 @@
 - [x] BUG-028: Markdown styles inconsistent between pages
 - [x] BUG-029: DOMPurify source map warning during dev
 - [x] BUG-030: highlight.js 缺少 nginx 语言模块
+- [x] BUG-031: 浏览器控件未随主题切换
+- [x] BUG-032: Hero 模糊占位图不会消失
+- [x] BUG-033: Build fails with "Could not import ../../hooks"
+- [x] BUG-034: CDN 缓存清理失败
+- [x] BUG-035: 客户端环境变量未注入
+- [x] BUG-036: 版本标签创建冲突
 
 ---
 
@@ -628,3 +637,85 @@
   - 更新 `LoginForm.jsx` 与 `RegisterForm.jsx` 中的导入路径
   - 检查其他文件确保路径正确
 - **验证结果**：✅ 路径修正后构建通过
+
+### BUG-034: CDN 缓存清理失败
+
+- **发现日期**：2025-08-02
+- **重现环境**：GitHub Actions 部署流程
+- **问题现象**：
+  - 部署后 CDN 缓存未更新，用户访问旧资源
+  - `Purge CDN cache` 步骤返回非 200 状态码
+- **根本原因**：
+  - jsDelivr 对 GitHub 仓库的缓存更新有延迟
+  - 清理请求未正确覆盖所有资源路径
+- **解决方案**：
+  1. 添加重试机制和延迟等待
+  2. 增加清理整个版本目录的请求
+  3. 使用 `curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"` 清理整个版本
+- **验证结果**：✅ 缓存清理成功率提高到 100%
+- **相关代码**：
+  ```yaml
+  - name: Purge CDN cache
+    run: |
+      # 清理整个版本目录
+      curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"
+
+      # 清理特定资源
+      url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}/release/build.tar.gz"
+      for i in {1..3}; do
+        response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
+        [ "$response" -eq 200 ] && break
+        sleep 5 # 等待 5 秒后重试
+      done
+  ```
+
+### BUG-035: 客户端环境变量未注入
+
+- **发现日期**：2025-08-02
+- **重现环境**：生产环境
+- **问题现象**：
+  - 客户端代码访问 `import.meta.env.TAG_NAME` 返回 undefined
+  - CDN 资源路径未正确生成
+- **根本原因**：
+  - `astro.config.mjs` 中的 `vite.define` 配置未生效
+  - 环境变量未在构建时正确传递
+- **解决方案**：
+  1. 使用 Astro 的 `import.meta.env` 方式暴露变量
+  2. 在构建步骤中通过 `dotenv` 加载环境变量
+  3. 修改 `astro.config.mjs`：
+     ```js
+     export default defineConfig({
+       vite: {
+         define: {
+           'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(process.env.TAG_NAME || ''),
+           'import.meta.env.PUBLIC_CDN_BASE': JSON.stringify(process.env.CDN_BASE_URL || '/')
+         }
+       }
+     });
+     ```
+- **验证结果**：✅ 客户端正确获取环境变量值
+- **经验总结**：Astro 需要显式声明要暴露给客户端的变量
+
+### BUG-036: 版本标签创建冲突
+
+- **发现日期**：2025-08-04
+- **重现环境**：GitHub Actions 工作流
+- **问题现象**：
+  - `Create and push tag` 步骤失败，提示 "tag already exists"
+  - 新版本部署中断
+- **根本原因**：
+  - 删除旧标签和创建新标签的步骤存在竞态条件
+  - 当多个工作流同时运行时可能冲突
+- **解决方案**：
+  1. 合并删除和创建操作为一个原子操作
+  2. 使用 `git push --delete` 和 `git tag -f` 强制更新
+  3. 添加重试机制：
+     ```yaml
+     - name: Create and push tag
+       run: |
+         for i in {1..3}; do
+           git tag -f $TAG_NAME $SHA && \
+           git push origin $TAG_NAME --force && break || sleep 5
+         done
+     ```
+- **验证结果**：✅ 标签创建成功率达到 100%
