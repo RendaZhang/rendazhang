@@ -420,7 +420,7 @@ For detailed steps on setting up the development environment, please refer to th
 
 Run `npm run validate-assets` for image/music file validation.
 
-Details: 📄 [Asset Validation Script](docs/guides/ASSET_VALIDATION.md)
+Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
 
 ### Responsive Image System Maintenance
 

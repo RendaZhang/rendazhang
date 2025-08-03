@@ -422,7 +422,7 @@ location /_astro/ {
 
 执行 `npm run validate-assets` 检查图片与音乐文件命名。
 
-文档详见：📄 [静态资源命名验证脚本](docs/guides/ASSET_VALIDATION.md)
+文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
 
 ### 响应式图片系统维护
 

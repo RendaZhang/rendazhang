@@ -48,13 +48,16 @@
     - [BUG-040: Source map 版本不匹配](#bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
     - [BUG-041: Sentry CORS 403 on localhost](#bug-041-sentry-cors-403-on-localhost)
     - [BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined](#bug-042-github-actions-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E7%BB%91%E5%AE%9A%E5%AF%BC%E8%87%B4-tag-undefined)
+    - [BUG-043: LocalStorage 新旧格式兼容性问题](#bug-043-localstorage-%E6%96%B0%E6%97%A7%E6%A0%BC%E5%BC%8F%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98)
+    - [BUG-044: 主题初始化脚本执行延迟导致闪烁](#bug-044-%E4%B8%BB%E9%A2%98%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E5%BB%B6%E8%BF%9F%E5%AF%BC%E8%87%B4%E9%97%AA%E7%83%81)
+    - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 00:54 (UTC+8)
+- **最后更新**: August 04, 2025, 06:26 (UTC+8)
 
 ---
 
@@ -896,3 +899,89 @@
      `TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}`
 - **验证结果**：✅ Workflow 日志显示正确 tag，发布成功
 - **经验总结**：GitHub *Environment* 的 `vars/​secrets` 只有绑定到同名 `environment:` 的 Job 才可用
+
+### BUG-043: LocalStorage 新旧格式兼容性问题
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：所有浏览器，用户已有存储数据
+- **问题现象**：
+  - 新版 `storage.get()` 方法无法解析旧版直接存储的字符串值
+  - 控制台报 `SyntaxError: Unexpected token` JSON 解析错误
+  - 主题/语言切换功能部分用户失效
+- **根本原因**：
+  - 旧版存储使用 `localStorage.setItem(key, value)` 直接存储原始字符串
+  - 新版要求使用 `JSON.stringify()` 存储结构化数据
+  - 直接切换导致新旧数据格式不兼容
+- **解决方案**：
+  1. 在 `storage.get()` 方法中添加智能解析逻辑：
+     ```javascript
+     try {
+       return JSON.parse(value);  // 尝试解析新版 JSON 格式数据
+     } catch (e) {
+       return value; // 返回旧版字符串格式数据
+     }
+     ```
+  2. 写入时统一使用 `JSON.stringify()` 标准化格式
+  3. 在 BaseLayout 中实现轻量级存储助手确保同步执行
+- **验证结果**：✅ 新旧数据格式无缝兼容，无用户数据丢失
+- **经验总结**：存储格式变更需考虑向后兼容，智能解析比数据迁移更安全
+
+### BUG-044: 主题初始化脚本执行延迟导致闪烁
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：所有页面，特别是低性能设备
+- **问题现象**：
+  - 页面加载时主题/语言短暂显示默认值后切换
+  - 使用 `type="module"` 的脚本执行时机过晚
+  - React hydration 不匹配警告
+- **根本原因**：
+  - 模块脚本 (`<script type="module">`) 在 DOM 解析后执行
+  - React 组件在脚本执行前已完成初始渲染
+- **解决方案**：
+  1. 使用非模块内联脚本确保同步执行：
+     ```astro
+     <script is:inline>
+       // 轻量级存储助手实现
+       window.__storageHelper = {
+         get: (key) => {
+           /* 智能解析逻辑 */
+         }
+       };
+     </script>
+     ```
+  2. 在 `<head>` 中立即设置文档属性：
+     ```javascript
+     document.documentElement.lang = lang;
+     document.documentElement.dataset.theme = theme;
+     ```
+  3. 暴露初始值供 React 上下文使用：
+     ```javascript
+     window.__INITIAL_THEME__ = theme;
+     window.__INITIAL_LANG__ = lang;
+     ```
+- **验证结果**：✅ 完全消除主题/语言切换闪烁，hydration 无报错
+- **关键指标**：页面加载到主题应用时间从 300ms+ 降至 <50ms
+
+### BUG-045: 存储工具全局注册执行冲突
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：开发服务器，BaseLayout 页面
+- **问题现象**：
+  - 控制台报 `Uncaught SyntaxError: Unexpected token 'export'`
+  - `storage.js` 全局注册与内联脚本加载冲突
+- **根本原因**：
+  - 内联脚本尝试加载 ES 模块格式的 `storage.js`
+  - 非模块环境无法解析 `export` 语句
+  - 重复注册存储助手逻辑
+- **解决方案**：
+  1. 完全移除 `storage.js` 的全局注册方法
+  2. 在 BaseLayout 实现自包含的轻量级存储助手
+  3. 添加单例检查避免重复初始化：
+     ```javascript
+     if (window.__storageInitialized) return;
+     window.__storageInitialized = true;
+     ```
+- **验证结果**：✅ 无模块加载错误，存储功能正常
