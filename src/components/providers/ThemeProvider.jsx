@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { THEME_STORAGE_KEY } from '../../config.js';
+import storage from '../../utils/storage.js';
 
 const defaultContext = {
   darkMode: false,
@@ -23,7 +24,7 @@ export function ThemeProvider({ children }) {
     return false; // SSR默认值
   });
 
-  // 同步主题状态到 DOM 和 localStorage
+  // 同步主题状态到 DOM 和存储
   useEffect(() => {
     // 1. 只在客户端执行
     if (typeof window === 'undefined') return;
@@ -35,10 +36,10 @@ export function ThemeProvider({ children }) {
       // 优先读取 DOM 类名
       const hasDarkClass = document.documentElement.classList.contains('dark-mode');
 
-      // 其次读取 localStorage
+      // 其次读取存储
       let storedValue = false;
       try {
-        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        const stored = storage.get(THEME_STORAGE_KEY);
         storedValue = stored === 'dark';
       } catch {}
 
@@ -54,7 +55,7 @@ export function ThemeProvider({ children }) {
     // 3. 后续状态变化时同步
     document.documentElement.classList.toggle('dark-mode', darkMode);
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
+      storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
     } catch {}
   }, [darkMode]);
 

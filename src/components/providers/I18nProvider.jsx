@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext, useRef } from 'react';
 import { LANG_STORAGE_KEY } from '../../config.js';
+import storage from '../../utils/storage.js';
 
 const I18nContext = createContext();
 
@@ -24,14 +25,14 @@ export function I18nProvider({ children, initialLang }) {
         'zh-CN';
       let storedLang = null;
       try {
-        storedLang = localStorage.getItem(LANG_STORAGE_KEY);
+        storedLang = storage.get(LANG_STORAGE_KEY);
       } catch {}
       // 首次挂载时优先使用本地存储的语言设置
       const effectiveLang = storedLang || domLang;
       setLang(effectiveLang);
       document.documentElement.lang = effectiveLang;
       try {
-        localStorage.setItem(LANG_STORAGE_KEY, effectiveLang);
+        storage.set(LANG_STORAGE_KEY, effectiveLang);
       } catch {}
       window.dispatchEvent(new CustomEvent('langChanged', { detail: effectiveLang }));
       return;
@@ -39,7 +40,7 @@ export function I18nProvider({ children, initialLang }) {
 
     document.documentElement.lang = lang;
     try {
-      localStorage.setItem(LANG_STORAGE_KEY, lang);
+      storage.set(LANG_STORAGE_KEY, lang);
     } catch {}
     window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
   }, [lang, initialLang]);
@@ -78,7 +79,7 @@ export function useLanguage() {
       if (typeof document !== 'undefined') {
         document.documentElement.lang = newLang;
         try {
-          localStorage.setItem(LANG_STORAGE_KEY, newLang);
+          storage.set(LANG_STORAGE_KEY, newLang);
         } catch {}
         window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
       }

@@ -25,6 +25,8 @@
     - [静态资源命名验证](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81)
     - [响应式图片系统维护](#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4)
     - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
+    - [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
+    - [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -34,7 +36,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 02, 2025, 00:57 (UTC+8)
+- **最后更新**: August 03, 2025, 16:44 (UTC+8)
 - **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 ---
@@ -419,17 +421,29 @@ location /_astro/ {
 
 执行 `npm run validate-assets` 检查图片与音乐文件命名。
 
-文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+文档详见：📄 [静态资源命名验证脚本](docs/guides/ASSET_VALIDATION.md)
 
 ### 响应式图片系统维护
 
 网站图片通过自动化脚本生成响应式版本并内置 LQIP 占位效果，方便在不同设备上快速加载。
 
-详细操作流程与扩展指南请参阅：📄 [通用响应式图片处理系统维护文档](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3)
+详细操作流程与扩展指南请参阅：📄 [通用响应式图片处理系统维护文档](docs/guides/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md)
 
 ### 错误跟踪
 
-Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](docs/ERROR_TRACKING.md).
+Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](docs/guides/ERROR_TRACKING.md).
+
+### 语言工具函数
+
+`src/utils/langUtils.js` 提供 `getCurrentLang()` 等方法，统一管理页面语言的获取流程。
+
+文档详见：📄 [语言工具函数](docs/guides/LANG_UTILS.md).
+
+### 存储工具函数
+
+`src/utils/storage.js` 提供 `get`、`set`、`remove` 等方法，统一管理 `localStorage`、`sessionStorage`、Cookie 与 IndexedDB。
+
+文档详见：📄 [存储工具函数](docs/guides/STORAGE_UTILS.md).
 
 ---
 

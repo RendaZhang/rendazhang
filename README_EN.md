@@ -1,13 +1,13 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
   - [Frontend](#frontend)
-    - [Local Development \& Preview](#local-development--preview)
+    - [Local Development & Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
     - [Website Features](#website-features)
@@ -25,6 +25,8 @@
     - [Static Asset Naming Validation](#static-asset-naming-validation)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
+    - [Language Utilities](#language-utilities)
+    - [Storage Utility](#storage-utility)
   - [🤝 Contribution Guidelines](#-contribution-guidelines)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -34,7 +36,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 02, 2025, 00:57 (UTC+8)
+- **Last Updated**: August 03, 2025, 16:44 (UTC+8)
 - **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 ---
@@ -417,15 +419,27 @@ For detailed steps on setting up the development environment, please refer to th
 
 Run `npm run validate-assets` for image/music file validation.
 
-Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
+Details: 📄 [Asset Validation Script](docs/guides/ASSET_VALIDATION.md)
 
 ### Responsive Image System Maintenance
 
-The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3) _(Chinese)_.
+The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](docs/guides/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md) _(Chinese)_.
 
 ### Error Tracking
 
-Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](docs/ERROR_TRACKING.md) for configuration.
+Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](docs/guides/ERROR_TRACKING.md) for configuration.
+
+### Language Utilities
+
+`src/utils/langUtils.js` exposes helpers such as `getCurrentLang()` to centralize language resolution.
+
+Details: 📄 [Language Utilities](docs/guides/LANG_UTILS.md).
+
+### Storage Utility
+
+`src/utils/storage.js` offers a unified API (`get`, `set`, `remove`) for localStorage, sessionStorage, cookies, and IndexedDB.
+
+Details: 📄 [Storage Utility](docs/guides/STORAGE_UTILS.md).
 
 ---
 

@@ -275,11 +275,11 @@
   - 暗色模式刷新后报 `Minified React error #418`
   - 控制台显示 hydration 不匹配警告
 - **根本原因**：
-  - 服务端始终渲染亮色主题，客户端按 localStorage 初始化
+  - 服务端始终渲染亮色主题，客户端通过 `storage` 工具读取初始主题
   - SSR 与客户端初始状态不一致
 - **解决方案**：
   - 初始状态固定为 false
-  - useEffect 中读取 localStorage 并更新状态
+  - useEffect 中通过 `storage` 读取并更新状态
 - **验证结果**：✅ 刷新不再报错，主题切换正常
 - **经验总结**：SSR 应用必须保证初始渲染一致性
 
@@ -338,9 +338,10 @@
 - **验证结果**：✅ 完全消除主题切换闪烁
 - **关键脚本**：
   ```html
-  <script is:inline>
+  <script is:inline type="module">
+    import storage from '/src/utils/storage.js';
     try {
-      const stored = localStorage.getItem('${THEME_STORAGE_KEY}');
+      const stored = storage.get('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');
     } catch {}
   </script>
@@ -423,7 +424,7 @@
   - 页面初始显示中文导航文字后迅速切换为英文，产生闪烁
 - **根本原因**：
   - `NavBar` 组件在服务端调用 `getCurrentLang()`，默认返回中文
-  - 客户端根据 `<html lang>` 或 localStorage 得到英文，导致首屏内容不一致
+  - 客户端根据 `<html lang>` 或 `storage` 工具得到英文，导致首屏内容不一致
 - **解决方案**：
   1. 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
   2. 初始化语言脚本优先读取页面 lang 属性
@@ -439,7 +440,7 @@
   - 首次加载时先显示中文内容后切换为英文，页面发生闪烁
   - 控制台报 `Hydration failed` 错误
 - **根本原因**：
-  - 服务端无法访问浏览器 localStorage，默认返回中文
+  - 服务端无法访问浏览器存储，默认返回中文
   - AboutContent 仅渲染当前语言文本，服务端与客户端标记不一致
 - **解决方案**：
   1. About 页面同时渲染中英文内容，CSS 根据 `html[lang]` 隐藏未选语言
@@ -467,12 +468,12 @@
 - **发现日期**：2025-07-29
 - **重现环境**：Chrome 最新版
 - **问题现象**：
-  - 在 BaseLayout 主题初始化脚本中使用 `localStorage.getItem('${THEME_STORAGE_KEY}')` 时返回 null
+  - 在 BaseLayout 主题初始化脚本中使用 `storage.get('${THEME_STORAGE_KEY}')` 时返回 null
 - **根本原因**：
   - 该字符串在构建阶段被 Astro 当作模板字符串处理，无法在脚本运行时得到常量值
 - **解决方案**：
   - 通过 `define:vars={{ themeKey: THEME_STORAGE_KEY }}` 将常量值注入行内脚本
-  - 使用 `localStorage.getItem(themeKey)` 读取存储值
+  - 使用 `storage.get(themeKey)` 读取存储值
 - **验证结果**：✅ 控制台能够正确获取主题值
 
 ### BUG-021: Chat input placeholder flickers when switching languages
@@ -802,7 +803,7 @@
 - **发现日期**：2025-08-03
 - **重现环境**：错误报告详情页
 - **问题现象**：
-  - 错误报告包含 localStorage 敏感数据
+  - 错误报告包含存储层（如 localStorage）敏感数据
   - 用户身份信息出现在面包屑记录中
 - **根本原因**：
   - 未配置数据擦除规则
