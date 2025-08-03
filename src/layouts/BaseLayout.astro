@@ -1,4 +1,5 @@
 ---
+import * as Sentry from '@sentry/react';
 import { NavBarWrapper } from '../components/layouts';
 import {
   FAVICON_PATHS,
@@ -99,9 +100,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           // 3. 决策逻辑
           const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
-          console.log('storedTheme: ' + storedTheme);
-          console.log('systemPrefersDark: ' + systemPrefersDark);
-          console.log('shouldUseDarkMode: ' + shouldUseDarkMode);
+          console.log('BaseLayout inline script storedTheme: ' + storedTheme);
+          console.log('BaseLayout inline script systemPrefersDark: ' + systemPrefersDark);
+          console.log('BaseLayout inline script shouldUseDarkMode: ' + shouldUseDarkMode);
           // 4. 立即应用主题
           if (shouldUseDarkMode) {
             document.documentElement.classList.add('dark-mode');
@@ -110,7 +111,8 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           document.documentElement.dataset.initialTheme =
             storedTheme || (systemPrefersDark ? 'dark' : 'light');
         } catch (e) {
-          console.error('主题初始化失败', e);
+          console.error('BaseLayout inline script 主题初始化失败', e);
+          Sentry.captureException(e);
         }
       })();
     </script>
@@ -122,9 +124,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const storedLang = storage.get(langKey);
           const docLang = document.documentElement.getAttribute('lang') || 'zh-CN';
           const lang = storedLang || docLang;
-          console.log('storedLang: ' + storedLang);
-          console.log('docLang: ' + docLang);
-          console.log('lang: ' + lang);
+          console.log('BaseLayout inline script storedLang: ' + storedLang);
+          console.log('BaseLayout inline script docLang: ' + docLang);
+          console.log('BaseLayout inline script lang: ' + lang);
           document.documentElement.lang = lang;
           // Keep the server-rendered language as the initialLang value so that
           // React hydrates using the same language as the static HTML.
@@ -136,11 +138,13 @@ const twitterProps = { ...twitterDefaults, ...twitter };
               storage.set(langKey, e.detail);
               document.documentElement.lang = e.detail;
             } catch (error) {
-              console.error('语言同步失败', error);
+              console.error('BaseLayout inline script 语言同步失败', error);
+              Sentry.captureException(e);
             }
           });
         } catch (e) {
-          console.error('语言初始化失败', e);
+          console.error('BaseLayout inline script 语言初始化失败', e);
+          Sentry.captureException(e);
         }
       })();
     </script>

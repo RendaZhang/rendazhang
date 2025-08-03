@@ -45,10 +45,10 @@ function getWebStorage(type = 'local') {
     const testKey = '__storage_test__';
     storage.setItem(testKey, '1');
     storage.removeItem(testKey);
-    console.log("storage type: " + type);
+    console.log("storage.js storage getWebStorage type: " + type);
     return storage;
   } catch(e) {
-    console.error('getWebStorage failed with type: ' + type);
+    console.error('storage.js storage getWebStorage failed with type: ' + type);
     Sentry.captureException(e);
     return null;
   }
@@ -119,7 +119,7 @@ const storage = {
       const value = store.getItem(key);
       return value ? JSON.parse(value) : null;
     } catch (e) {
-      console.error('Storage get failed with type ' + type + ' and key ' + key);
+      console.error('storage.js storage get failed with type ' + type + ' and key ' + key);
       Sentry.captureException(e);
     }
   },
@@ -132,7 +132,7 @@ const storage = {
         store.setItem(key, JSON.stringify(value));
       }
     } catch (e) {
-      console.error('Storage set failed with type ' + type + ', key ' + key + ' and value ' + value);
+      console.error('storage.js storage set failed with type ' + type + ', key ' + key + ' and value ' + value);
       Sentry.captureException(e);
     }
   },
@@ -141,7 +141,7 @@ const storage = {
       const store = selectStorage(type);
       store.removeItem(key);
     } catch (e) {
-      console.error('Storage remove failed with type ' + type + ' and key ' + key);
+      console.error('storage.js storage remove failed with type ' + type + ' and key ' + key);
       Sentry.captureException(e);
     }
   },
@@ -151,7 +151,7 @@ const storage = {
       const value = await indexedDBStorage.getItem(key, dbName, storeName);
       return value ? JSON.parse(value) : null;
     } catch (e) {
-      console.error('IndexedDB get failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB get failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
       Sentry.captureException(e);
     }
   },
@@ -159,7 +159,7 @@ const storage = {
     try {
       await indexedDBStorage.setItem(key, JSON.stringify(value), dbName, storeName);
     } catch (e) {
-      console.error('IndexedDB set failed with key ' + key + ', value ' + value + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB set failed with key ' + key + ', value ' + value + ', dbName ' + dbName + ' and storeName ' + storeName);
       Sentry.captureException(e);
     }
   },
@@ -167,7 +167,7 @@ const storage = {
     try {
       await indexedDBStorage.removeItem(key, dbName, storeName);
     } catch (e) {
-      console.error('IndexedDB remove failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB remove failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
       Sentry.captureException(e);
     }
   }
