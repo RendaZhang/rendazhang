@@ -25,7 +25,7 @@ Sentry.init({
     if (sensitivePaths.some((path) => request?.url?.includes(path))) {
       return null;
     }
-    // 过滤开发环境错误
+    // 过滤非生产环境的错误
     if (import.meta.env.PUBLIC_NODE_ENV !== 'production') {
       console.warn('Sentry event filtered in development:', hint.originalException);
       return null;
