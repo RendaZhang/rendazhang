@@ -89,34 +89,41 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATHS.ICO} />
     <link rel="icon" type="image/png" href={FAVICON_PATHS.PNG} />
     <link rel="apple-touch-icon" href={FAVICON_PATHS.SMALL} />
-    <!-- 1. 首先挂载全局存储辅助函数 -->
-    <script is:inline>
-      window.__storageHelper = {
-        get: (key) => {
-          try {
-            const value = localStorage.getItem(key);
-            if (value === null) return null;
-            try {
-              return JSON.parse(value);
-            } catch {
-              return value; // 返回原始字符串
-            }
-          } catch (e) {
-            console.warn('Storage read error', e);
-            return null;
-          }
-        },
-        set(key, value) {
-          try {
-            localStorage.setItem(key, JSON.stringify(value));
-          } catch (e) {
-            console.error('storage.js storage set failed', e);
-          }
-        }
-      };
-    </script>
-    <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
+    <script
+      is:inline
+      define:vars={{
+        themeKey: THEME_STORAGE_KEY,
+        langKey: LANG_STORAGE_KEY,
+        titleZh: effectiveTitleZh,
+        titleEn: effectiveTitleEn
+      }}
+    >
       (function () {
+        // 首先挂载全局存储辅助函数
+        window.__storageHelper = {
+          get: (key) => {
+            try {
+              const value = localStorage.getItem(key);
+              if (value === null) return null;
+              try {
+                return JSON.parse(value);
+              } catch {
+                return value; // 返回原始字符串
+              }
+            } catch (e) {
+              console.warn('Storage read error', e);
+              return null;
+            }
+          },
+          set(key, value) {
+            try {
+              localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+              console.error('storage.js storage set failed', e);
+            }
+          }
+        };
+        // 主题初始化
         try {
           // 1. 尝试读取存储
           const storedTheme = window.__storageHelper.get(themeKey);
@@ -137,10 +144,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         } catch (e) {
           console.error('BaseLayout inline script 主题初始化失败', e);
         }
-      })();
-    </script>
-    <script is:inline define:vars={{ langKey: LANG_STORAGE_KEY }}>
-      (function () {
+        // 多语言初始化
         try {
           // 语言初始化逻辑
           const storedLang = window.__storageHelper.get(langKey);
@@ -166,29 +170,24 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         } catch (e) {
           console.error('BaseLayout inline script 语言初始化失败', e);
         }
-      })();
-    </script>
-    <script
-      is:inline
-      define:vars={{
-        titleZh: effectiveTitleZh,
-        titleEn: effectiveTitleEn
-      }}
-    >
-      (function () {
-        var zh = titleZh;
-        var en = titleEn;
-        if (!zh && !en) return;
-        function setTitle() {
-          var lang = document.documentElement.lang || 'zh-CN';
-          if (lang.startsWith('zh') && zh) {
-            document.title = zh;
-          } else if (!lang.startsWith('zh') && en) {
-            document.title = en;
+        // 页面 title 的多语言切换支持
+        try {
+          var zh = titleZh;
+          var en = titleEn;
+          if (!zh && !en) return;
+          function setTitle() {
+            var lang = document.documentElement.lang || 'zh-CN';
+            if (lang.startsWith('zh') && zh) {
+              document.title = zh;
+            } else if (!lang.startsWith('zh') && en) {
+              document.title = en;
+            }
           }
+          setTitle();
+          window.addEventListener('langChanged', setTitle);
+        } catch (e) {
+          console.error('BaseLayout inline script 页面 title 语言初始化失败', e);
         }
-        setTitle();
-        window.addEventListener('langChanged', setTitle);
       })();
     </script>
     <link rel="canonical" href={canonical} />
