@@ -1,8 +1,8 @@
 export const getEnv = (key) => {
   const envMap = {
-    TAG_NAME: import.meta.env.CLIENT_TAG_NAME,
-    NODE_ENV: import.meta.env.CLIENT_NODE_ENV,
-    CDN_BASE: import.meta.env.CLIENT_CDN_BASE
+    TAG_NAME: import.meta.env.PUBLIC_TAG_NAME,
+    NODE_ENV: import.meta.env.PUBLIC_NODE_ENV,
+    CDN_BASE: import.meta.env.PUBLIC_CDN_BASE
   };
   return envMap[key] || null;
 };
