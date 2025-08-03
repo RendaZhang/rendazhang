@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext, useRef } from 'react';
 import { LANG_STORAGE_KEY } from '../../config.js';
+import storage from '../../utils/storage.js';
 
 const I18nContext = createContext();
 
@@ -24,23 +25,39 @@ export function I18nProvider({ children, initialLang }) {
         'zh-CN';
       let storedLang = null;
       try {
-        storedLang = localStorage.getItem(LANG_STORAGE_KEY);
-      } catch {}
+        storedLang = storage.get(LANG_STORAGE_KEY);
+        console.log('I18nProvider storedLang: ' + storedLang);
+      } catch (e) {
+        console.error(
+          'I18nProvider failed to get storedLand with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+        );
+        Sentry.captureException(e);
+      }
       // 首次挂载时优先使用本地存储的语言设置
       const effectiveLang = storedLang || domLang;
       setLang(effectiveLang);
       document.documentElement.lang = effectiveLang;
       try {
-        localStorage.setItem(LANG_STORAGE_KEY, effectiveLang);
-      } catch {}
+        storage.set(LANG_STORAGE_KEY, effectiveLang);
+        console.log('I18nProvider effectiveLang: ' + effectiveLang);
+      } catch (e) {
+        console.error(
+          'I18nProvider failed to set effectiveLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+        );
+        Sentry.captureException(e);
+      }
       window.dispatchEvent(new CustomEvent('langChanged', { detail: effectiveLang }));
       return;
     }
 
     document.documentElement.lang = lang;
     try {
-      localStorage.setItem(LANG_STORAGE_KEY, lang);
-    } catch {}
+      storage.set(LANG_STORAGE_KEY, lang);
+      console.log('I18nProvider lang: ' + lang);
+    } catch (e) {
+      console.error('I18nProvider failed to set lang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY);
+      Sentry.captureException(e);
+    }
     window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
   }, [lang, initialLang]);
 
@@ -78,8 +95,14 @@ export function useLanguage() {
       if (typeof document !== 'undefined') {
         document.documentElement.lang = newLang;
         try {
-          localStorage.setItem(LANG_STORAGE_KEY, newLang);
-        } catch {}
+          storage.set(LANG_STORAGE_KEY, newLang);
+          console.log('I18nProvider newLang: ' + newLang);
+        } catch (e) {
+          console.error(
+            'I18nProvider failed to set newLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+          );
+          Sentry.captureException(e);
+        }
         window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
       }
     });

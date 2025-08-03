@@ -1,0 +1,229 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [存储工具函数](#存储工具函数)
+  - [简介](#简介)
+  - [核心特性](#核心特性)
+  - [API](#api)
+    - [`get(key, type?)`](#getkey-type)
+    - [`set(key, value, type?, options?)`](#setkey-value-type-options)
+    - [`remove(key, type?)`](#removekey-type)
+    - [IndexedDB 异步方法](#indexeddb-异步方法)
+  - [智能解析机制](#智能解析机制)
+  - [使用示例](#使用示例)
+    - [基础使用](#基础使用)
+    - [安全删除](#安全删除)
+    - [IndexedDB 操作](#indexeddb-操作)
+  - [最佳实践](#最佳实践)
+  - [注意事项](#注意事项)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# 存储工具函数
+
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: August 04, 2025, 06:46 (UTC+8)
+
+---
+
+## 简介
+
+`src/utils/storage.js` 提供统一的存储操作接口，封装多种存储后端的读写逻辑，具有以下特点：
+
+1. **多后端支持**：
+   - `localStorage` & `sessionStorage`
+   - Cookies
+   - 内存存储（无存储环境回退）
+   - IndexedDB（异步大容量存储）
+
+2. **智能数据兼容**：
+   - 无缝兼容新旧数据格式（原始字符串 ↔ JSON）
+   - 自动处理数据类型转换
+
+3. **健壮性保障**：
+   - 存储不可用时优雅降级
+   - 统一错误处理 + Sentry 监控集成
+
+---
+
+## 核心特性
+
+```mermaid
+graph TD
+    A[存储操作] --> B{数据类型}
+    B -->|对象/数组| C[JSON 序列化]
+    B -->|原始值| D[智能转换]
+    C --> E[安全存储]
+    D --> E
+    E --> F[读取解析]
+    F -->|成功| G[返回结构化数据]
+    F -->|失败| H[返回原始字符串]
+```
+
+---
+
+## API
+
+### `get(key, type?)`
+
+读取指定 key 的值，支持智能格式解析：
+
+```javascript
+// 读取新版JSON数据
+storage.get('user_settings') // { theme: 'dark', lang: 'en' }
+
+// 读取旧版字符串数据
+storage.get('legacy_key') // "raw_string_value"
+```
+
+### `set(key, value, type?, options?)`
+
+写入时自动标准化数据格式：
+
+```javascript
+// 自动序列化
+storage.set('user', { name: "张三", id: 123 })
+
+// Cookie专属选项
+storage.set('session_id', 'abc123', 'cookie', { days: 7 })
+```
+
+### `remove(key, type?)`
+
+安全删除存储数据：
+
+```javascript
+storage.remove('temp_data', 'session')
+```
+
+### IndexedDB 异步方法
+
+| 方法                | 描述                     | 示例 |
+|---------------------|--------------------------|------|
+| `getIndexedDB`      | 异步读取大容量数据       | `storage.getIndexedDB('user_data', 'appDB', 'keyval')` |
+| `setIndexedDB`      | 异步存储结构化数据       | `storage.setIndexedDB('logs', data, 'appDB', 'records')` |
+| `removeIndexedDB`   | 异步删除数据             | `storage.removeIndexedDB('temp_record', 'appDB', 'records')` |
+
+---
+
+## 智能解析机制
+
+```javascript
+// 核心解析逻辑
+function smartParse(value) {
+  if (value === null) return null;
+
+  try {
+    return JSON.parse(value);  // 尝试解析新版JSON格式
+  } catch (e) {
+    return value; // 返回旧版原始字符串
+  }
+}
+```
+
+**新旧数据兼容示例**：
+
+| 存储格式          | 读取结果       | 类型推断 |
+|-------------------|---------------|----------|
+| `"\"dark\""`     | `"dark"`      | 字符串   |
+| `"true"`         | `true`        | 布尔值   |
+| `"42"`           | `42`          | 数字     |
+| `"[1,2,3]"`      | `[1,2,3]`     | 数组     |
+| `"raw string"`   | `"raw string"`| 字符串   |
+
+---
+
+## 使用示例
+
+### 基础使用
+
+```javascript
+import storage from '@/utils/storage';
+
+// 设置主题
+storage.set('theme', { mode: 'dark', contrast: 'high' });
+
+// 读取主题（自动解析）
+const theme = storage.get('theme'); // { mode: 'dark', contrast: 'high' }
+```
+
+### 安全删除
+
+```javascript
+// 删除会话数据
+storage.remove('session_token', 'session');
+```
+
+### IndexedDB 操作
+
+```javascript
+// 存储大容量数据
+const analyticsData = { /* 大型数据集 */ };
+await storage.setIndexedDB('analytics', analyticsData, 'metricsDB', 'records');
+
+// 读取数据
+const data = await storage.getIndexedDB('analytics', 'metricsDB', 'records');
+```
+
+---
+
+## 最佳实践
+
+1. **键名管理**：
+   ```javascript
+   // constants.js
+   export const STORAGE_KEYS = {
+     THEME: 'user_theme_config',
+     LANG: 'user_language',
+     SESSION: 'auth_session'
+   };
+   ```
+
+2. **错误处理**：
+   ```javascript
+   try {
+     const config = storage.get(STORAGE_KEYS.THEME);
+   } catch (e) {
+     console.error('Storage read failed', e);
+     Sentry.captureException(e);
+   }
+   ```
+
+3. **降级策略**：
+   ```javascript
+   const lang = storage.get(STORAGE_KEYS.LANG) || navigator.language;
+   ```
+
+---
+
+## 注意事项
+
+1. **环境适配**：
+   - 在非浏览器环境（如SSR）自动使用内存存储
+   - Cookie操作仅在浏览器环境有效
+
+2. **数据迁移**：
+   ```javascript
+   // 检查并迁移旧格式数据
+   const legacyValue = localStorage.getItem('old_key');
+   if (typeof legacyValue === 'string') {
+     storage.set('new_key', legacyValue);
+     localStorage.removeItem('old_key');
+   }
+   ```
+
+3. **性能考量**：
+   - IndexedDB 适合 >1MB 数据存储
+   - 高频小数据推荐使用 localStorage
+   - 敏感会话数据使用 sessionStorage
+
+4. **同步初始化**：
+   ```javascript
+   // BaseLayout 内联脚本示例
+   window.__storageHelper = {
+     get: (key) => {
+       const value = localStorage.getItem(key);
+       try { return JSON.parse(value) } catch { return value }
+     }
+   };
+   ```

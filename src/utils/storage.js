@@ -1,25 +1,193 @@
-export default {
-  get(key) {
+// Unified storage utility supporting multiple backends.
+// Provides a consistent API for localStorage, sessionStorage, cookies,
+// and fallbacks for environments where Web Storage is not available.
+// Also exposes asynchronous helpers for IndexedDB operations.
+import * as Sentry from '@sentry/react';
+
+const isBrowser = typeof window !== 'undefined';
+
+// Simple in-memory fallback storage
+const memoryStore = {};
+const memoryStorage = {
+  getItem: (key) => (key in memoryStore ? memoryStore[key] : null),
+  setItem: (key, value) => {
+    memoryStore[key] = value;
+  },
+  removeItem: (key) => {
+    delete memoryStore[key];
+  }
+};
+
+// Cookie based storage
+const cookieStorage = {
+  getItem(key) {
+    if (!isBrowser) return null;
+    const match = document.cookie.match(
+      new RegExp('(?:^|; )' + key.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+    );
+    return match ? decodeURIComponent(match[1]) : null;
+  },
+  setItem(key, value, days = 365) {
+    if (!isBrowser) return;
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${key}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+  },
+  removeItem(key) {
+    if (!isBrowser) return;
+    document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+  }
+};
+
+function getWebStorage(type = 'local') {
+  if (!isBrowser) return null;
+  try {
+    const storage = type === 'session' ? window.sessionStorage : window.localStorage;
+    const testKey = '__storage_test__';
+    storage.setItem(testKey, '1');
+    storage.removeItem(testKey);
+    console.log("storage.js storage getWebStorage type: " + type);
+    return storage;
+  } catch(e) {
+    console.error('storage.js storage getWebStorage failed', e);
+    Sentry.captureException(e);
+    return null;
+  }
+}
+
+function selectStorage(type = 'local') {
+  if (type === 'cookie') return cookieStorage;
+  const webStorage = getWebStorage(type);
+  return webStorage || memoryStorage;
+}
+
+// Basic IndexedDB helpers
+async function openDB(dbName = 'appDB', storeName = 'keyval') {
+  return new Promise((resolve, reject) => {
+    if (!isBrowser || !('indexedDB' in window)) {
+      resolve(null);
+      return;
+    }
+    const request = indexedDB.open(dbName, 1);
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore(storeName);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+const indexedDBStorage = {
+  async getItem(key, dbName, storeName) {
+    const db = await openDB(dbName, storeName);
+    if (!db) return null;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(storeName, 'readonly');
+      const store = tx.objectStore(storeName);
+      const req = store.get(key);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  },
+  async setItem(key, value, dbName, storeName) {
+    const db = await openDB(dbName, storeName);
+    if (!db) return;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      const req = store.put(value, key);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  },
+  async removeItem(key, dbName, storeName) {
+    const db = await openDB(dbName, storeName);
+    if (!db) return;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      const req = store.delete(key);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  }
+};
+
+const storage = {
+  get(key, type = 'local') {
     try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : null;
+      const store = selectStorage(type);
+      const value = store.getItem(key);
+      if (value === null) return null;
+      try {
+        // 尝试解析 JSON，成功则返回解析结果
+        return JSON.parse(value);
+      } catch (e) {
+        // 解析失败说明是旧版字符串，直接返回原始值
+        return value;
+      }
     } catch (e) {
-      console.error('Storage get failed', e);
+      console.error('storage.js storage get failed', e);
+      Sentry.captureException(e);
       return null;
     }
   },
-  set(key, value) {
+  set(key, value, type = 'local', options = {}) {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      const store = selectStorage(type);
+      const stringValue = JSON.stringify(value);
+      if (store === cookieStorage) {
+        store.setItem(key, stringValue, options.days);
+      } else {
+        store.setItem(key, stringValue);
+      }
     } catch (e) {
-      console.error('Storage set failed', e);
+      console.error('storage.js storage set failed', e);
+      Sentry.captureException(e);
     }
   },
-  remove(key) {
+  remove(key, type = 'local') {
     try {
-      localStorage.removeItem(key);
+      const store = selectStorage(type);
+      store.removeItem(key);
     } catch (e) {
-      console.error('Storage remove failed', e);
+      console.error('storage.js storage remove failed', e);
+      Sentry.captureException(e);
+    }
+  },
+  // Asynchronous APIs for IndexedDB
+  async getIndexedDB(key, dbName, storeName) {
+    try {
+      const value = await indexedDBStorage.getItem(key, dbName, storeName);
+      if (value === null) return null;
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        // 解析失败说明是旧版字符串，直接返回原始值
+        return value;
+      }
+    } catch (e) {
+      console.error('storage.js IndexedDB get failed', e);
+      Sentry.captureException(e);
+      return null;
+    }
+  },
+  async setIndexedDB(key, value, dbName, storeName) {
+    try {
+      await indexedDBStorage.setItem(key, JSON.stringify(value), dbName, storeName);
+    } catch (e) {
+      console.error('storage.js IndexedDB set failed', e);
+      Sentry.captureException(e);
+    }
+  },
+  async removeIndexedDB(key, dbName, storeName) {
+    try {
+      await indexedDBStorage.removeItem(key, dbName, storeName);
+    } catch (e) {
+      console.error('storage.js IndexedDB remove failed', e);
+      Sentry.captureException(e);
     }
   }
 };
+
+export default storage;
+export { selectStorage };

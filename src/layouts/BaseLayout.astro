@@ -89,74 +89,128 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATHS.ICO} />
     <link rel="icon" type="image/png" href={FAVICON_PATHS.PNG} />
     <link rel="apple-touch-icon" href={FAVICON_PATHS.SMALL} />
-    <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
-      (function () {
-        try {
-          // 1. 尝试读取本地存储
-          const storedTheme = localStorage.getItem(themeKey);
-          // 2. 如果无存储值，检测系统偏好
-          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          // 3. 决策逻辑
-          const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
-          // 4. 立即应用主题
-          if (shouldUseDarkMode) {
-            document.documentElement.classList.add('dark-mode');
-          }
-          // 5. 设置数据属性供React使用
-          document.documentElement.dataset.initialTheme =
-            storedTheme || (systemPrefersDark ? 'dark' : 'light');
-        } catch (e) {
-          console.error('主题初始化失败', e);
-        }
-      })();
-    </script>
-    <script is:inline define:vars={{ langKey: LANG_STORAGE_KEY }}>
-      (function () {
-        try {
-          // 语言初始化逻辑
-          const storedLang = localStorage.getItem(langKey);
-          const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
-          const lang = storedLang || attrLang;
-          document.documentElement.lang = lang;
-          // Keep the server-rendered language as the initialLang value so that
-          // React hydrates using the same language as the static HTML.
-          document.documentElement.dataset.initialLang = attrLang;
-
-          // 添加监听器保持脚本与React组件同步
-          window.addEventListener('langChanged', (e) => {
-            try {
-              localStorage.setItem(langKey, e.detail);
-              document.documentElement.lang = e.detail;
-            } catch (error) {
-              console.error('语言同步失败', error);
-            }
-          });
-        } catch (e) {
-          console.error('语言初始化失败', e);
-        }
-      })();
-    </script>
     <script
       is:inline
       define:vars={{
+        themeKey: THEME_STORAGE_KEY,
+        langKey: LANG_STORAGE_KEY,
         titleZh: effectiveTitleZh,
         titleEn: effectiveTitleEn
       }}
     >
       (function () {
-        var zh = titleZh;
-        var en = titleEn;
-        if (!zh && !en) return;
-        function setTitle() {
-          var lang = document.documentElement.lang || 'zh-CN';
-          if (lang.startsWith('zh') && zh) {
-            document.title = zh;
-          } else if (!lang.startsWith('zh') && en) {
-            document.title = en;
+        // 挂载全局存储辅助函数
+        // 单例检查：确保只初始化一次
+        if (window.__storageInitialized) return;
+        window.__storageInitialized = true;
+        // 轻量级存储助手
+        window.__storageHelper = {
+          __version: '1.0',
+          get(key) {
+            try {
+              const v = localStorage.getItem(key);
+              return v
+                ? (() => {
+                    try {
+                      return JSON.parse(v);
+                    } catch {
+                      return v;
+                    }
+                  })()
+                : null;
+            } catch (e) {
+              return null;
+            }
+          },
+          set(key, val) {
+            try {
+              localStorage.setItem(key, JSON.stringify(val));
+            } catch (e) {}
           }
+        };
+
+        // 初始化主题
+        const initTheme = () => {
+          try {
+            const storedTheme = window.__storageHelper.get(themeKey);
+            // 如果无存储值，检测系统偏好
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+            console.log('BaseLayout inline script storedTheme: ' + storedTheme);
+            console.log('BaseLayout inline script systemPrefersDark: ' + systemPrefersDark);
+            console.log('BaseLayout inline script shouldUseDarkMode: ' + shouldUseDarkMode);
+            // 立即应用避免闪烁
+            if (shouldUseDarkMode) {
+              document.documentElement.classList.add('dark-mode');
+            }
+            // 设置数据属性供 React 使用
+            document.documentElement.dataset.initialTheme =
+              storedTheme || (systemPrefersDark ? 'dark' : 'light');
+          } catch (e) {
+            console.error('BaseLayout inline script: Theme init failed', e);
+          }
+        };
+
+        // 初始化语言
+        const initLang = () => {
+          try {
+            // 语言初始化逻辑
+            const storedLang = window.__storageHelper.get(langKey);
+            const docLang = document.documentElement.getAttribute('lang') || 'zh-CN';
+            const lang = storedLang || docLang;
+            console.log('BaseLayout inline script storedLang: ' + storedLang);
+            console.log('BaseLayout inline script docLang: ' + docLang);
+            console.log('BaseLayout inline script lang: ' + lang);
+            // 立即设置
+            document.documentElement.lang = lang;
+            // Keep the server-rendered language as the initialLang value so that
+            // React hydrates using the same language as the static HTML.
+            document.documentElement.dataset.initialLang = docLang;
+            // 监听语言变化与 React 组件同步
+            window.addEventListener('langChanged', (e) => {
+              try {
+                window.__storageHelper.set(langKey, e.detail);
+                document.documentElement.lang = e.detail;
+              } catch (e) {
+                console.error('BaseLayout inline script 语言同步失败', e);
+              }
+            });
+          } catch (e) {
+            console.error('BaseLayout inline script: Lang init failed', e);
+          }
+        };
+
+        // 初始化标题
+        const initTitle = () => {
+          try {
+            var zh = titleZh;
+            var en = titleEn;
+            if (!zh && !en) return;
+            function setTitle() {
+              var lang = document.documentElement.lang || 'zh-CN';
+              if (lang.startsWith('zh') && zh) {
+                document.title = zh;
+              } else if (!lang.startsWith('zh') && en) {
+                document.title = en;
+              }
+            }
+            setTitle();
+            window.addEventListener('langChanged', setTitle);
+          } catch (e) {
+            console.error('BaseLayout inline script: Title init failed', e);
+          }
+        };
+
+        try {
+          initTheme();
+          initLang();
+          initTitle();
+        } catch (e) {
+          console.error('Initialization failed', e);
+          // 安全回退
+          document.documentElement.dataset.initialTheme = 'light';
+          document.documentElement.dataset.initialLang = 'zh-CN';
         }
-        setTitle();
-        window.addEventListener('langChanged', setTitle);
       })();
     </script>
     <link rel="canonical" href={canonical} />

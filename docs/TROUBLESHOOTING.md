@@ -4,8 +4,7 @@
 
 - [前端 BUG 跟踪数据库](#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
-    - [BUG 记录格式要求](#bug-%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F%E8%A6%81%E6%B1%82)
-    - [问题状态](#%E9%97%AE%E9%A2%98%E7%8A%B6%E6%80%81)
+    - [BUG 记录模板](#bug-%E8%AE%B0%E5%BD%95%E6%A8%A1%E6%9D%BF)
   - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
     - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
     - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
@@ -49,13 +48,16 @@
     - [BUG-040: Source map 版本不匹配](#bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
     - [BUG-041: Sentry CORS 403 on localhost](#bug-041-sentry-cors-403-on-localhost)
     - [BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined](#bug-042-github-actions-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E7%BB%91%E5%AE%9A%E5%AF%BC%E8%87%B4-tag-undefined)
+    - [BUG-043: LocalStorage 新旧格式兼容性问题](#bug-043-localstorage-%E6%96%B0%E6%97%A7%E6%A0%BC%E5%BC%8F%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98)
+    - [BUG-044: 主题初始化脚本执行延迟导致闪烁](#bug-044-%E4%B8%BB%E9%A2%98%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E5%BB%B6%E8%BF%9F%E5%AF%BC%E8%87%B4%E9%97%AA%E7%83%81)
+    - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: Auguest 03, 2025, 02:51 (UTC+8)
+- **最后更新**: August 04, 2025, 06:26 (UTC+8)
 
 ---
 
@@ -71,13 +73,13 @@
    - ⚠️ 中（非核心功能问题）
    - ⚠️ 低（视觉/文案问题）
 
-### BUG 记录格式要求
+### BUG 记录模板
 
-统一的记录格式便于后续检索和统计，推荐模版如下：
-
+统一的记录格式便于后续检索和统计，可以参考如下的模版：
 ```markdown
 ### BUG-<编号>: <标题>
 
+- **问题状态**：新建 (New) | 已确认 (Confirmed) | 进行中 (In Progress) | 已解决 (Resolved) | 已验证 (Verified) | 重新打开 (Reopened) | 已关闭 (Closed) | 已拒绝 (Rejected) | 已延期 (Deferred) | 已阻塞 (Blocked) | 已取消 (Cancelled)
 - **发现日期**：YYYY-MM-DD
 - **重现环境**：浏览器版本、系统环境
 - **问题现象**：
@@ -91,58 +93,15 @@
 - **经验总结**：可选的额外说明
 ```
 
-状态跟踪通过在「问题状态」小节中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
-
-### 问题状态
-
-- [x] BUG-001: Mermaid 图表渲染异常
-- [x] BUG-002: highlight.js 与 Mermaid 冲突
-- [x] BUG-003: CONTACT_FORM_ENDPOINT 未定义
-- [x] BUG-004: jQuery.validator 加载顺序错误
-- [x] BUG-005: jQuery.easing 插件缺失
-- [x] BUG-006: BaseLayout 中文乱码
-- [x] BUG-007: ThemeToggle context undefined
-- [x] BUG-008: Dark mode hydration error
-- [x] BUG-009: Certifications card overflow on small screens
-- [x] BUG-010: Certifications page overlaps nav on short screens
-- [x] BUG-011: Verify buttons not responsive on small screens
-- [x] BUG-012: Dark mode flashes before applying
-- [x] BUG-013: Hydration mismatch when dark mode is enabled
-- [x] BUG-014: Chat widget panel flashes in dark mode
-- [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
-- [x] BUG-016: document is not defined during build
-- [x] BUG-017: NavBar hydration mismatch when language differs
-- [x] BUG-018: About page hydration mismatch and flicker
-- [x] BUG-019: Contact form placeholders flicker on first render
-- [x] BUG-020: THEME_STORAGE_KEY 读取为 null
-- [x] BUG-021: Chat input placeholder flickers when switching languages
-- [x] BUG-022: Docs page Mermaid errors when hidden diagrams render
-- [x] BUG-023: Invalid image src value in SocialIcon
-- [x] BUG-024: Homepage QR code fails to load
-- [x] BUG-025: Scripts run before React hydration
-- [x] BUG-026: Docs page fails to render README
-- [x] BUG-027: Page title does not switch languages
-- [x] BUG-028: Markdown styles inconsistent between pages
-- [x] BUG-029: DOMPurify source map warning during dev
-- [x] BUG-030: highlight.js 缺少 nginx 语言模块
-- [x] BUG-031: 浏览器控件未随主题切换
-- [x] BUG-032: Hero 模糊占位图不会消失
-- [x] BUG-033: Build fails with "Could not import ../../hooks"
-- [x] BUG-034: CDN 缓存清理失败
-- [x] BUG-035: 客户端环境变量未注入
-- [x] BUG-036: 版本标签创建冲突
-- [x] BUG-037: Sentry source map 上传失败
-- [x] BUG-038: 开发环境错误上报污染BUG-039: 敏感数据泄露风险
-- [x] BUG-040: Source map 版本不匹配
-- [x] BUG-041: Sentry CORS 403 on localhost
-- [x] BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
-
 ---
 
 ## BUG 详情
 
+状态跟踪通过在「问题状态」中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
+
 ### BUG-001: Mermaid 图表渲染异常
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-17
 - **重现环境**：Chrome 115+, macOS Ventura
 - **问题现象**：
@@ -171,6 +130,7 @@
 
 ### BUG-002: highlight.js 与 Mermaid 冲突
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-18
 - **重现环境**：Chrome 138.0.7204.101, Windows 11
 - **问题现象**：
@@ -189,6 +149,7 @@
 
 ### BUG-003: `CONTACT_FORM_ENDPOINT` 未定义
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-18
 - **重现环境**：Chrome 最新版，macOS Ventura
 - **问题现象**：
@@ -207,6 +168,7 @@
 
 ### BUG-004: jQuery.validator 加载顺序错误
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
   - **问题现象**：
@@ -220,6 +182,7 @@
 
 ### BUG-005: jQuery.easing 插件缺失
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
   - **问题现象**：
@@ -232,6 +195,7 @@
 
 ### BUG-006: BaseLayout 中文乱码
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-26
 - **重现环境**：Chrome 最新版，开发服务器
 - **问题现象**：
@@ -244,6 +208,7 @@
 
 ### BUG-007: ThemeToggle context undefined
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-26
 - **重现环境**：Chrome 最新版，开发服务器
 - **问题现象**：
@@ -269,22 +234,24 @@
 
 ### BUG-008: Dark mode hydration error
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 最新版，登录/注册页面
 - **问题现象**：
   - 暗色模式刷新后报 `Minified React error #418`
   - 控制台显示 hydration 不匹配警告
 - **根本原因**：
-  - 服务端始终渲染亮色主题，客户端按 localStorage 初始化
+  - 服务端始终渲染亮色主题，客户端通过 `storage` 工具读取初始主题
   - SSR 与客户端初始状态不一致
 - **解决方案**：
   - 初始状态固定为 false
-  - useEffect 中读取 localStorage 并更新状态
+  - useEffect 中通过 `storage` 读取并更新状态
 - **验证结果**：✅ 刷新不再报错，主题切换正常
 - **经验总结**：SSR 应用必须保证初始渲染一致性
 
 ### BUG-009: Certifications card overflow on small screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 开发工具，375px 宽度
 - **问题现象**：
@@ -297,6 +264,7 @@
 
 ### BUG-010: Certifications page overlaps nav on short screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 115+, 浏览器高度 600px
 - **问题现象**：
@@ -311,6 +279,7 @@
 
 ### BUG-011: Verify buttons not responsive on small screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 开发工具，380px 宽度
 - **问题现象**：
@@ -324,6 +293,7 @@
 
 ### BUG-012: Dark mode flashes before applying
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：所有页面启用深色主题后刷新
 - **问题现象**：
@@ -338,9 +308,10 @@
 - **验证结果**：✅ 完全消除主题切换闪烁
 - **关键脚本**：
   ```html
-  <script is:inline>
+  <script is:inline type="module">
+    import storage from '/src/utils/storage.js';
     try {
-      const stored = localStorage.getItem('${THEME_STORAGE_KEY}');
+      const stored = storage.get('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');
     } catch {}
   </script>
@@ -348,6 +319,7 @@
 
 ### BUG-013: Hydration mismatch when dark mode is enabled
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：暗色模式下刷新任意页面
 - **问题现象**：
@@ -377,6 +349,7 @@
 
 ### BUG-014: Chat widget panel flashes in dark mode
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：深色主题下的首页
 - **问题现象**：
@@ -389,6 +362,7 @@
 
 ### BUG-015: Enhancement progress stuck when scripts load from memory cache
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，重复打开聊天页面
 - **问题现象**：
@@ -402,6 +376,7 @@
 
 ### BUG-016: document is not defined during build
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Astro `astro build`
 - **问题现象**：
@@ -416,6 +391,7 @@
 
 ### BUG-017: NavBar hydration mismatch when language differs
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，切换语言后刷新页面
 - **问题现象**：
@@ -423,7 +399,7 @@
   - 页面初始显示中文导航文字后迅速切换为英文，产生闪烁
 - **根本原因**：
   - `NavBar` 组件在服务端调用 `getCurrentLang()`，默认返回中文
-  - 客户端根据 `<html lang>` 或 localStorage 得到英文，导致首屏内容不一致
+  - 客户端根据 `<html lang>` 或 `storage` 工具得到英文，导致首屏内容不一致
 - **解决方案**：
   1. 将页面 `lang` 属性通过 props 传递给 `NavBar` 和 `ThemeToggle`
   2. 初始化语言脚本优先读取页面 lang 属性
@@ -433,13 +409,14 @@
 
 ### BUG-018: About page hydration mismatch and flicker
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，切换语言后刷新 About 页面
 - **问题现象**：
   - 首次加载时先显示中文内容后切换为英文，页面发生闪烁
   - 控制台报 `Hydration failed` 错误
 - **根本原因**：
-  - 服务端无法访问浏览器 localStorage，默认返回中文
+  - 服务端无法访问浏览器存储，默认返回中文
   - AboutContent 仅渲染当前语言文本，服务端与客户端标记不一致
 - **解决方案**：
   1. About 页面同时渲染中英文内容，CSS 根据 `html[lang]` 隐藏未选语言
@@ -449,6 +426,7 @@
 
 ### BUG-019: Contact form placeholders flicker on first render
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：About 页面，切换语言后刷新
 - **问题现象**：
@@ -464,19 +442,21 @@
 
 ### BUG-020: `THEME_STORAGE_KEY` 读取为 null
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：Chrome 最新版
 - **问题现象**：
-  - 在 BaseLayout 主题初始化脚本中使用 `localStorage.getItem('${THEME_STORAGE_KEY}')` 时返回 null
+  - 在 BaseLayout 主题初始化脚本中使用 `storage.get('${THEME_STORAGE_KEY}')` 时返回 null
 - **根本原因**：
   - 该字符串在构建阶段被 Astro 当作模板字符串处理，无法在脚本运行时得到常量值
 - **解决方案**：
   - 通过 `define:vars={{ themeKey: THEME_STORAGE_KEY }}` 将常量值注入行内脚本
-  - 使用 `localStorage.getItem(themeKey)` 读取存储值
+  - 使用 `storage.get(themeKey)` 读取存储值
 - **验证结果**：✅ 控制台能够正确获取主题值
 
 ### BUG-021: Chat input placeholder flickers when switching languages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：DeepSeek Chat 页面，切换语言后刷新
 - **问题现象**：
@@ -489,6 +469,7 @@
 
 ### BUG-022: Docs page Mermaid errors when hidden diagrams render
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面，默认语言与另一语种同时渲染
 - **问题现象**：
@@ -502,6 +483,7 @@
 
 ### BUG-023: Invalid image src value in SocialIcon
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Index 页面，React 控制台
 - **问题现象**：
@@ -514,6 +496,7 @@
 
 ### BUG-024: Homepage QR code fails to load
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Index 页面，Chrome 开发者工具
 - **问题现象**：
@@ -526,6 +509,7 @@
 
 ### BUG-025: Scripts run before React hydration
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Home 与 Docs 页面
 - **问题现象**：
@@ -539,6 +523,7 @@
 
 ### BUG-026: Docs page fails to render README
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面，生产环境
 - **问题现象**：
@@ -552,6 +537,7 @@
 
 ### BUG-027: Page title does not switch languages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Home 和 DeepSeek Chat 页面，切换语言后观察标题
 - **问题现象**：
@@ -567,6 +553,7 @@
 
 ### BUG-028: Markdown styles inconsistent between pages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面与 DeepSeek Chat 页面
 - **问题现象**：
@@ -581,6 +568,7 @@
 
 ### BUG-029: DOMPurify source map warning during dev
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：`vite dev` 过程中加载 `src/scripts/purify.min.js`
 - **问题现象**：
@@ -597,6 +585,7 @@
 
 ### BUG-030: highlight.js 缺少 nginx 语言模块
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：Chat 页面加载 nginx 配置代码块
 - **问题现象**：
@@ -610,6 +599,7 @@
 
 ### BUG-031: 浏览器控件未随主题切换
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：切换暗色主题后查看表单与滚动条
 - **问题现象**：
@@ -622,6 +612,7 @@
 
 ### BUG-032: Hero 模糊占位图不会消失
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：主页 hero 图片懒加载
 - **问题现象**：
@@ -637,6 +628,7 @@
 
 ### BUG-033: Build fails with "Could not import ../../hooks"
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-01
 - **重现环境**：项目重构后执行 `astro dev`
 - **问题现象**：
@@ -651,6 +643,7 @@
 
 ### BUG-034: CDN 缓存清理失败
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 部署流程
 - **问题现象**：
@@ -682,6 +675,7 @@
 
 ### BUG-035: 客户端环境变量未注入
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：生产环境
 - **问题现象**：
@@ -709,6 +703,7 @@
 
 ### BUG-036: 版本标签创建冲突
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 工作流
 - **问题现象**：
@@ -733,6 +728,7 @@
 
 ### BUG-037: Sentry source map 上传失败
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 构建流程
 - **问题现象**：
@@ -765,6 +761,7 @@
 
 ### BUG-038: 开发环境错误上报污染
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：本地开发服务器
 - **问题现象**：
@@ -799,10 +796,11 @@
 
 ### BUG-039: 敏感数据泄露风险
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：错误报告详情页
 - **问题现象**：
-  - 错误报告包含 localStorage 敏感数据
+  - 错误报告包含存储层（如 localStorage）敏感数据
   - 用户身份信息出现在面包屑记录中
 - **根本原因**：
   - 未配置数据擦除规则
@@ -834,6 +832,7 @@
 
 ### BUG-040: Source map 版本不匹配
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：生产环境错误报告
 - **问题现象**：
@@ -865,6 +864,7 @@
 
 ### BUG-041: Sentry CORS 403 on localhost
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：本地 `vite dev`，Chrome 115+
 - **问题现象**：
@@ -880,6 +880,7 @@
 
 ### BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：GitHub Actions `deploy.yml`
 - **问题现象**：
@@ -898,3 +899,89 @@
      `TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}`
 - **验证结果**：✅ Workflow 日志显示正确 tag，发布成功
 - **经验总结**：GitHub *Environment* 的 `vars/​secrets` 只有绑定到同名 `environment:` 的 Job 才可用
+
+### BUG-043: LocalStorage 新旧格式兼容性问题
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：所有浏览器，用户已有存储数据
+- **问题现象**：
+  - 新版 `storage.get()` 方法无法解析旧版直接存储的字符串值
+  - 控制台报 `SyntaxError: Unexpected token` JSON 解析错误
+  - 主题/语言切换功能部分用户失效
+- **根本原因**：
+  - 旧版存储使用 `localStorage.setItem(key, value)` 直接存储原始字符串
+  - 新版要求使用 `JSON.stringify()` 存储结构化数据
+  - 直接切换导致新旧数据格式不兼容
+- **解决方案**：
+  1. 在 `storage.get()` 方法中添加智能解析逻辑：
+     ```javascript
+     try {
+       return JSON.parse(value);  // 尝试解析新版 JSON 格式数据
+     } catch (e) {
+       return value; // 返回旧版字符串格式数据
+     }
+     ```
+  2. 写入时统一使用 `JSON.stringify()` 标准化格式
+  3. 在 BaseLayout 中实现轻量级存储助手确保同步执行
+- **验证结果**：✅ 新旧数据格式无缝兼容，无用户数据丢失
+- **经验总结**：存储格式变更需考虑向后兼容，智能解析比数据迁移更安全
+
+### BUG-044: 主题初始化脚本执行延迟导致闪烁
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：所有页面，特别是低性能设备
+- **问题现象**：
+  - 页面加载时主题/语言短暂显示默认值后切换
+  - 使用 `type="module"` 的脚本执行时机过晚
+  - React hydration 不匹配警告
+- **根本原因**：
+  - 模块脚本 (`<script type="module">`) 在 DOM 解析后执行
+  - React 组件在脚本执行前已完成初始渲染
+- **解决方案**：
+  1. 使用非模块内联脚本确保同步执行：
+     ```astro
+     <script is:inline>
+       // 轻量级存储助手实现
+       window.__storageHelper = {
+         get: (key) => {
+           /* 智能解析逻辑 */
+         }
+       };
+     </script>
+     ```
+  2. 在 `<head>` 中立即设置文档属性：
+     ```javascript
+     document.documentElement.lang = lang;
+     document.documentElement.dataset.theme = theme;
+     ```
+  3. 暴露初始值供 React 上下文使用：
+     ```javascript
+     window.__INITIAL_THEME__ = theme;
+     window.__INITIAL_LANG__ = lang;
+     ```
+- **验证结果**：✅ 完全消除主题/语言切换闪烁，hydration 无报错
+- **关键指标**：页面加载到主题应用时间从 300ms+ 降至 <50ms
+
+### BUG-045: 存储工具全局注册执行冲突
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-04
+- **重现环境**：开发服务器，BaseLayout 页面
+- **问题现象**：
+  - 控制台报 `Uncaught SyntaxError: Unexpected token 'export'`
+  - `storage.js` 全局注册与内联脚本加载冲突
+- **根本原因**：
+  - 内联脚本尝试加载 ES 模块格式的 `storage.js`
+  - 非模块环境无法解析 `export` 语句
+  - 重复注册存储助手逻辑
+- **解决方案**：
+  1. 完全移除 `storage.js` 的全局注册方法
+  2. 在 BaseLayout 实现自包含的轻量级存储助手
+  3. 添加单例检查避免重复初始化：
+     ```javascript
+     if (window.__storageInitialized) return;
+     window.__storageInitialized = true;
+     ```
+- **验证结果**：✅ 无模块加载错误，存储功能正常
