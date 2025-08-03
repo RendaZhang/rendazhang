@@ -2,6 +2,7 @@
 // Provides a consistent API for localStorage, sessionStorage, cookies,
 // and fallbacks for environments where Web Storage is not available.
 // Also exposes asynchronous helpers for IndexedDB operations.
+import * as Sentry from '@sentry/react';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -44,8 +45,11 @@ function getWebStorage(type = 'local') {
     const testKey = '__storage_test__';
     storage.setItem(testKey, '1');
     storage.removeItem(testKey);
+    console.log("storage type: " + type);
     return storage;
-  } catch {
+  } catch(e) {
+    console.error('getWebStorage failed with type: ' + type);
+    Sentry.captureException(e);
     return null;
   }
 }
@@ -115,8 +119,8 @@ const storage = {
       const value = store.getItem(key);
       return value ? JSON.parse(value) : null;
     } catch (e) {
-      console.error('Storage get failed', e);
-      return null;
+      console.error('Storage get failed with type ' + type + ' and key ' + key);
+      Sentry.captureException(e);
     }
   },
   set(key, value, type = 'local', options = {}) {
@@ -128,7 +132,8 @@ const storage = {
         store.setItem(key, JSON.stringify(value));
       }
     } catch (e) {
-      console.error('Storage set failed', e);
+      console.error('Storage set failed with type ' + type + ', key ' + key + ' and value ' + value);
+      Sentry.captureException(e);
     }
   },
   remove(key, type = 'local') {
@@ -136,7 +141,8 @@ const storage = {
       const store = selectStorage(type);
       store.removeItem(key);
     } catch (e) {
-      console.error('Storage remove failed', e);
+      console.error('Storage remove failed with type ' + type + ' and key ' + key);
+      Sentry.captureException(e);
     }
   },
   // Asynchronous APIs for IndexedDB
@@ -145,22 +151,24 @@ const storage = {
       const value = await indexedDBStorage.getItem(key, dbName, storeName);
       return value ? JSON.parse(value) : null;
     } catch (e) {
-      console.error('IndexedDB get failed', e);
-      return null;
+      console.error('IndexedDB get failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      Sentry.captureException(e);
     }
   },
   async setIndexedDB(key, value, dbName, storeName) {
     try {
       await indexedDBStorage.setItem(key, JSON.stringify(value), dbName, storeName);
     } catch (e) {
-      console.error('IndexedDB set failed', e);
+      console.error('IndexedDB set failed with key ' + key + ', value ' + value + ', dbName ' + dbName + ' and storeName ' + storeName);
+      Sentry.captureException(e);
     }
   },
   async removeIndexedDB(key, dbName, storeName) {
     try {
       await indexedDBStorage.removeItem(key, dbName, storeName);
     } catch (e) {
-      console.error('IndexedDB remove failed', e);
+      console.error('IndexedDB remove failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      Sentry.captureException(e);
     }
   }
 };

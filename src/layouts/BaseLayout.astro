@@ -99,11 +99,14 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           // 3. 决策逻辑
           const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+          console.log('storedTheme: ' + storedTheme);
+          console.log('systemPrefersDark: ' + systemPrefersDark);
+          console.log('shouldUseDarkMode: ' + shouldUseDarkMode);
           // 4. 立即应用主题
           if (shouldUseDarkMode) {
             document.documentElement.classList.add('dark-mode');
           }
-          // 5. 设置数据属性供React使用
+          // 5. 设置数据属性供 React 使用
           document.documentElement.dataset.initialTheme =
             storedTheme || (systemPrefersDark ? 'dark' : 'light');
         } catch (e) {
@@ -117,12 +120,15 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         try {
           // 语言初始化逻辑
           const storedLang = storage.get(langKey);
-          const attrLang = document.documentElement.getAttribute('lang') || 'zh-CN';
-          const lang = storedLang || attrLang;
+          const docLang = document.documentElement.getAttribute('lang') || 'zh-CN';
+          const lang = storedLang || docLang;
+          console.log('storedLang: ' + storedLang);
+          console.log('docLang: ' + docLang);
+          console.log('lang: ' + lang);
           document.documentElement.lang = lang;
           // Keep the server-rendered language as the initialLang value so that
           // React hydrates using the same language as the static HTML.
-          document.documentElement.dataset.initialLang = attrLang;
+          document.documentElement.dataset.initialLang = docLang;
 
           // 添加监听器保持脚本与React组件同步
           window.addEventListener('langChanged', (e) => {

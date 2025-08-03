@@ -12,9 +12,11 @@ export function getCurrentLang() {
   // 后备方案：检查存储
   try {
     const storedLang = storage.get(LANG_STORAGE_KEY);
+    console.log("getCurrentLang storedLang: " + storedLang);
     if (storedLang) return storedLang;
   } catch (e) {
     console.error('读取语言存储失败', e);
+    Sentry.captureException(e);
   }
 
   // 默认值

@@ -26,14 +26,26 @@ export function I18nProvider({ children, initialLang }) {
       let storedLang = null;
       try {
         storedLang = storage.get(LANG_STORAGE_KEY);
-      } catch {}
+        console.log('I18nProvider storedLang: ' + storedLang);
+      } catch (e) {
+        console.error(
+          'I18nProvider failed to get storedLand with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+        );
+        Sentry.captureException(e);
+      }
       // 首次挂载时优先使用本地存储的语言设置
       const effectiveLang = storedLang || domLang;
       setLang(effectiveLang);
       document.documentElement.lang = effectiveLang;
       try {
         storage.set(LANG_STORAGE_KEY, effectiveLang);
-      } catch {}
+        console.log('I18nProvider effectiveLang: ' + effectiveLang);
+      } catch (e) {
+        console.error(
+          'I18nProvider failed to set effectiveLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+        );
+        Sentry.captureException(e);
+      }
       window.dispatchEvent(new CustomEvent('langChanged', { detail: effectiveLang }));
       return;
     }
@@ -41,7 +53,11 @@ export function I18nProvider({ children, initialLang }) {
     document.documentElement.lang = lang;
     try {
       storage.set(LANG_STORAGE_KEY, lang);
-    } catch {}
+      console.log('I18nProvider lang: ' + lang);
+    } catch (e) {
+      console.error('I18nProvider failed to set lang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY);
+      Sentry.captureException(e);
+    }
     window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
   }, [lang, initialLang]);
 
@@ -80,7 +96,13 @@ export function useLanguage() {
         document.documentElement.lang = newLang;
         try {
           storage.set(LANG_STORAGE_KEY, newLang);
-        } catch {}
+          console.log('I18nProvider newLang: ' + newLang);
+        } catch (e) {
+          console.error(
+            'I18nProvider failed to set newLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
+          );
+          Sentry.captureException(e);
+        }
         window.dispatchEvent(new CustomEvent('langChanged', { detail: newLang }));
       }
     });

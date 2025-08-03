@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { THEME_STORAGE_KEY } from '../../config.js';
 import storage from '../../utils/storage.js';
+import * as Sentry from '@sentry/react';
 
 const defaultContext = {
   darkMode: false,
@@ -17,7 +18,7 @@ export function ThemeProvider({ children }) {
   const initialSet = useRef(false);
 
   const [darkMode, setDarkMode] = useState(() => {
-    // 从DOM获取初始值（由内联脚本设置）
+    // 从 DOM 获取初始值（由内联脚本设置）
     if (typeof window !== 'undefined') {
       return document.documentElement.dataset.initialTheme === 'dark';
     }
@@ -40,8 +41,12 @@ export function ThemeProvider({ children }) {
       let storedValue = false;
       try {
         const stored = storage.get(THEME_STORAGE_KEY);
+        console.log('ThemeProvider stored: ' + stored);
         storedValue = stored === 'dark';
-      } catch {}
+      } catch (e) {
+        console.log('Failed to get stored with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
+        Sentry.captureException(e);
+      }
 
       // 设置初始状态
       const shouldBeDark = hasDarkClass || storedValue;
@@ -49,14 +54,20 @@ export function ThemeProvider({ children }) {
 
       // 确保 DOM 状态正确
       document.documentElement.classList.toggle('dark-mode', shouldBeDark);
+
+      console.log('ThemeProvider: ' + shouldBeDark);
       return;
     }
 
     // 3. 后续状态变化时同步
     document.documentElement.classList.toggle('dark-mode', darkMode);
     try {
+      console.log('ThemeProvider darkMode: ' + darkMode);
       storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
-    } catch {}
+    } catch (e) {
+      console.error('Failed to set darkMode with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
+      Sentry.captureException(e);
+    }
   }, [darkMode]);
 
   const toggle = () => setDarkMode((prev) => !prev);
