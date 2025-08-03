@@ -36,6 +36,7 @@ export function ThemeProvider({ children }) {
 
       // 优先读取 DOM 类名
       const hasDarkClass = document.documentElement.classList.contains('dark-mode');
+      console.log('ThemeProvider hasDarkClass: ' + hasDarkClass);
 
       // 其次读取存储
       let storedValue = false;
@@ -43,6 +44,7 @@ export function ThemeProvider({ children }) {
         const stored = storage.get(THEME_STORAGE_KEY);
         console.log('ThemeProvider stored: ' + stored);
         storedValue = stored === 'dark';
+        console.log('ThemeProvider storedValue: ' + storedValue);
       } catch (e) {
         console.log('Failed to get stored with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
         Sentry.captureException(e);
@@ -55,7 +57,7 @@ export function ThemeProvider({ children }) {
       // 确保 DOM 状态正确
       document.documentElement.classList.toggle('dark-mode', shouldBeDark);
 
-      console.log('ThemeProvider: ' + shouldBeDark);
+      console.log('ThemeProvider shouldBeDark: ' + shouldBeDark);
       return;
     }
 

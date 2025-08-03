@@ -48,7 +48,7 @@ function getWebStorage(type = 'local') {
     console.log("storage.js storage getWebStorage type: " + type);
     return storage;
   } catch(e) {
-    console.error('storage.js storage getWebStorage failed with type: ' + type);
+    console.error('storage.js storage getWebStorage failed', e);
     Sentry.captureException(e);
     return null;
   }
@@ -117,22 +117,31 @@ const storage = {
     try {
       const store = selectStorage(type);
       const value = store.getItem(key);
-      return value ? JSON.parse(value) : null;
+      if (value === null) return null;
+      try {
+        // 尝试解析 JSON，成功则返回解析结果
+        return JSON.parse(value);
+      } catch (e) {
+        // 解析失败说明是旧版字符串，直接返回原始值
+        return value;
+      }
     } catch (e) {
-      console.error('storage.js storage get failed with type ' + type + ' and key ' + key);
+      console.error('storage.js storage get failed', e);
       Sentry.captureException(e);
+      return null;
     }
   },
   set(key, value, type = 'local', options = {}) {
     try {
       const store = selectStorage(type);
+      const stringValue = JSON.stringify(value);
       if (store === cookieStorage) {
-        store.setItem(key, JSON.stringify(value), options.days);
+        store.setItem(key, stringValue, options.days);
       } else {
-        store.setItem(key, JSON.stringify(value));
+        store.setItem(key, stringValue);
       }
     } catch (e) {
-      console.error('storage.js storage set failed with type ' + type + ', key ' + key + ' and value ' + value);
+      console.error('storage.js storage set failed', e);
       Sentry.captureException(e);
     }
   },
@@ -141,7 +150,7 @@ const storage = {
       const store = selectStorage(type);
       store.removeItem(key);
     } catch (e) {
-      console.error('storage.js storage remove failed with type ' + type + ' and key ' + key);
+      console.error('storage.js storage remove failed', e);
       Sentry.captureException(e);
     }
   },
@@ -149,17 +158,24 @@ const storage = {
   async getIndexedDB(key, dbName, storeName) {
     try {
       const value = await indexedDBStorage.getItem(key, dbName, storeName);
-      return value ? JSON.parse(value) : null;
+      if (value === null) return null;
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        // 解析失败说明是旧版字符串，直接返回原始值
+        return value;
+      }
     } catch (e) {
-      console.error('storage.js IndexedDB get failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB get failed', e);
       Sentry.captureException(e);
+      return null;
     }
   },
   async setIndexedDB(key, value, dbName, storeName) {
     try {
       await indexedDBStorage.setItem(key, JSON.stringify(value), dbName, storeName);
     } catch (e) {
-      console.error('storage.js IndexedDB set failed with key ' + key + ', value ' + value + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB set failed', e);
       Sentry.captureException(e);
     }
   },
@@ -167,7 +183,7 @@ const storage = {
     try {
       await indexedDBStorage.removeItem(key, dbName, storeName);
     } catch (e) {
-      console.error('storage.js IndexedDB remove failed with key ' + key + ', dbName ' + dbName + ' and storeName ' + storeName);
+      console.error('storage.js IndexedDB remove failed', e);
       Sentry.captureException(e);
     }
   }

@@ -1,5 +1,4 @@
 ---
-import * as Sentry from '@sentry/react';
 import { NavBarWrapper } from '../components/layouts';
 import {
   FAVICON_PATHS,
@@ -90,7 +89,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <link rel="shortcut icon" type="image/x-icon" href={FAVICON_PATHS.ICO} />
     <link rel="icon" type="image/png" href={FAVICON_PATHS.PNG} />
     <link rel="apple-touch-icon" href={FAVICON_PATHS.SMALL} />
-    <script is:inline type="module" define:vars={{ themeKey: THEME_STORAGE_KEY }}>
+    <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
       import storage from '/src/utils/storage.js';
       (function () {
         try {
@@ -100,6 +99,10 @@ const twitterProps = { ...twitterDefaults, ...twitter };
           const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           // 3. 决策逻辑
           const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+          console.log(
+            'BaseLayout inline script storedTheme equal to dark: ',
+            storedTheme === 'dark'
+          );
           console.log('BaseLayout inline script storedTheme: ' + storedTheme);
           console.log('BaseLayout inline script systemPrefersDark: ' + systemPrefersDark);
           console.log('BaseLayout inline script shouldUseDarkMode: ' + shouldUseDarkMode);
@@ -112,11 +115,10 @@ const twitterProps = { ...twitterDefaults, ...twitter };
             storedTheme || (systemPrefersDark ? 'dark' : 'light');
         } catch (e) {
           console.error('BaseLayout inline script 主题初始化失败', e);
-          Sentry.captureException(e);
         }
       })();
     </script>
-    <script is:inline type="module" define:vars={{ langKey: LANG_STORAGE_KEY }}>
+    <script is:inline define:vars={{ langKey: LANG_STORAGE_KEY }}>
       import storage from '/src/utils/storage.js';
       (function () {
         try {
@@ -137,14 +139,12 @@ const twitterProps = { ...twitterDefaults, ...twitter };
             try {
               storage.set(langKey, e.detail);
               document.documentElement.lang = e.detail;
-            } catch (error) {
-              console.error('BaseLayout inline script 语言同步失败', error);
-              Sentry.captureException(e);
+            } catch (e) {
+              console.error('BaseLayout inline script 语言同步失败', e);
             }
           });
         } catch (e) {
           console.error('BaseLayout inline script 语言初始化失败', e);
-          Sentry.captureException(e);
         }
       })();
     </script>
