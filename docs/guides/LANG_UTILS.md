@@ -1,19 +1,19 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-  - [简介](#%E7%AE%80%E4%BB%8B)
+- [语言工具函数](#语言工具函数)
+  - [简介](#简介)
   - [API](#api)
     - [`getCurrentLang()`](#getcurrentlang)
-  - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
-  - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
+  - [使用示例](#使用示例)
+  - [注意事项](#注意事项)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 语言工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 03, 2025, 16:44 (UTC+8)
+- **最后更新**: August 04, 2025, 00:54 (UTC+8)
 
 ---
 

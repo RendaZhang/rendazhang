@@ -1,13 +1,13 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
   - [Frontend](#frontend)
-    - [Local Development & Preview](#local-development--preview)
+    - [Local Development \& Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
     - [Website Features](#website-features)
@@ -36,12 +36,13 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 03, 2025, 16:44 (UTC+8)
-- **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
+- **Last Updated**: August 04, 2025, 00:54 (UTC+8)
 
 ---
 
 ## Introduction
+
+**[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
 This is my personally maintained **lightweight** technical showcase website, serving as an online portfolio of my technical capabilities.
 
@@ -427,7 +428,7 @@ The website uses an automated pipeline to generate responsive images with built-
 
 ### Error Tracking
 
-Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](docs/guides/ERROR_TRACKING.md) for configuration.
+Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](docs/guides/SENTRY_ERROR_TRACKING.md) for configuration.
 
 ### Language Utilities
 

@@ -2,15 +2,22 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error Tracking Integration](#error-tracking-integration)
+- [Sentry Error Tracking Integration](#sentry-error-tracking-integration)
   - [Setup](#setup)
   - [Usage](#usage)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Error Tracking Integration
+# Sentry Error Tracking Integration
+
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: August 04, 2025, 00:54 (UTC+8)
+
+---
 
 This project integrates Sentry for runtime error monitoring and analysis.
+
+---
 
 ## Setup
 
@@ -26,6 +33,8 @@ This project integrates Sentry for runtime error monitoring and analysis.
    SENTRY_AUTH_TOKEN=<auth token>
    ```
 3. Astro configuration enables the Sentry integration and uploads source maps during builds. Sensitive URLs containing `password` are filtered in `beforeSend`.
+
+---
 
 ## Usage
 

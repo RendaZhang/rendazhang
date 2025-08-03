@@ -36,12 +36,13 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 03, 2025, 16:44 (UTC+8)
-- **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
+- **最后更新**: August 04, 2025, 00:54 (UTC+8)
 
 ---
 
 ## 简介
+
+**[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
 这是我个人维护的 **轻量级** 网站，作为我的技术能力的在线展示平台。
 
@@ -431,7 +432,7 @@ location /_astro/ {
 
 ### 错误跟踪
 
-Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](docs/guides/ERROR_TRACKING.md).
+Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](docs/guides/SENTRY_ERROR_TRACKING.md).
 
 ### 语言工具函数
 

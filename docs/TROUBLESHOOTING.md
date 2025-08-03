@@ -5,56 +5,56 @@
 - [前端 BUG 跟踪数据库](#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93)
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
     - [BUG 记录模板](#bug-%E8%AE%B0%E5%BD%95%E6%A8%A1%E6%9D%BF)
-  - [[x] BUG 详情](#x-bug-%E8%AF%A6%E6%83%85)
-    - [[x] BUG-001: Mermaid 图表渲染异常](#x-bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
-    - [[x] BUG-002: highlight.js 与 Mermaid 冲突](#x-bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
-    - [[x] BUG-003: `CONTACT_FORM_ENDPOINT` 未定义](#x-bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
-    - [[x] BUG-004: jQuery.validator 加载顺序错误](#x-bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
-    - [[x] BUG-005: jQuery.easing 插件缺失](#x-bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
-    - [[x] BUG-006: BaseLayout 中文乱码](#x-bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
-    - [[x] BUG-007: ThemeToggle context undefined](#x-bug-007-themetoggle-context-undefined)
-    - [[x] BUG-008: Dark mode hydration error](#x-bug-008-dark-mode-hydration-error)
-    - [[x] BUG-009: Certifications card overflow on small screens](#x-bug-009-certifications-card-overflow-on-small-screens)
-    - [[x] BUG-010: Certifications page overlaps nav on short screens](#x-bug-010-certifications-page-overlaps-nav-on-short-screens)
-    - [[x] BUG-011: Verify buttons not responsive on small screens](#x-bug-011-verify-buttons-not-responsive-on-small-screens)
-    - [[x] BUG-012: Dark mode flashes before applying](#x-bug-012-dark-mode-flashes-before-applying)
-    - [[x] BUG-013: Hydration mismatch when dark mode is enabled](#x-bug-013-hydration-mismatch-when-dark-mode-is-enabled)
-    - [[x] BUG-014: Chat widget panel flashes in dark mode](#x-bug-014-chat-widget-panel-flashes-in-dark-mode)
-    - [[x] BUG-015: Enhancement progress stuck when scripts load from memory cache](#x-bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
-    - [[x] BUG-016: document is not defined during build](#x-bug-016-document-is-not-defined-during-build)
-    - [[x] BUG-017: NavBar hydration mismatch when language differs](#x-bug-017-navbar-hydration-mismatch-when-language-differs)
-    - [[x] BUG-018: About page hydration mismatch and flicker](#x-bug-018-about-page-hydration-mismatch-and-flicker)
-    - [[x] BUG-019: Contact form placeholders flicker on first render](#x-bug-019-contact-form-placeholders-flicker-on-first-render)
-    - [[x] BUG-020: `THEME_STORAGE_KEY` 读取为 null](#x-bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
-    - [[x] BUG-021: Chat input placeholder flickers when switching languages](#x-bug-021-chat-input-placeholder-flickers-when-switching-languages)
-    - [[x] BUG-022: Docs page Mermaid errors when hidden diagrams render](#x-bug-022-docs-page-mermaid-errors-when-hidden-diagrams-render)
-    - [[x] BUG-023: Invalid image src value in SocialIcon](#x-bug-023-invalid-image-src-value-in-socialicon)
-    - [[x] BUG-024: Homepage QR code fails to load](#x-bug-024-homepage-qr-code-fails-to-load)
-    - [[x] BUG-025: Scripts run before React hydration](#x-bug-025-scripts-run-before-react-hydration)
-    - [[x] BUG-026: Docs page fails to render README](#x-bug-026-docs-page-fails-to-render-readme)
-    - [[x] BUG-027: Page title does not switch languages](#x-bug-027-page-title-does-not-switch-languages)
-    - [[x] BUG-028: Markdown styles inconsistent between pages](#x-bug-028-markdown-styles-inconsistent-between-pages)
-    - [[x] BUG-029: DOMPurify source map warning during dev](#x-bug-029-dompurify-source-map-warning-during-dev)
-    - [[x] BUG-030: highlight.js 缺少 nginx 语言模块](#x-bug-030-highlightjs-%E7%BC%BA%E5%B0%91-nginx-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97)
-    - [[x] BUG-031: 浏览器控件未随主题切换](#x-bug-031-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A7%E4%BB%B6%E6%9C%AA%E9%9A%8F%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2)
-    - [[x] BUG-032: Hero 模糊占位图不会消失](#x-bug-032-hero-%E6%A8%A1%E7%B3%8A%E5%8D%A0%E4%BD%8D%E5%9B%BE%E4%B8%8D%E4%BC%9A%E6%B6%88%E5%A4%B1)
-    - [[x] BUG-033: Build fails with "Could not import ../../hooks"](#x-bug-033-build-fails-with-could-not-import-hooks)
-    - [[x] BUG-034: CDN 缓存清理失败](#x-bug-034-cdn-%E7%BC%93%E5%AD%98%E6%B8%85%E7%90%86%E5%A4%B1%E8%B4%A5)
-    - [[x] BUG-035: 客户端环境变量未注入](#x-bug-035-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E6%B3%A8%E5%85%A5)
-    - [[x] BUG-036: 版本标签创建冲突](#x-bug-036-%E7%89%88%E6%9C%AC%E6%A0%87%E7%AD%BE%E5%88%9B%E5%BB%BA%E5%86%B2%E7%AA%81)
-    - [[x] BUG-037: Sentry source map 上传失败](#x-bug-037-sentry-source-map-%E4%B8%8A%E4%BC%A0%E5%A4%B1%E8%B4%A5)
-    - [[x] BUG-038: 开发环境错误上报污染](#x-bug-038-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E4%B8%8A%E6%8A%A5%E6%B1%A1%E6%9F%93)
-    - [[x] BUG-039: 敏感数据泄露风险](#x-bug-039-%E6%95%8F%E6%84%9F%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9)
-    - [[x] BUG-040: Source map 版本不匹配](#x-bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
-    - [[x] BUG-041: Sentry CORS 403 on localhost](#x-bug-041-sentry-cors-403-on-localhost)
-    - [[x] BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined](#x-bug-042-github-actions-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E7%BB%91%E5%AE%9A%E5%AF%BC%E8%87%B4-tag-undefined)
+  - [BUG 详情](#bug-%E8%AF%A6%E6%83%85)
+    - [BUG-001: Mermaid 图表渲染异常](#bug-001-mermaid-%E5%9B%BE%E8%A1%A8%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8)
+    - [BUG-002: highlight.js 与 Mermaid 冲突](#bug-002-highlightjs-%E4%B8%8E-mermaid-%E5%86%B2%E7%AA%81)
+    - [BUG-003: `CONTACT_FORM_ENDPOINT` 未定义](#bug-003-contact_form_endpoint-%E6%9C%AA%E5%AE%9A%E4%B9%89)
+    - [BUG-004: jQuery.validator 加载顺序错误](#bug-004-jqueryvalidator-%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F%E9%94%99%E8%AF%AF)
+    - [BUG-005: jQuery.easing 插件缺失](#bug-005-jqueryeasing-%E6%8F%92%E4%BB%B6%E7%BC%BA%E5%A4%B1)
+    - [BUG-006: BaseLayout 中文乱码](#bug-006-baselayout-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81)
+    - [BUG-007: ThemeToggle context undefined](#bug-007-themetoggle-context-undefined)
+    - [BUG-008: Dark mode hydration error](#bug-008-dark-mode-hydration-error)
+    - [BUG-009: Certifications card overflow on small screens](#bug-009-certifications-card-overflow-on-small-screens)
+    - [BUG-010: Certifications page overlaps nav on short screens](#bug-010-certifications-page-overlaps-nav-on-short-screens)
+    - [BUG-011: Verify buttons not responsive on small screens](#bug-011-verify-buttons-not-responsive-on-small-screens)
+    - [BUG-012: Dark mode flashes before applying](#bug-012-dark-mode-flashes-before-applying)
+    - [BUG-013: Hydration mismatch when dark mode is enabled](#bug-013-hydration-mismatch-when-dark-mode-is-enabled)
+    - [BUG-014: Chat widget panel flashes in dark mode](#bug-014-chat-widget-panel-flashes-in-dark-mode)
+    - [BUG-015: Enhancement progress stuck when scripts load from memory cache](#bug-015-enhancement-progress-stuck-when-scripts-load-from-memory-cache)
+    - [BUG-016: document is not defined during build](#bug-016-document-is-not-defined-during-build)
+    - [BUG-017: NavBar hydration mismatch when language differs](#bug-017-navbar-hydration-mismatch-when-language-differs)
+    - [BUG-018: About page hydration mismatch and flicker](#bug-018-about-page-hydration-mismatch-and-flicker)
+    - [BUG-019: Contact form placeholders flicker on first render](#bug-019-contact-form-placeholders-flicker-on-first-render)
+    - [BUG-020: `THEME_STORAGE_KEY` 读取为 null](#bug-020-theme_storage_key-%E8%AF%BB%E5%8F%96%E4%B8%BA-null)
+    - [BUG-021: Chat input placeholder flickers when switching languages](#bug-021-chat-input-placeholder-flickers-when-switching-languages)
+    - [BUG-022: Docs page Mermaid errors when hidden diagrams render](#bug-022-docs-page-mermaid-errors-when-hidden-diagrams-render)
+    - [BUG-023: Invalid image src value in SocialIcon](#bug-023-invalid-image-src-value-in-socialicon)
+    - [BUG-024: Homepage QR code fails to load](#bug-024-homepage-qr-code-fails-to-load)
+    - [BUG-025: Scripts run before React hydration](#bug-025-scripts-run-before-react-hydration)
+    - [BUG-026: Docs page fails to render README](#bug-026-docs-page-fails-to-render-readme)
+    - [BUG-027: Page title does not switch languages](#bug-027-page-title-does-not-switch-languages)
+    - [BUG-028: Markdown styles inconsistent between pages](#bug-028-markdown-styles-inconsistent-between-pages)
+    - [BUG-029: DOMPurify source map warning during dev](#bug-029-dompurify-source-map-warning-during-dev)
+    - [BUG-030: highlight.js 缺少 nginx 语言模块](#bug-030-highlightjs-%E7%BC%BA%E5%B0%91-nginx-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97)
+    - [BUG-031: 浏览器控件未随主题切换](#bug-031-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A7%E4%BB%B6%E6%9C%AA%E9%9A%8F%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2)
+    - [BUG-032: Hero 模糊占位图不会消失](#bug-032-hero-%E6%A8%A1%E7%B3%8A%E5%8D%A0%E4%BD%8D%E5%9B%BE%E4%B8%8D%E4%BC%9A%E6%B6%88%E5%A4%B1)
+    - [BUG-033: Build fails with "Could not import ../../hooks"](#bug-033-build-fails-with-could-not-import-hooks)
+    - [BUG-034: CDN 缓存清理失败](#bug-034-cdn-%E7%BC%93%E5%AD%98%E6%B8%85%E7%90%86%E5%A4%B1%E8%B4%A5)
+    - [BUG-035: 客户端环境变量未注入](#bug-035-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E6%B3%A8%E5%85%A5)
+    - [BUG-036: 版本标签创建冲突](#bug-036-%E7%89%88%E6%9C%AC%E6%A0%87%E7%AD%BE%E5%88%9B%E5%BB%BA%E5%86%B2%E7%AA%81)
+    - [BUG-037: Sentry source map 上传失败](#bug-037-sentry-source-map-%E4%B8%8A%E4%BC%A0%E5%A4%B1%E8%B4%A5)
+    - [BUG-038: 开发环境错误上报污染](#bug-038-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%94%99%E8%AF%AF%E4%B8%8A%E6%8A%A5%E6%B1%A1%E6%9F%93)
+    - [BUG-039: 敏感数据泄露风险](#bug-039-%E6%95%8F%E6%84%9F%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9)
+    - [BUG-040: Source map 版本不匹配](#bug-040-source-map-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D)
+    - [BUG-041: Sentry CORS 403 on localhost](#bug-041-sentry-cors-403-on-localhost)
+    - [BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined](#bug-042-github-actions-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E7%BB%91%E5%AE%9A%E5%AF%BC%E8%87%B4-tag-undefined)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: Auguest 03, 2025, 22:10 (UTC+8)
+- **最后更新**: August 04, 2025, 00:54 (UTC+8)
 
 ---
 
@@ -74,8 +74,9 @@
 
 统一的记录格式便于后续检索和统计，可以参考如下的模版：
 ```markdown
-### [x] BUG-<编号>: <标题>
+### BUG-<编号>: <标题>
 
+- **问题状态**：新建 (New) | 已确认 (Confirmed) | 进行中 (In Progress) | 已解决 (Resolved) | 已验证 (Verified) | 重新打开 (Reopened) | 已关闭 (Closed) | 已拒绝 (Rejected) | 已延期 (Deferred) | 已阻塞 (Blocked) | 已取消 (Cancelled)
 - **发现日期**：YYYY-MM-DD
 - **重现环境**：浏览器版本、系统环境
 - **问题现象**：
@@ -91,12 +92,13 @@
 
 ---
 
-## [x] BUG 详情
+## BUG 详情
 
-状态跟踪通过在「问题状态」小节中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
+状态跟踪通过在「问题状态」中的勾选框体现：`[ ]` 表示未解决，`[x]` 表示已修复。
 
-### [x] BUG-001: Mermaid 图表渲染异常
+### BUG-001: Mermaid 图表渲染异常
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-17
 - **重现环境**：Chrome 115+, macOS Ventura
 - **问题现象**：
@@ -123,8 +125,9 @@
 - **验证结果**：✅ 所有图表渲染稳定
 - **经验总结**：第三方 DOM 操作库需要与 React 渲染机制解耦
 
-### [x] BUG-002: highlight.js 与 Mermaid 冲突
+### BUG-002: highlight.js 与 Mermaid 冲突
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-18
 - **重现环境**：Chrome 138.0.7204.101, Windows 11
 - **问题现象**：
@@ -141,8 +144,9 @@
   });
   ```
 
-### [x] BUG-003: `CONTACT_FORM_ENDPOINT` 未定义
+### BUG-003: `CONTACT_FORM_ENDPOINT` 未定义
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-18
 - **重现环境**：Chrome 最新版，macOS Ventura
 - **问题现象**：
@@ -159,8 +163,9 @@
     ```
 - **验证结果**：✅ 页面不再抛出错误，表单正常提交
 
-### [x] BUG-004: jQuery.validator 加载顺序错误
+### BUG-004: jQuery.validator 加载顺序错误
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
   - **问题现象**：
@@ -172,8 +177,9 @@
   - 调整脚本顺序，先引入 `validator.min.js` 后引入 `contact.js`
 - **验证结果**：✅ 控制台不再报错，表单校验正常
 
-### [x] BUG-005: jQuery.easing 插件缺失
+### BUG-005: jQuery.easing 插件缺失
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-25
 - **重现环境**：Chrome 最新版，开发服务器
   - **问题现象**：
@@ -184,8 +190,9 @@
     - 在 about 页面中引入 `SCRIPT_PATHS.JQUERY_EASING`，置于 jQuery 之后
 - **验证结果**：✅ 控制台不再报错，动画正常
 
-### [x] BUG-006: BaseLayout 中文乱码
+### BUG-006: BaseLayout 中文乱码
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-26
 - **重现环境**：Chrome 最新版，开发服务器
 - **问题现象**：
@@ -196,8 +203,9 @@
   - 将 `<ThemeProvider>` 移至 `<body>` 中，保持 `<html lang>` 为顶级元素
 - **验证结果**：✅ 页面可正常显示中文
 
-### [x] BUG-007: ThemeToggle context undefined
+### BUG-007: ThemeToggle context undefined
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-26
 - **重现环境**：Chrome 最新版，开发服务器
 - **问题现象**：
@@ -221,8 +229,9 @@
   };
   ```
 
-### [x] BUG-008: Dark mode hydration error
+### BUG-008: Dark mode hydration error
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 最新版，登录/注册页面
 - **问题现象**：
@@ -237,8 +246,9 @@
 - **验证结果**：✅ 刷新不再报错，主题切换正常
 - **经验总结**：SSR 应用必须保证初始渲染一致性
 
-### [x] BUG-009: Certifications card overflow on small screens
+### BUG-009: Certifications card overflow on small screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 开发工具，375px 宽度
 - **问题现象**：
@@ -249,8 +259,9 @@
   - 调整为 `repeat(auto-fit, minmax(min(320px, 100%), 1fr))`，保证卡片在窄屏下不会超出容器
 - **验证结果**：✅ 页面在 375px 及以下宽度无溢出
 
-### [x] BUG-010: Certifications page overlaps nav on short screens
+### BUG-010: Certifications page overlaps nav on short screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 115+, 浏览器高度 600px
 - **问题现象**：
@@ -263,8 +274,9 @@
     中恢复 `padding-top` 和常规布局
 - **验证结果**：✅ 调整后在 600px 高度下页面不再与导航重叠
 
-### [x] BUG-011: Verify buttons not responsive on small screens
+### BUG-011: Verify buttons not responsive on small screens
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：Chrome 开发工具，380px 宽度
 - **问题现象**：
@@ -276,8 +288,9 @@
   - 样式已移至 `theme.css`，便于在其他页面复用
 - **验证结果**：✅ 在 380px 宽度下按钮可均匀收缩，无溢出
 
-### [x] BUG-012: Dark mode flashes before applying
+### BUG-012: Dark mode flashes before applying
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：所有页面启用深色主题后刷新
 - **问题现象**：
@@ -301,8 +314,9 @@
   </script>
   ```
 
-### [x] BUG-013: Hydration mismatch when dark mode is enabled
+### BUG-013: Hydration mismatch when dark mode is enabled
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：暗色模式下刷新任意页面
 - **问题现象**：
@@ -330,8 +344,9 @@
   }, []);
   ```
 
-### [x] BUG-014: Chat widget panel flashes in dark mode
+### BUG-014: Chat widget panel flashes in dark mode
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-27
 - **重现环境**：深色主题下的首页
 - **问题现象**：
@@ -342,8 +357,9 @@
   - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
 
-### [x] BUG-015: Enhancement progress stuck when scripts load from memory cache
+### BUG-015: Enhancement progress stuck when scripts load from memory cache
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，重复打开聊天页面
 - **问题现象**：
@@ -355,8 +371,9 @@
 - **验证结果**：✅ 提示正常淡出
 - **经验总结**：在状态驱动的 UI 中操作 DOM 前应做好空值判断
 
-### [x] BUG-016: document is not defined during build
+### BUG-016: document is not defined during build
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Astro `astro build`
 - **问题现象**：
@@ -369,8 +386,9 @@
   - 服务器端返回空内容，客户端加载后再根据语言注入数据
 - **验证结果**：✅ 构建成功，无报错
 
-### [x] BUG-017: NavBar hydration mismatch when language differs
+### BUG-017: NavBar hydration mismatch when language differs
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，切换语言后刷新页面
 - **问题现象**：
@@ -386,8 +404,9 @@
 - **验证结果**：✅ 中英文模式下刷新页面均无闪烁，也无 Hydration 报错
 - **经验总结**：SSR 组件需共享同一语言来源并同时渲染多语言文本，以避免渲染不一致
 
-### [x] BUG-018: About page hydration mismatch and flicker
+### BUG-018: About page hydration mismatch and flicker
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-28
 - **重现环境**：Chrome 最新版，切换语言后刷新 About 页面
 - **问题现象**：
@@ -402,8 +421,9 @@
 - **验证结果**：✅ 切换和刷新 About 页面均无闪烁，也无 Hydration 报错
 - **经验总结**：多语言页面在 SSR 场景下应让服务端获得初始语言，并同时输出所有语言版本以保持 DOM 一致
 
-### [x] BUG-019: Contact form placeholders flicker on first render
+### BUG-019: Contact form placeholders flicker on first render
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：About 页面，切换语言后刷新
 - **问题现象**：
@@ -417,8 +437,9 @@
 - **验证结果**：✅ 刷新页面无闪烁，表单文本一致
 - **经验总结**：SSR 多语言表单应输出所有语言，延迟注入占位符以避免闪烁
 
-### [x] BUG-020: `THEME_STORAGE_KEY` 读取为 null
+### BUG-020: `THEME_STORAGE_KEY` 读取为 null
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：Chrome 最新版
 - **问题现象**：
@@ -430,8 +451,9 @@
   - 使用 `storage.get(themeKey)` 读取存储值
 - **验证结果**：✅ 控制台能够正确获取主题值
 
-### [x] BUG-021: Chat input placeholder flickers when switching languages
+### BUG-021: Chat input placeholder flickers when switching languages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-29
 - **重现环境**：DeepSeek Chat 页面，切换语言后刷新
 - **问题现象**：
@@ -442,8 +464,9 @@
   - 新增 `placeholder` 状态，待语言和加载状态确定后再更新
 - **验证结果**：✅ 切换语言时占位符不再闪烁
 
-### [x] BUG-022: Docs page Mermaid errors when hidden diagrams render
+### BUG-022: Docs page Mermaid errors when hidden diagrams render
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面，默认语言与另一语种同时渲染
 - **问题现象**：
@@ -455,8 +478,9 @@
   - 根据 `document.documentElement.lang` 仅选择可见语言容器内的 `.language-mermaid` 代码块渲染
 - **验证结果**：✅ 页面加载不再报错，图表正确呈现
 
-### [x] BUG-023: Invalid image src value in SocialIcon
+### BUG-023: Invalid image src value in SocialIcon
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Index 页面，React 控制台
 - **问题现象**：
@@ -467,8 +491,9 @@
   - 使用 `src.src`、`src.width`、`src.height` 赋值给 `<img>`
 - **验证结果**：✅ 控制台无报错
 
-### [x] BUG-024: Homepage QR code fails to load
+### BUG-024: Homepage QR code fails to load
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Index 页面，Chrome 开发者工具
 - **问题现象**：
@@ -479,8 +504,9 @@
   - 使用 `?url` 导入 `qrcode-wechat-medium-square-258x258.jpg`，确保得到字符串 URL
 - **验证结果**：✅ 图片成功加载
 
-### [x] BUG-025: Scripts run before React hydration
+### BUG-025: Scripts run before React hydration
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Home 与 Docs 页面
 - **问题现象**：
@@ -492,8 +518,9 @@
   - 改用 `window.addEventListener('load', ...)` 确保脚本在组件挂载后运行
   - **验证结果**：✅ 模态框与文档内容均正常显示
 
-### [x] BUG-026: Docs page fails to render README
+### BUG-026: Docs page fails to render README
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面，生产环境
 - **问题现象**：
@@ -505,8 +532,9 @@
     内容
 - **验证结果**：✅ 页面渲染正常，文档内容显示完整
 
-### [x] BUG-027: Page title does not switch languages
+### BUG-027: Page title does not switch languages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Home 和 DeepSeek Chat 页面，切换语言后观察标题
 - **问题现象**：
@@ -520,8 +548,9 @@
   4. 页面传入 `titleZh`、`titleEn`，未提供则回退到单一 `title`
 - **验证结果**：✅ 切换语言后标题即时切换
 
-### [x] BUG-028: Markdown styles inconsistent between pages
+### BUG-028: Markdown styles inconsistent between pages
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：Docs 页面与 DeepSeek Chat 页面
 - **问题现象**：
@@ -534,8 +563,9 @@
   - 两个页面同时加载 `github.min.css` 与 `github-markdown-light.min.css`
 - **验证结果**：✅ 两页面的代码高亮与排版均保持一致
 
-### [x] BUG-029: DOMPurify source map warning during dev
+### BUG-029: DOMPurify source map warning during dev
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-30
 - **重现环境**：`vite dev` 过程中加载 `src/scripts/purify.min.js`
 - **问题现象**：
@@ -550,8 +580,9 @@
   - 或移除 `purify.min.js` 中的 `sourceMappingURL` 注释
 - **验证结果**：✅ 添加 `.map` 后警告消失
 
-### [x] BUG-030: highlight.js 缺少 nginx 语言模块
+### BUG-030: highlight.js 缺少 nginx 语言模块
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：Chat 页面加载 nginx 配置代码块
 - **问题现象**：
@@ -563,8 +594,9 @@
   - 使用 `node_modules/highlight.js/tools/build.js` 重新构建，加入 `nginx` 语言
 - **验证结果**：✅ 页面不再报 WARN，nginx 语法高亮正常
 
-### [x] BUG-031: 浏览器控件未随主题切换
+### BUG-031: 浏览器控件未随主题切换
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：切换暗色主题后查看表单与滚动条
 - **问题现象**：
@@ -575,8 +607,9 @@
   - 在 `:root` 设置 `color-scheme: light` 并在 `.dark-mode` 设置 `color-scheme: dark`
 - **验证结果**：✅ 主题切换后控件样式一致
 
-### [x] BUG-032: Hero 模糊占位图不会消失
+### BUG-032: Hero 模糊占位图不会消失
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-07-31
 - **重现环境**：主页 hero 图片懒加载
 - **问题现象**：
@@ -590,8 +623,9 @@
   - 加载完成后切换 CSS class 触发过渡
 - **验证结果**：✅ 模糊占位图顺利淡出
 
-### [x] BUG-033: Build fails with "Could not import ../../hooks"
+### BUG-033: Build fails with "Could not import ../../hooks"
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-01
 - **重现环境**：项目重构后执行 `astro dev`
 - **问题现象**：
@@ -604,8 +638,9 @@
   - 检查其他文件确保路径正确
 - **验证结果**：✅ 路径修正后构建通过
 
-### [x] BUG-034: CDN 缓存清理失败
+### BUG-034: CDN 缓存清理失败
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 部署流程
 - **问题现象**：
@@ -635,8 +670,9 @@
       done
   ```
 
-### [x] BUG-035: 客户端环境变量未注入
+### BUG-035: 客户端环境变量未注入
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：生产环境
 - **问题现象**：
@@ -662,8 +698,9 @@
 - **验证结果**：✅ 客户端正确获取环境变量值
 - **经验总结**：Astro 需要显式声明要暴露给客户端的变量
 
-### [x] BUG-036: 版本标签创建冲突
+### BUG-036: 版本标签创建冲突
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 工作流
 - **问题现象**：
@@ -686,8 +723,9 @@
      ```
 - **验证结果**：✅ 标签创建成功率达到 100%
 
-### [x] BUG-037: Sentry source map 上传失败
+### BUG-037: Sentry source map 上传失败
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-02
 - **重现环境**：GitHub Actions 构建流程
 - **问题现象**：
@@ -718,8 +756,9 @@
      ```
 - **验证结果**：✅ source map 成功上传，错误堆栈正确映射
 
-### [x] BUG-038: 开发环境错误上报污染
+### BUG-038: 开发环境错误上报污染
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：本地开发服务器
 - **问题现象**：
@@ -752,8 +791,9 @@
      ```
 - **验证结果**：✅ 开发环境错误仅上报到开发项目
 
-### [x] BUG-039: 敏感数据泄露风险
+### BUG-039: 敏感数据泄露风险
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：错误报告详情页
 - **问题现象**：
@@ -787,8 +827,9 @@
      ```
 - **验证结果**：✅ 错误报告不再包含敏感信息
 
-### [x] BUG-040: Source map 版本不匹配
+### BUG-040: Source map 版本不匹配
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：生产环境错误报告
 - **问题现象**：
@@ -818,8 +859,9 @@
      ```
 - **验证结果**：✅ 错误报告准确映射到对应版本源码
 
-### [x] BUG-041: Sentry CORS 403 on localhost
+### BUG-041: Sentry CORS 403 on localhost
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：本地 `vite dev`，Chrome 115+
 - **问题现象**：
@@ -833,8 +875,9 @@
 - **验证结果**：✅ 本地强制触发错误可正常上报
 - **经验总结**：本地调试需在 Allowed Domains 加入开发域名；仅修改 CSP 无法解决 Sentry 侧 CORS 拒绝
 
-### [x] BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
+### BUG-042: GitHub Actions 环境变量未绑定导致 tag undefined
 
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-03
 - **重现环境**：GitHub Actions `deploy.yml`
 - **问题现象**：

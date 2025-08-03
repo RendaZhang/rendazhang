@@ -1,22 +1,22 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-  - [简介](#%E7%AE%80%E4%BB%8B)
+- [存储工具函数](#存储工具函数)
+  - [简介](#简介)
   - [API](#api)
     - [`get(key, type?)`](#getkey-type)
     - [`set(key, value, type?, options?)`](#setkey-value-type-options)
     - [`remove(key, type?)`](#removekey-type)
-    - [IndexedDB 异步方法](#indexeddb-%E5%BC%82%E6%AD%A5%E6%96%B9%E6%B3%95)
-  - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
-  - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
+    - [IndexedDB 异步方法](#indexeddb-异步方法)
+  - [使用示例](#使用示例)
+  - [注意事项](#注意事项)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 存储工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 03, 2025, 16:44 (UTC+8)
+- **最后更新**: August 04, 2025, 00:54 (UTC+8)
 
 ---
 
