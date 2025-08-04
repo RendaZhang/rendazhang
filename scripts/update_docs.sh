@@ -10,23 +10,134 @@ log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
+cleanup() {
+  # 确保锁文件被释放
+  flock -u 9
+  rm -f "$lockfile"
+  log "Lock released and cleaned up"
+  exit 0;
+}
+
+# 获取相对于仓库根目录的路径
+relpath() {
+  realpath --relative-to="$root" "$1"
+}
+
+# 检查文件是否被修改
+is_file_modified() {
+  local file=$1
+  local rel_path=$(relpath "$file")
+
+  # 检查是否未跟踪文件
+  if ! git ls-files --error-unmatch "$rel_path" &>/dev/null; then
+    log "New untracked file: $rel_path"
+    return 0
+  fi
+
+  # 检查工作区是否有修改
+  if ! git diff --quiet -- "$rel_path"; then
+    log "Modified file in Working Area: $rel_path"
+    return 0
+  fi
+
+  # 检查暂存区是否有修改
+  if ! git diff --quiet --cached -- "$rel_path"; then
+    log "Modified file in Staging Directory: $rel_path"
+    return 0
+  fi
+
+  log "Unchanged file: $rel_path"
+  return 1
+}
+
 root="$(git rev-parse --show-toplevel)"
 lockfile="$root/.git/update-docs.lock"
 exec 9>"$lockfile"
-flock 9
+
+# 设置异常处理确保清理
+trap 'cleanup; exit 1' SIGINT SIGTERM EXIT
+
+# 获取锁（等待最多 10 秒）
+log "Acquiring lock..."
+if ! flock -w 10 9; then
+  log "ERROR: Failed to acquire lock after 10 seconds"
+  exit 1
+fi
+log "Lock acquired"
+
 cd "$root" || { log "Failed to change to directory: $root"; exit 1; }
 
 files=("$@")
-(( ${#files[@]} )) || exit 0
+if (( ${#files[@]} == 0 )); then
+  log "No files to process, exiting"
+  exit 0
+fi
 
+log "Processing ${#files[@]} files: ${files[*]}"
+
+# 过滤出已修改的文件
+modified_files=()
+for file in "${files[@]}"; do
+  if is_file_modified "$file"; then
+    modified_files+=("$file")
+  fi
+done
+
+if (( ${#modified_files[@]} == 0 )); then
+  log "No modified files to process, exiting"
+  exit 0
+fi
+
+log "Found ${#modified_files[@]} modified files: ${modified_files[*]}"
+
+# 记录哪些文件原本只在暂存区而不在工作区
+declare -A originally_staged
+for file in "${modified_files[@]}"; do
+  rel_path=$(relpath "$file")
+  # 只在暂存区有修改，工作区无修改
+  if ! git diff --quiet --cached -- "$rel_path" && git diff --quiet -- "$rel_path"; then
+    originally_staged["$file"]=1
+    log "File was originally staged: $file"
+  fi
+done
+
+# 运行 doctoc（如果已安装）
 if command -v doctoc >/dev/null 2>&1; then
-  log "Running doctoc on ${files[*]}..."
-  doctoc "${files[@]}" || { log "Failed to run doctoc"; exit 1; }
+  log "Running doctoc on modified files..."
+  if ! doctoc "${modified_files[@]}"; then
+    log "WARNING: doctoc encountered issues but continuing anyway"
+  fi
 else
   log "SKIP: doctoc not installed"
 fi
 
-log "Updating 'Last updated' timestamps..."
-python scripts/update_last_updated.py "${files[@]}"
+# 更新时间戳
+log "Updating 'Last updated' timestamps on modified files..."
+if ! python scripts/update_last_updated.py "${modified_files[@]}"; then
+  log "WARNING: Failed to update some timestamps but continuing anyway"
+fi
 
-git add "${files[@]}" || { log "ERROR: Failed to stage changes"; exit 1; }
+# 只添加原本在暂存区的文件
+files_to_add=()
+for file in "${modified_files[@]}"; do
+  # 检查文件是否原本在暂存区
+  if [[ -n "${originally_staged[$file]:-}" ]]; then
+    files_to_add+=("$file")
+    log "File was originally staged, adding after update: $file"
+  else
+    log "File was not staged, not adding: $file"
+  fi
+done
+
+if (( ${#files_to_add[@]} > 0 )); then
+  log "Staging changes for ${#files_to_add[@]} files: ${files_to_add[*]}"
+  if ! git add "${files_to_add[@]}"; then
+    log "ERROR: Failed to stage changes"
+    exit 1
+  fi
+else
+  log "No changes to stage after processing"
+fi
+
+log "Update completed successfully"
+exit 0

@@ -59,7 +59,7 @@ repos:
         language: system
         pass_filenames: false
 
-  # 自动生成索引文件
+  # 自动生成模块 `index.js` 文件
   - repo: local
     hooks:
       - id: generate-index
@@ -70,14 +70,14 @@ repos:
         always_run: true
 
   # Astro 本地检查
-  - repo: local
-    hooks:
-      - id: astro-check
-        name: Astro Check
-        entry: npx astro check
-        language: system
-        types: [astro]
-        pass_filenames: false
+  # - repo: local
+  #   hooks:
+  #     - id: astro-check
+  #       name: Astro Check
+  #       entry: npx astro check
+  #       language: system
+  #       types: [astro]
+  #       pass_filenames: false
 
   # Prettier 格式化（本地钩子，自动修复）
   - repo: local

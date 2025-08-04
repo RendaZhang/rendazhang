@@ -22,13 +22,11 @@
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
-    - [Static Asset Naming Validation](#static-asset-naming-validation)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
     - [Language Utilities](#language-utilities)
     - [Storage Utility](#storage-utility)
-    - [Automated Index Generator](#automated-index-generator)
-  - [🤝 Contribution Guidelines](#-contribution-guidelines)
+  - [🤝 Contribution Guide](#-contribution-guide)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
 
@@ -37,7 +35,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 04, 2025, 22:34 (UTC+08:00)
+- **Last Updated**: August 05, 2025, 02:49 (UTC+08:00)
 
 ---
 
@@ -417,12 +415,6 @@ For detailed steps on upgrading from native frontend, please refer to the follow
 
 For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
 
-### Static Asset Naming Validation
-
-Run `npm run validate-assets` for image/music file validation.
-
-Details: 📄 [Asset Validation Script](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
-
 ### Responsive Image System Maintenance
 
 The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 [Responsive Image System Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3)
@@ -443,38 +435,32 @@ Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob
 
 Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
-### Automated Index Generator
-
-`npm run generate-index` recursively scans `src` and writes or updates `index.js` files while syncing named and default exports. The command runs in the `pre-commit` hook to keep exports current.
-
-Details: 📄 [索引文件自动生成脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/INDEX_GENERATOR.md#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%84%9A%E6%9C%AC).
-
 ---
 
-## 🤝 Contribution Guidelines
+## 🤝 Contribution Guide
 
-- Fork and clone repository
-- Enter virtual environment:
-  ```bash
-  python -m venv venv  # If not created
-  source venv/bin/activate
-  ```
-- Install pre-commit:
-  ```bash
-  pip install pre-commit
-  pre-commit install
-  ```
-- Pre-commit hooks automatically:
-  - Sync root README/README_EN to `src/assets/`
-  - Generate TOC and refresh existing `Last updated` info for root README, README_EN, and `docs/` markdown files (only lines matching the standard format). All changes are auto-staged with `git add`.
-  - Generate index files to keep exports in sync
-  - Validate naming inside `src/assets`
-- Manual trigger:
-  ```bash
-  pre-commit run --all-files
-  ```
+- Fork and clone this repository.
+- Enter the virtual environment:
+   ```bash
+   # If the virtual environment is not yet installed, run: python -m venv venv
+   source venv/bin/activate
+   ```
+- Install dependencies and enable **pre-commit**:
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+- Before each commit, the hooks will automatically run and perform the following tasks:
+  - Automatically fix basic formatting issues (trailing whitespace, end-of-file newlines, etc.)
+  - Update the documentation table of contents and the last updated timestamp
+  - Synchronize the README file to the assets directory
+  - Validate static resource naming conventions
+  - Automatically generate module `index.js` files
+  - Perform code formatting and static checks
 
-> ✅ All commits must pass pre-commit checks; CI blocks non-compliant PRs
+> ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.
+
+For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](docs/guides/PRE_COMMIT_GUIDE.md).
 
 ---
 

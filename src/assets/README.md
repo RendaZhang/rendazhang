@@ -22,12 +22,10 @@
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
     - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
-    - [静态资源命名验证](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81)
     - [响应式图片系统维护](#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4)
     - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
     - [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
     - [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-    - [索引文件自动生成](#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -37,7 +35,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 05, 2025, 02:49 (UTC+08:00)
 
 ---
 
@@ -419,12 +417,6 @@ location /_astro/ {
 
 开发环境准备的具体步骤，请参考以下文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)。该文档详细说明了如何完成开发环境的配置以及 Astro 项目的初始化工作，确保您能够顺利开始后续的开发任务。
 
-### 静态资源命名验证
-
-执行 `npm run validate-assets` 检查图片与音乐文件命名。
-
-文档详见：📄 [静态资源命名验证脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ASSET_VALIDATION.md#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E8%84%9A%E6%9C%AC)
-
 ### 响应式图片系统维护
 
 网站图片通过自动化脚本生成响应式版本并内置 LQIP 占位效果，方便在不同设备上快速加载。
@@ -447,12 +439,6 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
 
 文档详见：📄 [存储工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
-### 索引文件自动生成
-
-`npm run generate-index` 递归扫描 `src` 目录，生成或更新 `index.js` 并自动同步默认导出。
-
-文档详见：📄 [索引文件自动生成脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/INDEX_GENERATOR.md#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%84%9A%E6%9C%AC)。
-
 ---
 
 ## 🤝 贡献指南
@@ -468,17 +454,17 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
    pip install pre-commit
    pre-commit install
    ```
-- 在每次提交前，钩子会自动运行，并执行操作：
-  - 将根目录的 README 与 README_EN 同步到 `src/assets/` 目录下。
-  - README、README_EN 及 `docs/` 下的 Markdown 文档会自动生成目录并刷新已有的 `Last updated` 信息（仅处理符合标准格式的行），所有更新会自动执行 `git add`。
-  - 自动生成各目录的 `index.js` 文件，保持导出同步。
-  - 执行静态资源命名验证脚本，确保 `src/assets` 下的命名规范。
-- 你也可以手动触发：
-   ```bash
-   pre-commit run --all-files
-   ```
+- 在每次提交前，钩子会自动运行，执行以下操作：
+  - 自动修复基础格式问题（行尾空格、文件末尾换行符等）
+  - 更新文档目录和最后更新时间
+  - 同步 README 文件到 assets 目录
+  - 验证静态资源命名规范
+  - 自动生成模块 `index.js` 文件
+  - 执行代码格式化和静态检查
 
-> ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR。
+> ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR
+
+详细预提交钩子说明请参阅：[预提交钩子综合指南](docs/guides/PRE_COMMIT_GUIDE.md)
 
 ---
 
