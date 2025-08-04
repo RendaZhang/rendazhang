@@ -1,28 +1,28 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [存储工具函数](#存储工具函数)
-  - [简介](#简介)
-  - [核心特性](#核心特性)
+- [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
+  - [简介](#%E7%AE%80%E4%BB%8B)
+  - [核心特性](#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7)
   - [API](#api)
     - [`get(key, type?)`](#getkey-type)
     - [`set(key, value, type?, options?)`](#setkey-value-type-options)
     - [`remove(key, type?)`](#removekey-type)
-    - [IndexedDB 异步方法](#indexeddb-异步方法)
-  - [智能解析机制](#智能解析机制)
-  - [使用示例](#使用示例)
-    - [基础使用](#基础使用)
-    - [安全删除](#安全删除)
-    - [IndexedDB 操作](#indexeddb-操作)
-  - [最佳实践](#最佳实践)
-  - [注意事项](#注意事项)
+    - [IndexedDB 异步方法](#indexeddb-%E5%BC%82%E6%AD%A5%E6%96%B9%E6%B3%95)
+  - [智能解析机制](#%E6%99%BA%E8%83%BD%E8%A7%A3%E6%9E%90%E6%9C%BA%E5%88%B6)
+  - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
+    - [基础使用](#%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8)
+    - [安全删除](#%E5%AE%89%E5%85%A8%E5%88%A0%E9%99%A4)
+    - [IndexedDB 操作](#indexeddb-%E6%93%8D%E4%BD%9C)
+  - [最佳实践](#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5)
+  - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 存储工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 06:46 (UTC+8)
+- **最后更新**: August 04, 2025, 18:05 (UTC+8)
 
 ---
 
