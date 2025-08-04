@@ -8,8 +8,8 @@ Sentry.init({
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
   sendDefaultPii: true,
-  // debug: import.meta.env.PUBLIC_NODE_ENV == 'development',
-  debug: false,
+  // set this to false if you don't want sentry logging
+  debug: import.meta.env.PUBLIC_NODE_ENV == 'development',
   beforeSend(event, hint) {
     // 控制台打印区分生产环境和非生产环境的错误
     if (import.meta.env.PUBLIC_NODE_ENV !== 'production') {

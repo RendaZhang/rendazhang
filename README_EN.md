@@ -35,7 +35,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 05, 2025, 02:49 (UTC+08:00)
+- **Last Updated**: August 05, 2025, 06:10 (UTC+08:00)
 
 ---
 
@@ -172,19 +172,48 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
    npm run preview
    ```
 
-4. To point the frontend at a custom backend, create a `.env` file and set `PUBLIC_API_BASE_URL`:
+4. To connect to a custom backend API, set the `PUBLIC_API_BASE_URL` in the root directory's `.env` / `.env.local` file:
 
    ```bash
    PUBLIC_API_BASE_URL=https://api.example.com
    ```
 
-   Sentry integration also requires:
+5. Sentry integration also requires:
 
    ```bash
    SENTRY_DSN=<server dsn>
    PUBLIC_SENTRY_DSN=<browser dsn>
    SENTRY_PROJECT=<your project>
    SENTRY_AUTH_TOKEN=<auth token>
+   ```
+
+   When running local checks or pre-commit without Sentry, prepend:
+
+   ```bash
+   SKIP_SENTRY=true pre-commit run --all-files
+   SKIP_SENTRY=true npm run astro -- check --incremental
+   ```
+
+6. Environment Variables Explanation
+
+   Local configurations can be set in `.env` or `.env.local`:
+
+   ```sh
+   # Public Information
+   PUBLIC_SITE_BASE_URL = "https://www.rendazhang.com"
+   PUBLIC_CDN_BASE="https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/"
+   PUBLIC_API_BASE_URL="/cloudchat"
+   PUBLIC_SENTRY_DSN="https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088"
+   PUBLIC_TAG_NAME="v1.0.1"
+   NODE_ENV="production"
+   PUBLIC_NODE_ENV="development" # Override to "development" for local debugging
+   SKIP_SENTRY="true" # Skip Sentry
+
+   # Sensitive configurations (example values below)
+   SENTRY_AUTH_TOKEN="sntrys_xxx"
+   SENTRY_DSN="https://private-key@xxx.ingest.us.sentry.io/xxx"
+   SENTRY_PROJECT="xxx"
+   SENTRY_ORG="xxx"
    ```
 
 After running `npm run build`, the `dist/_astro` directory will contain fingerprinted files with hash suffixes, allowing browsers to cache them long-term.

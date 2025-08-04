@@ -35,7 +35,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 05, 2025, 02:49 (UTC+08:00)
+- **最后更新**: August 05, 2025, 06:10 (UTC+08:00)
 
 ---
 
@@ -172,19 +172,48 @@ flowchart TD
    npm run preview
    ```
 
-4. 如需连接自定义后端接口，可在根目录创建 `.env` 文件并设置 `PUBLIC_API_BASE_URL`：
+4. 如需连接自定义后端接口，可在根目录 `.env` / `.env.local` 文件设置 `PUBLIC_API_BASE_URL`：
 
    ```bash
    PUBLIC_API_BASE_URL=https://api.example.com
    ```
 
-   Sentry integration also requires the following variables:
+5. Sentry 集成还需要以下变量：
 
    ```bash
    SENTRY_DSN=<server dsn>
    PUBLIC_SENTRY_DSN=<browser dsn>
    SENTRY_PROJECT=<your project>
    SENTRY_AUTH_TOKEN=<auth token>
+   ```
+
+   本地检查或提交前如需跳过 Sentry 上报，可临时添加环境变量：
+
+   ```bash
+   SKIP_SENTRY=true pre-commit run --all-files
+   SKIP_SENTRY=true npm run astro -- check --incremental
+   ```
+
+6. 环境变量说明
+
+   本地可以配置在 `.env` 或者 `.env.local`:
+
+   ```sh
+   # 公开信息
+   PUBLIC_SITE_BASE_URL = "https://www.rendazhang.com"
+   PUBLIC_CDN_BASE="https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/"
+   PUBLIC_API_BASE_URL="/cloudchat"
+   PUBLIC_SENTRY_DSN="https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088"
+   PUBLIC_TAG_NAME="v1.0.1"
+   NODE_ENV="production"
+   PUBLIC_NODE_ENV="development" # 本地调试覆盖为 development
+   SKIP_SENTRY="true" # 跳过 Sentry
+
+   # 敏感配置（如下为示例）
+   SENTRY_AUTH_TOKEN="sntrys_xxx"
+   SENTRY_DSN="https://private-key@xxx.ingest.us.sentry.io/xxx"
+   SENTRY_PROJECT="xxx"
+   SENTRY_ORG="xxx"
    ```
 
 执行 `npm run build` 后，`dist/_astro` 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。

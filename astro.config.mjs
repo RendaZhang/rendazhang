@@ -5,6 +5,11 @@ import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
 
 const mode = process.env.NODE_ENV ?? 'production';
+// Astro 的配置文件是运行在 Node 环境中的，
+// 它在读取 .env 文件之前就会执行，
+// 所以不能直接像在组件或页面中那样使用 import.meta.env 读取 .env 的变量
+// Astro 官方建议在 astro.config.mjs 中
+// 通过 Vite 的 loadEnv 或 dotenv 手动加载 .env 文件
 // 根据当前模式加载 .env.development 或 .env.production
 const env = loadEnv(mode, process.cwd(), '');
 
@@ -17,35 +22,43 @@ const {
   PUBLIC_TAG_NAME,
   SENTRY_AUTH_TOKEN,
   SENTRY_ORG,
-  SENTRY_PROJECT
+  SENTRY_PROJECT,
+  SKIP_SENTRY
 } = env;
+
+// 可以在本地的 .env.local 配置环境变量为 true 临时跳过 Sentry
+const skipSentry = SKIP_SENTRY === 'true';
 
 export default defineConfig({
   integrations: [
     react(),
-    sentry({
-      clientInitPath: './src/sentry.client.config.js',
-      // 如有服务端：
-      // serverInitPath: './src/sentry.server.config.js',
-      sourceMapsUploadOptions: {
-        authToken: SENTRY_AUTH_TOKEN,
-        org: SENTRY_ORG,
-        project: SENTRY_PROJECT,
-        telemetry: false // 禁用遥测
-      }
-      // 自动清理旧文件
-      // cleanArtifacts: true,
-      // 启用 SDK 日志
-      // enableLogs: true,
-      // 包含的目录
-      // include: ['./dist'],
-      // 包含所有文件类型
-      // ext: ['js', 'ts', 'jsx', 'tsx', 'astro'],
-      // 忽略测试文件
-      // ignore: ['**/*.test.*', '**/__mocks__/**'],
-      // 显式指定客户端配置文件路径
-      // configFile: './src/sentry.client.config.js'
-    })
+    ...(skipSentry
+      ? []
+      : [
+          sentry({
+            clientInitPath: './src/sentry.client.config.js',
+            // 如有服务端：
+            // serverInitPath: './src/sentry.server.config.js',
+            sourceMapsUploadOptions: {
+              authToken: SENTRY_AUTH_TOKEN,
+              org: SENTRY_ORG,
+              project: SENTRY_PROJECT,
+              telemetry: false // 禁用遥测
+            }
+            // 自动清理旧文件
+            // cleanArtifacts: true,
+            // 启用 SDK 日志
+            // enableLogs: true,
+            // 包含的目录
+            // include: ['./dist'],
+            // 包含所有文件类型
+            // ext: ['js', 'ts', 'jsx', 'tsx', 'astro'],
+            // 忽略测试文件
+            // ignore: ['**/*.test.*', '**/__mocks__/**'],
+            // 显式指定客户端配置文件路径
+            // configFile: './src/sentry.client.config.js'
+          })
+        ])
   ],
   vite: {
     server: {
@@ -63,6 +76,9 @@ export default defineConfig({
         }
       }
     },
+    // 使用 vite.define 显式暴露公共变量，
+    // 变量名必须以 PUBLIC_ 前缀开头，
+    // 这些变量会在浏览器端通过 import.meta.env.PUBLIC_* 访问
     define: {
       'import.meta.env.PUBLIC_API_BASE_URL': JSON.stringify(PUBLIC_API_BASE_URL),
       'import.meta.env.PUBLIC_CDN_BASE': JSON.stringify(PUBLIC_CDN_BASE),

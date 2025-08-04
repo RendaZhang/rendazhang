@@ -6,8 +6,7 @@
   - [环境配置指南](#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97)
     - [文件结构与用途](#%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E4%B8%8E%E7%94%A8%E9%80%94)
     - [环境变量说明](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AF%B4%E6%98%8E)
-      - [`.env` 示例 (公开可提交)](#env-%E7%A4%BA%E4%BE%8B-%E5%85%AC%E5%BC%80%E5%8F%AF%E6%8F%90%E4%BA%A4)
-      - [`.env.local` 示例 (本地私有)](#envlocal-%E7%A4%BA%E4%BE%8B-%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89)
+      - [临时跳过 Sentry（本地开发）](#%E4%B8%B4%E6%97%B6%E8%B7%B3%E8%BF%87-sentry%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
     - [环境变量加载优先级](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%85%88%E7%BA%A7)
   - [Sentry 初始化配置](#sentry-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE)
     - [`astro.config.mjs` 关键配置](#astroconfigmjs-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
@@ -34,7 +33,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 04:04 (UTC+08:00)
+- **最后更新**: August 05, 2025, 06:10 (UTC+08:00)
 
 ---
 
@@ -42,36 +41,41 @@
 
 ### 文件结构与用途
 
-| 文件      |    用途      | 是否提交到仓库 |
-|-----------|-------------|----------------|
-| `.env`    | 存储公共环境变量 (CDN 路径、API 地址等)  | ✅ 是    |
-| `.env.local` | 存储敏感环境变量 (Sentry Token、DSN 等) | ❌ 否   |
-| `astro.config.mjs` | Astro 主配置文件，集成 Sentry 插件 | ✅ 是    |
+| 文件      |      用途      | 是否提交到仓库 |
+|-----------|---------------|----------------|
+| `.env` / `.env.local`     | 存储本地开发用的环境变量 | ❌ 否   |
+| `astro.config.mjs`        | Astro 主配置文件，集成 Sentry 插件 | ✅ 是 |
 | `sentry.client.config.js` | Sentry 浏览器端初始化配置 | ✅ 是   |
 
 ### 环境变量说明
 
-#### `.env` 示例 (公开可提交)
+本地可以配置在 `.env` 或者 `.env.local`:
 
-```env
-# 公共配置（与仓库同步）
-PUBLIC_API_BASE_URL="/cloudchat"
+```sh
+# 公开信息
+PUBLIC_SITE_BASE_URL = "https://www.rendazhang.com"
 PUBLIC_CDN_BASE="https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/"
-PUBLIC_SENTRY_DSN="https://public-key@o4509770577543168.ingest.us.sentry.io/4509770780377088"
-PUBLIC_SITE_BASE_URL="https://www.rendazhang.com"
+PUBLIC_API_BASE_URL="/cloudchat"
+PUBLIC_SENTRY_DSN="https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088"
 PUBLIC_TAG_NAME="v1.0.1"
 NODE_ENV="production"
-```
-
-#### `.env.local` 示例 (本地私有)
-
-```env
-# 敏感配置（不提交到仓库）
+PUBLIC_NODE_ENV="development" # 本地调试覆盖为 development
+SKIP_SENTRY="true" # 跳过 Sentry
+# 敏感配置，如下为示例
 SENTRY_AUTH_TOKEN="sntrys_xxx"
 SENTRY_DSN="https://private-key@xxx.ingest.us.sentry.io/xxx"
-SENTRY_PROJECT="renda-website"
-SENTRY_ORG="renda-nh"
-PUBLIC_NODE_ENV="development"  # 本地调试覆盖为 development
+SENTRY_PROJECT="xxx"
+SENTRY_ORG="xxx"
+```
+
+#### 临时跳过 Sentry（本地开发）
+
+> 本地运行检查或 pre-commit 时若不需要 Sentry，
+> 可在命令前添加 `SKIP_SENTRY=true` 以跳过相关集成，避免上传 Source Maps 和插件加载。
+
+```bash
+SKIP_SENTRY=true pre-commit run --all-files
+SKIP_SENTRY=true npm run astro -- check --incremental
 ```
 
 ### 环境变量加载优先级
@@ -220,9 +224,11 @@ ignoreErrors: [
     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
     SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+    SKIP_SENTRY: ${{ secrets.SKIP_SENTRY }}
     # 注入公共变量
     PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
     PUBLIC_TAG_NAME: ${{ env.TAG_NAME }}
+    # ... 更多具体变量查看 `.github/workflows/deploy.yml` 文件
   run: npm run build
 ```
 
