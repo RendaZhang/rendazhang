@@ -69,15 +69,17 @@ repos:
         pass_filenames: false
         always_run: true
 
-  # Astro 本地检查
-  # - repo: local
-  #   hooks:
-  #     - id: astro-check
-  #       name: Astro Check
-  #       entry: npx astro check
-  #       language: system
-  #       types: [astro]
-  #       pass_filenames: false
+  # Astro 本地检查（优化版）
+  - repo: local
+    hooks:
+      - id: astro-check
+        name: Astro Check (Optimized)
+        entry: npm run astro -- check --incremental
+        language: node
+        files: ^src/.*\.astro$   # 只检查 src 目录下的 Astro 文件
+        types: [astro]
+        pass_filenames: true     # 只检查修改的文件
+        additional_dependencies: ["@astrojs/compiler"] # 预加载依赖
 
   # Prettier 格式化（本地钩子，自动修复）
   - repo: local
