@@ -8,6 +8,7 @@
     - [环境变量说明](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AF%B4%E6%98%8E)
       - [临时跳过 Sentry（本地开发）](#%E4%B8%B4%E6%97%B6%E8%B7%B3%E8%BF%87-sentry%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
     - [环境变量加载优先级](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%85%88%E7%BA%A7)
+      - [本地 production 模拟](#%E6%9C%AC%E5%9C%B0-production-%E6%A8%A1%E6%8B%9F)
   - [Sentry 初始化配置](#sentry-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE)
     - [`astro.config.mjs` 关键配置](#astroconfigmjs-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
     - [`sentry.client.config.js` 浏览器端配置](#sentryclientconfigjs-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE)
@@ -33,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 06:10 (UTC+08:00)
+- **最后更新**: August 05, 2025, 06:26 (UTC+08:00)
 
 ---
 
@@ -49,7 +50,9 @@
 
 ### 环境变量说明
 
-本地可以配置在 `.env` 或者 `.env.local`:
+本地可以配置在 `.env` 或者 `.env.local`。
+
+> ⚠️ Vite 会同时加载 `.env`、`.env.<mode>`、`.env.local`；同名变量按优先级覆盖（`process.env` > `.env.local` > `.env`）。
 
 ```sh
 # 公开信息
@@ -59,8 +62,7 @@ PUBLIC_API_BASE_URL="/cloudchat"
 PUBLIC_SENTRY_DSN="https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088"
 PUBLIC_TAG_NAME="v1.0.1"
 NODE_ENV="production"
-PUBLIC_NODE_ENV="development" # 本地调试覆盖为 development
-SKIP_SENTRY="true" # 跳过 Sentry
+PUBLIC_NODE_ENV="production" # 本地调试覆盖为 development
 # 敏感配置，如下为示例
 SENTRY_AUTH_TOKEN="sntrys_xxx"
 SENTRY_DSN="https://private-key@xxx.ingest.us.sentry.io/xxx"
@@ -90,6 +92,16 @@ graph LR
 
 > **重要提示**：本地开发时，`.env.local` 会覆盖 `.env` 中的同名变量，便于调试配置
 
+#### 本地 production 模拟
+
+```bash
+# 默认以 production 模式启动 dev 服务器
+export NODE_ENV=production && npm run dev
+```
+
+* `astro.config.mjs` 通过 `loadEnv(process.env.NODE_ENV ?? 'production', …)` 始终加载 `production` 变量。
+* `PUBLIC_NODE_ENV` 仍可手动覆盖为 `development`，在浏览器端用于区分日志级别。
+
 ---
 
 ## Sentry 初始化配置
@@ -97,34 +109,33 @@ graph LR
 ### `astro.config.mjs` 关键配置
 
 ```javascript
+import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
 
-// 根据 NODE_ENV 加载环境变量
-const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
+const mode = process.env.NODE_ENV ?? 'production';
+const env = loadEnv(mode, process.cwd(), '');
 
 export default defineConfig({
   integrations: [
+    react(),
     sentry({
       clientInitPath: './src/sentry.client.config.js',
       sourceMapsUploadOptions: {
-        authToken: env.SENTRY_AUTH_TOKEN,       // 从 .env.local 获取
-        org: env.SENTRY_ORG,                   // Sentry 组织名
-        project: env.SENTRY_PROJECT,            // Sentry 项目名
-        release: env.PUBLIC_TAG_NAME,           // 版本标签
-        setCommits: {
-          auto: true                           // 自动关联 Git 提交
-        }
+        authToken: env.SENTRY_AUTH_TOKEN,
+        org: env.SENTRY_ORG,
+        project: env.SENTRY_PROJECT,
+        release: env.PUBLIC_TAG_NAME
       }
     })
   ],
   vite: {
-    build: { sourcemap: true },  // 必须启用 sourcemap
+    build: { sourcemap: true },
     define: {
-      // 注入客户端可访问的环境变量
       'import.meta.env.PUBLIC_SENTRY_DSN': JSON.stringify(env.PUBLIC_SENTRY_DSN),
       'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(env.PUBLIC_TAG_NAME),
-      'import.meta.env.PUBLIC_NODE_ENV': JSON.stringify(env.PUBLIC_NODE_ENV)
+      'import.meta.env.PUBLIC_NODE_ENV': JSON.stringify(env.PUBLIC_NODE_ENV ?? mode)
     }
   }
 });
@@ -139,49 +150,17 @@ Sentry.init({
   dsn: import.meta.env.PUBLIC_SENTRY_DSN,
   release: import.meta.env.PUBLIC_TAG_NAME,
   environment: import.meta.env.PUBLIC_NODE_ENV || 'production',
-
   // 采样率配置
   tracesSampleRate: 0.2,
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 0.5,
-
-  // 安全与隐私控制
-  sendDefaultPii: false, // 禁用敏感个人信息收集
-
   // 开发环境配置
-  debug: import.meta.env.PUBLIC_NODE_ENV === 'development',
-
-  // 错误过滤钩子
+  debug: import.meta.env.PUBLIC_NODE_ENV !== 'production',
   beforeSend(event, hint) {
-    return filterSentryEvents(event, hint);
+    const isExt = /chrome-extension:|moz-extension:/.test(
+      hint.originalException?.stack || ''
+    );
+    return isExt ? null : event;
   }
 });
-
-// 错误过滤逻辑
-function filterSentryEvents(event, hint) {
-  const { request } = event;
-  const originalException = hint.originalException;
-
-  // 1. 浏览器扩展错误过滤
-  const isExtensionError = /chrome-extension:|moz-extension:/.test(
-    originalException?.stack || ''
-  );
-
-  // 2. 敏感路径过滤
-  const sensitivePaths = ['password', 'token', 'auth', 'credit-card'];
-  const hasSensitivePath = sensitivePaths.some(path =>
-    request?.url?.includes(path)
-  );
-
-  // 3. 开发环境特殊处理
-  if (import.meta.env.PUBLIC_NODE_ENV !== 'production') {
-    console.debug('[Sentry] Filtered event:', event);
-    if (isExtensionError || hasSensitivePath) return null;
-  }
-
-  // 4. 生产环境过滤
-  return (isExtensionError || hasSensitivePath) ? null : event;
-}
 ```
 
 ---
@@ -217,6 +196,8 @@ ignoreErrors: [
 
 ### GitHub Actions 关键配置
 
+> **务必** 在 job 里声明 `environment: production` 才能读取 environment `vars` 与 `secrets`。
+
 ```yaml
 - name: Build Astro Project
   env:
@@ -227,7 +208,10 @@ ignoreErrors: [
     SKIP_SENTRY: ${{ secrets.SKIP_SENTRY }}
     # 注入公共变量
     PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
-    PUBLIC_TAG_NAME: ${{ env.TAG_NAME }}
+    # 绑定到 environment vars
+    PUBLIC_TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
+    # 兼容旧脚本
+    TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
     # ... 更多具体变量查看 `.github/workflows/deploy.yml` 文件
   run: npm run build
 ```
@@ -259,6 +243,8 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
 ## 本地开发调试
 
 ### 调试配置建议
+
+> 若仅做 UI 开发、不想上传事件，可在启动命令前加 `SKIP_SENTRY=true`（已在 `astro.config.mjs` 里检测此环境变量）。
 
 1. **启用调试模式**：
    ```javascript
