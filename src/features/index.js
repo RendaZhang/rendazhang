@@ -1,2 +1,2 @@
-export * as ChatFeature from './chat/index.js';
-export * as AuthFeature from './auth/index.js';
+export * from './auth/index.js';
+export * from './chat/index.js';

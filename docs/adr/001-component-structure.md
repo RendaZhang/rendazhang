@@ -1,7 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [决策 001：采用特性目录结构](#%E5%86%B3%E7%AD%96-001%E9%87%87%E7%94%A8%E7%89%B9%E6%80%A7%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 决策 001：采用特性目录结构
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 00:54 (UTC+8)
+- **最后更新**: August 04, 2025, 18:05 (UTC+8)
 
 ---
 

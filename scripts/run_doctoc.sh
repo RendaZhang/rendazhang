@@ -19,6 +19,8 @@ if ! command -v doctoc >/dev/null 2>&1; then
   exit 0
 fi
 
-log "Running doctoc on README.md and docs/*.md..."
-doctoc README.md docs/*.md || { log "Failed to run doctoc"; exit 1; }
-git add README.md docs/*.md || { log "ERROR: Failed to stage changes"; exit 1; }
+log "Running doctoc on README.md, README_EN.md and docs/**/*.md..."
+
+readarray -t md_files < <(find docs -type f -name '*.md' | sort)
+doctoc README.md README_EN.md "${md_files[@]}" || { log "Failed to run doctoc"; exit 1; }
+git add README.md README_EN.md "${md_files[@]}" || { log "ERROR: Failed to stage changes"; exit 1; }

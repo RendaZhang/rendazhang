@@ -1,13 +1,13 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
   - [Frontend](#frontend)
-    - [Local Development \& Preview](#local-development--preview)
+    - [Local Development & Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
     - [Website Features](#website-features)
@@ -27,6 +27,7 @@
     - [Error Tracking](#error-tracking)
     - [Language Utilities](#language-utilities)
     - [Storage Utility](#storage-utility)
+    - [Automated Index Generator](#automated-index-generator)
   - [🤝 Contribution Guidelines](#-contribution-guidelines)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -442,6 +443,12 @@ Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob
 
 Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
+### Automated Index Generator
+
+`npm run generate-index` recursively scans `src` and writes or updates `index.js` files while syncing named and default exports. The command runs in the `pre-commit` hook to keep exports current.
+
+Details: 📄 [索引文件自动生成脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/INDEX_GENERATOR.md#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%84%9A%E6%9C%AC).
+
 ---
 
 ## 🤝 Contribution Guidelines
@@ -460,6 +467,7 @@ Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/ma
 - Pre-commit hooks automatically:
   - Sync root README/README_EN to `src/assets/`
   - Update Doctoc TOC for docs
+  - Generate index files to keep exports in sync
   - Validate naming inside `src/assets`
 - Manual trigger:
   ```bash
