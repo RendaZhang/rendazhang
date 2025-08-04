@@ -30,7 +30,8 @@ export default defineConfig({
       sourceMapsUploadOptions: {
         authToken: SENTRY_AUTH_TOKEN,
         org: SENTRY_ORG,
-        project: SENTRY_PROJECT
+        project: SENTRY_PROJECT,
+        telemetry: false // 禁用遥测
       }
       // 自动清理旧文件
       // cleanArtifacts: true,
