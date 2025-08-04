@@ -37,7 +37,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 04, 2025, 07:12 (UTC+8)
+- **Last Updated**: August 04, 2025, 22:34 (UTC+08:00)
 
 ---
 
@@ -466,7 +466,7 @@ Details: 📄 [索引文件自动生成脚本](https://github.com/RendaZhang/ren
   ```
 - Pre-commit hooks automatically:
   - Sync root README/README_EN to `src/assets/`
-  - Update Doctoc TOC for docs
+  - Generate TOC and refresh existing `Last updated` info for root README, README_EN, and `docs/` markdown files (only lines matching the standard format). All changes are auto-staged with `git add`.
   - Generate index files to keep exports in sync
   - Validate naming inside `src/assets`
 - Manual trigger:

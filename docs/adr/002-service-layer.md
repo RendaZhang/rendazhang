@@ -13,7 +13,7 @@
 # ADR 002: Service Layer Abstraction
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 18:05 (UTC+8)
+- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
 
 ---
 

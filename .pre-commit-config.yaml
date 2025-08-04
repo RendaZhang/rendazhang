@@ -31,14 +31,14 @@ repos:
       - id: check-json
       - id: check-case-conflict
 
-  # 自动生成文档目录
+  # 自动更新文档目录并刷新 "Last updated" 信息
   - repo: local
     hooks:
-      - id: doctoc
-        name: Generate TOC
-        entry: scripts/run_doctoc.sh
+      - id: update-docs
+        name: Update Docs TOC and Last Updated
+        entry: scripts/update_docs.sh
         language: script
-        pass_filenames: false
+        files: ^(README(?:_EN)?\.md|docs/.*\.md)$
 
   # 同步 README 文件
   - repo: local
@@ -59,16 +59,6 @@ repos:
         language: system
         pass_filenames: false
 
-  # Astro 本地检查
-  - repo: local
-    hooks:
-      - id: astro-check
-        name: Astro Check
-        entry: npx astro check
-        language: system
-        types: [astro]
-        pass_filenames: false
-
   # 自动生成索引文件
   - repo: local
     hooks:
@@ -79,6 +69,16 @@ repos:
         pass_filenames: false
         always_run: true
 
+  # Astro 本地检查
+  - repo: local
+    hooks:
+      - id: astro-check
+        name: Astro Check
+        entry: npx astro check
+        language: system
+        types: [astro]
+        pass_filenames: false
+
   # Prettier 格式化（本地钩子，自动修复）
   - repo: local
     hooks:
@@ -86,7 +86,7 @@ repos:
         name: Prettier Format
         entry: npx prettier --write
         language: system
-        types_or: [javascript, jsx, astro, css] # 这里移除了 markdown
+        types_or: [javascript, jsx, astro, css]
         exclude: \.(js|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
   # ESLint 检查（本地钩子，自动修复可修复问题）
