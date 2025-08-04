@@ -1,6 +1,6 @@
-export { ABOUT_CONTENT } from './aboutContent.js';
-export { CERTIFICATIONS_CONTENT } from './certificationsContent.js';
-export { DEEPSEEK_CHAT_CONTENT } from './deepseekChatContent.js';
-export { LOGIN_CONTENT } from './loginContent.js';
-export { NAV_CONTENT } from './navContent.js';
-export { REGISTER_CONTENT } from './registerContent.js';
+export * from './aboutContent.js';
+export * from './certificationsContent.js';
+export * from './deepseekChatContent.js';
+export * from './loginContent.js';
+export * from './navContent.js';
+export * from './registerContent.js';

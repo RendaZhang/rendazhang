@@ -1,1 +1,2 @@
-export { default } from './ChatWidget.jsx';
+export * from './ChatWidget.jsx';
+export { default as ChatWidget } from './ChatWidget.jsx';

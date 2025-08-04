@@ -7,7 +7,8 @@
     "build": "astro build",
     "validate-assets": "node scripts/validate_assets.cjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-index": "node scripts/generateIndex.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

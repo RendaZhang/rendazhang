@@ -27,6 +27,7 @@
     - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
     - [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
     - [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
+    - [索引文件自动生成](#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -446,6 +447,12 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
 
 文档详见：📄 [存储工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
+### 索引文件自动生成
+
+`npm run generate-index` 递归扫描 `src` 目录，生成或更新 `index.js` 并自动同步默认导出。
+
+文档详见：📄 [索引文件自动生成脚本](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/INDEX_GENERATOR.md#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%84%9A%E6%9C%AC)。
+
 ---
 
 ## 🤝 贡献指南
@@ -464,6 +471,7 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
 - 在每次提交前，钩子会自动运行，并执行操作：
   - 将根目录的 README 与 README_EN 同步到 `src/assets/` 目录下。
   - README 和 docs 下的文档会自动更新 Doctoc 目录（若本地未安装则跳过）。
+  - 自动生成各目录的 `index.js` 文件，保持导出同步。
   - 执行静态资源命名验证脚本，确保 `src/assets` 下的命名规范。
 - 你也可以手动触发：
    ```bash

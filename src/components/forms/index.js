@@ -1,3 +1,3 @@
-export { default as ContactForm } from './ContactForm';
-export { default as LoginForm } from './LoginForm';
-export { default as RegisterForm } from './RegisterForm';
+export * from './ContactForm/index.js';
+export * from './LoginForm/index.js';
+export * from './RegisterForm/index.js';
