@@ -19,6 +19,8 @@
   - [**Backend**](#backend)
   - [**Nginx Server**](#nginx-server)
   - [Documentation](#documentation)
+    - [Git Branching & Release Workflow](#git-branching--release-workflow)
+    - [CI/CD Workflow](#cicd-workflow)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
@@ -35,7 +37,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 05, 2025, 06:10 (UTC+08:00)
+- **Last Updated**: August 05, 2025, 07:26 (UTC+08:00)
 
 ---
 
@@ -428,6 +430,14 @@ location /_astro/ {
 
 ## Documentation
 
+### Git Branching & Release Workflow
+
+> The project follows a `master`/`develop` dual-branch model with conventions for `feature`, `hotfix`, and `experiment` branches. Details: 📄 [Git Workflow](https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow).
+
+### CI/CD Workflow
+
+> `deploy.yml` defines the deployment process triggered when code is pushed or merged into `master`, including tag management and environment variable mappings. See: 📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline).
+
 ### BUG Tracking
 
 > For BUGs encountered during frontend development and their solutions, please refer to the following document: 📄 [Frontend BUG Tracking Database](https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93). This document provides detailed records of BUG descriptions, reproduction steps, solutions, and developer notes, helping you quickly identify and resolve issues.
@@ -489,7 +499,7 @@ Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/ma
 
 > ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.
 
-For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](docs/guides/PRE_COMMIT_GUIDE.md).
+For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97).
 
 ---
 
