@@ -12,7 +12,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const { values, errors, handleChange, validateAll, reset } = useFormValidation(
+  const { values, errors, handleChange, validateAll } = useFormValidation(
     { email: '', password: '' },
     {
       email: (val) => {
