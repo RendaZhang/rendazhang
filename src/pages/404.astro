@@ -1,0 +1,45 @@
+---
+import { BaseLayout } from '../layouts';
+import ErrorSection from '../components/ErrorSection.astro';
+import { SITE_BASE_URL } from '../constants/index.js';
+import { getCurrentLang } from '../utils';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+
+const messages = {
+  zh: {
+    title: '页面未找到',
+    description: '你访问的页面不存在。',
+    home: '返回首页'
+  },
+  en: {
+    title: 'Page Not Found',
+    description: "The page you're looking for doesn't exist.",
+    home: 'Go Home'
+  }
+};
+
+const dict = messages[langKey];
+const titleZh = messages.zh.title;
+const titleEn = messages.en.title;
+const title = dict.title;
+---
+
+<BaseLayout
+  lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
+  description={dict.description}
+  canonical={`${SITE_BASE_URL}/404`}
+  metaRobots="noindex, nofollow"
+>
+  <ErrorSection
+    code="404"
+    emoji="🔍"
+    title={dict.title}
+    description={dict.description}
+    homeLabel={dict.home}
+  />
+</BaseLayout>
