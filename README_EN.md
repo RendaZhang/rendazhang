@@ -26,6 +26,7 @@
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
+    - [Environment Variable Utility Functions](#environment-variable-utility-functions)
     - [Language Utilities](#language-utilities)
     - [Storage Utility](#storage-utility)
   - [🤝 Contribution Guide](#-contribution-guide)
@@ -37,7 +38,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 05, 2025, 07:26 (UTC+08:00)
+- **Last Updated**: August 05, 2025, 16:19 (UTC+08:00)
 
 ---
 
@@ -198,7 +199,7 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 6. Environment Variables Explanation
 
-   Local configurations can be set in `.env` or `.env.local`:
+   Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.js`:
 
    ```sh
    # Public Information
@@ -461,6 +462,12 @@ The website uses an automated pipeline to generate responsive images with built-
 ### Error Tracking
 
 Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration) for configuration.
+
+### Environment Variable Utility Functions
+
+`src/utils/env.js` provides methods such as `getEnv()`, `isProduction()`, and `getCdnUrl()` to uniformly manage environment variables and ensure compatibility across multiple runtime environments.
+
+For detailed documentation, refer to: 📄 [Environment Variable Utility Functions](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
 ### Language Utilities
 

@@ -1,18 +1,19 @@
 import * as Sentry from '@sentry/astro';
+import { getEnv, isProduction } from './utils/env.js';
 
 Sentry.init({
-  dsn: import.meta.env.PUBLIC_SENTRY_DSN,
-  release: import.meta.env.PUBLIC_TAG_NAME,
-  environment: import.meta.env.PUBLIC_NODE_ENV,
+  dsn: getEnv('SENTRY_DSN'),
+  release: getEnv('TAG_NAME'),
+  environment: getEnv('NODE_ENV'),
   tracesSampleRate: 0.2,
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
   sendDefaultPii: true,
   // set this to false if you don't want sentry logging
-  debug: import.meta.env.PUBLIC_NODE_ENV == 'development',
+  debug: !isProduction(),
   beforeSend(event, hint) {
     // 控制台打印区分生产环境和非生产环境的错误
-    if (import.meta.env.PUBLIC_NODE_ENV !== 'production') {
+    if (!isProduction()) {
       console.log('Sentry event filtered in non-production env: ', hint.originalException);
     } else {
       console.log('Sentry event filtered in production env: ' + hint.originalException);

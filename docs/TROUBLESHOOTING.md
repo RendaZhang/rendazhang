@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
 
 ---
 
@@ -679,24 +679,26 @@
 - **发现日期**：2025-08-02
 - **重现环境**：生产环境
 - **问题现象**：
-  - 客户端代码访问 `import.meta.env.PUBLIC_TAG_NAME` 返回 undefined
+  - 客户端代码访问 `getEnv('TAG_NAME')` 返回 undefined
   - CDN 资源路径未正确生成
 - **根本原因**：
   - `astro.config.mjs` 中的 `vite.define` 配置未生效
   - 环境变量未在构建时正确传递
 - **解决方案**：
-  1. 使用 Astro 的 `import.meta.env` 方式暴露变量
+  1. 使用 `src/utils/env.js` 提供的 `getEnv()` 接口
   2. 在构建步骤中通过 `dotenv` 加载环境变量
   3. 修改 `astro.config.mjs`：
      ```js
-     export default defineConfig({
-       vite: {
-         define: {
-           'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(process.env.PUBLIC_TAG_NAME || ''),
-           'import.meta.env.PUBLIC_CDN_BASE': JSON.stringify(process.env.CDN_BASE_URL || '/')
-         }
-       }
-     });
+    import { getEnv } from './src/utils/env.js';
+
+    export default defineConfig({
+      vite: {
+        define: {
+          'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(getEnv('TAG_NAME') || ''),
+          'import.meta.env.PUBLIC_CDN_BASE': JSON.stringify(getEnv('CDN_BASE') || '/')
+        }
+      }
+    });
      ```
 - **验证结果**：✅ 客户端正确获取环境变量值
 - **经验总结**：Astro 需要显式声明要暴露给客户端的变量
@@ -742,15 +744,16 @@
 - **解决方案**：
   1. 在 GitHub Secrets 添加 SENTRY_AUTH_TOKEN
   2. 验证 astro.config.mjs 配置：
-     ```js
-     sentry({
-       sourceMapsUploadOptions: {
-         authToken: import.meta.env.SENTRY_AUTH_TOKEN,
-         org: "correct-org-slug", // 确认组织名称
-         project: "correct-project-slug", // 确认项目名称
-       }
-     })
-     ```
+    ```js
+    import { getEnv } from './src/utils/env.js';
+    sentry({
+      sourceMapsUploadOptions: {
+        authToken: getEnv('SENTRY_AUTH_TOKEN'),
+        org: "correct-org-slug", // 确认组织名称
+        project: "correct-project-slug", // 确认项目名称
+      }
+    })
+    ```
   3. 确保 Vite 配置启用 sourcemap：
      ```js
      export default defineConfig({
@@ -772,17 +775,17 @@
   - DSN 未按环境隔离
 - **解决方案**：
   1. 添加环境判断逻辑：
-     ```js
-     // astro.config.mjs
-     const isProduction = import.meta.env.PROD;
-
-     sentry({
-       enabled: isProduction,
-       dsn: isProduction
-         ? import.meta.env.SENTRY_DSN_PROD
-         : import.meta.env.SENTRY_DSN_DEV
-     })
-     ```
+      ```js
+      // astro.config.mjs
+      import { isProduction, getEnv } from './src/utils/env.js';
+      const prod = isProduction();
+      sentry({
+        enabled: prod,
+        dsn: prod
+          ? getEnv('SENTRY_DSN_PROD')
+          : getEnv('SENTRY_DSN_DEV')
+      })
+      ```
   2. 创建 Sentry 开发环境项目
   3. 更新 .env 文件：
      ```env
@@ -843,17 +846,17 @@
   - 未注入唯一 release ID
 - **解决方案**：
   1. 注入 Git commit 作为 release ID：
-     ```js
-     // astro.config.mjs
-     const commitHash = process.env.COMMIT_SHA || 'dev';
-
-     sentry({
-       release: commitHash,
-       sourceMapsUploadOptions: {
-         release: commitHash
-       }
-     })
-     ```
+      ```js
+      // astro.config.mjs
+      import { getEnv } from './src/utils/env.js';
+      const commitHash = getEnv('COMMIT_SHA') || 'dev';
+      sentry({
+        release: commitHash,
+        sourceMapsUploadOptions: {
+          release: commitHash
+        }
+      })
+      ```
   2. 在 CI 中设置环境变量：
      ```yaml
      # GitHub Actions
@@ -889,14 +892,12 @@
 - **根本原因**：
   - 将变量迁移至 *Environments* 后，Job 未声明 `environment:`，导致无法读取 `vars.*`
 - **解决方案**：
-  1. 在 `deploy` job 加入
-     ```yaml
-     environment: production
-     env:
-       PUBLIC_TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
-     ```
-  2. 若脚本使用 `process.env.TAG_NAME`，在 `env:` 再做别名
-     `TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}`
+  - 在 `deploy` job 加入
+    ```yaml
+    environment: production
+    env:
+      PUBLIC_TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
+    ```
 - **验证结果**：✅ Workflow 日志显示正确 tag，发布成功
 - **经验总结**：GitHub *Environment* 的 `vars/​secrets` 只有绑定到同名 `environment:` 的 Job 才可用
 
