@@ -1,4 +1,4 @@
-import { LANG_STORAGE_KEY } from '../config.js';
+import { LANG_STORAGE_KEY } from '../constants/index.js';
 import storage from './storage.js';
 
 export function getCurrentLang() {

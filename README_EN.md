@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 05, 2025, 21:07 (UTC+08:00)
+- **Last Updated**: August 06, 2025, 01:25 (UTC+08:00)
 
 ---
 
@@ -72,7 +72,7 @@ The website is optimized for SEO and GEO.
 ```text
 src/
 ├── assets/
-├── constants/           # Path constants and API endpoints
+├── constants/           # Site metadata, asset paths, and app settings
 ├── features/            # Feature-based modules
 │   ├── chat/
 │   │   ├── components/

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CREDLY_HOST, CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME } from '../../../config.js';
+import { CREDLY_HOST, CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME } from '../../../constants/index.js';
 
 export default function CredlyBadge() {
   const iframeRef = useRef(null);

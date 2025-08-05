@@ -1,4 +1,4 @@
-import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../config.js';
+import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../constants/index.js';
 
 class ChatSession {
   constructor(initial = []) {

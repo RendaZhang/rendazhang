@@ -1,4 +1,4 @@
-import { ICON_SIZES } from '../../../config.js';
+import { ICON_SIZES } from '../../../constants/index.js';
 
 export default function AvatarIcon({ size = ICON_SIZES.DEFAULT }) {
   return (
