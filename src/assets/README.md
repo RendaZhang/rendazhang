@@ -39,7 +39,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 05, 2025, 21:07 (UTC+08:00)
+- **最后更新**: August 05, 2025, 21:15 (UTC+08:00)
 
 ---
 
@@ -231,9 +231,12 @@ flowchart TD
 Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 
 1. 检出代码并安装依赖
-2. 执行 `npm run build` 生成静态文件
-3. 通过 `appleboy/scp-action` 将 `dist/` 内容上传到服务器指定目录（如 `/var/www/html`）
-4. 部署完成后即可通过 Nginx 提供服务
+2. 构建前执行 `npm run astro -- check` 进行类型检查
+3. 执行 `npm run build` 生成静态文件
+4. 通过 `appleboy/scp-action` 将 `dist/` 内容上传到服务器指定目录（如 `/var/www/html`）
+5. 部署完成后即可通过 Nginx 提供服务
+
+> 本地提交不会自动运行 `astro check`，如需校验请手动执行：`npm run astro -- check`
 
 需要在仓库 Secrets 中配置服务器 IP、SSH 用户和私钥等信息。详情见 📄 [配置 GitHub Actions](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)。
 
