@@ -33,7 +33,7 @@ const envKeyMap = {
   NODE_ENV: ['PUBLIC_NODE_ENV', 'NODE_ENV'],
   CDN_BASE: ['PUBLIC_CDN_BASE'],
   API_BASE_URL: ['PUBLIC_API_BASE_URL'],
-  SENTRY_DSN: ['PUBLIC_SENTRY_DSN'],
+  SENTRY_DSN: ['PUBLIC_SENTRY_DSN', 'SENTRY_DSN'],
   SITE_BASE_URL: ['PUBLIC_SITE_BASE_URL'],
   SENTRY_AUTH_TOKEN: ['SENTRY_AUTH_TOKEN'],
   SENTRY_ORG: ['SENTRY_ORG'],
@@ -45,7 +45,16 @@ const envKeyMap = {
 export const getEnv = (key) => {
   // 首次使用时才加载
   if (!_envCache) _envCache = buildSnapshot();
-  const aliases = envKeyMap[key] || [key];
+
+  let aliases = envKeyMap[key];
+  if (!aliases) {
+    if (key.startsWith('PUBLIC_')) {
+      aliases = [key, key.replace(/^PUBLIC_/, '')];
+    } else {
+      aliases = [`PUBLIC_${key}`, key];
+    }
+  }
+
   for (const k of aliases) if (k in _envCache) return _envCache[k];
   return null;
 };
