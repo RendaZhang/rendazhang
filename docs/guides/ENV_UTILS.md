@@ -20,7 +20,7 @@
 # 环境变量工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 17:57 (UTC+08:00)
+- **最后更新**: August 05, 2025, 23:45 (UTC+08:00)
 
 ---
 
@@ -37,6 +37,7 @@
 ### `getEnv(key)`
 
 根据提供的 `key` 返回对应环境变量值，支持自动判断运行环境并处理 `PUBLIC_` 前缀。
+带 `PUBLIC_` 前缀的变量会自动与去除前缀的键互通，无需在 `envKeyMap` 显式映射；仅在需要自定义别名时再修改 `envKeyMap`。
 
 ### `isProduction()`
 
@@ -53,9 +54,10 @@
 ```js
 import { getEnv, isProduction, getCdnUrl } from '@/utils/env.js';
 
-const baseUrl = getEnv('API_BASE_URL');
+const baseUrl = getEnv('API_BASE_URL'); // ↔ PUBLIC_API_BASE_URL
+const featureFlag = getEnv('PUBLIC_FEATURE_X'); // ↔ FEATURE_X，无需在 envKeyMap 中映射
 if (!isProduction()) {
-  console.log('Current API:', baseUrl);
+  console.log('Current API:', baseUrl, featureFlag);
 }
 
 const logo = getCdnUrl('/images/logo.png');
@@ -66,7 +68,7 @@ const logo = getCdnUrl('/images/logo.png');
 ## 注意事项
 
 - 所有新代码应通过 `getEnv` 访问环境变量。
-- 如需新增变量，在 `env.js` 的 `envKeyMap` 中添加映射。
+- 当 `getEnv` 对以 `PUBLIC_` 开头且未在 `envKeyMap` 中声明的键执行回退查找时，请确保该变量确实适合公开，避免误将服务端敏感值传递到客户端。
 
 ---
 

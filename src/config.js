@@ -28,17 +28,8 @@ import zhihuLogo from './assets/social/zhihu-logo.svg';
 import toutiaoLogo from './assets/social/toutiao-logo.svg';
 import csdnLogo from './assets/social/csdn-logo.svg';
 import mediumLogo from './assets/social/medium-logo.svg';
-// Glob import hero images for responsive hero component
-const heroImageModules = import.meta.glob('./assets/heroes/*.{webp,jpeg}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-});
-export const HERO_IMAGE_PATHS = {};
-for (const [path, url] of Object.entries(heroImageModules)) {
-  const name = path.split('/').pop();
-  HERO_IMAGE_PATHS[name] = url;
-}
+// Paths to hero images for responsive hero component
+export { HERO_IMAGE_PATHS } from './utils/heroImages.js';
 
 import { API_BASE_URL, ENDPOINTS } from './constants/api.js';
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
