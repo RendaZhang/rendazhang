@@ -29,6 +29,7 @@
     - [Environment Variable Utility Functions](#environment-variable-utility-functions)
     - [Language Utilities](#language-utilities)
     - [Storage Utility](#storage-utility)
+    - [Comprehensive Pre-Commit Guide](#comprehensive-pre-commit-guide)
   - [🤝 Contribution Guide](#-contribution-guide)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -38,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 05, 2025, 16:19 (UTC+08:00)
+- **Last Updated**: August 05, 2025, 21:07 (UTC+08:00)
 
 ---
 
@@ -481,6 +482,10 @@ Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob
 
 Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
+### Comprehensive Pre-Commit Guide
+
+For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97).
+
 ---
 
 ## 🤝 Contribution Guide
@@ -505,8 +510,6 @@ Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/ma
   - Perform code formatting and static checks
 
 > ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.
-
-For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97).
 
 ---
 
