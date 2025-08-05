@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 06:26 (UTC+08:00)
+- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
 
 ---
 
@@ -99,7 +99,7 @@ graph LR
 export NODE_ENV=production && npm run dev
 ```
 
-* `astro.config.mjs` 通过 `loadEnv(process.env.NODE_ENV ?? 'production', …)` 始终加载 `production` 变量。
+* `astro.config.mjs` 通过 `loadEnv(getEnv('NODE_ENV') ?? 'production', …)` 始终加载 `production` 变量。
 * `PUBLIC_NODE_ENV` 仍可手动覆盖为 `development`，在浏览器端用于区分日志级别。
 
 ---
@@ -113,9 +113,11 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
+import { getEnv } from '@/utils/env.js';
 
-const mode = process.env.NODE_ENV ?? 'production';
+const mode = getEnv('NODE_ENV') || 'production';
 const env = loadEnv(mode, process.cwd(), '');
+process.env = { ...process.env, ...env };
 
 export default defineConfig({
   integrations: [
@@ -123,19 +125,19 @@ export default defineConfig({
     sentry({
       clientInitPath: './src/sentry.client.config.js',
       sourceMapsUploadOptions: {
-        authToken: env.SENTRY_AUTH_TOKEN,
-        org: env.SENTRY_ORG,
-        project: env.SENTRY_PROJECT,
-        release: env.PUBLIC_TAG_NAME
+        authToken: getEnv('SENTRY_AUTH_TOKEN'),
+        org: getEnv('SENTRY_ORG'),
+        project: getEnv('SENTRY_PROJECT'),
+        release: getEnv('TAG_NAME')
       }
     })
   ],
   vite: {
     build: { sourcemap: true },
     define: {
-      'import.meta.env.PUBLIC_SENTRY_DSN': JSON.stringify(env.PUBLIC_SENTRY_DSN),
-      'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(env.PUBLIC_TAG_NAME),
-      'import.meta.env.PUBLIC_NODE_ENV': JSON.stringify(env.PUBLIC_NODE_ENV ?? mode)
+      'import.meta.env.PUBLIC_SENTRY_DSN': JSON.stringify(getEnv('SENTRY_DSN')),
+      'import.meta.env.PUBLIC_TAG_NAME': JSON.stringify(getEnv('TAG_NAME')),
+      'import.meta.env.PUBLIC_NODE_ENV': JSON.stringify(getEnv('NODE_ENV') ?? mode)
     }
   }
 });
@@ -145,15 +147,16 @@ export default defineConfig({
 
 ```javascript
 import * as Sentry from '@sentry/astro';
+import { getEnv, isProduction } from '@/utils/env.js';
 
 Sentry.init({
-  dsn: import.meta.env.PUBLIC_SENTRY_DSN,
-  release: import.meta.env.PUBLIC_TAG_NAME,
-  environment: import.meta.env.PUBLIC_NODE_ENV || 'production',
+  dsn: getEnv('SENTRY_DSN'),
+  release: getEnv('TAG_NAME'),
+  environment: getEnv('NODE_ENV') || 'production',
   // 采样率配置
   tracesSampleRate: 0.2,
   // 开发环境配置
-  debug: import.meta.env.PUBLIC_NODE_ENV !== 'production',
+  debug: !isProduction(),
   beforeSend(event, hint) {
     const isExt = /chrome-extension:|moz-extension:/.test(
       hint.originalException?.stack || ''

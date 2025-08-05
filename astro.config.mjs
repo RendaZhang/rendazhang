@@ -3,8 +3,9 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
+import { getEnv } from './src/utils/env.js';
 
-const mode = process.env.NODE_ENV ?? 'production';
+const mode = getEnv('NODE_ENV') || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，
 // 它在读取 .env 文件之前就会执行，
 // 所以不能直接像在组件或页面中那样使用 import.meta.env 读取 .env 的变量
@@ -12,19 +13,18 @@ const mode = process.env.NODE_ENV ?? 'production';
 // 通过 Vite 的 loadEnv 或 dotenv 手动加载 .env 文件
 // 根据当前模式加载 .env.development 或 .env.production
 const env = loadEnv(mode, process.cwd(), '');
+process.env = { ...process.env, ...env };
 
-const {
-  PUBLIC_API_BASE_URL,
-  PUBLIC_CDN_BASE,
-  PUBLIC_NODE_ENV,
-  PUBLIC_SENTRY_DSN,
-  PUBLIC_SITE_BASE_URL,
-  PUBLIC_TAG_NAME,
-  SENTRY_AUTH_TOKEN,
-  SENTRY_ORG,
-  SENTRY_PROJECT,
-  SKIP_SENTRY
-} = env;
+const PUBLIC_API_BASE_URL = getEnv('API_BASE_URL');
+const PUBLIC_CDN_BASE = getEnv('CDN_BASE');
+const PUBLIC_NODE_ENV = getEnv('NODE_ENV');
+const PUBLIC_SENTRY_DSN = getEnv('SENTRY_DSN');
+const PUBLIC_SITE_BASE_URL = getEnv('SITE_BASE_URL');
+const PUBLIC_TAG_NAME = getEnv('TAG_NAME');
+const SENTRY_AUTH_TOKEN = getEnv('SENTRY_AUTH_TOKEN');
+const SENTRY_ORG = getEnv('SENTRY_ORG');
+const SENTRY_PROJECT = getEnv('SENTRY_PROJECT');
+const SKIP_SENTRY = getEnv('SKIP_SENTRY');
 
 // 可以在本地的 .env.local 配置环境变量为 true 临时跳过 Sentry
 const skipSentry = SKIP_SENTRY === 'true';
