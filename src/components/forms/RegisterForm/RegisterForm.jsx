@@ -4,7 +4,7 @@ import {
   LOADING_TEXT,
   AUTH_TIMINGS,
   REGISTER_DRAFT_KEY
-} from '../../../config.js';
+} from '../../../constants/index.js';
 import { useLanguage } from '../../providers';
 import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';

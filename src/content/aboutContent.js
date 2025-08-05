@@ -4,7 +4,7 @@ import {
   CONTACT_PHONE_LOCAL,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
-} from '../config.js';
+} from '../constants/index.js';
 
 export const ABOUT_CONTENT = {
   en: {

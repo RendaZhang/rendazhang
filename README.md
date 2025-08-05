@@ -39,7 +39,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 05, 2025, 21:15 (UTC+08:00)
+- **最后更新**: August 06, 2025, 02:29 (UTC+08:00)
 
 ---
 
@@ -72,7 +72,7 @@
 ```bash
 src/
 ├── assets/
-├── constants/           # 路径常量与 API 端点
+├── constants/           # 站点元信息、资源路径与应用设置
 ├── features/            # 按业务划分的模块
 │   ├── chat/
 │   │   ├── components/
@@ -278,10 +278,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 - `docs.astro`：技术文档页面。
 - `login.astro`：登录页。
 - `register.astro`：注册页。
-
-其他页面：
-
-- `404.html`，`50x.html`：错误提示页面。
+- `404.astro`，`500.astro`：错误页面。
 
 #### 页面跳转
 
@@ -326,7 +323,7 @@ flowchart TD
 - `docs.astro`：技术文档页面，使用同样的两份 GitHub 样式表配合 highlight.js 渲染 Markdown 与代码。
 - `login.astro`：登录表单页。
 - `register.astro`：注册表单页。
-- `404.html / 50x.html`：用于处理页面不存在（404）和服务器内部错误（50x）的定制化错误提示页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。
+- `404.astro / 500.astro`：用于处理页面不存在（404）和服务器内部错误（500）的定制化错误页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。
 
 #### 页面优化
 
@@ -339,12 +336,8 @@ flowchart TD
 **统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
 - 公共组件样式统一由 `theme.css` 管理
-- Markdown 深色模式和错误页面也拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
-- 叠加层和阴影相关的颜色同样通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
-- 错误页面渐变也依赖这些 Token，在 `src/styles/core/_gradients.css` 统一定义。
-- Markdown 深色模式和错误页面也拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
-- 叠加层和阴影相关的颜色同样通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
-错误页面渐变也依赖这些 Token，在 `src/styles/core/_gradients.css` 统一定义。
+- Markdown 深色模式拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
+- 叠加层和阴影相关的颜色通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
 
 **样式架构分层**：
 - `src/styles/core/`: 定义基础设计 Token，包括颜色、间距和渐变等变量

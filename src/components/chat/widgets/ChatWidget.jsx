@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../config.js';
+import {
+  CHAT_PAGE_PATH,
+  STYLE_PATHS,
+  AI_CHAT_WIDGET_TITLE,
+  ICON_SIZES
+} from '../../../constants/index.js';
 
 const loadedStyles = new Set();
 

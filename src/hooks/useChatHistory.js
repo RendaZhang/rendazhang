@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { STORAGE_KEY, ROLES } from '../config.js';
+import { STORAGE_KEY, ROLES } from '../constants/index.js';
 import { storage } from '../utils/index.js';
 import ChatSession from '../models/ChatSession.js';
 

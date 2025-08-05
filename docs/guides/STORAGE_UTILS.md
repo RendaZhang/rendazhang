@@ -22,7 +22,7 @@
 # 存储工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 06, 2025, 01:25 (UTC+08:00)
 
 ---
 
@@ -171,18 +171,16 @@ const data = await storage.getIndexedDB('analytics', 'metricsDB', 'records');
 
 1. **键名管理**：
    ```javascript
-   // constants.js
-   export const STORAGE_KEYS = {
-     THEME: 'user_theme_config',
-     LANG: 'user_language',
-     SESSION: 'auth_session'
-   };
+   // src/constants/settings.js
+   export const THEME_STORAGE_KEY = 'preferred_theme';
+   export const LANG_STORAGE_KEY = 'preferred_lang';
+   export const REGISTER_DRAFT_KEY = 'register_draft';
    ```
 
 2. **错误处理**：
    ```javascript
    try {
-     const config = storage.get(STORAGE_KEYS.THEME);
+     const theme = storage.get(THEME_STORAGE_KEY);
    } catch (e) {
      console.error('Storage read failed', e);
      Sentry.captureException(e);
@@ -191,7 +189,7 @@ const data = await storage.getIndexedDB('analytics', 'metricsDB', 'records');
 
 3. **降级策略**：
    ```javascript
-   const lang = storage.get(STORAGE_KEYS.LANG) || navigator.language;
+   const lang = storage.get(LANG_STORAGE_KEY) || navigator.language;
    ```
 
 ---

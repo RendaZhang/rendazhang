@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { THEME_STORAGE_KEY } from '../../config.js';
+import { THEME_STORAGE_KEY } from '../../constants/index.js';
 import storage from '../../utils/storage.js';
 import * as Sentry from '@sentry/react';
 

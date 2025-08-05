@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 06, 2025, 02:29 (UTC+08:00)
 
 ---
 
@@ -267,7 +267,11 @@ import Test from '../components/Test.jsx';
 
 将项目的 `favicon*` 相关的文件复制到 `src/assets/favicons` 目录，并在代码中通过 `import` 的方式引用。
 
-将项目的 `50x.html`, `404.html` 相关的错误页面文件也复制到 `public/` 目录下。
+将原项目的 `50x.html` 和 `404.html` 内容迁移为 Astro 页面：
+
+- 在 `src/pages/` 中创建 `500.astro` 与 `404.astro`。
+- 将旧 HTML 结构粘贴到这两个文件中，并在文件顶部 `import '../styles/theme.css';`。
+- 移除原有的 `<link>` 引用，后续可接入 `BaseLayout` 以继承全站主题和语言配置。
 
 将项目的 `robots.txt`, `sitemap.xml` 相关的文件也复制到 `public/` 目录下。
 
@@ -833,9 +837,9 @@ jobs:
 
 ### 收尾操作
 
-完成后，做一些基础的清理操作，比如删除项目根目录下的 `css/`, `fonts/`, `images/`, `webfonts/`, `favicon*`， `50x.html`, `404.html`, `robots.txt`, `sitemap.xml`。
+完成后，做一些基础的清理操作，比如删除项目根目录下的 `css/`, `fonts/`, `images/`, `webfonts/`, `favicon*`，`50x.html`，`404.html`，`robots.txt`，`sitemap.xml`。
 
-这些文件已经分别移动至 `public/` 或 `src/assets` 目录，并在页面中通过 `import` 方式使用。
+这些文件已经分别移动至 `public/`、`src/assets` 或 `src/pages` 目录，并在页面中通过 `import` 或 Astro 路由的方式使用。
 
 更新一下 `public/sitemap.xml` 文件，跟最新的信息对齐。
 
@@ -859,7 +863,7 @@ jobs:
 
 引入时需注意打包大小，但 Zustand / Jotai 都相对精简，对性能影响不大。
 
-**性能优化和SSR：**
+**性能优化和 SSR：**
 
 如果将来需要部分页面的动态渲染（例如根据用户请求生成内容），Astro 也支持开启服务端渲染(SSR)。
 

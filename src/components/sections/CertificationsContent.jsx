@@ -1,4 +1,4 @@
-import { VERIFY_URLS } from '../../config.js';
+import { VERIFY_URLS } from '../../constants/index.js';
 import { CERTIFICATIONS_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection, CredlyBadge } from '../ui';
