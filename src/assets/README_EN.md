@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 06, 2025, 01:25 (UTC+08:00)
+- **Last Updated**: August 06, 2025, 02:29 (UTC+08:00)
 
 ---
 
@@ -271,9 +271,9 @@ Core responsibilities (generated from `.astro` files):
 - `certifications.astro`: Certification gallery
 - `deepseek_chat.astro`: AI chat interface
 - `docs.astro`: Technical documentation page
-- `404.html`, `50x.html`: Error pages
-- `login.astro`：Login page
-- `register.astro`：Registration page
+- `login.astro`: Login page
+- `register.astro`: Registration page
+- `404.astro`, `500.astro`: Error pages
 
 #### Page Navigation
 
@@ -316,7 +316,7 @@ flowchart TD
 - `docs.astro`: Technical documentation page that loads both `github.min.css` and `github-markdown-light.min.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
 - `login.astro`: Login form page.
 - `register.astro`: Register form page.
-- `404.html/50x.html`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (50x) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
+- `404.astro/500.astro`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (500) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
 
 #### Page Optimization
 
@@ -330,9 +330,8 @@ flowchart TD
 
 - Browser controls adapt to the theme (`color-scheme`).
 - Public component styles are uniformly managed by `theme.css`.
-- Markdown dark mode and error pages also have independent color tokens, which can be maintained in `src/styles/core/_colors.css`.
-- Overlay and shadow-related colors are also set via `--color-black-rgb` and `--color-white-rgb` tokens, facilitating transparency adjustments and theme switching.
-- Error page gradients also rely on these tokens, defined uniformly in `src/styles/core/_gradients.css`.
+- Markdown dark mode has independent color tokens, maintained in `src/styles/core/_colors.css`.
+- Overlay and shadow-related colors are set via `--color-black-rgb` and `--color-white-rgb` tokens, facilitating transparency adjustments and theme switching.
 
 **Style Architecture Layering**:
 
