@@ -15,7 +15,6 @@
     - [同步 README 钩子 (sync-readme)](#%E5%90%8C%E6%AD%A5-readme-%E9%92%A9%E5%AD%90-sync-readme)
     - [静态资源命名验证钩子 (validate-assets)](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E9%92%A9%E5%AD%90-validate-assets)
     - [索引文件生成钩子 (generate-index)](#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E7%94%9F%E6%88%90%E9%92%A9%E5%AD%90-generate-index)
-    - [Astro 检查 (astro-check)](#astro-%E6%A3%80%E6%9F%A5-astro-check)
   - [工作流程](#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B)
   - [维护与扩展](#%E7%BB%B4%E6%8A%A4%E4%B8%8E%E6%89%A9%E5%B1%95)
     - [添加新钩子](#%E6%B7%BB%E5%8A%A0%E6%96%B0%E9%92%A9%E5%AD%90)
@@ -29,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 05, 2025, 21:07 (UTC+08:00)
+- **最后更新**: August 05, 2025, 21:12 (UTC+08:00)
 
 ---
 
@@ -94,7 +93,6 @@
 
 | 钩子ID         | 功能                     | 文件类型                     |
 |----------------|--------------------------|------------------------------|
-| `astro-check`  | 执行 Astro 静态检查       | Astro 文                 |
 | `prettier`     | 使用 Prettier 格式化代码   | JS, JSX, Astro, CSS       |
 | `eslint`       | 使用 ESLint 检查和修复代码 | JS, JSX, Astro, Markdown    |
 
@@ -224,28 +222,6 @@ export { default as useAuth } from './useAuth.js';
 **相关文件**：
 - `scripts/generateIndex.mjs`  - 生成脚本
 
-### Astro 检查 (astro-check)
-
-为提高预提交效率，对 Astro 检查进行了以下优化：
-
-1. **增量检查**：使用 `--incremental` 标志只检查修改的部分
-2. **文件过滤**：只检查 `src/` 目录下的 Astro 文件
-3. **仅修改文件**：使用 `pass_filenames: true` 只处理修改的文件
-4. **预加载依赖**：提前加载编译器依赖减少启动时间
-
-如果仍性能不足，可考虑：
-- 在 CI 而非本地运行完整检查
-- 手动运行 `npx astro check` 在重要提交前
-- 完全禁用此钩子（不推荐）
-
-**性能对比**：
-
-| 检查方式 | 执行时间 | 检查范围 | 推荐场景 |
-|----------|----------|----------|----------|
-| 原始检查 | 1-2 分钟 | 全项目 | 不推荐 |
-| 优化检查 | 10-30 秒 | 修改文件 | 日常开发 |
-| CI 检查 | 2-3 分钟 | 全项目 | 重要提交 |
-
 ---
 
 ## 工作流程
@@ -264,7 +240,6 @@ sequenceDiagram
     P->>S: 运行 sync-readme (同步 README)
     P->>S: 运行 validate-assets (资源验证)
     P->>S: 运行 generate-index (索引生成)
-    P->>S: 运行 astro-check (Astro 检查)
     P->>S: 运行 prettier (代码格式化)
     P->>S: 运行 eslint (代码检查)
 
@@ -346,6 +321,8 @@ git commit --no-verify -m "跳过钩子检查"
 5. **文档同步**：
    - 更新此文档时，确保 README 中的相关部分也更新
    - 使用 sync-readme 钩子保持README同步
+
+6. **类型校验**：如需类型校验，可在 CI 或手动执行 `npm run astro check`
 
 ---
 
