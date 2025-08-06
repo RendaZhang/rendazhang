@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 05, 2025, 21:12 (UTC+08:00)
+- **最后更新**: August 07, 2025, 01:34 (UTC+08:00)
 
 ---
 
@@ -41,7 +41,7 @@
 - 更新文档目录和最后更新时间
 - 同步 README 文件
 - 验证静态资源命名规范
-- 自动生成模块 `index.js` 文件
+- 自动生成模块 `index.ts` 和 `index.js` 文件
 - 执行代码格式化和静态检查
 
 **优势**：
@@ -87,7 +87,7 @@
 
 | 钩子ID             | 功能                     | 运行时机       |
 |--------------------|--------------------------|----------------|
-| `generate-index`   | 自动生成模块 `index.js` 文件 | 每次提交       |
+| `generate-index`   | 自动生成模块 `index.ts` 和 `index.js` 文件 | 每次提交       |
 
 ### 代码质量钩子
 
@@ -191,15 +191,16 @@ Assets: bgmusic-artist-song.mp3
 
 **功能**：
 - 使用 Node.js 的 `fs/promises` 与 `path` 递归扫描 `src` 目录
-- 为每个包含 JS/TS 模块的目录生成或更新 `index.js` 文件
+- 为每个包含 JS/TS 模块的目录生成或更新 `index.ts` 和 `index.js` 文件
 - 自动同步具名与默认导出
-- 生成器会覆盖现有 `index.js`（如有）或创建新文件，确保目录导出完整
+- 忽略所有 `.d.ts` 类型声明文件（如 `env.d.ts`）
+- 生成器会覆盖现有 `index.ts` 和 `index.js`（如有）或创建新文件，确保目录导出完整
 - 默认导出会使用原始文件名作为导出别名，从而保持大小写一致。例如：
-  ```javascript
-  // src/hooks/useChatHistory.js
+  ```ts
+  // src/hooks/useChatHistory.ts
   export default function useChatHistory() {}
-  // 生成的 src/hooks/index.js 片段
-  export { default as useChatHistory } from './useChatHistory.js';
+  // 生成的 src/hooks/index.ts 片段
+  export { default as useChatHistory } from './useChatHistory.ts';
   ```
 
 **执行命令**：
@@ -208,11 +209,13 @@ npm run generate-index
 ```
 
 **示例输出**：
-```javascript
-// src/hooks/index.js
-export { default as useChatHistory } from './useChatHistory.js';
-export { default as useAuth } from './useAuth.js';
+```ts
+// src/hooks/index.ts
+export { default as useChatHistory } from './useChatHistory.ts';
+export { default as useAuth } from './useAuth.ts';
 ```
+
+生成的 `index.js` 内容与上方示例相同，仅扩展名不同。
 
 **维护建议**：
 - 新增或移动模块后可手动运行脚本确认导出正确。

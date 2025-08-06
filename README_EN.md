@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 06, 2025, 22:15 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 01:34 (UTC+08:00)
 
 ---
 
@@ -505,7 +505,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
   - Update the documentation table of contents and the last updated timestamp
   - Synchronize the README file to the assets directory
   - Validate static resource naming conventions
-  - Automatically generate module `index.js` files
+  - Automatically generate module `index.ts` and `index.js` files
   - Perform code formatting and static checks
 
 > ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.

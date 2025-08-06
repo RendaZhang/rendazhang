@@ -59,7 +59,7 @@ repos:
         language: system
         pass_filenames: false
 
-  # 自动生成模块 `index.js` 文件
+  # 自动生成模块 `index.ts` 和 `index.js` 文件
   - repo: local
     hooks:
       - id: generate-index

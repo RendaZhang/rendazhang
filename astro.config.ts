@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
-import { loadEnv } from 'vite';
+import { loadEnv, type ProxyOptions } from 'vite';
 
 const mode = process.env.NODE_ENV || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，
@@ -61,19 +61,23 @@ export default defineConfig({
   ],
   vite: {
     server: {
-      proxy: {
-        [PUBLIC_API_BASE_URL]: {
-          target: PUBLIC_SITE_BASE_URL,
-          changeOrigin: true,
-          secure: true,
-          // 更安全的 rewrite
-          rewrite: (path) =>
-            path.replace(
-              new RegExp(`^${PUBLIC_API_BASE_URL}`),
-              PUBLIC_API_BASE_URL.startsWith('/') ? PUBLIC_API_BASE_URL : `/${PUBLIC_API_BASE_URL}`
-            )
-        }
-      }
+      ...(PUBLIC_API_BASE_URL
+        ? {
+            proxy: {
+              [PUBLIC_API_BASE_URL]: {
+                target: PUBLIC_SITE_BASE_URL,
+                changeOrigin: true,
+                secure: true,
+                // 更安全的 rewrite
+                rewrite: (path: string) =>
+                  path.replace(
+                    new RegExp(`^${PUBLIC_API_BASE_URL}`),
+                    PUBLIC_API_BASE_URL.startsWith('/') ? PUBLIC_API_BASE_URL : `/${PUBLIC_API_BASE_URL}`
+                  )
+              } as ProxyOptions
+            }
+          }
+        : {})
     },
     // 使用 vite.define 显式暴露公共变量，
     // 变量名必须以 PUBLIC_ 前缀开头，
