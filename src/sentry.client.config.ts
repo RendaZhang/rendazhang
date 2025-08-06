@@ -1,6 +1,8 @@
 import * as Sentry from '@sentry/astro';
-import { getEnv, isProduction, refreshEnv } from './utils/env.ts';
+import { getEnv, isProduction } from './utils/env';
 
+// sentry.client.config.js runs in Vite’s build process,
+// where import.meta.env is already populated
 Sentry.init({
   dsn: getEnv('SENTRY_DSN') ?? undefined,
   release: getEnv('TAG_NAME') ?? undefined,
