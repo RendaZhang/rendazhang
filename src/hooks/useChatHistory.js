@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { STORAGE_KEY, ROLES } from '../constants/index.js';
-import { storage } from '../utils/index.js';
+import { STORAGE_KEY, ROLES } from '../constants/index.ts';
+import { storage } from '../utils/index.ts';
 import ChatSession from '../models/ChatSession.js';
 
 export default function useChatHistory() {

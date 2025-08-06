@@ -1,8 +1,8 @@
-import { LANG_STORAGE_KEY } from '../constants/index.js';
-import storage from './storage';
+import { LANG_STORAGE_KEY } from '../constants/index.ts';
+import storage from './storage.ts';
 import * as Sentry from '@sentry/react';
 
-export function getCurrentLang() {
+export function getCurrentLang(): string {
   if (typeof document === 'undefined') {
     return 'zh-CN';
   }

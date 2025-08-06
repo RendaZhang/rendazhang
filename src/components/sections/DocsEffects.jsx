@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { DOC_CONTENT, SCRIPT_PATHS } from '../../constants/index.js';
+import { DOC_CONTENT, SCRIPT_PATHS } from '../../constants/index.ts';
 
 export default function DocsEffects() {
   useEffect(() => {

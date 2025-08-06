@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 06, 2025, 19:59 (UTC+08:00)
+- **Last Updated**: August 06, 2025, 22:15 (UTC+08:00)
 
 ---
 
@@ -200,7 +200,7 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 6. Environment Variables Explanation
 
-   Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.js`:
+   Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.ts`:
 
    ```sh
    # Public Information
@@ -465,7 +465,7 @@ Sentry collects runtime and network errors. See 📄 [Error Tracking Integration
 
 ### Environment Variable Utility Functions
 
-`src/utils/env.js` provides methods such as `getEnv()`, `isProduction()`, and `getCdnUrl()` to uniformly manage environment variables and ensure compatibility across multiple runtime environments.
+`src/utils/env.ts` provides methods such as `getEnv()`, `isProduction()`, and `getCdnUrl()` to uniformly manage environment variables and ensure compatibility across multiple runtime environments.
 
 For detailed documentation, refer to: 📄 [Environment Variable Utility Functions](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 

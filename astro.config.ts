@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
-import { refreshEnv, getEnv } from './src/utils/env.js';
+import { refreshEnv, getEnv } from './src/utils/index';
 
 const mode = getEnv('NODE_ENV') || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，
@@ -14,7 +14,7 @@ const mode = getEnv('NODE_ENV') || 'production';
 // 根据当前模式加载 .env.development 或 .env.production
 const env = loadEnv(mode, process.cwd(), '');
 process.env = { ...process.env, ...env };
-// 重新快照，保证拿到最新变量
+// 刷新快照，确保包含 loadEnv() 写入的变量
 refreshEnv();
 
 const PUBLIC_API_BASE_URL = getEnv('API_BASE_URL');
@@ -23,9 +23,9 @@ const PUBLIC_NODE_ENV = getEnv('NODE_ENV');
 const PUBLIC_SENTRY_DSN = getEnv('SENTRY_DSN');
 const PUBLIC_SITE_BASE_URL = getEnv('SITE_BASE_URL');
 const PUBLIC_TAG_NAME = getEnv('TAG_NAME');
-const SENTRY_AUTH_TOKEN = getEnv('SENTRY_AUTH_TOKEN');
-const SENTRY_ORG = getEnv('SENTRY_ORG');
-const SENTRY_PROJECT = getEnv('SENTRY_PROJECT');
+const SENTRY_AUTH_TOKEN = getEnv('SENTRY_AUTH_TOKEN') ?? undefined;
+const SENTRY_ORG = getEnv('SENTRY_ORG') ?? undefined;
+const SENTRY_PROJECT = getEnv('SENTRY_PROJECT') ?? undefined;
 const SKIP_SENTRY = getEnv('SKIP_SENTRY');
 
 // 可以在本地的 .env.local 配置环境变量为 true 临时跳过 Sentry
@@ -38,7 +38,7 @@ export default defineConfig({
       ? []
       : [
           sentry({
-            clientInitPath: './src/sentry.client.config.js',
+            clientInitPath: './src/sentry.client.config.ts',
             // 如有服务端：
             // serverInitPath: './src/sentry.server.config.js',
             sourceMapsUploadOptions: {

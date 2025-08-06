@@ -1,6 +1,6 @@
 import { ThemeToggle, LanguageSelector, AvatarIcon, LocalizedSection } from '../ui';
 import HamburgerMenu from './HamburgerMenu.jsx';
-import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '../../constants/index.js';
+import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '../../constants/index.ts';
 import { NAV_CONTENT } from '../../content';
 
 export default function NavBar() {

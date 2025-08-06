@@ -1,4 +1,4 @@
-import { VERIFY_URLS } from '../../constants/index.js';
+import { VERIFY_URLS } from '../../constants/index.ts';
 import { CERTIFICATIONS_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection, CredlyBadge } from '../ui';

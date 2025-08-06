@@ -4,7 +4,7 @@ import {
   SOCIAL_ICON_PATHS,
   SOCIAL_LINKS,
   IMAGE_PATHS
-} from '../../../constants/index.js';
+} from '../../../constants/index.ts';
 
 function SocialIcon({ href, id, src, alt, ariaLabel }) {
   const [loaded, setLoaded] = useState(false);

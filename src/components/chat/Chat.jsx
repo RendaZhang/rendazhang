@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../../services';
 import { showHint, useChatHistory } from '../../hooks';
-import { SCRIPT_TIMEOUTS, UI_DURATIONS, SCRIPT_PATHS, ROLES } from '../../constants/index.js';
+import { SCRIPT_TIMEOUTS, UI_DURATIONS, SCRIPT_PATHS, ROLES } from '../../constants/index.ts';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';

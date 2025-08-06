@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/astro';
-import { getEnv, isProduction } from './utils/env.js';
+import { getEnv, isProduction, refreshEnv } from './utils/index';
 
 Sentry.init({
-  dsn: getEnv('SENTRY_DSN'),
-  release: getEnv('TAG_NAME'),
-  environment: getEnv('NODE_ENV'),
+  dsn: getEnv('SENTRY_DSN') ?? undefined,
+  release: getEnv('TAG_NAME') ?? undefined,
+  environment: getEnv('NODE_ENV') ?? undefined,
   tracesSampleRate: 0.2,
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,

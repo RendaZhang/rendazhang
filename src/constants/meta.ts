@@ -1,4 +1,4 @@
-import { IMAGE_PATHS } from './paths.js';
+import { IMAGE_PATHS } from './paths.ts';
 
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
@@ -13,12 +13,12 @@ export const PAGE_TITLES = {
   LOGIN_EN: 'Login · Renda Zhang',
   REGISTER_ZH: '注册 · 张人大',
   REGISTER_EN: 'Register · Renda Zhang'
-};
+} as const;
 
 export const LOGO_ALT = {
   EN: 'Renda Zhang Logo',
   ZH: '张人大 Logo'
-};
+} as const;
 
 export const LOGIN_DESCRIPTION = 'The Login Page of Renda Zhang';
 export const REGISTER_DESCRIPTION = 'The Register Page of Renda Zhang';
@@ -30,12 +30,12 @@ export const CERTIFICATIONS_IMAGE_ALT = 'Renda Zhang Certifications';
 export const LOADING_TEXT = {
   ZH: '加载中...',
   EN: 'Loading...'
-};
+} as const;
 
 export const OG_IMAGE_DIMENSIONS = {
   WIDTH: '1200',
   HEIGHT: '630'
-};
+} as const;
 
 export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.CERTIFICATIONS_COVER;
 
@@ -53,7 +53,7 @@ export const TWITTER_HANDLE = '@RendaZhang';
 export const SOCIAL_PROFILE_URLS = [
   'https://github.com/RendaZhang',
   'https://www.linkedin.com/in/RendaZhang'
-];
+] as const;
 export const SITE_AUTHOR_EN = 'Renda Zhang';
 export const SITE_AUTHOR_ZH = '张人大';
 export const SITE_NAME_EN = SITE_AUTHOR_EN;
@@ -84,33 +84,33 @@ export const PERSON_SCHEMA = {
   },
   sameAs: SOCIAL_PROFILE_URLS,
   description: SITE_DESCRIPTION_EN
-};
+} as const;
 
 export const SOCIAL_LINKS = {
   ZHIHU: 'https://www.zhihu.com/people/RendaZhang',
   TOUTIAO: 'https://www.toutiao.com/c/user/50248851377/###',
   CSDN: 'https://blog.csdn.net/qq_40286307',
   MEDIUM: 'https://rendazhang.medium.com'
-};
+} as const;
 
 export const CSDN_ARTICLES = {
   JAVA_21_LOCK: 'https://blog.csdn.net/qq_40286307/article/details/148540386',
   DUAL_BOOT_TIME: 'https://blog.csdn.net/qq_40286307/article/details/83688376'
-};
+} as const;
 
 export const MEDIUM_ARTICLES = {
   QUANT_TRADING_AI_BOT:
     'https://rendazhang.medium.com/quantitative-trading-101-building-your-ai-trading-bot-from-scratch-cb928c834fc1'
-};
+} as const;
 
 export const REPOSITORIES = {
   JAVA_BACKEND: 'https://github.com/RendaZhang/java-backend-development'
-};
+} as const;
 
 export const VERIFY_URLS = {
   CREDLY: 'https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url',
   AWS: 'https://aws.amazon.com/verification'
-};
+} as const;
 
 export const CREDLY_HOST = 'https://www.credly.com';
 export const CREDLY_BADGE_ID = '8a7e15fc-374b-4335-a86e-e30e5255836d';
@@ -118,4 +118,4 @@ export const CREDLY_BADGE_ID = '8a7e15fc-374b-4335-a86e-e30e5255836d';
 export const CREDLY_EMBED_IFRAME = {
   WIDTH: '150',
   HEIGHT: '270'
-};
+} as const;

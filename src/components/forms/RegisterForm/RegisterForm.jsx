@@ -4,12 +4,12 @@ import {
   LOADING_TEXT,
   AUTH_TIMINGS,
   REGISTER_DRAFT_KEY
-} from '../../../constants/index.js';
+} from '../../../constants/index.ts';
 import { useLanguage } from '../../providers';
 import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
-import { storage } from '../../../utils/index.js';
+import { storage } from '../../../utils/index.ts';
 
 export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   const { lang } = useLanguage();

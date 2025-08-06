@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext, useRef } from 'react';
-import { LANG_STORAGE_KEY } from '../../constants/index.js';
+import { LANG_STORAGE_KEY } from '../../constants/index.ts';
 import storage from '../../utils/storage';
 
 const I18nContext = createContext();

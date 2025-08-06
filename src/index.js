@@ -9,4 +9,4 @@ export * from './models/index.js';
 export * from './scripts/index.js';
 export * from './services/index.js';
 export * from './utils/index.js';
-export * from './sentry.client.config.js';
+export * from './sentry.client.config.ts';

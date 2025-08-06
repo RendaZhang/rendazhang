@@ -28,7 +28,7 @@ import toutiaoLogo from '../assets/social/toutiao-logo.svg';
 import csdnLogo from '../assets/social/csdn-logo.svg';
 import mediumLogo from '../assets/social/medium-logo.svg';
 
-export { HERO_IMAGE_PATHS } from '../utils/heroImages.js';
+export { HERO_IMAGE_PATHS } from '../utils/heroImages.ts';
 
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 export const ABOUT_PAGE_PATH = '/';
@@ -41,14 +41,14 @@ export const HOME_PAGE_PATH = '/';
 export const DOC_CONTENT = {
   README_ZH: readmeZh,
   README_EN: readmeEn
-};
+} as const;
 
 export const SCRIPT_PATHS = {
   MARKED: markedUrl,
   PURIFY: purifyUrl,
   HIGHLIGHT: highlightUrl,
   MERMAID: mermaidUrl
-};
+} as const;
 
 export const STYLE_PATHS = {
   ABOUT: aboutCssUrl,
@@ -61,13 +61,13 @@ export const STYLE_PATHS = {
   MARKDOWN_DARK_MODE: markdownDarkModeCssUrl,
   GITHUB: githubCssUrl,
   GITHUB_CODE_HIGHLIGHT: githubCodeHighlightCssUrl
-};
+} as const;
 
 export const FAVICON_PATHS = {
   ICO: faviconIcoUrl,
   PNG: faviconPngUrl,
   SMALL: favicon16Url
-};
+} as const;
 
 export const FAVICON_PATH = FAVICON_PATHS.PNG;
 
@@ -77,7 +77,7 @@ export const IMAGE_PATHS = {
   RESUME_EN: resumeEnUrl,
   RESUME_ZH: resumeZhUrl,
   LOGO_V4: logoV4Url
-};
+} as const;
 
 export const SOCIAL_ICON_PATHS = {
   WECHAT: wechatLogo,
@@ -85,7 +85,7 @@ export const SOCIAL_ICON_PATHS = {
   TOUTIAO: toutiaoLogo,
   CSDN: csdnLogo,
   MEDIUM: mediumLogo
-};
+} as const;
 
 export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
 export const RESUME_ZH_DOWNLOAD = '个人简历_张人大_20250622.pdf';

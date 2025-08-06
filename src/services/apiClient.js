@@ -1,4 +1,4 @@
-import { ENDPOINTS, JSON_HEADERS } from '../constants/api.js';
+import { ENDPOINTS, JSON_HEADERS } from '../constants/api.ts';
 import * as Sentry from '@sentry/react';
 
 async function request(url, options = {}) {

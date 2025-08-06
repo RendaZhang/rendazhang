@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
-import { UI_DURATIONS } from '../../constants/index.js';
+import { UI_DURATIONS } from '../../constants/index.ts';
 import { LocalizedSection } from '../ui';
 
 export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn }) {

@@ -1,4 +1,4 @@
-import { API_BASE_URL, ENDPOINTS } from './api.js';
+import { API_BASE_URL, ENDPOINTS } from './api.ts';
 
 export const VIEWPORT_ZOOM_ALLOWED =
   'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
@@ -18,25 +18,25 @@ export const ROLES = {
   AI: 'ai',
   ASSISTANT: 'assistant',
   SYSTEM: 'system'
-};
+} as const;
 
 export const SCRIPT_TIMEOUTS = {
   DEFAULT: 10000,
   HIGHLIGHT: 30000,
   MERMAID: 60000
-};
+} as const;
 
 export const UI_DURATIONS = {
   HINT: 2000,
   FADE: 300,
   COPY_FEEDBACK: 1000,
   ERROR_HIDE_DELAY: 2000
-};
+} as const;
 
 export const ICON_SIZES = {
   DEFAULT: 24,
   LARGE: 28
-};
+} as const;
 
 export const AUTH_TIMINGS = {
   LOGIN_REQUEST: 1000,
@@ -46,7 +46,7 @@ export const AUTH_TIMINGS = {
   REGISTER_PROGRESS_TOTAL: 1600,
   REGISTER_REDIRECT: 5000,
   REGISTER_PROGRESS_STEP: 33
-};
+} as const;
 
 export const LEGACY_CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
 export const TYPING_INTERVAL = 30;
@@ -56,8 +56,8 @@ export const GLOBAL_CONFIG = {
   ENDPOINTS,
   LEGACY_CHAT_ENDPOINT,
   TYPING_INTERVAL
-};
+} as const;
 
 if (typeof window !== 'undefined') {
-  window.config = GLOBAL_CONFIG;
+  (window as any).config = GLOBAL_CONFIG;
 }

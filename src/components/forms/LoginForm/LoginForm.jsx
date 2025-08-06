@@ -4,12 +4,13 @@ import {
   REGISTER_PAGE_PATH,
   LOADING_TEXT,
   AUTH_TIMINGS
-} from '../../../constants/index.js';
+} from '../../../constants/index.ts';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import * as Sentry from '@sentry/react'; // 使用 @sentry/react
+import { refreshEnv, getEnv, isProduction, getCdnUrl } from '../../../utils';
 
 export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const { lang } = useLanguage();
@@ -164,9 +165,11 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
           type="button"
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
-            // TODO: Remove below and implement this function
+            // TODO: Remove below and implement the function
             console.log('Testing Sentry with login button');
             Sentry.captureException(new Error('Test Error from login button'));
+            console.log('LoginForm env isProduction: ' + isProduction());
+            console.log('LoginForm env getCdnUrl: ' + getCdnUrl());
           }}
         >
           <LocalizedSection

@@ -4,7 +4,7 @@ import {
   IMAGE_PATHS,
   RESUME_EN_DOWNLOAD,
   RESUME_ZH_DOWNLOAD
-} from '../../constants/index.js';
+} from '../../constants/index.ts';
 import { MAIN_HERO } from '../../data';
 import { ResponsiveHero } from '../ui';
 import ContactSection from './ContactSection.jsx';

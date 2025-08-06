@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
+- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
 
 ---
 
@@ -113,7 +113,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
-import { getEnv } from '@/utils/env.js';
+import { getEnv } from './src/utils/env';
 
 const mode = getEnv('NODE_ENV') || 'production';
 const env = loadEnv(mode, process.cwd(), '');
@@ -147,7 +147,7 @@ export default defineConfig({
 
 ```javascript
 import * as Sentry from '@sentry/astro';
-import { getEnv, isProduction } from '@/utils/env.js';
+import { getEnv, isProduction } from './src/utils/env';
 
 Sentry.init({
   dsn: getEnv('SENTRY_DSN'),

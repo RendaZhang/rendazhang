@@ -1,5 +1,5 @@
 import AIMessage from './AIMessage.jsx';
-import { ROLES } from '../../constants/index.js';
+import { ROLES } from '../../constants/index.ts';
 
 export default function ChatMessageList({
   messages,

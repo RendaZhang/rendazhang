@@ -20,13 +20,13 @@
 # 环境变量工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 23:45 (UTC+08:00)
+- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
 
 ---
 
 ## 简介
 
-`src/utils/env.js` 提供统一的环境变量访问层，可在 Node、浏览器与 SSR 环境中使用。
+`src/utils/env.ts` 提供统一的环境变量访问层，可在 Node、浏览器与 SSR 环境中使用。
 
 所有环境变量请通过该模块读取，避免在代码中直接访问 `process.env` 或 `import.meta.env`。
 
@@ -52,7 +52,7 @@
 ## 使用示例
 
 ```js
-import { getEnv, isProduction, getCdnUrl } from '@/utils/env.js';
+import { getEnv, isProduction, getCdnUrl } from './src/utils/env';
 
 const baseUrl = getEnv('API_BASE_URL'); // ↔ PUBLIC_API_BASE_URL
 const featureFlag = getEnv('PUBLIC_FEATURE_X'); // ↔ FEATURE_X，无需在 envKeyMap 中映射

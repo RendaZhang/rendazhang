@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
+- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
 
 ---
 
@@ -359,7 +359,7 @@ graph LR
   1. GitHub Actions 设置构建环境变量
   2. Astro 配置读取环境变量
   3. Vite 通过 `define` 注入客户端
-  4. 客户端代码通过 `src/utils/env.js` 的 `getEnv()` 访问
+  4. 客户端代码通过 `src/utils/env.ts` 的 `getEnv()` 访问
 
 **缓存清理策略**：
 

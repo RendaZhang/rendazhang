@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CONTACT_FORM_ENDPOINT } from '../../../constants/index.js';
+import { CONTACT_FORM_ENDPOINT } from '../../../constants/index.ts';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 

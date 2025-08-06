@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
+- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
 
 ---
 
@@ -685,11 +685,11 @@
   - `astro.config.mjs` 中的 `vite.define` 配置未生效
   - 环境变量未在构建时正确传递
 - **解决方案**：
-  1. 使用 `src/utils/env.js` 提供的 `getEnv()` 接口
+  1. 使用 `src/utils/env.ts` 提供的 `getEnv()` 接口
   2. 在构建步骤中通过 `dotenv` 加载环境变量
   3. 修改 `astro.config.mjs`：
      ```js
-    import { getEnv } from './src/utils/env.js';
+    import { getEnv } from './src/utils/env';
 
     export default defineConfig({
       vite: {
@@ -745,7 +745,7 @@
   1. 在 GitHub Secrets 添加 SENTRY_AUTH_TOKEN
   2. 验证 astro.config.mjs 配置：
     ```js
-    import { getEnv } from './src/utils/env.js';
+    import { getEnv } from './src/utils/env';
     sentry({
       sourceMapsUploadOptions: {
         authToken: getEnv('SENTRY_AUTH_TOKEN'),
@@ -777,7 +777,7 @@
   1. 添加环境判断逻辑：
       ```js
       // astro.config.mjs
-      import { isProduction, getEnv } from './src/utils/env.js';
+      import { isProduction, getEnv } from './src/utils/env';
       const prod = isProduction();
       sentry({
         enabled: prod,
@@ -848,7 +848,7 @@
   1. 注入 Git commit 作为 release ID：
       ```js
       // astro.config.mjs
-      import { getEnv } from './src/utils/env.js';
+      import { getEnv } from './src/utils/env';
       const commitHash = getEnv('COMMIT_SHA') || 'dev';
       sentry({
         release: commitHash,

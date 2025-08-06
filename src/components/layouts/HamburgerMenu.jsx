@@ -4,7 +4,7 @@ import {
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
   DOCS_PAGE_PATH
-} from '../../constants/index.js';
+} from '../../constants/index.ts';
 import { NAV_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';

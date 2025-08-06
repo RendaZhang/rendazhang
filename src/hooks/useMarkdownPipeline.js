@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { UI_DURATIONS } from '../constants/index.js';
+import { UI_DURATIONS } from '../constants/index.ts';
 
 export function showHint(msg, duration = UI_DURATIONS.HINT) {
   const hint = document.createElement('div');
