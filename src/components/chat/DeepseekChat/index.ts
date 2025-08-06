@@ -1,2 +1,2 @@
-export * from './DeepseekChatContent.jsx';
-export { default as DeepseekChatContent } from './DeepseekChatContent.jsx';
+export * from './DeepseekChatContent';
+export { default as DeepseekChatContent } from './DeepseekChatContent';

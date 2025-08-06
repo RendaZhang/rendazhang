@@ -1,2 +1,2 @@
-export * from './I18nProvider.jsx';
-export * from './ThemeProvider.jsx';
+export * from './I18nProvider';
+export * from './ThemeProvider';

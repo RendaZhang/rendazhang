@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactElement } from 'react';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '..';
 
-function LanguageIcon({ size = 20 }) {
+function LanguageIcon({ size = 20 }: { size?: number }): ReactElement {
   return (
     <svg
       width={size}
@@ -23,15 +23,15 @@ function LanguageIcon({ size = 20 }) {
   );
 }
 
-export default function LanguageSelector() {
+export default function LanguageSelector(): ReactElement {
   const { lang, updateLang } = useLanguage();
-  const [open, setOpen] = useState(false);
-  const buttonRef = useRef(null);
-  const optionsRef = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const optionsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      const target = e.target;
+    function handleClickOutside(e: MouseEvent): void {
+      const target = e.target as Node;
       if (
         buttonRef.current &&
         !buttonRef.current.contains(target) &&
@@ -45,7 +45,7 @@ export default function LanguageSelector() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const handleSelect = (code) => {
+  const handleSelect = (code: string): void => {
     updateLang(code);
     setOpen(false);
   };

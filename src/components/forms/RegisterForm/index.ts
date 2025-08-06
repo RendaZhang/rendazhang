@@ -1,2 +1,2 @@
-export * from './RegisterForm.jsx';
-export { default as RegisterForm } from './RegisterForm.jsx';
+export * from './RegisterForm';
+export { default as RegisterForm } from './RegisterForm';

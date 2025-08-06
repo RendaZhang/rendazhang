@@ -52,8 +52,8 @@ async function generate(dir) {
       const jsPath = path.join(subDir, 'index.js');
       const jsContent = await readFile(jsPath, 'utf8');
       if (/\bexport\b/.test(jsContent) && !/\bexport\s*=/.test(jsContent)) {
-        const relJs = './' + path.posix.join(d, 'index.js');
-        linesJs.push(`export * from '${relJs}';`);
+        const rel = './' + d;
+        linesJs.push(`export * from '${rel}';`);
         hasJs = true;
       }
     } catch {}
@@ -63,19 +63,19 @@ async function generate(dir) {
       const tsPath = path.join(subDir, 'index.ts');
       const tsContent = await readFile(tsPath, 'utf8');
       if (/\bexport\b/.test(tsContent)) {
-        const relTs = './' + path.posix.join(d, 'index.ts');
-        linesTs.push(`export * from '${relTs}';`);
+        const rel = './' + d;
+        linesTs.push(`export * from '${rel}';`);
         hasTs = true;
       }
     } catch {}
 
     if (!hasTs && hasJs) {
-      const relTs = './' + path.posix.join(d, 'index.js');
-      linesTs.push(`export * from '${relTs}';`);
+      const rel = './' + d;
+      linesTs.push(`export * from '${rel}';`);
     }
     if (!hasJs && hasTs) {
-      const relJs = './' + path.posix.join(d, 'index.ts');
-      linesJs.push(`export * from '${relJs}';`);
+      const rel = './' + d;
+      linesJs.push(`export * from '${rel}';`);
     }
   }
 
@@ -85,6 +85,7 @@ async function generate(dir) {
 
   for (const file of files) {
     const rel = './' + file;
+    const relNoExt = './' + path.parse(file).name;
     const filePath = path.join(dir, file);
     let content = '';
     try {
@@ -102,10 +103,10 @@ async function generate(dir) {
     }
 
     if (!isMinJs && (isModule || ['.ts', '.tsx', '.jsx', '.mjs'].includes(ext))) {
-      linesTs.push(`export * from '${rel}';`);
+      linesTs.push(`export * from '${relNoExt}';`);
       if (hasDefault) {
         const name = toExportName(file);
-        linesTs.push(`export { default as ${name} } from '${rel}';`);
+        linesTs.push(`export { default as ${name} } from '${relNoExt}';`);
       }
     }
   }

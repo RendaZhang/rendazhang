@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactElement } from 'react';
 import {
   SITE_BASE_URL,
   SOCIAL_ICON_PATHS,
@@ -6,9 +6,17 @@ import {
   IMAGE_PATHS
 } from '../../../constants/index.ts';
 
-function SocialIcon({ href, id, src, alt, ariaLabel }) {
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef(null);
+interface SocialIconProps {
+  href: string;
+  id?: string;
+  src: string | { src: string; width?: number; height?: number };
+  alt: string;
+  ariaLabel?: string;
+}
+
+function SocialIcon({ href, id, src, alt, ariaLabel }: SocialIconProps): ReactElement {
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   const srcUrl = typeof src === 'string' ? src : src.src;
   const imgWidth = typeof src === 'object' ? src.width : undefined;
@@ -37,7 +45,7 @@ function SocialIcon({ href, id, src, alt, ariaLabel }) {
   );
 }
 
-export default function SocialIcons() {
+export default function SocialIcons(): ReactElement {
   return (
     <>
       <div className="social-icons" aria-label="Social Links">

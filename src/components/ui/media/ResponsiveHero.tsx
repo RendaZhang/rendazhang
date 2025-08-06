@@ -1,20 +1,30 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactNode, type ReactElement } from 'react';
+
+interface ResponsiveHeroProps {
+  imageName?: string;
+  imageMap?: Record<string, string>;
+  imageWidths?: number[];
+  imagePlaceholder?: { base64?: string; aspectRatio?: number };
+  alt?: string;
+  className?: string;
+  children?: ReactNode;
+}
 
 export default function ResponsiveHero({
   imageName = 'main-hero',
-  imageMap = [],
+  imageMap = {},
   imageWidths = [],
   imagePlaceholder = {},
   alt = 'hero',
   className = '',
   children
-}) {
+}: ResponsiveHeroProps): ReactElement {
   const placeholderBase64 = imagePlaceholder.base64
     ? `data:image/jpeg;base64,${imagePlaceholder.base64}`
     : '';
   const aspectRatio = imagePlaceholder.aspectRatio || 1.5;
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef(null);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const img = imgRef.current;

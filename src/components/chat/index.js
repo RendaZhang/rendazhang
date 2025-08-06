@@ -1,5 +1,5 @@
-export * from './DeepseekChat/index.js';
-export * from './widgets/index.js';
+export * from './DeepseekChat';
+export * from './widgets';
 export * from './AIMessage.jsx';
 export { default as AIMessage } from './AIMessage.jsx';
 export * from './Chat.jsx';

@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 01:34 (UTC+08:00)
+- **最后更新**: August 07, 2025, 04:54 (UTC+08:00)
 
 ---
 
@@ -200,7 +200,7 @@ Assets: bgmusic-artist-song.mp3
   // src/hooks/useChatHistory.ts
   export default function useChatHistory() {}
   // 生成的 src/hooks/index.ts 片段
-  export { default as useChatHistory } from './useChatHistory.ts';
+  export { default as useChatHistory } from './useChatHistory';
   ```
 
 **执行命令**：
@@ -211,11 +211,11 @@ npm run generate-index
 **示例输出**：
 ```ts
 // src/hooks/index.ts
-export { default as useChatHistory } from './useChatHistory.ts';
-export { default as useAuth } from './useAuth.ts';
+export { default as useChatHistory } from './useChatHistory';
+export { default as useAuth } from './useAuth';
 ```
 
-生成的 `index.js` 内容与上方示例相同，仅扩展名不同。
+生成的 `index.js` 内容与上方示例相同，仅扩展名不同（保持原始文件扩展）。
 
 **维护建议**：
 - 新增或移动模块后可手动运行脚本确认导出正确。

@@ -1,3 +1,3 @@
-export * from './ContactForm/index.js';
-export * from './LoginForm/index.js';
-export * from './RegisterForm/index.js';
+export * from './ContactForm';
+export * from './LoginForm';
+export * from './RegisterForm';

@@ -1,6 +1,11 @@
 import { ICON_SIZES } from '../../../constants/index.ts';
+import type { ReactElement } from 'react';
 
-export default function AvatarIcon({ size = ICON_SIZES.DEFAULT }) {
+interface AvatarIconProps {
+  size?: number;
+}
+
+export default function AvatarIcon({ size = ICON_SIZES.DEFAULT }: AvatarIconProps): ReactElement {
   return (
     <svg
       width={size}

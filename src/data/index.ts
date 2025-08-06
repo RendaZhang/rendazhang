@@ -1,1 +1,1 @@
-export * from './mainHero.ts';
+export * from './mainHero';

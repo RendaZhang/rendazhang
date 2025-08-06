@@ -1,3 +1,3 @@
-export * from './data-display/index.ts';
-export * from './inputs/index.ts';
-export * from './media/index.ts';
+export * from './data-display';
+export * from './inputs';
+export * from './media';

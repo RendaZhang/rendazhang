@@ -1,4 +1,4 @@
-export * from './LanguageSelector.jsx';
-export { default as LanguageSelector } from './LanguageSelector.jsx';
-export * from './ThemeToggle.tsx';
-export { default as ThemeToggle } from './ThemeToggle.tsx';
+export * from './LanguageSelector';
+export { default as LanguageSelector } from './LanguageSelector';
+export * from './ThemeToggle';
+export { default as ThemeToggle } from './ThemeToggle';

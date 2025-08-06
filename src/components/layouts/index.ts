@@ -1,6 +1,6 @@
-export * from './HamburgerMenu.jsx';
-export { default as HamburgerMenu } from './HamburgerMenu.jsx';
-export * from './NavBar.jsx';
-export { default as NavBar } from './NavBar.jsx';
-export * from './NavBarWrapper.jsx';
-export { default as NavBarWrapper } from './NavBarWrapper.jsx';
+export * from './HamburgerMenu';
+export { default as HamburgerMenu } from './HamburgerMenu';
+export * from './NavBar';
+export { default as NavBar } from './NavBar';
+export * from './NavBarWrapper';
+export { default as NavBarWrapper } from './NavBarWrapper';

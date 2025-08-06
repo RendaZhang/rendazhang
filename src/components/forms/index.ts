@@ -1,3 +1,3 @@
-export * from './ContactForm/index.ts';
-export * from './LoginForm/index.ts';
-export * from './RegisterForm/index.ts';
+export * from './ContactForm';
+export * from './LoginForm';
+export * from './RegisterForm';

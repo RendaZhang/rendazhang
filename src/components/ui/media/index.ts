@@ -1,2 +1,2 @@
-export * from './ResponsiveHero.jsx';
-export { default as ResponsiveHero } from './ResponsiveHero.jsx';
+export * from './ResponsiveHero';
+export { default as ResponsiveHero } from './ResponsiveHero';

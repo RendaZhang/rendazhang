@@ -1,5 +1,5 @@
-export * from './env.ts';
-export * from './heroImages.ts';
-export * from './langUtils.ts';
-export * from './storage.ts';
-export { default as storage } from './storage.ts';
+export * from './env';
+export * from './heroImages';
+export * from './langUtils';
+export * from './storage';
+export { default as storage } from './storage';

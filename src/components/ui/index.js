@@ -1,3 +1,3 @@
-export * from './data-display/index.js';
-export * from './inputs/index.js';
-export * from './media/index.js';
+export * from './data-display';
+export * from './inputs';
+export * from './media';

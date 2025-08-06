@@ -1,2 +1,2 @@
-export * from './ChatSession.ts';
-export { default as ChatSession } from './ChatSession.ts';
+export * from './ChatSession';
+export { default as ChatSession } from './ChatSession';

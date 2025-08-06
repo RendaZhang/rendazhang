@@ -1,8 +1,8 @@
-export * from './AvatarIcon.jsx';
-export { default as AvatarIcon } from './AvatarIcon.jsx';
-export * from './CredlyBadge.jsx';
-export { default as CredlyBadge } from './CredlyBadge.jsx';
-export * from './LocalizedSection.jsx';
-export { default as LocalizedSection } from './LocalizedSection.jsx';
-export * from './SocialIcons.jsx';
-export { default as SocialIcons } from './SocialIcons.jsx';
+export * from './AvatarIcon.tsx';
+export { default as AvatarIcon } from './AvatarIcon.tsx';
+export * from './CredlyBadge.tsx';
+export { default as CredlyBadge } from './CredlyBadge.tsx';
+export * from './LocalizedSection.tsx';
+export { default as LocalizedSection } from './LocalizedSection.tsx';
+export * from './SocialIcons.tsx';
+export { default as SocialIcons } from './SocialIcons.tsx';
