@@ -1,11 +1,22 @@
-import * as espree from 'espree';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+
 export default [
   {
-    files: ['**/*.{js,jsx,astro}'],
+    files: ['**/*.{js,jsx,ts,tsx,astro}'],
     languageOptions: {
-      parser: espree,
-      parserOptions: { ecmaVersion: 'latest', sourceType: 'module', ecmaFeatures: { jsx: true } }
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true }
+      }
     },
-    rules: {}
+    plugins: {
+      '@typescript-eslint': tsPlugin
+    },
+    rules: {
+      ...tsPlugin.configs.recommended.rules
+    }
   }
 ];
