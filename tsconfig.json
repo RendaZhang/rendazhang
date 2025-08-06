@@ -9,6 +9,9 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true
   }
 }
