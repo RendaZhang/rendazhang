@@ -10,7 +10,7 @@ import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import * as Sentry from '@sentry/react'; // 使用 @sentry/react
-import { refreshEnv, getEnv, isProduction, getCdnUrl } from '../../../utils';
+import { refreshEnv, getEnv, isProduction, getCdnUrl } from '../../../utils/env.ts';
 
 export default function LoginForm({ texts = LOGIN_CONTENT }) {
   const { lang } = useLanguage();

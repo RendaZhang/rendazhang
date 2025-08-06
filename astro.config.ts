@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv } from 'vite';
-import { refreshEnv, getEnv } from './src/utils/index';
+import { refreshEnv, getEnv } from './src/utils/env.ts';
 
 const mode = getEnv('NODE_ENV') || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，

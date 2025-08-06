@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/astro';
-import { getEnv, isProduction, refreshEnv } from './utils/index';
+import { getEnv, isProduction, refreshEnv } from './utils/env.ts';
 
 Sentry.init({
   dsn: getEnv('SENTRY_DSN') ?? undefined,

@@ -1,3 +1,4 @@
+export * from './env.js';
 export * from './env.ts';
 export * from './heroImages.ts';
 export * from './langUtils.ts';
