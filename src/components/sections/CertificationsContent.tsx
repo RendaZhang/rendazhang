@@ -2,8 +2,9 @@ import { VERIFY_URLS } from '../../constants/index.ts';
 import { CERTIFICATIONS_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection, CredlyBadge } from '../ui';
+import type { ReactElement } from 'react';
 
-export default function CertificationsContent() {
+export default function CertificationsContent(): ReactElement {
   useLanguage();
   const textsEn = CERTIFICATIONS_CONTENT.en;
   const textsZh = CERTIFICATIONS_CONTENT.zh;

@@ -1,2 +1,1 @@
-// @ts-nocheck
-export * from './chatService.ts';
+export * from './chatService';

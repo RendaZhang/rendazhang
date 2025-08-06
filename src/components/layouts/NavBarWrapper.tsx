@@ -1,6 +1,6 @@
 import { ThemeProvider, I18nProvider } from '../providers';
 import NavBar from './NavBar.tsx';
-import ErrorBoundary from '../ErrorBoundary.jsx';
+import ErrorBoundary from '../ErrorBoundary';
 import type { ReactNode, ReactElement } from 'react';
 
 interface NavBarWrapperProps {

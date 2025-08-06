@@ -1,2 +1,1 @@
-// @ts-nocheck
-export * from './authService.ts';
+export * from './authService';

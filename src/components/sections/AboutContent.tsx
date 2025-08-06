@@ -7,13 +7,14 @@ import {
 } from '../../constants/index.ts';
 import { MAIN_HERO } from '../../data';
 import { ResponsiveHero } from '../ui';
-import ContactSection from './ContactSection.jsx';
+import ContactSection from './ContactSection';
 import { useLanguage } from '../providers';
 import { LocalizedSection, SocialIcons } from '../ui';
-import SocialIconsEffects from './SocialIconsEffects.jsx';
+import SocialIconsEffects from './SocialIconsEffects';
 import { ChatWidget } from '../chat';
+import type { ReactElement } from 'react';
 
-export default function AboutContent() {
+export default function AboutContent(): ReactElement {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const contentEn = ABOUT_CONTENT.en;
@@ -205,21 +206,21 @@ export default function AboutContent() {
                   enContent={contentEn.experience.entries[idx].title}
                 />
               </h3>
-              {entry.summary && (
+              {(entry as any).summary && (
                 <p>
                   <LocalizedSection
-                    zhContent={entry.summary}
-                    enContent={contentEn.experience.entries[idx].summary}
+                    zhContent={(entry as any).summary}
+                    enContent={(contentEn.experience.entries[idx] as any).summary}
                   />
                 </p>
               )}
-              {entry.bullets && (
+              {(entry as any).bullets && (
                 <ul>
-                  {entry.bullets.map((b, i) => (
+                  {(entry as any).bullets.map((b: string, i: number) => (
                     <li key={i}>
                       <LocalizedSection
                         zhContent={b}
-                        enContent={contentEn.experience.entries[idx].bullets[i]}
+                        enContent={(contentEn.experience.entries[idx] as any).bullets?.[i]}
                       />
                     </li>
                   ))}

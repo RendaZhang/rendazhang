@@ -3,8 +3,9 @@ import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../constants/inde
 import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
+import type { ReactElement } from 'react';
 
-export default function ContactSection() {
+export default function ContactSection(): ReactElement {
   useLanguage();
   const contactZh = ABOUT_CONTENT.zh.contact;
   const contactEn = ABOUT_CONTENT.en.contact;
