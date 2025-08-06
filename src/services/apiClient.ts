@@ -1,7 +1,7 @@
-import { ENDPOINTS, JSON_HEADERS } from '../constants/api.ts';
+import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
 import * as Sentry from '@sentry/react';
 
-async function request(url, options = {}) {
+async function request<T = any>(url: string, options: RequestInit = {}): Promise<T> {
   try {
     const response = await fetch(url, {
       headers: { ...JSON_HEADERS, ...(options.headers || {}) },
@@ -15,7 +15,7 @@ async function request(url, options = {}) {
       });
       throw error;
     }
-    return response.json();
+    return response.json() as Promise<T>;
   } catch (error) {
     Sentry.captureException(error, {
       tags: { url },
@@ -25,15 +25,15 @@ async function request(url, options = {}) {
   }
 }
 
-export default {
+const apiClient = {
   chat: {
-    sendMessage: (message) =>
+    sendMessage: (message: string): Promise<any> =>
       request(ENDPOINTS.CHAT, {
         method: 'POST',
         headers: JSON_HEADERS,
         body: JSON.stringify({ message })
       }),
-    reset: () =>
+    reset: (): Promise<any> =>
       request(ENDPOINTS.RESET, {
         method: 'POST',
         headers: JSON_HEADERS,
@@ -42,3 +42,5 @@ export default {
   },
   request
 };
+
+export default apiClient;

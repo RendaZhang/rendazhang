@@ -1,16 +1,22 @@
-import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../constants/index.ts';
+import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../constants/index';
+export interface ChatMessage {
+  role: string;
+  content: string;
+}
 
 class ChatSession {
-  constructor(initial = []) {
+  private history: ChatMessage[];
+
+  constructor(initial: ChatMessage[] = []) {
     this.history = Array.isArray(initial) ? [...initial] : [];
     this.trimHistory();
   }
 
-  countTokens(msg) {
+  private countTokens(msg: ChatMessage): number {
     return Math.ceil((msg.content.length / AVG_WORD_LENGTH) * AVG_TOKENS_PER_WORD);
   }
 
-  trimHistory() {
+  private trimHistory(): void {
     let tokens = this.history.reduce((t, m) => t + this.countTokens(m), 0);
     while (tokens > MAX_TOKENS && this.history.length > 0) {
       this.history.shift();
@@ -18,22 +24,22 @@ class ChatSession {
     }
   }
 
-  addMessage(role, content) {
+  addMessage(role: string, content: string): ChatMessage[] {
     this.history.push({ role, content });
     this.trimHistory();
     return this.getHistory();
   }
 
-  setHistory(list) {
+  setHistory(list: ChatMessage[]): void {
     this.history = Array.isArray(list) ? [...list] : [];
     this.trimHistory();
   }
 
-  getHistory() {
+  getHistory(): ChatMessage[] {
     return [...this.history];
   }
 
-  clear() {
+  clear(): void {
     this.history = [];
   }
 }

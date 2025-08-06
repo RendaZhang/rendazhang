@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { STORAGE_KEY, ROLES } from '../constants/index.ts';
-import { storage } from '../utils/index.ts';
-import ChatSession from '../models/ChatSession.js';
+import { STORAGE_KEY, ROLES } from '../constants/index';
+import { storage } from '../utils/index';
+import ChatSession from '../models/ChatSession.ts';
 
 export default function useChatHistory() {
   const sessionRef = useRef(new ChatSession());

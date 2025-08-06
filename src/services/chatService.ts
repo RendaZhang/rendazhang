@@ -1,7 +1,10 @@
 // Markdown libraries expected to be loaded globally
-import { ENDPOINTS, JSON_HEADERS } from '../constants/api.ts';
+import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
 
-export async function sendMessageToAI(userInput, onChunkCallback) {
+export async function sendMessageToAI(
+  userInput: string,
+  onChunkCallback?: (chunk: string) => void
+): Promise<string> {
   try {
     const response = await fetch(ENDPOINTS.CHAT, {
       method: 'POST',
@@ -13,7 +16,10 @@ export async function sendMessageToAI(userInput, onChunkCallback) {
       throw new Error(`Request failed: ${response.status}`);
     }
 
-    const reader = response.body.getReader();
+    const reader = response.body?.getReader();
+    if (!reader) {
+      throw new Error('Readable stream not supported');
+    }
     const decoder = new TextDecoder();
     let aiMessage = '';
 
@@ -47,7 +53,7 @@ export async function sendMessageToAI(userInput, onChunkCallback) {
   }
 }
 
-export async function resetChat() {
+export async function resetChat(): Promise<boolean> {
   try {
     const response = await fetch(ENDPOINTS.RESET, {
       method: 'POST',

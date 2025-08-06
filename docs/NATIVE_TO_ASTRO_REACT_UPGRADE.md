@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
+- **最后更新**: August 07, 2025, 03:20 (UTC+08:00)
 
 ---
 
@@ -486,9 +486,9 @@ export default function Chat() {
 
 ### 封装服务层
 
-在 `src/services/` 新建文件 `chatService.js`，将调用 AI 接口的细节封装其中，例如：
+在 `src/services/` 新建文件 `chatService.ts`，将调用 AI 接口的细节封装其中，例如：
 
-  ```js
+  ```ts
   export default async function sendMessageToAI(userInput) {
     // 调用后端 API，例如 fetch 一个 URL 或调用 SDK
     const response = await fetch('/api/chat', {
@@ -545,7 +545,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 此时已经运用了 React 的 Hooks 来管理组件内部状态。
 
-同时，我们在这一过程中建立了 **组件层** （Chat.jsx 及拆分出的 `ChatMessageList`、`ChatInput` 等 UI 组件）和 **服务层** （chatService.js 调用封装）的清晰分离，为未来扩展打下基础。
+同时，我们在这一过程中建立了 **组件层** （Chat.jsx 及拆分出的 `ChatMessageList`、`ChatInput` 等 UI 组件）和 **服务层** （chatService.ts 调用封装）的清晰分离，为未来扩展打下基础。
 
 这也验证了在 Astro 中使用 React 进行复杂交互的能力。
 
