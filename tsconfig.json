@@ -5,17 +5,12 @@
     "**/*"
   ],
   "exclude": [
-    "dist",
-    "src/scripts",
-    "src/services",
-    "src/hooks",
-    "src/layouts",
-    "src/models"
+    "dist"
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "allowJs": true,
+    "allowJs": false,
     "checkJs": false,
     "noEmit": true
   }

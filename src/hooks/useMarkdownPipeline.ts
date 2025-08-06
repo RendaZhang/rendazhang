@@ -9,6 +9,7 @@ declare global {
         id: string,
         code: string
       ) => Promise<{ svg: string; bindFunctions?: (element: HTMLElement) => void }>;
+      initialize: (config: unknown) => void;
     };
     hljs?: {
       highlightElement: (element: HTMLElement) => void;
