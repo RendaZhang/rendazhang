@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 04:54 (UTC+08:00)
+- **最后更新**: August 07, 2025, 06:33 (UTC+08:00)
 
 ---
 
@@ -41,7 +41,7 @@
 - 更新文档目录和最后更新时间
 - 同步 README 文件
 - 验证静态资源命名规范
-- 自动生成模块 `index.ts` 和 `index.js` 文件
+- 自动根据目录中的 TS/JS 文件生成相应的 `index.ts` 或 `index.js`
 - 执行代码格式化和静态检查
 
 **优势**：
@@ -87,7 +87,7 @@
 
 | 钩子ID             | 功能                     | 运行时机       |
 |--------------------|--------------------------|----------------|
-| `generate-index`   | 自动生成模块 `index.ts` 和 `index.js` 文件 | 每次提交       |
+| `generate-index`   | 按目录内的 TS/JS 文件生成 `index.ts` 或 `index.js`，无对应文件则跳过 | 每次提交       |
 
 ### 代码质量钩子
 
@@ -191,10 +191,12 @@ Assets: bgmusic-artist-song.mp3
 
 **功能**：
 - 使用 Node.js 的 `fs/promises` 与 `path` 递归扫描 `src` 目录
-- 为每个包含 JS/TS 模块的目录生成或更新 `index.ts` 和 `index.js` 文件
+- 根据目录内的源文件类型生成或更新对应的 `index.ts` 或 `index.js`
+- 仅在目录存在真实的 `.js`/`.jsx` 文件时生成 `index.js`，纯 TypeScript 目录（如 `src/types`）只生成 `index.ts`
+- 若目录仅包含现成的 `index.ts` 或 `index.js` 且无其他模块，将保留该索引文件而不会删除
 - 自动同步具名与默认导出
 - 忽略所有 `.d.ts` 类型声明文件（如 `env.d.ts`）
-- 生成器会覆盖现有 `index.ts` 和 `index.js`（如有）或创建新文件，确保目录导出完整
+- 生成器会覆盖现有索引文件（当存在其他模块时）或创建新文件，确保目录导出完整
 - 默认导出会使用原始文件名作为导出别名，从而保持大小写一致。例如：
   ```ts
   // src/hooks/useChatHistory.ts
