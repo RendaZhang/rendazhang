@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 06, 2025, 02:29 (UTC+08:00)
+- **Last Updated**: August 06, 2025, 19:59 (UTC+08:00)
 
 ---
 
@@ -477,7 +477,7 @@ Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob
 
 ### Storage Utility
 
-`src/utils/storage.js` offers a unified API (`get`, `set`, `remove`) for localStorage, sessionStorage, cookies, and IndexedDB.
+`src/utils/storage.ts` offers a unified API (`get`, `set`, `remove`) for localStorage, sessionStorage, cookies, and IndexedDB.
 
 Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 

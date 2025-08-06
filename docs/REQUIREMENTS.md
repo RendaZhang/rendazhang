@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
+- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
 
 ---
 
@@ -98,7 +98,7 @@
   - 通过统一的配置文件或组件，集中管理所有页面的 SEO 设置，便于后续维护和更新
   - 为特定地区或语言的页面添加了 hreflang 标签和地理定位 meta 信息，提升目标用户的搜索体验和页面排名
 - [x] **页面风格统一**
-  - 主题偏好通过 `src/utils/storage.js` 存储（默认使用 localStorage）保持用户设置
+  - 主题偏好通过 `src/utils/storage.ts` 存储（默认使用 localStorage）保持用户设置
   - 确保所有页面的主题风格一致
   - 完成多语言支持框架（双内容渲染 + CSS 切换）
   - 实现所有页面的多语言动态切换
@@ -139,7 +139,7 @@
   - 支持通过 `SKIP_SENTRY` 环境变量在本地跳过集成，加速 `pre-commit` 和 `astro check`
 - [x] **存储系统兼容性增强**
   - 实现智能解析兼容新旧存储格式
-  - 添加存储操作统一封装层 (`src/utils/storage.js`)
+  - 添加存储操作统一封装层 (`src/utils/storage.ts`)
   - 支持 localStorage/sessionStorage/cookie/内存多种后端
   - 新增 IndexedDB 异步操作 API
 - [x] **零闪烁主题初始化**

@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { THEME_STORAGE_KEY } from '../../constants/index.js';
-import storage from '../../utils/storage.js';
+import storage from '../../utils/storage';
 import * as Sentry from '@sentry/react';
 
 const defaultContext = {
   darkMode: false,
   toggle: () => {},
-  setTheme: () => {}
+  setTheme: (_isDark) => {}
 };
 
 const ThemeContext = createContext(defaultContext);

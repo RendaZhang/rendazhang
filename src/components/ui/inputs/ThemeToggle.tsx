@@ -4,21 +4,23 @@ import { NAV_CONTENT } from '../../../content';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '..';
 
-export default function ThemeToggle() {
+interface ThemeToggleProps {}
+
+export default function ThemeToggle(_props: ThemeToggleProps) {
   const { darkMode, setTheme } = useTheme();
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
-  const buttonRef = useRef(null);
-  const optionsRef = useRef(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const optionsRef = useRef<HTMLDivElement | null>(null);
 
   // 渲染中英文两套文本，避免首次挂载语言切换造成闪烁
   const textsZh = NAV_CONTENT.zh.theme;
   const textsEn = NAV_CONTENT.en.theme;
-  const texts = (NAV_CONTENT[lang] && NAV_CONTENT[lang].theme) || {};
+  const texts = (NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.theme) || {};
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      const target = e.target;
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
       if (
         buttonRef.current &&
         !buttonRef.current.contains(target) &&
@@ -31,8 +33,8 @@ export default function ThemeToggle() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const handleSelect = (isDark) => {
-    setTheme(isDark);
+  const handleSelect = (isDark: boolean) => {
+      setTheme(isDark);
     setOpen(false);
   };
 

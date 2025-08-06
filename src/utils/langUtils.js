@@ -1,5 +1,6 @@
 import { LANG_STORAGE_KEY } from '../constants/index.js';
-import storage from './storage.js';
+import storage from './storage';
+import * as Sentry from '@sentry/react';
 
 export function getCurrentLang() {
   if (typeof document === 'undefined') {

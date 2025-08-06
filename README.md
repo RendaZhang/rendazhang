@@ -39,7 +39,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 06, 2025, 02:29 (UTC+08:00)
+- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
 
 ---
 
@@ -478,7 +478,7 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
 
 ### 存储工具函数
 
-`src/utils/storage.js` 提供 `get`、`set`、`remove` 等方法，统一管理 `localStorage`、`sessionStorage`、Cookie 与 IndexedDB。
+`src/utils/storage.ts` 提供 `get`、`set`、`remove` 等方法，统一管理 `localStorage`、`sessionStorage`、Cookie 与 IndexedDB。
 
 文档详见：📄 [存储工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 

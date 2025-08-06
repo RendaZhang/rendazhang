@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
+- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
 
 ---
 
@@ -309,7 +309,7 @@
 - **关键脚本**：
   ```html
   <script is:inline type="module">
-    import storage from '/src/utils/storage.js';
+    import storage from '/src/utils/storage.ts';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');
@@ -972,13 +972,13 @@
 - **重现环境**：开发服务器，BaseLayout 页面
 - **问题现象**：
   - 控制台报 `Uncaught SyntaxError: Unexpected token 'export'`
-  - `storage.js` 全局注册与内联脚本加载冲突
+  - `storage.ts` 全局注册与内联脚本加载冲突
 - **根本原因**：
-  - 内联脚本尝试加载 ES 模块格式的 `storage.js`
+  - 内联脚本尝试加载 ES 模块格式的 `storage.ts`
   - 非模块环境无法解析 `export` 语句
   - 重复注册存储助手逻辑
 - **解决方案**：
-  1. 完全移除 `storage.js` 的全局注册方法
+  1. 完全移除 `storage.ts` 的全局注册方法
   2. 在 BaseLayout 实现自包含的轻量级存储助手
   3. 添加单例检查避免重复初始化：
      ```javascript

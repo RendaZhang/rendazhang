@@ -22,13 +22,13 @@
 # 存储工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 01:25 (UTC+08:00)
+- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
 
 ---
 
 ## 简介
 
-`src/utils/storage.js` 提供统一的存储操作接口，封装多种存储后端的读写逻辑，具有以下特点：
+`src/utils/storage.ts` 提供统一的存储操作接口，封装多种存储后端的读写逻辑，具有以下特点：
 
 1. **多后端支持**：
    - `localStorage` & `sessionStorage`
