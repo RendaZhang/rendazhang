@@ -73,4 +73,4 @@ export const REGISTER_CONTENT = {
       strong: '强'
     }
   }
-};
+} as const;

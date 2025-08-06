@@ -39,4 +39,4 @@ export const DEEPSEEK_CHAT_CONTENT = {
     copyLabel: '复制',
     copiedLabel: '已复制'
   }
-};
+} as const;

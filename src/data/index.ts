@@ -1,1 +1,1 @@
-export * from './mainHero.js';
+export * from './mainHero.ts';

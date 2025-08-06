@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 07, 2025, 03:54 (UTC+08:00)
 
 ---
 
@@ -187,7 +187,7 @@ const processors = {
 | 输出目录 | `public/assets/heroes` | 生成图位置 |
 | 尺寸 | `[3840, 2560, 1920, 1280, 1000, 800, 400]` | 响应式尺寸 |
 | LQIP | `width:20, quality:15` | 低质量占位 |
-| 数据文件 | `src/data/image-hero.js` | LQIP数据 |
+| 数据文件 | `src/data/image-hero.ts` | LQIP数据 |
 | 组件 | `src/components/ui/HeroImage.jsx` | 专用组件 |
 
 ### 维护流程

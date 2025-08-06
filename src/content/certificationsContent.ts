@@ -31,4 +31,4 @@ export const CERTIFICATIONS_CONTENT = {
       }
     ]
   }
-};
+} as const;

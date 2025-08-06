@@ -351,4 +351,4 @@ export const ABOUT_CONTENT = {
       ]
     }
   }
-};
+} as const;

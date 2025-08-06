@@ -67,4 +67,4 @@ export const LOGIN_CONTENT = {
       strong: '强'
     }
   }
-};
+} as const;

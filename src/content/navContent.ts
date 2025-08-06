@@ -33,4 +33,4 @@ export const NAV_CONTENT = {
       dark: '切换到深色模式'
     }
   }
-};
+} as const;
