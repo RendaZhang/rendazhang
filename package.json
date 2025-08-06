@@ -8,7 +8,8 @@
     "validate-assets": "node scripts/validate_assets.cjs",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-index": "node scripts/generateIndex.mjs"
+    "generate-index": "node scripts/generateIndex.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
