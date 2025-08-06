@@ -1,8 +1,8 @@
-export * from './useChatHistory.js';
-export { default as useChatHistory } from './useChatHistory.js';
-export * from './useContent.js';
-export { default as useContent } from './useContent.js';
-export * from './useFormValidation.js';
-export { default as useFormValidation } from './useFormValidation.js';
-export * from './useMarkdownPipeline.js';
-export { default as useMarkdownPipeline } from './useMarkdownPipeline.js';
+export * from './useChatHistory.ts';
+export { default as useChatHistory } from './useChatHistory.ts';
+export * from './useContent.ts';
+export { default as useContent } from './useContent.ts';
+export * from './useFormValidation.ts';
+export { default as useFormValidation } from './useFormValidation.ts';
+export * from './useMarkdownPipeline.ts';
+export { default as useMarkdownPipeline } from './useMarkdownPipeline.ts';

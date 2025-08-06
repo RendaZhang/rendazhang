@@ -1,7 +1,24 @@
 import { useEffect, useRef } from 'react';
 import { UI_DURATIONS } from '../constants/index.ts';
 
-export function showHint(msg, duration = UI_DURATIONS.HINT) {
+declare global {
+  interface Window {
+    mermaid?: {
+      parse?: (code: string) => Promise<void> | void;
+      render: (
+        id: string,
+        code: string
+      ) => Promise<{ svg: string; bindFunctions?: (element: HTMLElement) => void }>;
+    };
+    hljs?: {
+      highlightElement: (element: HTMLElement) => void;
+    };
+    DOMPurify: { sanitize: (html: string) => string };
+    marked: { parse: (markdown: string) => string };
+  }
+}
+
+export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): void {
   const hint = document.createElement('div');
   hint.className = 'hint-message';
   hint.textContent = msg;
@@ -12,12 +29,14 @@ export function showHint(msg, duration = UI_DURATIONS.HINT) {
   }, duration);
 }
 
-async function renderMermaidDiagrams(container) {
+async function renderMermaidDiagrams(container: HTMLElement | null): Promise<void> {
   if (!container || !window.mermaid) return;
-  const blocks = container.querySelectorAll('pre code.language-mermaid, pre code.mermaid');
-  for (const block of blocks) {
-    const pre = block.parentElement;
-    const code = block.textContent;
+  const blocks = container.querySelectorAll<HTMLElement>(
+    'pre code.language-mermaid, pre code.mermaid'
+  );
+  for (const block of Array.from(blocks)) {
+    const pre = block.parentElement as HTMLElement;
+    const code = block.textContent || '';
     try {
       if (typeof window.mermaid.parse === 'function') {
         await window.mermaid.parse(code);
@@ -36,21 +55,26 @@ async function renderMermaidDiagrams(container) {
   }
 }
 
-export async function applyEnhancements(container) {
+export async function applyEnhancements(container: HTMLElement | null): Promise<void> {
   if (!container) return;
   if (window.hljs) {
-    container.querySelectorAll('pre code').forEach((block) => {
+    const hljs = window.hljs;
+    container.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
       if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
         return;
       }
-      window.hljs.highlightElement(block);
+      hljs.highlightElement(block);
     });
   }
   await renderMermaidDiagrams(container);
 }
 
-export default function useMarkdownPipeline(markdown, enhance, onDone) {
-  const ref = useRef(null);
+export default function useMarkdownPipeline(
+  markdown: string,
+  enhance: boolean,
+  onDone?: () => void
+): React.MutableRefObject<HTMLDivElement | null> {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -65,7 +89,7 @@ export default function useMarkdownPipeline(markdown, enhance, onDone) {
     } else {
       doCallback();
     }
-  }, [markdown, enhance]);
+  }, [markdown, enhance, onDone]);
 
   return ref;
 }

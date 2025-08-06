@@ -1,1 +1,1 @@
-export { default as useFormValidation } from '../../../hooks/useFormValidation.js';
+export { default as useFormValidation } from '../../../hooks/useFormValidation.ts';

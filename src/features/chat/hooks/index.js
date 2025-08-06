@@ -1,2 +1,2 @@
-export { default as useChatHistory } from '../../../hooks/useChatHistory.js';
-export { default as useFormValidation } from '../../../hooks/useFormValidation.js';
+export { default as useChatHistory } from '../../../hooks/useChatHistory.ts';
+export { default as useFormValidation } from '../../../hooks/useFormValidation.ts';

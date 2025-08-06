@@ -1,14 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { STORAGE_KEY, ROLES } from '../constants/index';
 import { storage } from '../utils/index';
-import ChatSession from '../models/ChatSession.ts';
+import ChatSession, { type ChatMessage } from '../models/ChatSession.ts';
 
-export default function useChatHistory() {
-  const sessionRef = useRef(new ChatSession());
-  const [messages, setMessagesState] = useState([]);
+interface UseChatHistory {
+  messages: ChatMessage[];
+  addMessage: (role: string, content: string) => ChatMessage[];
+  setMessages: (
+    updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])
+  ) => ChatMessage[];
+  clearHistory: () => void;
+}
+
+export default function useChatHistory(): UseChatHistory {
+  const sessionRef = useRef<ChatSession>(new ChatSession());
+  const [messages, setMessagesState] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
-    const stored = storage.get(STORAGE_KEY) || [];
+    const stored = (storage.get(STORAGE_KEY) || []) as ChatMessage[];
     const loaded = stored.map((m) => ({
       role: m.role === ROLES.ASSISTANT ? ROLES.AI : ROLES.USER,
       content: m.content
@@ -17,7 +26,7 @@ export default function useChatHistory() {
     setMessagesState(sessionRef.current.getHistory());
   }, []);
 
-  const save = (list) => {
+  const save = (list: ChatMessage[]): void => {
     storage.set(
       STORAGE_KEY,
       list.map((m) => ({
@@ -27,14 +36,16 @@ export default function useChatHistory() {
     );
   };
 
-  const addMessage = (role, content) => {
+  const addMessage = (role: string, content: string): ChatMessage[] => {
     const list = sessionRef.current.addMessage(role, content);
     save(list);
     setMessagesState(sessionRef.current.getHistory());
     return list;
   };
 
-  const saveMessages = (updater) => {
+  const saveMessages = (
+    updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])
+  ): ChatMessage[] => {
     const prev = sessionRef.current.getHistory();
     const list = typeof updater === 'function' ? updater(prev) : updater;
     sessionRef.current.setHistory(list);
@@ -44,7 +55,7 @@ export default function useChatHistory() {
     return saved;
   };
 
-  const clearHistory = () => {
+  const clearHistory = (): void => {
     sessionRef.current.clear();
     save([]);
     setMessagesState(sessionRef.current.getHistory());
