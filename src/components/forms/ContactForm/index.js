@@ -1,2 +1,2 @@
-export * from './ContactForm.jsx';
-export { default as ContactForm } from './ContactForm.jsx';
+export * from './ContactForm.tsx';
+export { default as ContactForm } from './ContactForm.tsx';

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import {
   LOGIN_PAGE_PATH,
   LOADING_TEXT,
@@ -11,24 +12,46 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { storage } from '../../../utils/index.ts';
 
-export default function RegisterForm({ texts = REGISTER_CONTENT }) {
+interface RegisterFormValues {
+  email: string;
+  username: string;
+  password: string;
+  confirm: string;
+  agree: boolean;
+}
+
+type FormStatus = 'idle' | 'loading' | 'success';
+type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
+
+interface RegisterFormProps {
+  texts?: any;
+}
+
+interface RegisterPlaceholders {
+  email: string;
+  username: string;
+  password: string;
+  confirm: string;
+}
+
+export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormProps) {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const [showPassword, setShowPassword] = useState(false);
-  const [strength, setStrength] = useState('');
-  const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState('idle');
-  const [placeholders, setPlaceholders] = useState({
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [strength, setStrength] = useState<PasswordStrength>('');
+  const [progress, setProgress] = useState<number>(0);
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [placeholders, setPlaceholders] = useState<RegisterPlaceholders>({
     email: '',
     username: '',
     password: '',
     confirm: ''
   });
 
-  const { values, errors, handleChange, validateAll } = useFormValidation(
+  const { values, errors, handleChange, validateAll } = useFormValidation<RegisterFormValues>(
     { email: '', username: '', password: '', confirm: '', agree: false },
     {
       email: (val) => {
@@ -48,7 +71,9 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
   const { email, username, password, confirm, agree } = values;
 
   useEffect(() => {
-    const saved = storage.get(REGISTER_DRAFT_KEY);
+    const saved = storage.get(REGISTER_DRAFT_KEY) as
+      | Partial<RegisterFormValues>
+      | null;
     if (saved) {
       handleChange('email', saved.email || '');
       handleChange('username', saved.username || '');
@@ -77,10 +102,11 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
     }
   }, [password]);
 
-  const canSubmit =
-    email && username && password && confirm && agree && Object.keys(errors).length === 0;
+  const canSubmit: boolean =
+    Boolean(email && username && password && confirm && agree) &&
+    Object.keys(errors).length === 0;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!validateAll()) return;
     setStatus('loading');
@@ -164,8 +190,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           {strength && (
             <div className="password-strength-label">
               <LocalizedSection
-                zhContent={textsZh.strength[strength]}
-                enContent={textsEn.strength[strength]}
+                zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
+                enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
               />
             </div>
           )}
@@ -195,7 +221,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }) {
           className="form-check-input"
           type="checkbox"
           checked={agree}
-          onChange={(e) => handleChange('agree', e.target.checked)}
+          onChange={(e) => handleChange('agree', e.target.checked as boolean)}
           required
         />
         <label htmlFor="agree" className="form-check-label">

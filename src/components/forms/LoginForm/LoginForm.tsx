@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import {
   HOME_PAGE_PATH,
   REGISTER_PAGE_PATH,
@@ -11,14 +12,30 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import * as Sentry from '@sentry/react';
 import { isProduction, getCdnUrl } from '../../../utils/env';
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
-export default function LoginForm({ texts = LOGIN_CONTENT }) {
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
+
+interface LoginFormProps {
+  texts?: typeof LOGIN_CONTENT;
+}
+
+interface LoginPlaceholders {
+  email: string;
+  password: string;
+}
+
+export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const { values, errors, handleChange, validateAll } = useFormValidation(
+  const { values, errors, handleChange, validateAll } = useFormValidation<LoginFormValues>(
     { email: '', password: '' },
     {
       email: (val) => {
@@ -33,12 +50,15 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
     }
   );
   const { email, password } = values;
-  const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
-  const [globalError, setGlobalError] = useState('');
-  const [strength, setStrength] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | loading | success | error
-  const [placeholders, setPlaceholders] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [remember, setRemember] = useState<boolean>(false);
+  const [globalError, setGlobalError] = useState<string>('');
+  const [strength, setStrength] = useState<PasswordStrength>('');
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [placeholders, setPlaceholders] = useState<LoginPlaceholders>({
+    email: '',
+    password: ''
+  });
 
   useEffect(() => {
     const ph = (texts[langKey] && texts[langKey].placeholders) || {};
@@ -58,7 +78,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
     }
   }, [password]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!validateAll()) return;
     try {
@@ -123,8 +143,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }) {
         {strength && (
           <div className="password-strength-label">
             <LocalizedSection
-              zhContent={textsZh.strength[strength]}
-              enContent={textsEn.strength[strength]}
+              zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
+              enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
             />
           </div>
         )}

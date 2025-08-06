@@ -1,24 +1,56 @@
 import { useState, useEffect } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 import { CONTACT_FORM_ENDPOINT } from '../../../constants/index.ts';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 
-export default function ContactForm({ texts = {} }) {
+interface ContactFormFields {
+  name: string;
+  contact: string;
+  _subject: string;
+  message: string;
+}
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+
+interface PlaceholderTexts {
+  name?: string;
+  contact?: string;
+  subject?: string;
+  message?: string;
+}
+
+interface LangTexts {
+  placeholders?: PlaceholderTexts;
+  [key: string]: any;
+}
+
+interface ContactFormTexts {
+  zh?: LangTexts;
+  en?: LangTexts;
+  [key: string]: LangTexts | undefined;
+}
+
+interface ContactFormProps {
+  texts?: ContactFormTexts;
+}
+
+export default function ContactForm({ texts = {} }: ContactFormProps) {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const initialForm = {
+  const initialForm: ContactFormFields = {
     name: '',
     contact: '',
     _subject: '',
     message: ''
   };
-  const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState('idle'); // idle | loading | success | error
-  const [error, setError] = useState('');
-  const [placeholders, setPlaceholders] = useState({
+  const [form, setForm] = useState<ContactFormFields>(initialForm);
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [error, setError] = useState<string>('');
+  const [placeholders, setPlaceholders] = useState<PlaceholderTexts>({
     name: '',
     contact: '',
     subject: '',
@@ -26,16 +58,19 @@ export default function ContactForm({ texts = {} }) {
   });
 
   useEffect(() => {
-    const ph = (texts[langKey] && texts[langKey].placeholders) || {};
+    const ph =
+      ((texts[langKey] && texts[langKey].placeholders) || {}) as PlaceholderTexts;
     setPlaceholders(ph);
   }, [langKey, texts]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!form.name || !form.contact || !form._subject || !form.message) {
       setError(activeTexts.errorEmpty || '请填写所有字段');
@@ -45,7 +80,9 @@ export default function ContactForm({ texts = {} }) {
     setStatus('loading');
     setError('');
     try {
-      const body = new URLSearchParams(form).toString();
+        const body = new URLSearchParams(
+          form as unknown as Record<string, string>
+        ).toString();
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -107,7 +144,7 @@ export default function ContactForm({ texts = {} }) {
         <textarea
           name="message"
           className="form-control"
-          rows="5"
+          rows={5}
           placeholder={placeholders.message || ''}
           value={form.message}
           onChange={handleChange}

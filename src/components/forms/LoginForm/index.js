@@ -1,2 +1,2 @@
-export * from './LoginForm.jsx';
-export { default as LoginForm } from './LoginForm.jsx';
+export * from './LoginForm.tsx';
+export { default as LoginForm } from './LoginForm.tsx';
