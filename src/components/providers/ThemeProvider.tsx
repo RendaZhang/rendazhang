@@ -1,23 +1,33 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type ReactElement } from 'react';
 import { THEME_STORAGE_KEY } from '../../constants/index.ts';
 import storage from '../../utils/storage';
 import * as Sentry from '@sentry/react';
 
-const defaultContext = {
+interface ThemeContextValue {
+  darkMode: boolean;
+  toggle: () => void;
+  setTheme: (isDark: boolean) => void;
+}
+
+const defaultContext: ThemeContextValue = {
   darkMode: false,
   toggle: () => {},
-  setTheme: (_isDark) => {}
+  setTheme: (_isDark: boolean) => {}
 };
 
-const ThemeContext = createContext(defaultContext);
+const ThemeContext = createContext<ThemeContextValue>(defaultContext);
 
-export const useTheme = () => useContext(ThemeContext) || defaultContext;
+export const useTheme = (): ThemeContextValue => useContext(ThemeContext) || defaultContext;
 
-export function ThemeProvider({ children }) {
+interface ThemeProviderProps {
+  children: ReactNode;
+}
+
+export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
   // 使用 ref 跟踪初始状态是否已设置
-  const initialSet = useRef(false);
+  const initialSet = useRef<boolean>(false);
 
-  const [darkMode, setDarkMode] = useState(() => {
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
     // 从 DOM 获取初始值（由内联脚本设置）
     if (typeof window !== 'undefined') {
       return document.documentElement.dataset.initialTheme === 'dark';
@@ -73,7 +83,7 @@ export function ThemeProvider({ children }) {
   }, [darkMode]);
 
   const toggle = () => setDarkMode((prev) => !prev);
-  const setTheme = (isDark) => setDarkMode(Boolean(isDark));
+  const setTheme = (isDark: boolean) => setDarkMode(Boolean(isDark));
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggle, setTheme }}>{children}</ThemeContext.Provider>

@@ -1,4 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  type ReactElement
+} from 'react';
 import {
   HOME_PAGE_PATH,
   CHAT_PAGE_PATH,
@@ -9,21 +14,21 @@ import { NAV_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';
 
-export default function HamburgerMenu() {
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef(null);
+export default function HamburgerMenu(): ReactElement {
+  const [open, setOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { lang } = useLanguage();
 
   const textsEn = NAV_CONTENT.en.drawer;
   const textsZh = NAV_CONTENT.zh.drawer;
 
   useEffect(() => {
-    function handleClickOutside(e) {
+    function handleClickOutside(e: MouseEvent) {
       if (
         open &&
         menuRef.current &&
-        !menuRef.current.contains(e.target) &&
-        !e.target.closest('.hamburger-btn')
+        !menuRef.current.contains(e.target as Node) &&
+        !(e.target as Element).closest('.hamburger-btn')
       ) {
         setOpen(false);
       }
@@ -32,7 +37,7 @@ export default function HamburgerMenu() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [open]);
 
-  const items = [
+  const items: { href: string; key: keyof typeof textsEn }[] = [
     { href: HOME_PAGE_PATH, key: 'home' },
     { href: CHAT_PAGE_PATH, key: 'chat' },
     { href: CERTIFICATIONS_PAGE_PATH, key: 'certs' },
@@ -43,7 +48,7 @@ export default function HamburgerMenu() {
     <>
       <button
         className={`hamburger-btn${open ? ' open' : ''}`}
-        aria-label={NAV_CONTENT[lang]?.menu || 'Menu'}
+        aria-label={NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.menu || 'Menu'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -51,7 +56,10 @@ export default function HamburgerMenu() {
         <span />
         <span />
       </button>
-      <div className={`side-menu-overlay${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
+      <div
+        className={`side-menu-overlay${open ? ' open' : ''}`}
+        onClick={() => setOpen(false)}
+      />
       <div ref={menuRef} className={`side-menu${open ? ' open' : ''}`}>
         {items.map((item) => (
           <a key={item.key} href={item.href} onClick={() => setOpen(false)}>

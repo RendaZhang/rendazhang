@@ -1,16 +1,27 @@
-import { createContext, useState, useEffect, useContext, useRef } from 'react';
+import { createContext, useState, useEffect, useContext, useRef, type ReactNode, type ReactElement } from 'react';
 import { LANG_STORAGE_KEY } from '../../constants/index.ts';
 import storage from '../../utils/storage';
+import * as Sentry from '@sentry/react';
 
-const I18nContext = createContext();
+interface I18nContextValue {
+  lang: string;
+  updateLang: (newLang: string) => void;
+}
 
-export function I18nProvider({ children, initialLang }) {
-  const initialSet = useRef(false);
+const I18nContext = createContext<I18nContextValue | undefined>(undefined);
+
+interface I18nProviderProps {
+  children: ReactNode;
+  initialLang?: string;
+}
+
+export function I18nProvider({ children, initialLang }: I18nProviderProps): ReactElement {
+  const initialSet = useRef<boolean>(false);
 
   // Use the server-rendered language as the initial state to avoid
   // hydration mismatches. The actual preferred language will be
   // resolved on the client in the effect below.
-  const [lang, setLang] = useState(initialLang || 'zh-CN');
+  const [lang, setLang] = useState<string>(initialLang || 'zh-CN');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -23,7 +34,7 @@ export function I18nProvider({ children, initialLang }) {
         document.documentElement.lang ||
         initialLang ||
         'zh-CN';
-      let storedLang = null;
+      let storedLang: string | null = null;
       try {
         storedLang = storage.get(LANG_STORAGE_KEY);
         console.log('I18nProvider storedLang: ' + storedLang);
@@ -61,14 +72,14 @@ export function I18nProvider({ children, initialLang }) {
     window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
   }, [lang, initialLang]);
 
-  const updateLang = (newLang) => {
+  const updateLang = (newLang: string) => {
     setLang(newLang);
   };
 
   return <I18nContext.Provider value={{ lang, updateLang }}>{children}</I18nContext.Provider>;
 }
 
-export function useLanguage() {
+export function useLanguage(): I18nContextValue {
   const context = useContext(I18nContext);
 
   const getDomLang = () => {
@@ -76,21 +87,21 @@ export function useLanguage() {
     return document.documentElement.dataset.initialLang || document.documentElement.lang || 'zh-CN';
   };
 
-  const [lang, setLang] = useState(() => context?.lang || getDomLang());
+  const [lang, setLang] = useState<string>(() => context?.lang || getDomLang());
 
   useEffect(() => {
     if (context) {
       setLang(context.lang);
       return;
     }
-    const handler = (e) => setLang(e.detail);
-    window.addEventListener('langChanged', handler);
-    return () => window.removeEventListener('langChanged', handler);
+    const handler = (e: Event) => setLang((e as CustomEvent<string>).detail);
+    window.addEventListener('langChanged', handler as EventListener);
+    return () => window.removeEventListener('langChanged', handler as EventListener);
   }, [context]);
 
   const updateLang =
     context?.updateLang ||
-    ((newLang) => {
+    ((newLang: string) => {
       setLang(newLang);
       if (typeof document !== 'undefined') {
         document.documentElement.lang = newLang;
