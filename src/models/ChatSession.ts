@@ -1,8 +1,5 @@
 import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../constants/index';
-export interface ChatMessage {
-  role: string;
-  content: string;
-}
+import type { ChatMessage } from '../types/chat';
 
 class ChatSession {
   private history: ChatMessage[];

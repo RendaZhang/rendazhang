@@ -8,5 +8,5 @@ export * from './layouts';
 export * from './models';
 export * from './scripts';
 export * from './services';
+export * from './types';
 export * from './utils';
-export * from './sentry.client.config';

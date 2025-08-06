@@ -1,6 +1,21 @@
 import { LocalizedSection } from '../ui';
 
-export default function LoadingIndicator({ isError, textsZh, textsEn }) {
+interface LoadingTexts {
+  coreLoadFailed: string;
+  loading: string;
+}
+
+interface LoadingIndicatorProps {
+  isError: boolean;
+  textsZh: LoadingTexts;
+  textsEn: LoadingTexts;
+}
+
+export default function LoadingIndicator({
+  isError,
+  textsZh,
+  textsEn
+}: LoadingIndicatorProps) {
   return (
     <div id="loading-indicator" className="loading-indicator">
       {isError ? (

@@ -1,4 +1,19 @@
 import { LocalizedSection } from '../ui';
+import type { ChatCallback, InputTexts } from '../../types/chat';
+import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
+
+interface ChatInputProps {
+  value: string;
+  onChange: (val: string) => void;
+  onSend: ChatCallback;
+  onReset: ChatCallback;
+  onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
+  disabled: boolean;
+  placeholder: string;
+  inputRef: RefObject<HTMLTextAreaElement | null>;
+  textsZh: InputTexts;
+  textsEn: InputTexts;
+}
 
 export default function ChatInput({
   value,
@@ -11,18 +26,18 @@ export default function ChatInput({
   inputRef,
   textsZh,
   textsEn
-}) {
+}: ChatInputProps) {
   return (
     <div className="input-area">
       <textarea
         id="message-input"
         ref={inputRef}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         disabled={disabled}
         placeholder={placeholder}
-        rows="1"
+        rows={1}
         autoFocus
       ></textarea>
       <div className="btn-container">

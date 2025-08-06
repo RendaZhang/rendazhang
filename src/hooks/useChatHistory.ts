@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { STORAGE_KEY, ROLES } from '../constants/index';
 import { storage } from '../utils/index';
-import ChatSession, { type ChatMessage } from '../models/ChatSession.ts';
+import ChatSession from '../models/ChatSession.ts';
+import type { ChatMessage } from '../types/chat';
 
 interface UseChatHistory {
   messages: ChatMessage[];

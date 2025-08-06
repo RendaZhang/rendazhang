@@ -1,5 +1,15 @@
-import AIMessage from './AIMessage.jsx';
+import AIMessage from './AIMessage';
 import { ROLES } from '../../constants/index.ts';
+import type { ChatMessage, ChatCallback, CopyTexts } from '../../types/chat';
+
+interface ChatMessageListProps {
+  messages: ChatMessage[];
+  isSending: boolean;
+  librariesLoaded: boolean;
+  textsZh: CopyTexts;
+  textsEn: CopyTexts;
+  onRendered?: ChatCallback;
+}
 
 export default function ChatMessageList({
   messages,
@@ -8,7 +18,7 @@ export default function ChatMessageList({
   textsZh,
   textsEn,
   onRendered
-}) {
+}: ChatMessageListProps) {
   return messages.map((msg, idx) => {
     if (msg.role === ROLES.AI) {
       const streaming = isSending && idx === messages.length - 1;

@@ -1,14 +1,30 @@
 import { useState } from 'react';
+import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
 import { UI_DURATIONS } from '../../constants/index.ts';
 import { LocalizedSection } from '../ui';
+import type { ChatCallback, CopyTexts } from '../../types/chat';
 
-export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn }) {
+interface AIMessageProps {
+  text: string;
+  enhance: boolean;
+  onRendered?: ChatCallback;
+  textsZh: CopyTexts;
+  textsEn: CopyTexts;
+}
+
+export default function AIMessage({
+  text,
+  enhance,
+  onRendered,
+  textsZh,
+  textsEn
+}: AIMessageProps) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
 
-  const handleCopy = (e) => {
+  const handleCopy = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     navigator.clipboard.writeText(text).then(() => {
       setIsCopied(true);

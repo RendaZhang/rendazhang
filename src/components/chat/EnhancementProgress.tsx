@@ -1,6 +1,23 @@
 import { LocalizedSection } from '../ui';
+import type { RefObject } from 'react';
 
-export default function EnhancementProgress({ show, innerRef, textsZh, textsEn }) {
+interface EnhancementTexts {
+  enhancementProgress: string;
+}
+
+interface EnhancementProgressProps {
+  show: boolean;
+  innerRef: RefObject<HTMLDivElement | null>;
+  textsZh: EnhancementTexts;
+  textsEn: EnhancementTexts;
+}
+
+export default function EnhancementProgress({
+  show,
+  innerRef,
+  textsZh,
+  textsEn
+}: EnhancementProgressProps) {
   if (!show) return null;
   return (
     <div id="enhancement-progress" className="fixed-bottom-right" ref={innerRef}>

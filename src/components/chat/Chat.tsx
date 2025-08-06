@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import type { KeyboardEvent } from 'react';
 // Core libraries will be loaded dynamically to allow graceful fallback
 // if the resources fail to load.
 import { sendMessageToAI, resetChat } from '../../services';
@@ -7,13 +8,17 @@ import { SCRIPT_TIMEOUTS, UI_DURATIONS, SCRIPT_PATHS, ROLES } from '../../consta
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';
-import ChatMessageList from './ChatMessageList.jsx';
-import ChatInput from './ChatInput.jsx';
-import LoadingIndicator from './LoadingIndicator.jsx';
-import TypingIndicator from './TypingIndicator.jsx';
-import EnhancementProgress from './EnhancementProgress.jsx';
+import ChatMessageList from './ChatMessageList';
+import ChatInput from './ChatInput';
+import LoadingIndicator from './LoadingIndicator';
+import TypingIndicator from './TypingIndicator';
+import EnhancementProgress from './EnhancementProgress';
 
-export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
+interface ChatProps {
+  texts?: typeof DEEPSEEK_CHAT_CONTENT;
+}
+
+export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const textsZh = texts.zh;
@@ -29,12 +34,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
   const [coreLoaded, setCoreLoaded] = useState(false); // core libs ready
   const [coreLoadError, setCoreLoadError] = useState(false); // core libs failed
   const [placeholder, setPlaceholder] = useState('');
-  const chatContainerRef = useRef(null);
-  const messageInputRef = useRef(null);
-  const typingIndicatorRef = useRef(null);
-  const enhancementProgressRef = useRef(null); // New: ref for progress div
-  const loadedScriptsRef = useRef(new Map());
-  const coreLoadAttemptedRef = useRef(false);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
+  const enhancementProgressRef = useRef<HTMLDivElement | null>(null); // New: ref for progress div
+  const loadedScriptsRef = useRef<Map<string, boolean>>(new Map());
+  const coreLoadAttemptedRef = useRef<boolean>(false);
 
   // Load core markdown libraries first (ensure single execution even in React Strict Mode)
   useEffect(() => {
@@ -142,7 +147,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
       });
   };
 
-  const loadScript = (src, timeout = SCRIPT_TIMEOUTS.DEFAULT) => {
+  const loadScript = (src: string, timeout: number = SCRIPT_TIMEOUTS.DEFAULT): Promise<void> => {
     if (loadedScriptsRef.current.has(src)) return Promise.resolve();
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
@@ -171,7 +176,9 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
     addMessage(ROLES.USER, message);
     setInput('');
     setIsSending(true);
-    typingIndicatorRef.current.style.display = 'block';
+    if (typingIndicatorRef.current) {
+      typingIndicatorRef.current.style.display = 'block';
+    }
     scrollToBottom();
 
     try {
@@ -196,10 +203,13 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
         return updated;
       });
     } catch (error) {
-      addMessage(ROLES.AI, `Error: ${error.message}`);
+      const err = error as Error;
+      addMessage(ROLES.AI, `Error: ${err.message}`);
     } finally {
       setIsSending(false);
-      typingIndicatorRef.current.style.display = 'none';
+      if (typingIndicatorRef.current) {
+        typingIndicatorRef.current.style.display = 'none';
+      }
       scrollToBottom();
     }
   };
@@ -210,12 +220,13 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }) {
         await resetChat();
         clearHistory();
       } catch (error) {
-        alert(`${activeTexts.resetFailedPrefix}: ${error.message}`);
+        const err = error as Error;
+        alert(`${activeTexts.resetFailedPrefix}: ${err.message}`);
       }
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();

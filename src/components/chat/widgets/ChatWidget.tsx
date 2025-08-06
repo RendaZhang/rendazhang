@@ -6,9 +6,9 @@ import {
   ICON_SIZES
 } from '../../../constants/index.ts';
 
-const loadedStyles = new Set();
+const loadedStyles = new Set<string>();
 
-function loadStyle(href) {
+function loadStyle(href: string): void {
   if (loadedStyles.has(href) || document.querySelector(`link[href="${href}"]`)) {
     return;
   }
@@ -19,7 +19,11 @@ function loadStyle(href) {
   loadedStyles.add(href);
 }
 
-function RobotIcon({ size = ICON_SIZES.DEFAULT }) {
+interface IconProps {
+  size?: number;
+}
+
+function RobotIcon({ size = ICON_SIZES.DEFAULT }: IconProps) {
   return (
     <svg
       width={size}
@@ -40,7 +44,7 @@ function RobotIcon({ size = ICON_SIZES.DEFAULT }) {
   );
 }
 
-function CloseIcon({ size = ICON_SIZES.DEFAULT }) {
+function CloseIcon({ size = ICON_SIZES.DEFAULT }: IconProps) {
   return (
     <svg
       width={size}
@@ -58,7 +62,11 @@ function CloseIcon({ size = ICON_SIZES.DEFAULT }) {
   );
 }
 
-export default function ChatWidget({ defaultOpen = false }) {
+interface ChatWidgetProps {
+  defaultOpen?: boolean;
+}
+
+export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [loaded, setLoaded] = useState(defaultOpen);
 
