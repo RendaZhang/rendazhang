@@ -13,11 +13,22 @@ async function generate(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const dirs = [];
   const files = [];
+  let skipCurrent = false;
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
       dirs.push(entry.name);
     } else if (entry.isFile()) {
+      if (entry.name === 'index.ts') {
+        try {
+          const indexContent = await readFile(path.join(dir, entry.name), 'utf8');
+          if (/@ts-nocheck/.test(indexContent)) {
+            skipCurrent = true;
+          }
+        } catch {}
+        continue;
+      }
+
       const ext = path.extname(entry.name).toLowerCase();
       if (!JS_EXTS.has(ext)) continue;
       if (/\.d\.ts$/.test(entry.name)) continue;
@@ -62,6 +73,14 @@ async function generate(dir) {
       const relTs = './' + path.posix.join(d, 'index.js');
       linesTs.push(`export * from '${relTs}';`);
     }
+    if (!hasJs && hasTs) {
+      const relJs = './' + path.posix.join(d, 'index.ts');
+      linesJs.push(`export * from '${relJs}';`);
+    }
+  }
+
+  if (skipCurrent) {
+    return;
   }
 
   for (const file of files) {
