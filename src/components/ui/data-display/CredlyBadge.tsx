@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState, type IframeHTMLAttributes, type ReactElement } from 'react';
 import { CREDLY_HOST, CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME } from '../../../constants';
 
+interface CompleteIframe extends HTMLIFrameElement {
+  complete: boolean;
+}
+
+const hasComplete = (iframe: HTMLIFrameElement): iframe is CompleteIframe => 'complete' in iframe;
+
 export default function CredlyBadge(): ReactElement {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -9,7 +15,7 @@ export default function CredlyBadge(): ReactElement {
     const iframe = iframeRef.current;
     if (!iframe) return;
     const handle = () => setLoaded(true);
-    if (iframe.contentDocument?.readyState === 'complete') {
+    if (hasComplete(iframe) && iframe.complete) {
       handle();
       return;
     }

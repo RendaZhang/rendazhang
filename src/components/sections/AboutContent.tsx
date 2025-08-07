@@ -19,13 +19,13 @@ export default function AboutContent(): ReactElement {
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const contentEn = ABOUT_CONTENT.en;
   const contentZh = ABOUT_CONTENT.zh;
-  type ExperienceEntry = {
+  interface ExperienceEntry {
     period: string;
     company: string;
     title: string;
     summary?: string;
     bullets?: string[];
-  };
+  }
   const experienceZh = contentZh.experience.entries as ReadonlyArray<ExperienceEntry>;
   const experienceEn = contentEn.experience.entries as ReadonlyArray<ExperienceEntry>;
   const isZh = langKey === 'zh';

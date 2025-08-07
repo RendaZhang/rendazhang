@@ -23,8 +23,10 @@ interface RegisterFormValues extends Record<string, unknown> {
 type FormStatus = 'idle' | 'loading' | 'success';
 type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
 
+type RegisterTexts = typeof REGISTER_CONTENT;
+
 interface RegisterFormProps {
-  texts?: typeof REGISTER_CONTENT;
+  texts?: RegisterTexts;
 }
 
 interface RegisterPlaceholders {
