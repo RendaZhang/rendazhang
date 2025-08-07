@@ -14,20 +14,6 @@ const mode = process.env.NODE_ENV || 'production';
 const env = loadEnv(mode, process.cwd(), '');
 process.env = { ...process.env, ...env };
 
-// Required environment variables
-const required = [
-  'PUBLIC_SENTRY_DSN',
-  'PUBLIC_SITE_BASE_URL',
-  'PUBLIC_CDN_BASE',
-  'PUBLIC_TAG_NAME',
-  'SENTRY_AUTH_TOKEN',
-  'SENTRY_ORG',
-  'SENTRY_PROJECT'
-];
-for (const key of required) {
-  if (!process.env[key]) throw new Error(`Missing env: ${key}`);
-}
-
 const PUBLIC_API_BASE_URL = process.env.PUBLIC_API_BASE_URL;
 const PUBLIC_CDN_BASE = process.env.PUBLIC_CDN_BASE;
 const PUBLIC_NODE_ENV = process.env.PUBLIC_NODE_ENV;
