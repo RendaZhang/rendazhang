@@ -58,14 +58,11 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
   });
 
   useEffect(() => {
-    const ph =
-      ((texts[langKey] && texts[langKey].placeholders) || {}) as PlaceholderTexts;
+    const ph = ((texts[langKey] && texts[langKey].placeholders) || {}) as PlaceholderTexts;
     setPlaceholders(ph);
   }, [langKey, texts]);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   };
@@ -80,9 +77,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
     setStatus('loading');
     setError('');
     try {
-        const body = new URLSearchParams(
-          form as unknown as Record<string, string>
-        ).toString();
+      const body = new URLSearchParams(form as unknown as Record<string, string>).toString();
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: 'POST',
         headers: {

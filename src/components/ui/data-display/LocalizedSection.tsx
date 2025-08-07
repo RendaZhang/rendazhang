@@ -5,7 +5,10 @@ interface LocalizedSectionProps {
   enContent: ReactNode;
 }
 
-export default function LocalizedSection({ zhContent, enContent }: LocalizedSectionProps): ReactElement {
+export default function LocalizedSection({
+  zhContent,
+  enContent
+}: LocalizedSectionProps): ReactElement {
   return (
     <>
       <span className="lang-zh">{zhContent}</span>

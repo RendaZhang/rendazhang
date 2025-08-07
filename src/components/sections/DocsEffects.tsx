@@ -53,7 +53,9 @@ export default function DocsEffects(): null {
       mermaid.initialize({ startOnLoad: false });
       const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
       const mermaidSelector =
-        lang.indexOf('zh') === 0 ? '#content-zh .language-mermaid' : '#content-en .language-mermaid';
+        lang.indexOf('zh') === 0
+          ? '#content-zh .language-mermaid'
+          : '#content-en .language-mermaid';
       mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
       console.log('All enhancements applied');
     } catch (e) {

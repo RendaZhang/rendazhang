@@ -11,11 +11,7 @@ interface LoadingIndicatorProps {
   textsEn: LoadingTexts;
 }
 
-export default function LoadingIndicator({
-  isError,
-  textsZh,
-  textsEn
-}: LoadingIndicatorProps) {
+export default function LoadingIndicator({ isError, textsZh, textsEn }: LoadingIndicatorProps) {
   return (
     <div id="loading-indicator" className="loading-indicator">
       {isError ? (

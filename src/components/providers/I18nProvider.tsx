@@ -1,4 +1,12 @@
-import { createContext, useState, useEffect, useContext, useRef, type ReactNode, type ReactElement } from 'react';
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  type ReactNode,
+  type ReactElement
+} from 'react';
 import { LANG_STORAGE_KEY } from '../../constants';
 import storage from '../../utils/storage';
 import * as Sentry from '@sentry/react';

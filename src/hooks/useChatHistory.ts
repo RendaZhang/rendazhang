@@ -7,9 +7,7 @@ import type { ChatMessage } from '../types/chat';
 interface UseChatHistory {
   messages: ChatMessage[];
   addMessage: (role: string, content: string) => ChatMessage[];
-  setMessages: (
-    updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])
-  ) => ChatMessage[];
+  setMessages: (updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => ChatMessage[];
   clearHistory: () => void;
 }
 

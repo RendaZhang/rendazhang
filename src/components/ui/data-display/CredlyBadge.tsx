@@ -1,15 +1,5 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type IframeHTMLAttributes,
-  type ReactElement
-} from 'react';
-import {
-  CREDLY_HOST,
-  CREDLY_BADGE_ID,
-  CREDLY_EMBED_IFRAME
-} from '../../../constants';
+import { useEffect, useRef, useState, type IframeHTMLAttributes, type ReactElement } from 'react';
+import { CREDLY_HOST, CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME } from '../../../constants';
 
 export default function CredlyBadge(): ReactElement {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);

@@ -1,9 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  type ReactElement
-} from 'react';
+import { useState, useEffect, useRef, type ReactElement } from 'react';
 import {
   HOME_PAGE_PATH,
   CHAT_PAGE_PATH,
@@ -56,10 +51,7 @@ export default function HamburgerMenu(): ReactElement {
         <span />
         <span />
       </button>
-      <div
-        className={`side-menu-overlay${open ? ' open' : ''}`}
-        onClick={() => setOpen(false)}
-      />
+      <div className={`side-menu-overlay${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
       <div ref={menuRef} className={`side-menu${open ? ' open' : ''}`}>
         {items.map((item) => (
           <a key={item.key} href={item.href} onClick={() => setOpen(false)}>

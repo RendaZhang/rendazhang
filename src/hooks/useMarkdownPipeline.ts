@@ -20,7 +20,9 @@ export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): voi
 
 async function renderMermaidDiagrams(container: HTMLElement | null): Promise<void> {
   if (!container) return;
-  const blocks = container.querySelectorAll<HTMLElement>('pre code.language-mermaid, pre code.mermaid');
+  const blocks = container.querySelectorAll<HTMLElement>(
+    'pre code.language-mermaid, pre code.mermaid'
+  );
   for (const block of Array.from(blocks)) {
     const pre = block.parentElement as HTMLElement;
     const code = block.textContent || '';

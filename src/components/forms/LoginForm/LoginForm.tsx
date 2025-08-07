@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import {
-  HOME_PAGE_PATH,
-  REGISTER_PAGE_PATH,
-  LOADING_TEXT,
-  AUTH_TIMINGS
-} from '../../../constants';
+import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';

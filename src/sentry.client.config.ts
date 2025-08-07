@@ -21,10 +21,8 @@ Sentry.init({
       console.log('Sentry event filtered in production env: ' + hint.originalException);
     }
     // 过滤浏览器扩展错误
-    const isExtensionError = event.exception?.values?.some(
-      value => value.stacktrace?.frames?.some(
-        frame => frame.filename?.includes('chrome-extension:')
-      )
+    const isExtensionError = event.exception?.values?.some((value) =>
+      value.stacktrace?.frames?.some((frame) => frame.filename?.includes('chrome-extension:'))
     );
     if (isExtensionError) {
       return null;

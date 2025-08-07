@@ -1,10 +1,5 @@
 import { useState, useRef, useEffect, type ReactElement } from 'react';
-import {
-  SITE_BASE_URL,
-  SOCIAL_ICON_PATHS,
-  SOCIAL_LINKS,
-  IMAGE_PATHS
-} from '../../../constants';
+import { SITE_BASE_URL, SOCIAL_ICON_PATHS, SOCIAL_LINKS, IMAGE_PATHS } from '../../../constants';
 
 interface SocialIconProps {
   href: string;

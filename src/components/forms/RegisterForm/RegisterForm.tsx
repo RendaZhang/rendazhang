@@ -77,9 +77,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const { email, username, password, confirm, agree } = values;
 
   useEffect(() => {
-    const saved = storage.get(REGISTER_DRAFT_KEY) as
-      | Partial<RegisterFormValues>
-      | null;
+    const saved = storage.get(REGISTER_DRAFT_KEY) as Partial<RegisterFormValues> | null;
     if (saved) {
       handleChange('email', saved.email || '');
       handleChange('username', saved.username || '');
@@ -109,8 +107,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   }, [password]);
 
   const canSubmit: boolean =
-    Boolean(email && username && password && confirm && agree) &&
-    Object.keys(errors).length === 0;
+    Boolean(email && username && password && confirm && agree) && Object.keys(errors).length === 0;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

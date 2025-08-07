@@ -13,13 +13,7 @@ interface AIMessageProps {
   textsEn: CopyTexts;
 }
 
-export default function AIMessage({
-  text,
-  enhance,
-  onRendered,
-  textsZh,
-  textsEn
-}: AIMessageProps) {
+export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn }: AIMessageProps) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
