@@ -16,8 +16,61 @@ import {
   TWITTER_HANDLE,
   LANG_STORAGE_KEY,
   THEME_STORAGE_KEY
-} from '../constants/index.js';
+} from '../constants';
+import { isProduction } from '../utils/env';
 import '../styles/theme.css';
+
+interface OpenGraphProps {
+  title?: string;
+  description?: string;
+  url?: string;
+  type?: string;
+  image?: string;
+  site_name?: string;
+  imageWidth?: string;
+  imageHeight?: string;
+  imageAlt?: string;
+  imageType?: string;
+  secureImageUrl?: string;
+}
+
+interface TwitterCardProps {
+  card?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  site?: string;
+  creator?: string;
+  url?: string;
+  domain?: string;
+}
+
+export interface BaseLayoutProps {
+  lang?: string;
+  title?: string;
+  titleZh?: string;
+  titleEn?: string;
+  description?: string;
+  viewport?: string;
+  canonical?: string;
+  personSchemaJson?: string;
+  extraStyles?: Array<string | URL>;
+  preloadStyles?: Array<string | URL>;
+  extraScripts?: string[];
+  showNav?: boolean;
+  showFooter?: boolean;
+  bodyClass?: string;
+  mainClass?: string;
+  bodyAttrs?: Record<string, unknown>;
+  mainAttrs?: Record<string, unknown>;
+  og?: OpenGraphProps;
+  twitter?: TwitterCardProps;
+  includeGeo?: boolean;
+  metaRobots?: string;
+  metaLanguage?: string;
+  metaAuthor?: string;
+}
 
 const {
   lang: langProp,
@@ -43,7 +96,7 @@ const {
   metaRobots = 'index, follow',
   metaLanguage = '',
   metaAuthor = ''
-} = Astro.props;
+}: BaseLayoutProps = Astro.props;
 
 const lang = langProp || 'zh-CN';
 const initialLang = lang;
@@ -51,6 +104,7 @@ const effectiveTitleZh = titleZh || title;
 const effectiveTitleEn = titleEn || title;
 const initialTitle = initialLang.startsWith('zh') ? effectiveTitleZh : effectiveTitleEn;
 
+const IS_PROD = isProduction();
 const jsonLD = personSchemaJson;
 const ogDefaults = {
   title,
@@ -95,10 +149,14 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         themeKey: THEME_STORAGE_KEY,
         langKey: LANG_STORAGE_KEY,
         titleZh: effectiveTitleZh,
-        titleEn: effectiveTitleEn
+        titleEn: effectiveTitleEn,
+        isProd: IS_PROD
       }}
     >
       (function () {
+        const log = (...args) => {
+          if (!isProd) console.log(...args);
+        };
         // 挂载全局存储辅助函数
         // 单例检查：确保只初始化一次
         if (window.__storageInitialized) return;
@@ -136,9 +194,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
             // 如果无存储值，检测系统偏好
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const shouldUseDarkMode = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
-            console.log('BaseLayout inline script storedTheme: ' + storedTheme);
-            console.log('BaseLayout inline script systemPrefersDark: ' + systemPrefersDark);
-            console.log('BaseLayout inline script shouldUseDarkMode: ' + shouldUseDarkMode);
+            log('BaseLayout inline script storedTheme: ' + storedTheme);
+            log('BaseLayout inline script systemPrefersDark: ' + systemPrefersDark);
+            log('BaseLayout inline script shouldUseDarkMode: ' + shouldUseDarkMode);
             // 立即应用避免闪烁
             if (shouldUseDarkMode) {
               document.documentElement.classList.add('dark-mode');
@@ -158,9 +216,9 @@ const twitterProps = { ...twitterDefaults, ...twitter };
             const storedLang = window.__storageHelper.get(langKey);
             const docLang = document.documentElement.getAttribute('lang') || 'zh-CN';
             const lang = storedLang || docLang;
-            console.log('BaseLayout inline script storedLang: ' + storedLang);
-            console.log('BaseLayout inline script docLang: ' + docLang);
-            console.log('BaseLayout inline script lang: ' + lang);
+            log('BaseLayout inline script storedLang: ' + storedLang);
+            log('BaseLayout inline script docLang: ' + docLang);
+            log('BaseLayout inline script lang: ' + lang);
             // 立即设置
             document.documentElement.lang = lang;
             // Keep the server-rendered language as the initialLang value so that
@@ -257,15 +315,11 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     {twitterProps.domain && <meta name="twitter:domain" content={twitterProps.domain} />}
     <script type="application/ld+json" is:inline set:html={jsonLD} />
     {
-      preloadStyles.map((href: string | URL | null | undefined) => (
-        <link rel="preload" href={href} as="style" />
-      ))
+      preloadStyles
+        .filter(Boolean)
+        .map((href: string | URL) => <link rel="preload" href={href} as="style" />)
     }
-    {
-      extraStyles.map((href: string | URL | null | undefined) => (
-        <link rel="stylesheet" href={href} />
-      ))
-    }
+    {extraStyles.filter(Boolean).map((href: string | URL) => <link rel="stylesheet" href={href} />)}
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
@@ -276,6 +330,6 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       <slot name="bodyEnd" />
       {showFooter && <slot name="footer" />}
     </NavBarWrapper>
-    {extraScripts.map((src: string | null | undefined) => <script is:inline defer src={src} />)}
+    {extraScripts.filter(Boolean).map((src: string) => <script is:inline defer src={src} />)}
   </body>
 </html>

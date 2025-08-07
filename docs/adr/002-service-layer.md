@@ -13,7 +13,7 @@
 # ADR 002: Service Layer Abstraction
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
@@ -31,7 +31,7 @@ API requests were scattered across UI components which made error handling and m
 
 ## Decision
 
-Introduce a dedicated service layer and API client utility. All network requests are centralized in `src/services` and constants such as API endpoints are defined in `src/constants/api.js`.
+Introduce a dedicated service layer and API client utility. All network requests are centralized in `src/services` and constants such as API endpoints are defined in `src/constants/api.ts`.
 
 Common HTTP logic lives in `apiClient.request`, which wraps `fetch` and throws descriptive errors on failure.
 

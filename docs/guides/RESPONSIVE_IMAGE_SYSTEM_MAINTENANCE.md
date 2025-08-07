@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 07, 2025, 12:08 (UTC+08:00)
 
 ---
 
@@ -83,11 +83,11 @@ project-root/
 ├── scripts/
 │   ├── image-processing/       # 图片处理核心模块
 │   │   ├── processors/         # 处理器插件
-│   │   │   ├── hero-processor.js
-│   │   │   └── gallery-processor.js
-│   │   ├── utils.js            # 通用工具函数
-│   │   └── image-generator.js  # 核心生成逻辑
-│   └── generate-images.js      # 入口脚本
+│   │   │   ├── hero-processor.ts
+│   │   │   └── gallery-processor.ts
+│   │   ├── utils.ts            # 通用工具函数
+│   │   └── image-generator.ts  # 核心生成逻辑
+│   └── generate-hero.ts      # 入口脚本
 ├── public/
 │   └── assets/
 │       ├── heroes/             # Hero 图输出
@@ -96,11 +96,11 @@ project-root/
 ├── src/
 │   ├── components/
 │   │   └── ui/
-│   │       ├── ResponsiveImage.jsx # 通用图片组件
-│   │       └── HeroImage.jsx       # Hero 专用组件
+│   │       ├── ResponsiveImage.tsx # 通用图片组件
+│   │       └── HeroImage.tsx       # Hero 专用组件
 │   ├── data/
-│   │   ├── image-hero.js       # Hero 图数据
-│   │   └── image-gallery.js    # 相册图数据
+│   │   ├── image-hero.ts       # Hero 图数据
+│   │   └── image-gallery.ts    # 相册图数据
 │   └── styles/
 │       └── responsive-image.css # 通用图片样式
 ```
@@ -111,41 +111,36 @@ project-root/
 
 ### 入口脚本
 
-`scripts/generate-images.js`
+`scripts/generate-hero.ts`
 
 ```bash
-# 处理所有图片类型
-node scripts/generate-images.js --all
+# 生成 Hero 图及其 LQIP 数据
+npx tsx scripts/generate-hero.ts
 
-# 处理特定图片类型
-node scripts/generate-images.js --type=hero
-
-# 自定义配置
-node scripts/generate-images.js \
-  --type=gallery \
-  --input-dir=scripts/images/gallery \
-  --output-dir=public/assets/gallery \
-  --widths=1200,800,400
+# 或通过 npm 脚本
+npm run generate-hero
 ```
 
 ### 配置参数
 
-| 参数 | 默认值 | 说明 |
-|------|--------|------|
-| `--type` | `hero` | 图片类型（对应处理器） |
-| `--input-dir` | `scripts/images` | 原始图目录 |
-| `--output-dir` | `public/assets` | 输出目录 |
-| `--widths` | `3840,1920,800` | 生成尺寸 |
-| `--quality` | `75` | WebP质量(1-100) |
-| `--lqip-width` | `20` | LQIP宽度(px) |
+当前脚本使用固定配置：从 `scripts/images/hero-original.jpg` 生成多尺寸图片到 `src/assets/heroes`，并在 `src/data/mainHero.ts` 写入 LQIP 数据。
+
+生成的数据文件示例：
+
+```ts
+export const MAIN_HERO = {
+  base64: '...',
+  aspectRatio: 1.5
+} as const;
+```
 
 ### 添加新处理器
 
-1. 创建处理器文件 `scripts/image-processing/processors/new-type-processor.js`
+1. 创建处理器文件 `scripts/image-processing/processors/new-type-processor.ts`
 
-```javascript
-// new-type-processor.js
-module.exports = {
+```ts
+// new-type-processor.ts
+export default {
   name: 'new-type',
 
   defaultConfig: {
@@ -153,18 +148,18 @@ module.exports = {
     lqip: { width: 16, quality: 10 }
   },
 
-  generate: async function({ inputPath, outputDir, config }) {
+  async generate({ inputPath, outputDir, config }) {
     // 自定义生成逻辑
     // 返回生成结果
   }
-}
+};
 ```
 
-1. 注册处理器 `scripts/image-processing/image-generator.js`
+1. 注册处理器 `scripts/image-processing/image-generator.ts`
 
-```javascript
+```ts
 // 添加引用
-const newTypeProcessor = require('./processors/new-type-processor');
+import newTypeProcessor from './processors/new-type-processor';
 
 // 注册处理器
 const processors = {
@@ -187,8 +182,8 @@ const processors = {
 | 输出目录 | `public/assets/heroes` | 生成图位置 |
 | 尺寸 | `[3840, 2560, 1920, 1280, 1000, 800, 400]` | 响应式尺寸 |
 | LQIP | `width:20, quality:15` | 低质量占位 |
-| 数据文件 | `src/data/image-hero.js` | LQIP数据 |
-| 组件 | `src/components/ui/HeroImage.jsx` | 专用组件 |
+| 数据文件 | `src/data/image-hero.ts` | LQIP数据 |
+| 组件 | `src/components/ui/HeroImage.tsx` | 专用组件 |
 
 ### 维护流程
 
@@ -205,11 +200,11 @@ graph TB
 
 ```bash
 # 更新Hero图
-node scripts/generate-images.js --type=hero
+npx scripts/generate-hero.ts --type=hero
 
 # 添加新Hero图
 cp new-hero.jpg scripts/images/
-node scripts/generate-images.js --type=hero --input-dir=scripts/images/new-hero.jpg
+npx scripts/generate-hero.ts --type=hero --input-dir=scripts/images/new-hero.jpg
 ```
 
 ---
@@ -218,9 +213,9 @@ node scripts/generate-images.js --type=hero --input-dir=scripts/images/new-hero.
 
 ### 基础组件
 
-`ResponsiveImage.jsx`
+`ResponsiveImage.tsx`
 
-```jsx
+```tsx
 import { useState } from 'react';
 
 export default function ResponsiveImage({
@@ -263,9 +258,9 @@ export default function ResponsiveImage({
 
 ### 专用组件示例
 
-`HeroImage.jsx`
+`HeroImage.tsx`
 
-```jsx
+```tsx
 import ResponsiveImage from './ResponsiveImage';
 
 export default function HeroImage({ children, ...props }) {
@@ -288,13 +283,19 @@ export default function HeroImage({ children, ...props }) {
 
 ### 步骤 1：创建处理器
 
-```javascript
-// gallery-processor.js
-const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs');
+```ts
+// gallery-processor.ts
+import sharp from 'sharp';
+import path from 'path';
+import fs from 'fs';
 
-module.exports = {
+export interface GalleryImageInfo {
+  imageName: string;
+  lqipBase64: string;
+  aspectRatio: number;
+}
+
+export default {
   name: 'gallery',
 
   defaultConfig: {
@@ -303,7 +304,7 @@ module.exports = {
   },
 
   generate: async function({ inputPath, outputDir, config }) {
-    const results = [];
+    const results: GalleryImageInfo[] = [];
 
     // 处理目录中所有图片
     const files = fs.readdirSync(inputPath);
@@ -343,9 +344,10 @@ module.exports = {
 
 ### 步骤 2：创建数据文件模板
 
-```javascript
-// scripts/templates/gallery-data-template.js
-module.exports = results => `
+```ts
+// scripts/templates/gallery-data-template.ts
+import type { GalleryImageInfo } from '../image-processing/processors/gallery-processor';
+export default (results: GalleryImageInfo[]) => `
 // 自动生成的图库数据
 export const galleryData = {
   ${results.map(item => `
@@ -359,7 +361,7 @@ export const galleryData = {
 
 ### 步骤 3：在前端使用
 
-```jsx
+```tsx
 import { ResponsiveImage } from '@/components/ui';
 import { galleryData } from '@/data/image-gallery';
 
@@ -403,7 +405,7 @@ function GalleryItem({ imageName }) {
        steps:
          - uses: actions/checkout@v3
          - run: npm install
-         - run: node scripts/generate-images.js --all
+         - run: npx scripts/generate-hero.ts --all
          - uses: actions/upload-artifact@v3
            with:
              name: generated-images
@@ -447,9 +449,6 @@ graph LR
 # 检查图片信息
 npx sharp inspect public/assets/heroes/hero-main-1920w.webp
 
-# 性能分析
-node --cpu-prof scripts/generate-images.js --type=hero
-
 # 尺寸适配测试
 npx responsively-app
 ```
@@ -461,7 +460,7 @@ npx responsively-app
 ### 高级特性规划
 
 1. **智能裁剪**：
-   ```javascript
+   ```ts
    // 在处理器中添加
    .resize(width, height, {
      position: 'attention', // 基于 AI 焦点
@@ -470,14 +469,14 @@ npx responsively-app
    ```
 
 2. **CDN 集成**：
-   ```javascript
+   ```ts
    // 生成后自动上传
-   const uploadToCDN = require('./cdn-uploader');
+   import uploadToCDN from './cdn-uploader';
    await uploadToCDN(outputFile);
    ```
 
 3. **动态图片优化**：
-   ```jsx
+   ```tsx
    <ResponsiveImage
      dynamicSizes={[
        { viewport: 1200, size: '100vw' },

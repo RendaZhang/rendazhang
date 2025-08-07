@@ -51,13 +51,14 @@
     - [BUG-043: LocalStorage 新旧格式兼容性问题](#bug-043-localstorage-%E6%96%B0%E6%97%A7%E6%A0%BC%E5%BC%8F%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98)
     - [BUG-044: 主题初始化脚本执行延迟导致闪烁](#bug-044-%E4%B8%BB%E9%A2%98%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E5%BB%B6%E8%BF%9F%E5%AF%BC%E8%87%B4%E9%97%AA%E7%83%81)
     - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
+    - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 16:19 (UTC+08:00)
+- **最后更新**: August 07, 2025, 17:08 (UTC+08:00)
 
 ---
 
@@ -115,7 +116,7 @@
   - 将 Mermaid 渲染移出 React 生命周期控制
   - 添加渲染状态持久化机制
 - **相关代码**：
-  ```jsx
+  ```tsx
   // AIMessage 组件修改
   const contentRef = useRef(null);
   useEffect(() => {
@@ -141,7 +142,7 @@
   - 在高亮逻辑中忽略 `.language-mermaid` 区块
 - **验证结果**：✅ WARN 消失，Mermaid 渲染正常
 - **相关代码**：
-  ```jsx
+  ```tsx
   document.querySelectorAll('pre code:not(.language-mermaid)').forEach(block => {
     hljs.highlightElement(block);
   });
@@ -221,7 +222,7 @@
   - 修改 `ThemeContext` 默认值结构防止解构报错
 - **验证结果**：✅ 未包裹 Provider 时按钮失效但不崩溃
 - **相关代码**：
-  ```jsx
+  ```tsx
   // 修改前
   const defaultContext = undefined;
 
@@ -309,7 +310,7 @@
 - **关键脚本**：
   ```html
   <script is:inline type="module">
-    import storage from '/src/utils/storage.js';
+    import storage from '/src/utils/storage';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');
@@ -334,7 +335,7 @@
   3. 添加 mounted ref 跳过首次副作用
 - **验证结果**：✅ 无闪烁无水合错误
 - **核心逻辑**：
-  ```jsx
+  ```tsx
   const [darkMode, setDarkMode] = useState(false); // SSR统一值
   const mounted = useRef(false);
 
@@ -383,7 +384,7 @@
   - 构建日志报 `document is not defined`
   - 终止于 `/about/index.html`
 - **根本原因**：
-  - `ContactSection.jsx` 在服务端渲染阶段调用 `document` 和 `window`
+  - `ContactSection.tsx` 在服务端渲染阶段调用 `document` 和 `window`
 - **解决方案**：
   - 检查 `document` 和 `window` 是否存在后再访问
   - 服务器端返回空内容，客户端加载后再根据语言注入数据
@@ -637,7 +638,7 @@
   - 表单组件位于 `src/components/forms/...`，相对路径应为 `../../../hooks`
   - 重构后遗漏更新，导致导入路径错误
 - **解决方案**：
-  - 更新 `LoginForm.jsx` 与 `RegisterForm.jsx` 中的导入路径
+  - 更新 `LoginForm.tsx` 与 `RegisterForm.tsx` 中的导入路径
   - 检查其他文件确保路径正确
 - **验证结果**：✅ 路径修正后构建通过
 
@@ -685,11 +686,11 @@
   - `astro.config.mjs` 中的 `vite.define` 配置未生效
   - 环境变量未在构建时正确传递
 - **解决方案**：
-  1. 使用 `src/utils/env.js` 提供的 `getEnv()` 接口
+  1. 使用 `src/utils/env.ts` 提供的 `getEnv()` 接口
   2. 在构建步骤中通过 `dotenv` 加载环境变量
   3. 修改 `astro.config.mjs`：
      ```js
-    import { getEnv } from './src/utils/env.js';
+    import { getEnv } from './src/utils/env';
 
     export default defineConfig({
       vite: {
@@ -745,7 +746,7 @@
   1. 在 GitHub Secrets 添加 SENTRY_AUTH_TOKEN
   2. 验证 astro.config.mjs 配置：
     ```js
-    import { getEnv } from './src/utils/env.js';
+    import { getEnv } from './src/utils/env';
     sentry({
       sourceMapsUploadOptions: {
         authToken: getEnv('SENTRY_AUTH_TOKEN'),
@@ -777,7 +778,7 @@
   1. 添加环境判断逻辑：
       ```js
       // astro.config.mjs
-      import { isProduction, getEnv } from './src/utils/env.js';
+      import { isProduction, getEnv } from './src/utils/env';
       const prod = isProduction();
       sentry({
         enabled: prod,
@@ -810,8 +811,8 @@
   - SDK 默认捕获所有上下文数据
 - **解决方案**：
   1. 添加 beforeSend 过滤钩子：
-     ```js
-     // src/sentry.client.config.js
+     ```ts
+     // src/sentry.client.config.ts
      export default {
        beforeSend(event) {
          // 移除敏感字段
@@ -848,7 +849,7 @@
   1. 注入 Git commit 作为 release ID：
       ```js
       // astro.config.mjs
-      import { getEnv } from './src/utils/env.js';
+      import { getEnv } from './src/utils/env';
       const commitHash = getEnv('COMMIT_SHA') || 'dev';
       sentry({
         release: commitHash,
@@ -972,13 +973,13 @@
 - **重现环境**：开发服务器，BaseLayout 页面
 - **问题现象**：
   - 控制台报 `Uncaught SyntaxError: Unexpected token 'export'`
-  - `storage.js` 全局注册与内联脚本加载冲突
+  - `storage.ts` 全局注册与内联脚本加载冲突
 - **根本原因**：
-  - 内联脚本尝试加载 ES 模块格式的 `storage.js`
+  - 内联脚本尝试加载 ES 模块格式的 `storage.ts`
   - 非模块环境无法解析 `export` 语句
   - 重复注册存储助手逻辑
 - **解决方案**：
-  1. 完全移除 `storage.js` 的全局注册方法
+  1. 完全移除 `storage.ts` 的全局注册方法
   2. 在 BaseLayout 实现自包含的轻量级存储助手
   3. 添加单例检查避免重复初始化：
      ```javascript
@@ -986,3 +987,20 @@
      window.__storageInitialized = true;
      ```
 - **验证结果**：✅ 无模块加载错误，存储功能正常
+
+### BUG-046: 输入时 Mermaid 图表频繁重渲染
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-07
+- **重现环境**：本地 `npm run dev`，deepseek_chat 页面，Chrome 115+
+- **问题现象**：
+  - 在 message-input 中每输入一个字符，Mermaid 图表就重新渲染一次
+  - 按住键持续输入时图表渲染消失，停止输入后才恢复
+- **根本原因**：
+  - 内联 `onRendered` 回调在每次输入时都会重新创建，触发 Markdown 渲染管线重复执行
+  - Mermaid 渲染被频繁中断导致最终输出为空
+- **解决方案**：
+  1. 使用 `useCallback` 缓存 `onRendered` 并传递给 `ChatMessageList`
+  2. 保持 `useMarkdownPipeline` 的依赖稳定，避免无谓重新渲染
+- **验证结果**：✅ 连续输入时 Mermaid 图表保持稳定
+- **经验总结**：稳定的回调引用可避免不必要的副作用

@@ -36,8 +36,8 @@ repos:
     hooks:
       - id: update-docs
         name: Update Docs TOC and Last Updated
-        entry: scripts/update_docs.sh
-        language: script
+        entry: npm run update-docs
+        language: system
         files: ^(README(?:_EN)?\.md|docs/.*\.md)$
 
   # 同步 README 文件
@@ -45,7 +45,7 @@ repos:
     hooks:
       - id: sync-readme
         name: Sync README to assets
-        entry: python scripts/sync_readme.py
+        entry: npm run sync-readme
         language: python
         pass_filenames: false
         always_run: true
@@ -59,7 +59,7 @@ repos:
         language: system
         pass_filenames: false
 
-  # 自动生成模块 `index.js` 文件
+  # 自动生成模块 `index.ts` 和 `index.js` 文件
   - repo: local
     hooks:
       - id: generate-index
@@ -79,11 +79,11 @@ repos:
         types_or: [javascript, jsx, astro, css]
         exclude: \.(js|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
-  # ESLint 检查（本地钩子，自动修复可修复问题）
+  # ESLint 检查（本地钩子）
   - repo: local
     hooks:
       - id: eslint
         name: ESLint Check
-        entry: npx eslint --fix --ext .js,.jsx,.astro src/
+        entry: npx eslint --ext .ts,.tsx,.astro src/
         language: system
-        types: [javascript, jsx, astro, markdown]
+        types: [javascript, jsx, astro]

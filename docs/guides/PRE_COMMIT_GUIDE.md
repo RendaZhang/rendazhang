@@ -28,20 +28,22 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 05, 2025, 21:12 (UTC+08:00)
+- **最后更新**: August 07, 2025, 22:11 (UTC+08:00)
 
 ---
 
 ## 简介
 
-本文档详细介绍了项目中使用的预提交钩子 (pre-commit hooks) 系统。这些钩子在代码提交前自动执行一系列检查和优化任务，确保代码质量和项目规范的一致性。
+本文档详细介绍了项目中使用的预提交钩子 (pre-commit hooks) 系统。
+
+这些钩子在代码提交前自动执行一系列检查和优化任务，确保代码质量和项目规范的一致性。
 
 **主要功能**：
 - 自动修复基础格式问题
 - 更新文档目录和最后更新时间
 - 同步 README 文件
 - 验证静态资源命名规范
-- 自动生成模块 `index.js` 文件
+- 自动根据目录中的 TS 文件生成相应的 `index.ts`
 - 执行代码格式化和静态检查
 
 **优势**：
@@ -87,14 +89,14 @@
 
 | 钩子ID             | 功能                     | 运行时机       |
 |--------------------|--------------------------|----------------|
-| `generate-index`   | 自动生成模块 `index.js` 文件 | 每次提交       |
+| `generate-index`   | 按目录内的 TS 文件生成 `index.ts`，自动跳过 `__tests__` 目录和测试文件 | 每次提交       |
 
 ### 代码质量钩子
 
 | 钩子ID         | 功能                     | 文件类型                     |
 |----------------|--------------------------|------------------------------|
-| `prettier`     | 使用 Prettier 格式化代码   | JS, JSX, Astro, CSS       |
-| `eslint`       | 使用 ESLint 检查和修复代码 | JS, JSX, Astro, Markdown    |
+| `prettier`     | 使用 Prettier 格式化代码   | JS, TSX, Astro, CSS       |
+| `eslint`       | 使用 ESLint 检查和修复代码 | JS, TSX, Astro, Markdown    |
 
 ---
 
@@ -110,6 +112,9 @@
    - 只对原本在暂存区（且工作区无修改）的文件执行 `git add`
    - 保留工作区的修改不变
    - 正确处理混合状态的文件
+
+> 提示：脚本会优先使用 PATH 中的 `doctoc`，若仅通过 `npm install -g doctoc` 安装，
+> 会自动回退到 `npx --no-install doctoc`。如果系统中完全未安装 doctoc，则会跳过目录生成。
 
 **执行流程**：
 ```mermaid
@@ -135,8 +140,8 @@ graph TD
    - 更新时间戳后保留在工作区
 
 **相关文件**：
-- `scripts/update_docs.sh` - 主执行脚本
-- `scripts/update_last_updated.py` - 时间戳更新脚本
+- `scripts/update_docs.ts` - 主执行脚本
+- `scripts/update_last_updated.ts` - 时间戳更新脚本
 
 ### 同步 README 钩子 (sync-readme)
 
@@ -144,19 +149,13 @@ graph TD
 - 将根目录的 README 文件同步到 `src/assets/` 目录
 - 自动将同步后的文件添加到暂存区
 
-**执行流程**：
+**执行命令**：
 ```bash
-# 同步 README.md
-cp README.md src/assets/README.md
-git add src/assets/README.md
-
-# 同步 README_EN.md
-cp README_EN.md src/assets/README_EN.md
-git add src/assets/README_EN.md
+npm run sync-readme
 ```
 
 **相关文件**：
-- `scripts/sync_readme.py` - 同步脚本
+- `scripts/sync_readme.ts` - 同步脚本
 
 ### 静态资源命名验证钩子 (validate-assets)
 
@@ -185,21 +184,24 @@ Assets: bgmusic-artist-song.mp3
 > 若输出如上所示，请修改文件名后重新运行脚本。
 
 **相关文件**：
-- `scripts/validate_assets.cjs` - 验证脚本
+- `scripts/validate_assets.ts` - 验证脚本
 
 ### 索引文件生成钩子 (generate-index)
 
 **功能**：
 - 使用 Node.js 的 `fs/promises` 与 `path` 递归扫描 `src` 目录
-- 为每个包含 JS/TS 模块的目录生成或更新 `index.js` 文件
+- 根据目录内的源文件生成或更新对应的 `index.ts`
+- 若目录仅包含现成的 `index.ts` 且无其他模块，将保留该索引文件而不会删除
 - 自动同步具名与默认导出
-- 生成器会覆盖现有 `index.js`（如有）或创建新文件，确保目录导出完整
+- 忽略所有 `.d.ts` 类型声明文件（如 `env.d.ts`）
+- 自动跳过 `__tests__` 目录以及以 `.test.ts(x)` 或 `.spec.ts(x)` 结尾的测试文件，避免导出测试代码
+- 生成器会覆盖现有索引文件（当存在其他模块时）或创建新文件，确保目录导出完整
 - 默认导出会使用原始文件名作为导出别名，从而保持大小写一致。例如：
-  ```javascript
-  // src/hooks/useChatHistory.js
+  ```ts
+  // src/hooks/useChatHistory.ts
   export default function useChatHistory() {}
-  // 生成的 src/hooks/index.js 片段
-  export { default as useChatHistory } from './useChatHistory.js';
+  // 生成的 src/hooks/index.ts 片段
+  export { default as useChatHistory } from './useChatHistory';
   ```
 
 **执行命令**：
@@ -208,19 +210,20 @@ npm run generate-index
 ```
 
 **示例输出**：
-```javascript
-// src/hooks/index.js
-export { default as useChatHistory } from './useChatHistory.js';
-export { default as useAuth } from './useAuth.js';
+```ts
+// src/hooks/index.ts
+export { default as useChatHistory } from './useChatHistory';
+export { default as useAuth } from './useAuth';
 ```
+
 
 **维护建议**：
 - 新增或移动模块后可手动运行脚本确认导出正确。
-- 如需支持更多文件类型或自定义规则，可修改 `scripts/generateIndex.mjs`。
+- 如需支持更多文件类型或自定义规则，可修改 `scripts/generateIndex.ts`。
 - 确保本地环境 Node.js 版本符合项目要求（建议 v18+）。
 
 **相关文件**：
-- `scripts/generateIndex.mjs`  - 生成脚本
+- `scripts/generateIndex.ts`  - 生成脚本
 
 ---
 
@@ -340,8 +343,8 @@ git commit --no-verify -m "跳过钩子检查"
 > 如果不在的话，需要先执行 `git add` 添加到暂存区才能让这些新调整的行为生效。
 > 防止出现工作区的跟脚本相关的修改被 stash 后，脚本新调整的预期行为的缺失现象。
 
-|    问题现象    | 可能原因 | 解决方案  |
-|----------------|----------|----------|
+|    问题现象   | 可能原因 | 解决方案  |
+|---------------|----------|----------|
 |    钩子未运行   | pre-commit 未安装 | 运行 `pre-commit install` |
 | 文件修改未检测到 | 文件在排除列表中 | 检查 `.pre-commit-config.yaml` 中的 `exclude` 模式 |
 | "最后更新"时间未改变 | 文件未被 doctoc 修改 | 手动修改文件内容触发更新 |

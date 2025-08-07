@@ -1,0 +1,37 @@
+import { LocalizedSection } from '../ui';
+import type { RefObject } from 'react';
+
+interface EnhancementTexts {
+  enhancementProgress: string;
+}
+
+interface EnhancementProgressProps {
+  show: boolean;
+  innerRef: RefObject<HTMLDivElement | null>;
+  textsZh: EnhancementTexts;
+  textsEn: EnhancementTexts;
+}
+
+export default function EnhancementProgress({
+  show,
+  innerRef,
+  textsZh,
+  textsEn
+}: EnhancementProgressProps) {
+  if (!show) return null;
+  return (
+    <div id="enhancement-progress" className="fixed-bottom-right" ref={innerRef}>
+      <div className="pulse-container">
+        <div className="pulse-dot pulse-dot-1"></div>
+        <div className="pulse-dot pulse-dot-2"></div>
+        <div className="pulse-dot pulse-dot-3"></div>
+      </div>
+      <p>
+        <LocalizedSection
+          zhContent={textsZh.enhancementProgress}
+          enContent={textsEn.enhancementProgress}
+        />
+      </p>
+    </div>
+  );
+}

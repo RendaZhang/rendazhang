@@ -7,6 +7,8 @@
     - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
   - [前端](#%E5%89%8D%E7%AB%AF)
+    - [架构说明](#%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E)
+      - [BaseLayout 组件设计说明](#baselayout-%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E)
     - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
       - [GitHub Actions](#github-actions)
       - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
@@ -26,10 +28,10 @@
     - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
     - [响应式图片系统维护](#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4)
     - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
-    - [环境变量工具函数](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-    - [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-    - [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
+    - [工具函数参考文档](#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3)
     - [预提交钩子综合指南](#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97)
+    - [测试指南](#%E6%B5%8B%E8%AF%95%E6%8C%87%E5%8D%97)
+    - [JS ➜ TS 迁移指南](#js-%E2%9E%9C-ts-%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
   - [📬 联系方式](#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F)
@@ -39,7 +41,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 06, 2025, 02:29 (UTC+08:00)
+- **最后更新**: August 07, 2025, 22:49 (UTC+08:00)
 
 ---
 
@@ -153,6 +155,18 @@ flowchart TD
 
 本仓库就是前端项目：📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
+### 架构说明
+
+#### BaseLayout 组件设计说明
+
+`src/layouts/BaseLayout.astro` 是站点的全局页面框架，用于设置 `<head>` 元信息、SEO 标签以及根级插槽；仅在 `<NavBarWrapper>` 上启用了 React 的 `client:load`。保留该文件为 Astro 组件的主要考虑如下：
+
+- **静态内容无需 JavaScript**：布局结构和元数据生成属于纯静态内容，Astro 可以直接输出 HTML，无需引入 React 运行时。
+- **保持局部水合优势**：当前仅对导航栏等交互区使用 React 水合，其余内容保持零 JS，以最小化 bundle 体积。如果整体改写为 React，会带来额外脚本和水合开销。
+- **充分利用 Astro 特性**：`<slot>`、`is:inline` 等 Astro 专属语法在布局中被广泛使用，若迁移到 React 需额外封装或插件支持，增加维护成本。
+
+只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 `BaseLayout.astro`。在现阶段，维持 Astro 版本更简洁高效。
+
 ### 本地开发和预览
 
 1. 安装依赖并启用 pre-commit：
@@ -200,7 +214,7 @@ flowchart TD
 
 6. 环境变量说明
 
-   本地可以配置在 `.env` 或者 `.env.local`，并通过 `src/utils/env.js` 的 `getEnv()` 读取：
+   本地可以配置在 `.env` 或者 `.env.local`，并通过 `src/utils/env.ts` 的 `getEnv()` 读取：
 
    ```sh
    # 公开信息
@@ -238,7 +252,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 
 > 本地提交不会自动运行 `astro check`，如需校验请手动执行：`npm run astro -- check`
 
-需要在仓库 Secrets 中配置服务器 IP、SSH 用户和私钥等信息。详情见 📄 [配置 GitHub Actions](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)。
+需要在仓库 Secrets 中配置服务器 IP、SSH 用户和私钥等信息。详情见 📄 [配置 GitHub Actions](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)。
 
 #### 使用说明
 
@@ -450,9 +464,9 @@ location /_astro/ {
 
 前端目前采用 **Astro** + **React** 的架构，基于分层设计理念，通过 **GitHub Actions** 实现自动化构建，并将构建产物部署到服务器 Nginx 的指定目录下。
 
-具体的从原生前端升级的操作步骤，请参考以下文档内容：📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)。该文档详细描述了从旧版原生前端逐步迁移到基于 Astro 和 React 的新前端架构的完整计划与实施步骤。
+具体的从原生前端升级的操作步骤，请参考以下文档内容：📄 [升级计划](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92)。该文档详细描述了从旧版原生前端逐步迁移到基于 Astro 和 React 的新前端架构的完整计划与实施步骤。
 
-开发环境准备的具体步骤，请参考以下文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)。该文档详细说明了如何完成开发环境的配置以及 Astro 项目的初始化工作，确保您能够顺利开始后续的开发任务。
+开发环境准备的具体步骤，请参考以下文档内容：📄 [环境准备](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96)。该文档详细说明了如何完成开发环境的配置以及 Astro 项目的初始化工作，确保您能够顺利开始后续的开发任务。
 
 ### 响应式图片系统维护
 
@@ -464,27 +478,23 @@ location /_astro/ {
 
 Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration).
 
-### 环境变量工具函数
+### 工具函数参考文档
 
-`src/utils/env.js` 提供 `getEnv()`、`isProduction()`、`getCdnUrl()` 等方法，统一管理环境变量并兼容多运行环境。
+`src/utils/env.ts`、`src/utils/langUtils.ts`、`src/utils/storage.ts` 与 `src/utils/logger.ts` 提供统一的环境变量访问、语言解析、多后端存储方案与可扩展的日志接口。
 
-文档详见：📄 [环境变量工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### 语言工具函数
-
-`src/utils/langUtils.js` 提供 `getCurrentLang()` 等方法，统一管理页面语言的获取流程。
-
-文档详见：📄 [语言工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/LANG_UTILS.md#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### 存储工具函数
-
-`src/utils/storage.js` 提供 `get`、`set`、`remove` 等方法，统一管理 `localStorage`、`sessionStorage`、Cookie 与 IndexedDB。
-
-文档详见：📄 [存储工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
+文档详见：📄 [工具函数参考文档](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3).
 
 ### 预提交钩子综合指南
 
 详细预提交钩子说明请参阅：[预提交钩子综合指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97)
+
+### 测试指南
+
+项目使用 [Vitest](https://vitest.dev/) 进行单元测试。运行 `npm test` 即可执行所有测试；`npm run test:watch` 可在开发过程中持续监听；如需覆盖率报告，可使用 `npm run test:coverage`。测试文件需以 `.test.ts` 或 `.spec.ts` 命名，通常与源码放在同一目录或 `__tests__` 子目录下。更多示例与编写说明参见：[测试指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md#%E6%B5%8B%E8%AF%95%E6%8C%87%E5%8D%97)。
+
+### JS ➜ TS 迁移指南
+
+> 汇总从 JavaScript 到 TypeScript 的完整迁移过程与经验，包括配置、分步策略和常见报错排查。详见：📄 [JS ➜ TS 全量迁移实战指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/JS_TO_TS_MIGRATION_GUIDE.md#js-%E2%9E%9C-ts-%E5%85%A8%E9%87%8F%E8%BF%81%E7%A7%BB%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97)。
 
 ---
 
@@ -506,7 +516,7 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
   - 更新文档目录和最后更新时间
   - 同步 README 文件到 assets 目录
   - 验证静态资源命名规范
-  - 自动生成模块 `index.js` 文件
+  - 自动生成模块 `index.ts` 文件
   - 执行代码格式化和静态检查
 
 > ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR

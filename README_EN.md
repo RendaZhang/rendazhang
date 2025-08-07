@@ -7,6 +7,8 @@
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
   - [Frontend](#frontend)
+    - [Architecture Overview](#architecture-overview)
+      - [BaseLayout Component Design Notes](#baselayout-component-design-notes)
     - [Local Development & Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
@@ -26,9 +28,7 @@
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
-    - [Environment Variable Utility Functions](#environment-variable-utility-functions)
-    - [Language Utilities](#language-utilities)
-    - [Storage Utility](#storage-utility)
+    - [Utilities Reference](#utilities-reference)
     - [Comprehensive Pre-Commit Guide](#comprehensive-pre-commit-guide)
   - [🤝 Contribution Guide](#-contribution-guide)
   - [🔒 Open Source License](#-open-source-license)
@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 06, 2025, 02:29 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 22:44 (UTC+08:00)
 
 ---
 
@@ -153,6 +153,18 @@ flowchart TD
 
 This repository contains the frontend project: 📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
 
+### Architecture Overview
+
+#### BaseLayout Component Design Notes
+
+`src/layouts/BaseLayout.astro` serves as the global page framework for the site, responsible for setting `<head>` metadata, SEO tags, and root-level slots. React's `client:load` is only enabled on `<NavBarWrapper>`. The primary reasons for keeping this file as an Astro component are as follows:
+
+- **Static Content Does Not Require JavaScript**: The layout structure and metadata generation are purely static content. Astro can directly output HTML without introducing the React runtime.
+- **Maintain Partial Hydration Benefits**: Currently, only interactive areas like the navigation bar use React hydration, while the rest of the content remains zero-JS to minimize bundle size. If the entire layout were rewritten in React, it would introduce additional script and hydration overhead.
+- **Leverage Astro Features**: Astro-specific syntax such as `<slot>` and `is:inline` is extensively used in the layout. Migrating to React would require additional encapsulation or plugin support, increasing maintenance costs.
+
+Consider rewriting `BaseLayout.astro` only if there are plans to fully migrate the site to React or if there is a need to share complex React state/context at the layout level. For now, maintaining the Astro version is more concise and efficient.
+
 ### Local Development & Preview
 
 1. Install dependencies and enable pre-commit:
@@ -200,7 +212,7 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 6. Environment Variables Explanation
 
-   Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.js`:
+   Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.ts`:
 
    ```sh
    # Public Information
@@ -235,7 +247,7 @@ Pushing to `master` triggers GitHub Actions Auto-Deployment:
 3. `appleboy/scp-action` deploys `dist/` to server (e.g., `/var/www/html`)
 4. Nginx serves content post-deployment
 
-Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
+Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
 
 #### Usage Guide
 
@@ -451,9 +463,9 @@ location /_astro/ {
 
 The front-end currently adopts an architecture based on **Astro** + **React**, following a layered design philosophy. It utilizes **GitHub Actions** for automated builds and deploys the build artifacts to a specified directory on the server's **Nginx**.
 
-For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92). This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.
+For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92). This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.
 
-For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
+For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
 
 ### Responsive Image System Maintenance
 
@@ -463,23 +475,11 @@ The website uses an automated pipeline to generate responsive images with built-
 
 Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration) for configuration.
 
-### Environment Variable Utility Functions
+### Utilities Reference
 
-`src/utils/env.js` provides methods such as `getEnv()`, `isProduction()`, and `getCdnUrl()` to uniformly manage environment variables and ensure compatibility across multiple runtime environments.
+`src/utils/env.ts`, `src/utils/langUtils.ts`, `src/utils/storage.ts`, and `src/utils/logger.ts` provide unified access to environment variables, language parsing, multi-backend storage solutions, and an extensible logging interface.
 
-For detailed documentation, refer to: 📄 [Environment Variable Utility Functions](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### Language Utilities
-
-`src/utils/langUtils.js` exposes helpers such as `getCurrentLang()` to centralize language resolution.
-
-Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/LANG_UTILS.md#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### Storage Utility
-
-`src/utils/storage.js` offers a unified API (`get`, `set`, `remove`) for localStorage, sessionStorage, cookies, and IndexedDB.
-
-Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
+Docs: 📄 [Utilities Reference](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3).
 
 ### Comprehensive Pre-Commit Guide
 
@@ -505,7 +505,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
   - Update the documentation table of contents and the last updated timestamp
   - Synchronize the README file to the assets directory
   - Validate static resource naming conventions
-  - Automatically generate module `index.js` files
+  - Automatically generate module `index.ts` files
   - Perform code formatting and static checks
 
 > ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.

@@ -3,13 +3,12 @@ import { BaseLayout } from '../layouts';
 import {
   SITE_BASE_URL,
   DOCS_PAGE_PATH,
-  SCRIPT_PATHS,
   STYLE_PATHS,
   VIEWPORT_NO_ZOOM,
   PAGE_TITLES,
   DOCS_DESCRIPTION,
   LOADING_TEXT
-} from '../constants/index.js';
+} from '../constants';
 import { DocsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils';
 
@@ -34,7 +33,6 @@ const title = langKey === 'zh' ? titleZh : titleEn;
     STYLE_PATHS.DOCS,
     STYLE_PATHS.MARKDOWN_DARK_MODE
   ]}
-  extraScripts={[SCRIPT_PATHS.MARKED]}
   bodyClass="docs-page"
   mainClass="main-content docs-main"
   og={{

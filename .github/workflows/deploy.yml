@@ -31,9 +31,22 @@ jobs:
         id: install-dependencies
         run: npm ci
 
-      - name: Type check Astro files
-        id: astro-check
-        run: npm run astro -- check
+      - name: Run checks and tests
+        id: run-checks-tests
+        run: |
+          npm run sync
+          npm run lint
+          npm run typecheck
+          npm run check
+          npm test
+          npm run test:coverage
+
+      - name: Upload coverage report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
 
       - name: Build Astro Project with Sentry config
         id: build-project
