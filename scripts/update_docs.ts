@@ -140,6 +140,49 @@ function isFileModified(file: string): boolean {
 }
 
 /**
+ * Locate the `doctoc` executable if available.
+ *
+ * We support two installation methods:
+ * 1. `doctoc` is already in the current `PATH`.
+ * 2. `doctoc` was installed globally via `npm install -g doctoc`,
+ *    but the global npm bin directory isn't on `PATH`.
+ *
+ * The function returns either the command name or an absolute path
+ * to the executable. If `doctoc` cannot be found, it returns `null`.
+ */
+function resolveDoctocCommand(): string | null {
+  // First try to execute `doctoc` directly from PATH
+  const direct = spawnSync('doctoc', ['--version'], {
+    encoding: 'utf-8',
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
+  if (!direct.error && direct.status === 0) {
+    return 'doctoc';
+  }
+
+  // If not found, attempt to locate a global installation
+  try {
+    const npmBin = spawnSync('npm', ['bin', '-g'], {
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore']
+    });
+    if (npmBin.status === 0) {
+      const globalDir = npmBin.stdout.trim();
+      const doctocExecutable = path.join(
+        globalDir,
+        process.platform === 'win32' ? 'doctoc.cmd' : 'doctoc'
+      );
+      if (fs.existsSync(doctocExecutable)) {
+        return doctocExecutable;
+      }
+    }
+  } catch {}
+
+  // doctoc was not found in any known location
+  return null;
+}
+
+/**
  * Main workflow for doc updates.
  *
  * Accepts a list of file paths and only processes those that are
@@ -165,26 +208,14 @@ async function main() {
     return;
   }
   log(`Found ${modifiedFiles.length} modified files: ${modifiedFiles.join(' ')}`);
-  const doctocCheck = spawnSync('doctoc', [], {
-    encoding: 'utf-8',
-    stdio: ['ignore', 'pipe', 'pipe'] // 仅捕获 stdout 和 stderr
-  });
-  let isDoctocInstalled = false;
-  if (doctocCheck.error) {
-    log('SKIP: doctoc not installed (command not found)');
-  } else if (doctocCheck.status === null) {
-    log('SKIP: doctoc not installed (unknown error)');
-  } else {
-    const output = doctocCheck.stdout + doctocCheck.stderr;
-    if (doctocCheck.status === 0 || output.includes("Usage: doctoc")) {
-      isDoctocInstalled = true;
-    }
-  }
-  if (isDoctocInstalled) {
+
+  // Discover how to invoke doctoc. This supports both standard PATH
+  // resolution and globally installed npm packages.
+  const doctocCmd = resolveDoctocCommand();
+
+  if (doctocCmd) {
     log('Running doctoc on modified files...');
-    const res = spawnSync('doctoc', modifiedFiles, {
-      stdio: 'inherit'
-    });
+    const res = spawnSync(doctocCmd, modifiedFiles, { stdio: 'inherit' });
     if (res.status !== 0) {
       log('WARNING: doctoc encountered issues but continuing anyway');
     }
