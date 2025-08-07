@@ -18,8 +18,8 @@ declare module '*.svg' {
 }
 
 declare module '*.astro' {
-  import type { AstroComponent } from 'astro';
-  const component: AstroComponent;
+  import type { AstroComponentFactory } from 'astro';
+  const component: AstroComponentFactory;
   export default component;
 }
 
