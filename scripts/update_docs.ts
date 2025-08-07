@@ -107,13 +107,12 @@ function isFileModified(file: string): boolean {
 
   if (status.stdout) {
     const statusCode = status.stdout.slice(0, 2);
-    // A  = new file in staging area
-    // ?? = untracked file
-    // MM = modified in both staging and working area
-    // M  = modified file in staging area
-    //  M = modified in working area
-    // AM = new file in staging area and modified in working area
-
+    // 'A ' = new file in staging area
+    // '??' = untracked file
+    // 'MM' = modified in both staging and working area
+    // 'M ' = modified file in staging area
+    // ' M' = modified in working area
+    // 'AM' = new file in staging area and modified in working area
     if (statusCode === 'A ') {
       log(`New file in Staging Area: ${relPath}`);
       return true;
@@ -134,7 +133,6 @@ function isFileModified(file: string): boolean {
       return true;
     }
   }
-
   // 如果没有状态输出，说明文件未修改
   log(`Unchanged file: ${relPath}`);
   return false;
