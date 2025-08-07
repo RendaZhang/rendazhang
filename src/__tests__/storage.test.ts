@@ -36,9 +36,7 @@ describe('storage utility', () => {
     const spy = vi.spyOn(document, 'cookie', 'set');
     storage.set('cookieKey', 'cookieVal', 'cookie', { days: 2 });
     const expected = new Date('2020-01-03').toUTCString();
-    expect(spy).toHaveBeenCalledWith(
-      expect.stringContaining(`expires=${expected}`)
-    );
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining(`expires=${expected}`));
     expect(storage.get('cookieKey', 'cookie')).toBe('cookieVal');
     storage.remove('cookieKey', 'cookie');
     spy.mockRestore();
@@ -67,7 +65,7 @@ describe('storage utility', () => {
       },
       setItem: (key: string, value: string) => {
         if (key === '__storage_test__') return;
-        throw new Error('set err');
+        throw new Error('set err: key = ' + key + ', value = ' + value);
       },
       removeItem: (key: string) => {
         if (key === '__storage_test__') return;
