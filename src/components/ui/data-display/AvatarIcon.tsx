@@ -1,4 +1,4 @@
-import { ICON_SIZES } from '../../../constants/index.ts';
+import { ICON_SIZES } from '../../../constants';
 import type { ReactElement } from 'react';
 
 interface AvatarIconProps {

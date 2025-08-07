@@ -4,7 +4,7 @@ import {
   SOCIAL_ICON_PATHS,
   SOCIAL_LINKS,
   IMAGE_PATHS
-} from '../../../constants/index.ts';
+} from '../../../constants';
 
 interface SocialIconProps {
   href: string;

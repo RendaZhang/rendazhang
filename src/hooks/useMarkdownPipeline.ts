@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { UI_DURATIONS } from '../constants/index.ts';
+import { UI_DURATIONS } from '../constants';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';

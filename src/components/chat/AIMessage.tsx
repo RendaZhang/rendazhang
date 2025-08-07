@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
-import { UI_DURATIONS } from '../../constants/index.ts';
+import { UI_DURATIONS } from '../../constants';
 import { LocalizedSection } from '../ui';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
 

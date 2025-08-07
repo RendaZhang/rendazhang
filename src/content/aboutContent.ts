@@ -4,7 +4,7 @@ import {
   CONTACT_PHONE_LOCAL,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
-} from '../constants/index.ts';
+} from '../constants';
 
 export const ABOUT_CONTENT = {
   en: {

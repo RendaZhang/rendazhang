@@ -9,7 +9,7 @@ import {
   CREDLY_HOST,
   CREDLY_BADGE_ID,
   CREDLY_EMBED_IFRAME
-} from '../../../constants/index.ts';
+} from '../../../constants';
 
 export default function CredlyBadge(): ReactElement {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);

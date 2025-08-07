@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { DOC_CONTENT } from '../../constants/index.ts';
+import { DOC_CONTENT } from '../../constants';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import mermaid from 'mermaid';

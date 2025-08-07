@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
+- **最后更新**: August 07, 2025, 10:54 (UTC+08:00)
 
 ---
 
@@ -309,7 +309,7 @@
 - **关键脚本**：
   ```html
   <script is:inline type="module">
-    import storage from '/src/utils/storage.ts';
+    import storage from '/src/utils/storage';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
       if (stored === 'dark') document.documentElement.classList.add('dark-mode');

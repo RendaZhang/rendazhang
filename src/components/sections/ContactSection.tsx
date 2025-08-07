@@ -1,5 +1,5 @@
 import { ContactForm } from '../forms';
-import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../constants/index.ts';
+import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../constants';
 import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import { LocalizedSection } from '../ui';

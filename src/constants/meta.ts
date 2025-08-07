@@ -1,4 +1,4 @@
-import { IMAGE_PATHS } from './paths.ts';
+import { IMAGE_PATHS } from './paths';
 
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';

@@ -24,7 +24,7 @@ import toutiaoLogo from '../assets/social/toutiao-logo.svg';
 import csdnLogo from '../assets/social/csdn-logo.svg';
 import mediumLogo from '../assets/social/medium-logo.svg';
 
-export { HERO_IMAGE_PATHS } from '../utils/heroImages.ts';
+export { HERO_IMAGE_PATHS } from '../utils/heroImages';
 
 export const CHAT_PAGE_PATH = '/deepseek_chat';
 export const ABOUT_PAGE_PATH = '/';

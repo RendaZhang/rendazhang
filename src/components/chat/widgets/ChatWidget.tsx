@@ -4,7 +4,7 @@ import {
   STYLE_PATHS,
   AI_CHAT_WIDGET_TITLE,
   ICON_SIZES
-} from '../../../constants/index.ts';
+} from '../../../constants';
 
 const loadedStyles = new Set<string>();
 

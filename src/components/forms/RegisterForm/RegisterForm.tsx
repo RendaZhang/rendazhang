@@ -5,12 +5,12 @@ import {
   LOADING_TEXT,
   AUTH_TIMINGS,
   REGISTER_DRAFT_KEY
-} from '../../../constants/index.ts';
+} from '../../../constants';
 import { useLanguage } from '../../providers';
 import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
-import { storage } from '../../../utils/index.ts';
+import { storage } from '../../../utils';
 
 interface RegisterFormValues {
   email: string;

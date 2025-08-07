@@ -5,7 +5,7 @@ import {
   REGISTER_PAGE_PATH,
   LOADING_TEXT,
   AUTH_TIMINGS
-} from '../../../constants/index.ts';
+} from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';

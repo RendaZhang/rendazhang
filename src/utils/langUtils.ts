@@ -1,5 +1,5 @@
-import { LANG_STORAGE_KEY } from '../constants/index.ts';
-import storage from './storage.ts';
+import { LANG_STORAGE_KEY } from '../constants';
+import storage from './storage';
 import * as Sentry from '@sentry/react';
 
 export function getCurrentLang(): string {

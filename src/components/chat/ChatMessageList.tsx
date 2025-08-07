@@ -1,5 +1,5 @@
 import AIMessage from './AIMessage';
-import { ROLES } from '../../constants/index.ts';
+import { ROLES } from '../../constants';
 import type { ChatMessage, ChatCallback, CopyTexts } from '../../types/chat';
 
 interface ChatMessageListProps {

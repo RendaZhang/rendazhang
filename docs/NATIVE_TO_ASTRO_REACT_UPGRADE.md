@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
+- **最后更新**: August 07, 2025, 10:54 (UTC+08:00)
 
 ---
 
@@ -227,7 +227,7 @@ export default function Test() {
 
 ```astro
 ---
-import Test from '../components/Test.tsx';
+import Test from '../components/Test';
 ---
 
 <Test client:load />
@@ -591,7 +591,7 @@ export function ThemeProvider({ children }) {
 
 ```astro
 ---
-import { ThemeProvider } from '../components/providers/ThemeProvider.tsx';
+import { ThemeProvider } from '../components/providers/ThemeProvider';
 import NavBar from '../components/NavBar.astro';
 ---
 
@@ -611,7 +611,7 @@ import NavBar from '../components/NavBar.astro';
 3. 在需要的组件中使用 Context：例如在 NavBar 的 React 子组件里放一个切换按钮：
 
 ```tsx
-import { useTheme } from '../components/providers/ThemeProvider.tsx';
+import { useTheme } from '../components/providers/ThemeProvider';
 const { darkMode, toggle } = useTheme();
 // 点击按钮调用 toggle() 切换 darkMode 状态
 ```

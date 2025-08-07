@@ -1,1 +1,1 @@
-export * from '../../../services/chatService.ts';
+export * from '../../../services/chatService';

@@ -1,4 +1,4 @@
-import { API_BASE_URL, ENDPOINTS } from './api.ts';
+import { API_BASE_URL, ENDPOINTS } from './api';
 
 export const VIEWPORT_ZOOM_ALLOWED =
   'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';

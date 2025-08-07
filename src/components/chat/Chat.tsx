@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import { sendMessageToAI, resetChat } from '../../services';
 import { useChatHistory } from '../../hooks';
-import { ROLES } from '../../constants/index.ts';
+import { ROLES } from '../../constants';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection } from '../ui';

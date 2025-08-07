@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import { CONTACT_FORM_ENDPOINT } from '../../../constants/index.ts';
+import { CONTACT_FORM_ENDPOINT } from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 

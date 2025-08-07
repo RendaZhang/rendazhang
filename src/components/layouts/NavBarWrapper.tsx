@@ -1,5 +1,5 @@
 import { ThemeProvider, I18nProvider } from '../providers';
-import NavBar from './NavBar.tsx';
+import NavBar from './NavBar';
 import ErrorBoundary from '../ErrorBoundary';
 import type { ReactNode, ReactElement } from 'react';
 
