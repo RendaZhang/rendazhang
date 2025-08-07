@@ -86,18 +86,35 @@ async function generate(dir: string): Promise<GenerateResult> {
   }
 
   if (hasTs) {
+    const indexPath = path.join(dir, 'index.ts');
     if (linesTs.length) {
-      await writeFile(path.join(dir, 'index.ts'), linesTs.join('\n') + '\n');
+      const newContent = linesTs.join('\n') + '\n';
+      let oldContent = '';
+      try {
+        oldContent = await readFile(indexPath, 'utf8');
+      } catch {
+        /* ignore */
+      }
+      if (oldContent !== newContent) {
+        await writeFile(indexPath, newContent);
+        const rel = path.relative(ROOT, indexPath);
+        console.log(`Generated ${rel}`);
+      }
     } else {
       try {
-        await rm(path.join(dir, 'index.ts'));
+        await rm(indexPath);
+        const rel = path.relative(ROOT, indexPath);
+        console.log(`Removed ${rel}`);
       } catch {
         /* ignore */
       }
     }
   } else {
+    const indexPath = path.join(dir, 'index.ts');
     try {
-      await rm(path.join(dir, 'index.ts'));
+      await rm(indexPath);
+      const rel = path.relative(ROOT, indexPath);
+      console.log(`Removed ${rel}`);
     } catch {
       /* ignore */
     }
