@@ -13,7 +13,8 @@
     "update-docs": "tsx scripts/update_docs.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src astro.config.ts eslint.config.ts",
-    "format": "prettier --write src scripts astro.config.ts eslint.config.ts tsconfig.json package.json"
+    "format": "prettier --write src scripts astro.config.ts eslint.config.ts tsconfig.json package.json",
+    "sync-readme": "tsx scripts/sync_readme.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",

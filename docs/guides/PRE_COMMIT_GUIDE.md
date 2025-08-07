@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 14:14 (UTC+08:00)
+- **最后更新**: August 07, 2025, 14:28 (UTC+08:00)
 
 ---
 
@@ -146,19 +146,13 @@ graph TD
 - 将根目录的 README 文件同步到 `src/assets/` 目录
 - 自动将同步后的文件添加到暂存区
 
-**执行流程**：
+**执行命令**：
 ```bash
-# 同步 README.md
-cp README.md src/assets/README.md
-git add src/assets/README.md
-
-# 同步 README_EN.md
-cp README_EN.md src/assets/README_EN.md
-git add src/assets/README_EN.md
+npm run sync-readme
 ```
 
 **相关文件**：
-- `scripts/sync_readme.py` - 同步脚本
+- `scripts/sync_readme.ts` - 同步脚本
 
 ### 静态资源命名验证钩子 (validate-assets)
 
