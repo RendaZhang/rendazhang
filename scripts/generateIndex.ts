@@ -17,7 +17,6 @@ async function generate(dir: string): Promise<GenerateResult> {
   const dirs: string[] = [];
   const jsFiles: string[] = [];
   const tsFiles: string[] = [];
-  let skipCurrent = false;
   let hasIndexTs = false;
 
   for (const entry of entries) {
@@ -26,12 +25,6 @@ async function generate(dir: string): Promise<GenerateResult> {
     } else if (entry.isFile()) {
       if (entry.name === 'index.ts') {
         hasIndexTs = true;
-        try {
-          const indexContent = await readFile(path.join(dir, entry.name), 'utf8');
-          if (/@ts-nocheck/.test(indexContent)) {
-            skipCurrent = true;
-          }
-        } catch {}
         continue;
       }
 
@@ -66,14 +59,12 @@ async function generate(dir: string): Promise<GenerateResult> {
   const linesJs: string[] = [];
   const linesTs: string[] = [];
 
-  if (skipCurrent) {
-    return { hasJs, hasTs };
-  }
-
   if (hasIndexTs && dirs.length === 0 && jsFiles.length === 0 && tsFiles.length === 0) {
     try {
       await rm(path.join(dir, 'index.js'));
-    } catch {}
+    } catch {
+      /* ignore */
+    }
     return { hasJs, hasTs };
   }
 
@@ -99,7 +90,9 @@ async function generate(dir: string): Promise<GenerateResult> {
     let content = '';
     try {
       content = await readFile(filePath, 'utf8');
-    } catch {}
+    } catch {
+      /* ignore */
+    }
     const hasDefault = /\bexport\s+default\b/.test(content);
     const isModule = /\bexport\b/.test(content) && !/\bexport\s*=/.test(content);
     const isMinJs = /\.min\.js$/i.test(file);
@@ -132,7 +125,9 @@ async function generate(dir: string): Promise<GenerateResult> {
     let content = '';
     try {
       content = await readFile(filePath, 'utf8');
-    } catch {}
+    } catch {
+      /* ignore */
+    }
     const hasDefault = /\bexport\s+default\b/.test(content);
     const isModule = /\bexport\b/.test(content) && !/\bexport\s*=/.test(content);
 
@@ -159,12 +154,16 @@ async function generate(dir: string): Promise<GenerateResult> {
     } else {
       try {
         await rm(path.join(dir, 'index.js'));
-      } catch {}
+      } catch {
+        /* ignore */
+      }
     }
   } else {
     try {
       await rm(path.join(dir, 'index.js'));
-    } catch {}
+    } catch {
+      /* ignore */
+    }
   }
 
   if (hasTs) {
@@ -173,12 +172,16 @@ async function generate(dir: string): Promise<GenerateResult> {
     } else {
       try {
         await rm(path.join(dir, 'index.ts'));
-      } catch {}
+      } catch {
+        /* ignore */
+      }
     }
   } else {
     try {
       await rm(path.join(dir, 'index.ts'));
-    } catch {}
+    } catch {
+      /* ignore */
+    }
   }
 
   return { hasJs, hasTs };
