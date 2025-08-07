@@ -61,7 +61,6 @@ async function generate(dir: string): Promise<GenerateResult> {
   }
 
   for (const file of tsFiles) {
-    const rel = './' + file;
     const relNoExt = './' + path.parse(file).name;
     const filePath = path.join(dir, file);
     let content = '';

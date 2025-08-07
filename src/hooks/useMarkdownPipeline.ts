@@ -60,7 +60,7 @@ export default function useMarkdownPipeline(
   markdown: string,
   enhance: boolean,
   onDone?: () => void
-): React.MutableRefObject<HTMLDivElement | null> {
+): React.RefObject<HTMLDivElement | null> {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

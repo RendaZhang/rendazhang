@@ -57,7 +57,7 @@ export default function DocsEffects(): null {
         lang.indexOf('zh') === 0
           ? '#content-zh .language-mermaid'
           : '#content-en .language-mermaid';
-      mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
+      void mermaid.run({ querySelector: mermaidSelector });
       logger.log('All enhancements applied');
     } catch {
       document.getElementById('content-zh')!.innerHTML = '<p>加载文档时出错</p>';
