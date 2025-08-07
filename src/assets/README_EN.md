@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 07, 2025, 01:34 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 11:10 (UTC+08:00)
 
 ---
 
@@ -471,7 +471,7 @@ For detailed documentation, refer to: 📄 [Environment Variable Utility Functio
 
 ### Language Utilities
 
-`src/utils/langUtils.js` exposes helpers such as `getCurrentLang()` to centralize language resolution.
+`src/utils/langUtils.ts` exposes helpers such as `getCurrentLang()` to centralize language resolution.
 
 Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/LANG_UTILS.md#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
 
