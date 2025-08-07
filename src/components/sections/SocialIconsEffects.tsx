@@ -34,7 +34,7 @@ export default function SocialIconsEffects(): null {
       modal.style.display = 'none';
     };
 
-    const onModalClick = (e: MouseEvent): void => {
+    const onModalInteraction = (e: MouseEvent | TouchEvent): void => {
       if (e.target === modal) closeModal();
     };
 
@@ -42,14 +42,16 @@ export default function SocialIconsEffects(): null {
     wechatLink.addEventListener('click', openModal);
     wechatLink.addEventListener('touchstart', openModal);
     closeBtn?.addEventListener('click', closeModal);
-    modal.addEventListener('click', onModalClick);
+    modal.addEventListener('click', onModalInteraction);
+    modal.addEventListener('touchstart', onModalInteraction);
 
     return () => {
       wechatLink.removeEventListener('mouseenter', openModal);
       wechatLink.removeEventListener('click', openModal);
       wechatLink.removeEventListener('touchstart', openModal);
       closeBtn?.removeEventListener('click', closeModal);
-      modal.removeEventListener('click', onModalClick);
+      modal.removeEventListener('click', onModalInteraction);
+      modal.removeEventListener('touchstart', onModalInteraction);
     };
   }, []);
 

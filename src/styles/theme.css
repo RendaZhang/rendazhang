@@ -198,7 +198,7 @@ nav {
   width: 100%;
   background-color: var(--color-nav-bg);
   color: var(--color-nav-text);
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -208,20 +208,39 @@ nav {
   left: 0;
   right: 0;
   z-index: 1000;
+  box-shadow: var(--shadow-nav-mobile);
+  backdrop-filter: blur(8px);
+}
+
+nav .nav-left,
+nav .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav .nav-logo {
+  font-weight: 600;
+}
+
+nav .avatar-link {
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
 }
 
 nav a,
 nav button:not(.theme-option) {
-  /* Reusable gradient buttons used in nav and other areas */
-  color: var(--color-white);
+  color: var(--color-nav-text);
   text-decoration: none;
-  padding: 10px 20px;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-elevated);
-  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  box-shadow: none;
+  border-radius: 6px;
   transition:
-    filter 0.3s,
-    transform 0.3s;
+    background-color 0.3s,
+    color 0.3s;
 }
 nav button:not(.theme-option) {
   border: none;
@@ -229,25 +248,21 @@ nav button:not(.theme-option) {
 }
 nav a:hover,
 nav button:not(.theme-option):hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+  background-color: var(--color-subtle-bg);
+  color: var(--color-text);
 }
 nav a:active,
 nav button:not(.theme-option):active {
-  transform: translateY(0);
+  background-color: var(--color-subtle-bg-hover);
 }
 
 /* Hamburger menu */
-nav .hamburger-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-}
 nav .hamburger-btn span {
   display: block;
-  width: 20px;
+  width: 24px;
   height: 2px;
-  margin: 3px 0;
-  background: var(--color-white);
+  margin: 4px 0;
+  background: var(--color-nav-text);
   border-radius: 1px;
   transition:
     transform 0.3s,
@@ -300,22 +315,23 @@ nav .side-menu.open {
   transform: translateX(0);
 }
 nav .side-menu a {
-  color: var(--color-white);
+  color: var(--color-nav-text);
   text-decoration: none;
-  padding: 10px 20px;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-elevated);
-  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  box-shadow: none;
+  border-radius: 6px;
   transition:
-    filter 0.3s,
-    transform 0.3s;
+    background-color 0.3s,
+    color 0.3s;
+  display: block;
 }
 nav .side-menu a:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+  background-color: var(--color-subtle-bg);
+  color: var(--color-text);
 }
 nav .side-menu a:active {
-  transform: translateY(0);
+  background-color: var(--color-subtle-bg-hover);
 }
 
 /* Theme toggle */
@@ -325,25 +341,25 @@ nav .theme-toggle-wrapper {
 }
 nav .theme-toggle-main {
   position: relative;
-  color: var(--color-white);
+  color: var(--color-nav-text);
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-elevated);
-  border-radius: 4px;
+  background: none;
+  box-shadow: none;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
   transition:
-    filter 0.3s,
-    transform 0.3s;
+    background-color 0.3s,
+    color 0.3s;
 }
 nav .theme-toggle-main:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+  background-color: var(--color-subtle-bg);
+  color: var(--color-text);
 }
 nav .theme-toggle-main:active {
-  transform: translateY(0);
+  background-color: var(--color-subtle-bg-hover);
 }
 
 nav .theme-options {
@@ -395,28 +411,28 @@ nav .language-selector-wrapper {
 }
 nav .language-selector-main {
   position: relative;
-  color: var(--color-white);
+  color: var(--color-nav-text);
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
-  background: var(--gradient-primary);
-  box-shadow: var(--shadow-elevated);
-  border-radius: 4px;
+  background: none;
+  box-shadow: none;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition:
-    filter 0.3s,
-    transform 0.3s;
   display: flex;
   align-items: center;
   gap: 4px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 nav .language-selector-main:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+  background-color: var(--color-subtle-bg);
+  color: var(--color-text);
 }
 nav .language-selector-main:active {
-  transform: translateY(0);
+  background-color: var(--color-subtle-bg-hover);
 }
 nav .language-options {
   position: absolute;

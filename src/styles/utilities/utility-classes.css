@@ -98,8 +98,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: auto;
-  width: auto;
+  width: 100vw;
+  height: 100vh;
   background: var(--overlay-modal-bg);
   align-items: center;
   justify-content: center;
@@ -111,8 +111,11 @@
   position: relative;
   text-align: center;
   max-width: 90%;
-  height: auto;
   width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-content img {
