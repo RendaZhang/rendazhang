@@ -5,9 +5,9 @@ import logger from './utils/logger';
 // sentry.client.config.ts runs in Vite’s build process,
 // where import.meta.env is already populated
 Sentry.init({
-  dsn: getEnv('SENTRY_DSN') ?? undefined,
-  release: getEnv('TAG_NAME') ?? undefined,
-  environment: getEnv('NODE_ENV') ?? undefined,
+  dsn: getEnv('PUBLIC_SENTRY_DSN') ?? undefined,
+  release: getEnv('PUBLIC_TAG_NAME') ?? undefined,
+  environment: getEnv('PUBLIC_NODE_ENV') ?? undefined,
   tracesSampleRate: 0.2,
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,

@@ -39,7 +39,7 @@ const SENTRY_ORG = process.env.SENTRY_ORG;
 const SENTRY_PROJECT = process.env.SENTRY_PROJECT;
 const SKIP_SENTRY = process.env.SKIP_SENTRY;
 
-logger.log("astro.config.ts PUBLIC_CDN_BASE: " + PUBLIC_CDN_BASE);
+logger.log('astro.config.ts PUBLIC_CDN_BASE: ' + PUBLIC_CDN_BASE);
 
 // 可以在本地的 .env.local 配置环境变量为 true 临时跳过 Sentry
 const skipSentry = SKIP_SENTRY === 'true';

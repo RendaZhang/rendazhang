@@ -7,6 +7,8 @@
  * 若必须在运行时动态追加 env，请调用 refreshEnv() 手动刷新快照。
  */
 
+const runtimeEnv = import.meta.env;
+
 ///////////////////////////
 // 1. 快照构建 & 缓存逻辑 //
 ///////////////////////////
@@ -15,13 +17,10 @@ let _envCache: Record<string, string> | undefined;
 
 /** 捕获一份只读快照，避免在热路径频繁访问 process.env */
 const buildSnapshot = (): Record<string, string> => {
-  // Browser (Bundled by Vite / Rollup)
-  if (typeof import.meta !== 'undefined' && 'env' in import.meta) {
-    // 需要断言为特定结构，因为 TS 对 import.meta.env 无统一标准
-    return { ...(import.meta as { env: Record<string, string> }).env };
+  if (runtimeEnv) {
+    return { ...runtimeEnv } as Record<string, string>;
   }
 
-  // Node / Bun / EdgeRuntime
   if (typeof process !== 'undefined' && process.env) {
     return { ...process.env } as Record<string, string>;
   }
