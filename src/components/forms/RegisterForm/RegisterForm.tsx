@@ -12,7 +12,7 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { storage } from '../../../utils';
 
-interface RegisterFormValues extends Record<string, unknown> {
+interface RegisterFormValues {
   email: string;
   username: string;
   password: string;
@@ -57,21 +57,18 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const { values, errors, handleChange, validateAll } = useFormValidation<RegisterFormValues>(
     { email: '', username: '', password: '', confirm: '', agree: false },
     {
-      email: (val: unknown) => {
-        const value = val as string;
+      email: (value) => {
         if (!value) return errorsText?.emailRequired || '邮箱不能为空';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return errorsText?.emailInvalid || '邮箱格式错误';
         }
         return '';
       },
-      username: (val: unknown) =>
-        !(val as string) ? errorsText?.usernameRequired || '用户名不能为空' : '',
-      password: (val: unknown) =>
-        !(val as string) ? errorsText?.passwordRequired || '密码不能为空' : '',
-      confirm: (val: unknown, all: RegisterFormValues) =>
-        (val as string) !== all.password ? errorsText?.passwordMismatch || '两次密码不一致' : '',
-      agree: (val: unknown) => (!(val as boolean) ? errorsText?.agreement || '请勾选同意' : '')
+      username: (value) => (!value ? errorsText?.usernameRequired || '用户名不能为空' : ''),
+      password: (value) => (!value ? errorsText?.passwordRequired || '密码不能为空' : ''),
+      confirm: (value, all) =>
+        value !== all.password ? errorsText?.passwordMismatch || '两次密码不一致' : '',
+      agree: (value) => (!value ? errorsText?.agreement || '请勾选同意' : '')
     }
   );
   const { email, username, password, confirm, agree } = values;
@@ -223,7 +220,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           className="form-check-input"
           type="checkbox"
           checked={agree}
-          onChange={(e) => handleChange('agree', e.target.checked as boolean)}
+          onChange={(e) => handleChange('agree', e.target.checked)}
           required
         />
         <label htmlFor="agree" className="form-check-label">

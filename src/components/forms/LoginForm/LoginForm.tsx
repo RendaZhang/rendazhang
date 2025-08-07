@@ -11,7 +11,7 @@ import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
-interface LoginFormValues extends Record<string, unknown> {
+interface LoginFormValues {
   email: string;
   password: string;
 }
@@ -37,14 +37,12 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   const { values, errors, handleChange, validateAll } = useFormValidation<LoginFormValues>(
     { email: '', password: '' },
     {
-      email: (val: unknown) => {
-        const value = val as string;
+      email: (value) => {
         if (!value) return activeTexts.errors?.emailRequired || '邮箱不能为空';
         if (!value.includes('@')) return activeTexts.errors?.emailInvalid || '邮箱格式错误';
         return '';
       },
-      password: (val: unknown) => {
-        const value = val as string;
+      password: (value) => {
         if (!value) return activeTexts.errors?.passwordRequired || '密码不能为空';
         return '';
       }
