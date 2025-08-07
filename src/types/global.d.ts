@@ -30,6 +30,11 @@ declare module '*.pdf' {
   export default src;
 }
 
+declare module '*.svg' {
+  const src: string;
+  export default src;
+}
+
 declare global {
   interface Window {
     config?: GlobalConfig;
