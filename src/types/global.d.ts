@@ -32,7 +32,7 @@ declare module '*.pdf' {
 
 declare global {
   interface Window {
-    config: typeof GLOBAL_CONFIG;
+    config?: typeof GLOBAL_CONFIG;
   }
 }
 
