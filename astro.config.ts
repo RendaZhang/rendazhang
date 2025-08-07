@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
 import { loadEnv, type ProxyOptions } from 'vite';
+import logger from './src/utils/logger';
 
 const mode = process.env.NODE_ENV || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，
@@ -13,6 +14,20 @@ const mode = process.env.NODE_ENV || 'production';
 const env = loadEnv(mode, process.cwd(), '');
 process.env = { ...process.env, ...env };
 
+// Required environment variables
+const required = [
+  'PUBLIC_SENTRY_DSN',
+  'PUBLIC_SITE_BASE_URL',
+  'PUBLIC_CDN_BASE',
+  'PUBLIC_TAG_NAME',
+  'SENTRY_AUTH_TOKEN',
+  'SENTRY_ORG',
+  'SENTRY_PROJECT'
+];
+for (const key of required) {
+  if (!process.env[key]) throw new Error(`Missing env: ${key}`);
+}
+
 const PUBLIC_API_BASE_URL = process.env.PUBLIC_API_BASE_URL;
 const PUBLIC_CDN_BASE = process.env.PUBLIC_CDN_BASE;
 const PUBLIC_NODE_ENV = process.env.PUBLIC_NODE_ENV;
@@ -23,6 +38,8 @@ const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN;
 const SENTRY_ORG = process.env.SENTRY_ORG;
 const SENTRY_PROJECT = process.env.SENTRY_PROJECT;
 const SKIP_SENTRY = process.env.SKIP_SENTRY;
+
+logger.log("astro.config.ts PUBLIC_CDN_BASE: " + PUBLIC_CDN_BASE);
 
 // 可以在本地的 .env.local 配置环境变量为 true 临时跳过 Sentry
 const skipSentry = SKIP_SENTRY === 'true';
