@@ -4,9 +4,7 @@ import { NAV_CONTENT } from '../../../content';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '..';
 
-interface ThemeToggleProps {}
-
-export default function ThemeToggle(_props: ThemeToggleProps) {
+export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -16,7 +14,7 @@ export default function ThemeToggle(_props: ThemeToggleProps) {
   // 渲染中英文两套文本，避免首次挂载语言切换造成闪烁
   const textsZh = NAV_CONTENT.zh.theme;
   const textsEn = NAV_CONTENT.en.theme;
-  const texts = (NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.theme) || {};
+  const texts = NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.theme || {};
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -34,7 +32,7 @@ export default function ThemeToggle(_props: ThemeToggleProps) {
   }, []);
 
   const handleSelect = (isDark: boolean) => {
-      setTheme(isDark);
+    setTheme(isDark);
     setOpen(false);
   };
 

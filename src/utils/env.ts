@@ -17,8 +17,8 @@ let _envCache: Record<string, string> | undefined;
 const buildSnapshot = (): Record<string, string> => {
   // Browser (Bundled by Vite / Rollup)
   if (typeof import.meta !== 'undefined' && 'env' in import.meta) {
-    // 需要断言 any，因为 TS 对 import.meta.env 无统一标准
-    return { ...(import.meta as any).env };
+    // 需要断言为特定结构，因为 TS 对 import.meta.env 无统一标准
+    return { ...(import.meta as { env: Record<string, string> }).env };
   }
 
   // Node / Bun / EdgeRuntime
@@ -34,16 +34,16 @@ const buildSnapshot = (): Record<string, string> => {
 ////////////////////////
 
 export const envKeyMap = {
-  TAG_NAME:             ['PUBLIC_TAG_NAME'],
-  NODE_ENV:             ['PUBLIC_NODE_ENV', 'NODE_ENV'],
-  CDN_BASE:             ['PUBLIC_CDN_BASE'],
-  API_BASE_URL:         ['PUBLIC_API_BASE_URL'],
-  SENTRY_DSN:           ['PUBLIC_SENTRY_DSN', 'SENTRY_DSN'],
-  SITE_BASE_URL:        ['PUBLIC_SITE_BASE_URL'],
-  SENTRY_AUTH_TOKEN:    ['SENTRY_AUTH_TOKEN'],
-  SENTRY_ORG:           ['SENTRY_ORG'],
-  SENTRY_PROJECT:       ['SENTRY_PROJECT'],
-  SKIP_SENTRY:          ['SKIP_SENTRY'],
+  TAG_NAME: ['PUBLIC_TAG_NAME'],
+  NODE_ENV: ['PUBLIC_NODE_ENV', 'NODE_ENV'],
+  CDN_BASE: ['PUBLIC_CDN_BASE'],
+  API_BASE_URL: ['PUBLIC_API_BASE_URL'],
+  SENTRY_DSN: ['PUBLIC_SENTRY_DSN', 'SENTRY_DSN'],
+  SITE_BASE_URL: ['PUBLIC_SITE_BASE_URL'],
+  SENTRY_AUTH_TOKEN: ['SENTRY_AUTH_TOKEN'],
+  SENTRY_ORG: ['SENTRY_ORG'],
+  SENTRY_PROJECT: ['SENTRY_PROJECT'],
+  SKIP_SENTRY: ['SKIP_SENTRY']
 } as const;
 
 export type KnownEnvKey = keyof typeof envKeyMap;
@@ -66,9 +66,7 @@ export function getEnv<K extends string = KnownEnvKey>(
   // 1) 优先查映射表；2) 根据 PUBLIC_ 前缀推导互补键；3) 直接取原键
   const aliases =
     (envKeyMap as Record<string, readonly string[]>)[key] ??
-    (key.startsWith('PUBLIC_')
-      ? [key, key.replace(/^PUBLIC_/, '')]
-      : [`PUBLIC_${key}`, key]);
+    (key.startsWith('PUBLIC_') ? [key, key.replace(/^PUBLIC_/, '')] : [`PUBLIC_${key}`, key]);
 
   for (const k of aliases) {
     if (k in _envCache) return _envCache[k];

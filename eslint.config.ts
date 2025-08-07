@@ -7,9 +7,12 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 
 export default [
+  {
+    ignores: ['**/*.d.ts', '**/*.astro']
+  },
   js.configs.recommended,
   {
-    files: ['**/*.{js,jsx,ts,tsx,astro}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -36,6 +39,8 @@ export default [
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
+      '@typescript-eslint/no-explicit-any': 'warn',
+      'no-undef': 'off',
       'react/react-in-jsx-scope': 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }]
     }
