@@ -36,8 +36,8 @@ repos:
     hooks:
       - id: update-docs
         name: Update Docs TOC and Last Updated
-        entry: scripts/update_docs.sh
-        language: script
+        entry: npm run update-docs
+        language: system
         files: ^(README(?:_EN)?\.md|docs/.*\.md)$
 
   # 同步 README 文件

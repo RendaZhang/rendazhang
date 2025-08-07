@@ -10,6 +10,7 @@
     "astro": "astro",
     "generate-index": "tsx scripts/generateIndex.ts",
     "generate-hero": "tsx scripts/generate-hero.ts",
+    "update-docs": "tsx scripts/update_docs.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src astro.config.ts eslint.config.ts",
     "format": "prettier --write src scripts astro.config.ts eslint.config.ts tsconfig.json package.json"
