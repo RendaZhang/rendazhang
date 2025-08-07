@@ -14,7 +14,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src astro.config.ts eslint.config.ts",
     "format": "prettier --write src scripts astro.config.ts eslint.config.ts tsconfig.json package.json",
-    "sync-readme": "tsx scripts/sync_readme.ts"
+    "sync-readme": "tsx scripts/sync_readme.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
