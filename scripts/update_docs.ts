@@ -98,26 +98,43 @@ process.on('SIGTERM', () => {
  */
 function isFileModified(file: string): boolean {
   const relPath = path.relative(root, path.resolve(file));
-  const ls = spawnSync('git', ['ls-files', '--error-unmatch', relPath], { stdio: 'ignore' });
-  if (ls.status !== 0) {
-    log(`New untracked file: ${relPath}`);
-    return true;
-  }
-  const diff = spawnSync('git', ['diff', '--quiet', '--', relPath], { stdio: 'ignore' });
-  if (diff.status !== 0) {
-    const diffCached = spawnSync('git', ['diff', '--quiet', '--cached', '--', relPath], { stdio: 'ignore' });
-    if (diffCached.status !== 0) {
-      log(`Modified file in both Working Area and Staging Area: ${relPath}`);
-    } else {
+
+  // 使用 git status --porcelain 获取文件状态
+  const status = spawnSync('git', ['status', '--porcelain', relPath], {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore']
+  });
+
+  if (status.stdout) {
+    const statusCode = status.stdout.slice(0, 2);
+    // A  = new file in staging area
+    // ?? = untracked file
+    // MM = modified in both staging and working area
+    // M  = modified file in staging area
+    //  M = modified in working area
+    // AM = new file in staging area and modified in working area
+
+    if (statusCode === 'A ') {
+      log(`New file in Staging Area: ${relPath}`);
+      return true;
+    } else if (statusCode === '??') {
+      log(`New untracked file (in Working Area): ${relPath}`);
+      return true;
+    } else if (statusCode === 'MM') {
+      log(`Modified file in both Staging and Working Area: ${relPath}`);
+    } else if (statusCode === 'M ') {
+      log(`Modified file in Staging Area: ${relPath}`);
+      return true;
+    } else if (statusCode === ' M') {
       log(`Modified file in Working Area: ${relPath}`);
+      return true;
+    } else if (statusCode === 'AM') {
+      log(`New file in Staging Area and modified in Working Area: ${relPath}`);
+      return true;
     }
-    return true;
   }
-  const diffCachedOnly = spawnSync('git', ['diff', '--quiet', '--cached', '--', relPath], { stdio: 'ignore' });
-  if (diffCachedOnly.status !== 0) {
-    log(`Modified file in Staging Area: ${relPath}`);
-    return true;
-  }
+
+  // 如果没有状态输出，说明文件未修改
   log(`Unchanged file: ${relPath}`);
   return false;
 }
