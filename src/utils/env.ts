@@ -1,7 +1,7 @@
 /**
- * 环境变量工具的设计思路与性能细节 →
- * docs/guides/ENV_UTILS.md
- * Github Link: https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md
+ * 工具函数参考文档 →
+ * docs/guides/UTILITIES_REFERENCE.md
+ * Github Link: https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md
  *
  * 在启动阶段统一读取并校验 env，业务层只用纯 JS 常量，既安全又高效。
  * 若必须在运行时动态追加 env，请调用 refreshEnv() 手动刷新快照。

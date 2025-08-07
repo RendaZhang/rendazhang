@@ -26,9 +26,7 @@
     - [原生到 Astro + React 升级](#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7)
     - [响应式图片系统维护](#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4)
     - [错误跟踪](#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA)
-    - [环境变量工具函数](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-    - [语言工具函数](#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
-    - [存储工具函数](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
+    - [工具函数参考文档](#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3)
     - [预提交钩子综合指南](#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97)
   - [🤝 贡献指南](#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
   - [🔒 开源许可证](#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81)
@@ -39,7 +37,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
+- **最后更新**: August 07, 2025, 16:46 (UTC+08:00)
 
 ---
 
@@ -464,23 +462,11 @@ location /_astro/ {
 
 Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错误跟踪集成](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration).
 
-### 环境变量工具函数
+### 工具函数参考文档
 
-`src/utils/env.ts` 提供 `getEnv()`、`isProduction()`、`getCdnUrl()` 等方法，统一管理环境变量并兼容多运行环境。
+`src/utils/env.ts`、`src/utils/langUtils.ts` 与 `src/utils/storage.ts` 提供统一的环境变量访问、语言解析与多后端存储方案。
 
-文档详见：📄 [环境变量工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### 语言工具函数
-
-`src/utils/langUtils.ts` 提供 `getCurrentLang()` 等方法，统一管理页面语言的获取流程。
-
-文档详见：📄 [语言工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/LANG_UTILS.md#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### 存储工具函数
-
-`src/utils/storage.ts` 提供 `get`、`set`、`remove` 等方法，统一管理 `localStorage`、`sessionStorage`、Cookie 与 IndexedDB。
-
-文档详见：📄 [存储工具函数](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
+文档详见：📄 [工具函数参考文档](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3).
 
 ### 预提交钩子综合指南
 

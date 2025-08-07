@@ -26,9 +26,7 @@
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
-    - [Environment Variable Utility Functions](#environment-variable-utility-functions)
-    - [Language Utilities](#language-utilities)
-    - [Storage Utility](#storage-utility)
+    - [Utilities Reference](#utilities-reference)
     - [Comprehensive Pre-Commit Guide](#comprehensive-pre-commit-guide)
   - [🤝 Contribution Guide](#-contribution-guide)
   - [🔒 Open Source License](#-open-source-license)
@@ -39,7 +37,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 07, 2025, 12:01 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 16:46 (UTC+08:00)
 
 ---
 
@@ -463,23 +461,11 @@ The website uses an automated pipeline to generate responsive images with built-
 
 Sentry collects runtime and network errors. See 📄 [Error Tracking Integration](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration) for configuration.
 
-### Environment Variable Utility Functions
+### Utilities Reference
 
-`src/utils/env.ts` provides methods such as `getEnv()`, `isProduction()`, and `getCdnUrl()` to uniformly manage environment variables and ensure compatibility across multiple runtime environments.
+`src/utils/env.ts`, `src/utils/langUtils.ts`, and `src/utils/storage.ts` centralize environment variables, language resolution, and multi-backend storage.
 
-For detailed documentation, refer to: 📄 [Environment Variable Utility Functions](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/ENV_UTILS.md#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### Language Utilities
-
-`src/utils/langUtils.ts` exposes helpers such as `getCurrentLang()` to centralize language resolution.
-
-Details: 📄 [Language Utilities](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/LANG_UTILS.md#%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
-
-### Storage Utility
-
-`src/utils/storage.ts` offers a unified API (`get`, `set`, `remove`) for localStorage, sessionStorage, cookies, and IndexedDB.
-
-Details: 📄 [Storage Utility](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/STORAGE_UTILS.md#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0).
+Docs: 📄 [Utilities Reference](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3).
 
 ### Comprehensive Pre-Commit Guide
 
