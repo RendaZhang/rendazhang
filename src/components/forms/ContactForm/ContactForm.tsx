@@ -4,7 +4,7 @@ import { CONTACT_FORM_ENDPOINT } from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 
-interface ContactFormFields {
+interface ContactFormFields extends Record<string, string> {
   name: string;
   contact: string;
   _subject: string;
@@ -82,7 +82,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
     setStatus('loading');
     setError('');
     try {
-      const body = new URLSearchParams(form as unknown as Record<string, string>).toString();
+      const body = new URLSearchParams(form).toString();
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: 'POST',
         headers: {
