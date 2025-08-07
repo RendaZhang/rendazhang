@@ -13,13 +13,13 @@
 # 语言工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 04, 2025, 22:34 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
 ## 简介
 
-`src/utils/langUtils.js` 提供与语言相关的辅助方法。它优先读取 `<html>` 标签的 `lang` 属性，其次检查统一的 `storage` 中的 `LANG_STORAGE_KEY`，最后默认返回 `zh-CN`。
+`src/utils/langUtils.ts` 提供与语言相关的辅助方法。它优先读取 `<html>` 标签的 `lang` 属性，其次检查统一的 `storage` 中的 `LANG_STORAGE_KEY`，最后默认返回 `zh-CN`。
 
 ---
 
@@ -37,7 +37,7 @@
 
 ## 使用示例
 
-```js
+```ts
 import { getCurrentLang } from '@/utils/langUtils';
 
 const lang = getCurrentLang();

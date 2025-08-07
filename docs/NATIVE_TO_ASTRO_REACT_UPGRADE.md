@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 03:20 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
@@ -213,9 +213,9 @@ npx astro add react
 
 创建一个简单的 React 组件以测试集成是否成功。
 
-例如，新建 `src/components/Test.jsx`：
+例如，新建 `src/components/Test.tsx`：
 
-```jsx
+```tsx
 import { useState } from 'react';
 export default function Test() {
   const [count, setCount] = useState(0);
@@ -227,7 +227,7 @@ export default function Test() {
 
 ```astro
 ---
-import Test from '../components/Test.jsx';
+import Test from '../components/Test.tsx';
 ---
 
 <Test client:load />
@@ -302,7 +302,7 @@ src/assets/...
 优先快速起效，可直接在主布局的 `<head>` 中以 `<link href="/styles/your-styles.css" rel="stylesheet">` 方式引入旧有样式。
 
 随着重构推进，一些页面级样式已迁移到 `src/styles/components`，如 `about.css`、`chat_widget.css`、`certifications.css`、`deepseek_chat.css`、`docs.css`、`login.css`、`register.css` 等，在对应的布局或页面中直接通过 `import '../styles/components/foo.css'` 或在配置中引用构建后的 URL。登录与注册页的公共样式已从各自文件中剥离，统一合并至 `theme.css`，便于维护和主题切换。
-早期自定义脚本也陆续迁移至 `src/scripts`，如 `pages/index.js` 和 `pages/certifications.js` 已重构为 React 组件 `SocialIconsEffects.jsx` 与 `CertificationsEffects.jsx`，Docs 页面的逻辑也提炼为 `DocsEffects.jsx`。这些组件分别在对应页面通过 `<SocialIconsEffects client:load />`、`<CertificationsEffects client:load />` 与 `<DocsEffects client:load />` 调用，`credly_embed.js` 则被整合为 `CredlyBadge` 无需额外脚本。
+早期自定义脚本也陆续迁移至 `src/scripts`，如 `pages/index.js` 和 `pages/certifications.js` 已重构为 React 组件 `SocialIconsEffects.tsx` 与 `CertificationsEffects.tsx`，Docs 页面的逻辑也提炼为 `DocsEffects.tsx`。这些组件分别在对应页面通过 `<SocialIconsEffects client:load />`、`<CertificationsEffects client:load />` 与 `<DocsEffects client:load />` 调用，`credly_embed.js` 则被整合为 `CredlyBadge` 无需额外脚本。
 
 Astro 支持直接使用现有的 CSS 文件或库，无需完全重写样式。这样做能确保页面迁移初期视觉效果一致。
 
@@ -405,7 +405,7 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 要迁移的页面列表（旧版文件名 -> 新 Astro 页面路径）：
 
 - **个人介绍页** (`index_chinese.html`、`index_english.html`): 合并内容到 `about.astro`，统一布局与样式，测试多语言文本显示和站内链接是否正确。
-- **证书展示页** (`certifications.html`): 创建 `certifications.astro` 并迁移内容。该页可能包含证书图片列表或画廊。确保图像文件已在 `src/assets` 下，链接正确。可以考虑将证书数据（如图片 URL 及描述）提取为一个 JSON / 数组，让 Astro 页面动态生成列表，从而演示 **服务层** 和组件复用：例如创建一个 `certList.js` 服务模块导出证书数据数组，页面通过导入数据生成多个证书项组件。这样将数据与呈现分离，便于后续扩展。
+- **证书展示页** (`certifications.html`): 创建 `certifications.astro` 并迁移内容。该页可能包含证书图片列表或画廊。确保图像文件已在 `src/assets` 下，链接正确。可以考虑将证书数据（如图片 URL 及描述）提取为一个 JSON / 数组，让 Astro 页面动态生成列表，从而演示 **服务层** 和组件复用：例如创建一个 `certList.ts` 服务模块导出证书数据数组，页面通过导入数据生成多个证书项组件。这样将数据与呈现分离，便于后续扩展。
 - **技术文档页** (`docs.html`): 创建 `docs.astro` 迁移内容。如果该页只是静态文章或链接集合，可直接搬内容。如果有很多重复的样式结构，考虑提取为组件（例如文档条目组件）。
 
 对于每个页面：
@@ -435,12 +435,12 @@ Astro 模板基本兼容 HTML，大部分静态标记可以直接使用。需要
 
 ### 创建 React 聊天组件
 
-在 `src/components/chat/` 新建 React 组件文件 `Chat.jsx`。
+在 `src/components/chat/` 新建 React 组件文件 `Chat.tsx`。
 此组件随后被拆分为 `ChatMessageList`、`ChatInput`、`LoadingIndicator` 等子组件，以提升复用性与可维护性。
 
 用 React 重写聊天界面和逻辑：
 
-```jsx
+```tsx
 import { useState } from 'react';
 import sendMessageToAI from '../services/chatService'; // 服务层封装的API调用
 export default function Chat() {
@@ -545,7 +545,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 此时已经运用了 React 的 Hooks 来管理组件内部状态。
 
-同时，我们在这一过程中建立了 **组件层** （Chat.jsx 及拆分出的 `ChatMessageList`、`ChatInput` 等 UI 组件）和 **服务层** （chatService.ts 调用封装）的清晰分离，为未来扩展打下基础。
+同时，我们在这一过程中建立了 **组件层** （Chat.tsx 及拆分出的 `ChatMessageList`、`ChatInput` 等 UI 组件）和 **服务层** （chatService.ts 调用封装）的清晰分离，为未来扩展打下基础。
 
 这也验证了在 Astro 中使用 React 进行复杂交互的能力。
 
@@ -571,9 +571,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 实现步骤：
 
-1. 定义 Context：在 `src/components/providers/ThemeProvider.jsx` 中创建：
+1. 定义 Context：在 `src/components/providers/ThemeProvider.tsx` 中创建：
 
-```jsx
+```tsx
 import { createContext, useContext, useState } from 'react';
 const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
@@ -591,7 +591,7 @@ export function ThemeProvider({ children }) {
 
 ```astro
 ---
-import { ThemeProvider } from '../components/providers/ThemeProvider.jsx';
+import { ThemeProvider } from '../components/providers/ThemeProvider.tsx';
 import NavBar from '../components/NavBar.astro';
 ---
 
@@ -610,8 +610,8 @@ import NavBar from '../components/NavBar.astro';
 
 3. 在需要的组件中使用 Context：例如在 NavBar 的 React 子组件里放一个切换按钮：
 
-```jsx
-import { useTheme } from '../components/providers/ThemeProvider.jsx';
+```tsx
+import { useTheme } from '../components/providers/ThemeProvider.tsx';
 const { darkMode, toggle } = useTheme();
 // 点击按钮调用 toggle() 切换 darkMode 状态
 ```

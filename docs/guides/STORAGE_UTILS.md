@@ -22,7 +22,7 @@
 # 存储工具函数
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 19:59 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
@@ -170,8 +170,8 @@ const data = await storage.getIndexedDB('analytics', 'metricsDB', 'records');
 ## 最佳实践
 
 1. **键名管理**：
-   ```javascript
-   // src/constants/settings.js
+   ```ts
+   // src/constants/settings.ts
    export const THEME_STORAGE_KEY = 'preferred_theme';
    export const LANG_STORAGE_KEY = 'preferred_lang';
    export const REGISTER_DRAFT_KEY = 'register_draft';

@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
@@ -383,7 +383,7 @@
   - 构建日志报 `document is not defined`
   - 终止于 `/about/index.html`
 - **根本原因**：
-  - `ContactSection.jsx` 在服务端渲染阶段调用 `document` 和 `window`
+  - `ContactSection.tsx` 在服务端渲染阶段调用 `document` 和 `window`
 - **解决方案**：
   - 检查 `document` 和 `window` 是否存在后再访问
   - 服务器端返回空内容，客户端加载后再根据语言注入数据
@@ -637,7 +637,7 @@
   - 表单组件位于 `src/components/forms/...`，相对路径应为 `../../../hooks`
   - 重构后遗漏更新，导致导入路径错误
 - **解决方案**：
-  - 更新 `LoginForm.jsx` 与 `RegisterForm.jsx` 中的导入路径
+  - 更新 `LoginForm.tsx` 与 `RegisterForm.tsx` 中的导入路径
   - 检查其他文件确保路径正确
 - **验证结果**：✅ 路径修正后构建通过
 
@@ -810,8 +810,8 @@
   - SDK 默认捕获所有上下文数据
 - **解决方案**：
   1. 添加 beforeSend 过滤钩子：
-     ```js
-     // src/sentry.client.config.js
+     ```ts
+     // src/sentry.client.config.ts
      export default {
        beforeSend(event) {
          // 移除敏感字段

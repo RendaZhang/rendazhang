@@ -11,7 +11,7 @@
       - [本地 production 模拟](#%E6%9C%AC%E5%9C%B0-production-%E6%A8%A1%E6%8B%9F)
   - [Sentry 初始化配置](#sentry-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE)
     - [`astro.config.mjs` 关键配置](#astroconfigmjs-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
-    - [`sentry.client.config.js` 浏览器端配置](#sentryclientconfigjs-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE)
+    - [`sentry.client.config.ts` 浏览器端配置](#sentryclientconfigts-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE)
   - [错误过滤与安全策略](#%E9%94%99%E8%AF%AF%E8%BF%87%E6%BB%A4%E4%B8%8E%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5)
     - [安全过滤规则](#%E5%AE%89%E5%85%A8%E8%BF%87%E6%BB%A4%E8%A7%84%E5%88%99)
     - [推荐增强过滤](#%E6%8E%A8%E8%8D%90%E5%A2%9E%E5%BC%BA%E8%BF%87%E6%BB%A4)
@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 06, 2025, 22:15 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
 
 ---
 
@@ -46,7 +46,7 @@
 |-----------|---------------|----------------|
 | `.env` / `.env.local`     | 存储本地开发用的环境变量 | ❌ 否   |
 | `astro.config.mjs`        | Astro 主配置文件，集成 Sentry 插件 | ✅ 是 |
-| `sentry.client.config.js` | Sentry 浏览器端初始化配置 | ✅ 是   |
+| `sentry.client.config.ts` | Sentry 浏览器端初始化配置 | ✅ 是   |
 
 ### 环境变量说明
 
@@ -108,7 +108,7 @@ export NODE_ENV=production && npm run dev
 
 ### `astro.config.mjs` 关键配置
 
-```javascript
+```ts
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sentry from '@sentry/astro';
@@ -123,7 +123,7 @@ export default defineConfig({
   integrations: [
     react(),
     sentry({
-      clientInitPath: './src/sentry.client.config.js',
+      clientInitPath: './src/sentry.client.config.ts',
       sourceMapsUploadOptions: {
         authToken: getEnv('SENTRY_AUTH_TOKEN'),
         org: getEnv('SENTRY_ORG'),
@@ -143,9 +143,9 @@ export default defineConfig({
 });
 ```
 
-### `sentry.client.config.js` 浏览器端配置
+### `sentry.client.config.ts` 浏览器端配置
 
-```javascript
+```ts
 import * as Sentry from '@sentry/astro';
 import { getEnv, isProduction } from './src/utils/env';
 
@@ -180,7 +180,7 @@ Sentry.init({
 
 ### 推荐增强过滤
 
-```javascript
+```ts
 // 在 beforeSend 中添加
 denyUrls: [
   /localhost/,
@@ -250,13 +250,13 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
 > 若仅做 UI 开发、不想上传事件，可在启动命令前加 `SKIP_SENTRY=true`（已在 `astro.config.mjs` 里检测此环境变量）。
 
 1. **启用调试模式**：
-   ```javascript
-   // sentry.client.config.js
+   ```ts
+   // sentry.client.config.ts
    debug: true // 显示初始化日志
    ```
 
 2. **模拟错误测试**：
-   ```javascript
+   ```ts
    // 在组件中手动触发错误
    function testSentry() {
      try {
@@ -270,7 +270,7 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
    ```
 
 3. **开发环境过滤**：
-   ```javascript
+   ```ts
    // 本地只记录不上报
    if (import.meta.env.DEV) {
      Sentry.init({
@@ -293,7 +293,7 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
 ### 错误监控策略
 
 1. **关键错误实时报警**：
-   ```javascript
+   ```ts
    // 严重错误发送通知
    Sentry.init({
      integrations: [
@@ -305,7 +305,7 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
    ```
 
 2. **性能监控集成**：
-   ```javascript
+   ```ts
    tracesSampleRate: 0.2, // 20% 的性能数据采样
    _experiments: {
      metrics: { enabled: true } // 启用实验性指标
