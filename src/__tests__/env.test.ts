@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { getEnv, refreshEnv, isProduction, getCdnUrl } from '../utils/env';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 
@@ -21,7 +20,11 @@ describe('env utilities', () => {
     const code = `import { refreshEnv, isProduction, getCdnUrl } from '${envFile}';\nrefreshEnv();\nconsole.log(JSON.stringify({prod: isProduction(), url: getCdnUrl('/asset.png')}));`;
     const first = JSON.parse(
       spawnSync('node', ['--import', 'tsx', '-e', code], {
-        env: { ...process.env, PUBLIC_NODE_ENV: 'production', PUBLIC_CDN_BASE: 'https://cdn.example.com/' },
+        env: {
+          ...process.env,
+          PUBLIC_NODE_ENV: 'production',
+          PUBLIC_CDN_BASE: 'https://cdn.example.com/'
+        },
         encoding: 'utf-8'
       }).stdout.trim()
     );
@@ -30,7 +33,11 @@ describe('env utilities', () => {
 
     const second = JSON.parse(
       spawnSync('node', ['--import', 'tsx', '-e', code], {
-        env: { ...process.env, PUBLIC_NODE_ENV: 'development', PUBLIC_CDN_BASE: 'https://cdn2.com/' },
+        env: {
+          ...process.env,
+          PUBLIC_NODE_ENV: 'development',
+          PUBLIC_CDN_BASE: 'https://cdn2.com/'
+        },
         encoding: 'utf-8'
       }).stdout.trim()
     );

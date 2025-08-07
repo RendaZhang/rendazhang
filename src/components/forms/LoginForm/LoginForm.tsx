@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import {
-  HOME_PAGE_PATH,
-  REGISTER_PAGE_PATH,
-  LOADING_TEXT,
-  AUTH_TIMINGS,
-  API_BASE_URL
-} from '../../../constants';
+import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
+import logger from '../../../utils/logger';
+import * as Sentry from '@sentry/react';
+import { getEnv, isProduction } from '../../../utils/env';
+
 interface LoginFormValues {
   email: string;
   password: string;
@@ -184,7 +182,16 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           type="button"
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
-            window.location.href = `${API_BASE_URL}/auth/google`;
+            //window.location.href = `${API_BASE_URL}/auth/google`;
+            logger.log('LoginForm PUBLIC_CDN_BASE: ' + getEnv('PUBLIC_CDN_BASE'));
+            logger.log('LoginForm CDN_BASE: ' + getEnv('CDN_BASE'));
+            logger.log('isProduction isProduction: ' + isProduction());
+            logger.log('LoginForm import.meta.PUBLIC_CDN_BASE: ' + import.meta.env.PUBLIC_CDN_BASE);
+            Sentry.captureException(
+              new Error(
+                'Sentry Testing in Login Form PUBLIC_TAG_NAME: ' + getEnv('PUBLIC_TAG_NAME')
+              )
+            );
           }}
         >
           <LocalizedSection
