@@ -79,11 +79,11 @@ repos:
         types_or: [javascript, jsx, astro, css]
         exclude: \.(js|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
-  # ESLint 检查（本地钩子，自动修复可修复问题）
+  # ESLint 检查（本地钩子）
   - repo: local
     hooks:
       - id: eslint
         name: ESLint Check
-        entry: npx eslint --fix --ext .js,.jsx,.astro src/
+        entry: npx eslint --ext .ts,.tsx,.astro src/
         language: system
-        types: [javascript, jsx, astro, markdown]
+        types: [javascript, jsx, astro]
