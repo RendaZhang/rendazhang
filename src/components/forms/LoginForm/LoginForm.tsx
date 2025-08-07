@@ -86,7 +86,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       setTimeout(() => {
         window.location.href = HOME_PAGE_PATH + '/';
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
-    } catch (err) {
+    } catch {
       setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
       setStatus('error');
     }

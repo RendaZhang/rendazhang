@@ -72,7 +72,9 @@ export default defineConfig({
                 rewrite: (path: string) =>
                   path.replace(
                     new RegExp(`^${PUBLIC_API_BASE_URL}`),
-                    PUBLIC_API_BASE_URL.startsWith('/') ? PUBLIC_API_BASE_URL : `/${PUBLIC_API_BASE_URL}`
+                    PUBLIC_API_BASE_URL.startsWith('/')
+                      ? PUBLIC_API_BASE_URL
+                      : `/${PUBLIC_API_BASE_URL}`
                   )
               } as ProxyOptions
             }

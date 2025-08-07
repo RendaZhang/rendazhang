@@ -20,7 +20,7 @@ interface ThemeContextValue {
 const defaultContext: ThemeContextValue = {
   darkMode: false,
   toggle: () => {},
-  setTheme: (_isDark: boolean) => {}
+  setTheme: () => {}
 };
 
 const ThemeContext = createContext<ThemeContextValue>(defaultContext);

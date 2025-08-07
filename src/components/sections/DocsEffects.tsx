@@ -58,7 +58,7 @@ export default function DocsEffects(): null {
           : '#content-en .language-mermaid';
       mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
       console.log('All enhancements applied');
-    } catch (e) {
+    } catch {
       document.getElementById('content-zh')!.innerHTML = '<p>加载文档时出错</p>';
       document.getElementById('content-en')!.innerHTML = '<p>Error loading documentation</p>';
     }
