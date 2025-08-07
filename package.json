@@ -11,8 +11,8 @@
     "generate-index": "tsx scripts/generateIndex.ts",
     "generate-hero": "tsx scripts/generate-hero.ts",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src/utils/env.ts src/components/ui/inputs/ThemeToggle.tsx",
-    "format": "prettier tsconfig.json eslint.config.ts package.json src/utils/env.ts src/components/ui/inputs/ThemeToggle.tsx --write"
+    "lint": "eslint src astro.config.ts eslint.config.ts",
+    "format": "prettier --write src scripts astro.config.ts eslint.config.ts tsconfig.json package.json"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
