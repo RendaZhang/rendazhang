@@ -1,4 +1,5 @@
 import { API_BASE_URL, ENDPOINTS } from './api';
+import type { GlobalConfig } from '../types/config';
 
 export const VIEWPORT_ZOOM_ALLOWED =
   'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
@@ -51,13 +52,15 @@ export const AUTH_TIMINGS = {
 export const LEGACY_CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
 export const TYPING_INTERVAL = 30;
 
-export const GLOBAL_CONFIG = {
+export const GLOBAL_CONFIG: GlobalConfig = {
   API_BASE_URL,
   ENDPOINTS,
   LEGACY_CHAT_ENDPOINT,
   TYPING_INTERVAL
-} as const;
+};
 
 if (typeof window !== 'undefined') {
   window.config = GLOBAL_CONFIG;
 }
+
+export type { GlobalConfig };

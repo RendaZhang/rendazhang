@@ -1,4 +1,4 @@
-import type { GLOBAL_CONFIG } from '../constants/settings';
+import type { GlobalConfig } from '../constants/settings';
 
 /**
  * Global ambient type declarations.
@@ -32,7 +32,7 @@ declare module '*.pdf' {
 
 declare global {
   interface Window {
-    config?: typeof GLOBAL_CONFIG;
+    config?: GlobalConfig;
   }
 }
 
