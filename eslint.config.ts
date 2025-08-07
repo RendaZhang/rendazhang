@@ -10,9 +10,8 @@ export default [
   {
     ignores: ['**/*.d.ts', '**/*.astro']
   },
-  js.configs.recommended,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -37,6 +36,7 @@ export default [
       }
     },
     rules: {
+      ...js.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': 'error',
