@@ -20,6 +20,58 @@ import {
 import { isProduction } from '../utils/env';
 import '../styles/theme.css';
 
+interface OpenGraphProps {
+  title?: string;
+  description?: string;
+  url?: string;
+  type?: string;
+  image?: string;
+  site_name?: string;
+  imageWidth?: string;
+  imageHeight?: string;
+  imageAlt?: string;
+  imageType?: string;
+  secureImageUrl?: string;
+}
+
+interface TwitterCardProps {
+  card?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  site?: string;
+  creator?: string;
+  url?: string;
+  domain?: string;
+}
+
+interface BaseLayoutProps {
+  lang?: string;
+  title?: string;
+  titleZh?: string;
+  titleEn?: string;
+  description?: string;
+  viewport?: string;
+  canonical?: string;
+  personSchemaJson?: string;
+  extraStyles?: Array<string | URL | null | undefined>;
+  preloadStyles?: Array<string | URL | null | undefined>;
+  extraScripts?: Array<string | null | undefined>;
+  showNav?: boolean;
+  showFooter?: boolean;
+  bodyClass?: string;
+  mainClass?: string;
+  bodyAttrs?: Record<string, unknown>;
+  mainAttrs?: Record<string, unknown>;
+  og?: OpenGraphProps;
+  twitter?: TwitterCardProps;
+  includeGeo?: boolean;
+  metaRobots?: string;
+  metaLanguage?: string;
+  metaAuthor?: string;
+}
+
 const {
   lang: langProp,
   title = '',
@@ -44,7 +96,7 @@ const {
   metaRobots = 'index, follow',
   metaLanguage = '',
   metaAuthor = ''
-} = Astro.props;
+}: BaseLayoutProps = Astro.props;
 
 const lang = langProp || 'zh-CN';
 const initialLang = lang;
