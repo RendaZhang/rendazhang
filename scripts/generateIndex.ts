@@ -1,20 +1,22 @@
 import { readdir, readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 
+type GenerateResult = { hasJs: boolean; hasTs: boolean };
+
 const ROOT = path.resolve('src');
 const JS_FILE_EXTS = new Set(['.js', '.cjs', '.mjs', '.jsx']);
 const TS_FILE_EXTS = new Set(['.ts', '.tsx']);
 
-function toExportName(file) {
+function toExportName(file: string): string {
   const name = path.parse(file).name;
   return name.replace(/[-_]+(\w)/g, (_, c) => c.toUpperCase());
 }
 
-async function generate(dir) {
+async function generate(dir: string): Promise<GenerateResult> {
   const entries = await readdir(dir, { withFileTypes: true });
-  const dirs = [];
-  const jsFiles = [];
-  const tsFiles = [];
+  const dirs: string[] = [];
+  const jsFiles: string[] = [];
+  const tsFiles: string[] = [];
   let skipCurrent = false;
   let hasIndexTs = false;
 
@@ -51,7 +53,7 @@ async function generate(dir) {
   const relativePath = path.relative(ROOT, dir);
   const isTypesDir = relativePath.split(path.sep).includes('types');
 
-  const subResults = [];
+  const subResults: Array<[string, GenerateResult]> = [];
   for (const d of dirs) {
     const res = await generate(path.join(dir, d));
     subResults.push([d, res]);
@@ -61,8 +63,8 @@ async function generate(dir) {
   let hasTs = hasIndexTs || tsFiles.length > 0 || subResults.some(([, r]) => r.hasTs);
   if (isTypesDir) hasJs = false;
 
-  const linesJs = [];
-  const linesTs = [];
+  const linesJs: string[] = [];
+  const linesTs: string[] = [];
 
   if (skipCurrent) {
     return { hasJs, hasTs };
@@ -181,4 +183,5 @@ async function generate(dir) {
 
   return { hasJs, hasTs };
 }
+
 await generate(ROOT);

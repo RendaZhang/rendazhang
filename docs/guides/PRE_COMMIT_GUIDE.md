@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 06:33 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:20 (UTC+08:00)
 
 ---
 
@@ -185,7 +185,7 @@ Assets: bgmusic-artist-song.mp3
 > 若输出如上所示，请修改文件名后重新运行脚本。
 
 **相关文件**：
-- `scripts/validate_assets.cjs` - 验证脚本
+- `scripts/validate_assets.ts` - 验证脚本
 
 ### 索引文件生成钩子 (generate-index)
 
@@ -221,11 +221,11 @@ export { default as useAuth } from './useAuth';
 
 **维护建议**：
 - 新增或移动模块后可手动运行脚本确认导出正确。
-- 如需支持更多文件类型或自定义规则，可修改 `scripts/generateIndex.mjs`。
+- 如需支持更多文件类型或自定义规则，可修改 `scripts/generateIndex.ts`。
 - 确保本地环境 Node.js 版本符合项目要求（建议 v18+）。
 
 **相关文件**：
-- `scripts/generateIndex.mjs`  - 生成脚本
+- `scripts/generateIndex.ts`  - 生成脚本
 
 ---
 

@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "validate-assets": "node scripts/validate_assets.cjs",
+    "validate-assets": "tsx scripts/validate_assets.ts",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-index": "node scripts/generateIndex.mjs",
+    "generate-index": "tsx scripts/generateIndex.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -39,6 +39,7 @@
     "eslint-plugin-react": "^7.37.5",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }
 }

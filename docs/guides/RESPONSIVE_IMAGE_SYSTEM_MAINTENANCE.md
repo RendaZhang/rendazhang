@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 03:54 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:20 (UTC+08:00)
 
 ---
 
@@ -87,7 +87,7 @@ project-root/
 │   │   │   └── gallery-processor.js
 │   │   ├── utils.js            # 通用工具函数
 │   │   └── image-generator.js  # 核心生成逻辑
-│   └── generate-images.js      # 入口脚本
+│   └── generate-hero.ts      # 入口脚本
 ├── public/
 │   └── assets/
 │       ├── heroes/             # Hero 图输出
@@ -111,17 +111,17 @@ project-root/
 
 ### 入口脚本
 
-`scripts/generate-images.js`
+`scripts/generate-hero.ts`
 
 ```bash
 # 处理所有图片类型
-node scripts/generate-images.js --all
+npx scripts/generate-hero.ts --all
 
 # 处理特定图片类型
-node scripts/generate-images.js --type=hero
+npx scripts/generate-hero.ts --type=hero
 
 # 自定义配置
-node scripts/generate-images.js \
+npx scripts/generate-hero.ts \
   --type=gallery \
   --input-dir=scripts/images/gallery \
   --output-dir=public/assets/gallery \
@@ -205,11 +205,11 @@ graph TB
 
 ```bash
 # 更新Hero图
-node scripts/generate-images.js --type=hero
+npx scripts/generate-hero.ts --type=hero
 
 # 添加新Hero图
 cp new-hero.jpg scripts/images/
-node scripts/generate-images.js --type=hero --input-dir=scripts/images/new-hero.jpg
+npx scripts/generate-hero.ts --type=hero --input-dir=scripts/images/new-hero.jpg
 ```
 
 ---
@@ -403,7 +403,7 @@ function GalleryItem({ imageName }) {
        steps:
          - uses: actions/checkout@v3
          - run: npm install
-         - run: node scripts/generate-images.js --all
+         - run: npx scripts/generate-hero.ts --all
          - uses: actions/upload-artifact@v3
            with:
              name: generated-images
@@ -446,9 +446,6 @@ graph LR
 ```bash
 # 检查图片信息
 npx sharp inspect public/assets/heroes/hero-main-1920w.webp
-
-# 性能分析
-node --cpu-prof scripts/generate-images.js --type=hero
 
 # 尺寸适配测试
 npx responsively-app

@@ -1,5 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const imageRegex =
   /^[\w-]+-[\w-]+-(?:low|medium|high)-(?:square|circle|rectangle)-(\d+)x(\d+)\.(?:jpg|png|ico)$/i;
@@ -9,8 +12,8 @@ const qrcodeRegex =
   /^qrcode-[\w-]+-(?:low|medium|high)-(?:square|circle|rectangle)-(\d+)x(\d+)\.jpg$/i;
 const readmeRegex = /^README(_EN)?\.md$/i;
 
-function validate(dir, regexes) {
-  const errors = [];
+function validate(dir: string, regexes: RegExp[]): string[] {
+  const errors: string[] = [];
   for (const name of fs.readdirSync(dir)) {
     const filePath = path.join(dir, name);
     if (fs.statSync(filePath).isDirectory()) continue;
@@ -34,4 +37,5 @@ if (assetErrors.length) {
   console.error('Assets:', assetErrors.join(', '));
   process.exit(1);
 }
+
 console.log('All asset file names follow the expected conventions.');

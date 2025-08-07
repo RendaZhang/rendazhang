@@ -4,8 +4,8 @@
  * 每次修改原始图片后需要重新运行。
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import sharp from 'sharp';
 
 // 在脚本开头添加，提高处理速度
@@ -36,11 +36,15 @@ if (!fs.existsSync(DATA_DIR)) {
   console.log(`创建目录: ${DATA_DIR}`);
 }
 
+type Format =
+  | { type: 'webp'; options: sharp.WebpOptions }
+  | { type: 'jpeg'; options: sharp.JpegOptions };
+
 /**
  * 生成响应式图片
  * 根据配置的尺寸和格式生成多种分辨率的图片。
  */
-async function generateResponsiveImages() {
+async function generateResponsiveImages(): Promise<void> {
   // 获取图片元数据
   const metadata = await sharp(SOURCE_IMAGE).metadata();
   // 获取文件的状态信息
@@ -49,9 +53,9 @@ async function generateResponsiveImages() {
     `原始图片尺寸: ${metadata.width}x${metadata.height} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`
   );
 
-  const aspectRatio = metadata.height / metadata.width;
+  const aspectRatio = (metadata.height ?? 1) / (metadata.width ?? 1);
 
-  const formats = [
+  const formats: Format[] = [
     { type: 'webp', options: { quality: 75 } },
     { type: 'jpeg', options: { quality: 80, mozjpeg: true } }
   ];
@@ -63,10 +67,12 @@ async function generateResponsiveImages() {
         const height = Math.round(width * aspectRatio); // 根据宽高比计算高度
         const outputFile = path.join(OUTPUT_DIR, `hero-${IMAGE_NAME}-${width}w.${format.type}`);
 
-        await sharp(SOURCE_IMAGE)
-          .resize(width, height)
-          [format.type](format.options)
-          .toFile(outputFile);
+        const processor = sharp(SOURCE_IMAGE).resize(width, height);
+        if (format.type === 'webp') {
+          await processor.webp(format.options).toFile(outputFile);
+        } else {
+          await processor.jpeg(format.options).toFile(outputFile);
+        }
 
         const stats = fs.statSync(outputFile);
         console.log(
@@ -81,7 +87,7 @@ async function generateResponsiveImages() {
  * 生成低质量图片占位符 (LQIP)
  * 生成一个低分辨率的 Base64 图片，用于图片加载前的占位。
  */
-async function generateLqip() {
+async function generateLqip(): Promise<void> {
   const lqipBuffer = await sharp(SOURCE_IMAGE)
     .resize(20) // 宽度 20px
     .jpeg({
@@ -91,13 +97,11 @@ async function generateLqip() {
     .toBuffer();
 
   const lqipBase64 = lqipBuffer.toString('base64');
+  const metadata = await sharp(SOURCE_IMAGE).metadata();
 
   // 生成完整的ES模块文件
   const imageName = IMAGE_NAME.replace(/-/g, '_').toUpperCase();
-  const dataContent = `export const ${imageName} = {
-  base64: '${lqipBase64}',
-  aspectRatio: ${(await sharp(SOURCE_IMAGE).metadata()).height / (await sharp(SOURCE_IMAGE).metadata()).width}
-};\n`;
+  const dataContent = `export const ${imageName} = {\n  base64: '${lqipBase64}',\n  aspectRatio: ${(metadata.height ?? 1) / (metadata.width ?? 1)}\n};\n`;
 
   fs.writeFileSync(DATA_FILE, dataContent);
   console.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
@@ -110,7 +114,7 @@ async function generateLqip() {
  * 主执行函数
  * 协调图片生成和 LQIP 生成流程。
  */
-async function main() {
+async function main(): Promise<void> {
   console.log('🚀 开始处理英雄图...');
   console.log(`源文件: ${path.relative(process.cwd(), SOURCE_IMAGE)}`);
 
