@@ -165,15 +165,31 @@ async function main() {
     return;
   }
   log(`Found ${modifiedFiles.length} modified files: ${modifiedFiles.join(' ')}`);
-  const doctocCheck = spawnSync('doctoc', ['--version'], { stdio: 'ignore' });
-  if (doctocCheck.status === 0) {
+  const doctocCheck = spawnSync('doctoc', [], {
+    encoding: 'utf-8',
+    stdio: ['ignore', 'pipe', 'pipe'] // 仅捕获 stdout 和 stderr
+  });
+  let isDoctocInstalled = false;
+  if (doctocCheck.error) {
+    log('SKIP: doctoc not installed (command not found)');
+  } else if (doctocCheck.status === null) {
+    log('SKIP: doctoc not installed (unknown error)');
+  } else {
+    const output = doctocCheck.stdout + doctocCheck.stderr;
+    if (doctocCheck.status === 0 || output.includes("Usage: doctoc")) {
+      isDoctocInstalled = true;
+    }
+  }
+  if (isDoctocInstalled) {
     log('Running doctoc on modified files...');
-    const res = spawnSync('doctoc', modifiedFiles, { stdio: 'inherit' });
+    const res = spawnSync('doctoc', modifiedFiles, {
+      stdio: 'inherit'
+    });
     if (res.status !== 0) {
       log('WARNING: doctoc encountered issues but continuing anyway');
     }
   } else {
-    log('SKIP: doctoc not installed');
+    log('SKIP: doctoc not installed or not in PATH');
   }
   log("Updating 'Last updated' timestamps on modified files...");
   try {

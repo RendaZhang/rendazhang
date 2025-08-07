@@ -1,7 +1,45 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Migrate the Project Toward TypeScript](#migrate-the-project-toward-typescript)
+  - [Enable TypeScript for existing JavaScript files by adjusting the compiler options](#enable-typescript-for-existing-javascript-files-by-adjusting-the-compiler-options)
+  - [Expand ESLint for TypeScript support](#expand-eslint-for-typescript-support)
+  - [Migrate a small component to TypeScript to validate the setup (e.g., ThemeToggle.jsx)](#migrate-a-small-component-to-typescript-to-validate-the-setup-eg-themetogglejsx)
+  - [Convert utilities and constants to TypeScript](#convert-utilities-and-constants-to-typescript)
+  - [Fix TypeScript type errors in config and utils](#fix-typescript-type-errors-in-config-and-utils)
+  - [Introduce global type declarations and check script](#introduce-global-type-declarations-and-check-script)
+  - [Add TypeScript index files and update exports](#add-typescript-index-files-and-update-exports)
+  - [Add TypeScript index files and update exports](#add-typescript-index-files-and-update-exports-1)
+  - [Migrate core services and models to TypeScript](#migrate-core-services-and-models-to-typescript)
+  - [Migrate hooks to TypeScript](#migrate-hooks-to-typescript)
+  - [Migrate data and content modules to TypeScript](#migrate-data-and-content-modules-to-typescript)
+  - [Migrate the basic components under `src/components/ui` to `.tsx` and add types.](#migrate-the-basic-components-under-srccomponentsui-to-tsx-and-add-types)
+  - [Migrate `src/components/layouts` and `src/components/providers` to `.tsx`.](#migrate-srccomponentslayouts-and-srccomponentsproviders-to-tsx)
+  - [Convert forms to TypeScript .tsx files](#convert-forms-to-typescript-tsx-files)
+  - [Rename .jsx files in chat component](#rename-jsx-files-in-chat-component)
+  - [Migrate the sections and the remaining generic components to `.tsx`.](#migrate-the-sections-and-the-remaining-generic-components-to-tsx)
+  - [Update tsconfig.json and validate types](#update-tsconfigjson-and-validate-types)
+  - [Define request/response interfaces in apiClient](#define-requestresponse-interfaces-in-apiclient)
+  - [Install dependencies and clean scripts](#install-dependencies-and-clean-scripts)
+  - [Migrate scripts to TypeScript and remove JS](#migrate-scripts-to-typescript-and-remove-js)
+  - [Update ESLint config to TypeScript](#update-eslint-config-to-typescript)
+  - [Remove @ts-nocheck and fix type errors](#remove-ts-nocheck-and-fix-type-errors)
+  - [Update 500 and 404 pages for multilingual support](#update-500-and-404-pages-for-multilingual-support)
+  - [Check and remove ts-nocheck in generateIndex.ts](#check-and-remove-ts-nocheck-in-generateindexts)
+  - [Enable strict type checking for TypeScript](#enable-strict-type-checking-for-typescript)
+  - [Fix moderate severity vulnerabilities in dompurify](#fix-moderate-severity-vulnerabilities-in-dompurify)
+  - [Update import statements to remove extensions](#update-import-statements-to-remove-extensions)
+  - [Add AstroComponent import and BaseLayoutProps definitionAdd AstroComponent import and BaseLayoutProps definition](#add-astrocomponent-import-and-baselayoutprops-definitionadd-astrocomponent-import-and-baselayoutprops-definition)
+  - [Replace Record<string, any> with Record<string, unknown>](#replace-recordstring-any-with-recordstring-unknown)
+  - [Check TypeScript migration status](#check-typescript-migration-status)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Migrate the Project Toward TypeScript
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 18:45 (UTC+08:00)
+- **最后更新**: August 07, 2025, 19:10 (UTC+08:00)
 
 ---
 
