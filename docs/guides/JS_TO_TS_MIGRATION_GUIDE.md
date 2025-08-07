@@ -15,11 +15,15 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<!-- Updated: 2025-08-07 | TS 5.4 • Node 20 -->
-
 # JS ➜ TS 全量迁移实战指南
 
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
+
+---
+
 ## 为何写这份指南
+
 本指南总结了团队将大型 JavaScript 代码库迁移到 TypeScript 的实战经验。无论是提升可维护性、改善 IDE 体验，还是加强类型安全，下面提供了一套可复现的迁移路径。
 
 ```mermaid
@@ -32,10 +36,14 @@ graph TD
 ```
 
 **关键检查点**
+
 - [ ] 了解团队迁移动机与预期收益
 - [ ] 确认现有代码库规模与技术债
 
+---
+
 ## 迁移前准备
+
 在正式迁移前，需要评估代码现状并搭建最小可用的 TypeScript 环境。
 
 ```bash
@@ -75,12 +83,16 @@ npx tsc --init
 </details>
 
 **关键检查点**
+
 - [ ] Node 20 与 TS 5.4 已安装
 - [ ] tsconfig.json 已初始化
 - [ ] 基础 lint/format 规则已生效
 - [ ] package.json 中已添加 typecheck、lint 等脚本
 
+---
+
 ## 配置 TypeScript
+
 通过逐步调整配置，使 TS 能在不阻断开发的情况下融入项目。
 
 ```diff
@@ -108,12 +120,16 @@ npx tsc --init
 </details>
 
 **关键检查点**
+
 - [ ] allowJs 与 checkJs 允许在 JS 文件中进行类型检查
 - [ ] noEmit 防止生成多余的 JS 输出
 - [ ] ESLint 已切换到 @typescript-eslint/parser
 - [ ] 重要编译选项已有清晰说明
 
+---
+
 ## 逐步迁移策略
+
 选择影响面较小的模块先行试水，逐步扩展至核心业务。
 
 ```diff
@@ -122,17 +138,22 @@ npx tsc --init
 +  console.log('Hi', name)
 +}
 ```
+
 1. **从周边到核心**：先迁移工具函数、脚手架等低风险模块，再逐步推进到核心业务。
 2. **使用 `// @ts-check`**：在未重命名为 `.ts` 前，通过注释启用类型检查。
 3. **分阶段启用严格模式**：每合并一批模块，增加一项 `tsconfig` 严格校验。
 
 **关键检查点**
+
 - [ ] 先迁移可独立运行的组件或工具函数
 - [ ] 每次迁移后运行 typecheck 与 lint
 - [ ] 保留重要变更的文档记录
 - [ ] 迁移进度有可视化追踪
 
+---
+
 ## 常见报错与解决方案
+
 | TS Error | 原因 | 解决方案 |
 | --- | --- | --- |
 | TS2307 | 模块路径错误 | 检查路径或配置 `baseUrl` |
@@ -142,11 +163,15 @@ npx tsc --init
 | TS2416 | 方法签名不兼容 | 调整子类方法或使用泛型约束 |
 
 **关键检查点**
+
 - [ ] 定期整理错误列表，形成排查手册
 - [ ] 遇到无法解决的错误及时回滚
 - [ ] 错误解决方案已在团队内共享
 
+---
+
 ## 自动化保障
+
 借助脚本与 CI，保证迁移过程中代码质量的稳定。
 
 ```bash
@@ -171,11 +196,15 @@ repos:
 </details>
 
 **关键检查点**
+
 - [ ] CI 中包含 lint、typecheck、test 步骤
 - [ ] 引入 pre-commit 钩子防止低质量代码进入仓库
 - [ ] 迁移状态由 CI 仪表板可视化
 
+---
+
 ## 迁移后优化
+
 迁移完成后，可进一步开启更严格的校验并清理遗留代码。
 
 ```diff
@@ -190,10 +219,13 @@ repos:
 ```
 
 **关键检查点**
+
 - [ ] 移除 `@ts-nocheck` 等临时代码
 - [ ] 启用 `strict`、`noImplicitAny` 等严格选项
 - [ ] 删除已不再使用的 JS 文件
 - [ ] 重新生成并审查构建产物
+
+---
 
 ## 经验教训 & 建议
 
@@ -202,19 +234,23 @@ repos:
 3. **保持沟通**：制定统一的 commit 信息与 review 规范，确保团队对迁移范围与目标一致。
 
 **关键检查点**
+
 - [ ] 记录团队共识与约定
 - [ ] 定期回顾迁移流程并优化
 - [ ] 经验教训形成文档沉淀
 
+---
+
 ## 参考资料
+
 - [TypeScript 官方文档](https://www.typescriptlang.org/)
 - [tsconfig 选项说明](https://www.typescriptlang.org/tsconfig)
 - [ESLint TypeScript 插件](https://typescript-eslint.io/)
-
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
 - [Migrating from JS to TS](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
 
 **关键检查点**
+
 - [ ] 阅读并收藏常用文档
 - [ ] 与社区保持同步，关注版本更新
 - [ ] 推荐资料已内化为团队最佳实践
