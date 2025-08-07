@@ -43,6 +43,12 @@ declare module '*.svg' {
 declare global {
   interface Window {
     config?: GlobalConfig;
+    __storageHelper?: {
+      __version: string;
+      get(key: string): unknown;
+      set(key: string, val: unknown): void;
+    };
+    __storageInitialized?: boolean;
   }
 }
 
