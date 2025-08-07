@@ -12,7 +12,7 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { storage } from '../../../utils';
 
-interface RegisterFormValues {
+interface RegisterFormValues extends Record<string, unknown> {
   email: string;
   username: string;
   password: string;
@@ -54,18 +54,24 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const { values, errors, handleChange, validateAll } = useFormValidation<RegisterFormValues>(
     { email: '', username: '', password: '', confirm: '', agree: false },
     {
-      email: (val) => {
-        if (!val) return activeTexts.errors?.emailRequired || '邮箱不能为空';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      email: (val: unknown) => {
+        const value = val as string;
+        if (!value) return activeTexts.errors?.emailRequired || '邮箱不能为空';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return activeTexts.errors?.emailInvalid || '邮箱格式错误';
         }
         return '';
       },
-      username: (val) => (!val ? activeTexts.errors?.usernameRequired || '用户名不能为空' : ''),
-      password: (val) => (!val ? activeTexts.errors?.passwordRequired || '密码不能为空' : ''),
-      confirm: (val, all) =>
-        val !== all.password ? activeTexts.errors?.passwordMismatch || '两次密码不一致' : '',
-      agree: (val) => (!val ? activeTexts.errors?.agreement || '请勾选同意' : '')
+      username: (val: unknown) =>
+        !(val as string) ? activeTexts.errors?.usernameRequired || '用户名不能为空' : '',
+      password: (val: unknown) =>
+        !(val as string) ? activeTexts.errors?.passwordRequired || '密码不能为空' : '',
+      confirm: (val: unknown, all: RegisterFormValues) =>
+        (val as string) !== all.password
+          ? activeTexts.errors?.passwordMismatch || '两次密码不一致'
+          : '',
+      agree: (val: unknown) =>
+        !(val as boolean) ? activeTexts.errors?.agreement || '请勾选同意' : ''
     }
   );
   const { email, username, password, confirm, agree } = values;

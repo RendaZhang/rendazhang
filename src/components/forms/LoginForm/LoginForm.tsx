@@ -12,7 +12,7 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import * as Sentry from '@sentry/react';
 import { isProduction, getCdnUrl } from '../../../utils/env';
-interface LoginFormValues {
+interface LoginFormValues extends Record<string, unknown> {
   email: string;
   password: string;
 }
@@ -38,13 +38,15 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   const { values, errors, handleChange, validateAll } = useFormValidation<LoginFormValues>(
     { email: '', password: '' },
     {
-      email: (val) => {
-        if (!val) return activeTexts.errors?.emailRequired || '邮箱不能为空';
-        if (!val.includes('@')) return activeTexts.errors?.emailInvalid || '邮箱格式错误';
+      email: (val: unknown) => {
+        const value = val as string;
+        if (!value) return activeTexts.errors?.emailRequired || '邮箱不能为空';
+        if (!value.includes('@')) return activeTexts.errors?.emailInvalid || '邮箱格式错误';
         return '';
       },
-      password: (val) => {
-        if (!val) return activeTexts.errors?.passwordRequired || '密码不能为空';
+      password: (val: unknown) => {
+        const value = val as string;
+        if (!value) return activeTexts.errors?.passwordRequired || '密码不能为空';
         return '';
       }
     }
