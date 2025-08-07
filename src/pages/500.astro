@@ -1,13 +1,13 @@
 ---
 import { BaseLayout } from '../layouts';
-import ErrorSection from '../components/ErrorSection.astro';
+import { ErrorSection } from '../components';
 import { SITE_BASE_URL } from '../constants/index.ts';
 import { getCurrentLang } from '../utils';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 
-const messages = {
+const texts = {
   zh: {
     title: '服务器错误',
     description: '服务器发生错误，请稍后再试。',
@@ -20,10 +20,13 @@ const messages = {
   }
 };
 
-const dict = messages[langKey];
-const titleZh = messages.zh.title;
-const titleEn = messages.en.title;
+const dict = texts[langKey];
+const titleZh = texts.zh.title;
+const titleEn = texts.en.title;
+const descriptionZh = texts.zh.description;
+const descriptionEn = texts.en.description;
 const title = dict.title;
+const description = dict.description;
 ---
 
 <BaseLayout
@@ -31,15 +34,15 @@ const title = dict.title;
   titleZh={titleZh}
   titleEn={titleEn}
   title={title}
-  description={dict.description}
+  description={description}
   canonical={`${SITE_BASE_URL}/500`}
   metaRobots="noindex, nofollow"
 >
   <ErrorSection
     code="500"
     emoji="💥"
-    title={dict.title}
-    description={dict.description}
-    homeLabel={dict.home}
+    title={{ zh: titleZh, en: titleEn }}
+    description={{ zh: descriptionZh, en: descriptionEn }}
+    homeLabel={{ zh: texts.zh.home, en: texts.en.home }}
   />
 </BaseLayout>
