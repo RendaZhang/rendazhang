@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "generate-index": "tsx scripts/generateIndex.ts",
+    "generate-hero": "tsx scripts/generate-hero.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

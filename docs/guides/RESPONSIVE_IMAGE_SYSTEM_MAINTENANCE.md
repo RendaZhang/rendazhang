@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 09:20 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:31 (UTC+08:00)
 
 ---
 
@@ -114,31 +114,15 @@ project-root/
 `scripts/generate-hero.ts`
 
 ```bash
-# 处理所有图片类型
-npx scripts/generate-hero.ts --all
+# 生成 Hero 图及其 LQIP 数据
+npx tsx scripts/generate-hero.ts
 
-# 处理特定图片类型
-npx scripts/generate-hero.ts --type=hero
-
-# 自定义配置
-npx scripts/generate-hero.ts \
-  --type=gallery \
-  --input-dir=scripts/images/gallery \
-  --output-dir=public/assets/gallery \
-  --widths=1200,800,400
+# 或通过 npm 脚本
+npm run generate-hero
 ```
 
 ### 配置参数
-
-| 参数 | 默认值 | 说明 |
-|------|--------|------|
-| `--type` | `hero` | 图片类型（对应处理器） |
-| `--input-dir` | `scripts/images` | 原始图目录 |
-| `--output-dir` | `public/assets` | 输出目录 |
-| `--widths` | `3840,1920,800` | 生成尺寸 |
-| `--quality` | `75` | WebP质量(1-100) |
-| `--lqip-width` | `20` | LQIP宽度(px) |
-
+当前脚本使用固定配置：从 `scripts/images/hero-original.jpg` 生成多尺寸图片到 `src/assets/heroes`，并在 `src/data/mainHero.ts` 写入 LQIP 数据。
 ### 添加新处理器
 
 1. 创建处理器文件 `scripts/image-processing/processors/new-type-processor.js`
