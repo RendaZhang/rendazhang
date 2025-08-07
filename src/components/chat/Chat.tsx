@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { KeyboardEvent } from 'react';
 import { sendMessageToAI, resetChat } from '../../services';
 import { useChatHistory } from '../../hooks';
@@ -28,6 +28,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
   const librariesLoaded = true;
+
+  const handleRendered = useCallback(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, []);
 
   // Auto-adjust textarea height
   useEffect(() => {
@@ -134,11 +140,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
             librariesLoaded={librariesLoaded}
             textsZh={textsZh}
             textsEn={textsEn}
-            onRendered={() => {
-              if (chatContainerRef.current) {
-                chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-              }
-            }}
+            onRendered={handleRendered}
           />
         )}
       </div>

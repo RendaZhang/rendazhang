@@ -51,13 +51,14 @@
     - [BUG-043: LocalStorage 新旧格式兼容性问题](#bug-043-localstorage-%E6%96%B0%E6%97%A7%E6%A0%BC%E5%BC%8F%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98)
     - [BUG-044: 主题初始化脚本执行延迟导致闪烁](#bug-044-%E4%B8%BB%E9%A2%98%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E5%BB%B6%E8%BF%9F%E5%AF%BC%E8%87%B4%E9%97%AA%E7%83%81)
     - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
+    - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
+- **最后更新**: August 07, 2025, 17:08 (UTC+08:00)
 
 ---
 
@@ -986,3 +987,20 @@
      window.__storageInitialized = true;
      ```
 - **验证结果**：✅ 无模块加载错误，存储功能正常
+
+### BUG-046: 输入时 Mermaid 图表频繁重渲染
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-07
+- **重现环境**：本地 `npm run dev`，deepseek_chat 页面，Chrome 115+
+- **问题现象**：
+  - 在 message-input 中每输入一个字符，Mermaid 图表就重新渲染一次
+  - 按住键持续输入时图表渲染消失，停止输入后才恢复
+- **根本原因**：
+  - 内联 `onRendered` 回调在每次输入时都会重新创建，触发 Markdown 渲染管线重复执行
+  - Mermaid 渲染被频繁中断导致最终输出为空
+- **解决方案**：
+  1. 使用 `useCallback` 缓存 `onRendered` 并传递给 `ChatMessageList`
+  2. 保持 `useMarkdownPipeline` 的依赖稳定，避免无谓重新渲染
+- **验证结果**：✅ 连续输入时 Mermaid 图表保持稳定
+- **经验总结**：稳定的回调引用可避免不必要的副作用
