@@ -52,13 +52,14 @@
     - [BUG-044: 主题初始化脚本执行延迟导致闪烁](#bug-044-%E4%B8%BB%E9%A2%98%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E5%BB%B6%E8%BF%9F%E5%AF%BC%E8%87%B4%E9%97%AA%E7%83%81)
     - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
     - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
+    - [BUG-047: 构建后 env.ts 无法读取环境变量](#bug-047-%E6%9E%84%E5%BB%BA%E5%90%8E-envts-%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 17:08 (UTC+08:00)
+- **最后更新**: August 08, 2025, 01:23 (UTC+08:00)
 
 ---
 
@@ -1004,3 +1005,23 @@
   2. 保持 `useMarkdownPipeline` 的依赖稳定，避免无谓重新渲染
 - **验证结果**：✅ 连续输入时 Mermaid 图表保持稳定
 - **经验总结**：稳定的回调引用可避免不必要的副作用
+
+### BUG-047: 构建后 env.ts 无法读取环境变量
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-07
+- **重现环境**：`npm run build` + `npm run preview`
+- **问题现象**：
+  - `src/sentry.client.config.ts` 调用 `getEnv()` 返回 undefined，Sentry 报 `No DSN provided`
+  - LoginForm 等客户端模块无法获取 `src/utils/env.ts` 返回的环境变量
+  - 直接使用 `import.meta.env.*` 可以读取到变量
+- **根本原因**：
+  - `src/utils/env.ts` 在 `buildSnapshot()` 中检查 `'env' in import.meta`
+  - 构建后该检查始终返回 false，导致回退到 `process.env`
+  - 客户端变量仅注入到 `import.meta.env`，`process.env` 中不存在
+- **解决方案**：
+  1. 在文件顶部声明 `const runtimeEnv = import.meta.env`
+  2. `buildSnapshot()` 先返回 `{ ...runtimeEnv }`，若不存在再回退到 `process.env`
+  3. 删除对 `'env' in import.meta` 的检查
+- **验证结果**：✅ `npm run build` 与 `npm run preview` 中 Sentry 可正确读取 DSN
+- **经验总结**：构建后 `import.meta` 不是普通对象，属性检查会失败，应直接捕获 `import.meta.env`
