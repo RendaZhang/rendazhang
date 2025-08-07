@@ -2,282 +2,219 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Migrate the Project Toward TypeScript](#migrate-the-project-toward-typescript)
-- [TEST](#test)
-  - [Enable TypeScript for existing JavaScript files by adjusting the compiler options](#enable-typescript-for-existing-javascript-files-by-adjusting-the-compiler-options)
-  - [Expand ESLint for TypeScript support](#expand-eslint-for-typescript-support)
-  - [Migrate a small component to TypeScript to validate the setup (e.g., ThemeToggle.jsx)](#migrate-a-small-component-to-typescript-to-validate-the-setup-eg-themetogglejsx)
-  - [Convert utilities and constants to TypeScript](#convert-utilities-and-constants-to-typescript)
-  - [Fix TypeScript type errors in config and utils](#fix-typescript-type-errors-in-config-and-utils)
-  - [Introduce global type declarations and check script](#introduce-global-type-declarations-and-check-script)
-  - [Add TypeScript index files and update exports](#add-typescript-index-files-and-update-exports)
-  - [Add TypeScript index files and update exports](#add-typescript-index-files-and-update-exports-1)
-  - [Migrate core services and models to TypeScript](#migrate-core-services-and-models-to-typescript)
-  - [Migrate hooks to TypeScript](#migrate-hooks-to-typescript)
-  - [Migrate data and content modules to TypeScript](#migrate-data-and-content-modules-to-typescript)
-  - [Migrate the basic components under `src/components/ui` to `.tsx` and add types.](#migrate-the-basic-components-under-srccomponentsui-to-tsx-and-add-types)
-  - [Migrate `src/components/layouts` and `src/components/providers` to `.tsx`.](#migrate-srccomponentslayouts-and-srccomponentsproviders-to-tsx)
-  - [Convert forms to TypeScript .tsx files](#convert-forms-to-typescript-tsx-files)
-  - [Rename .jsx files in chat component](#rename-jsx-files-in-chat-component)
-  - [Migrate the sections and the remaining generic components to `.tsx`.](#migrate-the-sections-and-the-remaining-generic-components-to-tsx)
-  - [Update tsconfig.json and validate types](#update-tsconfigjson-and-validate-types)
-  - [Define request/response interfaces in apiClient](#define-requestresponse-interfaces-in-apiclient)
-  - [Install dependencies and clean scripts](#install-dependencies-and-clean-scripts)
-  - [Migrate scripts to TypeScript and remove JS](#migrate-scripts-to-typescript-and-remove-js)
-  - [Update ESLint config to TypeScript](#update-eslint-config-to-typescript)
-  - [Remove @ts-nocheck and fix type errors](#remove-ts-nocheck-and-fix-type-errors)
-  - [Update 500 and 404 pages for multilingual support](#update-500-and-404-pages-for-multilingual-support)
-  - [Check and remove ts-nocheck in generateIndex.ts](#check-and-remove-ts-nocheck-in-generateindexts)
-  - [Enable strict type checking for TypeScript](#enable-strict-type-checking-for-typescript)
-  - [Fix moderate severity vulnerabilities in dompurify](#fix-moderate-severity-vulnerabilities-in-dompurify)
-  - [Update import statements to remove extensions](#update-import-statements-to-remove-extensions)
-  - [Add AstroComponent import and BaseLayoutProps definitionAdd AstroComponent import and BaseLayoutProps definition](#add-astrocomponent-import-and-baselayoutprops-definitionadd-astrocomponent-import-and-baselayoutprops-definition)
-  - [Replace Record<string, any> with Record<string, unknown>](#replace-recordstring-any-with-recordstring-unknown)
-  - [Check TypeScript migration status](#check-typescript-migration-status)
+- [JS ➜ TS 全量迁移实战指南](#js-%E2%9E%9C-ts-%E5%85%A8%E9%87%8F%E8%BF%81%E7%A7%BB%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97)
+  - [为何写这份指南](#%E4%B8%BA%E4%BD%95%E5%86%99%E8%BF%99%E4%BB%BD%E6%8C%87%E5%8D%97)
+  - [迁移前准备](#%E8%BF%81%E7%A7%BB%E5%89%8D%E5%87%86%E5%A4%87)
+  - [配置 TypeScript](#%E9%85%8D%E7%BD%AE-typescript)
+  - [逐步迁移策略](#%E9%80%90%E6%AD%A5%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5)
+  - [常见报错与解决方案](#%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88)
+  - [自动化保障](#%E8%87%AA%E5%8A%A8%E5%8C%96%E4%BF%9D%E9%9A%9C)
+  - [迁移后优化](#%E8%BF%81%E7%A7%BB%E5%90%8E%E4%BC%98%E5%8C%96)
+  - [经验教训 & 建议](#%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD--%E5%BB%BA%E8%AE%AE)
+  - [参考资料](#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Migrate the Project Toward TypeScript
+<!-- Updated: 2025-08-07 | TS 5.4 • Node 20 -->
 
-# TEST
-- **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 20:03 (UTC+08:00)
+# JS ➜ TS 全量迁移实战指南
 
----
+## 为何写这份指南
+本指南总结了团队将大型 JavaScript 代码库迁移到 TypeScript 的实战经验。无论是提升可维护性、改善 IDE 体验，还是加强类型安全，下面提供了一套可复现的迁移路径。
 
-## Enable TypeScript for existing JavaScript files by adjusting the compiler options
-- Enabled TypeScript to include JavaScript files and perform type checks by adding allowJs, checkJs, and noEmit within the compiler options of the project's configuration
+```mermaid
+graph TD
+  A[审视代码库] --> B[安装 TS 依赖]
+  B --> C[启用 allowJs / checkJs]
+  C --> D[逐步改写为 .ts]
+  D --> E[启用严格模式]
+  E --> F[完成迁移]
+```
 
----
+**关键检查点**
+- [ ] 了解团队迁移动机与预期收益
+- [ ] 确认现有代码库规模与技术债
 
-## Expand ESLint for TypeScript support
-- Switched ESLint to the TypeScript parser and included the @typescript-eslint plugin with recommended rules, broadening file globs to cover JS, JSX, TS, TSX, and Astro files
-- Added @typescript-eslint/eslint-plugin to dev dependencies for the new lint configuration.
+## 迁移前准备
+在正式迁移前，需要评估代码现状并搭建最小可用的 TypeScript 环境。
 
----
+```bash
+npm i -D typescript tsx @types/node
+npx tsc --init
+```
 
-## Migrate a small component to TypeScript to validate the setup (e.g., ThemeToggle.jsx)
-- Migrated the ThemeToggle component to TypeScript, introducing an explicit ThemeToggleProps interface and adding strict typing for refs, event handlers, and callbacks
-- Updated the inputs index to re-export the new ThemeToggle.tsx module instead of the old JSX file
-- Replaced the JavaScript storage helper with a fully typed storage.ts, introducing a StorageLike interface, backend selection, and generic IndexedDB helpers for consistent get/set/remove operations
-- Updated the theme provider to import the new storage module and expose a setTheme function that accepts a boolean, allowing the ThemeToggle component to index localized content safely and toggle themes programmatically
-- Scoped TypeScript checking to TypeScript sources by excluding legacy JS directories and disabling checkJs, and refreshed documentation to reference storage.ts directly
+<details>
+<summary>示例 tsconfig.json</summary>
 
----
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
+```
 
-## Convert utilities and constants to TypeScript
-- Converted shared API constants to TypeScript, adding explicit typing for the base URL and endpoints while enforcing strict headers types
-- Rewrote the environment utility in TypeScript with typed snapshots, key maps, and helper functions for accessing and refreshing configuration values
-- Migrated path and settings definitions to TypeScript, exporting all object literals as as const for immutable, strongly typed references throughout the app
-- Updated related utilities and components to import the new .ts modules, improving type safety across language helpers and chat features
+</details>
 
----
+<details>
+<summary>package.json 常用脚本</summary>
 
-## Fix TypeScript type errors in config and utils
-- Added strong typing to the Vite proxy configuration in the Astro config, conditionally enabling the proxy and ensuring the rewrite callback is type-safe
-- Refined language detection logic to use generics when reading from storage, guaranteeing the function always returns a string
-- Introduced global environment declarations for Astro and Vite, enabling features like import.meta.glob and asset URL imports
-- Extended the pre-commit configuration and index generator to build both index.ts and index.js files, while skipping declaration and minified script files to keep exports clean
-- Updated README and pre-commit documentation to describe the new TypeScript index generation behavior and the exclusion of .d.ts files
+```json
+{
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "build": "tsx src/index.ts"
+  }
+}
+```
 
----
+</details>
 
-## Introduce global type declarations and check script
-- Introduced a new src/types/global.d.ts file with ambient module declarations for common asset types like images and PDFs to ensure TypeScript awareness across the project
--  Added a typecheck npm script in package.json to run the TypeScript compiler in no-emission mode, providing a dedicated way to verify type safety
+**关键检查点**
+- [ ] Node 20 与 TS 5.4 已安装
+- [ ] tsconfig.json 已初始化
+- [ ] 基础 lint/format 规则已生效
+- [ ] package.json 中已添加 typecheck、lint 等脚本
 
----
+## 配置 TypeScript
+通过逐步调整配置，使 TS 能在不阻断开发的情况下融入项目。
 
-## Add TypeScript index files and update exports
-- Converted layout exports to TypeScript, exposing BaseLayout.astro through a new index while disabling type checks for the file
-- Replaced the script re-export module with a TypeScript version that forwards bundled libraries and suppresses type check
-- Updated central exports to reference the new TypeScript entry points for layouts and scripts, cleaning up remaining references in JS entry files
+```diff
+/* tsconfig.json */
+{
+-  "allowJs": false,
+-  "checkJs": false,
+-  "noEmit": false
++  "allowJs": true,
++  "checkJs": true,
++  "noEmit": true
+   ...
+}
+```
 
----
+<details>
+<summary>常见编译选项说明</summary>
 
-## Add TypeScript index files and update exports
-- Updated the index-generation script to respect hand-written TypeScript indexes by skipping directories whose index.ts files are marked with @ts-nocheck
-- Ensured JavaScript entry files export TypeScript counterparts when no JS index exists, improving cross-language compatibility
-- Regenerated component indexes so the top-level components index now points to the layouts directory's JavaScript index file
+| 选项 | 作用 |
+| --- | --- |
+| `baseUrl` | 允许使用绝对路径导入，配合 `paths` 简化引用 |
+| `paths` | 自定义模块别名，如 `@/utils/*` |
+| `skipLibCheck` | 跳过库文件的类型检查，加快编译速度 |
 
----
+</details>
 
-## Migrate core services and models to TypeScript
-- Migrated the API client to TypeScript and added explicit typing for requests and chat operations
-- Converted chat service streaming logic to TypeScript with typed callbacks and return values
-- Introduced a typed ChatSession model and updated associated barrel exports to use the new TypeScript implementations
+**关键检查点**
+- [ ] allowJs 与 checkJs 允许在 JS 文件中进行类型检查
+- [ ] noEmit 防止生成多余的 JS 输出
+- [ ] ESLint 已切换到 @typescript-eslint/parser
+- [ ] 重要编译选项已有清晰说明
 
----
+## 逐步迁移策略
+选择影响面较小的模块先行试水，逐步扩展至核心业务。
 
-## Migrate hooks to TypeScript
-- Converted core hooks to TypeScript, providing explicit interfaces, typed state, and safe update helpers for chat history management
-- Added generics to deliver strongly typed locale-specific content selection via useContent
-- Implemented generic validation logic in useFormValidation, ensuring typed inputs and error handling throughout form workflows
-- Introduced comprehensive typings and global declarations for Markdown rendering and enhancements, including Mermaid and syntax highlighting support
-- Updated hook exports to reference the new TypeScript modules, eliminating .js extensions
+```diff
+- const greet = (name) => console.log('Hi', name)
++function greet(name: string): void {
++  console.log('Hi', name)
++}
+```
+1. **从周边到核心**：先迁移工具函数、脚手架等低风险模块，再逐步推进到核心业务。
+2. **使用 `// @ts-check`**：在未重命名为 `.ts` 前，通过注释启用类型检查。
+3. **分阶段启用严格模式**：每合并一批模块，增加一项 `tsconfig` 严格校验。
 
----
+**关键检查点**
+- [ ] 先迁移可独立运行的组件或工具函数
+- [ ] 每次迁移后运行 typecheck 与 lint
+- [ ] 保留重要变更的文档记录
+- [ ] 迁移进度有可视化追踪
 
-## Migrate data and content modules to TypeScript
-- Migrated hero image data to TypeScript and asserted its structure using as const for stronger typing
-- Updated content module exports and index files to reference .ts sources, ensuring consistency across the project
-- Revised auxiliary scripts and documentation to point at the new TypeScript file paths
+## 常见报错与解决方案
+| TS Error | 原因 | 解决方案 |
+| --- | --- | --- |
+| TS2307 | 模块路径错误 | 检查路径或配置 `baseUrl` |
+| TS7006 | 隐式 `any` | 显式声明类型或启用 `noImplicitAny` |
+| TS2345 | 参数类型不匹配 | 调整参数类型或重载函数 |
+| TS7016 | 缺少类型声明 | 安装 `@types/*` 或手写声明文件 |
+| TS2416 | 方法签名不兼容 | 调整子类方法或使用泛型约束 |
 
----
+**关键检查点**
+- [ ] 定期整理错误列表，形成排查手册
+- [ ] 遇到无法解决的错误及时回滚
+- [ ] 错误解决方案已在团队内共享
 
-## Migrate the basic components under `src/components/ui` to `.tsx` and add types.
-- Migrated UI data-display components to TypeScript with typed props and state, such as AvatarIcon, CredlyBadge, LocalizedSection, and SocialIcons
-- Converted input and media components like LanguageSelector and ResponsiveHero to TypeScript, adding explicit interfaces and generics for hooks
-- Streamlined index exports by removing `.js`/`.jsx` suffixes, pointing to extensionless paths for TypeScript modules
-- Eliminated the React warning by introducing a typed iframeProps object and using the lowercase allowtransparency attribute, ensuring the Credly badge iframe maintains its transparent background without invalid DOM props
-- Enhanced the generate-index hook to emit extensionless re-exports for both nested directories and individual modules, replacing extension-specific paths with base names
-- Revised pre-commit documentation to describe the new extensionless index output and clarify the hook’s behavior
-- Regenerated project indices, so modules like the UI components now re-export subfolders without file extensions
+## 自动化保障
+借助脚本与 CI，保证迁移过程中代码质量的稳定。
 
----
+```bash
+npm run lint && npm run typecheck && npm test
+```
 
-## Migrate `src/components/layouts` and `src/components/providers` to `.tsx`.
-- Migrated layout components from .jsx to .tsx, adding strict typings for state, refs, and localized navigation items in HamburgerMenu and ensuring typed imports in NavBar and NavBarWrapper
-- Introduced TypeScript interfaces and context typings for both language and theme providers, giving explicit types for context values, provider props, and setters
-- Updated index files to export the new .tsx modules, maintaining consistent module references across the component library
+<details>
+<summary>pre-commit 示例</summary>
 
----
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.4.0
+    hooks:
+      - id: eslint
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+```
 
-## Convert forms to TypeScript .tsx files
-- Converted the contact form to TypeScript and introduced structured interfaces for fields, placeholders, and typed change/submit handlers, replacing the previous JSX version
-- Refactored the login form with generic form-value types, password strength enumeration, and typed submit logic for stronger validation
-- Added explicit value and placeholder types, password-strength handling, and a typed agreement checkbox in the registration form
-- Updated each form directory’s index to export the new .tsx modules directly
+</details>
 
----
+**关键检查点**
+- [ ] CI 中包含 lint、typecheck、test 步骤
+- [ ] 引入 pre-commit 钩子防止低质量代码进入仓库
+- [ ] 迁移状态由 CI 仪表板可视化
 
-## Rename .jsx files in chat component
-- Migrated chat UI components from JSX to TypeScript, adding explicit prop types for things like rendered callbacks and localized text handling
-- Introduced shared chat domain types, covering users, messages, callbacks, and localized text structures to standardize cross-component usage
-- Updated feature-level exports to reference the new TSX modules, ensuring downstream code imports the TypeScript versions of the chat components
-- Updated the index generation script to treat JavaScript and TypeScript files separately, only emitting index.js where real JavaScript sources exist and preserving directories that contain a standalone index.ts
-- Centralized chat message typing by reusing shared types in ChatSession, eliminating the duplicate local interface and reducing export conflicts
-- Revised useChatHistory to reference the shared chat message type, keeping hook state consistent with the model layer
-- Clarified the generate-index pre-commit hook so it now creates index.ts or index.js only when matching source files exist, skips JavaScript output for TypeScript-only folders, and preserves standalone index files
+## 迁移后优化
+迁移完成后，可进一步开启更严格的校验并清理遗留代码。
 
----
+```diff
+/* tsconfig.json */
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "moduleResolution": "bundler"
+  }
+}
+```
 
-##  Migrate the sections and the remaining generic components to `.tsx`.
-- Migrated the Sentry-based error boundary to TypeScript, introducing proper PropsWithChildren typing for React’s children props and returning a typed ReactElement
-- Converted the docs enhancement logic to TypeScript with explicit global declarations and typed helper utilities for script loading and DOM queries
-- Replaced legacy JavaScript indexes by adding a TypeScript index that re-exports all section components for consistent typed imports across the app
-- Updated layout code to reference the new ErrorBoundary module without a .jsx extension, aligning with the TSX migration
+**关键检查点**
+- [ ] 移除 `@ts-nocheck` 等临时代码
+- [ ] 启用 `strict`、`noImplicitAny` 等严格选项
+- [ ] 删除已不再使用的 JS 文件
+- [ ] 重新生成并审查构建产物
 
----
+## 经验教训 & 建议
 
-## Update tsconfig.json and validate types
-- Enabled full TypeScript coverage by narrowing the exclusion list to only the build output and disallowing JavaScript sources in the compiler options
-- Extended the global Window interface with an explicit mermaid.initialize declaration to satisfy type checks when libraries load dynamically
-- Added stub declaration files for bundled minified scripts and Astro layout components to provide minimal typings for the TypeScript compiler
+1. **避免一次性重写**：分批迁移更易控制风险，也便于回滚。
+2. **优先解决类型声明缺失**：第三方库缺少 `d.ts` 是最常见阻碍，可考虑贡献声明或使用社区维护版本。
+3. **保持沟通**：制定统一的 commit 信息与 review 规范，确保团队对迁移范围与目标一致。
 
----
+**关键检查点**
+- [ ] 记录团队共识与约定
+- [ ] 定期回顾迁移流程并优化
+- [ ] 经验教训形成文档沉淀
 
-## Define request/response interfaces in apiClient
-- Introduced explicit request and response interfaces for the chat service, replacing untyped generics and Promise<any> with strongly typed structures to improve reliability and developer experience
-- Re-exported API-specific types from the central types index so downstream consumers gain proper type hints for service calls
+## 参考资料
+- [TypeScript 官方文档](https://www.typescriptlang.org/)
+- [tsconfig 选项说明](https://www.typescriptlang.org/tsconfig)
+- [ESLint TypeScript 插件](https://typescript-eslint.io/)
 
----
+- [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+- [Migrating from JS to TS](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
 
-## Install dependencies and clean scripts
-- Replaced bundled script assets by installing highlight.js, mermaid, marked, and dompurify from npm and removed their local .min.js counterparts
-- Simplified chat rendering to rely on built-in libraries with markdown enhancements enabled via constant librariesLoaded rather than runtime script loading
-- Centralized markdown processing and documentation effects through direct imports of DOMPurify, Marked, highlight.js, and Mermaid in shared hooks and components
-- Removed outdated script-path exports, ensuring docs pages no longer reference local script files and are configured only with necessary styles
-
----
-
-## Migrate scripts to TypeScript and remove JS
-- Migrated asset validation and index generation scripts to TypeScript, adding proper typing and Node ESM utilities to ensure file name verification and index creation run under tsx
-- Rewrote the hero image processing script in TypeScript, generating responsive images and LQIP data with strict typing and format-specific handling
-- Updated package.json to execute scripts via tsx and documented the new TypeScript script locations in the pre-commit guide
-
----
-
-## Update ESLint config to TypeScript
-- Migrated ESLint to a TypeScript flat config, bundling React, Astro and Prettier rules with explicit browser/node globals, and added the necessary @eslint/js and jiti dev dependencies
-- Updated documentation to reference TypeScript filenames throughout: the Sentry guide now uses sentry.client.config.ts, while language and storage utilities, responsive image maintenance, upgrade steps, and component requirements all reflect .ts or .tsx modules
-
----
-
-## Remove @ts-nocheck and fix type errors
-- Updated the hero image generator to emit a constant assertion so that the generated file exports an immutable object
-- Added an example of the new as const hero data structure to the responsive image maintenance guide
-
----
-
-## Update 500 and 404 pages for multilingual support
-- Refactored the error display into a React-based ErrorSection component that leverages LocalizedSection to serve English and Chinese content, enhancing reuse across pages
-- Updated the 404 and 500 Astro pages to pass localized texts into the new component, ensuring multilingual support and consistent layout metadata
-- Added global styling for the error section to maintain a cohesive appearance across error pages
-
----
-
-## Check and remove ts-nocheck in generateIndex.ts
-- Removed the @ts-nocheck guard so directories with an index.ts file are always processed during index generation
-- Added explicit ignore comments in previously empty catch blocks to satisfy linting rules and clarify intentional error suppression
-
----
-
-## Enable strict type checking for TypeScript
-- Enabled stricter TypeScript checking by turning on “strict” mode, “noImplicitAny,” and the Astro TypeScript plugin in the project’s configuration
-- Updated ESLint to ignore generated files and warn on explicit “any” types, disabling “no-undef” to defer to TypeScript for globals
-- Added lint and format scripts, improved environment variable typing, and simplified the ThemeToggle component to remove unused props
-
----
-
-## Fix moderate severity vulnerabilities in dompurify
-- Bumped the project’s Mermaid dependency to v11.9.0, which includes DOMPurify 3.2.6 and removes the reported XSS vulnerability
-
----
-
-## Update import statements to remove extensions
-- Removed TypeScript extensions from import paths to rely on default module resolution, streamlining maintenance for utilities like language helpers
-- Consolidated extensionless imports throughout forms and shared utilities, including registration logic and component references
-- Updated layout and configuration imports to omit .tsx references, aligning with extensionless conventions across pages and component wrappers
-- Simplified constants and re-export statements by dropping explicit .ts extensions
-
----
-
-## Add AstroComponent import and BaseLayoutProps definitionAdd AstroComponent import and BaseLayoutProps definition
-- Typed the BaseLayout .astro declaration by adding metadata interfaces for open graph and Twitter card settings, and exposing a strongly typed export via AstroComponent<BaseLayoutProps>
-- Introduced a comprehensive BaseLayoutProps interface covering layout options such as language, titles, resource arrays, attribute maps, and social metadata overrides
-
----
-
-## Replace Record<string, any> with Record<string, unknown>
-- Strengthened the form validation hook by switching to Record<string, unknown>, adding type-safe validator mappings, and tightening validateAll to operate on well-typed entries
-- Updated login form validation to work with the new unknown-based types, adding necessary casts for email and password checks
-- Revised registration form validators to accept unknown inputs and cast to the expected types, ensuring correct handling of all fields
-
----
-
-## Check TypeScript migration status
-- Refactor LangTexts index signature type
-- Add config to global Window interface
-- Update README links for langUtils
-- Remove JS_FILE_EXTS support from generateIndex
-- Update file comments to use .ts .tsx
-- Raised the ESLint configuration to treat explicit any usage as an error, ensuring new implicit typings are blocked during CI runs
-- Tightened the RegisterForm API by replacing the any-typed texts prop with the REGISTER_CONTENT structure and centralizing error messages through a typed Record for validation feedback
-- Introduced a structured ExperienceEntry type in AboutContent and swapped all any casts for typed experience arrays, covering optional summary and bullet data
-- Simplified CredlyBadge’s iframe loading logic by reading contentDocument readiness instead of casting the element to any
-- Broadened lint coverage so ESLint now scans the entire src directory along with key configuration files, ensuring a more comprehensive code quality check
-- Expanded the formatting script to run Prettier on src, scripts, and root config files for consistent formatting across the project
-- Updated TypeScript migration guidance to eliminate outdated .jsx references, aligning documentation with current .tsx usage
-- Converted remaining JSX code snippets in troubleshooting and error-tracking guides to TSX for consistency with the codebase
-- Revised pre-commit and README documentation to reference TSX and index.ts generation only, removing mentions of index.js
-- Fix unused variable errors in components
-- Update useFormValidation with generic typing
-- Modify ContactFormFields interface
-- Reimplement update_docs in TypeScript
-- Add ImportMetaEnv interface in env.d.ts
-- Re-implement sync_readme.py in TypeScript
-- Update getWebStorage return type
-- Typed the component’s property destructuring using BaseLayoutProps, removing the need for the external declaration file
-- Add optional properties to ImportMetaEnv
-- Update ChatMessage role type to ChatRole
+**关键检查点**
+- [ ] 阅读并收藏常用文档
+- [ ] 与社区保持同步，关注版本更新
+- [ ] 推荐资料已内化为团队最佳实践
