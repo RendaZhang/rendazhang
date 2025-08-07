@@ -1,13 +1,15 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
   - [Frontend](#frontend)
-    - [Local Development & Preview](#local-development--preview)
+    - [Architecture Overview](#architecture-overview)
+      - [BaseLayout Component Design Notes](#baselayout-component-design-notes)
+    - [Local Development \& Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
     - [Website Features](#website-features)
@@ -19,7 +21,7 @@
   - [**Backend**](#backend)
   - [**Nginx Server**](#nginx-server)
   - [Documentation](#documentation)
-    - [Git Branching & Release Workflow](#git-branching--release-workflow)
+    - [Git Branching \& Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -37,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 07, 2025, 16:46 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 17:01 (UTC+08:00)
 
 ---
 
@@ -150,6 +152,18 @@ flowchart TD
 ## Frontend
 
 This repository contains the frontend project: 📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
+
+### Architecture Overview
+
+#### BaseLayout Component Design Notes
+
+`src/layouts/BaseLayout.astro` serves as the global page framework for the site, responsible for setting `<head>` metadata, SEO tags, and root-level slots. React's `client:load` is only enabled on `<NavBarWrapper>`. The primary reasons for keeping this file as an Astro component are as follows:
+
+- **Static Content Does Not Require JavaScript**: The layout structure and metadata generation are purely static content. Astro can directly output HTML without introducing the React runtime.
+- **Maintain Partial Hydration Benefits**: Currently, only interactive areas like the navigation bar use React hydration, while the rest of the content remains zero-JS to minimize bundle size. If the entire layout were rewritten in React, it would introduce additional script and hydration overhead.
+- **Leverage Astro Features**: Astro-specific syntax such as `<slot>` and `is:inline` is extensively used in the layout. Migrating to React would require additional encapsulation or plugin support, increasing maintenance costs.
+
+Consider rewriting `BaseLayout.astro` only if there are plans to fully migrate the site to React or if there is a need to share complex React state/context at the layout level. For now, maintaining the Astro version is more concise and efficient.
 
 ### Local Development & Preview
 

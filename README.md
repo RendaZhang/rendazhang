@@ -7,6 +7,8 @@
     - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
   - [前端](#%E5%89%8D%E7%AB%AF)
+    - [架构说明](#%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E)
+      - [BaseLayout 组件设计说明](#baselayout-%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E)
     - [本地开发和预览](#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88)
       - [GitHub Actions](#github-actions)
       - [使用说明](#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
@@ -37,7 +39,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 07, 2025, 16:46 (UTC+08:00)
+- **最后更新**: August 07, 2025, 17:01 (UTC+08:00)
 
 ---
 
@@ -150,6 +152,18 @@ flowchart TD
 ## 前端
 
 本仓库就是前端项目：📁 [Renda Zhang WEB](https://github.com/RendaZhang/rendazhang)
+
+### 架构说明
+
+#### BaseLayout 组件设计说明
+
+`src/layouts/BaseLayout.astro` 是站点的全局页面框架，用于设置 `<head>` 元信息、SEO 标签以及根级插槽；仅在 `<NavBarWrapper>` 上启用了 React 的 `client:load`。保留该文件为 Astro 组件的主要考虑如下：
+
+- **静态内容无需 JavaScript**：布局结构和元数据生成属于纯静态内容，Astro 可以直接输出 HTML，无需引入 React 运行时。
+- **保持局部水合优势**：当前仅对导航栏等交互区使用 React 水合，其余内容保持零 JS，以最小化 bundle 体积。如果整体改写为 React，会带来额外脚本和水合开销。
+- **充分利用 Astro 特性**：`<slot>`、`is:inline` 等 Astro 专属语法在布局中被广泛使用，若迁移到 React 需额外封装或插件支持，增加维护成本。
+
+只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 `BaseLayout.astro`。在现阶段，维持 Astro 版本更简洁高效。
 
 ### 本地开发和预览
 
