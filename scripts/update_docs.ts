@@ -122,6 +122,7 @@ function isFileModified(file: string): boolean {
       return true;
     } else if (statusCode === 'MM') {
       log(`Modified file in both Staging and Working Area: ${relPath}`);
+      return true;
     } else if (statusCode === 'M ') {
       log(`Modified file in Staging Area: ${relPath}`);
       return true;
@@ -147,38 +148,54 @@ function isFileModified(file: string): boolean {
  * 2. `doctoc` was installed globally via `npm install -g doctoc`,
  *    but the global npm bin directory isn't on `PATH`.
  *
- * The function returns either the command name or an absolute path
- * to the executable. If `doctoc` cannot be found, it returns `null`.
+ * Determine how to invoke doctoc. We first try to execute the binary
+ * directly. This works when doctoc is installed via package managers
+ * like Homebrew or apt and is already available in the PATH.
+ *
+ * If that fails, fall back to `npx --no-install doctoc` which resolves
+ * globally installed npm packages even when the global npm bin folder
+ * isn't added to the PATH. The `--no-install` flag ensures npx will
+ * simply fail instead of attempting to download doctoc from the
+ * network when it's not installed at all.
  */
-function resolveDoctocCommand(): string | null {
+function resolveDoctocCommand(): string[] | null {
+  let doctocCmd: string[] | null = null;
   // First try to execute `doctoc` directly from PATH
-  const direct = spawnSync('doctoc', ['--version'], {
+  const doctocCheck = spawnSync('doctoc', [], {
+    encoding: 'utf-8',
+    stdio: ['ignore', 'pipe', 'pipe'] // 仅捕获 stdout 和 stderr
+  });
+  if (doctocCheck.error) {
+    log('SKIP: doctoc not installed (command not found)');
+  } else if (doctocCheck.status === null) {
+    log('SKIP: doctoc not installed (unknown error)');
+  } else {
+    const output = doctocCheck.stdout + doctocCheck.stderr;
+    if (doctocCheck.status === 0 || output.includes("Usage: doctoc")) {
+      doctocCmd = ['doctoc'];
+      return doctocCmd;
+    }
+  }
+  // If not found, attempt to locate a global installation of npm package
+  log('WARN: doctoc is not found in the PATH.');
+  log('INFO: Continue to locate a global installation of npm package of doctoc...')
+  const doctocNpxCheck = spawnSync('npx', ['--no-install', 'doctoc', '--version'], {
     encoding: 'utf-8',
     stdio: ['ignore', 'pipe', 'pipe']
   });
-  if (!direct.error && direct.status === 0) {
-    return 'doctoc';
+  if (doctocNpxCheck.error) {
+    log('SKIP: npx doctoc not installed (command not found)');
+  } else if (doctocNpxCheck.status === null) {
+    log('SKIP: npx doctoc not installed (unknown error)');
+  } else {
+    const output = doctocNpxCheck.stdout + doctocNpxCheck.stderr;
+    if (doctocNpxCheck.status === 0 || output.includes("Usage: doctoc")) {
+      doctocCmd = ['npx', '--no-install', 'doctoc'];
+      return doctocCmd;
+    }
   }
 
-  // If not found, attempt to locate a global installation
-  try {
-    const npmBin = spawnSync('npm', ['bin', '-g'], {
-      encoding: 'utf-8',
-      stdio: ['ignore', 'pipe', 'ignore']
-    });
-    if (npmBin.status === 0) {
-      const globalDir = npmBin.stdout.trim();
-      const doctocExecutable = path.join(
-        globalDir,
-        process.platform === 'win32' ? 'doctoc.cmd' : 'doctoc'
-      );
-      if (fs.existsSync(doctocExecutable)) {
-        return doctocExecutable;
-      }
-    }
-  } catch {}
-
-  // doctoc was not found in any known location
+  log('SKIP: doctoc is not found in this environment');
   return null;
 }
 
@@ -215,7 +232,9 @@ async function main() {
 
   if (doctocCmd) {
     log('Running doctoc on modified files...');
-    const res = spawnSync(doctocCmd, modifiedFiles, { stdio: 'inherit' });
+    const res = spawnSync(doctocCmd[0], [...doctocCmd.slice(1), ...modifiedFiles], {
+      stdio: 'inherit'
+    });
     if (res.status !== 0) {
       log('WARNING: doctoc encountered issues but continuing anyway');
     }

@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Migrate the Project Toward TypeScript](#migrate-the-project-toward-typescript)
+- [TEST](#test)
   - [Enable TypeScript for existing JavaScript files by adjusting the compiler options](#enable-typescript-for-existing-javascript-files-by-adjusting-the-compiler-options)
   - [Expand ESLint for TypeScript support](#expand-eslint-for-typescript-support)
   - [Migrate a small component to TypeScript to validate the setup (e.g., ThemeToggle.jsx)](#migrate-a-small-component-to-typescript-to-validate-the-setup-eg-themetogglejsx)
@@ -38,8 +39,9 @@
 
 # Migrate the Project Toward TypeScript
 
+# TEST
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 19:10 (UTC+08:00)
+- **最后更新**: August 07, 2025, 20:03 (UTC+08:00)
 
 ---
 

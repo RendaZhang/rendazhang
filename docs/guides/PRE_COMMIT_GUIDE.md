@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 19:21 (UTC+08:00)
+- **最后更新**: August 07, 2025, 20:03 (UTC+08:00)
 
 ---
 
@@ -112,7 +112,9 @@
    - 只对原本在暂存区（且工作区无修改）的文件执行 `git add`
    - 保留工作区的修改不变
    - 正确处理混合状态的文件
-5. 自动在 PATH 及 npm 全局目录中查找 `doctoc`，兼容使用 `npm install -g doctoc` 安装的环境
+
+> 提示：脚本会优先使用 PATH 中的 `doctoc`，若仅通过 `npm install -g doctoc` 安装，
+> 会自动回退到 `npx --no-install doctoc`。如果系统中完全未安装 doctoc，则会跳过目录生成。
 
 **执行流程**：
 ```mermaid
