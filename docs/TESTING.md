@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [测试指南](#%E6%B5%8B%E8%AF%95%E6%8C%87%E5%8D%97)
+  - [简介](#%E7%AE%80%E4%BB%8B)
   - [先决条件](#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6)
   - [运行测试](#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95)
   - [测试用例说明](#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%B4%E6%98%8E)
@@ -14,6 +15,13 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 测试指南
+
+- **作者**: 张人大 (Renda Zhang)
+- **最后更新**: August 08, 2025, 02:40 (UTC+08:00)
+
+---
+
+## 简介
 
 本项目使用 [Vitest](https://vitest.dev/) 作为测试框架。
 
