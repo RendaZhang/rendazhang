@@ -1,10 +1,9 @@
 import { readdir, readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 
-type GenerateResult = { hasJs: boolean; hasTs: boolean };
+type GenerateResult = { hasTs: boolean };
 
 const ROOT = path.resolve('src');
-const JS_FILE_EXTS = new Set(['.js', '.cjs', '.mjs', '.jsx']);
 const TS_FILE_EXTS = new Set(['.ts', '.tsx']);
 
 function toExportName(file: string): string {
@@ -15,7 +14,6 @@ function toExportName(file: string): string {
 async function generate(dir: string): Promise<GenerateResult> {
   const entries = await readdir(dir, { withFileTypes: true });
   const dirs: string[] = [];
-  const jsFiles: string[] = [];
   const tsFiles: string[] = [];
   let hasIndexTs = false;
 
@@ -29,22 +27,16 @@ async function generate(dir: string): Promise<GenerateResult> {
       }
 
       const ext = path.extname(entry.name).toLowerCase();
-      if (/^index\.(js|ts|jsx|tsx|cjs|mjs)$/.test(entry.name)) continue;
+      if (/^index\.(ts|tsx)$/.test(entry.name)) continue;
       if (TS_FILE_EXTS.has(ext)) {
         if (/\.d\.ts$/.test(entry.name)) continue;
         tsFiles.push(entry.name);
-      } else if (JS_FILE_EXTS.has(ext)) {
-        jsFiles.push(entry.name);
       }
     }
   }
 
   dirs.sort();
-  jsFiles.sort();
   tsFiles.sort();
-
-  const relativePath = path.relative(ROOT, dir);
-  const isTypesDir = relativePath.split(path.sep).includes('types');
 
   const subResults: Array<[string, GenerateResult]> = [];
   for (const d of dirs) {
@@ -52,68 +44,18 @@ async function generate(dir: string): Promise<GenerateResult> {
     subResults.push([d, res]);
   }
 
-  let hasJs = jsFiles.length > 0;
   let hasTs = hasIndexTs || tsFiles.length > 0 || subResults.some(([, r]) => r.hasTs);
-  if (isTypesDir) hasJs = false;
 
-  const linesJs: string[] = [];
   const linesTs: string[] = [];
 
-  if (hasIndexTs && dirs.length === 0 && jsFiles.length === 0 && tsFiles.length === 0) {
-    try {
-      await rm(path.join(dir, 'index.js'));
-    } catch {
-      /* ignore */
-    }
-    return { hasJs, hasTs };
+  if (hasIndexTs && dirs.length === 0 && tsFiles.length === 0) {
+    return { hasTs };
   }
 
-  if (hasJs) {
-    for (const [d, r] of subResults) {
-      if (r.hasJs || r.hasTs) {
-        linesJs.push(`export * from './${d}';`);
-      }
-    }
-  }
   if (hasTs) {
     for (const [d, r] of subResults) {
-      if (r.hasJs || r.hasTs) {
+      if (r.hasTs) {
         linesTs.push(`export * from './${d}';`);
-      }
-    }
-  }
-
-  for (const file of jsFiles) {
-    const rel = './' + file;
-    const relNoExt = './' + path.parse(file).name;
-    const filePath = path.join(dir, file);
-    let content = '';
-    try {
-      content = await readFile(filePath, 'utf8');
-    } catch {
-      /* ignore */
-    }
-    const hasDefault = /\bexport\s+default\b/.test(content);
-    const isModule = /\bexport\b/.test(content) && !/\bexport\s*=/.test(content);
-    const isMinJs = /\.min\.js$/i.test(file);
-
-    if (hasJs) {
-      linesJs.push(`export * from '${rel}';`);
-      if (hasDefault) {
-        const name = toExportName(file);
-        linesJs.push(`export { default as ${name} } from '${rel}';`);
-      }
-    }
-
-    if (
-      hasTs &&
-      !isMinJs &&
-      (isModule || ['.jsx', '.mjs'].includes(path.extname(file).toLowerCase()))
-    ) {
-      linesTs.push(`export * from '${relNoExt}';`);
-      if (hasDefault) {
-        const name = toExportName(file);
-        linesTs.push(`export { default as ${name} } from '${relNoExt}';`);
       }
     }
   }
@@ -131,38 +73,12 @@ async function generate(dir: string): Promise<GenerateResult> {
     const hasDefault = /\bexport\s+default\b/.test(content);
     const isModule = /\bexport\b/.test(content) && !/\bexport\s*=/.test(content);
 
-    if (hasJs) {
-      linesJs.push(`export * from '${rel}';`);
-      if (hasDefault) {
-        const name = toExportName(file);
-        linesJs.push(`export { default as ${name} } from '${rel}';`);
-      }
-    }
-
     if (isModule) {
       linesTs.push(`export * from '${relNoExt}';`);
       if (hasDefault) {
         const name = toExportName(file);
         linesTs.push(`export { default as ${name} } from '${relNoExt}';`);
       }
-    }
-  }
-
-  if (hasJs) {
-    if (linesJs.length) {
-      await writeFile(path.join(dir, 'index.js'), linesJs.join('\n') + '\n');
-    } else {
-      try {
-        await rm(path.join(dir, 'index.js'));
-      } catch {
-        /* ignore */
-      }
-    }
-  } else {
-    try {
-      await rm(path.join(dir, 'index.js'));
-    } catch {
-      /* ignore */
     }
   }
 
@@ -184,7 +100,7 @@ async function generate(dir: string): Promise<GenerateResult> {
     }
   }
 
-  return { hasJs, hasTs };
+  return { hasTs };
 }
 
 await generate(ROOT);
