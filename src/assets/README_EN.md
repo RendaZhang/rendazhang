@@ -1,7 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Renda Zhang · Lightweight Website](#renda-zhang--lightweight-website)
+- [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
@@ -9,7 +9,7 @@
   - [Frontend](#frontend)
     - [Architecture Overview](#architecture-overview)
       - [BaseLayout Component Design Notes](#baselayout-component-design-notes)
-    - [Local Development \& Preview](#local-development--preview)
+    - [Local Development & Preview](#local-development--preview)
       - [GitHub Actions](#github-actions)
       - [Usage Guide](#usage-guide)
     - [Website Features](#website-features)
@@ -21,7 +21,7 @@
   - [**Backend**](#backend)
   - [**Nginx Server**](#nginx-server)
   - [Documentation](#documentation)
-    - [Git Branching \& Release Workflow](#git-branching--release-workflow)
+    - [Git Branching & Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 07, 2025, 17:06 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 22:44 (UTC+08:00)
 
 ---
 
@@ -247,7 +247,7 @@ Pushing to `master` triggers GitHub Actions Auto-Deployment:
 3. `appleboy/scp-action` deploys `dist/` to server (e.g., `/var/www/html`)
 4. Nginx serves content post-deployment
 
-Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
+Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
 
 #### Usage Guide
 
@@ -463,9 +463,9 @@ location /_astro/ {
 
 The front-end currently adopts an architecture based on **Astro** + **React**, following a layered design philosophy. It utilizes **GitHub Actions** for automated builds and deploys the build artifacts to a specified directory on the server's **Nginx**.
 
-For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92). This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.
+For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 [Upgrade Plan](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92). This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.
 
-For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
+For detailed steps on setting up the development environment, please refer to the following documentation: 📄 [Environment Preparation](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96). This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.
 
 ### Responsive Image System Maintenance
 
