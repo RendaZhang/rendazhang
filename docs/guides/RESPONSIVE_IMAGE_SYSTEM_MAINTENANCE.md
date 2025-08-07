@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 09:53 (UTC+08:00)
+- **最后更新**: August 07, 2025, 12:08 (UTC+08:00)
 
 ---
 
@@ -289,6 +289,12 @@ import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 
+export interface GalleryImageInfo {
+  imageName: string;
+  lqipBase64: string;
+  aspectRatio: number;
+}
+
 export default {
   name: 'gallery',
 
@@ -298,7 +304,7 @@ export default {
   },
 
   generate: async function({ inputPath, outputDir, config }) {
-    const results = [];
+    const results: GalleryImageInfo[] = [];
 
     // 处理目录中所有图片
     const files = fs.readdirSync(inputPath);
@@ -340,7 +346,8 @@ export default {
 
 ```ts
 // scripts/templates/gallery-data-template.ts
-export default (results: any[]) => `
+import type { GalleryImageInfo } from '../image-processing/processors/gallery-processor';
+export default (results: GalleryImageInfo[]) => `
 // 自动生成的图库数据
 export const galleryData = {
   ${results.map(item => `
