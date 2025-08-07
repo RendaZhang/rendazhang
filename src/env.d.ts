@@ -48,6 +48,12 @@ declare global {
     readonly PUBLIC_SENTRY_DSN: string;
     readonly PUBLIC_SITE_BASE_URL: string;
     readonly PUBLIC_TAG_NAME: string;
+    readonly SENTRY_DSN?: string;
+    readonly SENTRY_AUTH_TOKEN?: string;
+    readonly SENTRY_ORG?: string;
+    readonly SENTRY_PROJECT?: string;
+    readonly SKIP_SENTRY?: string;
+    readonly NODE_ENV?: string;
   }
 
   interface ImportMeta {
