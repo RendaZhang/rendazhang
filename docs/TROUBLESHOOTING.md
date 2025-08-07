@@ -57,7 +57,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 10:54 (UTC+08:00)
+- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
 
 ---
 
@@ -115,7 +115,7 @@
   - 将 Mermaid 渲染移出 React 生命周期控制
   - 添加渲染状态持久化机制
 - **相关代码**：
-  ```jsx
+  ```tsx
   // AIMessage 组件修改
   const contentRef = useRef(null);
   useEffect(() => {
@@ -141,7 +141,7 @@
   - 在高亮逻辑中忽略 `.language-mermaid` 区块
 - **验证结果**：✅ WARN 消失，Mermaid 渲染正常
 - **相关代码**：
-  ```jsx
+  ```tsx
   document.querySelectorAll('pre code:not(.language-mermaid)').forEach(block => {
     hljs.highlightElement(block);
   });
@@ -221,7 +221,7 @@
   - 修改 `ThemeContext` 默认值结构防止解构报错
 - **验证结果**：✅ 未包裹 Provider 时按钮失效但不崩溃
 - **相关代码**：
-  ```jsx
+  ```tsx
   // 修改前
   const defaultContext = undefined;
 
@@ -334,7 +334,7 @@
   3. 添加 mounted ref 跳过首次副作用
 - **验证结果**：✅ 无闪烁无水合错误
 - **核心逻辑**：
-  ```jsx
+  ```tsx
   const [darkMode, setDarkMode] = useState(false); // SSR统一值
   const mounted = useRef(false);
 

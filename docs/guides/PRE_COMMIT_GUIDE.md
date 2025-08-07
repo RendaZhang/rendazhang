@@ -28,7 +28,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 11:20 (UTC+08:00)
+- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
 
 ---
 
@@ -93,8 +93,8 @@
 
 | 钩子ID         | 功能                     | 文件类型                     |
 |----------------|--------------------------|------------------------------|
-| `prettier`     | 使用 Prettier 格式化代码   | JS, JSX, Astro, CSS       |
-| `eslint`       | 使用 ESLint 检查和修复代码 | JS, JSX, Astro, Markdown    |
+| `prettier`     | 使用 Prettier 格式化代码   | JS, TSX, Astro, CSS       |
+| `eslint`       | 使用 ESLint 检查和修复代码 | JS, TSX, Astro, Markdown    |
 
 ---
 

@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
+- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
 
 ---
 
@@ -313,7 +313,7 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
    ```
 
 3. **用户反馈收集**：
-   ```jsx
+   ```tsx
    // React 组件中添加反馈按钮
    <button onClick={() => Sentry.showReportDialog()}>
      报告问题
