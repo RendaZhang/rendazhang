@@ -5,6 +5,8 @@ type GenerateResult = { hasTs: boolean };
 
 const ROOT = path.resolve('src');
 const TS_FILE_EXTS = new Set(['.ts', '.tsx']);
+const TEST_DIR = '__tests__';
+const TEST_FILE_RE = /\.(test|spec)\.tsx?$/;
 
 function toExportName(file: string): string {
   const name = path.parse(file).name;
@@ -19,6 +21,7 @@ async function generate(dir: string): Promise<GenerateResult> {
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
+      if (entry.name === TEST_DIR) continue;
       dirs.push(entry.name);
     } else if (entry.isFile()) {
       if (entry.name === 'index.ts') {
@@ -30,6 +33,7 @@ async function generate(dir: string): Promise<GenerateResult> {
       if (/^index\.(ts|tsx)$/.test(entry.name)) continue;
       if (TS_FILE_EXTS.has(ext)) {
         if (/\.d\.ts$/.test(entry.name)) continue;
+        if (TEST_FILE_RE.test(entry.name)) continue;
         tsFiles.push(entry.name);
       }
     }
