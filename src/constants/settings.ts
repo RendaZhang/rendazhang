@@ -59,5 +59,5 @@ export const GLOBAL_CONFIG = {
 } as const;
 
 if (typeof window !== 'undefined') {
-  (window as any).config = GLOBAL_CONFIG;
+  window.config = GLOBAL_CONFIG;
 }

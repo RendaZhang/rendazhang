@@ -1,3 +1,5 @@
+import type { GLOBAL_CONFIG } from '../constants/settings';
+
 /**
  * Global ambient type declarations.
  * Add custom declarations for third-party modules without TypeScript types.
@@ -27,3 +29,11 @@ declare module '*.pdf' {
   const src: string;
   export default src;
 }
+
+declare global {
+  interface Window {
+    config: typeof GLOBAL_CONFIG;
+  }
+}
+
+export {};
