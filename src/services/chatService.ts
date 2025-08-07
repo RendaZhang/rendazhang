@@ -1,5 +1,6 @@
 // Markdown libraries expected to be loaded globally
 import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
+import logger from '../utils/logger';
 
 export async function sendMessageToAI(
   userInput: string,
@@ -41,14 +42,14 @@ export async function sendMessageToAI(
             }
           }
         } catch (e) {
-          console.error('Parse error:', e);
+          logger.error('Parse error:', e);
         }
       }
     }
 
     return aiMessage;
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     throw error;
   }
 }
@@ -67,7 +68,7 @@ export async function resetChat(): Promise<boolean> {
 
     return true;
   } catch (error) {
-    console.error('Reset error:', error);
+    logger.error('Reset error:', error);
     throw error;
   }
 }

@@ -3,6 +3,7 @@ import { spawnSync, execSync } from 'child_process';
 import path from 'path';
 import { updateFiles } from './update_last_updated.ts';
 import { fileURLToPath } from 'url';
+import logger from '../src/utils/logger';
 
 /**
  * Script that updates documentation files.
@@ -21,7 +22,7 @@ import { fileURLToPath } from 'url';
 function log(msg: string) {
   const now = new Date();
   const timestamp = now.toISOString().replace('T', ' ').split('.')[0];
-  console.log(`[${timestamp}] ${msg}`);
+  logger.log(`[${timestamp}] ${msg}`);
 }
 
 // Repository root directory

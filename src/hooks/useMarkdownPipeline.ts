@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 import mermaid from 'mermaid';
+import logger from '../utils/logger';
 
 mermaid.initialize({ startOnLoad: false });
 
@@ -39,7 +40,7 @@ async function renderMermaidDiagrams(container: HTMLElement | null): Promise<voi
       bindFunctions?.(wrapper);
       pre.replaceWith(wrapper);
     } catch (err) {
-      console.error('Mermaid render error:', err);
+      logger.error('Mermaid render error:', err);
     }
   }
 }

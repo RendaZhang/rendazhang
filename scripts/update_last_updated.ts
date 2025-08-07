@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import logger from '../src/utils/logger';
 
 /**
  * Regular expression that finds Markdown lines of the form:
@@ -54,7 +55,7 @@ async function updateFile(p: string): Promise<boolean> {
   try {
     const text = await fs.promises.readFile(p, 'utf8');
     if (!LINE_RE.test(text)) {
-      console.log(`Skipping ${p}: no timestamp found`);
+      logger.log(`Skipping ${p}: no timestamp found`);
       return false;
     }
     LINE_RE.lastIndex = 0;
@@ -63,7 +64,7 @@ async function updateFile(p: string): Promise<boolean> {
     let newText = text.replace(LINE_RE, (match, _p1, oldTimestamp) => {
       if (oldTimestamp !== timestamp) {
         updated = true;
-        console.log(`Updating timestamp in ${p}: ${oldTimestamp} -> ${timestamp}`);
+        logger.log(`Updating timestamp in ${p}: ${oldTimestamp} -> ${timestamp}`);
         return match.replace(oldTimestamp, timestamp);
       }
       return match;
@@ -75,10 +76,10 @@ async function updateFile(p: string): Promise<boolean> {
       await fs.promises.writeFile(p, newText, 'utf8');
       return true;
     }
-    console.log(`Timestamp unchanged in ${p}`);
+    logger.log(`Timestamp unchanged in ${p}`);
     return false;
   } catch (e) {
-    console.log(`Error processing ${p}: ${(e as Error).message}`);
+    logger.error(`Error processing ${p}: ${(e as Error).message}`);
     return false;
   }
 }
@@ -97,11 +98,11 @@ export async function updateFiles(files: string[]): Promise<number> {
         if (updated) updatedCount += 1;
       }
     } catch (e) {
-      console.log(`Error processing ${file}: ${(e as Error).message}`);
+      logger.error(`Error processing ${file}: ${(e as Error).message}`);
       errorCount += 1;
     }
   }
-  console.log(`Updated timestamps in ${updatedCount}/${files.length} files`);
+  logger.log(`Updated timestamps in ${updatedCount}/${files.length} files`);
   return errorCount;
 }
 

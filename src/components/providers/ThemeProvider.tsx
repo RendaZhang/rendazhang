@@ -86,7 +86,7 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
       logger.log('ThemeProvider darkMode: ' + darkMode);
       storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
     } catch (e) {
-      console.error('Failed to set darkMode with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
+      logger.error('Failed to set darkMode with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
       Sentry.captureException(e);
     }
   }, [darkMode]);

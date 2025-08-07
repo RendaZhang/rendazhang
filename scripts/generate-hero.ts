@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
+import logger from '../src/utils/logger';
 
 // 在脚本开头添加，提高处理速度
 sharp.concurrency(1); // 避免内存溢出
@@ -29,11 +30,11 @@ const WIDTHS = [3840, 2560, 1920, 1280, 1000, 800, 400];
 // 创建输出目录
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  console.log(`创建目录: ${OUTPUT_DIR}`);
+  logger.log(`创建目录: ${OUTPUT_DIR}`);
 }
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
-  console.log(`创建目录: ${DATA_DIR}`);
+  logger.log(`创建目录: ${DATA_DIR}`);
 }
 
 type Format =
@@ -49,7 +50,7 @@ async function generateResponsiveImages(): Promise<void> {
   const metadata = await sharp(SOURCE_IMAGE).metadata();
   // 获取文件的状态信息
   const stats = fs.statSync(SOURCE_IMAGE);
-  console.log(
+  logger.log(
     `原始图片尺寸: ${metadata.width}x${metadata.height} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`
   );
 
@@ -75,7 +76,7 @@ async function generateResponsiveImages(): Promise<void> {
         }
 
         const stats = fs.statSync(outputFile);
-        console.log(
+        logger.log(
           `生成: ${path.relative(process.cwd(), outputFile)} (${(stats.size / 1024).toFixed(1)}KB)`
         );
       })
@@ -104,8 +105,8 @@ async function generateLqip(): Promise<void> {
   const dataContent = `export const ${imageName} = {\n  base64:\n    '${lqipBase64}',\n  aspectRatio: ${(metadata.height ?? 1) / (metadata.width ?? 1)}\n} as const;\n`;
 
   fs.writeFileSync(DATA_FILE, dataContent);
-  console.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
-  console.log(
+  logger.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
+  logger.log(
     `LQIP生成成功: ${path.relative(process.cwd(), DATA_FILE)} (${lqipBuffer.length}字节)`
   );
 }
@@ -115,15 +116,15 @@ async function generateLqip(): Promise<void> {
  * 协调图片生成和 LQIP 生成流程。
  */
 async function main(): Promise<void> {
-  console.log('🚀 开始处理英雄图...');
-  console.log(`源文件: ${path.relative(process.cwd(), SOURCE_IMAGE)}`);
+  logger.log('🚀 开始处理英雄图...');
+  logger.log(`源文件: ${path.relative(process.cwd(), SOURCE_IMAGE)}`);
 
   try {
     await generateResponsiveImages();
     await generateLqip();
-    console.log('✅ 所有图片处理完成！');
+    logger.log('✅ 所有图片处理完成！');
   } catch (err) {
-    console.error('❌ 处理失败:', err);
+    logger.error('❌ 处理失败:', err);
     process.exit(1);
   }
 }

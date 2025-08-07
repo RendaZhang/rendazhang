@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import logger from '../src/utils/logger';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,9 +34,9 @@ const assetErrors = validate(path.join(__dirname, '..', 'src', 'assets'), [
 ]);
 
 if (assetErrors.length) {
-  console.error('Invalid file names detected:');
-  console.error('Assets:', assetErrors.join(', '));
+  logger.error('Invalid file names detected:');
+  logger.error('Assets:', assetErrors.join(', '));
   process.exit(1);
 }
 
-console.log('All asset file names follow the expected conventions.');
+logger.log('All asset file names follow the expected conventions.');

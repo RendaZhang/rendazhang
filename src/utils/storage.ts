@@ -57,7 +57,7 @@ function getWebStorage(type: StorageType = 'local'): StorageLike | null {
     logger.log('storage.ts getWebStorage type: ' + type);
     return storage as StorageLike;
   } catch (e) {
-    console.error('storage.ts getWebStorage failed', e);
+    logger.error('storage.ts getWebStorage failed', e);
     Sentry.captureException(e);
     return null;
   }
@@ -135,7 +135,7 @@ const storage = {
         return value;
       }
     } catch (e) {
-      console.error('storage.ts get failed', e);
+      logger.error('storage.ts get failed', e);
       Sentry.captureException(e);
       return null;
     }
@@ -155,7 +155,7 @@ const storage = {
         store.setItem(key, stringValue);
       }
     } catch (e) {
-      console.error('storage.ts set failed', e);
+      logger.error('storage.ts set failed', e);
       Sentry.captureException(e);
     }
   },
@@ -164,7 +164,7 @@ const storage = {
       const store = selectStorage(type);
       store.removeItem(key);
     } catch (e) {
-      console.error('storage.ts remove failed', e);
+      logger.error('storage.ts remove failed', e);
       Sentry.captureException(e);
     }
   },
@@ -184,7 +184,7 @@ const storage = {
         return value;
       }
     } catch (e) {
-      console.error('storage.ts IndexedDB get failed', e);
+      logger.error('storage.ts IndexedDB get failed', e);
       Sentry.captureException(e);
       return null;
     }
@@ -198,7 +198,7 @@ const storage = {
     try {
       await indexedDBStorage.setItem(key, JSON.stringify(value), dbName, storeName);
     } catch (e) {
-      console.error('storage.ts IndexedDB set failed', e);
+      logger.error('storage.ts IndexedDB set failed', e);
       Sentry.captureException(e);
     }
   },
@@ -206,7 +206,7 @@ const storage = {
     try {
       await indexedDBStorage.removeItem(key, dbName, storeName);
     } catch (e) {
-      console.error('storage.ts IndexedDB remove failed', e);
+      logger.error('storage.ts IndexedDB remove failed', e);
       Sentry.captureException(e);
     }
   }

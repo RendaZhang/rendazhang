@@ -48,7 +48,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
         storedLang = storage.get(LANG_STORAGE_KEY);
         logger.log('I18nProvider storedLang: ' + storedLang);
       } catch (e) {
-        console.error(
+        logger.error(
           'I18nProvider failed to get storedLand with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
         );
         Sentry.captureException(e);
@@ -61,7 +61,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
         storage.set(LANG_STORAGE_KEY, effectiveLang);
         logger.log('I18nProvider effectiveLang: ' + effectiveLang);
       } catch (e) {
-        console.error(
+        logger.error(
           'I18nProvider failed to set effectiveLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
         );
         Sentry.captureException(e);
@@ -75,7 +75,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
       storage.set(LANG_STORAGE_KEY, lang);
       logger.log('I18nProvider lang: ' + lang);
     } catch (e) {
-      console.error('I18nProvider failed to set lang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY);
+      logger.error('I18nProvider failed to set lang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY);
       Sentry.captureException(e);
     }
     window.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
@@ -118,7 +118,7 @@ export function useLanguage(): I18nContextValue {
           storage.set(LANG_STORAGE_KEY, newLang);
           logger.log('I18nProvider newLang: ' + newLang);
         } catch (e) {
-          console.error(
+          logger.error(
             'I18nProvider failed to set newLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
           );
           Sentry.captureException(e);

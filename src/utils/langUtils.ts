@@ -18,7 +18,7 @@ export function getCurrentLang(): string {
     logger.log('langUtils getCurrentLang storedLang: ' + storedLang);
     if (typeof storedLang === 'string') return storedLang;
   } catch (e) {
-    console.error('读取语言存储失败', e);
+    logger.error('读取语言存储失败', e);
     Sentry.captureException(e);
   }
 
