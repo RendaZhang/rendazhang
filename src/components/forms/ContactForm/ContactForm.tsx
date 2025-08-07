@@ -22,7 +22,12 @@ interface PlaceholderTexts {
 
 interface LangTexts {
   placeholders?: PlaceholderTexts;
-  [key: string]: any;
+  errorEmpty?: string;
+  failed?: string;
+  sending?: string;
+  button?: string;
+  success?: string;
+  [key: string]: string | PlaceholderTexts | undefined;
 }
 
 interface ContactFormTexts {
@@ -58,7 +63,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
   });
 
   useEffect(() => {
-    const ph = ((texts[langKey] && texts[langKey].placeholders) || {}) as PlaceholderTexts;
+    const ph: PlaceholderTexts = texts[langKey]?.placeholders ?? {};
     setPlaceholders(ph);
   }, [langKey, texts]);
 
