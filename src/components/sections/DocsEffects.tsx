@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { DOC_CONTENT, SCRIPT_PATHS } from '../../constants/index.ts';
+import { DOC_CONTENT } from '../../constants/index.ts';
 import { marked } from 'marked';
-
-declare const hljs: { highlightElement: (block: HTMLElement) => void };
-declare const mermaid: { initialize: (opts: unknown) => void; init: (a: undefined, elements: NodeListOf<Element>) => void };
+import hljs from 'highlight.js';
+import mermaid from 'mermaid';
 
 export default function DocsEffects(): null {
   useEffect(() => {
@@ -48,26 +47,15 @@ export default function DocsEffects(): null {
       document.getElementById('content-zh')!.innerHTML = docZh.body.innerHTML;
       document.getElementById('content-en')!.innerHTML = docEn.body.innerHTML;
 
-      const loadScript = (src: string): Promise<void> => {
-        return new Promise((resolve) => {
-          const script = document.createElement('script');
-          script.src = src;
-          script.onload = () => resolve();
-          document.head.appendChild(script);
-        });
-      };
-
-      Promise.all([loadScript(SCRIPT_PATHS.HIGHLIGHT), loadScript(SCRIPT_PATHS.MERMAID)]).then(() => {
-        document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
-          hljs.highlightElement(block as HTMLElement);
-        });
-        mermaid.initialize({ startOnLoad: false });
-        const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
-        const mermaidSelector =
-          lang.indexOf('zh') === 0 ? '#content-zh .language-mermaid' : '#content-en .language-mermaid';
-        mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
-        console.log('All enhancements applied');
+      document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
+        hljs.highlightElement(block as HTMLElement);
       });
+      mermaid.initialize({ startOnLoad: false });
+      const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+      const mermaidSelector =
+        lang.indexOf('zh') === 0 ? '#content-zh .language-mermaid' : '#content-en .language-mermaid';
+      mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
+      console.log('All enhancements applied');
     } catch (e) {
       document.getElementById('content-zh')!.innerHTML = '<p>加载文档时出错</p>';
       document.getElementById('content-en')!.innerHTML = '<p>Error loading documentation</p>';

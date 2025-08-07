@@ -1,23 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { UI_DURATIONS } from '../constants/index.ts';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
+import hljs from 'highlight.js';
+import mermaid from 'mermaid';
 
-declare global {
-  interface Window {
-    mermaid?: {
-      parse?: (code: string) => Promise<void> | void;
-      render: (
-        id: string,
-        code: string
-      ) => Promise<{ svg: string; bindFunctions?: (element: HTMLElement) => void }>;
-      initialize: (config: unknown) => void;
-    };
-    hljs?: {
-      highlightElement: (element: HTMLElement) => void;
-    };
-    DOMPurify: { sanitize: (html: string) => string };
-    marked: { parse: (markdown: string) => string };
-  }
-}
+mermaid.initialize({ startOnLoad: false });
 
 export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): void {
   const hint = document.createElement('div');
@@ -31,18 +19,16 @@ export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): voi
 }
 
 async function renderMermaidDiagrams(container: HTMLElement | null): Promise<void> {
-  if (!container || !window.mermaid) return;
-  const blocks = container.querySelectorAll<HTMLElement>(
-    'pre code.language-mermaid, pre code.mermaid'
-  );
+  if (!container) return;
+  const blocks = container.querySelectorAll<HTMLElement>('pre code.language-mermaid, pre code.mermaid');
   for (const block of Array.from(blocks)) {
     const pre = block.parentElement as HTMLElement;
     const code = block.textContent || '';
     try {
-      if (typeof window.mermaid.parse === 'function') {
-        await window.mermaid.parse(code);
+      if (typeof mermaid.parse === 'function') {
+        await mermaid.parse(code);
       }
-      const { svg, bindFunctions } = await window.mermaid.render(
+      const { svg, bindFunctions } = await mermaid.render(
         `mmd-${Math.random().toString(36).slice(2)}`,
         code
       );
@@ -58,15 +44,12 @@ async function renderMermaidDiagrams(container: HTMLElement | null): Promise<voi
 
 export async function applyEnhancements(container: HTMLElement | null): Promise<void> {
   if (!container) return;
-  if (window.hljs) {
-    const hljs = window.hljs;
-    container.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
-      if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
-        return;
-      }
-      hljs.highlightElement(block);
-    });
-  }
+  container.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
+      return;
+    }
+    hljs.highlightElement(block);
+  });
   await renderMermaidDiagrams(container);
 }
 
@@ -79,7 +62,7 @@ export default function useMarkdownPipeline(
 
   useEffect(() => {
     if (!ref.current) return;
-    const html = window.DOMPurify.sanitize(window.marked.parse(markdown || ''));
+    const html = DOMPurify.sanitize(marked.parse(markdown || '') as string);
     ref.current.innerHTML = html;
     const doCallback = () => {
       if (typeof onDone === 'function') onDone();

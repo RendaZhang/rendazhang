@@ -1,5 +1,4 @@
-// @ts-nocheck
-export * from './highlight.min.js';
-export * from './marked.min.js';
-export * from './mermaid.min.js';
-export * from './purify.min.js';
+export { marked } from 'marked';
+export { default as DOMPurify } from 'dompurify';
+export { default as hljs } from 'highlight.js';
+export { default as mermaid } from 'mermaid';

@@ -8,10 +8,6 @@ import chatWidgetCssUrl from '../styles/components/chat_widget.css?url';
 import markdownDarkModeCssUrl from '../styles/components/markdown-dark-mode.css?url';
 import githubCssUrl from '../styles/components/github.min.css?url';
 import githubCodeHighlightCssUrl from '../styles/components/github-markdown-light.min.css?url';
-import markedUrl from '../scripts/marked.min.js?url';
-import purifyUrl from '../scripts/purify.min.js?url';
-import highlightUrl from '../scripts/highlight.min.js?url';
-import mermaidUrl from '../scripts/mermaid.min.js?url';
 import faviconPngUrl from '../assets/favicons/favicon.png?url';
 import faviconIcoUrl from '../assets/favicons/favicon.ico?url';
 import favicon16Url from '../assets/favicons/favicon-16x16.png?url';
@@ -41,13 +37,6 @@ export const HOME_PAGE_PATH = '/';
 export const DOC_CONTENT = {
   README_ZH: readmeZh,
   README_EN: readmeEn
-} as const;
-
-export const SCRIPT_PATHS = {
-  MARKED: markedUrl,
-  PURIFY: purifyUrl,
-  HIGHLIGHT: highlightUrl,
-  MERMAID: mermaidUrl
 } as const;
 
 export const STYLE_PATHS = {
