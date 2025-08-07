@@ -44,7 +44,7 @@ declare global {
   interface ImportMetaEnv {
     readonly PUBLIC_API_BASE_URL: string;
     readonly PUBLIC_CDN_BASE: string;
-    readonly PUBLIC_NODE_ENV: string;
+    readonly PUBLIC_NODE_ENV: 'development' | 'production' | 'test';
     readonly PUBLIC_SENTRY_DSN: string;
     readonly PUBLIC_SITE_BASE_URL: string;
     readonly PUBLIC_TAG_NAME: string;
