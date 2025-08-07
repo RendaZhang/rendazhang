@@ -1,5 +1,5 @@
 import { MAX_TOKENS, AVG_WORD_LENGTH, AVG_TOKENS_PER_WORD } from '../constants/index';
-import type { ChatMessage } from '../types/chat';
+import type { ChatMessage, ChatRole } from '../types/chat';
 
 class ChatSession {
   private history: ChatMessage[];
@@ -21,7 +21,7 @@ class ChatSession {
     }
   }
 
-  addMessage(role: string, content: string): ChatMessage[] {
+  addMessage(role: ChatRole, content: string): ChatMessage[] {
     this.history.push({ role, content });
     this.trimHistory();
     return this.getHistory();

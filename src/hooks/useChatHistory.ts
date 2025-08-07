@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { STORAGE_KEY, ROLES } from '../constants/index';
 import { storage } from '../utils/index';
 import ChatSession from '../models/ChatSession';
-import type { ChatMessage } from '../types/chat';
+import type { ChatMessage, ChatRole } from '../types/chat';
 
 interface UseChatHistory {
   messages: ChatMessage[];
-  addMessage: (role: string, content: string) => ChatMessage[];
+  addMessage: (role: ChatRole, content: string) => ChatMessage[];
   setMessages: (updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => ChatMessage[];
   clearHistory: () => void;
 }
@@ -35,7 +35,7 @@ export default function useChatHistory(): UseChatHistory {
     );
   };
 
-  const addMessage = (role: string, content: string): ChatMessage[] => {
+  const addMessage = (role: ChatRole, content: string): ChatMessage[] => {
     const list = sessionRef.current.addMessage(role, content);
     save(list);
     setMessagesState(sessionRef.current.getHistory());

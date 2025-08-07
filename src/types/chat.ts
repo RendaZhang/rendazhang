@@ -1,10 +1,14 @@
+import { ROLES } from '../constants/settings';
+
 export interface ChatUser {
   id: string;
   name: string;
 }
 
+export type ChatRole = (typeof ROLES)[keyof typeof ROLES];
+
 export interface ChatMessage {
-  role: string;
+  role: ChatRole;
   content: string;
 }
 
