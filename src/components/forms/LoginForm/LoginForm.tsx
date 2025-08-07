@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
+import {
+  HOME_PAGE_PATH,
+  REGISTER_PAGE_PATH,
+  LOADING_TEXT,
+  AUTH_TIMINGS,
+  API_BASE_URL
+} from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
-import * as Sentry from '@sentry/react';
-import { isProduction, getCdnUrl } from '../../../utils/env';
 interface LoginFormValues extends Record<string, unknown> {
   email: string;
   password: string;
@@ -182,11 +186,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           type="button"
           aria-label={activeTexts.thirdParty.google}
           onClick={() => {
-            // TODO: Remove below and implement the function
-            console.log('Testing Sentry with login button');
-            Sentry.captureException(new Error('Test Error from login button'));
-            console.log('LoginForm env isProduction: ' + isProduction());
-            console.log('LoginForm env getCdnUrl: ' + getCdnUrl('/Test'));
+            window.location.href = `${API_BASE_URL}/auth/google`;
           }}
         >
           <LocalizedSection
