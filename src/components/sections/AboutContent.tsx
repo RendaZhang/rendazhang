@@ -19,6 +19,15 @@ export default function AboutContent(): ReactElement {
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
   const contentEn = ABOUT_CONTENT.en;
   const contentZh = ABOUT_CONTENT.zh;
+  type ExperienceEntry = {
+    period: string;
+    company: string;
+    title: string;
+    summary?: string;
+    bullets?: string[];
+  };
+  const experienceZh = contentZh.experience.entries as ReadonlyArray<ExperienceEntry>;
+  const experienceEn = contentEn.experience.entries as ReadonlyArray<ExperienceEntry>;
   const isZh = langKey === 'zh';
   const resumeHref = isZh ? IMAGE_PATHS.RESUME_ZH : IMAGE_PATHS.RESUME_EN;
   const resumeDownload = isZh ? RESUME_ZH_DOWNLOAD : RESUME_EN_DOWNLOAD;
@@ -184,44 +193,35 @@ export default function AboutContent(): ReactElement {
           />
         </h2>
         <div id="experienceList">
-          {contentZh.experience.entries.map((entry, idx) => (
+          {experienceZh.map((entry, idx) => (
             <div className="experience-item mb-4" key={idx}>
               <div className="section-header">
                 <span className="experience-period mr-2">
-                  <LocalizedSection
-                    zhContent={entry.period}
-                    enContent={contentEn.experience.entries[idx].period}
-                  />
+                  <LocalizedSection zhContent={entry.period} enContent={experienceEn[idx].period} />
                 </span>
                 <span className="experience-company">
                   <LocalizedSection
                     zhContent={entry.company}
-                    enContent={contentEn.experience.entries[idx].company}
+                    enContent={experienceEn[idx].company}
                   />
                 </span>
               </div>
               <h3 className="experience-role my-2">
-                <LocalizedSection
-                  zhContent={entry.title}
-                  enContent={contentEn.experience.entries[idx].title}
-                />
+                <LocalizedSection zhContent={entry.title} enContent={experienceEn[idx].title} />
               </h3>
-              {(entry as any).summary && (
+              {entry.summary && (
                 <p>
                   <LocalizedSection
-                    zhContent={(entry as any).summary}
-                    enContent={(contentEn.experience.entries[idx] as any).summary}
+                    zhContent={entry.summary}
+                    enContent={experienceEn[idx].summary}
                   />
                 </p>
               )}
-              {(entry as any).bullets && (
+              {entry.bullets && (
                 <ul>
-                  {(entry as any).bullets.map((b: string, i: number) => (
+                  {entry.bullets.map((b: string, i: number) => (
                     <li key={i}>
-                      <LocalizedSection
-                        zhContent={b}
-                        enContent={(contentEn.experience.entries[idx] as any).bullets?.[i]}
-                      />
+                      <LocalizedSection zhContent={b} enContent={experienceEn[idx].bullets?.[i]} />
                     </li>
                   ))}
                 </ul>

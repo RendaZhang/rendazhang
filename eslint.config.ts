@@ -39,7 +39,7 @@ export default [
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       'no-undef': 'off',
       'react/react-in-jsx-scope': 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }]

@@ -9,12 +9,12 @@ export default function CredlyBadge(): ReactElement {
     const iframe = iframeRef.current;
     if (!iframe) return;
     const handle = () => setLoaded(true);
-    if ((iframe as any).complete) {
+    if (iframe.contentDocument?.readyState === 'complete') {
       handle();
-    } else {
-      iframe.addEventListener('load', handle, { once: true });
-      return () => iframe.removeEventListener('load', handle);
+      return;
     }
+    iframe.addEventListener('load', handle, { once: true });
+    return () => iframe.removeEventListener('load', handle);
   }, []);
 
   const iframeSrc = `${CREDLY_HOST}/embedded_badge/${CREDLY_BADGE_ID}`;

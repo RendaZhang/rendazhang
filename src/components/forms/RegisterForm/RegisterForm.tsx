@@ -24,7 +24,7 @@ type FormStatus = 'idle' | 'loading' | 'success';
 type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
 
 interface RegisterFormProps {
-  texts?: any;
+  texts?: typeof REGISTER_CONTENT;
 }
 
 interface RegisterPlaceholders {
@@ -40,6 +40,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
+  const errorsText = activeTexts.errors as Record<string, string> | undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [strength, setStrength] = useState<PasswordStrength>('');
   const [progress, setProgress] = useState<number>(0);
@@ -56,22 +57,19 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     {
       email: (val: unknown) => {
         const value = val as string;
-        if (!value) return activeTexts.errors?.emailRequired || '邮箱不能为空';
+        if (!value) return errorsText?.emailRequired || '邮箱不能为空';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return activeTexts.errors?.emailInvalid || '邮箱格式错误';
+          return errorsText?.emailInvalid || '邮箱格式错误';
         }
         return '';
       },
       username: (val: unknown) =>
-        !(val as string) ? activeTexts.errors?.usernameRequired || '用户名不能为空' : '',
+        !(val as string) ? errorsText?.usernameRequired || '用户名不能为空' : '',
       password: (val: unknown) =>
-        !(val as string) ? activeTexts.errors?.passwordRequired || '密码不能为空' : '',
+        !(val as string) ? errorsText?.passwordRequired || '密码不能为空' : '',
       confirm: (val: unknown, all: RegisterFormValues) =>
-        (val as string) !== all.password
-          ? activeTexts.errors?.passwordMismatch || '两次密码不一致'
-          : '',
-      agree: (val: unknown) =>
-        !(val as boolean) ? activeTexts.errors?.agreement || '请勾选同意' : ''
+        (val as string) !== all.password ? errorsText?.passwordMismatch || '两次密码不一致' : '',
+      agree: (val: unknown) => (!(val as boolean) ? errorsText?.agreement || '请勾选同意' : '')
     }
   );
   const { email, username, password, confirm, agree } = values;
@@ -82,7 +80,6 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
       handleChange('email', saved.email || '');
       handleChange('username', saved.username || '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
