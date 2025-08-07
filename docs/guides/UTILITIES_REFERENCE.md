@@ -20,35 +20,44 @@
       - [`getCurrentLang()`](#getcurrentlang)
     - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B-1)
     - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-1)
+  - [日志工具](#%E6%97%A5%E5%BF%97%E5%B7%A5%E5%85%B7)
+    - [API](#api-2)
+      - [`logger.log(...args)`](#loggerlogargs)
+      - [`logger.info(...args)`](#loggerinfoargs)
+      - [`logger.debug(...args)`](#loggerdebugargs)
+      - [`logger.warn(...args)`](#loggerwarnargs)
+      - [`logger.error(...args)`](#loggererrorargs)
+    - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B-2)
+    - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2)
   - [存储工具](#%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7)
     - [核心特性](#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7)
-    - [API](#api-2)
+    - [API](#api-3)
       - [`get(key, type?)`](#getkey-type)
       - [`set(key, value, type?, options?)`](#setkey-value-type-options)
       - [`remove(key, type?)`](#removekey-type)
       - [IndexedDB 异步方法](#indexeddb-%E5%BC%82%E6%AD%A5%E6%96%B9%E6%B3%95)
     - [智能解析机制](#%E6%99%BA%E8%83%BD%E8%A7%A3%E6%9E%90%E6%9C%BA%E5%88%B6)
-    - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B-2)
+    - [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B-3)
       - [基础使用](#%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8)
       - [安全删除](#%E5%AE%89%E5%85%A8%E5%88%A0%E9%99%A4)
       - [IndexedDB 操作](#indexeddb-%E6%93%8D%E4%BD%9C)
     - [最佳实践](#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5)
-    - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2)
+    - [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 工具函数参考文档
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 16:46 (UTC+08:00)
+- **最后更新**: August 07, 2025, 17:06 (UTC+08:00)
 
 ---
 
 ## 简介
 
-`src/utils/env.ts`、`src/utils/langUtils.ts` 与 `src/utils/storage.ts` 提供了环境变量、语言检测以及多后端存储的统一访问层。
+`src/utils/env.ts`、`src/utils/langUtils.ts`、`src/utils/storage.ts` 与 `src/utils/logger.ts` 提供了环境变量、语言检测、多后端存储以及统一日志输出的访问层。
 
-所有环境变量请通过 `env` 模块读取，语言相关逻辑统一使用 `langUtils`，而 `storage` 模块封装了浏览器与降级存储方案。
+所有环境变量请通过 `env` 模块读取，语言相关逻辑统一使用 `langUtils`，而 `storage` 模块封装了浏览器与降级存储方案，`logger` 模块则提供了可扩展的日志接口。
 
 ---
 
@@ -145,6 +154,46 @@ console.log(lang); // 'zh-CN'
 
 - 依赖 `storage` 工具，在不支持 `localStorage` 的环境中也能读取语言设置。
 - 如需扩展更多语言相关逻辑，可在此文件中继续封装。
+
+---
+
+## 日志工具
+
+### API
+
+#### `logger.log(...args)`
+
+在非生产环境调用 `console.log` 输出调试信息。
+
+#### `logger.info(...args)`
+
+在非生产环境调用 `console.info` 输出信息日志。
+
+#### `logger.debug(...args)`
+
+在非生产环境调用 `console.debug` 输出调试细节。
+
+#### `logger.warn(...args)`
+
+直接调用 `console.warn`，在任何环境中都输出。
+
+#### `logger.error(...args)`
+
+直接调用 `console.error`，在任何环境中都输出。
+
+### 使用示例
+
+```ts
+import logger from '@/utils/logger';
+
+logger.log('启动配置', config);
+logger.error('Unexpected error', err);
+```
+
+### 注意事项
+
+- `log`、`info` 与 `debug` 在生产环境下将被忽略，避免泄漏敏感信息并减少噪音。
+- 如需接入远程日志服务，可基于 `Logger` 接口进行扩展实现。
 
 ---
 

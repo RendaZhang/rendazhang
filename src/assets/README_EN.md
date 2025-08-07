@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 07, 2025, 17:01 (UTC+08:00)
+- **Last Updated**: August 07, 2025, 17:06 (UTC+08:00)
 
 ---
 
@@ -477,7 +477,7 @@ Sentry collects runtime and network errors. See 📄 [Error Tracking Integration
 
 ### Utilities Reference
 
-`src/utils/env.ts`, `src/utils/langUtils.ts`, and `src/utils/storage.ts` centralize environment variables, language resolution, and multi-backend storage.
+`src/utils/env.ts`, `src/utils/langUtils.ts`, `src/utils/storage.ts`, and `src/utils/logger.ts` provide unified access to environment variables, language parsing, multi-backend storage solutions, and an extensible logging interface.
 
 Docs: 📄 [Utilities Reference](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3).
 
