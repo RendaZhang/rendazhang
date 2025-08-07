@@ -35,7 +35,7 @@
 # 通用响应式图片处理系统维护文档
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
+- **最后更新**: August 07, 2025, 09:53 (UTC+08:00)
 
 ---
 
@@ -122,7 +122,18 @@ npm run generate-hero
 ```
 
 ### 配置参数
+
 当前脚本使用固定配置：从 `scripts/images/hero-original.jpg` 生成多尺寸图片到 `src/assets/heroes`，并在 `src/data/mainHero.ts` 写入 LQIP 数据。
+
+生成的数据文件示例：
+
+```ts
+export const MAIN_HERO = {
+  base64: '...',
+  aspectRatio: 1.5
+} as const;
+```
+
 ### 添加新处理器
 
 1. 创建处理器文件 `scripts/image-processing/processors/new-type-processor.ts`

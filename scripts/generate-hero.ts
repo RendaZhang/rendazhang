@@ -101,7 +101,7 @@ async function generateLqip(): Promise<void> {
 
   // 生成完整的ES模块文件
   const imageName = IMAGE_NAME.replace(/-/g, '_').toUpperCase();
-  const dataContent = `export const ${imageName} = {\n  base64: '${lqipBase64}',\n  aspectRatio: ${(metadata.height ?? 1) / (metadata.width ?? 1)}\n};\n`;
+  const dataContent = `export const ${imageName} = {\n  base64: '${lqipBase64}',\n  aspectRatio: ${(metadata.height ?? 1) / (metadata.width ?? 1)}\n} as const;\n`;
 
   fs.writeFileSync(DATA_FILE, dataContent);
   console.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
