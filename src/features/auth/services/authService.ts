@@ -2,10 +2,10 @@ import { API_BASE_URL, JSON_HEADERS } from '../../../constants';
 import { storage } from '../../../utils';
 import * as Sentry from '@sentry/react';
 
-interface AuthResponse {
+type AuthResponse<T extends Record<string, unknown> = Record<string, never>> = {
   token: string;
-  [key: string]: unknown;
-}
+  expiresAt?: string;
+} & T;
 
 const TOKEN_KEY = 'auth_token';
 
