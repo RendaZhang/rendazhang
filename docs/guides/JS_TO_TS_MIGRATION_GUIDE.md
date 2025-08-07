@@ -6,6 +6,7 @@
   - [为何写这份指南](#%E4%B8%BA%E4%BD%95%E5%86%99%E8%BF%99%E4%BB%BD%E6%8C%87%E5%8D%97)
   - [迁移前准备](#%E8%BF%81%E7%A7%BB%E5%89%8D%E5%87%86%E5%A4%87)
   - [配置 TypeScript](#%E9%85%8D%E7%BD%AE-typescript)
+  - [Astro 项目中的实践](#astro-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AE%9E%E8%B7%B5)
   - [逐步迁移策略](#%E9%80%90%E6%AD%A5%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5)
   - [常见报错与解决方案](#%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88)
   - [自动化保障](#%E8%87%AA%E5%8A%A8%E5%8C%96%E4%BF%9D%E9%9A%9C)
@@ -18,7 +19,7 @@
 # JS ➜ TS 全量迁移实战指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
+- **最后更新**: August 07, 2025, 22:49 (UTC+08:00)
 
 ---
 
@@ -84,10 +85,11 @@ npx tsc --init
 
 **关键检查点**
 
-- [ ] Node 20 与 TS 5.4 已安装
+- [ ] Node 20 LTS 与 TS 5.8 已安装
 - [ ] tsconfig.json 已初始化
 - [ ] 基础 lint/format 规则已生效
 - [ ] package.json 中已添加 typecheck、lint 等脚本
+- [ ] 已安装 `tsx`、`vitest` 等辅助工具
 
 ---
 
@@ -125,6 +127,39 @@ npx tsc --init
 - [ ] noEmit 防止生成多余的 JS 输出
 - [ ] ESLint 已切换到 @typescript-eslint/parser
 - [ ] 重要编译选项已有清晰说明
+
+---
+
+## Astro 项目中的实践
+
+本仓库基于 **Astro 5** + **React 19** 搭建，迁移过程中需要结合框架特性进行额外配置。
+
+```jsonc
+// tsconfig.json 片段
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src", "scripts", "tests"],
+  "compilerOptions": {
+    "plugins": [{ "name": "@astrojs/ts-plugin" }]
+  }
+}
+```
+
+```bash
+# Node 脚本统一使用 tsx 运行
+npm run update-docs README.md
+
+# Vitest 保证迁移后功能稳定
+npm test
+```
+
+**关键检查点**
+
+- [ ] `tsconfig.json` 继承 `astro/tsconfigs/strict`
+- [ ] 已配置 `@astrojs/ts-plugin` 以获得 `.astro` 类型支持
+- [ ] `include` 覆盖 `scripts/`、`tests/` 等 TypeScript 源文件夹
+- [ ] 所有 Node 脚本通过 `tsx` 执行
+- [ ] `npm test` 能通过 `Vitest` 回归
 
 ---
 
@@ -248,6 +283,7 @@ repos:
 - [ESLint TypeScript 插件](https://typescript-eslint.io/)
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
 - [Migrating from JS to TS](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
+- [Astro TypeScript 支持](https://docs.astro.build/en/guides/typescript/)
 
 **关键检查点**
 
