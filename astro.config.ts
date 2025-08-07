@@ -8,7 +8,7 @@ const mode = process.env.NODE_ENV || 'production';
 // Astro 的配置文件是运行在 Node 环境中的，
 // 它在读取 .env 文件之前就会执行，
 // 所以不能直接像在组件或页面中那样使用 import.meta.env 读取 .env 的变量
-// Astro 官方建议在 astro.config.mjs 中
+// Astro 官方建议在 astro.config.ts 中
 // 通过 Vite 的 loadEnv 或 dotenv 手动加载 .env 文件
 // 根据当前模式加载 .env.development 或 .env.production
 const env = loadEnv(mode, process.cwd(), '');
@@ -37,7 +37,7 @@ export default defineConfig({
           sentry({
             clientInitPath: './src/sentry.client.config.ts',
             // 如有服务端：
-            // serverInitPath: './src/sentry.server.config.js',
+            // serverInitPath: './src/sentry.server.config.ts',
             sourceMapsUploadOptions: {
               authToken: SENTRY_AUTH_TOKEN,
               org: SENTRY_ORG,
@@ -50,12 +50,12 @@ export default defineConfig({
             // enableLogs: true,
             // 包含的目录
             // include: ['./dist'],
-            // 包含所有文件类型
-            // ext: ['js', 'ts', 'jsx', 'tsx', 'astro'],
+            // 只包含 TypeScript 文件
+            // ext: ['ts', 'tsx'],
             // 忽略测试文件
             // ignore: ['**/*.test.*', '**/__mocks__/**'],
             // 显式指定客户端配置文件路径
-            // configFile: './src/sentry.client.config.js'
+            // configFile: './src/sentry.client.config.ts'
           })
         ])
   ],
