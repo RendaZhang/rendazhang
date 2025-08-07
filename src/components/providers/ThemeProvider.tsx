@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { THEME_STORAGE_KEY } from '../../constants';
 import storage from '../../utils/storage';
+import logger from '../../utils/logger';
 import * as Sentry from '@sentry/react';
 
 interface ThemeContextValue {
@@ -54,17 +55,17 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
 
       // 优先读取 DOM 类名
       const hasDarkClass = document.documentElement.classList.contains('dark-mode');
-      console.log('ThemeProvider hasDarkClass: ' + hasDarkClass);
+      logger.log('ThemeProvider hasDarkClass: ' + hasDarkClass);
 
       // 其次读取存储
       let storedValue = false;
       try {
         const stored = storage.get(THEME_STORAGE_KEY);
-        console.log('ThemeProvider stored: ' + stored);
+        logger.log('ThemeProvider stored: ' + stored);
         storedValue = stored === 'dark';
-        console.log('ThemeProvider storedValue: ' + storedValue);
+        logger.log('ThemeProvider storedValue: ' + storedValue);
       } catch (e) {
-        console.log('Failed to get stored with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
+        logger.log('Failed to get stored with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
         Sentry.captureException(e);
       }
 
@@ -75,14 +76,14 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
       // 确保 DOM 状态正确
       document.documentElement.classList.toggle('dark-mode', shouldBeDark);
 
-      console.log('ThemeProvider shouldBeDark: ' + shouldBeDark);
+      logger.log('ThemeProvider shouldBeDark: ' + shouldBeDark);
       return;
     }
 
     // 3. 后续状态变化时同步
     document.documentElement.classList.toggle('dark-mode', darkMode);
     try {
-      console.log('ThemeProvider darkMode: ' + darkMode);
+      logger.log('ThemeProvider darkMode: ' + darkMode);
       storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
     } catch (e) {
       console.error('Failed to set darkMode with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);

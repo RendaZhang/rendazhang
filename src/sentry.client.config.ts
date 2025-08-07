@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/astro';
 import { getEnv, isProduction } from './utils/env';
+import logger from './utils/logger';
 
 // sentry.client.config.ts runs in Vite’s build process,
 // where import.meta.env is already populated
@@ -16,9 +17,9 @@ Sentry.init({
   beforeSend(event, hint) {
     // 控制台打印区分生产环境和非生产环境的错误
     if (!isProduction()) {
-      console.log('Sentry event filtered in non-production env: ', hint.originalException);
+      logger.log('Sentry event filtered in non-production env: ', hint.originalException);
     } else {
-      console.log('Sentry event filtered in production env: ' + hint.originalException);
+      logger.log('Sentry event filtered in production env: ' + hint.originalException);
     }
     // 过滤浏览器扩展错误
     const isExtensionError = event.exception?.values?.some((value) =>

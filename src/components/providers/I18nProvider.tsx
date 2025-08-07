@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { LANG_STORAGE_KEY } from '../../constants';
 import storage from '../../utils/storage';
+import logger from '../../utils/logger';
 import * as Sentry from '@sentry/react';
 
 interface I18nContextValue {
@@ -45,7 +46,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
       let storedLang: string | null = null;
       try {
         storedLang = storage.get(LANG_STORAGE_KEY);
-        console.log('I18nProvider storedLang: ' + storedLang);
+        logger.log('I18nProvider storedLang: ' + storedLang);
       } catch (e) {
         console.error(
           'I18nProvider failed to get storedLand with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
@@ -58,7 +59,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
       document.documentElement.lang = effectiveLang;
       try {
         storage.set(LANG_STORAGE_KEY, effectiveLang);
-        console.log('I18nProvider effectiveLang: ' + effectiveLang);
+        logger.log('I18nProvider effectiveLang: ' + effectiveLang);
       } catch (e) {
         console.error(
           'I18nProvider failed to set effectiveLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY
@@ -72,7 +73,7 @@ export function I18nProvider({ children, initialLang }: I18nProviderProps): Reac
     document.documentElement.lang = lang;
     try {
       storage.set(LANG_STORAGE_KEY, lang);
-      console.log('I18nProvider lang: ' + lang);
+      logger.log('I18nProvider lang: ' + lang);
     } catch (e) {
       console.error('I18nProvider failed to set lang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY);
       Sentry.captureException(e);
@@ -115,7 +116,7 @@ export function useLanguage(): I18nContextValue {
         document.documentElement.lang = newLang;
         try {
           storage.set(LANG_STORAGE_KEY, newLang);
-          console.log('I18nProvider newLang: ' + newLang);
+          logger.log('I18nProvider newLang: ' + newLang);
         } catch (e) {
           console.error(
             'I18nProvider failed to set newLang with LANG_STORAGE_KEY ' + LANG_STORAGE_KEY

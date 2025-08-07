@@ -1,5 +1,6 @@
 import { LANG_STORAGE_KEY } from '../constants';
 import storage from './storage';
+import logger from './logger';
 import * as Sentry from '@sentry/react';
 
 export function getCurrentLang(): string {
@@ -14,7 +15,7 @@ export function getCurrentLang(): string {
   // 后备方案：检查存储
   try {
     const storedLang = storage.get<string>(LANG_STORAGE_KEY);
-    console.log('langUtils getCurrentLang storedLang: ' + storedLang);
+    logger.log('langUtils getCurrentLang storedLang: ' + storedLang);
     if (typeof storedLang === 'string') return storedLang;
   } catch (e) {
     console.error('读取语言存储失败', e);

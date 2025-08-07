@@ -3,6 +3,7 @@ import { DOC_CONTENT } from '../../constants';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import mermaid from 'mermaid';
+import logger from '../../utils/logger';
 
 export default function DocsEffects(): null {
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function DocsEffects(): null {
           ? '#content-zh .language-mermaid'
           : '#content-en .language-mermaid';
       mermaid.init(undefined, document.querySelectorAll(mermaidSelector));
-      console.log('All enhancements applied');
+      logger.log('All enhancements applied');
     } catch {
       document.getElementById('content-zh')!.innerHTML = '<p>加载文档时出错</p>';
       document.getElementById('content-en')!.innerHTML = '<p>Error loading documentation</p>';

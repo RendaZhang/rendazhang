@@ -3,6 +3,7 @@
 // and fallbacks for environments where Web Storage is not available.
 // Also exposes asynchronous helpers for IndexedDB operations.
 import * as Sentry from '@sentry/react';
+import logger from './logger';
 
 const isBrowser: boolean = typeof window !== 'undefined';
 
@@ -53,7 +54,7 @@ function getWebStorage(type: StorageType = 'local'): StorageLike | null {
     const testKey = '__storage_test__';
     storage.setItem(testKey, '1');
     storage.removeItem(testKey);
-    console.log('storage.ts getWebStorage type: ' + type);
+    logger.log('storage.ts getWebStorage type: ' + type);
     return storage as unknown as StorageLike;
   } catch (e) {
     console.error('storage.ts getWebStorage failed', e);
