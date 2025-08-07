@@ -8,9 +8,9 @@ import logger from './logger';
 const isBrowser: boolean = typeof window !== 'undefined';
 
 interface StorageLike {
-  getItem(key: string): string | null;
+  getItem: Storage['getItem'];
   setItem(key: string, value: string, days?: number): void;
-  removeItem(key: string): void;
+  removeItem: Storage['removeItem'];
 }
 
 // Simple in-memory fallback storage
@@ -55,7 +55,7 @@ function getWebStorage(type: StorageType = 'local'): StorageLike | null {
     storage.setItem(testKey, '1');
     storage.removeItem(testKey);
     logger.log('storage.ts getWebStorage type: ' + type);
-    return storage as unknown as StorageLike;
+    return storage as StorageLike;
   } catch (e) {
     console.error('storage.ts getWebStorage failed', e);
     Sentry.captureException(e);
