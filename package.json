@@ -8,6 +8,8 @@
     "validate-assets": "tsx scripts/validate_assets.ts",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "sync": "astro sync",
     "generate-index": "tsx scripts/generateIndex.ts",
     "generate-hero": "tsx scripts/generate-hero.ts",
     "update-docs": "tsx scripts/update_docs.ts",
