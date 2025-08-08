@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 09, 2025, 03:40 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 05:06 (UTC+08:00)
 
 ---
 
@@ -277,6 +277,7 @@ For details on the core functionality system of the website, please refer to the
 - Language toggle (Chinese / English)
 - Real-time AI chat
 - Floating AI chat widget
+- Back-to-top button
 - Tech documentation rendering (docs/)
 - Login/registration forms
 - Contact form

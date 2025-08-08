@@ -1,6 +1,7 @@
 ---
 import { NavBarWrapper } from '../components/layouts';
 import { ChatWidget } from '../components/chat';
+import { BackToTopButton } from '../components/ui';
 import {
   FAVICON_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
@@ -217,6 +218,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
         <slot />
       </main>
       {showChatWidget && <ChatWidget client:load />}
+      <BackToTopButton client:load />
       <slot name="bodyEnd" />
       {showFooter && <slot name="footer" />}
     </NavBarWrapper>
