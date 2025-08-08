@@ -53,13 +53,14 @@
     - [BUG-045: 存储工具全局注册执行冲突](#bug-045-%E5%AD%98%E5%82%A8%E5%B7%A5%E5%85%B7%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E6%89%A7%E8%A1%8C%E5%86%B2%E7%AA%81)
     - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
     - [BUG-047: 构建后 env.ts 无法读取环境变量](#bug-047-%E6%9E%84%E5%BB%BA%E5%90%8E-envts-%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
+    - [BUG-048: 404/500 页面主题和语言初始化失败](#bug-048-404500-%E9%A1%B5%E9%9D%A2%E4%B8%BB%E9%A2%98%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%9D%E5%A7%8B%E5%8C%96%E5%A4%B1%E8%B4%A5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2025, 01:23 (UTC+08:00)
+- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
 
 ---
 
@@ -1025,3 +1026,20 @@
   3. 删除对 `'env' in import.meta` 的检查
 - **验证结果**：✅ `npm run build` 与 `npm run preview` 中 Sentry 可正确读取 DSN
 - **经验总结**：构建后 `import.meta` 不是普通对象，属性检查会失败，应直接捕获 `import.meta.env`
+
+### BUG-048: 404/500 页面主题和语言初始化失败
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-08
+- **重现环境**：构建后的 `404.html`、`500.html`
+- **问题现象**：
+  - Nginx CSP 阻止 BaseLayout 内联脚本执行
+  - 页面首次渲染后才应用主题与语言，出现明显闪烁
+- **根本原因**：
+  - 内联脚本未被 `script-src 'self'` 允许，无法在 404/500 页面加载
+- **解决方案**：
+  1. 将初始化逻辑移至外部脚本 `/js/base-layout-init.js`
+  2. `<script>` 标签通过 `data-theme-key`、`data-lang-key` 传入参数
+  3. 调整 Nginx CSP 配置允许 `'self'` 加载该脚本
+- **验证结果**：✅ 404/500 页面渲染前正确应用主题与语言
+- **经验总结**：外部脚本更易于 CSP 控制，可避免主题/语言闪烁问题

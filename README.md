@@ -41,7 +41,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 07, 2025, 22:49 (UTC+08:00)
+- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
 
 ---
 
@@ -166,6 +166,8 @@ flowchart TD
 - **充分利用 Astro 特性**：`<slot>`、`is:inline` 等 Astro 专属语法在布局中被广泛使用，若迁移到 React 需额外封装或插件支持，增加维护成本。
 
 只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 `BaseLayout.astro`。在现阶段，维持 Astro 版本更简洁高效。
+
+为满足 Nginx 的 CSP 限制并在 404/500 等纯静态页面中复用主题与语言逻辑，原有的内联初始化脚本已抽离为阻塞式外部脚本 `/js/base-layout-init.js`。该文件由 `src/scripts/base-layout-init.ts` 编译生成，并通过 `data-theme-key`、`data-lang-key` 等属性向脚本传递存储键，在渲染前完成主题和语言初始化。
 
 ### 本地开发和预览
 
