@@ -30,6 +30,7 @@
     - [Error Tracking](#error-tracking)
     - [Utilities Reference](#utilities-reference)
     - [Comprehensive Pre-Commit Guide](#comprehensive-pre-commit-guide)
+    - [Style System Description](#style-system-description)
   - [🤝 Contribution Guide](#-contribution-guide)
   - [🔒 Open Source License](#-open-source-license)
   - [📬 Contact](#-contact)
@@ -39,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 08, 2025, 20:35 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 06:08 (UTC+08:00)
 
 ---
 
@@ -212,6 +213,12 @@ To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse t
    SKIP_SENTRY=true npm run astro -- check --incremental
    ```
 
+   To temporarily skip ESLint checks and speed up commits, use:
+
+   ```bash
+   SKIP_ESLINT=true pre-commit run --all-files
+   ```
+
 6. Environment Variables Explanation
 
    Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.ts`:
@@ -226,6 +233,7 @@ To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse t
    NODE_ENV="production"
    PUBLIC_NODE_ENV="development" # Override to "development" for local debugging
    SKIP_SENTRY="true" # Skip Sentry
+   SKIP_ESLINT="true" # Skip ESLint checks
 
    # Sensitive configurations (example values below)
    SENTRY_AUTH_TOKEN="sntrys_xxx"
@@ -270,6 +278,7 @@ For details on the core functionality system of the website, please refer to the
 - Language toggle (Chinese / English)
 - Real-time AI chat
 - Floating AI chat widget
+- Back-to-top button
 - Tech documentation rendering (docs/)
 - Login/registration forms
 - Contact form
@@ -340,81 +349,7 @@ flowchart TD
 
 #### Color Scheme
 
-**Unified Management**:
-
-- Browser controls adapt to the theme (`color-scheme`).
-- Public component styles are uniformly managed by `theme.css`.
-- Markdown dark mode has independent color tokens, maintained in `src/styles/core/_colors.css`.
-- Overlay and shadow-related colors are set via `--color-black-rgb` and `--color-white-rgb` tokens, facilitating transparency adjustments and theme switching.
-
-**Style Architecture Layering**:
-
-- `src/styles/core/`: Defines foundational design tokens, including variables for colors, spacing, gradients, etc.
-- `src/styles/components/`: Component-level styles (e.g., `about.css`, `chat_widget.css`, etc.).
-- `src/styles/utilities/`: Layout and general utility classes, including `.debug` for debugging outlines.
-- `src/styles/theme.css`: The entry point for styles, automatically importing `core/` and `utilities/`.
-
-**Variable Dependency Diagram**:
-
-```mermaid
-graph TD
-  A[Foundational Variables] --> B[Semantic Variables]
-  B --> C[Component Variables]
-  C --> D[Practical Application]
-```
-
-**Color Emotion Evaluation**:
-
-- Deep Purple: Conveys professionalism and innovation.
-- Vibrant Blue: Symbolizes technology and trust.
-- Combined Effect: Professional yet vibrant, suitable for tech products.
-
-**Contrast Assurance**:
-| Combination | Contrast Ratio | Suitability |
-|----------------------|----------------|-------------|
-| Primary + White Text | 7.2 : 1 | ✅ Perfect |
-| Accent + Dark Gray | 5.1 : 1 | ✅ Good |
-| Primary + Accent | 2.8 : 1 | ⚠️ Decorative Only |
-
-**Primary Color**:
-
-- Deep Violet `#6a11cb`
-- Serves as the **core gradient** starting color, with strong visual recognition.
-- Can be applied to navigation bars, core buttons, important headings, etc.
-- Auxiliary values:
-  - #5a0eb7 (hover state)
-  - #7a24df (active state)
-
-**Accent Color**:
-
-- Vibrant Blue `#2575fc`
-- Forms a perfect gradient transition with the **primary color**, providing visual focus.
-- Can be applied to interactive elements, floating buttons, progress indicators.
-- Auxiliary values:
-  - #1c68e8 (hover state)
-  - #3e86ff (active state)
-
-**Core Gradient** transitions from Deep Purple `#6a11cb` to Vibrant Blue `#2575fc`, enhanced by **derived colors** for added depth.
-
-**Primary-Secondary Relationship**:
-
-```mermaid
-graph LR
-    A[Primary #6a11cb] --> B[Navigation/Headings]
-    C[Accent #2575fc] --> D[Buttons/Interactions]
-    E[Derived #4e54c8] --> F[Backgrounds/Borders]
-```
-
-**Color Testing**:
-
-1. Accessibility Verification: Use [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) to test text readability.
-2. Visual Hierarchy Test:
-   ```
-   /* Debug grayscale mode */
-   .grayscale-mode {
-     filter: grayscale(100%);
-   }
-   ```
+For detailed information, refer to the documentation: 📄 [Color Scheme](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88).
 
 ---
 
@@ -487,21 +422,25 @@ Docs: 📄 [Utilities Reference](https://github.com/RendaZhang/rendazhang/blob/m
 
 For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive Pre-Commit Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97).
 
+### Style System Description
+
+> Explain the project's CSS architecture and build process, and demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For more details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
+
 ---
 
 ## 🤝 Contribution Guide
 
 - Fork and clone this repository.
 - Enter the virtual environment:
-   ```bash
-   # If the virtual environment is not yet installed, run: python -m venv venv
-   source venv/bin/activate
-   ```
+  ```bash
+  # If the virtual environment is not yet installed, run: python -m venv venv
+  source venv/bin/activate
+  ```
 - Install dependencies and enable **pre-commit**:
-   ```bash
-   pip install pre-commit
-   pre-commit install
-   ```
+  ```bash
+  pip install pre-commit
+  pre-commit install
+  ```
 - Before each commit, the hooks will automatically run and perform the following tasks:
   - Automatically fix basic formatting issues (trailing whitespace, end-of-file newlines, etc.)
   - Update the documentation table of contents and the last updated timestamp

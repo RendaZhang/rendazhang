@@ -1032,3 +1032,27 @@ html.dark-mode .social-icons img[alt='Medium logo'] {
 .error-description {
   max-width: 40rem;
 }
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: var(--shadow-soft);
+}
+
+.back-to-top svg {
+  pointer-events: none;
+}
+
+html.dark-mode .back-to-top {
+  background: var(--gradient-dark);
+}

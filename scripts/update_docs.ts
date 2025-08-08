@@ -51,8 +51,13 @@ function acquireLock() {
       lockFd = fs.openSync(lockfile, 'wx');
       break;
     } catch (e: unknown) {
-      if (typeof e === 'object' && e !== null && 'code' in e && (e as { code: string }).code !== 'EEXIST') {
-        log(`ERROR: ${((e as unknown) as Error)?.message ?? String(e)}`);
+      if (
+        typeof e === 'object' &&
+        e !== null &&
+        'code' in e &&
+        (e as { code: string }).code !== 'EEXIST'
+      ) {
+        log(`ERROR: ${(e as unknown as Error)?.message ?? String(e)}`);
         process.exit(1);
       }
       if (Date.now() - start > 10000) {

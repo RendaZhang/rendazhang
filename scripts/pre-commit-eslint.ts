@@ -3,16 +3,14 @@ import { execSync } from 'child_process';
 import { join } from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
+import logger from '../src/utils/logger';
 
 /**
  * 加载环境变量
  */
 function loadEnvironmentVariables() {
   // 可能的 .env 文件路径
-  const envFiles = [
-    join(process.cwd(), '.env'),
-    join(process.cwd(), '.env.local')
-  ];
+  const envFiles = [join(process.cwd(), '.env'), join(process.cwd(), '.env.local')];
 
   // 按顺序加载所有环境变量文件
   for (const envFile of envFiles) {
@@ -31,7 +29,7 @@ function loadEnvironmentVariables() {
  */
 function runESLint(): boolean {
   try {
-    console.log('开始 ESLint 检查...');
+    logger.log('开始 ESLint 检查...');
 
     // 获取当前工作目录
     const cwd = process.cwd();
@@ -46,12 +44,10 @@ function runESLint(): boolean {
       '.eslintrc.json'
     ];
 
-    const hasEslintConfig = eslintConfigFiles.some(file =>
-      existsSync(join(cwd, file))
-    );
+    const hasEslintConfig = eslintConfigFiles.some((file) => existsSync(join(cwd, file)));
 
     if (!hasEslintConfig) {
-      console.warn('⚠️  未找到 ESLint 配置文件，跳过检查');
+      logger.warn('⚠️  未找到 ESLint 配置文件，跳过检查');
       return true;
     }
 
@@ -61,10 +57,10 @@ function runESLint(): boolean {
       { stdio: 'inherit' }
     );
 
-    console.log('[Success]: ESLint 检查通过');
+    logger.log('[Success]: ESLint 检查通过');
     return true;
   } catch (error) {
-    console.error('[Failed]: ESLint 检查失败');
+    logger.error('[Failed]: ESLint 检查失败');
     return false;
   }
 }
@@ -80,13 +76,13 @@ function main() {
   const skipEslint = process.env.SKIP_ESLINT;
 
   if (skipEslint && ['1', 'true', 'yes'].includes(skipEslint.toLowerCase())) {
-    console.log('[SKIP]: 跳过 ESLint 检查 (SKIP_ESLINT 环境变量已设置)');
+    logger.log('[SKIP]: 跳过 ESLint 检查 (SKIP_ESLINT 环境变量已设置)');
     process.exit(0);
   }
 
   // 检查是否在 commit 消息中指定跳过
   if (process.argv.includes('--skip-eslint')) {
-    console.log('[SKIP]: 跳过 ESLint 检查 (检测到 --skip-eslint 标志)');
+    logger.log('[SKIP]: 跳过 ESLint 检查 (检测到 --skip-eslint 标志)');
     process.exit(0);
   }
 
