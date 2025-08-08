@@ -1,5 +1,6 @@
 ---
 import { NavBarWrapper } from '../components/layouts';
+import { ChatWidget } from '../components/chat';
 import {
   FAVICON_PATHS,
   VIEWPORT_ZOOM_ALLOWED,
@@ -15,7 +16,8 @@ import {
   GEO_ICBM,
   TWITTER_HANDLE,
   LANG_STORAGE_KEY,
-  THEME_STORAGE_KEY
+  THEME_STORAGE_KEY,
+  STYLE_PATHS
 } from '../constants';
 import { isProduction } from '../utils/env';
 import '../styles/theme.css';
@@ -60,6 +62,7 @@ export interface BaseLayoutProps {
   extraScripts?: string[];
   showNav?: boolean;
   showFooter?: boolean;
+  showChatWidget?: boolean;
   bodyClass?: string;
   mainClass?: string;
   bodyAttrs?: Record<string, unknown>;
@@ -86,6 +89,7 @@ const {
   extraScripts = [],
   showNav = true,
   showFooter = false,
+  showChatWidget = true,
   bodyClass = '',
   mainClass = 'main-content',
   bodyAttrs = {},
@@ -97,6 +101,11 @@ const {
   metaLanguage = '',
   metaAuthor = ''
 }: BaseLayoutProps = Astro.props;
+
+if (showChatWidget) {
+  preloadStyles.push(STYLE_PATHS.CHAT_WIDGET);
+  extraStyles.push(STYLE_PATHS.CHAT_WIDGET);
+}
 
 const lang = langProp || 'zh-CN';
 const initialLang = lang;
@@ -327,6 +336,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       <main class={mainClass} {...mainAttrs}>
         <slot />
       </main>
+      {showChatWidget && <ChatWidget client:load />}
       <slot name="bodyEnd" />
       {showFooter && <slot name="footer" />}
     </NavBarWrapper>

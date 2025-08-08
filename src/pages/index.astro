@@ -24,13 +24,7 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   title={title}
   description={SITE_DESCRIPTION_EN}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
-  preloadStyles={[STYLE_PATHS.CHAT_WIDGET]}
-  extraStyles={[
-    STYLE_PATHS.ABOUT,
-    STYLE_PATHS.SOCIAL_ICON,
-    STYLE_PATHS.CHAT_WIDGET,
-    STYLE_PATHS.RESPONSIVE_HERO
-  ]}
+  extraStyles={[STYLE_PATHS.ABOUT, STYLE_PATHS.SOCIAL_ICON, STYLE_PATHS.RESPONSIVE_HERO]}
 >
   <AboutContent client:load />
 </BaseLayout>

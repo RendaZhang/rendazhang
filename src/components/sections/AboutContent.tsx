@@ -11,7 +11,6 @@ import ContactSection from './ContactSection';
 import { useLanguage } from '../providers';
 import { LocalizedSection, SocialIcons } from '../ui';
 import SocialIconsEffects from './SocialIconsEffects';
-import { ChatWidget } from '../chat';
 import type { ReactElement } from 'react';
 
 export default function AboutContent(): ReactElement {
@@ -231,7 +230,6 @@ export default function AboutContent(): ReactElement {
         </div>
       </section>
       <ContactSection />
-      <ChatWidget />
     </div>
   );
 }
