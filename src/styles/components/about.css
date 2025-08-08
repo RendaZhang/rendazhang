@@ -41,16 +41,18 @@ body.about-page {
 }
 
 /* Use .mb-4 for spacing between items */
+
 .experience-period {
-  /* right spacing handled by .mr-2 */
+  /* right spacing handled by .mie-2 */
 }
 
 .experience-role {
   /* vertical spacing handled by .my-2 */
 }
 /* Use .mb-4 for spacing between items */
+
 .education-period {
-  /* right spacing handled by .mr-2 */
+  /* right spacing handled by .mie-2 */
 }
 
 .education-degree {
@@ -67,7 +69,7 @@ body.about-page {
 }
 
 .blog-category {
-  /* right spacing handled by .mr-2 */
+  /* right spacing handled by .mie-2 */
 }
 
 /* Contact section */

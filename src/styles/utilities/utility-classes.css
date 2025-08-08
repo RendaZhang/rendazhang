@@ -42,12 +42,12 @@
 .justify-content-between {
   justify-content: space-between;
 }
-.ms-2 {
-  margin-left: 0.5rem;
+.mis-2 {
+  margin-inline-start: 0.5rem;
 }
-.mr-2 {
-  /* Right margin utility matching .ms-2 */
-  margin-right: 0.5rem;
+.mie-2 {
+  /* Inline-end margin utility matching .mis-2 */
+  margin-inline-end: 0.5rem;
 }
 .my-2 {
   /* Vertical margin utility for consistent spacing */

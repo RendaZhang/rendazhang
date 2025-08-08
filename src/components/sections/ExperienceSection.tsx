@@ -27,7 +27,7 @@ export default function ExperienceSection({
         {experienceZh.entries.map((entry, idx) => (
           <div className="experience-item mb-4" key={idx}>
             <div className="section-header">
-              <span className="experience-period mr-2">
+              <span className="experience-period mie-2">
                 <LocalizedSection
                   zhContent={entry.period}
                   enContent={experienceEn.entries[idx].period}
