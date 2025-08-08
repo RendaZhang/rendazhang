@@ -55,7 +55,11 @@ repos:
         name: ESLint (Custom Script)
         entry: npx tsx scripts/pre-commit-eslint.ts
         language: system
-        files: ^(src/.*|astro\.config\.ts|eslint\.config\.ts)
+        # 脚本自己处理文件名
+        pass_filenames: false
+        types: []
+        # 覆盖默认文件匹配
+        files: ''
         stages: [pre-commit]
 
   # Asset 规范校验

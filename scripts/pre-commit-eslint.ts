@@ -52,7 +52,7 @@ function runESLint(): boolean {
 
     // 执行 ESLint 命令
     execSync(
-      'npx eslint --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache',
+      'npx eslint src/ astro.config.ts eslint.config.ts --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache',
       { stdio: 'inherit' }
     );
 
