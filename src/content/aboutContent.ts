@@ -61,98 +61,91 @@ export const ABOUT_CONTENT = {
     skills: {
       title: 'Skills & Knowledge',
       categories: [
-        { label: 'Java Backend Development', level: 98 },
-        { label: 'Spring Boot / Cloud', level: 98 },
-        { label: 'Middleware & Caching', level: 90 },
-        { label: 'Database Technologies', level: 95 },
-        { label: 'Microservices & Security', level: 92 },
-        { label: 'DevOps & Deployment Tools', level: 90 },
-        { label: 'Frontend Collaboration', level: 75 },
-        { label: 'Development Tools & Platforms', level: 90 }
+        { label: 'Java & Spring Backend', level: 98 },
+        { label: 'Cloud & Containerization', level: 95 },
+        { label: 'Microservices & Architecture', level: 92 },
+        { label: 'Database & Caching', level: 95 },
+        { label: 'Messaging Systems', level: 90 },
+        { label: 'DevOps & CI/CD', level: 90 },
+        { label: 'Testing & Performance', level: 88 },
+        { label: 'Languages & Collaboration', level: 75 }
       ],
       items: [
-        'Java, Python, SQL, HTML/CSS, JavaScript, Vue.js',
-        'Spring Boot, Spring Cloud, MyBatis, JPA, Feign',
-        'Redis, MongoDB, MySQL, ElasticSearch',
-        'RabbitMQ, Kafka, FastDFS, Eureka, Gateway',
-        'JWT, OAuth2, Load Balancing, Circuit Breaking',
-        'Docker, Docker Compose, Git, Linux Shell',
-        'Jenkins, GitLab CI/CD, Postman, OpenAPI/Swagger',
-        'RESTful API Design & System Architecture',
-        'Agile Development & Cross-team Collaboration',
-        'English (Professional Working Proficiency)',
-        'Chinese (Mandarin & Cantonese)'
+        'Java, SQL, HTML/CSS, JavaScript, Python, C/C++, PHP, Clojure',
+        'Spring Boot, Spring Cloud, Spring Security, Spring Data JPA, MyBatis, OpenFeign, Resilience4j',
+        'GCP, AWS (EC2, ECS, EKS, Lambda, S3), Kubernetes, Docker, Terraform',
+        'MySQL, MongoDB, Redis, ElasticSearch, Aurora, DynamoDB',
+        'RabbitMQ, Kafka, SQS, Step Functions',
+        'Eureka, Spring Cloud Gateway, Load Balancing, Circuit Breaking',
+        'JWT, OAuth2, SpringDoc OpenAPI, Swagger',
+        'Jenkins, GitLab CI/CD, GitHub Actions, Maven, Git, Linux Shell, Nginx',
+        'JMeter, JUnit, Mockito',
+        'Node.js / TypeScript (basic)',
+        'RESTful API design & Agile collaboration',
+        'English (Full professional), Chinese (Native)'
       ]
     },
     experience: {
       title: 'Experience',
       entries: [
         {
-          period: 'Nov 2020 - Apr 2024',
-          company: 'Michaels (Shenzhen)',
-          title: 'Backend Engineer - PLM Project',
-          summary:
-            'Spearheaded product onboarding, lifecycle tracking, and supplier integration on the Michaels e-commerce platform.',
+          period: 'Jun 2024 - Present',
+          company: 'Shenzhen Fanxin Technology',
+          title: 'Java Backend Engineer - Cloud-Native',
+          summary: 'Cross-border SaaS team delivering AWS-based order and inventory services.',
           bullets: [
-            'Built product lifecycle tracking system: introduction → growth → maturity → decline.',
-            'Reduced stockout rate by 15% via inventory tracking + restock alert features.',
-            'Integrated APIs with suppliers for real-time product & inventory sync.',
-            'Developed analytics dashboards to visualize product performance & trends.',
-            'Worked cross-functionally with sales, marketing, and supply chain teams.'
+            'Designed and maintained 6 Spring Boot microservices on AWS ECS Fargate handling 80k-150k requests per day and spikes over 1.2k QPS.',
+            'Built IaC pipelines with Terraform and AWS CDK to provision Dev, Stage, and Prod environments in under 20 minutes.',
+            'Re-architected bulk inventory sync with Lambda, SQS, and Step Functions, cutting processing time from ~25 minutes to 7 minutes.',
+            'Introduced Redis Cluster and Aurora read replicas, lifting cache hit rate to ~96% and reducing MTTR by 45%.',
+            'Established GitHub Actions and AWS CodePipeline CI/CD with CloudWatch, Grafana, and X-Ray monitoring.'
           ]
         },
         {
           period: 'Nov 2020 - Apr 2024',
-          company: 'Michaels (Shenzhen)',
-          title: 'Backend Engineer - MakerPlace Project',
+          company: 'Michaels (Shenzhen) Technology Services Co., Ltd.',
+          title: 'Software Development Engineer - Backend',
           summary:
-            'Led the backend development of MakerPlace, a platform for artisan e-commerce, growing user base by 200% in the first year.',
+            'Built the Michaels.com e-commerce backend including PLM and MakerPlace modules.',
           bullets: [
-            'Implemented seller onboarding, product listing, and order management modules.',
-            'Enabled JWT token rotation and migrated auth to asymmetric encryption.',
-            'Optimized MongoDB indexes to improve query performance by 30%.',
-            'Collaborated with DevOps and QA teams; mentored junior engineers.'
+            'Architected containerized deployments on GCP with Kubernetes and Docker plus CI/CD automation.',
+            'Led PLM lifecycle tracking, supplier integration, and analytics, reducing stockouts by 15%.',
+            'Developed MakerPlace seller onboarding, product listing, and order management with JWT rotation and OAuth2 login.',
+            'Optimized MongoDB indexes and API payloads, improving throughput by ~30%.',
+            'Collaborated with frontend, QA, and DevOps teams in Scrum for frequent, reliable releases.'
+          ]
+        },
+        {
+          period: 'Jun 2020 - Nov 2020',
+          company: 'Online Education Platform (Freelance)',
+          title: 'Backend Developer',
+          bullets: [
+            'Split services with Spring Boot and Spring Cloud to handle high-concurrency course access.',
+            'Introduced RabbitMQ and Kafka for async messaging and used Redis caching for performance.',
+            'Used Docker for isolated environments and ElasticSearch for content search.'
+          ]
+        },
+        {
+          period: 'Nov 2019 - May 2020',
+          company: 'E-commerce Mall Platform (Freelance)',
+          title: 'Backend Developer',
+          bullets: [
+            'Built Spring Cloud microservices with MySQL, MongoDB, and Redis to support e-commerce operations.',
+            'Designed SKU/SPU data models and integrated SMS via Alibaba Cloud.',
+            'Improved concurrency handling and optimized database structure and caching strategies.'
           ]
         },
         {
           period: 'May 2018 - Jun 2019',
-          company: 'Samsung R&D - Guangzhou',
+          company: 'Samsung Mobile R&D Center - Guangzhou',
           title: 'Software Engineer - Android Application',
           bullets: [
-            'Developed Android feedback modules and supported app integration projects.',
-            'Handled JWT cross-domain auth and Samsung OAuth2 login flows.',
-            'Embedded analytics via Baidu & Adobe tracking systems.',
-            'Used Agile, Git, and Gerrit for version control and external code reviews.',
-            'Participated in patent application discussions and algorithm tests.'
+            'Developed feedback modules and app integration features for Galaxy apps.',
+            'Implemented Samsung account OAuth2 login with JWT-based authentication.',
+            'Embedded Baidu and Adobe analytics for user behavior tracking.',
+            'Created Android UI automation scripts to improve regression stability.',
+            'Collaborated using Agile, Git, and Gerrit; participated in patent discussions.'
           ]
-        },
-        {
-          period: '2019 - 2020',
-          company: 'Private Tutoring',
-          title: 'English Tutor (Part-time)',
-          summary:
-            "Delivered customized English lessons, improved students' written and oral proficiency, and managed schedules for multiple learners."
-        },
-        {
-          period: 'Fall 2014',
-          company: 'UMN - Crookston',
-          title: 'Math Tutor',
-          summary:
-            'Provided college-level tutoring in advanced math topics; enhanced student comprehension and academic performance.'
-        },
-        {
-          period: '2014',
-          company: 'Lee Academy',
-          title: 'Facility Cleaner',
-          summary:
-            'Maintained indoor cleanliness and landscaped school grounds at Lee Academy in Maine.'
-        },
-        {
-          period: '2012 - 2013',
-          company: 'Lee Academy',
-          title: 'Cross-Country Runner',
-          summary:
-            'Participated in school competitions and training; demonstrated endurance and team collaboration.'
         }
       ]
     },
@@ -241,92 +234,90 @@ export const ABOUT_CONTENT = {
     skills: {
       title: '技能与能力',
       categories: [
-        { label: 'Java 后端技术', level: 98 },
-        { label: 'Spring Boot / Cloud', level: 98 },
-        { label: '中间件与缓存', level: 90 },
-        { label: '数据库技术', level: 95 },
-        { label: '微服务架构与安全', level: 92 },
-        { label: '运维与部署工具', level: 90 },
-        { label: '前端与协作开发', level: 75 },
-        { label: '开发工具与平台', level: 90 }
+        { label: 'Java 与 Spring 后端', level: 98 },
+        { label: '云原生与容器化', level: 95 },
+        { label: '微服务架构', level: 92 },
+        { label: '数据库与缓存', level: 95 },
+        { label: '消息队列与异步', level: 90 },
+        { label: 'DevOps 与 CI/CD', level: 90 },
+        { label: '测试与性能优化', level: 88 },
+        { label: '语言与协作', level: 75 }
       ],
       items: [
-        'Java、Python、SQL、HTML/CSS、JavaScript、Vue.js',
-        'Spring Boot、Spring Cloud、MyBatis、JPA、Feign',
-        'Redis、MongoDB、MySQL、ElasticSearch',
-        'RabbitMQ、Kafka、FastDFS、Eureka、Gateway',
-        'JWT、OAuth2、负载均衡、熔断',
-        'Docker、Docker Compose、Git、Linux Shell',
-        'Jenkins、GitLab CI/CD、Postman、OpenAPI/Swagger',
-        'RESTful API 设计与系统架构',
-        '敏捷开发与跨团队协作',
-        '英语（专业工作水平）',
-        '中文（普通话和粤语）'
+        'Java、SQL、HTML/CSS、JavaScript、Python、C/C++、PHP、Clojure',
+        'Spring Boot、Spring Cloud、Spring Security、Spring Data JPA、MyBatis、OpenFeign、Resilience4j',
+        'GCP、AWS（EC2、ECS、EKS、Lambda、S3）、Kubernetes、Docker、Terraform',
+        'MySQL、MongoDB、Redis、ElasticSearch、Aurora、DynamoDB',
+        'RabbitMQ、Kafka、SQS、Step Functions',
+        'Eureka、Spring Cloud Gateway、负载均衡、熔断',
+        'JWT、OAuth2、SpringDoc OpenAPI、Swagger',
+        'Jenkins、GitLab CI/CD、GitHub Actions、Maven、Git、Linux Shell、Nginx',
+        'JMeter、JUnit、Mockito',
+        'Node.js / TypeScript（基础）',
+        'RESTful API 设计与敏捷协作',
+        '中文（母语）、英语（专业工作水平）'
       ]
     },
     experience: {
       title: '经历',
       entries: [
         {
-          period: '2020年11月 - 2024年4月',
-          company: 'Michaels（深圳）',
-          title: '后端工程师 - PLM 项目',
-          summary: '负责在 Michaels 电商平台上推进产品上线、生命周期追踪及供应商集成。',
+          period: '2024年6月 - 至今',
+          company: '深圳市凡新科技有限公司',
+          title: 'Java 后端开发工程师（云原生方向）',
+          summary: '跨境 SaaS 团队，基于 AWS 提供订单与库存服务。',
           bullets: [
-            '构建产品生命周期追踪系统：引入 → 成长期 → 成熟期 → 衰退期。',
-            '通过库存追踪和补货提醒将缺货率降低 15%。',
-            '与供应商 API 对接，实现产品和库存的实时同步。',
-            '开发分析看板，展示产品表现及趋势。',
-            '与销售、市场和供应链团队跨部门合作。'
+            '设计并维护 6 个 Spring Boot 微服务（AWS ECS Fargate），日处理 8万-15万 次请求，峰值超 1.2k QPS。',
+            '使用 Terraform 和 AWS CDK 搭建 IaC，一键交付 Dev、Stage、Prod 环境 <20 分钟。',
+            '借助 Lambda、SQS、Step Functions 重构库存批量同步流程，执行时间从约 25 分钟降至 7 分钟。',
+            '引入 Redis Cluster 与 Aurora 只读副本，实现读写分离，缓存命中率约 96%，MTTR 缩短 45%。',
+            '搭建 GitHub Actions + AWS CodePipeline CI/CD 流水线，结合 CloudWatch、Grafana、X-Ray 监控。'
           ]
         },
         {
           period: '2020年11月 - 2024年4月',
-          company: 'Michaels（深圳）',
-          title: '后端工程师 - MakerPlace 项目',
-          summary: '主导 MakerPlace 手工艺电商平台后台开发，第一年用户增长 200%。',
+          company: '麦克尔斯（深圳）科技服务有限公司',
+          title: '后端开发工程师',
+          summary: '参与 Michaels.com 电商平台及 PLM、MakerPlace 模块建设。',
           bullets: [
-            '实现商家入驻、商品发布及订单管理模块。',
-            '启用 JWT 令牌轮换，迁移认证至非对称加密。',
-            '优化 MongoDB 索引，查询性能提升 30%。',
-            '与 DevOps、QA 团队协作并指导初级工程师。'
+            '在 GCP 上使用 Kubernetes 与 Docker 构建容器化部署并集成 CI/CD 自动化。',
+            '负责 PLM 生命周期管理、供应商对接与分析看板，缺货率降低 15%。',
+            '开发 MakerPlace 商家入驻、商品发布与订单管理，启用 JWT 轮换与 OAuth2 登录。',
+            '优化 MongoDB 索引和 API 结构，接口吞吐提升约 30%。',
+            '在 Scrum 团队中与前端、QA、DevOps 协作，支持高频发布。'
+          ]
+        },
+        {
+          period: '2020年6月 - 2020年11月',
+          company: '教育平台项目（自由职业）',
+          title: 'Java 后端开发',
+          bullets: [
+            '使用 Spring Boot、Spring Cloud 进行微服务拆分，支持高并发课程访问。',
+            '引入 RabbitMQ、Kafka 构建异步消息机制，并利用 Redis 缓存提升性能。',
+            '借助 Docker 实现环境隔离，使用 ElasticSearch 支持内容检索。'
+          ]
+        },
+        {
+          period: '2019年11月 - 2020年5月',
+          company: '商城项目（自由职业）',
+          title: 'Java 后端开发',
+          bullets: [
+            '基于 Spring Cloud 微服务架构构建电商系统，整合 MySQL、MongoDB、Redis 等技术。',
+            '完成商品 SPU/SKU 建模、订单管理、购物车、短信服务等业务功能。',
+            '提升并发处理能力，优化数据库结构与缓存策略。'
           ]
         },
         {
           period: '2018年5月 - 2019年6月',
-          company: '三星广州研究所',
+          company: '三星广州通信技术研究有限公司',
           title: '软件工程师 - Android 应用',
           bullets: [
-            '开发 Android 反馈模块并支持应用集成项目。',
-            '处理 JWT 跨域认证及三星 OAuth2 登录流程。',
-            '接入百度与 Adobe 数据统计。',
-            '使用敏捷流程、Git 和 Gerrit 进行代码管理及评审。',
-            '参与专利申请讨论和算法测试。'
+            '负责盖乐世空间 App 反馈模块开发与维护。',
+            '实现三星账号 OAuth2 登录与 JWT 认证流程。',
+            '接入百度统计和 Adobe Analytics 进行用户行为追踪。',
+            '编写 Android UI 自动化测试脚本，提升回归效率。',
+            '参与专利研讨和算法练习，采用敏捷模式协作。'
           ]
-        },
-        {
-          period: '2019 - 2020年',
-          company: '私人家教',
-          title: '兼职英语教师',
-          summary: '为多名学生定制英语课程，提升听说读写能力并安排学习计划。'
-        },
-        {
-          period: '2014年秋',
-          company: '明尼苏达大学 Crookston 分校',
-          title: '数学助教',
-          summary: '提供大学高等数学辅导，帮助学生提升理解和成绩。'
-        },
-        {
-          period: '2014年',
-          company: 'Lee Academy',
-          title: '校园保洁员',
-          summary: '维护校舍清洁并整理校园环境。'
-        },
-        {
-          period: '2012 - 2013年',
-          company: 'Lee Academy',
-          title: '越野跑队员',
-          summary: '参与校内比赛与训练，展现耐力与团队协作。'
         }
       ]
     },
