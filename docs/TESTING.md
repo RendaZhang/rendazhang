@@ -10,6 +10,7 @@
     - [`src/__tests__/storage.test.ts`](#src__tests__storagetestts)
     - [`src/__tests__/langUtils.test.ts`](#src__tests__langutilstestts)
     - [`src/__tests__/example.test.ts`](#src__tests__exampletestts)
+    - [`src/models/__tests__/ChatSession.test.ts`](#srcmodels__tests__chatsessiontestts)
   - [编写测试](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95)
     - [示例](#%E7%A4%BA%E4%BE%8B)
 
@@ -18,7 +19,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 02:40 (UTC+08:00)
+- **最后更新**: August 09, 2025, 03:09 (UTC+08:00)
 
 ---
 
@@ -64,6 +65,11 @@
 ### `src/__tests__/example.test.ts`
 
 - **returns true**：示例性测试，展示 Vitest 基本断言。
+
+### `src/models/__tests__/ChatSession.test.ts`
+
+- **trims messages beyond token limit**：通过 mock 常量使 `MAX_TOKENS` 较小，添加多条消息后仅保留最近记录。
+- **setHistory/getHistory/clear 管理历史记录**：设置初始历史并清空，确认返回拷贝及清除效果。
 
 ## 编写测试
 
