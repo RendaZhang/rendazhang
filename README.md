@@ -41,7 +41,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
+- **最后更新**: August 09, 2025, 03:40 (UTC+08:00)
 
 ---
 
@@ -214,6 +214,12 @@ flowchart TD
    SKIP_SENTRY=true npm run astro -- check --incremental
    ```
 
+   如需临时跳过 ESLint 检查以加快提交，可设置：
+
+   ```bash
+   SKIP_ESLINT=true pre-commit run --all-files
+   ```
+
 6. 环境变量说明
 
    本地可以配置在 `.env` 或者 `.env.local`，并通过 `src/utils/env.ts` 的 `getEnv()` 读取：
@@ -228,6 +234,7 @@ flowchart TD
    NODE_ENV="production"
    PUBLIC_NODE_ENV="development" # 本地调试覆盖为 development
    SKIP_SENTRY="true" # 跳过 Sentry
+   SKIP_ESLINT="true" # 跳过 ESLint 检查
 
    # 敏感配置（如下为示例）
    SENTRY_AUTH_TOKEN="sntrys_xxx"

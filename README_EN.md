@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 09, 2025, 02:00 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 03:40 (UTC+08:00)
 
 ---
 
@@ -212,6 +212,12 @@ To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse t
    SKIP_SENTRY=true npm run astro -- check --incremental
    ```
 
+   To temporarily skip ESLint checks and speed up commits, use:
+
+   ```bash
+   SKIP_ESLINT=true pre-commit run --all-files
+   ```
+
 6. Environment Variables Explanation
 
    Local configurations can be set in `.env` or `.env.local`, and read via the `getEnv()` function in `src/utils/env.ts`:
@@ -226,6 +232,7 @@ To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse t
    NODE_ENV="production"
    PUBLIC_NODE_ENV="development" # Override to "development" for local debugging
    SKIP_SENTRY="true" # Skip Sentry
+   SKIP_ESLINT="true" # Skip ESLint checks
 
    # Sensitive configurations (example values below)
    SENTRY_AUTH_TOKEN="sntrys_xxx"
