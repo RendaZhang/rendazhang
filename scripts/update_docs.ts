@@ -50,9 +50,9 @@ function acquireLock() {
     try {
       lockFd = fs.openSync(lockfile, 'wx');
       break;
-    } catch (e: any) {
-      if (e.code !== 'EEXIST') {
-        log(`ERROR: ${e.message}`);
+    } catch (e: unknown) {
+      if (typeof e === 'object' && e !== null && 'code' in e && (e as { code: string }).code !== 'EEXIST') {
+        log(`ERROR: ${((e as unknown) as Error)?.message ?? String(e)}`);
         process.exit(1);
       }
       if (Date.now() - start > 10000) {
@@ -76,7 +76,9 @@ function cleanup() {
   }
   try {
     fs.unlinkSync(lockfile);
-  } catch {}
+  } catch {
+    log('WARN: Fail to unlintSync for the lockfile.');
+  }
   log('Lock released and cleaned up');
 }
 
@@ -169,14 +171,14 @@ function resolveDoctocCommand(): string[] | null {
     log('SKIP: doctoc not installed (unknown error)');
   } else {
     const output = doctocCheck.stdout + doctocCheck.stderr;
-    if (doctocCheck.status === 0 || output.includes("Usage: doctoc")) {
+    if (doctocCheck.status === 0 || output.includes('Usage: doctoc')) {
       doctocCmd = ['doctoc'];
       return doctocCmd;
     }
   }
   // If not found, attempt to locate a global installation of npm package
   log('WARN: doctoc is not found in the PATH.');
-  log('INFO: Continue to locate a global installation of npm package of doctoc...')
+  log('INFO: Continue to locate a global installation of npm package of doctoc...');
   const doctocNpxCheck = spawnSync('npx', ['--no-install', 'doctoc', '--version'], {
     encoding: 'utf-8',
     stdio: ['ignore', 'pipe', 'pipe']
@@ -187,7 +189,7 @@ function resolveDoctocCommand(): string[] | null {
     log('SKIP: npx doctoc not installed (unknown error)');
   } else {
     const output = doctocNpxCheck.stdout + doctocNpxCheck.stderr;
-    if (doctocNpxCheck.status === 0 || output.includes("Usage: doctoc")) {
+    if (doctocNpxCheck.status === 0 || output.includes('Usage: doctoc')) {
       doctocCmd = ['npx', '--no-install', 'doctoc'];
       return doctocCmd;
     }

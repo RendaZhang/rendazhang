@@ -15,6 +15,7 @@
     - [同步 README 钩子 (sync-readme)](#%E5%90%8C%E6%AD%A5-readme-%E9%92%A9%E5%AD%90-sync-readme)
     - [静态资源命名验证钩子 (validate-assets)](#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%91%BD%E5%90%8D%E9%AA%8C%E8%AF%81%E9%92%A9%E5%AD%90-validate-assets)
     - [索引文件生成钩子 (generate-index)](#%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E7%94%9F%E6%88%90%E9%92%A9%E5%AD%90-generate-index)
+    - [ESLint 钩子 (eslint)](#eslint-%E9%92%A9%E5%AD%90-eslint)
   - [工作流程](#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B)
   - [维护与扩展](#%E7%BB%B4%E6%8A%A4%E4%B8%8E%E6%89%A9%E5%B1%95)
     - [添加新钩子](#%E6%B7%BB%E5%8A%A0%E6%96%B0%E9%92%A9%E5%AD%90)
@@ -28,7 +29,7 @@
 # 预提交钩子综合指南
 
 - **负责人**: 张人大（Renda Zhang）
-- **最后更新**: August 07, 2025, 22:11 (UTC+08:00)
+- **最后更新**: August 08, 2025, 23:21 (UTC+08:00)
 
 ---
 
@@ -93,10 +94,10 @@
 
 ### 代码质量钩子
 
-| 钩子ID         | 功能                     | 文件类型                     |
-|----------------|--------------------------|------------------------------|
-| `prettier`     | 使用 Prettier 格式化代码   | JS, TSX, Astro, CSS       |
-| `eslint`       | 使用 ESLint 检查和修复代码 | JS, TSX, Astro, Markdown    |
+| 钩子ID         | 功能                     | 文件类型                     | 特殊机制 |
+|----------------|--------------------------|------------------------------|----------|
+| `prettier`     | 使用 Prettier 格式化代码   | JS, TSX, Astro, CSS       | - |
+| `eslint`       | 使用 ESLint 检查和修复代码 | JS, TSX, Astro, Markdown    | **支持通过环境变量 `SKIP_ESLINT` 跳过检查** |
 
 ---
 
@@ -225,6 +226,55 @@ export { default as useAuth } from './useAuth';
 **相关文件**：
 - `scripts/generateIndex.ts`  - 生成脚本
 
+### ESLint 钩子 (eslint)
+
+**功能**：
+- 使用 ESLint 对暂存文件进行代码质量检查
+- 支持自动修复部分问题
+- 使用缓存机制加速检查（`.eslintcache`）
+- 提供灵活的跳过机制，便于开发调试
+- 智能检测配置文件存在性
+
+**跳过机制**：
+1. **环境变量跳过**：
+   - 在项目根目录创建 `.env` 或 `.env.local` 文件
+   - 添加以下任一配置即可跳过检查：
+     ```
+     SKIP_ESLINT="1"
+     SKIP_ESLINT="true"
+     SKIP_ESLINT="yes"
+     ```
+2. **命令行标志跳过**：
+   ```bash
+   git commit --skip-eslint -m "提交信息"
+   ```
+
+**执行流程**：
+```mermaid
+graph TD
+    A[开始 ESLint 检查] --> B{检查跳过标志?}
+    B -->|环境变量或命令行标志| C[跳过检查]
+    B -->|无跳过标志| D{存在 ESLint 配置?}
+    D -->|否| E[警告并跳过]
+    D -->|是| F[执行 ESLint 检查]
+    F --> G{检查通过?}
+    G -->|是| H[继续提交]
+    G -->|否| I[阻止提交]
+```
+
+**注意事项**：
+- 在 CI 环境（如 GitHub Actions）中默认不跳过检查
+- 缓存文件 (.eslintcache) 可提升后续检查速度
+- 检查范围包括：
+  - `src/` 目录所有 JS/TS 文件
+  - Astro 配置文件(`astro.config.ts`)
+  - ESLint 配置文件(`eslint.config.ts`)
+- 使用 `--fix-dry-run` 模式确保不会直接修改文件
+
+**相关文件**：
+- `scripts/pre-commit-eslint.ts` - 核心检查脚本
+- `.env`/`.env.local` - 环境变量配置文件
+
 ---
 
 ## 工作流程
@@ -327,6 +377,12 @@ git commit --no-verify -m "跳过钩子检查"
 
 6. **类型校验**：如需类型校验，可在 CI 或手动执行 `npm run astro check`
 
+7. **ESLint 优化**：
+   - 本地开发时可配置 `SKIP_ESLINT=true` 提升提交速度
+   - CI 环境中保持默认检查确保代码质量
+   - 定期清理 `.eslintcache` 文件防止缓存失效
+   - 对于大型项目，考虑增量检查策略
+
 ---
 
 ## 故障排除
@@ -350,6 +406,9 @@ git commit --no-verify -m "跳过钩子检查"
 | "最后更新"时间未改变 | 文件未被 doctoc 修改 | 手动修改文件内容触发更新 |
 | 资源验证失败 | 命名不符合规范 | 根据命名规范重命名文件 |
 | 锁文件残留 | 脚本异常退出 | 手动删除 `.git/update-docs.lock` |
+| ESLint 检查跳过无效 | 环境变量文件位置错误 | 确保 .env 文件在项目根目录 |
+| ESLint 检查时间过长 | 未使用缓存机制 | 确认 `.eslintcache` 文件存在并有效 |
+| "未找到 ESLint 配置"警告 | 配置文件缺失或位置错误 | 检查项目根目录是否存在 eslint.config.ts 等配置文件 |
 
 **调试命令**：
 ```bash

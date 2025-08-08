@@ -106,9 +106,7 @@ async function generateLqip(): Promise<void> {
 
   fs.writeFileSync(DATA_FILE, dataContent);
   logger.log(`自动生成的 LQIP 数据 - 更新时间: ${new Date().toISOString()}`);
-  logger.log(
-    `LQIP生成成功: ${path.relative(process.cwd(), DATA_FILE)} (${lqipBuffer.length}字节)`
-  );
+  logger.log(`LQIP生成成功: ${path.relative(process.cwd(), DATA_FILE)} (${lqipBuffer.length}字节)`);
 }
 
 /**

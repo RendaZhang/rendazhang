@@ -11,7 +11,8 @@ import logger from '../src/utils/logger';
  * Two capture groups are used: `prefix` for the static prefix and
  * `timestamp` for the actual timestamp string.
  */
-const LINE_RE = /^(?<prefix>- \*\*(?:最后更新|Last Updated)\*\*: )(?<timestamp>[A-Za-z]+ \d{1,2}, \d{4}, \d{1,2}:\d{2} \(UTC[+-]\d{1,2}:\d{2}\))$/gm;
+const LINE_RE =
+  /^(?<prefix>- \*\*(?:最后更新|Last Updated)\*\*: )(?<timestamp>[A-Za-z]+ \d{1,2}, \d{4}, \d{1,2}:\d{2} \(UTC[+-]\d{1,2}:\d{2}\))$/gm;
 
 /**
  * Format the current date/time into the timestamp format expected by the docs.
@@ -35,7 +36,7 @@ function formatNow(): string {
     'September',
     'October',
     'November',
-    'December',
+    'December'
   ];
   const month = months[now.getMonth()];
   const day = String(now.getDate()).padStart(2, '0');
