@@ -9,10 +9,7 @@ import dotenvExpand from 'dotenv-expand';
  */
 function loadEnvironmentVariables() {
   // 可能的 .env 文件路径
-  const envFiles = [
-    join(process.cwd(), '.env'),
-    join(process.cwd(), '.env.local')
-  ];
+  const envFiles = [join(process.cwd(), '.env'), join(process.cwd(), '.env.local')];
 
   // 按顺序加载所有环境变量文件
   for (const envFile of envFiles) {
@@ -46,9 +43,7 @@ function runESLint(): boolean {
       '.eslintrc.json'
     ];
 
-    const hasEslintConfig = eslintConfigFiles.some(file =>
-      existsSync(join(cwd, file))
-    );
+    const hasEslintConfig = eslintConfigFiles.some((file) => existsSync(join(cwd, file)));
 
     if (!hasEslintConfig) {
       console.warn('⚠️  未找到 ESLint 配置文件，跳过检查');
@@ -57,7 +52,7 @@ function runESLint(): boolean {
 
     // 执行 ESLint 命令
     execSync(
-      'npx eslint src/ astro.config.ts eslint.config.ts --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache',
+      'npx eslint --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache',
       { stdio: 'inherit' }
     );
 

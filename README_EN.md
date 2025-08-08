@@ -39,7 +39,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 08, 2025, 20:35 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 02:00 (UTC+08:00)
 
 ---
 
@@ -493,15 +493,15 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
 
 - Fork and clone this repository.
 - Enter the virtual environment:
-   ```bash
-   # If the virtual environment is not yet installed, run: python -m venv venv
-   source venv/bin/activate
-   ```
+  ```bash
+  # If the virtual environment is not yet installed, run: python -m venv venv
+  source venv/bin/activate
+  ```
 - Install dependencies and enable **pre-commit**:
-   ```bash
-   pip install pre-commit
-   pre-commit install
-   ```
+  ```bash
+  pip install pre-commit
+  pre-commit install
+  ```
 - Before each commit, the hooks will automatically run and perform the following tasks:
   - Automatically fix basic formatting issues (trailing whitespace, end-of-file newlines, etc.)
   - Update the documentation table of contents and the last updated timestamp

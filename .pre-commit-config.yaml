@@ -1,6 +1,9 @@
 # ========================
 # 预提交钩子配置
 # ========================
+minimum_pre_commit_version: '3.7.0'
+default_stages: [pre-commit]
+
 exclude: >
   (?x)^(
     dist/|
@@ -18,66 +21,31 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: end-of-file-fixer
-        types: [file]
-        exclude: \.(ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
       - id: trailing-whitespace
         types: [file]
         exclude: \.(ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
-      - id: check-yaml
+      - id: end-of-file-fixer
+        types: [file]
+        exclude: \.(ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
+      - id: detect-private-key
       - id: check-added-large-files
         args: ['--maxkb=512']
         exclude: scripts/images/hero-original.jpg
-      - id: check-json
-      - id: check-case-conflict
 
-  # 自动更新文档目录并刷新 "Last updated" 信息
-  - repo: local
-    hooks:
-      - id: update-docs
-        name: Update Docs TOC and Last Updated
-        entry: npm run update-docs
-        language: system
-        files: ^(README(?:_EN)?\.md|docs/.*\.md)$
-
-  # 同步 README 文件
-  - repo: local
-    hooks:
-      - id: sync-readme
-        name: Sync README to assets
-        entry: npm run sync-readme
-        language: python
-        pass_filenames: false
-        always_run: true
-
-  # 静态资源命名验证
-  - repo: local
-    hooks:
-      - id: validate-assets
-        name: Validate Asset Names
-        entry: npm run validate-assets
-        language: system
-        pass_filenames: false
-
-  # 自动生成模块 `index.ts` 和 `index.js` 文件
-  - repo: local
-    hooks:
-      - id: generate-index
-        name: Generate Index Files
-        entry: npm run generate-index
-        language: system
-        pass_filenames: false
-        always_run: true
-
-  # Prettier 格式化（本地钩子，自动修复）
+  # 代码格式
   - repo: local
     hooks:
       - id: prettier
         name: Prettier Format
         entry: npx prettier --write
         language: system
-        types_or: [javascript, jsx, astro, css]
-        exclude: \.(js|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
+        pass_filenames: true
+        types_or: [javascript, jsx, ts, tsx, astro, css, json, markdown, yaml]
+        exclude: \.(png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
   # 语法/风格检查（仅对已暂存文件）
   # 可以在 .env 或 .env.local 文件中通过环境变量 SKIP_ESLINT 来决定是否跳过 ESLINT 的检查
@@ -87,7 +55,45 @@ repos:
         name: ESLint (Custom Script)
         entry: npx tsx scripts/pre-commit-eslint.ts
         language: system
-        pass_filenames: false  # 脚本自己处理文件名
-        types: []
-        files: ""  # 覆盖默认文件匹配
+        files: ^(src/.*|astro\.config\.ts|eslint\.config\.ts)
+        stages: [pre-commit]
+
+  # Asset 规范校验
+  - repo: local
+    hooks:
+      - id: validate-assets
+        name: Validate asset filenames
+        entry: npm run validate-assets
+        language: system
+        files: ^src/assets/.*
+        stages: [pre-commit]
+
+  # 自动更新文档目录并刷新 "Last updated" 信息
+  - repo: local
+    hooks:
+      - id: update-docs
+        name: Update docs (TOC + Last Updated)
+        entry: npm run update-docs
+        language: system
+        files: ^(README(?:_EN)?\.md|docs/.*\.md)$
+        stages: [pre-commit]
+
+  # 同步 README 文件
+  - repo: local
+    hooks:
+      - id: sync-readme
+        name: Sync README copies
+        entry: npm run sync-readme
+        language: system
+        files: ^(README(_EN)?\.md)$
+        stages: [pre-commit]
+
+  # 自动生成模块 `index.ts` 文件
+  - repo: local
+    hooks:
+      - id: generate-index
+        name: Generate Index Files
+        entry: npm run generate-index
+        language: system
+        files: ^src/.*\.(ts|tsx)$
         stages: [pre-commit]

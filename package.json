@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro}": [
-      "eslint --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache"
+      "eslint src/ astro.config.ts eslint.config.ts --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache"
     ]
   },
   "scripts": {

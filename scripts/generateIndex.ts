@@ -26,10 +26,51 @@ function toCamelBase(name: string): string {
 }
 
 const RESERVED = new Set([
-  'break','case','catch','class','const','continue','debugger','default','delete','do','else','export','extends',
-  'finally','for','function','if','import','in','instanceof','new','return','super','switch','this','throw','try',
-  'typeof','var','void','while','with','yield','let','enum','await','implements','package','protected','interface',
-  'private','public','null','true','false',
+  'break',
+  'case',
+  'catch',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'else',
+  'export',
+  'extends',
+  'finally',
+  'for',
+  'function',
+  'if',
+  'import',
+  'in',
+  'instanceof',
+  'new',
+  'return',
+  'super',
+  'switch',
+  'this',
+  'throw',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'while',
+  'with',
+  'yield',
+  'let',
+  'enum',
+  'await',
+  'implements',
+  'package',
+  'protected',
+  'interface',
+  'private',
+  'public',
+  'null',
+  'true',
+  'false'
 ]);
 
 function makeValidIdentifier(raw: string): string {
@@ -44,11 +85,11 @@ async function isModuleFile(absPath: string): Promise<{ isModule: boolean; hasDe
   try {
     const txt = await readFile(absPath, 'utf8');
     // 排除 export =
-    const hasExportEq  = /^\s*export\s*=/m.test(txt);
+    const hasExportEq = /^\s*export\s*=/m.test(txt);
     // 认一切非 "export =" 的导出（含 async/declare 等）
     const hasAnyExport = /^\s*export\b(?!\s*=)/m.test(txt);
     // 默认导出
-    const hasDefault   = /^\s*export\s+default\b/m.test(txt);
+    const hasDefault = /^\s*export\s+default\b/m.test(txt);
     return { isModule: hasAnyExport && !hasExportEq, hasDefault };
   } catch {
     return { isModule: false, hasDefault: false };
@@ -66,7 +107,8 @@ async function generate(dir: string): Promise<GenerateResult> {
       if (entry.name === TEST_DIR) continue;
       dirs.push(entry.name);
     } else if (entry.isFile()) {
-      if (/^index\.(ts|tsx)$/.test(entry.name)) { // 识别 index.tsx
+      if (/^index\.(ts|tsx)$/.test(entry.name)) {
+        // 识别 index.tsx
         hasIndexTs = true;
         continue;
       }
@@ -144,7 +186,9 @@ async function generate(dir: string): Promise<GenerateResult> {
       } else {
         console.warn(`[generate-index] Keep manual index (empty dir): ${pathForLog(indexPath)}`);
       }
-    } catch { /* nothing to remove */ }
+    } catch {
+      /* nothing to remove */
+    }
     return { hasTs };
   }
 }

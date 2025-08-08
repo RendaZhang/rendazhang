@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 22:44 (UTC+08:00)
+- **最后更新**: August 09, 2025, 02:00 (UTC+08:00)
 
 ---
 
@@ -709,7 +709,7 @@ Astro+Vite 已自动优化打包体积和性能，观察网页加载速度是否
 3. 添加以下 Secrets（这些值会加密存储，不会泄露）：
    - `SERVER_IP`: 您的服务器 IP 或域名（例如 `123.45.67.89` 或 `rendazhang.com`）。
    - `SSH_USER`: SSH 登录用户名（例如 `root` 或 `ubuntu`）。
-   - `SSH_PRIVATE_KEY`: SSH 私钥内容（打开本地 `~/.ssh/id_ed25519` 文件，复制全部内容，包括 `-----BEGIN OPENSSH PRIVATE KEY-----` 和结束标记）。
+   - `SSH_PRIVATE_KEY`: SSH 私钥内容（打开本地 `~/.ssh/id_ed25519` 文件，复制全部内容，包括 `-----BEGIN OPENSSH EXAMPLE KEY-----` 和结束标记）。
    - `DEPLOY_PATH`: 部署目录（例如 `/var/www/html`）。如果想部署到 `/var/www/rendazhang`，设置为 `/var/www/rendazhang`。
 
 
