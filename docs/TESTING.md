@@ -11,6 +11,7 @@
     - [`src/__tests__/langUtils.test.ts`](#src__tests__langutilstestts)
     - [`src/__tests__/example.test.ts`](#src__tests__exampletestts)
     - [`src/models/__tests__/ChatSession.test.ts`](#srcmodels__tests__chatsessiontestts)
+    - [`src/hooks/__tests__/useFormValidation.test.tsx`](#srchooks__tests__useformvalidationtesttsx)
   - [编写测试](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95)
     - [示例](#%E7%A4%BA%E4%BE%8B)
 
@@ -19,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 03:09 (UTC+08:00)
+- **最后更新**: August 09, 2025, 03:23 (UTC+08:00)
 
 ---
 
@@ -70,6 +71,12 @@
 
 - **trims messages beyond token limit**：通过 mock 常量使 `MAX_TOKENS` 较小，添加多条消息后仅保留最近记录。
 - **setHistory/getHistory/clear 管理历史记录**：设置初始历史并清空，确认返回拷贝及清除效果。
+
+### `src/hooks/__tests__/useFormValidation.test.tsx`
+
+- **handleChange updates values and errors**：字段变更时同步更新 `values` 与 `errors`。
+- **validateAll triggers validators and returns status**：运行所有验证器并返回布尔结果。
+- **reset restores initial state**：重置为初始值并清空错误。
 
 ## 编写测试
 
