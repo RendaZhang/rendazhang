@@ -69,6 +69,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           SKIP_SENTRY: ${{ secrets.SKIP_SENTRY }}
+          SKIP_ESLINT: ${{ secrets.SKIP_ESLINT }}
 
       - name: Deploy to Ubuntu server
         id: deploy-to-server
