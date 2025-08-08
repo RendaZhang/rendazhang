@@ -83,8 +83,8 @@
         typeof storedTheme === 'string' && storedTheme
           ? storedTheme
           : systemPrefersDark
-          ? 'dark'
-          : 'light';
+            ? 'dark'
+            : 'light';
     } catch (e) {
       console.error('BaseLayout script: Theme init failed', e);
     }

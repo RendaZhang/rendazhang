@@ -8,7 +8,8 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['**/*.d.ts', '**/*.astro']
+    // 只忽略构建目录和依赖
+    ignores: ['dist', 'node_modules', 'docs']
   },
   {
     files: ['**/*.{ts,tsx}'],
@@ -45,5 +46,19 @@ export default [
       'prettier/prettier': ['error', { endOfLine: 'auto' }]
     }
   },
+  // 新增针对声明文件的特殊配置
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      // 禁用对三斜线引用的检查
+      '@typescript-eslint/triple-slash-reference': 'off',
+      // 允许空接口（用于环境变量类型扩展）
+      '@typescript-eslint/no-empty-object-type': 'off',
+      // 禁用其他不必要的规则
+      'no-var': 'off',
+      'prettier/prettier': 'off'
+    }
+  },
+  // Astro 配置保持不变
   ...astroPlugin.configs.recommended
 ];

@@ -79,11 +79,15 @@ repos:
         types_or: [javascript, jsx, astro, css]
         exclude: \.(js|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
-  # ESLint 检查（本地钩子）
+  # 语法/风格检查（仅对已暂存文件）
+  # 可以在 .env 或 .env.local 文件中通过环境变量 SKIP_ESLINT 来决定是否跳过 ESLINT 的检查
   - repo: local
     hooks:
       - id: eslint
-        name: ESLint Check
-        entry: npx eslint --ext .ts,.tsx,.astro src/
+        name: ESLint (Custom Script)
+        entry: npx tsx scripts/pre-commit-eslint.ts
         language: system
-        types: [javascript, jsx, astro]
+        pass_filenames: false  # 脚本自己处理文件名
+        types: []
+        files: ""  # 覆盖默认文件匹配
+        stages: [pre-commit]
