@@ -1,5 +1,6 @@
 import { readdir, readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
+import logger from '../src/utils/logger';
 
 type GenerateResult = { hasTs: boolean };
 
@@ -162,18 +163,18 @@ async function generate(dir: string): Promise<GenerateResult> {
       const old = await readFile(indexPath, 'utf8');
       if (!old.startsWith(AUTO_HEADER)) {
         // 有手写 index.ts：不覆盖
-        console.warn(`[generate-index] Skip overwrite (manual): ${pathForLog(indexPath)}`);
+        logger.warn(`[generate-index] Skip overwrite (manual): ${pathForLog(indexPath)}`);
         shouldWrite = false;
       } else if (old === newContent) {
         shouldWrite = false;
       }
     } catch {
-      console.warn(`[generate-index] file not exist: ${pathForLog(indexPath)}`);
+      logger.warn(`[generate-index] file not exist: ${pathForLog(indexPath)}`);
     }
 
     if (shouldWrite) {
       await writeFile(indexPath, newContent, 'utf8');
-      console.log(`[generate-index] Wrote ${pathForLog(indexPath)}`);
+      logger.log(`[generate-index] Wrote ${pathForLog(indexPath)}`);
     }
     return { hasTs: true };
   } else {
@@ -182,9 +183,9 @@ async function generate(dir: string): Promise<GenerateResult> {
       const old = await readFile(indexPath, 'utf8');
       if (old.startsWith(AUTO_HEADER)) {
         await rm(indexPath);
-        console.log(`[generate-index] Removed ${pathForLog(indexPath)}`);
+        logger.log(`[generate-index] Removed ${pathForLog(indexPath)}`);
       } else {
-        console.warn(`[generate-index] Keep manual index (empty dir): ${pathForLog(indexPath)}`);
+        logger.warn(`[generate-index] Keep manual index (empty dir): ${pathForLog(indexPath)}`);
       }
     } catch {
       /* nothing to remove */
