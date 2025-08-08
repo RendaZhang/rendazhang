@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 
-vi.mock('../../constants/index', () => ({
+vi.mock('../constants/index', () => ({
   MAX_TOKENS: 100,
   AVG_WORD_LENGTH: 4,
   AVG_TOKENS_PER_WORD: 1
 }));
 
-import ChatSession from '../ChatSession';
-import type { ChatMessage } from '../../types/chat';
+import ChatSession from '../models/ChatSession';
+import type { ChatMessage } from '../types/chat';
 
 describe('ChatSession', () => {
   it('trims history when token limit is exceeded', () => {

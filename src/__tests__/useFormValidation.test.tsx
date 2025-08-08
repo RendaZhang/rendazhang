@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import useFormValidation from '../useFormValidation';
+import useFormValidation from '../hooks/useFormValidation';
 
 describe('useFormValidation', () => {
   const initialValues = { username: '', agree: false };
