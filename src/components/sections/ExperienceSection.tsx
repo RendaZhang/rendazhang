@@ -2,11 +2,11 @@ import { LocalizedSection } from '../ui';
 import type { ReactElement } from 'react';
 
 interface ExperienceEntry {
-  period: string;
-  company: string;
-  title: string;
-  summary?: string;
-  bullets?: string[];
+  readonly period: string;
+  readonly company: string;
+  readonly title: string;
+  readonly summary?: string;
+  readonly bullets?: ReadonlyArray<string>;
 }
 
 interface ExperienceSectionProps {
