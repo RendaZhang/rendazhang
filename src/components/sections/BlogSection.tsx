@@ -17,7 +17,7 @@ export default function BlogSection({ blogEn, blogZh }: BlogSectionProps): React
         {blogZh.entries.map((entry, idx) => (
           <div className="blog-item mb-4" key={idx}>
             <div className="section-header blog-header">
-              <span className="blog-category mr-2">
+              <span className="blog-category mie-2">
                 <LocalizedSection
                   zhContent={entry.category}
                   enContent={blogEn.entries[idx].category}

@@ -37,7 +37,7 @@ export default function BioSection({ contentEn, contentZh, isZh }: BioSectionPro
         <a id="resumeLink" href={resumeHref} download={resumeDownload} className="btn btn-primary">
           <LocalizedSection zhContent={contentZh.resumeLabel} enContent={contentEn.resumeLabel} />
         </a>
-        <a id="contactBtn" href="#contact" className="btn btn-secondary ms-2">
+        <a id="contactBtn" href="#contact" className="btn btn-secondary mis-2">
           <LocalizedSection
             zhContent={contentZh.contact.title}
             enContent={contentEn.contact.title}

@@ -11,7 +11,7 @@
   line-height: 1; /* vertical alignment handled by flex-center */
   cursor: pointer;
   z-index: 9999;
-  padding: 0%;
+  padding: 0;
 }
 
 .chat-widget-toggle svg {

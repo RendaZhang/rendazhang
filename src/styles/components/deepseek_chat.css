@@ -11,7 +11,7 @@
 
 /* Header styling is centralized in theme.css via `.app-header` */
 
-h1 {
+.chat-wrapper h1 {
   font-size: 1.8rem;
   font-weight: 600;
 }

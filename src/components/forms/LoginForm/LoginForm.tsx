@@ -156,7 +156,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             checked={remember}
             onChange={(e) => setRemember(e.target.checked)}
           />
-          <label htmlFor="remember" className="form-check-label ms-2">
+          <label htmlFor="remember" className="form-check-label mis-2">
             <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
           </label>
         </div>

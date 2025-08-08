@@ -20,7 +20,7 @@ export default function EducationSection({
         {educationZh.entries.map((entry, idx) => (
           <div className="education-item mb-4" key={idx}>
             <div className="section-header">
-              <span className="education-period mr-2">
+              <span className="education-period mie-2">
                 <LocalizedSection
                   zhContent={entry.period}
                   enContent={educationEn.entries[idx].period}
