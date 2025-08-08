@@ -1,0 +1,54 @@
+/* Variable fallback example */
+.example-fallback {
+  color: var(--undefined-var, var(--color-text));
+}
+
+/* Error section styles */
+.error-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  gap: 1rem;
+}
+
+.error-emoji {
+  font-size: 4rem;
+}
+
+.error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.error-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.error-description {
+  max-width: 40rem;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: var(--shadow-soft);
+}
+
+.back-to-top svg {
+  pointer-events: none;
+}

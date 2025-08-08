@@ -1,0 +1,22 @@
+/* ---------- Layout ---------- */
+body {
+  font-family: var(--font-body) !important;
+  margin: 0;
+  padding: 5rem 0 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+main.main-content {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
