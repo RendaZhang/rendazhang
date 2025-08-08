@@ -2,36 +2,38 @@ import {
   CONTACT_EMAIL_PRIMARY,
   CONTACT_PHONE_INTL,
   CONTACT_PHONE_LOCAL,
+  SITE_BASE_URL,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
 } from '../constants';
 
 export const ABOUT_CONTENT = {
   en: {
-    heroHeading: 'Hello ! I am<span> Renda Zhang</span>',
+    heroHeading: "I'm<span> Renda Zhang</span>",
     heroTaglines: [
-      'Software Engineer',
-      'Backend Developer',
-      'Frontend Developer',
-      'Android Developer',
-      'Web Developer'
+      'Backend Engineer',
+      'Java & Spring Developer',
+      'Cloud-Native Microservices',
+      'Kubernetes & Terraform',
+      'CI/CD Automation'
     ],
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
-      "Hello! I'm Renda Zhang, a software engineer based in Shenzhen, China.",
-      'I specialize in Java backend development with 5 years of experience building robust and scalable systems. I have led consumer e-commerce projects such as Michaels and MakerPlace using Spring Boot and Spring Cloud microservice architectures.',
-      "I'm proficient in Kubernetes containerization, CI/CD pipelines and high-concurrency performance optimization, and have collaborated with distributed teams across countries.",
-      "I hold a B.S. degree in Computer Science from the University of Minnesota - Twin Cities, and I'm fluent in both English and Mandarin with international study and work experience.",
-      "I'm passionate about solving real-world problems through clean architecture and efficient data design. I'm currently seeking new opportunities where I can make impactful contributions and continue growing as an engineer. Feel free to explore my resume and project portfolio."
+      "Hello! I'm Renda Zhang, a backend engineer based in Shenzhen, China.",
+      'I build cloud-native Java and Spring microservices on GCP and AWS using Kubernetes and Terraform.',
+      'I automate CI/CD pipelines and tune high-concurrency systems.',
+      'I collaborate in agile, English-speaking teams and can work with Node.js and TypeScript when needed.',
+      'I hold a B.S. in Computer Science from the University of Minnesota and am open to new cloud-native backend roles.'
     ],
     info: [
       { label: 'Name:', value: ' Renda Zhang' },
-      { label: 'Birthday:', value: ' Nov 5, 1995' },
+      { label: 'Gender:', value: ' Male' },
       { label: 'Email:', value: ` ${CONTACT_EMAIL_PRIMARY}` },
       { label: 'Phone:', value: ` ${CONTACT_PHONE_INTL}` },
-      { label: 'Address:', value: ' Shenzhen, Guangdong, China' },
-      { label: 'Status:', value: ' Actively open to work' }
+      { label: 'Address:', value: ' Nanshan District, Shenzhen, Guangdong, China 518000' },
+      { label: 'Website:', value: ` ${SITE_BASE_URL}` },
+      { label: 'Status:', value: ' Open to cloud-native backend roles (1-month notice)' }
     ],
     resumeLabel: 'Download Resume',
     contact: {
@@ -186,25 +188,32 @@ export const ABOUT_CONTENT = {
     }
   },
   zh: {
-    heroHeading: '大家好，我是<span>张人大</span>',
-    heroTaglines: ['软件工程师', '后端开发者', '前端开发者', 'Android 开发者', 'Web 开发者'],
+    heroHeading: '我是<span>张人大</span>',
+    heroTaglines: [
+      '后端工程师',
+      'Java 与 Spring 开发',
+      '云原生微服务',
+      'Kubernetes 与 Terraform',
+      'CI/CD 自动化'
+    ],
     subTitle: '我是谁？',
     title: '自我介绍',
     greeting: '你好，',
     paragraphs: [
-      '大家好，我是张人大，现居中国深圳的软件工程师。',
-      '拥有 5 年 Java 后端开发经验，曾主导建设面向 C 端的电商平台（如 Michaels、MakerPlace），熟练运用 Spring Boot、Spring Cloud 等微服务架构。',
-      '擅长 Kubernetes 容器化部署和 CI/CD 流水线，专注于高并发系统性能优化，并具备跨国团队协作能力。',
-      '毕业于美国明尼苏达大学双城分校计算机科学专业，能熟练使用英文和普通话交流，拥有国际学习和工作经历。',
-      '热衷于通过整洁架构和高效数据设计解决实际问题，目前正寻找能够持续成长并发挥影响力的机会，欢迎访问我的简历和项目介绍。'
+      '大家好，我是张人大，居住在中国深圳的后端工程师。',
+      '使用 Kubernetes 与 Terraform 在 GCP 与 AWS 上构建基于 Java 与 Spring 的云原生微服务。',
+      '负责 CI/CD 流水线自动化并优化高并发系统性能。',
+      '在敏捷英语团队中合作自如，必要时能阅读和编写 Node.js 与 TypeScript 服务。',
+      '毕业于美国明尼苏达大学双城校区计算机科学专业，正积极寻找后端/云原生开发岗位。'
     ],
     info: [
-      { label: '名字:', value: ' 张人大' },
-      { label: '生日:', value: '1995年11月5日' },
-      { label: '电话:', value: ` ${CONTACT_PHONE_LOCAL}` },
+      { label: '姓名:', value: ' 张人大' },
+      { label: '性别:', value: ' 男' },
       { label: '邮箱:', value: ` ${CONTACT_EMAIL_PRIMARY}` },
-      { label: '地址:', value: ' 中国广东省深圳市' },
-      { label: '求职状态:', value: ' 积极寻找工作机会' }
+      { label: '电话:', value: ` ${CONTACT_PHONE_LOCAL}` },
+      { label: '地址:', value: ' 中国广东省深圳市南山区 518000' },
+      { label: '个人网站:', value: ` ${SITE_BASE_URL}` },
+      { label: '状态:', value: ' 积极寻找后端/云原生开发岗位（一个月内可入职）' }
     ],
     resumeLabel: '下载我的简历',
     contact: {
