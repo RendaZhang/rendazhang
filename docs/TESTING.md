@@ -8,6 +8,7 @@
   - [测试用例说明](#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%B4%E6%98%8E)
     - [`src/__tests__/env.test.ts`](#src__tests__envtestts)
     - [`src/__tests__/storage.test.ts`](#src__tests__storagetestts)
+    - [`src/__tests__/langUtils.test.ts`](#src__tests__langutilstestts)
     - [`src/__tests__/example.test.ts`](#src__tests__exampletestts)
   - [编写测试](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95)
     - [示例](#%E7%A4%BA%E4%BE%8B)
@@ -17,7 +18,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2025, 02:40 (UTC+08:00)
+- **最后更新**: August 09, 2025, 02:40 (UTC+08:00)
 
 ---
 
@@ -52,6 +53,13 @@
 - **respects cookie expiration parameter**：使用虚拟时间校验 `set` 时的 `expires` 参数，并验证读取与删除 cookie。
 - **falls back to memory storage when localStorage is unavailable**：人为移除 `localStorage`，确认内存兜底逻辑、错误日志输出以及 Sentry 捕获。
 - **logs and captures errors when operations throw**：模拟 `getItem`/`setItem`/`removeItem` 抛出异常，检查 logger 与 Sentry 的调用次数。
+
+### `src/__tests__/langUtils.test.ts`
+
+- **returns document language before storage**：设置 `document.documentElement.lang` 验证其优先级高于存储值。
+- **uses stored language when document lang missing**：模拟 `storage.get` 返回值并检查日志输出。
+- **falls back to default when storage empty**：`storage.get` 返回 `null` 时回退到 `zh-CN`。
+- **logs and captures errors when storage access fails**：`storage.get` 抛异常时记录错误并上报 Sentry。
 
 ### `src/__tests__/example.test.ts`
 
