@@ -21,7 +21,7 @@
 /* Margin utilities (e.g., .mt-3, .mb-4) are defined in theme.css */
 
 /* Override global body flex alignment so main content starts below nav */
-body {
+body.about-page {
   justify-content: flex-start;
 }
 
