@@ -43,23 +43,23 @@
   padding: var(--space-5); /* ensures consistent spacing */
   text-align: center;
   margin: auto; /* allow loaders to be centered in their container */
-}
-.c-loader .c-dot,
-.c-doc-loader .c-dot {
-  width: var(--space-2);
-  height: var(--space-2);
-  margin: 0 var(--space-1);
-  background: var(--color-spinner);
-  border-radius: 50%;
-  animation: dot-bounce 1.4s infinite both;
-}
-.c-loader .c-dot:nth-child(1),
-.c-doc-loader .c-dot:nth-child(1) {
-  animation-delay: -0.32s;
-}
-.c-loader .c-dot:nth-child(2),
-.c-doc-loader .c-dot:nth-child(2) {
-  animation-delay: -0.16s;
+
+  .c-dot {
+    width: var(--space-2);
+    height: var(--space-2);
+    margin: 0 var(--space-1);
+    background: var(--color-spinner);
+    border-radius: 50%;
+    animation: dot-bounce 1.4s infinite both;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+  }
 }
 
 @keyframes dot-bounce {
@@ -105,20 +105,20 @@
   border-radius: 50%;
   background: var(--color-accent-purple);
   animation: pulse 1.5s infinite;
-}
 
-.c-pulse-dot-1 {
-  left: 0;
-}
+  &-1 {
+    left: 0;
+  }
 
-.c-pulse-dot-2 {
-  left: var(--space-4);
-  animation-delay: var(--duration-fast);
-}
+  &-2 {
+    left: var(--space-4);
+    animation-delay: var(--duration-fast);
+  }
 
-.c-pulse-dot-3 {
-  left: var(--space-7);
-  animation-delay: calc(var(--duration-fast) * 2);
+  &-3 {
+    left: var(--space-7);
+    animation-delay: calc(var(--duration-fast) * 2);
+  }
 }
 
 @keyframes pulse {

@@ -18,11 +18,11 @@
   border-radius: var(--radius-xs);
   background-color: var(--color-surface);
   color: var(--color-text);
-}
 
-.c-form-control:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
 }
 
 .c-invalid-feedback,
@@ -67,11 +67,8 @@
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-login);
   container-type: inline-size;
-}
 
-@container (min-width: 481px) {
-  .c-login-container,
-  .c-register-container {
+  @container (min-width: 481px) {
     margin: var(--space-10) auto;
   }
 }
@@ -81,21 +78,16 @@
   width: 100%;
   max-width: 450px;
   margin: 0 auto;
-}
 
-/* ------------------------------------------------------------------ */
-/* Responsive width for authentication forms                          */
-/* Centralized here so login.css and register.css stay minimal.       */
-/* ------------------------------------------------------------------ */
-@container (min-width: 769px) and (max-width: 1024px) {
-  .c-login-form,
-  .c-register-form {
+  /* ------------------------------------------------------------------ */
+  /* Responsive width for authentication forms                          */
+  /* Centralized here so login.css and register.css stay minimal.       */
+  /* ------------------------------------------------------------------ */
+  @container (min-width: 769px) and (max-width: 1024px) {
     width: 70%;
   }
-}
-@container (max-width: 768px) {
-  .c-login-form,
-  .c-register-form {
+
+  @container (max-width: 768px) {
     width: 100%;
   }
 }
@@ -117,6 +109,12 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-xs);
+  }
 }
 
 .c-password-strength {
@@ -124,23 +122,23 @@
   border-radius: calc(var(--radius-xs) / 2);
   background: var(--color-gray);
   margin-top: var(--space-1);
+
+  &.is-weak {
+    background: var(--color-error);
+  }
+
+  &.is-medium {
+    background: var(--color-warning);
+  }
+
+  &.is-strong {
+    background: var(--color-success);
+  }
 }
 
 .c-password-strength-label {
   font-size: var(--font-size-1);
   margin-top: var(--space-1);
-}
-
-.c-password-strength.is-weak {
-  background: var(--color-error);
-}
-
-.c-password-strength.is-medium {
-  background: var(--color-warning);
-}
-
-.c-password-strength.is-strong {
-  background: var(--color-success);
 }
 
 /* ------------------------------------------------------------------ */
@@ -167,18 +165,18 @@
   justify-content: center;
   gap: var(--space-4);
   margin-top: var(--space-4);
-}
 
-.c-third-party button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-.c-third-party button:focus-visible,
-.c-password-toggle:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: var(--radius-xs);
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-radius: var(--radius-xs);
+    }
+  }
 }
 
 .c-global-error {

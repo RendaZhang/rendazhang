@@ -3,37 +3,43 @@
   text-align: center;
   margin: var(--space-5) 0;
   container-type: inline-size;
-}
-.c-social-icons a {
-  position: relative;
-  display: inline-block;
-}
-.c-social-icons img {
-  width: var(--space-7);
-  height: var(--space-7);
-  margin: 0 var(--space-2);
-  vertical-align: middle;
-  opacity: 0;
-  transition: opacity var(--duration-normal) ease;
-}
-.c-social-icons img.loaded {
-  opacity: 1;
-}
-.c-social-icons .c-spinner {
-  --spinner-size: var(--space-7);
-  --spinner-color: var(--color-spinner);
-}
-@container (max-width: 480px) {
-  .c-social-icons img {
-    width: var(--space-6);
-    height: var(--space-6);
-  }
-  .c-social-icons .c-spinner {
-    --spinner-size: var(--space-6);
-  }
-}
 
-.c-social-icons img[alt='CSDN logo'],
-.c-social-icons img[alt='Medium logo'] {
-  filter: var(--social-icon-filter);
+  a {
+    position: relative;
+    display: inline-block;
+  }
+
+  img {
+    width: var(--space-7);
+    height: var(--space-7);
+    margin: 0 var(--space-2);
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity var(--duration-normal) ease;
+
+    &.loaded {
+      opacity: 1;
+    }
+
+    &[alt='CSDN logo'],
+    &[alt='Medium logo'] {
+      filter: var(--social-icon-filter);
+    }
+  }
+
+  .c-spinner {
+    --spinner-size: var(--space-7);
+    --spinner-color: var(--color-spinner);
+  }
+
+  @container (max-width: 480px) {
+    img {
+      width: var(--space-6);
+      height: var(--space-6);
+    }
+
+    .c-spinner {
+      --spinner-size: var(--space-6);
+    }
+  }
 }
