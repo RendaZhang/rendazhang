@@ -46,6 +46,7 @@
     --color-black: var(--color-base-black);
     --color-warning-accent: var(--color-warning-accent);
     --color-accent-purple: var(--color-brand);
+    --shadow-login: var(--shadow-login-light);
     --md-bg: var(--color-md-bg);
     --md-text: var(--color-md-text);
     --md-heading-border: var(--color-md-heading-border);
@@ -91,6 +92,7 @@
       --color-border-soft: var(--color-gray-700);
       --color-spinner-track: var(--color-gray-700);
       --color-accent-purple: var(--color-brand);
+      --shadow-login: var(--shadow-login-dark);
       --md-bg: var(--color-md-bg);
       --md-text: var(--color-md-text);
       --md-heading-border: var(--color-md-heading-border);
@@ -136,6 +138,7 @@
     --color-border-soft: var(--color-gray-700);
     --color-spinner-track: var(--color-gray-700);
     --color-accent-purple: var(--color-brand);
+    --shadow-login: var(--shadow-login-dark);
     --md-bg: var(--color-md-bg);
     --md-text: var(--color-md-text);
     --md-heading-border: var(--color-md-heading-border);

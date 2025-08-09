@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 01:14 (UTC+08:00)
+- **最后更新**: August 10, 2025, 01:38 (UTC+08:00)
 
 ---
 
@@ -52,7 +52,7 @@
 - `tokens`：`core/` 中的设计令牌及派生变量。
 - `base`：基础排版和语言辅助等全局元素样式（如 `layout.css`）。
 - `components`：组件级样式文件。
-- `utilities`：工具类与布局系统。
+- `utilities`：工具类与布局系统，栅格工具类基于容器查询实现响应式列宽。
 - `overrides`：已弃用的特殊覆盖层，暗色模式通过 Token 与媒体查询处理。
 
 这种分层结构使得核心设计令牌与业务样式解耦，便于维护和扩展。
@@ -203,6 +203,7 @@ graph LR
 ## 排版与间距
 
 项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及 `--duration-fast`、`--duration-normal`、`--duration-slow` 动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
+
 ### 示例
 
 ```css
@@ -254,7 +255,7 @@ h1 {
 
 ## 交互态与可访问性
 
-- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-1`、`--shadow-elevation-1`…`--shadow-elevation-3` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
+- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-1`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
 - 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
 - 交互态矩阵：
 
@@ -286,7 +287,6 @@ h1 {
 - 所有 `@import` 语句需置于文件顶部（除 `@layer` 声明外），以避免 PostCSS 报 `@import must precede all other statements` 警告。
 - 如需使用其他 PostCSS 插件，可在 `postcss.config.cjs` 中统一配置。
 - 欢迎补充更多的架构说明、最佳实践或样式约定到本文件。
-- TODO: consolidate component-level dark-mode overrides into tokens so
-  scattered `@media (prefers-color-scheme)` queries are unnecessary.
-- TODO: evaluate viewport-based utility breakpoints and migrate to
-  container-query or component-scoped patterns.
+- 深色模式样式已统一通过设计 Token 管理（如 `--shadow-login`），组件内部不再使用零散的 `@media (prefers-color-scheme)`。
+- 栅格工具类改用容器查询实现，如 `.grid-col-sm-6` 会依据容器宽度而非视口断点调整布局。
+- 响应式工具类已迁移至容器查询或组件级布局模式，避免依赖视口断点。
