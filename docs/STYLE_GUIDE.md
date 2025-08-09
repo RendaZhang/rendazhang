@@ -5,6 +5,9 @@
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [当前架构](#%E5%BD%93%E5%89%8D%E6%9E%B6%E6%9E%84)
   - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
+  - [CSS / 浏览器基线（2024/2025）](#css--%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9F%BA%E7%BA%BF20242025)
+    - [必备特性](#%E5%BF%85%E5%A4%87%E7%89%B9%E6%80%A7)
+    - [渐进增强](#%E6%B8%90%E8%BF%9B%E5%A2%9E%E5%BC%BA)
   - [PostCSS 集成](#postcss-%E9%9B%86%E6%88%90)
   - [配色方案](#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
   - [扩展与约定](#%E6%89%A9%E5%B1%95%E4%B8%8E%E7%BA%A6%E5%AE%9A)
@@ -14,7 +17,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 06:08 (UTC+08:00)
+- **最后更新**: August 09, 2025, 16:32 (UTC+08:00)
 
 ---
 
@@ -47,6 +50,21 @@ src/
     ├── components/
     └── theme.css
 ```
+
+---
+
+## CSS / 浏览器基线（2024/2025）
+
+本项目以 [Web Platform Baseline 2024](https://web.dev/baseline/2024/) 为基础，确保主要功能在现代浏览器中可用，并将随 [Baseline 2025](https://web.dev/baseline/2025/) 持续迭代。
+
+### 必备特性
+- [容器查询](https://developer.mozilla.org/docs/Web/CSS/CSS_container_queries) — [Can I Use](https://caniuse.com/css-container-queries)
+- [CSS Cascade Layers `@layer`](https://developer.mozilla.org/docs/Web/CSS/@layer) — [Can I Use](https://caniuse.com/css-cascade-layers)
+- [CSS Nesting](https://developer.mozilla.org/docs/Web/CSS/CSS_Nesting_Rules) — [Can I Use](https://caniuse.com/css-nesting)
+
+### 渐进增强
+- [Subgrid](https://developer.mozilla.org/docs/Web/CSS/CSS_Grid_Layout/Subgrid) — [Can I Use](https://caniuse.com/css-subgrid)
+- [`:has()` 选择器](https://developer.mozilla.org/docs/Web/CSS/:has) — [Can I Use](https://caniuse.com/css-has)
 
 ---
 
