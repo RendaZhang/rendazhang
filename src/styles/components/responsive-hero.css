@@ -2,7 +2,7 @@
 /* Blur and motion values reference spacing and duration tokens */
 .c-responsive-hero-placeholder {
   filter: blur(var(--space-5));
-  transition: opacity var(--duration-normal) ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 1;
 }
 .c-responsive-hero-placeholder.loaded {
@@ -17,7 +17,7 @@
 
 .c-responsive-hero-img {
   opacity: 0;
-  transition: opacity var(--duration-normal) ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 2;
 }
 .c-responsive-hero-img.loaded {

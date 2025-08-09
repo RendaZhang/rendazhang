@@ -157,7 +157,7 @@
   height: 100%;
   width: 0;
   background: var(--color-brand-blue);
-  transition: width var(--duration-normal) ease;
+  transition: width var(--duration-normal) var(--easing-standard);
 }
 
 .c-third-party {

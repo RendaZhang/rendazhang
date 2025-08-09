@@ -15,7 +15,7 @@
     margin: 0 var(--space-2);
     vertical-align: middle;
     opacity: 0;
-    transition: opacity var(--duration-normal) ease;
+    transition: opacity var(--duration-normal) var(--easing-standard);
 
     &.loaded {
       opacity: 1;

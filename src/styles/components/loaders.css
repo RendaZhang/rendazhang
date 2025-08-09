@@ -11,7 +11,7 @@
   border: var(--space-1) solid var(--color-spinner-track);
   border-top: var(--space-1) solid var(--spinner-color);
   border-radius: 50%;
-  animation: spinner-spin 1s linear infinite;
+  animation: spinner-spin calc(var(--duration-slow) * 2) linear infinite;
 }
 
 /* Utility class to center spinners (or any element) absolutely */
@@ -50,14 +50,14 @@
     margin: 0 var(--space-1);
     background: var(--color-spinner);
     border-radius: 50%;
-    animation: dot-bounce 1.4s infinite both;
+    animation: dot-bounce calc(var(--duration-fast) * 7) infinite both;
 
     &:nth-child(1) {
-      animation-delay: -0.32s;
+      animation-delay: calc(var(--duration-fast) * -1.6);
     }
 
     &:nth-child(2) {
-      animation-delay: -0.16s;
+      animation-delay: calc(var(--duration-fast) * -0.8);
     }
   }
 }
@@ -86,7 +86,7 @@
   align-items: center;
   gap: var(--space-3);
   z-index: 1000;
-  transition: opacity var(--duration-normal) ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
   border: 1px solid var(--color-border-light);
   color: var(--color-text);
 }
@@ -104,7 +104,7 @@
   height: var(--space-2);
   border-radius: 50%;
   background: var(--color-accent-purple);
-  animation: pulse 1.5s infinite;
+  animation: pulse calc(var(--duration-slow) * 3) infinite;
 
   &-1 {
     left: 0;

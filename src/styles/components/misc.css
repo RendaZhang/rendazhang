@@ -48,9 +48,9 @@
   z-index: 9999;
   box-shadow: var(--shadow-elevation-2);
   transition:
-    filter 0.3s,
-    transform 0.3s,
-    box-shadow 0.3s;
+    filter var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard);
 }
 
 .c-back-to-top:hover {
