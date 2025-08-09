@@ -42,7 +42,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 09, 2025, 06:08 (UTC+08:00)
+- **最后更新**: August 09, 2025, 16:46 (UTC+08:00)
 
 ---
 
@@ -88,8 +88,8 @@ src/
 ├── hooks/               # 业务逻辑自定义 hooks
 ├── styles/
 │   ├── core/               # 核心变量
-│   │   ├── _colors.css     # 颜色系统
-│   │   ├── _spacing.css    # 间距系统
+│   │   ├── tokens.css      # 设计 Token（颜色、间距等）
+│   │   ├── legacy-alias.css # 旧变量别名
 │   │   └── _gradients.css  # 渐变系统
 │   ├── components/         # 组件样式
 │   ├── utilities/          # 工具类

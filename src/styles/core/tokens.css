@@ -1,0 +1,145 @@
+:root {
+  /*! ==== Colors ==== */
+  --color-brand: 106 17 203; /* old: --color-primary */
+  --color-accent: 37 117 252; /* old: --color-accent */
+  --color-brand-secondary: 78 84 200; /* old: --color-secondary */
+  --color-brand-tertiary: 143 148 251; /* old: --color-tertiary */
+  --color-gray-900: 15 15 30; /* old: --color-gray-900 */
+  --color-gray-800: 35 35 55; /* old: --color-gray-800 */
+  --color-gray-100: 245 245 255; /* old: --color-gray-100 */
+  --color-gray-50: 250 250 255; /* old: --color-gray-50 */
+  --color-success: 46 204 113; /* old: --color-success */
+  --color-warning: 241 196 15; /* old: --color-warning */
+  --color-error: 231 76 60; /* old: --color-error */
+  --color-base-white: 255 255 255; /* old: --color-white-rgb */
+  --color-base-black: 0 0 0; /* old: --color-black-rgb */
+  --color-gray: 221 221 221; /* old: --color-gray */
+  --color-brand-blue: 67 97 238; /* old: --color-brand-blue */
+  --color-spinner: 52 152 219; /* old: --color-spinner */
+  --color-border-light: 230 230 230; /* old: --color-border-light */
+  --color-subtle-bg: 248 250 252; /* old: --color-subtle-bg */
+  --color-subtle-bg-alt: 250 251 252; /* old: --color-subtle-bg-alt */
+  --color-subtle-bg-hover: 241 245 249; /* old: --color-subtle-bg-hover */
+  --color-text-muted: 100 116 139; /* old: --color-text-muted */
+  --color-text-darker: 71 85 105; /* old: --color-text-darker */
+  --color-text-deep: 51 65 85; /* old: --color-text-deep */
+  --color-border-muted: 226 232 240; /* old: --color-border-muted */
+  --color-border-soft: 203 213 225; /* old: --color-border-soft */
+  --color-gray-medium: 148 163 184; /* old: --color-gray-medium */
+  --color-spinner-track: 243 243 243; /* old: --color-spinner-track */
+  --color-border-neutral: 204 204 204; /* old: --color-border-neutral */
+  --color-light-gray: 250 250 250; /* old: --color-light-gray */
+  --color-dark-gray: 17 17 17; /* old: --color-dark-gray */
+  --color-dark-black: 34 34 34; /* old: --color-dark-black */
+  --color-warning-accent: 255 152 0; /* old: --color-warning-accent */
+  --color-dark-surface: 42 42 42; /* old: --color-dark-surface */
+
+  /*! ==== Extended colors ==== */
+  --color-gray-700: 68 68 68; /* old: --color-gray-700 */
+
+  /*! ==== Markdown colors ==== */
+  --color-md-bg: 18 18 18; /* old: --color-md-bg */
+  --color-md-text: 224 224 224; /* old: --color-md-text */
+  --color-md-heading-border: 58 58 92; /* old: --color-md-heading-border */
+  --color-md-h1: 240 240 255; /* old: --color-md-h1 */
+  --color-md-h2: 208 208 255; /* old: --color-md-h2 */
+  --color-md-h2-border: 45 45 68; /* old: --color-md-h2-border */
+  --color-md-h3: 192 192 255; /* old: --color-md-h3 */
+  --color-md-h4: 176 176 255; /* old: --color-md-h4 */
+  --color-md-strong: 255 255 255; /* old: --color-md-strong */
+  --color-md-table-bg: 30 30 45; /* old: --color-md-table-bg */
+  --color-md-th-bg: 42 42 63; /* old: --color-md-th-bg */
+  --color-md-th-color: 224 224 255; /* old: --color-md-th-color */
+  --color-md-td-color: 215 215 240; /* old: --color-md-td-color */
+  --color-md-td-bg: 35 35 54; /* old: --color-md-td-bg */
+  --color-md-table-border: 61 61 92; /* old: --color-md-table-border */
+  --color-md-zebra-bg: 28 28 42; /* old: --color-md-zebra-bg */
+  --color-md-code-bg: 175 177 255; /* old: --color-md-code-bg */
+  --color-md-code-color: 12 9 8; /* old: --color-md-code-color */
+  --color-md-link: 143 148 251; /* old: --color-md-link */
+  --color-md-link-hover: 167 171 255; /* old: --color-md-link-hover */
+  --color-md-blockquote: 184 185 255; /* old: --color-md-blockquote */
+  --color-md-blockquote-border: 78 84 200; /* old: --color-md-blockquote-border */
+  --color-md-blockquote-bg: 28 28 45; /* old: --color-md-blockquote-bg */
+  --color-md-hr: 51 51 85; /* old: --color-md-hr */
+
+  /*! ==== 404 page colors ==== */
+  --color-404-text: 45 55 72; /* old: --color-404-text */
+  --color-404-primary: 2 136 209; /* old: --color-404-primary */
+  --color-404-primary-hover: 2 119 189; /* old: --color-404-primary-hover */
+  --color-404-primary-dark: 1 87 155; /* old: --color-404-primary-dark */
+  --color-404-primary-darker: 1 67 119; /* old: --color-404-primary-darker */
+  --color-404-heading: 26 35 126; /* old: --color-404-heading */
+  --color-404-lead: 69 90 100; /* old: --color-404-lead */
+  --color-404-search-border: 227 242 253; /* old: --color-404-search-border */
+  --color-404-signature: 120 144 156; /* old: --color-404-signature */
+  --color-404-btn-secondary-hover-bg: 227 242 253; /* old: --color-404-btn-secondary-hover-bg */
+  --color-404-bg-start: 224 247 250; /* old: --color-404-bg-start */
+  --color-404-bg-end: 187 222 251; /* old: --color-404-bg-end */
+  --color-404-circle1-start: 129 212 250; /* old: --color-404-circle1-start */
+  --color-404-circle1-end: 79 195 247; /* old: --color-404-circle1-end */
+  --color-404-circle2-start: 179 229 252; /* old: --color-404-circle2-start */
+  --color-404-circle2-end: 129 212 250; /* old: --color-404-circle2-end */
+  --color-404-circle3-start: 225 245 254; /* old: --color-404-circle3-start */
+  --color-404-circle3-end: 179 229 252; /* old: --color-404-circle3-end */
+  --color-404-signature-line: 144 164 174; /* old: --color-404-signature-line */
+
+  /*! ==== 50x page colors ==== */
+  --color-50x-text: 45 55 72; /* old: --color-50x-text */
+  --color-50x-error-stroke: 229 62 62; /* old: --color-50x-error-stroke */
+  --color-50x-heading: 26 32 44; /* old: --color-50x-heading */
+  --color-50x-lead: 74 85 104; /* old: --color-50x-lead */
+  --color-50x-message-bg: 248 249 252; /* old: --color-50x-message-bg */
+  --color-50x-signature: 113 128 150; /* old: --color-50x-signature */
+  --color-50x-primary-btn: 49 130 206; /* old: --color-50x-primary-btn */
+  --color-50x-primary-btn-hover: 43 108 176; /* old: --color-50x-primary-btn-hover */
+  --color-50x-secondary-text: 74 85 104; /* old: --color-50x-secondary-text */
+  --color-50x-secondary-border: 226 232 240; /* old: --color-50x-secondary-border */
+  --color-50x-secondary-bg-hover: 247 250 252; /* old: --color-50x-secondary-bg-hover */
+  --color-50x-secondary-border-hover: 203 213 224; /* old: --color-50x-secondary-border-hover */
+  --color-50x-bg-start: 245 247 250; /* old: --color-50x-bg-start */
+  --color-50x-bg-end: 228 237 249; /* old: --color-50x-bg-end */
+  --color-50x-decor1-start: 224 242 254; /* old: --color-50x-decor1-start */
+  --color-50x-decor1-end: 219 234 254; /* old: --color-50x-decor1-end */
+  --color-50x-decor2-start: 237 233 254; /* old: --color-50x-decor2-start */
+  --color-50x-decor2-end: 240 249 255; /* old: --color-50x-decor2-end */
+  --color-50x-icon-start: 255 235 238; /* old: --color-50x-icon-start */
+  --color-50x-icon-end: 255 205 210; /* old: --color-50x-icon-end */
+  --color-50x-signature-line: 203 213 224; /* old: --color-50x-signature-line */
+
+  /*! ==== Semantic ==== */
+  --color-text-heading: rgb(var(--color-brand)); /* old: --color-text-heading */
+
+  /*! ==== Spacing ==== */
+  --space-1: 4px; /* old: --space-1 */
+  --space-2: 8px; /* old: --space-2 */
+  --space-3: 12px; /* old: --space-3 */
+  --space-4: 16px; /* old: --space-4 */
+  --space-5: 20px; /* old: --space-5 */
+  --space-6: 24px; /* old: --space-6 */
+
+  /*! ==== Typography ==== */
+  --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif; /* old: --font-body */
+
+  /*! ==== Shadows & Overlays ==== */
+  --shadow-elevated: 0 4px 6px rgba(var(--color-base-black), 0.1); /* old: --shadow-elevated */
+  --overlay-bg: rgba(var(--color-base-black), 0.4); /* old: --overlay-bg */
+  --shadow-medium: 0 2px 8px rgba(var(--color-base-black), 0.2); /* old: --shadow-medium */
+  --shadow-soft: 0 0 4px rgba(var(--color-base-black), 0.3); /* old: --shadow-soft */
+  --shadow-large: 0 8px 30px rgba(var(--color-base-black), 0.08); /* old: --shadow-large */
+  --shadow-dialog: 0 4px 20px rgba(var(--color-base-black), 0.15); /* old: --shadow-dialog */
+  --shadow-focus-brand: 0 0 0 3px rgba(var(--color-brand), 0.2); /* old: --shadow-focus-purple */
+  --overlay-light-bg: rgba(var(--color-base-white), 0.95); /* old: --overlay-light-bg */
+  --overlay-dark-bg: rgba(var(--color-base-black), 0.75); /* old: --overlay-dark-bg */
+  --overlay-dark-surface: rgba(var(--color-dark-black), 0.95); /* old: --overlay-dark-surface */
+  --shadow-dark: 0 4px 10px rgba(var(--color-base-black), 0.5); /* old: --shadow-dark */
+  --shadow-login-light: 0 4px 12px rgba(var(--color-base-black), 0.1); /* old: --shadow-login-light */
+  --shadow-login-dark: 0 4px 12px rgba(var(--color-base-black), 0.5); /* old: --shadow-login-dark */
+  --shadow-message: 0 2px 8px rgba(var(--color-base-black), 0.05); /* old: --shadow-message */
+  --shadow-focus-blue: 0 0 0 3px rgba(var(--color-brand-tertiary), 0.4); /* old: --shadow-focus-blue */
+  --shadow-nav-mobile: 0 2px 10px rgba(var(--color-base-black), 0.1); /* old: --shadow-nav-mobile */
+  --shadow-cert-card: 0 2px 6px rgba(var(--color-base-black), 0.05); /* old: --shadow-cert-card */
+  --shadow-cert-card-hover: 0 4px 6px rgba(var(--color-base-black), 0.1); /* old: --shadow-cert-card-hover */
+  --shadow-md-table: 0 2px 4px rgba(var(--color-base-black), 0.2); /* old: --shadow-md-table */
+  --overlay-modal-bg: rgba(var(--color-base-black), 0.5); /* old: --overlay-modal-bg */
+}

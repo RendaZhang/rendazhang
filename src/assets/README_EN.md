@@ -40,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 09, 2025, 06:08 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 16:46 (UTC+08:00)
 
 ---
 
@@ -86,8 +86,8 @@ src/
 ├── hooks/               # Custom hooks for business logic
 ├── styles/
 │   ├── core/               # Core variables
-│   │   ├── _colors.css     # Color system
-│   │   ├── _spacing.css    # Spacing system
+│   │   ├── tokens.css      # Design tokens (colors, spacing, etc.)
+│   │   ├── legacy-alias.css # Legacy variable aliases
 │   │   └── _gradients.css  # Gradient system
 │   ├── components/         # Component styles
 │   ├── utilities/          # Utility classes

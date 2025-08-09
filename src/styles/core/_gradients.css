@@ -3,13 +3,13 @@
   --gradient-direction: to right;
   --gradient-primary: linear-gradient(
     var(--gradient-direction),
-    rgb(var(--color-primary)),
-    rgb(var(--color-secondary))
+    rgb(var(--color-brand)),
+    rgb(var(--color-brand-secondary))
   );
   --gradient-dark: linear-gradient(
     135deg,
-    rgb(var(--color-secondary)) 0%,
-    rgb(var(--color-tertiary)) 100%
+    rgb(var(--color-brand-secondary)) 0%,
+    rgb(var(--color-brand-tertiary)) 100%
   );
 
   /*! ==== 404 页面渐变 ==== */

@@ -110,7 +110,7 @@
 
 #message-input:focus {
   border-color: var(--color-accent-purple);
-  box-shadow: var(--shadow-focus-purple);
+  box-shadow: var(--shadow-focus-brand);
 }
 
 .btn-container {

@@ -17,7 +17,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 16:32 (UTC+08:00)
+- **最后更新**: August 09, 2025, 16:46 (UTC+08:00)
 
 ---
 
@@ -84,8 +84,8 @@ src/
 **统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
 - 公共组件样式统一由 `theme.css` 管理
-- Markdown 深色模式拥有独立的颜色 Token，可在 `src/styles/core/_colors.css` 中统一维护。
-- 叠加层和阴影相关的颜色通过 `--color-black-rgb` 与 `--color-white-rgb` Token 设置，便于调整透明度并适配主题切换。
+- Markdown 深色模式拥有独立的颜色 Token，可在 `src/styles/core/tokens.css` 中统一维护。
+- 叠加层和阴影相关的颜色通过 `--color-base-black` 与 `--color-base-white` Token 设置，便于调整透明度并适配主题切换。
 
 **样式架构分层**：
 - `src/styles/core/`: 定义基础设计 Token，包括颜色、间距和渐变等变量
