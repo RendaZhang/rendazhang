@@ -56,6 +56,7 @@ repos:
         language: system
         pass_filenames: true
         types: [css]
+        args: ['--fix']
 
   # 语法/风格检查（仅对已暂存文件）
   # 可以在 .env 或 .env.local 文件中通过环境变量 SKIP_ESLINT 来决定是否跳过 ESLINT 的检查
