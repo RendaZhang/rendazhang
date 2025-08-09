@@ -1,7 +1,10 @@
 /*! Layout system extracted from theme.css */
 
+/* Containers leverage spacing tokens and `--measure` for consistent
+   horizontal rhythm and readable line lengths. */
+
 .container {
-  max-width: 800px;
+  max-width: var(--measure);
   margin: 0 auto;
   width: 100%;
 }
@@ -13,7 +16,7 @@
 .experience-section,
 .blog-section,
 .contact-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
+  padding: var(--space-7) var(--space-4);
+  max-width: var(--measure);
   margin: 0 auto;
 }

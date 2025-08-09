@@ -2,13 +2,14 @@
 /* Generic spinner used across multiple components.                   */
 /* Size and color can be customized via CSS variables.                */
 /* ------------------------------------------------------------------ */
+/* Loader dimensions aligned with spacing and duration tokens */
 .spinner {
-  --spinner-size: 30px;
+  --spinner-size: var(--space-7);
   --spinner-color: var(--color-accent-purple);
   width: var(--spinner-size);
   height: var(--spinner-size);
-  border: 3px solid var(--color-spinner-track);
-  border-top: 3px solid var(--spinner-color);
+  border: var(--space-1) solid var(--color-spinner-track);
+  border-top: var(--space-1) solid var(--spinner-color);
   border-radius: 50%;
   animation: spinner-spin 1s linear infinite;
 }
@@ -39,15 +40,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px; /* ensures consistent spacing */
+  padding: var(--space-5); /* ensures consistent spacing */
   text-align: center;
   margin: auto; /* allow loaders to be centered in their container */
 }
 .loader .dot,
 .doc-loader .dot {
-  width: 10px;
-  height: 10px;
-  margin: 0 4px;
+  width: var(--space-2);
+  height: var(--space-2);
+  margin: 0 var(--space-1);
   background: var(--color-spinner);
   border-radius: 50%;
   animation: dot-bounce 1.4s infinite both;
@@ -78,14 +79,14 @@
 /* ------------------------------------------------------------------ */
 #enhancement-progress {
   background: var(--overlay-light-bg);
-  padding: 12px 20px;
-  border-radius: 24px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--space-6);
   box-shadow: var(--shadow-dialog);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   z-index: 1000;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) ease;
   border: 1px solid var(--color-border-muted);
 }
 
@@ -100,14 +101,14 @@
 /* Pulsing dots shown inside the progress overlay */
 .pulse-container {
   position: relative;
-  width: 40px;
-  height: 20px;
+  width: calc(var(--space-8) - var(--space-2));
+  height: var(--space-5);
 }
 
 .pulse-dot {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: var(--space-2);
+  height: var(--space-2);
   border-radius: 50%;
   background: var(--color-accent-purple);
   animation: pulse 1.5s infinite;
@@ -118,13 +119,13 @@
 }
 
 .pulse-dot-2 {
-  left: 16px;
-  animation-delay: 0.2s;
+  left: var(--space-4);
+  animation-delay: var(--duration-fast);
 }
 
 .pulse-dot-3 {
-  left: 32px;
-  animation-delay: 0.4s;
+  left: var(--space-7);
+  animation-delay: calc(var(--duration-fast) * 2);
 }
 
 @keyframes pulse {

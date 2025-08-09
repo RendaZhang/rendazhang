@@ -4,7 +4,7 @@
 .app-header {
   background: var(--gradient-primary); /* match primary navigation */
   color: var(--color-white);
-  padding: 20px;
+  padding: var(--space-5);
   text-align: center;
   position: relative;
 }

@@ -33,8 +33,8 @@
 /* Apply alongside `.c-btn-primary` or `.c-btn-secondary`.        */
 /* -------------------------------------------------------------- */
 .c-btn-chat {
-  padding: 12px 24px;
-  border-radius: 24px;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--space-6);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -56,8 +56,8 @@
 /* ------------------------------------------------------------------ */
 .c-verify-btn {
   /* Space buttons evenly when flex wrapped */
-  margin: 0.25rem;
-  padding: 6px 12px;
-  border-radius: 4px;
+  margin: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--space-1);
   text-decoration: none;
 }

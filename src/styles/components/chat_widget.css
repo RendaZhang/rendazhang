@@ -1,8 +1,9 @@
 /* Floating chat button, centered using .flex-center */
+/* Dimensions expressed via spacing tokens */
 .chat-widget-toggle {
   position: fixed; /* anchored via .fixed-bottom-right utility */
-  width: 60px;
-  height: 60px;
+  width: calc(var(--space-9) - var(--space-1));
+  height: calc(var(--space-9) - var(--space-1));
   border-radius: 50%;
   border: none;
   background: var(--gradient-primary);
@@ -14,15 +15,15 @@
   padding: 0;
 }
 .chat-widget-toggle svg {
-  width: 28px;
-  height: 28px;
+  width: calc(var(--space-7) - var(--space-1));
+  height: calc(var(--space-7) - var(--space-1));
   pointer-events: none;
 }
 .chat-widget-panel {
   position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 360px;
+  bottom: calc(var(--space-10) + var(--space-2));
+  right: var(--space-5);
+  width: calc(var(--space-10) * 4.5);
   max-height: 80vh;
   z-index: 9999;
   background: var(--color-surface);

@@ -1,33 +1,34 @@
+/* Social icon sizes and spacing mapped to tokens */
 .social-icons {
   text-align: center;
-  margin: 20px 0;
+  margin: var(--space-5) 0;
 }
 .social-icons a {
   position: relative;
   display: inline-block;
 }
 .social-icons img {
-  width: 32px;
-  height: 32px;
-  margin: 0 8px;
+  width: var(--space-7);
+  height: var(--space-7);
+  margin: 0 var(--space-2);
   vertical-align: middle;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) ease;
 }
 .social-icons img.loaded {
   opacity: 1;
 }
 .social-icons .spinner {
-  --spinner-size: 32px;
+  --spinner-size: var(--space-7);
   --spinner-color: var(--color-spinner);
 }
 @media (max-width: 480px) {
   .social-icons img {
-    width: 24px;
-    height: 24px;
+    width: var(--space-6);
+    height: var(--space-6);
   }
   .social-icons .spinner {
-    --spinner-size: 24px;
+    --spinner-size: var(--space-6);
   }
 }
 

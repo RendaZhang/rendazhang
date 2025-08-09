@@ -12,6 +12,10 @@
   - [PostCSS 集成](#postcss-%E9%9B%86%E6%88%90)
   - [配色方案](#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
     - [色彩阶梯与彩度限制](#%E8%89%B2%E5%BD%A9%E9%98%B6%E6%A2%AF%E4%B8%8E%E5%BD%A9%E5%BA%A6%E9%99%90%E5%88%B6)
+  - [排版与间距](#%E6%8E%92%E7%89%88%E4%B8%8E%E9%97%B4%E8%B7%9D)
+    - [示例](#%E7%A4%BA%E4%BE%8B)
+      - [✅ Do](#-do)
+      - [❌ Don't](#-dont)
   - [扩展与约定](#%E6%89%A9%E5%B1%95%E4%B8%8E%E7%BA%A6%E5%AE%9A)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -19,7 +23,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 20:47 (UTC+08:00)
+- **最后更新**: August 09, 2025, 23:25 (UTC+08:00)
 
 ---
 
@@ -191,6 +195,30 @@ graph LR
 - 标准色阶示例：品牌色 45%、强调色 60%、辅助色 70%，可在此基础上按需扩展。
 
 ---
+
+## 排版与间距
+
+项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7` 与 `--space-1`…`--space-10` 变量，以及 `--duration-fast`、`--duration-normal`、`--duration-slow` 动效变量，组件和基础样式通过这些 Token 保持一致。
+### 示例
+
+```css
+h1 {
+  font-size: var(--font-size-5);
+  margin-block-end: var(--space-4);
+}
+
+.c-btn-chat {
+  padding: var(--space-3) var(--space-6);
+}
+```
+
+#### ✅ Do
+- 使用 `var(--font-size-n)` 和 `var(--space-n)` 引用全局刻度。
+- 保持段落宽度不超过 `var(--measure)`（约 65ch）。
+
+#### ❌ Don't
+- 直接使用 `px` 指定字号或间距。
+- 在同一页面混用不同单位导致排版不一致。
 
 ## 扩展与约定
 

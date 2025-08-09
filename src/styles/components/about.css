@@ -5,11 +5,13 @@
 */
 .hero {
   color: var(--color-white);
-  padding: 4rem 1rem;
+  padding: var(--space-9) var(--space-4);
   text-align: center;
   position: relative;
   overflow: hidden;
 }
+
+/* Widths and heights mapped to spacing tokens */
 
 .about-section ul {
   list-style: none;
@@ -32,12 +34,12 @@ body.about-page {
 }
 
 .skill-label {
-  flex: 0 0 200px;
+  flex: 0 0 calc(var(--space-10) * 2.5);
 }
 
 .skill-bar progress {
   width: 100%;
-  height: 1rem;
+  height: var(--space-4);
 }
 
 /* Use .mb-4 for spacing between items */

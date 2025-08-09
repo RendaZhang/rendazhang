@@ -1,3 +1,4 @@
+/* Markdown dark mode styles aligned to spacing and type tokens */
 html.dark-mode .markdown-body {
   background-color: var(--color-md-bg);
   color: var(--color-md-text);
@@ -14,11 +15,11 @@ html.dark-mode .markdown-body h2 {
 }
 html.dark-mode .markdown-body h3 {
   color: var(--color-md-h3);
-  font-size: 1.25em; /* 明确层级区分 */
+  font-size: var(--font-size-3); /* 明确层级区分 */
 }
 html.dark-mode .markdown-body h4 {
   color: var(--color-md-h4);
-  font-size: 1.1em;
+  font-size: var(--font-size-2);
 }
 
 /* 精准控制强调文本 */
@@ -34,7 +35,7 @@ html.dark-mode .markdown-body table {
   background-color: var(--color-md-table-bg);
   border-collapse: collapse;
   width: 100%;
-  margin: 24px 0;
+  margin: var(--space-6) 0;
   box-shadow: var(--shadow-md-table);
 }
 html.dark-mode .markdown-body th {
@@ -50,7 +51,7 @@ html.dark-mode .markdown-body td {
 html.dark-mode .markdown-body td,
 html.dark-mode .markdown-body th {
   border: 1px solid var(--color-md-table-border);
-  padding: 12px 16px; /* 增加单元格内边距 */
+  padding: var(--space-3) var(--space-4); /* 增加单元格内边距 */
 }
 /* 表格内强调文本特殊处理 */
 html.dark-mode .markdown-body table strong {
@@ -67,13 +68,13 @@ html.dark-mode .markdown-body pre,
 html.dark-mode .markdown-body code {
   background-color: var(--color-md-code-bg);
   color: var(--color-md-code-color);
-  border-radius: 4px;
+  border-radius: var(--space-1);
 }
 
 /* 链接优化 */
 html.dark-mode .markdown-body a {
   color: var(--color-md-link);
-  transition: color 0.2s;
+  transition: color var(--duration-fast);
 }
 html.dark-mode .markdown-body a:hover {
   color: var(--color-md-link-hover);
@@ -83,14 +84,14 @@ html.dark-mode .markdown-body a:hover {
 /* 引用块优化 */
 html.dark-mode .markdown-body blockquote {
   color: var(--color-md-blockquote);
-  border-left: 4px solid var(--color-md-blockquote-border);
+  border-left: var(--space-1) solid var(--color-md-blockquote-border);
   background-color: var(--color-md-blockquote-bg);
-  padding: 12px 20px;
+  padding: var(--space-3) var(--space-5);
 }
 
 /* 水平线优化 */
 html.dark-mode .markdown-body hr {
   background-color: var(--color-md-hr);
   height: 1px;
-  margin: 28px 0;
+  margin: calc(var(--space-7) - var(--space-1)) 0;
 }

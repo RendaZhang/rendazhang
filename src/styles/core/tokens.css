@@ -492,15 +492,35 @@
     --color-text-heading: var(--color-brand); /* old: --color-text-heading */
 
     /*! ==== Spacing ==== */
-    --space-1: 4px; /* old: --space-1 */
-    --space-2: 8px; /* old: --space-2 */
-    --space-3: 12px; /* old: --space-3 */
-    --space-4: 16px; /* old: --space-4 */
-    --space-5: 20px; /* old: --space-5 */
-    --space-6: 24px; /* old: --space-6 */
+    /* 4/8 spacing scale expressed in rem for flexibility */
+    --space-1: 0.25rem; /* 4px */
+    --space-2: 0.5rem; /* 8px */
+    --space-3: 0.75rem; /* 12px */
+    --space-4: 1rem; /* 16px */
+    --space-5: 1.25rem; /* 20px */
+    --space-6: 1.5rem; /* 24px */
+    --space-7: 2rem; /* 32px */
+    --space-8: 3rem; /* 48px */
+    --space-9: 4rem; /* 64px */
+    --space-10: 5rem; /* 80px */
 
     /*! ==== Typography ==== */
     --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif; /* old: --font-body */
+    /* Fluid type scale */
+    --font-size-0: clamp(0.75rem, 0.75rem + 0.2vw, 0.875rem);
+    --font-size-1: clamp(0.875rem, 0.875rem + 0.2vw, 1rem);
+    --font-size-2: clamp(1rem, 1rem + 0.5vw, 1.25rem);
+    --font-size-3: clamp(1.25rem, 1.25rem + 0.5vw, 1.5rem);
+    --font-size-4: clamp(1.5rem, 1.5rem + 1vw, 2rem);
+    --font-size-5: clamp(2rem, 2rem + 1vw, 3rem);
+    --font-size-6: clamp(3rem, 3rem + 1vw, 4rem);
+    --font-size-7: clamp(4rem, 4rem + 1vw, 6rem);
+    --measure: 65ch; /* optimal line length */
+
+    /*! ==== Motion ==== */
+    --duration-fast: 0.2s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.5s;
 
     /*! ==== Shadows & Overlays ==== */
     --shadow-elevated: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-elevated */

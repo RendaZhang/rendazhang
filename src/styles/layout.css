@@ -2,7 +2,7 @@
 body {
   font-family: var(--font-body) !important;
   margin: 0;
-  padding: 5rem 0 0;
+  padding: var(--space-10) 0 0;
   background-color: var(--color-bg);
   color: var(--color-text);
   display: flex;

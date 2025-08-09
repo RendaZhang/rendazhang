@@ -2,11 +2,12 @@
 /* Navigation                                                          */
 /* Global nav bar styling uses primary gradient and shadow variables.  */
 /* ------------------------------------------------------------------ */
+/* Navigation spacing and sizing values mapped to design tokens */
 nav {
   width: 100%;
   background-color: var(--color-nav-bg);
   color: var(--color-nav-text);
-  padding: 0.75rem 1rem;
+  padding: var(--space-3) var(--space-4);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,14 +18,14 @@ nav {
   right: 0;
   z-index: 1000;
   box-shadow: var(--shadow-nav-mobile);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--space-2));
 }
 
 nav .c-nav-left,
 nav .c-nav-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 nav .c-nav-logo {
@@ -32,7 +33,7 @@ nav .c-nav-logo {
 }
 
 nav .c-avatar-link {
-  padding: 0.25rem;
+  padding: var(--space-1);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -42,13 +43,13 @@ nav a,
 nav button:not(.c-theme-option) {
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-2) var(--space-3);
   background: none;
   box-shadow: none;
-  border-radius: 6px;
+  border-radius: var(--space-2);
   transition:
-    background-color 0.3s,
-    color 0.3s;
+    background-color var(--duration-normal),
+    color var(--duration-normal);
 }
 nav button:not(.c-theme-option) {
   border: none;
@@ -67,23 +68,23 @@ nav button:not(.c-theme-option):active {
 /* Hamburger menu */
 nav .c-hamburger-btn span {
   display: block;
-  width: 24px;
-  height: 2px;
-  margin: 4px 0;
+  width: var(--space-6);
+  height: var(--space-1);
+  margin: var(--space-1) 0;
   background: var(--color-nav-text);
-  border-radius: 1px;
+  border-radius: calc(var(--space-1) / 4);
   transition:
-    transform 0.3s,
-    opacity 0.3s;
+    transform var(--duration-normal),
+    opacity var(--duration-normal);
 }
 nav .c-hamburger-btn.is-open span:nth-child(1) {
-  transform: translateY(5px) rotate(45deg);
+  transform: translateY(var(--space-1)) rotate(45deg);
 }
 nav .c-hamburger-btn.is-open span:nth-child(2) {
   opacity: 0;
 }
 nav .c-hamburger-btn.is-open span:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg);
+  transform: translateY(calc(var(--space-1) * -1)) rotate(-45deg);
 }
 
 /* ------------------------------------------------------------------ */
@@ -96,7 +97,7 @@ nav .c-side-menu-overlay {
   background: var(--overlay-bg);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity var(--duration-normal);
   z-index: 1001;
 }
 nav .c-side-menu-overlay.is-open {
@@ -108,16 +109,16 @@ nav .c-side-menu {
   top: 0;
   left: 0;
   height: 100%;
-  width: 220px;
+  width: calc(var(--space-10) * 2.75);
   max-width: 80%;
-  padding: 60px 20px 20px;
+  padding: calc(var(--space-9) - var(--space-1)) var(--space-5) var(--space-5);
   background: var(--color-nav-bg);
   transform: translateX(-100%);
-  transition: transform 0.3s;
+  transition: transform var(--duration-normal);
   z-index: 1002;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 nav .c-side-menu.is-open {
   transform: translateX(0);
@@ -125,13 +126,13 @@ nav .c-side-menu.is-open {
 nav .c-side-menu a {
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-2) var(--space-3);
   background: none;
   box-shadow: none;
-  border-radius: 6px;
+  border-radius: var(--space-2);
   transition:
-    background-color 0.3s,
-    color 0.3s;
+    background-color var(--duration-normal),
+    color var(--duration-normal);
   display: block;
 }
 nav .c-side-menu a:hover {
@@ -151,16 +152,16 @@ nav .c-theme-toggle-main {
   position: relative;
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-1);
   background: none;
   box-shadow: none;
-  border-radius: 6px;
+  border-radius: var(--space-2);
   border: none;
   cursor: pointer;
   transition:
-    background-color 0.3s,
-    color 0.3s;
+    background-color var(--duration-normal),
+    color var(--duration-normal);
 }
 nav .c-theme-toggle-main:hover {
   background-color: var(--color-subtle-bg);
@@ -172,30 +173,30 @@ nav .c-theme-toggle-main:active {
 
 nav .c-theme-options {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + var(--space-1));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 4px;
-  padding: 4px;
+  gap: var(--space-1);
+  padding: var(--space-1);
   background-color: var(--color-nav-bg);
-  border-radius: 6px;
+  border-radius: var(--space-2);
   box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
 nav .c-theme-option {
-  width: 28px;
-  height: 28px;
+  width: calc(var(--space-7) - var(--space-1));
+  height: calc(var(--space-7) - var(--space-1));
   padding: 0;
-  border-radius: 4px;
+  border-radius: var(--space-1);
   border: 1px solid var(--color-border-neutral);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition:
-    background-color 0.2s,
-    box-shadow 0.2s;
+    background-color var(--duration-fast),
+    box-shadow var(--duration-fast);
 }
 nav .c-theme-option.is-light {
   background-color: var(--color-light-gray);
@@ -221,19 +222,19 @@ nav .c-language-selector-main {
   position: relative;
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-1);
   background: none;
   box-shadow: none;
-  border-radius: 6px;
+  border-radius: var(--space-2);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   transition:
-    background-color 0.3s,
-    color 0.3s;
+    background-color var(--duration-normal),
+    color var(--duration-normal);
 }
 nav .c-language-selector-main:hover {
   background-color: var(--color-subtle-bg);
@@ -244,29 +245,29 @@ nav .c-language-selector-main:active {
 }
 nav .c-language-options {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + var(--space-1));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 4px;
+  gap: var(--space-1);
+  padding: var(--space-1);
   background-color: var(--color-nav-bg);
-  border-radius: 6px;
+  border-radius: var(--space-2);
   box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
 nav .c-language-option {
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--space-1);
   border: 1px solid var(--color-border-neutral);
   background-color: var(--color-nav-bg);
   color: var(--color-nav-text);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--font-size-1);
   transition:
-    background-color 0.2s,
-    box-shadow 0.2s;
+    background-color var(--duration-fast),
+    box-shadow var(--duration-fast);
 }
 nav .c-language-option:hover {
   box-shadow: var(--shadow-soft);
@@ -277,42 +278,42 @@ nav .c-language-option.is-active {
 /* ---------- Responsive Design ---------- */
 @media (max-width: 768px) {
   nav {
-    padding: 8px 10px;
-    gap: 8px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
     height: auto;
     box-shadow: var(--shadow-nav-mobile);
   }
   nav a,
   nav button:not(.c-theme-option) {
     min-width: 0;
-    margin: 3px;
-    padding: 10px 5px;
+    margin: var(--space-1);
+    padding: var(--space-3) var(--space-1);
     box-sizing: border-box;
     text-align: center;
-    font-size: 0.85rem;
-    border-radius: 8px;
+    font-size: var(--font-size-1);
+    border-radius: var(--space-2);
   }
 }
 @media (max-width: 480px) {
   nav {
-    padding: 6px 8px;
-    gap: 6px;
+    padding: var(--space-2) var(--space-2);
+    gap: var(--space-2);
     flex-wrap: nowrap;
   }
   nav a,
   nav button:not(.c-theme-option) {
     min-width: 0;
-    padding: 8px 3px;
-    font-size: 0.8rem;
-    border-radius: 6px;
+    padding: var(--space-2) var(--space-1);
+    font-size: var(--font-size-0);
+    border-radius: var(--space-2);
   }
 }
 @media (max-width: 360px) {
   nav a,
   nav button:not(.c-theme-option) {
     min-width: 0;
-    margin: 4px 3px;
-    padding: 8px 3px;
-    font-size: 0.75rem;
+    margin: var(--space-1) var(--space-1);
+    padding: var(--space-2) var(--space-1);
+    font-size: var(--font-size-0);
   }
 }
