@@ -43,6 +43,9 @@
 .grid-col {
   flex: 1 0 0%;
 }
+/* TODO: Consider replacing these viewport-based utilities with
+   container queries or component-level layout helpers to align with
+   the container-driven strategy. */
 @media (min-width: 576px) {
   .grid-col-sm-6 {
     flex: 0 0 calc(50% - var(--space-4));

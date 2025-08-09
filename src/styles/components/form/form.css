@@ -83,6 +83,8 @@
   margin: 0 auto;
 }
 
+/* TODO: consolidate dark-mode adjustments into tokens so that
+   component-level color-scheme media queries are unnecessary. */
 @media (prefers-color-scheme: dark) {
   .c-login-container,
   .c-register-container {

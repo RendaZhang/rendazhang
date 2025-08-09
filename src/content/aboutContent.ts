@@ -9,7 +9,7 @@ import {
 
 export const ABOUT_CONTENT = {
   en: {
-    heroHeading: "I'm<span> Renda Zhang</span>",
+    heroHeading: "Hello! I'm<span> Renda Zhang</span>",
     heroTaglines: [
       'Backend Engineer',
       'Java & Spring Developer',
@@ -181,7 +181,7 @@ export const ABOUT_CONTENT = {
     }
   },
   zh: {
-    heroHeading: '我是<span>张人大</span>',
+    heroHeading: '你好，我是<span>张人大</span>',
     heroTaglines: [
       '后端工程师',
       'Java 与 Spring 开发',

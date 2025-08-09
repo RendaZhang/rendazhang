@@ -1,4 +1,5 @@
-@layer reset, tokens, base, components, utilities;
+@layer reset, tokens, base, components, utilities, overrides;
+/* overrides layer reserved for legacy page-specific patches */
 
 @import './core/tokens.css';
 @import './core/legacy-alias.css';
@@ -209,4 +210,18 @@
   html[lang^='zh'] .lang-en {
     display: none;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer overrides {
+  /* legacy page-specific patches */
 }
