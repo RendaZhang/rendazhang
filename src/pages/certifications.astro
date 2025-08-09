@@ -28,7 +28,6 @@ const titleEn = CERTIFICATIONS_CONTENT.en.heading;
   title={title}
   description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
-  bodyClass="cert-page"
   og={{
     title: titleEn,
     description: CERTIFICATIONS_DESCRIPTION,
@@ -46,6 +45,8 @@ const titleEn = CERTIFICATIONS_CONTENT.en.heading;
     imageAlt: CERTIFICATIONS_IMAGE_ALT
   }}
 >
-  <CertificationsContent client:load />
-  <CertificationsEffects client:load />
+  <div class="cert-page">
+    <CertificationsContent client:load />
+    <CertificationsEffects client:load />
+  </div>
 </BaseLayout>

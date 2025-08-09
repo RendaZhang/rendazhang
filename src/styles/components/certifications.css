@@ -4,8 +4,13 @@
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 1.5rem;
   padding: 2rem 0;
+  grid-auto-rows: 1fr;
 }
 .cert-card {
+  display: grid;
+  /* Fallback layout when `subgrid` isn't supported */
+  grid-template-rows: auto auto auto auto 1fr;
+  grid-row: span 5;
   border: 1px solid var(--color-border-light);
   border-radius: 8px;
   padding: 1.25rem;
@@ -13,14 +18,31 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-cert-card);
 }
+
+@supports (grid-template-rows: subgrid) {
+  .cert-card {
+    grid-template-rows: subgrid;
+  }
+}
 .cert-card h2 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  grid-row: 1;
 }
 .cert-card p {
   margin: 0.25rem 0;
 }
+.cert-card p:nth-of-type(1) {
+  grid-row: 2;
+}
+.cert-card p:nth-of-type(2) {
+  grid-row: 3;
+}
+.cert-card .credly-container {
+  grid-row: 4;
+}
 .cert-card .verify-links {
+  grid-row: 5;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -55,20 +77,22 @@
   margin-top: 1.5rem;
   text-align: center;
 }
-body.cert-page {
+body:has(.cert-page) {
   display: block;
+  padding: 0;
+}
+.cert-page {
   min-height: 100vh;
   padding: 60px 0 0;
-  align-items: center;
-  justify-content: initial;
+  container-type: inline-size;
 }
-@media (max-width: 768px) {
-  body.cert-page {
+@container (max-width: 768px) {
+  .cert-page {
     padding-top: 70px;
   }
 }
-@media (max-width: 480px) {
-  body.cert-page {
+@container (max-width: 480px) {
+  .cert-page {
     padding-top: 80px;
   }
 }

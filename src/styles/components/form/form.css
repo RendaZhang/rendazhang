@@ -51,13 +51,27 @@
 /* Auth Forms */
 .c-login-container,
 .c-register-container {
-  margin: 80px auto;
+  width: 100%;
+  margin: 20px auto;
   padding: 20px;
   background: var(--color-surface);
   border-radius: 8px;
   box-shadow: var(--shadow-login-light);
+  container-type: inline-size;
+}
+
+@container (min-width: 481px) {
+  .c-login-container,
+  .c-register-container {
+    margin: 80px auto;
+  }
+}
+
+.c-login-form,
+.c-register-form {
   width: 100%;
   max-width: 450px;
+  margin: 0 auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -70,15 +84,15 @@
 /* Responsive width for authentication forms                          */
 /* Centralized here so login.css and register.css stay minimal.       */
 /* ------------------------------------------------------------------ */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .c-login-container,
-  .c-register-container {
+@container (min-width: 769px) and (max-width: 1024px) {
+  .c-login-form,
+  .c-register-form {
     width: 70%;
   }
 }
-@media (max-width: 768px) {
-  .c-login-container,
-  .c-register-container {
+@container (max-width: 768px) {
+  .c-login-form,
+  .c-register-form {
     width: 100%;
   }
 }

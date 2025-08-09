@@ -128,155 +128,163 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     : 'c-password-strength';
 
   return (
-    <form onSubmit={handleSubmit} className="c-register-container">
-      <h1 className="c-register-title">
-        <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-      </h1>
-      <div className="mb-3">
-        <label htmlFor="email" className="c-form-label">
-          <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
-        </label>
-        <input
-          id="email"
-          type="email"
-          className={`c-form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
-          placeholder={placeholders.email}
-          value={email}
-          onChange={(e) => handleChange('email', e.target.value)}
-          required
-        />
-        {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
-      </div>
-      <div className="mb-3">
-        <label htmlFor="username" className="c-form-label">
-          <LocalizedSection zhContent={textsZh.usernameLabel} enContent={textsEn.usernameLabel} />
-        </label>
-        <input
-          id="username"
-          type="text"
-          className={`c-form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
-          placeholder={placeholders.username}
-          value={username}
-          onChange={(e) => handleChange('username', e.target.value)}
-          required
-        />
-        {errors.username && <div className="c-invalid-feedback">{errors.username}</div>}
-        {!errors.username && username && (
-          <div className="c-valid-feedback">
-            <LocalizedSection
-              zhContent={textsZh.usernameAvailable}
-              enContent={textsEn.usernameAvailable}
-            />
-          </div>
-        )}
-      </div>
-      <div className="grid-row">
-        <div className="grid-col-sm-6 c-password-wrapper">
-          <label htmlFor="password" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
+    <div className="c-register-container">
+      <form onSubmit={handleSubmit} className="c-register-form">
+        <h1 className="c-register-title">
+          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
+        </h1>
+        <div className="mb-3">
+          <label htmlFor="email" className="c-form-label">
+            <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
           </label>
           <input
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            className="c-form-control"
-            placeholder={placeholders.password}
-            value={password}
-            onChange={(e) => handleChange('password', e.target.value)}
+            id="email"
+            type="email"
+            className={`c-form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
+            placeholder={placeholders.email}
+            value={email}
+            onChange={(e) => handleChange('email', e.target.value)}
             required
           />
-          <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? '🙈' : '👁️'}
-          </span>
-          <div className={passwordStrengthClass}></div>
-          {strength && (
-            <div className="c-password-strength-label">
+          {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="username" className="c-form-label">
+            <LocalizedSection zhContent={textsZh.usernameLabel} enContent={textsEn.usernameLabel} />
+          </label>
+          <input
+            id="username"
+            type="text"
+            className={`c-form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
+            placeholder={placeholders.username}
+            value={username}
+            onChange={(e) => handleChange('username', e.target.value)}
+            required
+          />
+          {errors.username && <div className="c-invalid-feedback">{errors.username}</div>}
+          {!errors.username && username && (
+            <div className="c-valid-feedback">
               <LocalizedSection
-                zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
-                enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
+                zhContent={textsZh.usernameAvailable}
+                enContent={textsEn.usernameAvailable}
               />
             </div>
           )}
         </div>
-        <div className="grid-col-sm-6">
-          <label htmlFor="confirm" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
-          </label>
+        <div className="grid-row">
+          <div className="grid-col-sm-6 c-password-wrapper">
+            <label htmlFor="password" className="c-form-label">
+              <LocalizedSection
+                zhContent={textsZh.passwordLabel}
+                enContent={textsEn.passwordLabel}
+              />
+            </label>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className="c-form-control"
+              placeholder={placeholders.password}
+              value={password}
+              onChange={(e) => handleChange('password', e.target.value)}
+              required
+            />
+            <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? '🙈' : '👁️'}
+            </span>
+            <div className={passwordStrengthClass}></div>
+            {strength && (
+              <div className="c-password-strength-label">
+                <LocalizedSection
+                  zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
+                  enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
+                />
+              </div>
+            )}
+          </div>
+          <div className="grid-col-sm-6">
+            <label htmlFor="confirm" className="c-form-label">
+              <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
+            </label>
+            <input
+              id="confirm"
+              type={showPassword ? 'text' : 'password'}
+              className={`c-form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
+              placeholder={placeholders.confirm}
+              value={confirm}
+              onChange={(e) => handleChange('confirm', e.target.value)}
+              required
+            />
+            {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
+          </div>
+        </div>
+        <div className="form-text mt-2">
+          <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
+        </div>
+        <div className="form-check mt-3">
           <input
-            id="confirm"
-            type={showPassword ? 'text' : 'password'}
-            className={`c-form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
-            placeholder={placeholders.confirm}
-            value={confirm}
-            onChange={(e) => handleChange('confirm', e.target.value)}
+            id="agree"
+            className="form-check-input"
+            type="checkbox"
+            checked={agree}
+            onChange={(e) => handleChange('agree', e.target.checked)}
             required
           />
-          {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
+          <label htmlFor="agree" className="form-check-label">
+            <LocalizedSection
+              zhContent={
+                <>
+                  {textsZh.agreePrefix} <a href="#">{textsZh.agreementLink}</a>
+                </>
+              }
+              enContent={
+                <>
+                  {textsEn.agreePrefix}
+                  <a href="#">{textsEn.agreementLink}</a>
+                </>
+              }
+            />
+          </label>
         </div>
-      </div>
-      <div className="form-text mt-2">
-        <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
-      </div>
-      <div className="form-check mt-3">
-        <input
-          id="agree"
-          className="form-check-input"
-          type="checkbox"
-          checked={agree}
-          onChange={(e) => handleChange('agree', e.target.checked)}
-          required
-        />
-        <label htmlFor="agree" className="form-check-label">
-          <LocalizedSection
-            zhContent={
-              <>
-                {textsZh.agreePrefix} <a href="#">{textsZh.agreementLink}</a>
-              </>
-            }
-            enContent={
-              <>
-                {textsEn.agreePrefix}
-                <a href="#">{textsEn.agreementLink}</a>
-              </>
-            }
-          />
-        </label>
-      </div>
-      <div className="c-progress-container mt-3">
-        <div className="c-progress-bar" style={{ width: progress + '%' }}></div>
-      </div>
-      <button
-        type="submit"
-        className="c-btn-primary w-100 mt-3"
-        disabled={!canSubmit || status === 'loading' || status === 'success'}
-      >
-        {status === 'loading' ? (
-          <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
-        ) : status === 'success' ? (
-          <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
-        ) : (
-          <LocalizedSection zhContent={textsZh.registerButton} enContent={textsEn.registerButton} />
-        )}
-      </button>
-      <div className="c-third-party">
-        <button type="button" aria-label={activeTexts.thirdParty.google}>
-          <LocalizedSection
-            zhContent={textsZh.thirdParty.google}
-            enContent={textsEn.thirdParty.google}
-          />
+        <div className="c-progress-container mt-3">
+          <div className="c-progress-bar" style={{ width: progress + '%' }}></div>
+        </div>
+        <button
+          type="submit"
+          className="c-btn-primary w-100 mt-3"
+          disabled={!canSubmit || status === 'loading' || status === 'success'}
+        >
+          {status === 'loading' ? (
+            <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+          ) : status === 'success' ? (
+            <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
+          ) : (
+            <LocalizedSection
+              zhContent={textsZh.registerButton}
+              enContent={textsEn.registerButton}
+            />
+          )}
         </button>
-        <button type="button" aria-label={activeTexts.thirdParty.apple}>
-          <LocalizedSection
-            zhContent={textsZh.thirdParty.apple}
-            enContent={textsEn.thirdParty.apple}
-          />
-        </button>
-      </div>
-      <div className="text-center mt-3">
-        <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
-        <a href={LOGIN_PAGE_PATH}>
-          <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
-        </a>
-      </div>
-    </form>
+        <div className="c-third-party">
+          <button type="button" aria-label={activeTexts.thirdParty.google}>
+            <LocalizedSection
+              zhContent={textsZh.thirdParty.google}
+              enContent={textsEn.thirdParty.google}
+            />
+          </button>
+          <button type="button" aria-label={activeTexts.thirdParty.apple}>
+            <LocalizedSection
+              zhContent={textsZh.thirdParty.apple}
+              enContent={textsEn.thirdParty.apple}
+            />
+          </button>
+        </div>
+        <div className="text-center mt-3">
+          <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
+          <a href={LOGIN_PAGE_PATH}>
+            <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
+          </a>
+        </div>
+      </form>
+    </div>
   );
 }
