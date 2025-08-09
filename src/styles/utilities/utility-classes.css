@@ -34,6 +34,13 @@
   justify-content: space-between;
 }
 
+/* Fixed positioning */
+.u-fixed-bottom-right {
+  bottom: var(--space-5);
+  position: fixed;
+  right: var(--space-5);
+}
+
 /* Grid system */
 .u-grid-row {
   container-type: inline-size;

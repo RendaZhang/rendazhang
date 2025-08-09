@@ -11,7 +11,6 @@
   height: calc(var(--space-9) - var(--space-1));
   line-height: 1; /* vertical alignment handled by u-flex-center */
   padding: 0;
-  position: fixed; /* anchored via .fixed-bottom-right utility */
   transition:
     filter var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard),
