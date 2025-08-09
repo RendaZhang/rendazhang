@@ -2,7 +2,7 @@
   About page styles
   - Layout and spacing tokens are applied per component here
 */
-.hero {
+.c-hero {
   color: var(--color-white);
   padding: var(--space-9) var(--space-4);
   text-align: center;
@@ -12,81 +12,81 @@
 
 /* Widths and heights mapped to spacing tokens */
 
-.about-section ul {
+.c-about-section ul {
   list-style: none;
   padding: 0;
 }
 
-.about-section li {
+.c-about-section li {
   margin-bottom: var(--space-2);
 }
 
 /* Override global body flex alignment so main content starts below nav */
-body.about-page {
+body.c-about-page {
   justify-content: flex-start;
 }
 
-.skill-bar {
+.c-skill-bar {
   display: flex;
   align-items: center;
   margin-bottom: var(--space-2);
 }
 
-.skill-label {
+.c-skill-label {
   flex: 0 0 calc(var(--space-10) * 2.5);
 }
 
-.skill-bar progress {
+.c-skill-bar progress {
   width: 100%;
   height: var(--space-4);
 }
 
-.experience-item,
-.education-item,
-.blog-item {
+.c-experience-item,
+.c-education-item,
+.c-blog-item {
   margin-bottom: var(--space-6);
 }
 
-.experience-period,
-.education-period,
-.blog-category {
+.c-experience-period,
+.c-education-period,
+.c-blog-category {
   margin-inline-end: var(--space-2);
 }
 
-.experience-role,
-.education-degree {
+.c-experience-role,
+.c-education-degree {
   margin-block: var(--space-2);
 }
 
 /* Blog section */
 
-.blog-header {
+.c-blog-header {
   display: flex;
   justify-content: space-between;
 }
 
 /* Resume link */
-.resume-link {
+.c-resume-link {
   margin-top: var(--space-4);
 }
 
-.resume-link .c-btn-secondary {
+.c-resume-link .c-btn-secondary {
   margin-inline-start: var(--space-2);
 }
 
 /* Contact section */
-.contact-section .grid-col-md-4 {
+.c-contact-section .u-grid-col-md-4 {
   margin-bottom: var(--space-6);
 }
 
-.contact-info {
+.c-contact-info {
   margin-bottom: var(--space-4);
 }
 
-.contact-info strong {
+.c-contact-info strong {
   display: block;
 }
 
-.section-header {
+.c-section-header {
   font-weight: bold;
 }

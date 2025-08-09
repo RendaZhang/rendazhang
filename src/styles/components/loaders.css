@@ -3,7 +3,7 @@
 /* Size and color can be customized via CSS variables.                */
 /* ------------------------------------------------------------------ */
 /* Loader dimensions aligned with spacing and duration tokens */
-.spinner {
+.c-spinner {
   --spinner-size: var(--space-7);
   --spinner-color: var(--color-accent-purple);
   width: var(--spinner-size);
@@ -15,7 +15,7 @@
 }
 
 /* Utility class to center spinners (or any element) absolutely */
-.spinner-center {
+.c-spinner-center {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -35,8 +35,8 @@
 /* Dot Loader - small bouncing dots for loading states.
    Shared by SocialIcons and Docs pages. */
 /* ------------------------------------------------------------------ */
-.loader,
-.doc-loader {
+.c-loader,
+.c-doc-loader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,8 +44,8 @@
   text-align: center;
   margin: auto; /* allow loaders to be centered in their container */
 }
-.loader .dot,
-.doc-loader .dot {
+.c-loader .c-dot,
+.c-doc-loader .c-dot {
   width: var(--space-2);
   height: var(--space-2);
   margin: 0 var(--space-1);
@@ -53,12 +53,12 @@
   border-radius: 50%;
   animation: dot-bounce 1.4s infinite both;
 }
-.loader .dot:nth-child(1),
-.doc-loader .dot:nth-child(1) {
+.c-loader .c-dot:nth-child(1),
+.c-doc-loader .c-dot:nth-child(1) {
   animation-delay: -0.32s;
 }
-.loader .dot:nth-child(2),
-.doc-loader .dot:nth-child(2) {
+.c-loader .c-dot:nth-child(2),
+.c-doc-loader .c-dot:nth-child(2) {
   animation-delay: -0.16s;
 }
 
@@ -99,13 +99,13 @@
 }
 
 /* Pulsing dots shown inside the progress overlay */
-.pulse-container {
+.c-pulse-container {
   position: relative;
   width: calc(var(--space-8) - var(--space-2));
   height: var(--space-5);
 }
 
-.pulse-dot {
+.c-pulse-dot {
   position: absolute;
   width: var(--space-2);
   height: var(--space-2);
@@ -114,16 +114,16 @@
   animation: pulse 1.5s infinite;
 }
 
-.pulse-dot-1 {
+.c-pulse-dot-1 {
   left: 0;
 }
 
-.pulse-dot-2 {
+.c-pulse-dot-2 {
   left: var(--space-4);
   animation-delay: var(--duration-fast);
 }
 
-.pulse-dot-3 {
+.c-pulse-dot-3 {
   left: var(--space-7);
   animation-delay: calc(var(--duration-fast) * 2);
 }

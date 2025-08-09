@@ -40,8 +40,8 @@ export default function CredlyBadge(): ReactElement {
   };
 
   return (
-    <div className="credly-container">
-      {!loaded && <div className="spinner spinner-center credly-spinner"></div>}
+    <div className="c-credly-container">
+      {!loaded && <div className="c-spinner c-spinner-center c-credly-spinner"></div>}
       <iframe ref={iframeRef} {...iframeProps}></iframe>
     </div>
   );

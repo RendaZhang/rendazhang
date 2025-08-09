@@ -1,13 +1,13 @@
 /* 轻量自定义：卡片排版与响应式 */
 /* Spacing and type values mapped to design tokens */
-.cert-grid {
+.c-cert-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: var(--space-6);
   padding: var(--space-7) 0;
   grid-auto-rows: 1fr;
 }
-.cert-card {
+.c-cert-card {
   display: grid;
   /* Fallback layout when `subgrid` isn't supported */
   grid-template-rows: auto auto auto auto 1fr;
@@ -19,52 +19,52 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-elevation-1);
 }
-.cert-card:focus-visible {
+.c-cert-card:focus-visible {
   outline: none;
   box-shadow: var(--shadow-elevation-1), var(--focus-ring);
 }
 
 @supports (grid-template-rows: subgrid) {
-  .cert-card {
+  .c-cert-card {
     grid-template-rows: subgrid;
   }
 }
-.cert-card h2 {
+.c-cert-card h2 {
   font-size: var(--font-size-2);
   margin-bottom: var(--space-2);
   grid-row: 1;
 }
-.cert-card p {
+.c-cert-card p {
   margin: var(--space-1) 0;
 }
-.cert-card p:nth-of-type(1) {
+.c-cert-card p:nth-of-type(1) {
   grid-row: 2;
 }
-.cert-card p:nth-of-type(2) {
+.c-cert-card p:nth-of-type(2) {
   grid-row: 3;
 }
-.cert-card .credly-container {
+.c-cert-card .c-credly-container {
   grid-row: 4;
 }
-.cert-card .verify-links {
+.c-cert-card .c-verify-links {
   grid-row: 5;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 /* Verification buttons share gradient via .c-btn-primary; only layout here */
-.cert-card .verify-links .c-verify-btn {
+.c-cert-card .c-verify-links .c-verify-btn {
   flex: 1 1 auto;
 }
 /* Credly 加载动画 */
-.credly-container {
+.c-credly-container {
   position: relative;
   min-height: 270px;
   max-width: 270px;
   margin: var(--space-4) auto;
 }
 @media (prefers-color-scheme: dark) {
-  .credly-container {
+  .c-credly-container {
     background: var(--color-surface);
     border-radius: var(--radius-s);
     padding: var(--space-2);
@@ -73,31 +73,31 @@
 
 /* ------------------------------------------------------------------ */
 /* Centered spinner for Credly badge iframe loading                    */
-/* Uses global .spinner styles defined in theme.css                     */
+/* Uses global .c-spinner styles defined in theme.css                     */
 /* ------------------------------------------------------------------ */
-.credly-container .credly-spinner {
+.c-credly-container .c-credly-spinner {
   z-index: 10;
 }
-.cert-page h1 {
+.c-cert-page h1 {
   margin-top: var(--space-6);
   text-align: center;
 }
-body:has(.cert-page) {
+body:has(.c-cert-page) {
   display: block;
   padding: 0;
 }
-.cert-page {
+.c-cert-page {
   min-height: 100vh;
   padding: calc(var(--space-9) - var(--space-1)) 0 0;
   container-type: inline-size;
 }
 @container (max-width: 768px) {
-  .cert-page {
+  .c-cert-page {
     padding-top: calc(var(--space-9) + var(--space-2));
   }
 }
 @container (max-width: 480px) {
-  .cert-page {
+  .c-cert-page {
     padding-top: var(--space-10);
   }
 }

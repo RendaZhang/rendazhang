@@ -19,15 +19,15 @@ export default function ExperienceSection({
   experienceZh
 }: ExperienceSectionProps): ReactElement {
   return (
-    <section className="experience-section" id="experience">
+    <section className="c-experience-section" id="experience">
       <h2 id="experienceTitle">
         <LocalizedSection zhContent={experienceZh.title} enContent={experienceEn.title} />
       </h2>
       <div id="experienceList">
         {experienceZh.entries.map((entry, idx) => (
-          <div className="experience-item" key={idx}>
-            <div className="section-header">
-              <span className="experience-period">
+          <div className="c-experience-item" key={idx}>
+            <div className="c-section-header">
+              <span className="c-experience-period">
                 <LocalizedSection
                   zhContent={entry.period}
                   enContent={experienceEn.entries[idx].period}
@@ -40,7 +40,7 @@ export default function ExperienceSection({
                 />
               </span>
             </div>
-            <h3 className="experience-role">
+            <h3 className="c-experience-role">
               <LocalizedSection
                 zhContent={entry.title}
                 enContent={experienceEn.entries[idx].title}

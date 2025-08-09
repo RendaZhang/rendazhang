@@ -1,13 +1,13 @@
 /* Social icon sizes and spacing mapped to tokens */
-.social-icons {
+.c-social-icons {
   text-align: center;
   margin: var(--space-5) 0;
 }
-.social-icons a {
+.c-social-icons a {
   position: relative;
   display: inline-block;
 }
-.social-icons img {
+.c-social-icons img {
   width: var(--space-7);
   height: var(--space-7);
   margin: 0 var(--space-2);
@@ -15,26 +15,26 @@
   opacity: 0;
   transition: opacity var(--duration-normal) ease;
 }
-.social-icons img.loaded {
+.c-social-icons img.loaded {
   opacity: 1;
 }
-.social-icons .spinner {
+.c-social-icons .c-spinner {
   --spinner-size: var(--space-7);
   --spinner-color: var(--color-spinner);
 }
 @media (max-width: 480px) {
-  .social-icons img {
+  .c-social-icons img {
     width: var(--space-6);
     height: var(--space-6);
   }
-  .social-icons .spinner {
+  .c-social-icons .c-spinner {
     --spinner-size: var(--space-6);
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .social-icons img[alt='CSDN logo'],
-  .social-icons img[alt='Medium logo'] {
+  .c-social-icons img[alt='CSDN logo'],
+  .c-social-icons img[alt='Medium logo'] {
     filter: brightness(0) invert(1);
   }
 }

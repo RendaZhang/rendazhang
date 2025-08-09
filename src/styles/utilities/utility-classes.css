@@ -1,65 +1,65 @@
 /*! Utility classes extracted from theme.css */
 
 /* Display utilities */
-.d-flex {
+.u-d-flex {
   display: flex;
 }
-.d-block {
+.u-d-block {
   display: block;
 }
-.d-none {
+.u-d-none {
   display: none;
 }
 
 /* Layout helpers */
-.flex-center {
+.u-flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.absolute-fill {
+.u-absolute-fill {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.w-100 {
+.u-w-100 {
   width: 100%;
 }
-.text-center {
+.u-text-center {
   text-align: center;
 }
-.justify-content-between {
+.u-justify-content-between {
   justify-content: space-between;
 }
 
 /* Grid system */
-.grid-row {
+.u-grid-row {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
 }
-.grid-col {
+.u-grid-col {
   flex: 1 0 0%;
 }
 /* Container-query driven column utilities */
 @container (min-width: 576px) {
-  .grid-col-sm-6 {
+  .u-grid-col-sm-6 {
     flex: 0 0 calc(50% - var(--space-4));
   }
 }
 @container (min-width: 768px) {
-  .grid-col-md-4 {
+  .u-grid-col-md-4 {
     flex: 0 0 calc(33.333% - var(--space-4));
   }
-  .grid-col-md-8 {
+  .u-grid-col-md-8 {
     flex: 0 0 calc(66.667% - var(--space-4));
   }
 }
 
 /* Text utilities */
-.text-truncate {
+.u-text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

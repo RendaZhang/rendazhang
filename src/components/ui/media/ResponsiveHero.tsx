@@ -47,7 +47,7 @@ export default function ResponsiveHero({
       style={{ position: 'relative', width: '100%', paddingTop: `${100 / aspectRatio}%` }}
     >
       <img
-        className={`responsive-hero-placeholder absolute-fill${loaded ? ' loaded' : ''}`}
+        className={`c-responsive-hero-placeholder u-absolute-fill${loaded ? ' loaded' : ''}`}
         src={placeholderBase64}
         alt=""
         aria-hidden="true"
@@ -56,7 +56,7 @@ export default function ResponsiveHero({
         <source srcSet={srcSetWebp} sizes="100vw" type="image/webp" />
         <img
           ref={imgRef}
-          className={`responsive-hero-img absolute-fill${loaded ? ' loaded' : ''}`}
+          className={`c-responsive-hero-img u-absolute-fill${loaded ? ' loaded' : ''}`}
           src={fallbackSrc}
           srcSet={srcSetJpeg}
           sizes="100vw"
@@ -64,7 +64,7 @@ export default function ResponsiveHero({
           onLoad={() => setLoaded(true)}
         />
       </picture>
-      <div className="responsive-hero-content absolute-fill flex-center">{children}</div>
+      <div className="c-responsive-hero-content u-absolute-fill u-flex-center">{children}</div>
     </div>
   );
 }

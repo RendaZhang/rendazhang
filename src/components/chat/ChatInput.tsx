@@ -28,7 +28,7 @@ export default function ChatInput({
   textsEn
 }: ChatInputProps) {
   return (
-    <div className="input-area">
+    <div className="c-input-area">
       <textarea
         id="message-input"
         ref={inputRef}
@@ -40,7 +40,7 @@ export default function ChatInput({
         rows={1}
         autoFocus
       ></textarea>
-      <div className="btn-container">
+      <div className="c-btn-container">
         <button
           id="send-btn"
           className="c-btn-primary c-btn-chat"

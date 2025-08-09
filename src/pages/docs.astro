@@ -34,7 +34,7 @@ const title = langKey === 'zh' ? titleZh : titleEn;
     STYLE_PATHS.MARKDOWN_DARK_MODE
   ]}
   bodyClass="docs-page"
-  mainClass="main-content docs-main"
+  mainClass="main-content c-docs-main"
   og={{
     title: PAGE_TITLES.DOCS_EN,
     description: DOCS_DESCRIPTION,
@@ -43,17 +43,17 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   metaLanguage="en, zh-CN"
 >
   <div id="content-zh" class="lang-zh markdown-body">
-    <div class="doc-loader" aria-label={LOADING_TEXT.ZH}>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+    <div class="c-doc-loader" aria-label={LOADING_TEXT.ZH}>
+      <span class="c-dot"></span>
+      <span class="c-dot"></span>
+      <span class="c-dot"></span>
     </div>
   </div>
   <div id="content-en" class="lang-en markdown-body">
-    <div class="doc-loader" aria-label={LOADING_TEXT.EN}>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+    <div class="c-doc-loader" aria-label={LOADING_TEXT.EN}>
+      <span class="c-dot"></span>
+      <span class="c-dot"></span>
+      <span class="c-dot"></span>
     </div>
   </div>
   <Fragment slot="bodyEnd">

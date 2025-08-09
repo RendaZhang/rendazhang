@@ -25,7 +25,7 @@ function SocialIcon({ href, id, src, alt, ariaLabel }: SocialIconProps): ReactEl
 
   return (
     <a href={href} aria-label={ariaLabel} id={id}>
-      {!loaded && <span className="spinner spinner-center" aria-hidden="true" />}
+      {!loaded && <span className="c-spinner c-spinner-center" aria-hidden="true" />}
       <img
         ref={imgRef}
         src={srcUrl}
@@ -43,7 +43,7 @@ function SocialIcon({ href, id, src, alt, ariaLabel }: SocialIconProps): ReactEl
 export default function SocialIcons(): ReactElement {
   return (
     <>
-      <div className="social-icons" aria-label="Social Links">
+      <div className="c-social-icons" aria-label="Social Links">
         <SocialIcon
           href={SITE_BASE_URL}
           ariaLabel="WeChat Official Account"
@@ -79,10 +79,10 @@ export default function SocialIcons(): ReactElement {
       <div id="wechatModal" className="modal">
         <div className="modal-content bg-surface rounded-8">
           <span className="close">&times;</span>
-          <div className="loader">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
+          <div className="c-loader">
+            <div className="c-dot"></div>
+            <div className="c-dot"></div>
+            <div className="c-dot"></div>
           </div>
           <img
             id="wechatQR"

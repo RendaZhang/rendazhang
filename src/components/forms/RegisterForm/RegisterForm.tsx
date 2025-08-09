@@ -171,8 +171,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             </div>
           )}
         </div>
-        <div className="grid-row">
-          <div className="grid-col-sm-6 c-password-wrapper">
+        <div className="u-grid-row">
+          <div className="u-grid-col-sm-6 c-password-wrapper">
             <label htmlFor="password" className="c-form-label">
               <LocalizedSection
                 zhContent={textsZh.passwordLabel}
@@ -201,7 +201,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               </div>
             )}
           </div>
-          <div className="grid-col-sm-6">
+          <div className="u-grid-col-sm-6">
             <label htmlFor="confirm" className="c-form-label">
               <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
             </label>
@@ -217,7 +217,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
           </div>
         </div>
-        <div className="form-text">
+        <div className="c-form-text">
           <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
         </div>
         <div className="c-form-check c-form-check--spaced">
@@ -250,7 +250,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         </div>
         <button
           type="submit"
-          className="c-btn-primary w-100 c-form-submit"
+          className="c-btn-primary u-w-100 c-form-submit"
           disabled={!canSubmit || status === 'loading' || status === 'success'}
         >
           {status === 'loading' ? (
@@ -278,7 +278,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             />
           </button>
         </div>
-        <div className="text-center c-form-alt">
+        <div className="u-text-center c-form-alt">
           <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
           <a href={LOGIN_PAGE_PATH}>
             <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />

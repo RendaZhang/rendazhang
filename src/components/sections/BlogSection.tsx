@@ -9,15 +9,15 @@ interface BlogSectionProps {
 
 export default function BlogSection({ blogEn, blogZh }: BlogSectionProps): ReactElement {
   return (
-    <section className="blog-section" id="blog">
+    <section className="c-blog-section" id="blog">
       <h2 id="blogTitle">
         <LocalizedSection zhContent={blogZh.title} enContent={blogEn.title} />
       </h2>
       <div id="blogList">
         {blogZh.entries.map((entry, idx) => (
-          <div className="blog-item" key={idx}>
-            <div className="section-header blog-header">
-              <span className="blog-category">
+          <div className="c-blog-item" key={idx}>
+            <div className="c-section-header c-blog-header">
+              <span className="c-blog-category">
                 <LocalizedSection
                   zhContent={entry.category}
                   enContent={blogEn.entries[idx].category}

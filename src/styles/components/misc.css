@@ -1,10 +1,10 @@
 /* Variable fallback example */
-.example-fallback {
+.c-example-fallback {
   color: var(--undefined-var, var(--color-text));
 }
 
 /* Error section styles using spacing and type tokens */
-.error-section {
+.c-error-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,27 +14,27 @@
   gap: var(--space-4);
 }
 
-.error-emoji {
+.c-error-emoji {
   font-size: var(--font-size-6);
 }
 
-.error-code {
+.c-error-code {
   font-size: var(--font-size-7);
   font-weight: 800;
   line-height: 1;
 }
 
-.error-title {
+.c-error-title {
   font-size: var(--font-size-4);
   margin: 0;
 }
 
-.error-description {
+.c-error-description {
   max-width: 40rem;
 }
 
 /* Back to top button */
-.back-to-top {
+.c-back-to-top {
   position: fixed;
   bottom: calc(var(--space-10) + var(--space-2));
   right: var(--space-5);
@@ -53,18 +53,18 @@
     box-shadow 0.3s;
 }
 
-.back-to-top:hover {
+.c-back-to-top:hover {
   filter: brightness(1.1);
   box-shadow: var(--shadow-elevation-3);
 }
-.back-to-top:active {
+.c-back-to-top:active {
   transform: scale(0.96);
 }
-.back-to-top:focus-visible {
+.c-back-to-top:focus-visible {
   outline: none;
   box-shadow: var(--shadow-elevation-2), var(--focus-ring);
 }
 
-.back-to-top svg {
+.c-back-to-top svg {
   pointer-events: none;
 }

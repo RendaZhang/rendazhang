@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------ */
 /* App Header - shared style for page headers                           */
 /* ------------------------------------------------------------------ */
-.app-header {
+.c-app-header {
   background: var(--gradient-primary); /* match primary navigation */
   color: var(--color-white);
   padding: var(--space-5);

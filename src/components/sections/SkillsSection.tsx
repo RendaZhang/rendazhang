@@ -9,14 +9,14 @@ interface SkillsSectionProps {
 
 export default function SkillsSection({ skillsEn, skillsZh }: SkillsSectionProps): ReactElement {
   return (
-    <section className="skills-section" id="skills">
+    <section className="c-skills-section" id="skills">
       <h2 id="skillsTitle">
         <LocalizedSection zhContent={skillsZh.title} enContent={skillsEn.title} />
       </h2>
       <div id="skillsBars">
         {skillsZh.categories.map((cat, idx) => (
-          <div className="skill-bar" key={idx}>
-            <span className="skill-label">
+          <div className="c-skill-bar" key={idx}>
+            <span className="c-skill-label">
               <LocalizedSection zhContent={cat.label} enContent={skillsEn.categories[idx].label} />
             </span>
             <progress max="100" value={cat.level} />

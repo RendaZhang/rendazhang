@@ -37,13 +37,13 @@ export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn 
 
   return (
     <div
-      className="message ai-message markdown-body"
+      className="c-message c-ai-message markdown-body"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
       <button
-        className="copy-btn rounded-4"
+        className="c-copy-btn rounded-4"
         onClick={handleCopy}
         style={{ display: showBtn ? 'inline-block' : 'none' }}
       >

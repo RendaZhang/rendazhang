@@ -14,7 +14,7 @@ export default function BioSection({ contentEn, contentZh, isZh }: BioSectionPro
   const resumeDownload = isZh ? RESUME_ZH_DOWNLOAD : RESUME_EN_DOWNLOAD;
 
   return (
-    <section className="about-section">
+    <section className="c-about-section">
       <h2 id="aboutTitle">
         <LocalizedSection zhContent={contentZh.title} enContent={contentEn.title} />
       </h2>
@@ -33,7 +33,7 @@ export default function BioSection({ contentEn, contentZh, isZh }: BioSectionPro
           </li>
         ))}
       </ul>
-      <div className="resume-link">
+      <div className="c-resume-link">
         <a id="resumeLink" href={resumeHref} download={resumeDownload} className="c-btn-primary">
           <LocalizedSection zhContent={contentZh.resumeLabel} enContent={contentEn.resumeLabel} />
         </a>

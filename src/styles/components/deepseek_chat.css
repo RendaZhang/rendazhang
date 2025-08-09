@@ -1,5 +1,5 @@
 /* Spacing and type values aligned to design tokens */
-.chat-wrapper {
+.c-chat-wrapper {
   /* Wrapper around the chat page, extends the global container */
   display: flex;
   flex-direction: column;
@@ -10,14 +10,14 @@
   overflow: hidden;
 }
 
-/* Header styling is centralized in theme.css via `.app-header` */
+/* Header styling is centralized in theme.css via `.c-app-header` */
 
-.chat-wrapper h1 {
+.c-chat-wrapper h1 {
   font-size: var(--font-size-4);
   font-weight: 600;
 }
 
-.chat-container {
+.c-chat-container {
   flex: 1;
   overflow-y: auto;
   padding: var(--space-5);
@@ -27,7 +27,7 @@
   background: var(--color-subtle-bg-alt);
 }
 
-.message {
+.c-message {
   max-width: 85%;
   padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-l);
@@ -45,14 +45,14 @@
   }
 }
 
-.user-message {
+.c-user-message {
   align-self: flex-end;
   background: var(--gradient-primary);
   color: var(--color-white);
   border-bottom-right-radius: var(--radius-xs);
 }
 
-.ai-message {
+.c-ai-message {
   align-self: flex-start;
   background: var(--color-subtle-bg-hover);
   color: var(--color-text-deep);
@@ -60,7 +60,7 @@
   box-shadow: var(--shadow-elevation-1);
 }
 
-.typing-indicator {
+.c-typing-indicator {
   display: none;
   align-self: flex-start;
   background: var(--color-subtle-bg-hover);
@@ -69,7 +69,7 @@
   margin-bottom: var(--space-4);
 }
 
-.typing-dot {
+.c-typing-dot {
   display: inline-block;
   width: var(--space-2);
   height: var(--space-2);
@@ -79,17 +79,17 @@
   animation: pulse 1.5s infinite;
 }
 
-.typing-dot:nth-child(2) {
+.c-typing-dot:nth-child(2) {
   animation-delay: var(--duration-fast);
 }
 
-.typing-dot:nth-child(3) {
+.c-typing-dot:nth-child(3) {
   animation-delay: calc(var(--duration-fast) * 2);
 }
 
 /* Pulse animation moved to theme.css */
 
-.input-area {
+.c-input-area {
   padding: var(--space-4);
   background: var(--color-surface);
   border-top: 1px solid var(--color-border-muted);
@@ -113,7 +113,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .input-area {
+  .c-input-area {
     border-top: 1px solid var(--color-subtle-bg);
   }
   #message-input {
@@ -127,12 +127,12 @@
   }
 }
 
-.btn-container {
+.c-btn-container {
   display: flex;
   gap: var(--space-3);
 }
 
-.info-text {
+.c-info-text {
   text-align: center;
   padding: var(--space-3);
   color: var(--color-text-muted);
@@ -140,26 +140,26 @@
 }
 
 @media (max-width: 600px) {
-  .chat-wrapper {
+  .c-chat-wrapper {
     height: calc(100vh - 100px);
     border-radius: 0;
   }
 
-  .btn-container {
+  .c-btn-container {
     flex-direction: column;
   }
 
-  .message {
+  .c-message {
     max-width: 90%;
   }
 
-  .input-area {
+  .c-input-area {
     padding-bottom: calc(15px + env(safe-area-inset-bottom));
   }
 }
 /* copy button uses .rounded-4 utility */
 
-.copy-btn {
+.c-copy-btn {
   position: absolute;
   bottom: var(--space-2);
   left: var(--space-2);
@@ -172,28 +172,28 @@
   display: none;
   z-index: 1;
 }
-.copy-btn:focus-visible {
+.c-copy-btn:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
-.ai-message:hover .copy-btn,
-.ai-message.show-copy .copy-btn {
+.c-ai-message:hover .c-copy-btn,
+.c-ai-message.show-copy .c-copy-btn {
   display: inline-block;
 }
 
-.ai-message {
+.c-ai-message {
   position: relative;
 }
 
 /* Loading indicator styles */
-.loading-indicator {
+.c-loading-indicator {
   text-align: center;
   padding: var(--space-5);
   color: var(--color-text-muted);
 }
 
-.chat-spinner {
+.c-chat-spinner {
   /* Extra spacing for the chat loading indicator */
   margin: 0 auto var(--space-3);
 }
@@ -208,12 +208,12 @@
 /* Styles moved to theme.css for reuse */
 
 /* Basic mode styles applied when enhancement libraries fail to load */
-.basic-mode .ai-message {
+.basic-mode .c-ai-message {
   background: var(--color-subtle-bg);
   border: 1px solid var(--color-border-muted);
 }
 
-.basic-mode .ai-message pre {
+.basic-mode .c-ai-message pre {
   white-space: pre-wrap;
   background: var(--color-subtle-bg-hover);
   padding: var(--space-3);
@@ -221,7 +221,7 @@
 }
 
 /* Temporary hint message */
-.hint-message {
+.c-hint-message {
   position: fixed;
   bottom: var(--space-10);
   left: 50%;
@@ -242,6 +242,6 @@ body.embedded nav {
   display: none;
 }
 
-body.embedded .chat-wrapper {
+body.embedded .c-chat-wrapper {
   height: calc(100vh - 40px);
 }

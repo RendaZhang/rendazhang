@@ -24,13 +24,13 @@ export default function ErrorSection({
 }: ErrorSectionProps): ReactElement {
   useLanguage();
   return (
-    <section className="error-section">
-      {emoji && <div className="error-emoji">{emoji}</div>}
-      {code && <div className="error-code">{code}</div>}
-      <h1 className="error-title">
+    <section className="c-error-section">
+      {emoji && <div className="c-error-emoji">{emoji}</div>}
+      {code && <div className="c-error-code">{code}</div>}
+      <h1 className="c-error-title">
         <LocalizedSection zhContent={title.zh} enContent={title.en} />
       </h1>
-      <p className="error-description">
+      <p className="c-error-description">
         <LocalizedSection zhContent={description.zh} enContent={description.en} />
       </p>
       <a href="/" className="c-btn-primary">

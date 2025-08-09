@@ -1,5 +1,5 @@
 /* Docs pages adhere to spacing tokens and `--measure` for readability */
-main.main-content.docs-main {
+main.main-content.c-docs-main {
   padding: var(--space-1) var(--space-3);
   max-width: var(--measure);
 }

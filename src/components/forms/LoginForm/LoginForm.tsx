@@ -150,7 +150,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           )}
           {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
         </div>
-        <div className="c-form-check c-form-group d-flex justify-content-between">
+        <div className="c-form-check c-form-group u-d-flex u-justify-content-between">
           <div>
             <input
               id="remember"
@@ -169,7 +169,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
         </div>
         <button
           type="submit"
-          className="c-btn-primary w-100 c-form-submit"
+          className="c-btn-primary u-w-100 c-form-submit"
           disabled={status === 'loading' || status === 'success'}
         >
           {status === 'loading' ? (
@@ -211,7 +211,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             />
           </button>
         </div>
-        <div className="text-center c-form-alt">
+        <div className="u-text-center c-form-alt">
           <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
           <a href={REGISTER_PAGE_PATH}>
             <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />

@@ -7,7 +7,7 @@ export default function SocialIconsEffects(): null {
     if (!(wechatLink instanceof HTMLElement) || !(modal instanceof HTMLElement)) return;
     const closeBtn = modal.querySelector('.close') as HTMLElement | null;
     const qrImg = document.getElementById('wechatQR') as HTMLImageElement | null;
-    const loader = modal.querySelector('.loader') as HTMLElement | null;
+    const loader = modal.querySelector('.c-loader') as HTMLElement | null;
 
     const openModal = (event?: Event): void => {
       event?.preventDefault();
