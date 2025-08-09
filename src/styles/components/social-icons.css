@@ -30,3 +30,10 @@
     --spinner-size: 24px;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .social-icons img[alt='CSDN logo'],
+  .social-icons img[alt='Medium logo'] {
+    filter: brightness(0) invert(1);
+  }
+}

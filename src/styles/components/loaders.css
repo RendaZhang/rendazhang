@@ -89,6 +89,14 @@
   border: 1px solid var(--color-border-muted);
 }
 
+@media (prefers-color-scheme: dark) {
+  #enhancement-progress {
+    background: var(--overlay-dark-surface);
+    color: var(--color-text);
+    border-color: var(--color-border-light);
+  }
+}
+
 /* Pulsing dots shown inside the progress overlay */
 .pulse-container {
   position: relative;

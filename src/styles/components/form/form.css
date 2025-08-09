@@ -59,6 +59,13 @@
   width: 100%;
   max-width: 450px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .c-login-container,
+  .c-register-container {
+    box-shadow: var(--shadow-login-dark);
+  }
+}
 /* ------------------------------------------------------------------ */
 /* Responsive width for authentication forms                          */
 /* Centralized here so login.css and register.css stay minimal.       */

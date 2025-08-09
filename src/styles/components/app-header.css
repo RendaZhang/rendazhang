@@ -8,9 +8,3 @@
   text-align: center;
   position: relative;
 }
-
-/* Dark mode header retains unified palette */
-html.dark-mode .app-header {
-  background: var(--gradient-dark);
-  color: var(--color-white);
-}

@@ -18,7 +18,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 18:25 (UTC+08:00)
+- **最后更新**: August 09, 2025, 18:44 (UTC+08:00)
 
 ---
 
@@ -35,7 +35,7 @@
 - `core/`：定义全局颜色、间距、渐变等基础变量。
 - `utilities/`：提供布局、工具类等复用样式。
 - `components/`：存放各页面或组件的独立样式文件。
-- `theme.css`：作为入口文件，统一导入上述基础与工具样式并声明全局 CSS 变量，并在内部定义 `@layer reset, tokens, base, components, utilities, overrides;` 来管理层叠顺序。
+- `theme.css`：作为入口文件，统一导入上述基础与工具样式并声明全局 CSS 变量，并在内部定义 `@layer reset, tokens, base, components, utilities;` 来管理层叠顺序。
 
 各目录与层级的对应关系如下：
 
@@ -44,7 +44,7 @@
 - `base`：基础排版和语言辅助等全局元素样式（如 `layout.css`）。
 - `components`：组件级样式文件。
 - `utilities`：工具类与布局系统。
-- `overrides`：最终的特殊覆盖（如 `dark-mode.css`）。
+- `overrides`：已弃用的特殊覆盖层，暗色模式通过 Token 与媒体查询处理。
 
 这种分层结构使得核心设计令牌与业务样式解耦，便于维护和扩展。
 
@@ -142,6 +142,8 @@ graph TD
 | 强调色 + 深灰 | 5.1 : 1 | ✅ 良好   |
 | 主色 + 强调色 | 2.8 : 1 | ⚠️ 仅装饰 |
 
+> 对比度门槛：正文文本 ≥ 4.5:1，UI 文本与图标 ≥ 3:1。
+
 **主色**：
 - 深紫罗兰色 `#6a11cb`
 - 作为 **核心渐变色** 的起始色，具有强烈的视觉识别度
@@ -184,7 +186,7 @@ graph LR
 
 当前样式体系已经覆盖基础变量、工具类与组件样式。后续可以根据需要加入设计令牌、响应式策略或多主题支持等内容，不断完善本指南。
 
-- 新增样式文件应按上述目录分类放置，并使用 `@layer` 与 `@import ... layer(name)` 将其引入，遵循 `reset → tokens → base → components → utilities → overrides` 的层级顺序。
+- 新增样式文件应按上述目录分类放置，并使用 `@layer` 与 `@import ... layer(name)` 将其引入，遵循 `reset → tokens → base → components → utilities` 的层级顺序。
 - 所有 `@import` 语句需置于文件顶部（除 `@layer` 声明外），以避免 PostCSS 报 `@import must precede all other statements` 警告。
 - 如需使用其他 PostCSS 插件，可在 `postcss.config.cjs` 中统一配置。
 - 欢迎补充更多的架构说明、最佳实践或样式约定到本文件。

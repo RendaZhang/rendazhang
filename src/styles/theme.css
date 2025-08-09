@@ -1,4 +1,4 @@
-@layer reset, tokens, base, components, utilities, overrides;
+@layer reset, tokens, base, components, utilities;
 
 @import './core/tokens.css';
 @import './core/legacy-alias.css';
@@ -12,7 +12,6 @@
 @import './components/misc.css' layer(components);
 @import './utilities/layout-system.css' layer(utilities);
 @import './utilities/utility-classes.css' layer(utilities);
-@import './dark-mode.css' layer(overrides);
 
 @layer reset {
   html {
@@ -33,7 +32,7 @@
 @layer tokens {
   /* ---------- CSS Variables ---------- */
   :root {
-    color-scheme: light;
+    color-scheme: light dark;
     /* -------------------------------------------------------------- */
     /* Derived variables (legacy names kept for compatibility)        */
     /* -------------------------------------------------------------- */
@@ -90,20 +89,62 @@
     --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
     --md-hr-bg: rgb(var(--color-md-hr));
   }
-}
 
-@layer base {
-  /* ---------- Language Helpers ---------- */
-  html[lang^='en'] .lang-zh {
-    display: none;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --color-bg: rgb(var(--color-gray-900));
+      --color-text: rgb(var(--color-gray-50));
+      --color-nav-bg: rgb(var(--color-gray-800));
+      --color-nav-text: rgb(var(--color-gray-50));
+      --color-success: rgb(var(--color-success));
+      --color-warning: rgb(var(--color-warning));
+      --color-error: rgb(var(--color-error));
+      --gradient-primary: var(--gradient-dark);
+      --color-surface: rgb(var(--color-gray-800));
+      --color-gray: rgb(var(--color-gray-700));
+      --color-brand-blue: rgb(var(--color-brand-blue));
+      --color-spinner: rgb(var(--color-spinner));
+      --color-white: rgb(var(--color-base-white));
+      --color-border-light: rgb(var(--color-gray-700));
+      --color-subtle-bg: rgb(var(--color-gray-700));
+      --color-subtle-bg-alt: rgb(var(--color-dark-black));
+      --color-subtle-bg-hover: rgb(var(--color-gray-700));
+      --color-text-muted: rgb(var(--color-text-muted));
+      --color-text-darker: rgb(var(--color-text-darker));
+      --color-text-deep: rgb(var(--color-text-deep));
+      --color-border-muted: rgb(var(--color-gray-700));
+      --color-border-soft: rgb(var(--color-gray-700));
+      --color-gray-medium: rgb(var(--color-gray-medium));
+      --color-spinner-track: rgb(var(--color-gray-700));
+      --color-accent-purple: rgb(var(--color-brand));
+      --md-bg: rgb(var(--color-md-bg));
+      --md-text: rgb(var(--color-md-text));
+      --md-heading-border: rgb(var(--color-md-heading-border));
+      --md-h1-color: rgb(var(--color-md-h1));
+      --md-h2-color: rgb(var(--color-md-h2));
+      --md-h2-border: rgb(var(--color-md-h2-border));
+      --md-h3-color: rgb(var(--color-md-h3));
+      --md-h4-color: rgb(var(--color-md-h4));
+      --md-strong-color: rgb(var(--color-md-strong));
+      --md-table-bg: rgb(var(--color-md-table-bg));
+      --md-th-bg: rgb(var(--color-md-th-bg));
+      --md-th-color: rgb(var(--color-md-th-color));
+      --md-td-color: rgb(var(--color-md-td-color));
+      --md-td-bg: rgb(var(--color-md-td-bg));
+      --md-table-border: rgb(var(--color-md-table-border));
+      --md-zebra-bg: rgb(var(--color-md-zebra-bg));
+      --md-code-bg: rgb(var(--color-md-code-bg));
+      --md-code-color: rgb(var(--color-md-code-color));
+      --md-link-color: rgb(var(--color-md-link));
+      --md-link-hover: rgb(var(--color-md-link-hover));
+      --md-blockquote-color: rgb(var(--color-md-blockquote));
+      --md-blockquote-border: rgb(var(--color-md-blockquote-border));
+      --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
+      --md-hr-bg: rgb(var(--color-md-hr));
+    }
   }
-  html[lang^='zh'] .lang-en {
-    display: none;
-  }
-}
 
-@layer overrides {
-  /* Dark mode overrides */
   html.dark-mode {
     color-scheme: dark;
     --color-bg: rgb(var(--color-gray-900));
@@ -155,5 +196,15 @@
     --md-blockquote-border: rgb(var(--color-md-blockquote-border));
     --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
     --md-hr-bg: rgb(var(--color-md-hr));
+  }
+}
+
+@layer base {
+  /* ---------- Language Helpers ---------- */
+  html[lang^='en'] .lang-zh {
+    display: none;
+  }
+  html[lang^='zh'] .lang-en {
+    display: none;
   }
 }

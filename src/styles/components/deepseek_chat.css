@@ -113,6 +113,21 @@
   box-shadow: var(--shadow-focus-brand);
 }
 
+@media (prefers-color-scheme: dark) {
+  .input-area {
+    border-top: 1px solid var(--color-subtle-bg);
+  }
+  #message-input {
+    background: var(--color-subtle-bg-alt);
+    color: var(--color-text);
+    border: 1px solid var(--color-border-light);
+  }
+  #message-input:focus {
+    border-color: var(--md-link-color);
+    box-shadow: var(--shadow-focus-blue);
+  }
+}
+
 .btn-container {
   display: flex;
   gap: 10px;
