@@ -39,6 +39,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
+  container-type: inline-size;
 }
 .u-grid-col {
   flex: 1 0 0%;

@@ -8,6 +8,7 @@
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-elevation-3);
   overflow: hidden;
+  container-type: inline-size;
 }
 
 /* Header styling is centralized in theme.css via `.c-app-header` */
@@ -139,7 +140,7 @@
   font-size: var(--font-size-1);
 }
 
-@media (max-width: 600px) {
+@container (max-width: 600px) {
   .c-chat-wrapper {
     height: calc(100vh - 100px);
     border-radius: 0;

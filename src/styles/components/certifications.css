@@ -90,14 +90,12 @@ body:has(.c-cert-page) {
   min-height: 100vh;
   padding: calc(var(--space-9) - var(--space-1)) 0 0;
   container-type: inline-size;
-}
-@container (max-width: 768px) {
-  .c-cert-page {
+
+  @container (max-width: 768px) {
     padding-top: calc(var(--space-9) + var(--space-2));
   }
-}
-@container (max-width: 480px) {
-  .c-cert-page {
+
+  @container (max-width: 480px) {
     padding-top: var(--space-10);
   }
 }
