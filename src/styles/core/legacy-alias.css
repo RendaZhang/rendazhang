@@ -1,11 +1,13 @@
-:root {
-  /* legacy color aliases */
-  --color-primary: var(--color-brand);
-  --color-secondary: var(--color-brand-secondary);
-  --color-tertiary: var(--color-brand-tertiary);
-  --color-white-rgb: var(--color-base-white);
-  --color-black-rgb: var(--color-base-black);
+@layer tokens {
+  :root {
+    /* legacy color aliases */
+    --color-primary: var(--color-brand);
+    --color-secondary: var(--color-brand-secondary);
+    --color-tertiary: var(--color-brand-tertiary);
+    --color-white-rgb: var(--color-base-white);
+    --color-black-rgb: var(--color-base-black);
 
-  /* legacy shadow alias */
-  --shadow-focus-purple: var(--shadow-focus-brand);
+    /* legacy shadow alias */
+    --shadow-focus-purple: var(--shadow-focus-brand);
+  }
 }

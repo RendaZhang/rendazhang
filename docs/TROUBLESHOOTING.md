@@ -54,13 +54,14 @@
     - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
     - [BUG-047: 构建后 env.ts 无法读取环境变量](#bug-047-%E6%9E%84%E5%BB%BA%E5%90%8E-envts-%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
     - [BUG-048: 404/500 页面主题和语言初始化失败](#bug-048-404500-%E9%A1%B5%E9%9D%A2%E4%B8%BB%E9%A2%98%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%9D%E5%A7%8B%E5%8C%96%E5%A4%B1%E8%B4%A5)
+    - [BUG-049: Vite 报错 `@import must precede all other statements`](#bug-049-vite-%E6%8A%A5%E9%94%99-import-must-precede-all-other-statements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
+- **最后更新**: August 09, 2025, 17:29 (UTC+08:00)
 
 ---
 
@@ -1043,3 +1044,17 @@
   3. 调整 Nginx CSP 配置允许 `'self'` 加载该脚本
 - **验证结果**：✅ 404/500 页面渲染前正确应用主题与语言
 - **经验总结**：外部脚本更易于 CSP 控制，可避免主题/语言闪烁问题
+
+### BUG-049: Vite 报错 `@import must precede all other statements`
+
+- **问题状态**：已解决 (Resolved)
+- **发现日期**：2025-08-09
+- **重现环境**：`npm run build`
+- **问题现象**：
+  - 构建时控制台输出 `@import must precede all other statements` 警告
+- **根本原因**：
+  - `src/styles/theme.css` 中的 `@import` 语句位于 `@layer` 内容之后，违反 CSS 规范
+- **解决方案**：
+  - 将所有 `@import` 语句移动到文件顶部，紧接 `@layer` 声明
+- **验证结果**：✅ `npm run build` 无警告
+- **经验总结**：`@import` 必须在文件其他语句之前，可配合 `layer(name)` 指定层级

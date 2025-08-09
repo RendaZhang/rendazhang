@@ -1,154 +1,159 @@
+@layer reset, tokens, base, components, utilities, overrides;
+
 @import './core/tokens.css';
 @import './core/legacy-alias.css';
 @import './core/_gradients.css';
-@import './utilities/layout-system.css';
-@import './utilities/utility-classes.css';
-@import './layout.css';
-@import './components/navigation.css';
-@import './components/app-header.css';
-@import './components/buttons.css';
-@import './components/forms.css';
-@import './components/loaders.css';
-@import './components/misc.css';
-@import './dark-mode.css';
+@import './layout.css' layer(base);
+@import './components/navigation.css' layer(components);
+@import './components/app-header.css' layer(components);
+@import './components/buttons.css' layer(components);
+@import './components/forms.css' layer(components);
+@import './components/loaders.css' layer(components);
+@import './components/misc.css' layer(components);
+@import './utilities/layout-system.css' layer(utilities);
+@import './utilities/utility-classes.css' layer(utilities);
+@import './dark-mode.css' layer(overrides);
 
-/* ====================================================================== */
-/* Theme Styles - improved readability and responsiveness */
-/* ====================================================================== */
+@layer reset {
+  html {
+    box-sizing: border-box;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 
-/* ---------- CSS Variables ---------- */
-:root {
-  color-scheme: light;
-  /* -------------------------------------------------------------- */
-  /* Derived variables (legacy names kept for compatibility)        */
-  /* -------------------------------------------------------------- */
-  --color-bg: rgb(var(--color-gray-50));
-  --color-text: rgb(var(--color-gray-900));
-  --color-nav-bg: rgb(var(--color-gray-50));
-  --color-nav-text: rgb(var(--color-gray-900));
-  --color-surface: rgb(var(--color-gray-100));
-  --color-gray: rgb(var(--color-gray));
-  --color-brand-blue: rgb(var(--color-brand-blue));
-  --color-spinner: rgb(var(--color-spinner));
-  --color-white: rgb(var(--color-base-white));
-  --color-black: rgb(var(--color-base-black));
-  --color-border-light: rgb(var(--color-border-light));
-  --color-subtle-bg: rgb(var(--color-subtle-bg));
-  --color-subtle-bg-alt: rgb(var(--color-subtle-bg-alt));
-  --color-subtle-bg-hover: rgb(var(--color-subtle-bg-hover));
-  --color-text-muted: rgb(var(--color-text-muted));
-  --color-text-darker: rgb(var(--color-text-darker));
-  --color-text-deep: rgb(var(--color-text-deep));
-  --color-border-muted: rgb(var(--color-border-muted));
-  --color-border-soft: rgb(var(--color-border-soft));
-  --color-gray-medium: rgb(var(--color-gray-medium));
-  --color-spinner-track: rgb(var(--color-spinner-track));
-  --color-border-neutral: rgb(var(--color-border-neutral));
-  --color-light-gray: rgb(var(--color-light-gray));
-  --color-dark-gray: rgb(var(--color-dark-gray));
-  --color-dark-black: rgb(var(--color-dark-black));
-  --color-warning-accent: rgb(var(--color-warning-accent));
-  --color-dark-surface: rgb(var(--color-dark-surface));
-  --color-accent-purple: rgb(var(--color-brand));
-  --md-bg: rgb(var(--color-md-bg));
-  --md-text: rgb(var(--color-md-text));
-  --md-heading-border: rgb(var(--color-md-heading-border));
-  --md-h1-color: rgb(var(--color-md-h1));
-  --md-h2-color: rgb(var(--color-md-h2));
-  --md-h2-border: rgb(var(--color-md-h2-border));
-  --md-h3-color: rgb(var(--color-md-h3));
-  --md-h4-color: rgb(var(--color-md-h4));
-  --md-strong-color: rgb(var(--color-md-strong));
-  --md-table-bg: rgb(var(--color-md-table-bg));
-  --md-th-bg: rgb(var(--color-md-th-bg));
-  --md-th-color: rgb(var(--color-md-th-color));
-  --md-td-color: rgb(var(--color-md-td-color));
-  --md-td-bg: rgb(var(--color-md-td-bg));
-  --md-table-border: rgb(var(--color-md-table-border));
-  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
-  --md-code-bg: rgb(var(--color-md-code-bg));
-  --md-code-color: rgb(var(--color-md-code-color));
-  --md-link-color: rgb(var(--color-md-link));
-  --md-link-hover: rgb(var(--color-md-link-hover));
-  --md-blockquote-color: rgb(var(--color-md-blockquote));
-  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
-  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
-  --md-hr-bg: rgb(var(--color-md-hr));
+  /* Ensure code blocks are scrollable on smaller screens */
+  pre {
+    overflow-x: auto;
+  }
 }
 
-/* Dark mode overrides */
-html.dark-mode {
-  color-scheme: dark;
-  --color-bg: rgb(var(--color-gray-900));
-  --color-text: rgb(var(--color-gray-50));
-  --color-nav-bg: rgb(var(--color-gray-800));
-  --color-nav-text: rgb(var(--color-gray-50));
-  --color-success: rgb(var(--color-success));
-  --color-warning: rgb(var(--color-warning));
-  --color-error: rgb(var(--color-error));
-  --gradient-primary: var(--gradient-dark);
-  --color-surface: rgb(var(--color-gray-800));
-  --color-gray: rgb(var(--color-gray-700));
-  --color-brand-blue: rgb(var(--color-brand-blue));
-  --color-spinner: rgb(var(--color-spinner));
-  --color-white: rgb(var(--color-base-white));
-  --color-border-light: rgb(var(--color-gray-700));
-  --color-subtle-bg: rgb(var(--color-gray-700));
-  --color-subtle-bg-alt: rgb(var(--color-dark-black));
-  --color-subtle-bg-hover: rgb(var(--color-gray-700));
-  --color-text-muted: rgb(var(--color-text-muted));
-  --color-text-darker: rgb(var(--color-text-darker));
-  --color-text-deep: rgb(var(--color-text-deep));
-  --color-border-muted: rgb(var(--color-gray-700));
-  --color-border-soft: rgb(var(--color-gray-700));
-  --color-gray-medium: rgb(var(--color-gray-medium));
-  --color-spinner-track: rgb(var(--color-gray-700));
-  --color-accent-purple: rgb(var(--color-brand));
-  --md-bg: rgb(var(--color-md-bg));
-  --md-text: rgb(var(--color-md-text));
-  --md-heading-border: rgb(var(--color-md-heading-border));
-  --md-h1-color: rgb(var(--color-md-h1));
-  --md-h2-color: rgb(var(--color-md-h2));
-  --md-h2-border: rgb(var(--color-md-h2-border));
-  --md-h3-color: rgb(var(--color-md-h3));
-  --md-h4-color: rgb(var(--color-md-h4));
-  --md-strong-color: rgb(var(--color-md-strong));
-  --md-table-bg: rgb(var(--color-md-table-bg));
-  --md-th-bg: rgb(var(--color-md-th-bg));
-  --md-th-color: rgb(var(--color-md-th-color));
-  --md-td-color: rgb(var(--color-md-td-color));
-  --md-td-bg: rgb(var(--color-md-td-bg));
-  --md-table-border: rgb(var(--color-md-table-border));
-  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
-  --md-code-bg: rgb(var(--color-md-code-bg));
-  --md-code-color: rgb(var(--color-md-code-color));
-  --md-link-color: rgb(var(--color-md-link));
-  --md-link-hover: rgb(var(--color-md-link-hover));
-  --md-blockquote-color: rgb(var(--color-md-blockquote));
-  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
-  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
-  --md-hr-bg: rgb(var(--color-md-hr));
+@layer tokens {
+  /* ---------- CSS Variables ---------- */
+  :root {
+    color-scheme: light;
+    /* -------------------------------------------------------------- */
+    /* Derived variables (legacy names kept for compatibility)        */
+    /* -------------------------------------------------------------- */
+    --color-bg: rgb(var(--color-gray-50));
+    --color-text: rgb(var(--color-gray-900));
+    --color-nav-bg: rgb(var(--color-gray-50));
+    --color-nav-text: rgb(var(--color-gray-900));
+    --color-surface: rgb(var(--color-gray-100));
+    --color-gray: rgb(var(--color-gray));
+    --color-brand-blue: rgb(var(--color-brand-blue));
+    --color-spinner: rgb(var(--color-spinner));
+    --color-white: rgb(var(--color-base-white));
+    --color-black: rgb(var(--color-base-black));
+    --color-border-light: rgb(var(--color-border-light));
+    --color-subtle-bg: rgb(var(--color-subtle-bg));
+    --color-subtle-bg-alt: rgb(var(--color-subtle-bg-alt));
+    --color-subtle-bg-hover: rgb(var(--color-subtle-bg-hover));
+    --color-text-muted: rgb(var(--color-text-muted));
+    --color-text-darker: rgb(var(--color-text-darker));
+    --color-text-deep: rgb(var(--color-text-deep));
+    --color-border-muted: rgb(var(--color-border-muted));
+    --color-border-soft: rgb(var(--color-border-soft));
+    --color-gray-medium: rgb(var(--color-gray-medium));
+    --color-spinner-track: rgb(var(--color-spinner-track));
+    --color-border-neutral: rgb(var(--color-border-neutral));
+    --color-light-gray: rgb(var(--color-light-gray));
+    --color-dark-gray: rgb(var(--color-dark-gray));
+    --color-dark-black: rgb(var(--color-dark-black));
+    --color-warning-accent: rgb(var(--color-warning-accent));
+    --color-dark-surface: rgb(var(--color-dark-surface));
+    --color-accent-purple: rgb(var(--color-brand));
+    --md-bg: rgb(var(--color-md-bg));
+    --md-text: rgb(var(--color-md-text));
+    --md-heading-border: rgb(var(--color-md-heading-border));
+    --md-h1-color: rgb(var(--color-md-h1));
+    --md-h2-color: rgb(var(--color-md-h2));
+    --md-h2-border: rgb(var(--color-md-h2-border));
+    --md-h3-color: rgb(var(--color-md-h3));
+    --md-h4-color: rgb(var(--color-md-h4));
+    --md-strong-color: rgb(var(--color-md-strong));
+    --md-table-bg: rgb(var(--color-md-table-bg));
+    --md-th-bg: rgb(var(--color-md-th-bg));
+    --md-th-color: rgb(var(--color-md-th-color));
+    --md-td-color: rgb(var(--color-md-td-color));
+    --md-td-bg: rgb(var(--color-md-td-bg));
+    --md-table-border: rgb(var(--color-md-table-border));
+    --md-zebra-bg: rgb(var(--color-md-zebra-bg));
+    --md-code-bg: rgb(var(--color-md-code-bg));
+    --md-code-color: rgb(var(--color-md-code-color));
+    --md-link-color: rgb(var(--color-md-link));
+    --md-link-hover: rgb(var(--color-md-link-hover));
+    --md-blockquote-color: rgb(var(--color-md-blockquote));
+    --md-blockquote-border: rgb(var(--color-md-blockquote-border));
+    --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
+    --md-hr-bg: rgb(var(--color-md-hr));
+  }
 }
 
-/* ---------- Global Reset ---------- */
-html {
-  box-sizing: border-box;
-}
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-/* Ensure code blocks are scrollable on smaller screens */
-pre {
-  overflow-x: auto;
+@layer base {
+  /* ---------- Language Helpers ---------- */
+  html[lang^='en'] .lang-zh {
+    display: none;
+  }
+  html[lang^='zh'] .lang-en {
+    display: none;
+  }
 }
 
-/* ---------- Language Helpers ---------- */
-html[lang^='en'] .lang-zh {
-  display: none;
-}
-html[lang^='zh'] .lang-en {
-  display: none;
+@layer overrides {
+  /* Dark mode overrides */
+  html.dark-mode {
+    color-scheme: dark;
+    --color-bg: rgb(var(--color-gray-900));
+    --color-text: rgb(var(--color-gray-50));
+    --color-nav-bg: rgb(var(--color-gray-800));
+    --color-nav-text: rgb(var(--color-gray-50));
+    --color-success: rgb(var(--color-success));
+    --color-warning: rgb(var(--color-warning));
+    --color-error: rgb(var(--color-error));
+    --gradient-primary: var(--gradient-dark);
+    --color-surface: rgb(var(--color-gray-800));
+    --color-gray: rgb(var(--color-gray-700));
+    --color-brand-blue: rgb(var(--color-brand-blue));
+    --color-spinner: rgb(var(--color-spinner));
+    --color-white: rgb(var(--color-base-white));
+    --color-border-light: rgb(var(--color-gray-700));
+    --color-subtle-bg: rgb(var(--color-gray-700));
+    --color-subtle-bg-alt: rgb(var(--color-dark-black));
+    --color-subtle-bg-hover: rgb(var(--color-gray-700));
+    --color-text-muted: rgb(var(--color-text-muted));
+    --color-text-darker: rgb(var(--color-text-darker));
+    --color-text-deep: rgb(var(--color-text-deep));
+    --color-border-muted: rgb(var(--color-gray-700));
+    --color-border-soft: rgb(var(--color-gray-700));
+    --color-gray-medium: rgb(var(--color-gray-medium));
+    --color-spinner-track: rgb(var(--color-gray-700));
+    --color-accent-purple: rgb(var(--color-brand));
+    --md-bg: rgb(var(--color-md-bg));
+    --md-text: rgb(var(--color-md-text));
+    --md-heading-border: rgb(var(--color-md-heading-border));
+    --md-h1-color: rgb(var(--color-md-h1));
+    --md-h2-color: rgb(var(--color-md-h2));
+    --md-h2-border: rgb(var(--color-md-h2-border));
+    --md-h3-color: rgb(var(--color-md-h3));
+    --md-h4-color: rgb(var(--color-md-h4));
+    --md-strong-color: rgb(var(--color-md-strong));
+    --md-table-bg: rgb(var(--color-md-table-bg));
+    --md-th-bg: rgb(var(--color-md-th-bg));
+    --md-th-color: rgb(var(--color-md-th-color));
+    --md-td-color: rgb(var(--color-md-td-color));
+    --md-td-bg: rgb(var(--color-md-td-bg));
+    --md-table-border: rgb(var(--color-md-table-border));
+    --md-zebra-bg: rgb(var(--color-md-zebra-bg));
+    --md-code-bg: rgb(var(--color-md-code-bg));
+    --md-code-color: rgb(var(--color-md-code-color));
+    --md-link-color: rgb(var(--color-md-link));
+    --md-link-hover: rgb(var(--color-md-link-hover));
+    --md-blockquote-color: rgb(var(--color-md-blockquote));
+    --md-blockquote-border: rgb(var(--color-md-blockquote-border));
+    --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
+    --md-hr-bg: rgb(var(--color-md-hr));
+  }
 }
