@@ -4,8 +4,8 @@
    horizontal rhythm and readable line lengths. */
 
 .container {
-  max-width: var(--measure);
   margin: 0 auto;
+  max-width: var(--measure);
   width: 100%;
 }
 
@@ -16,7 +16,7 @@
 .c-experience-section,
 .c-blog-section,
 .c-contact-section {
-  padding: var(--space-7) var(--space-4);
-  max-width: var(--measure);
   margin: 0 auto;
+  max-width: var(--measure);
+  padding: var(--space-7) var(--space-4);
 }

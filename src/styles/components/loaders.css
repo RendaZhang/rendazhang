@@ -6,19 +6,19 @@
 .c-spinner {
   --spinner-size: var(--space-7);
   --spinner-color: var(--color-accent-purple);
-  width: var(--spinner-size);
-  height: var(--spinner-size);
-  border: var(--space-1) solid var(--color-spinner-track);
-  border-top: var(--space-1) solid var(--spinner-color);
-  border-radius: 50%;
   animation: spinner-spin calc(var(--duration-slow) * 2) linear infinite;
+  border: var(--space-1) solid var(--color-spinner-track);
+  border-radius: 50%;
+  border-top: var(--space-1) solid var(--spinner-color);
+  height: var(--spinner-size);
+  width: var(--spinner-size);
 }
 
 /* Utility class to center spinners (or any element) absolutely */
 .c-spinner-center {
+  left: 50%;
   position: absolute;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -37,20 +37,20 @@
 /* ------------------------------------------------------------------ */
 .c-loader,
 .c-doc-loader {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin: auto; /* allow loaders to be centered in their container */
   padding: var(--space-5); /* ensures consistent spacing */
   text-align: center;
-  margin: auto; /* allow loaders to be centered in their container */
 
   .c-dot {
-    width: var(--space-2);
-    height: var(--space-2);
-    margin: 0 var(--space-1);
+    animation: dot-bounce calc(var(--duration-fast) * 7) infinite both;
     background: var(--color-spinner);
     border-radius: 50%;
-    animation: dot-bounce calc(var(--duration-fast) * 7) infinite both;
+    height: var(--space-2);
+    margin: 0 var(--space-1);
+    width: var(--space-2);
 
     &:nth-child(1) {
       animation-delay: calc(var(--duration-fast) * -1.6);
@@ -78,57 +78,57 @@
 /* Position with `.fixed-bottom-right` utility when displayed.         */
 /* ------------------------------------------------------------------ */
 #enhancement-progress {
+  align-items: center;
   background: var(--overlay-surface);
-  padding: var(--space-3) var(--space-5);
+  border: var(--border-0);
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-elevation-3);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  z-index: 1000;
-  transition: opacity var(--duration-normal) var(--easing-standard);
-  border: var(--border-0);
   color: var(--color-text);
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  transition: opacity var(--duration-normal) var(--easing-standard);
+  z-index: 1000;
 }
 
 /* Pulsing dots shown inside the progress overlay */
 .c-pulse-container {
+  height: var(--space-5);
   position: relative;
   width: calc(var(--space-8) - var(--space-2));
-  height: var(--space-5);
 }
 
 .c-pulse-dot {
+  animation: pulse calc(var(--duration-slow) * 3) infinite;
+  background: var(--color-accent-purple);
+  border-radius: 50%;
+  height: var(--space-2);
   position: absolute;
   width: var(--space-2);
-  height: var(--space-2);
-  border-radius: 50%;
-  background: var(--color-accent-purple);
-  animation: pulse calc(var(--duration-slow) * 3) infinite;
 
   &-1 {
     left: 0;
   }
 
   &-2 {
-    left: var(--space-4);
     animation-delay: var(--duration-fast);
+    left: var(--space-4);
   }
 
   &-3 {
-    left: var(--space-7);
     animation-delay: calc(var(--duration-fast) * 2);
+    left: var(--space-7);
   }
 }
 
 @keyframes pulse {
   0%,
   100% {
-    transform: scale(0.8);
     opacity: 0.7;
+    transform: scale(0.8);
   }
   50% {
-    transform: scale(1.2);
     opacity: 1;
+    transform: scale(1.2);
   }
 }

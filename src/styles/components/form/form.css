@@ -2,8 +2,8 @@
 /* Form elements now leverage spacing and type tokens for consistency */
 .c-form-label {
   display: block;
-  margin-bottom: var(--space-1);
   font-weight: 600;
+  margin-bottom: var(--space-1);
 }
 
 .c-form-group {
@@ -11,17 +11,17 @@
 }
 
 .c-form-control {
-  display: block;
-  width: 100%;
-  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface);
   border: var(--border-0);
   border-radius: var(--radius-xs);
-  background-color: var(--color-surface);
   color: var(--color-text);
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
 
   &:focus-visible {
-    outline: none;
     box-shadow: var(--focus-ring);
+    outline: none;
   }
 }
 
@@ -40,8 +40,8 @@
 }
 
 .c-form-check {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 .c-form-check--spaced {
@@ -49,8 +49,8 @@
 }
 
 .c-form-check-input {
-  width: var(--space-4);
   height: var(--space-4);
+  width: var(--space-4);
 }
 
 .c-form-check-label {
@@ -60,13 +60,13 @@
 /* Auth Forms */
 .c-login-container,
 .c-register-container {
-  width: 100%;
-  margin: var(--space-5) auto;
-  padding: var(--space-5);
   background: var(--color-surface);
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-login);
   container-type: inline-size;
+  margin: var(--space-5) auto;
+  padding: var(--space-5);
+  width: 100%;
 
   @container (min-width: 481px) {
     margin: var(--space-10) auto;
@@ -75,9 +75,9 @@
 
 .c-login-form,
 .c-register-form {
-  width: 100%;
-  max-width: 450px;
   margin: 0 auto;
+  max-width: 450px;
+  width: 100%;
 
   /* ------------------------------------------------------------------ */
   /* Responsive width for authentication forms                          */
@@ -94,9 +94,9 @@
 
 .c-login-title,
 .c-register-title {
-  text-align: center;
-  margin-bottom: var(--space-4);
   font-weight: 600;
+  margin-bottom: var(--space-4);
+  text-align: center;
 }
 
 .c-password-wrapper {
@@ -104,23 +104,23 @@
 }
 
 .c-password-toggle {
+  cursor: pointer;
   position: absolute;
   right: var(--space-2);
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;
 
   &:focus-visible {
-    outline: none;
-    box-shadow: var(--focus-ring);
     border-radius: var(--radius-xs);
+    box-shadow: var(--focus-ring);
+    outline: none;
   }
 }
 
 .c-password-strength {
-  height: var(--space-1);
-  border-radius: calc(var(--radius-xs) / 2);
   background: var(--color-gray);
+  border-radius: calc(var(--radius-xs) / 2);
+  height: var(--space-1);
   margin-top: var(--space-1);
 
   &.is-weak {
@@ -145,25 +145,25 @@
 /* Generic horizontal progress bar used across forms                   */
 /* ------------------------------------------------------------------ */
 .c-progress-container {
-  width: 100%;
-  height: var(--space-2);
   background: var(--color-gray);
   border-radius: var(--radius-xs);
-  overflow: hidden;
+  height: var(--space-2);
   margin-top: var(--space-4);
+  overflow: hidden;
+  width: 100%;
 }
 
 .c-progress-bar {
-  height: 100%;
-  width: 0;
   background: var(--color-brand-blue);
+  height: 100%;
   transition: width var(--duration-normal) var(--easing-standard);
+  width: 0;
 }
 
 .c-third-party {
   display: flex;
-  justify-content: center;
   gap: var(--space-4);
+  justify-content: center;
   margin-top: var(--space-4);
 
   button {
@@ -172,17 +172,17 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
       border-radius: var(--radius-xs);
+      box-shadow: var(--focus-ring);
+      outline: none;
     }
   }
 }
 
 .c-global-error {
   color: var(--color-error);
-  text-align: center;
   margin-bottom: var(--space-4);
+  text-align: center;
 }
 
 /* -------------------------------------------------------------- */

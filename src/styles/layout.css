@@ -1,22 +1,22 @@
 /* ---------- Layout ---------- */
 body {
-  font-family: var(--font-body);
-  margin: 0;
-  padding: var(--space-10) 0 0;
+  align-items: stretch;
   background-color: var(--color-bg);
   color: var(--color-text);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  font-family: var(--font-body);
   justify-content: center;
+  margin: 0;
   min-height: 100vh;
+  padding: var(--space-10) 0 0;
   width: 100%;
 }
 
 main.main-content {
-  width: 100%;
-  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+  max-width: 100%;
   text-align: left;
+  width: 100%;
 }

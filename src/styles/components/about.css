@@ -4,10 +4,10 @@
 */
 .c-hero {
   color: var(--color-white);
-  padding: var(--space-9) var(--space-4);
-  text-align: center;
-  position: relative;
   overflow: hidden;
+  padding: var(--space-9) var(--space-4);
+  position: relative;
+  text-align: center;
 }
 
 /* Widths and heights mapped to spacing tokens */
@@ -27,8 +27,8 @@ body.c-about-page {
 }
 
 .c-skill-bar {
-  display: flex;
   align-items: center;
+  display: flex;
   margin-bottom: var(--space-2);
 }
 
@@ -37,8 +37,8 @@ body.c-about-page {
 }
 
 .c-skill-bar progress {
-  width: 100%;
   height: var(--space-4);
+  width: 100%;
 }
 
 .c-experience-item,

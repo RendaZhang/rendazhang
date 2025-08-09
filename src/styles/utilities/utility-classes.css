@@ -13,16 +13,16 @@
 
 /* Layout helpers */
 .u-flex-center {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
 }
 .u-absolute-fill {
+  height: 100%;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
 }
 .u-w-100 {
   width: 100%;
@@ -36,10 +36,10 @@
 
 /* Grid system */
 .u-grid-row {
+  container-type: inline-size;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
-  container-type: inline-size;
 }
 .u-grid-col {
   flex: 1 0 0%;

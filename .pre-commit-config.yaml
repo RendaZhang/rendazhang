@@ -52,7 +52,7 @@ repos:
     hooks:
       - id: stylelint
         name: Stylelint
-        entry: npx stylelint
+        entry: npx stylelint --config stylelint.config.cjs
         language: system
         pass_filenames: true
         types: [css]

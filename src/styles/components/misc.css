@@ -5,13 +5,13 @@
 
 /* Error section styles using spacing and type tokens */
 .c-error-section {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--space-9) var(--space-4);
   gap: var(--space-4);
+  justify-content: center;
+  padding: var(--space-9) var(--space-4);
+  text-align: center;
 }
 
 .c-error-emoji {
@@ -35,34 +35,34 @@
 
 /* Back to top button */
 .c-back-to-top {
-  position: fixed;
-  bottom: calc(var(--space-10) + var(--space-2));
-  right: var(--space-5);
-  width: calc(var(--space-8) - var(--space-2));
-  height: calc(var(--space-8) - var(--space-2));
+  background: var(--gradient-primary);
   border: none;
   border-radius: 50%;
-  background: var(--gradient-primary);
+  bottom: calc(var(--space-10) + var(--space-2));
+  box-shadow: var(--shadow-elevation-2);
   color: var(--color-white);
   cursor: pointer;
-  z-index: 9999;
-  box-shadow: var(--shadow-elevation-2);
+  height: calc(var(--space-8) - var(--space-2));
+  position: fixed;
+  right: var(--space-5);
   transition:
     filter var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard),
     box-shadow var(--duration-normal) var(--easing-standard);
+  width: calc(var(--space-8) - var(--space-2));
+  z-index: 9999;
 }
 
 .c-back-to-top:hover {
-  filter: brightness(1.1);
   box-shadow: var(--shadow-elevation-3);
+  filter: brightness(1.1);
 }
 .c-back-to-top:active {
   transform: scale(0.96);
 }
 .c-back-to-top:focus-visible {
-  outline: none;
   box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+  outline: none;
 }
 
 .c-back-to-top svg {

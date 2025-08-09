@@ -33,7 +33,6 @@
 @layer tokens {
   /* ---------- CSS Variables ---------- */
   :root {
-    color-scheme: light dark;
     /* -------------------------------------------------------------- */
     /* Derived variables (legacy names kept for compatibility)        */
     /* -------------------------------------------------------------- */
@@ -73,11 +72,11 @@
     --md-hr-bg: var(--color-md-hr);
     --social-icon-filter: none;
     --overlay-surface: var(--overlay-light-bg);
+    color-scheme: light dark;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      color-scheme: dark;
       --color-bg: var(--color-gray-900);
       --color-text: var(--color-gray-50);
       --color-nav-bg: var(--color-gray-800);
@@ -121,11 +120,11 @@
       --md-hr-bg: var(--color-md-hr);
       --social-icon-filter: brightness(0) invert(1);
       --overlay-surface: var(--overlay-dark-surface);
+      color-scheme: dark;
     }
   }
 
   html.dark-mode {
-    color-scheme: dark;
     --color-bg: var(--color-gray-900);
     --color-text: var(--color-gray-50);
     --color-nav-bg: var(--color-gray-800);
@@ -169,6 +168,7 @@
     --md-hr-bg: var(--color-md-hr);
     --social-icon-filter: brightness(0) invert(1);
     --overlay-surface: var(--overlay-dark-surface);
+    color-scheme: dark;
   }
 }
 
@@ -182,14 +182,14 @@
 
   main,
   article {
-    max-width: var(--measure);
     margin-inline: auto;
+    max-width: var(--measure);
   }
 
   p {
-    max-width: var(--measure);
     line-height: 1.6;
     margin-block: 0 var(--space-4);
+    max-width: var(--measure);
   }
 
   h1 {
