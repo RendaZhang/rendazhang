@@ -11,6 +11,7 @@
     - [渐进增强](#%E6%B8%90%E8%BF%9B%E5%A2%9E%E5%BC%BA)
   - [PostCSS 集成](#postcss-%E9%9B%86%E6%88%90)
   - [配色方案](#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
+    - [色彩阶梯与彩度限制](#%E8%89%B2%E5%BD%A9%E9%98%B6%E6%A2%AF%E4%B8%8E%E5%BD%A9%E5%BA%A6%E9%99%90%E5%88%B6)
   - [扩展与约定](#%E6%89%A9%E5%B1%95%E4%B8%8E%E7%BA%A6%E5%AE%9A)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -18,7 +19,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 18:44 (UTC+08:00)
+- **最后更新**: August 09, 2025, 20:47 (UTC+08:00)
 
 ---
 
@@ -110,6 +111,8 @@ src/styles/components/
 
 ## 配色方案
 
+本项目的核心色彩以 OKLCH 设计令牌形式维护，并通过 `color-mix(in srgb, …)` 生成向下兼容的 sRGB 回退；在支持 OKLCH 的浏览器中，通过 `@supports (color: oklch(0% 0 0))` 覆盖为原生 OKLCH 值，以确保不同渲染环境下感知一致。
+
 **统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
 - 公共组件样式统一由 `theme.css` 管理
@@ -179,6 +182,13 @@ graph LR
      filter: grayscale(100%);
    }
    ```
+
+### 色彩阶梯与彩度限制
+
+- 核心色彩使用 OKLCH 定义，并通过 `color-mix(in srgb, …)` 生成 sRGB 回退，示例：`--color-brand: oklch(45.89% 0.2417 295.61)`。
+- 对比度以明度 `L` 为基准，暗背景建议 ≥40%，亮背景建议 ≤90%，确保暗/亮模式下视觉一致。
+- 彩度 `C` 控制在 `0.25` 以下，以避免高饱和度导致的设备差异。
+- 标准色阶示例：品牌色 45%、强调色 60%、辅助色 70%，可在此基础上按需扩展。
 
 ---
 

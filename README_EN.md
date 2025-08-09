@@ -40,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 09, 2025, 16:46 (UTC+08:00)
+- **Last Updated**: August 09, 2025, 20:47 (UTC+08:00)
 
 ---
 
@@ -349,6 +349,8 @@ flowchart TD
 
 #### Color Scheme
 
+The core colors of the project are designed using OKLCH design tokens and provide sRGB fallback through `color-mix` to ensure perceptual consistency across light and dark modes.
+
 For detailed information, refer to the documentation: 📄 [Color Scheme](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88).
 
 ---
@@ -424,7 +426,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
 
 ### Style System Description
 
-> Explain the project's CSS architecture and build process, and demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For more details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
+> Introduce the project's CSS architecture, the OKLCH-based design token system, and the build process. Demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
 
 ---
 
