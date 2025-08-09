@@ -51,10 +51,10 @@ export default function LanguageSelector(): ReactElement {
   };
 
   return (
-    <div className="language-selector-wrapper">
+    <div className="c-language-selector-wrapper">
       <button
         ref={buttonRef}
-        className="language-selector-main"
+        className="c-language-selector-main"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={lang === 'en' ? 'Change language' : '切换语言'}
@@ -64,9 +64,9 @@ export default function LanguageSelector(): ReactElement {
         <LanguageIcon />
       </button>
       {open && (
-        <div ref={optionsRef} className="language-options" role="listbox">
+        <div ref={optionsRef} className="c-language-options" role="listbox">
           <button
-            className={`language-option ${lang === 'zh-CN' ? 'active' : ''}`}
+            className={`c-language-option ${lang === 'zh-CN' ? 'is-active' : ''}`}
             role="option"
             aria-selected={lang === 'zh-CN'}
             onClick={() => handleSelect('zh-CN')}
@@ -74,7 +74,7 @@ export default function LanguageSelector(): ReactElement {
             中文
           </button>
           <button
-            className={`language-option ${lang === 'en' ? 'active' : ''}`}
+            className={`c-language-option ${lang === 'en' ? 'is-active' : ''}`}
             role="option"
             aria-selected={lang === 'en'}
             onClick={() => handleSelect('en')}

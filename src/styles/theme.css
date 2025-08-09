@@ -4,10 +4,10 @@
 @import './core/legacy-alias.css';
 @import './core/_gradients.css';
 @import './layout.css' layer(base);
-@import './components/navigation.css' layer(components);
+@import './components/navigation/navigation.css' layer(components);
 @import './components/app-header.css' layer(components);
-@import './components/buttons.css' layer(components);
-@import './components/forms.css' layer(components);
+@import './components/button/button.css' layer(components);
+@import './components/form/form.css' layer(components);
 @import './components/loaders.css' layer(components);
 @import './components/misc.css' layer(components);
 @import './utilities/layout-system.css' layer(utilities);

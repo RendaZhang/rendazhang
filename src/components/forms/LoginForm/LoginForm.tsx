@@ -92,43 +92,45 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
     }
   };
 
-  const passwordStrengthClass = strength ? `password-strength ${strength}` : 'password-strength';
+  const passwordStrengthClass = strength
+    ? `c-password-strength is-${strength}`
+    : 'c-password-strength';
 
   return (
-    <form onSubmit={handleSubmit} className="login-container">
-      <h1 className="login-title">
+    <form onSubmit={handleSubmit} className="c-login-container">
+      <h1 className="c-login-title">
         <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
       </h1>
-      {globalError && <div className="global-error">{globalError}</div>}
+      {globalError && <div className="c-global-error">{globalError}</div>}
       <div className="mb-3">
-        <label htmlFor="email" className="form-label">
+        <label htmlFor="email" className="c-form-label">
           <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
         </label>
         <input
           id="email"
           type="email"
-          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+          className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
           placeholder={placeholders.email}
           value={email}
           onChange={(e) => handleChange('email', e.target.value)}
           autoFocus
         />
-        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+        {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
       </div>
-      <div className="mb-3 password-wrapper">
-        <label htmlFor="password" className="form-label">
+      <div className="mb-3 c-password-wrapper">
+        <label htmlFor="password" className="c-form-label">
           <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
         </label>
         <input
           id="password"
           type={showPassword ? 'text' : 'password'}
-          className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+          className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
           placeholder={placeholders.password}
           value={password}
           onChange={(e) => handleChange('password', e.target.value)}
         />
         <span
-          className="password-toggle"
+          className="c-password-toggle"
           onClick={() => setShowPassword((v) => !v)}
           aria-label={
             showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
@@ -138,25 +140,25 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
         </span>
         <div className={passwordStrengthClass}></div>
         {strength && (
-          <div className="password-strength-label">
+          <div className="c-password-strength-label">
             <LocalizedSection
               zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
               enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
             />
           </div>
         )}
-        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+        {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
       </div>
-      <div className="mb-3 form-check d-flex justify-content-between">
+      <div className="mb-3 c-form-check d-flex justify-content-between">
         <div>
           <input
             id="remember"
             type="checkbox"
-            className="form-check-input"
+            className="c-form-check-input"
             checked={remember}
             onChange={(e) => setRemember(e.target.checked)}
           />
-          <label htmlFor="remember" className="form-check-label mis-2">
+          <label htmlFor="remember" className="c-form-check-label mis-2">
             <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
           </label>
         </div>
@@ -166,7 +168,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       </div>
       <button
         type="submit"
-        className="btn btn-primary w-100"
+        className="c-btn-primary w-100"
         disabled={status === 'loading' || status === 'success'}
       >
         {status === 'loading' ? (
@@ -177,7 +179,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           <LocalizedSection zhContent={textsZh.loginButton} enContent={textsEn.loginButton} />
         )}
       </button>
-      <div className="third-party">
+      <div className="c-third-party">
         <button
           type="button"
           aria-label={activeTexts.thirdParty.google}

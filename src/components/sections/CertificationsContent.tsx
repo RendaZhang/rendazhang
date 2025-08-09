@@ -58,7 +58,7 @@ export default function CertificationsContent(): ReactElement {
               <CredlyBadge />
               <p className="verify-links">
                 <a
-                  className="verify-btn btn-primary"
+                  className="c-verify-btn c-btn-primary"
                   href={VERIFY_URLS.CREDLY}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -69,7 +69,7 @@ export default function CertificationsContent(): ReactElement {
                   />
                 </a>
                 <a
-                  className="verify-btn btn-primary"
+                  className="c-verify-btn c-btn-primary"
                   href={VERIFY_URLS.AWS}
                   target="_blank"
                   rel="noopener noreferrer"

@@ -1,25 +1,25 @@
 /* ---------- Dark Mode Components ---------- */
-html.dark-mode .side-menu,
-html.dark-mode .theme-options {
+html.dark-mode .c-side-menu,
+html.dark-mode .c-theme-options {
   background: var(--color-subtle-bg);
 }
-html.dark-mode .theme-option.light {
+html.dark-mode .c-theme-option.is-light {
   background-color: var(--color-gray);
   color: var(--color-dark-black);
 }
-html.dark-mode .theme-option.dark {
+html.dark-mode .c-theme-option.is-dark {
   background-color: var(--color-dark-black);
   color: var(--color-white);
 }
-html.dark-mode .language-options {
+html.dark-mode .c-language-options {
   background: var(--color-subtle-bg);
 }
-html.dark-mode .language-option {
+html.dark-mode .c-language-option {
   background-color: var(--color-dark-black);
   color: var(--color-white);
 }
-html.dark-mode .login-container,
-html.dark-mode .register-container {
+html.dark-mode .c-login-container,
+html.dark-mode .c-register-container {
   background: var(--color-surface);
   box-shadow: var(--shadow-login-dark);
 }
@@ -70,16 +70,16 @@ html.dark-mode #reset-btn:hover {
   background: var(--color-subtle-bg-hover);
   color: var(--color-white);
 }
-html.dark-mode .btn-primary {
+html.dark-mode .c-btn-primary {
   background: var(--gradient-dark);
   color: var(--color-white);
 }
-html.dark-mode .btn-secondary {
+html.dark-mode .c-btn-secondary {
   background: var(--color-subtle-bg);
   color: var(--color-text);
   border-color: var(--color-border-light);
 }
-html.dark-mode .btn-secondary:hover {
+html.dark-mode .c-btn-secondary:hover {
   background: var(--color-subtle-bg-hover);
   color: var(--color-white);
 }

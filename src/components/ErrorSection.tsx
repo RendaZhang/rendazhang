@@ -33,7 +33,7 @@ export default function ErrorSection({
       <p className="error-description">
         <LocalizedSection zhContent={description.zh} enContent={description.en} />
       </p>
-      <a href="/" className="btn btn-primary">
+      <a href="/" className="c-btn-primary">
         <LocalizedSection zhContent={homeLabel.zh} enContent={homeLabel.en} />
       </a>
     </section>

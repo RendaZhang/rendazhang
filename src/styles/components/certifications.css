@@ -25,8 +25,8 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-/* Verification buttons share gradient via .btn-primary; only layout here */
-.cert-card .verify-links .verify-btn {
+/* Verification buttons share gradient via .c-btn-primary; only layout here */
+.cert-card .verify-links .c-verify-btn {
   flex: 1 1 auto;
 }
 /* Credly 加载动画 */

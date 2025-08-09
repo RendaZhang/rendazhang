@@ -43,7 +43,7 @@ export default function ChatInput({
       <div className="btn-container">
         <button
           id="send-btn"
-          className="btn btn-primary btn-chat"
+          className="c-btn-primary c-btn-chat"
           onClick={onSend}
           disabled={disabled}
         >
@@ -51,7 +51,7 @@ export default function ChatInput({
         </button>
         <button
           id="reset-btn"
-          className="btn btn-secondary btn-chat"
+          className="c-btn-secondary c-btn-chat"
           onClick={onReset}
           disabled={disabled}
         >

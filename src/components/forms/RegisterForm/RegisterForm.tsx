@@ -123,44 +123,46 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     }, AUTH_TIMINGS.REGISTER_REDIRECT);
   };
 
-  const passwordStrengthClass = strength ? `password-strength ${strength}` : 'password-strength';
+  const passwordStrengthClass = strength
+    ? `c-password-strength is-${strength}`
+    : 'c-password-strength';
 
   return (
-    <form onSubmit={handleSubmit} className="register-container">
-      <h1 className="register-title">
+    <form onSubmit={handleSubmit} className="c-register-container">
+      <h1 className="c-register-title">
         <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
       </h1>
       <div className="mb-3">
-        <label htmlFor="email" className="form-label">
+        <label htmlFor="email" className="c-form-label">
           <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
         </label>
         <input
           id="email"
           type="email"
-          className={`form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
+          className={`c-form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
           placeholder={placeholders.email}
           value={email}
           onChange={(e) => handleChange('email', e.target.value)}
           required
         />
-        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+        {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
       </div>
       <div className="mb-3">
-        <label htmlFor="username" className="form-label">
+        <label htmlFor="username" className="c-form-label">
           <LocalizedSection zhContent={textsZh.usernameLabel} enContent={textsEn.usernameLabel} />
         </label>
         <input
           id="username"
           type="text"
-          className={`form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
+          className={`c-form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
           placeholder={placeholders.username}
           value={username}
           onChange={(e) => handleChange('username', e.target.value)}
           required
         />
-        {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+        {errors.username && <div className="c-invalid-feedback">{errors.username}</div>}
         {!errors.username && username && (
-          <div className="valid-feedback">
+          <div className="c-valid-feedback">
             <LocalizedSection
               zhContent={textsZh.usernameAvailable}
               enContent={textsEn.usernameAvailable}
@@ -169,25 +171,25 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         )}
       </div>
       <div className="grid-row">
-        <div className="grid-col-sm-6 password-wrapper">
-          <label htmlFor="password" className="form-label">
+        <div className="grid-col-sm-6 c-password-wrapper">
+          <label htmlFor="password" className="c-form-label">
             <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
           </label>
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            className="form-control"
+            className="c-form-control"
             placeholder={placeholders.password}
             value={password}
             onChange={(e) => handleChange('password', e.target.value)}
             required
           />
-          <span className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+          <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? '🙈' : '👁️'}
           </span>
           <div className={passwordStrengthClass}></div>
           {strength && (
-            <div className="password-strength-label">
+            <div className="c-password-strength-label">
               <LocalizedSection
                 zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
                 enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
@@ -196,19 +198,19 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           )}
         </div>
         <div className="grid-col-sm-6">
-          <label htmlFor="confirm" className="form-label">
+          <label htmlFor="confirm" className="c-form-label">
             <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
           </label>
           <input
             id="confirm"
             type={showPassword ? 'text' : 'password'}
-            className={`form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
+            className={`c-form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
             placeholder={placeholders.confirm}
             value={confirm}
             onChange={(e) => handleChange('confirm', e.target.value)}
             required
           />
-          {errors.confirm && <div className="invalid-feedback">{errors.confirm}</div>}
+          {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
         </div>
       </div>
       <div className="form-text mt-2">
@@ -239,12 +241,12 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           />
         </label>
       </div>
-      <div className="progress-container mt-3">
-        <div className="progress-bar" style={{ width: progress + '%' }}></div>
+      <div className="c-progress-container mt-3">
+        <div className="c-progress-bar" style={{ width: progress + '%' }}></div>
       </div>
       <button
         type="submit"
-        className="btn btn-primary w-100 mt-3"
+        className="c-btn-primary w-100 mt-3"
         disabled={!canSubmit || status === 'loading' || status === 'success'}
       >
         {status === 'loading' ? (
@@ -255,7 +257,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           <LocalizedSection zhContent={textsZh.registerButton} enContent={textsEn.registerButton} />
         )}
       </button>
-      <div className="third-party">
+      <div className="c-third-party">
         <button type="button" aria-label={activeTexts.thirdParty.google}>
           <LocalizedSection
             zhContent={textsZh.thirdParty.google}

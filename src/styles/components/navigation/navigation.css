@@ -20,18 +20,18 @@ nav {
   backdrop-filter: blur(8px);
 }
 
-nav .nav-left,
-nav .nav-right {
+nav .c-nav-left,
+nav .c-nav-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-nav .nav-logo {
+nav .c-nav-logo {
   font-weight: 600;
 }
 
-nav .avatar-link {
+nav .c-avatar-link {
   padding: 0.25rem;
   border-radius: 50%;
   display: flex;
@@ -39,7 +39,7 @@ nav .avatar-link {
 }
 
 nav a,
-nav button:not(.theme-option) {
+nav button:not(.c-theme-option) {
   color: var(--color-nav-text);
   text-decoration: none;
   padding: 0.5rem 0.75rem;
@@ -50,22 +50,22 @@ nav button:not(.theme-option) {
     background-color 0.3s,
     color 0.3s;
 }
-nav button:not(.theme-option) {
+nav button:not(.c-theme-option) {
   border: none;
   cursor: pointer;
 }
 nav a:hover,
-nav button:not(.theme-option):hover {
+nav button:not(.c-theme-option):hover {
   background-color: var(--color-subtle-bg);
   color: var(--color-text);
 }
 nav a:active,
-nav button:not(.theme-option):active {
+nav button:not(.c-theme-option):active {
   background-color: var(--color-subtle-bg-hover);
 }
 
 /* Hamburger menu */
-nav .hamburger-btn span {
+nav .c-hamburger-btn span {
   display: block;
   width: 24px;
   height: 2px;
@@ -76,13 +76,13 @@ nav .hamburger-btn span {
     transform 0.3s,
     opacity 0.3s;
 }
-nav .hamburger-btn.open span:nth-child(1) {
+nav .c-hamburger-btn.is-open span:nth-child(1) {
   transform: translateY(5px) rotate(45deg);
 }
-nav .hamburger-btn.open span:nth-child(2) {
+nav .c-hamburger-btn.is-open span:nth-child(2) {
   opacity: 0;
 }
-nav .hamburger-btn.open span:nth-child(3) {
+nav .c-hamburger-btn.is-open span:nth-child(3) {
   transform: translateY(-5px) rotate(-45deg);
 }
 
@@ -90,7 +90,7 @@ nav .hamburger-btn.open span:nth-child(3) {
 /* Side menu                                                          */
 /* Shares button colors with nav links via gradient variables.        */
 /* ------------------------------------------------------------------ */
-nav .side-menu-overlay {
+nav .c-side-menu-overlay {
   position: fixed;
   inset: 0;
   background: var(--overlay-bg);
@@ -99,11 +99,11 @@ nav .side-menu-overlay {
   transition: opacity 0.3s;
   z-index: 1001;
 }
-nav .side-menu-overlay.open {
+nav .c-side-menu-overlay.is-open {
   opacity: 1;
   visibility: visible;
 }
-nav .side-menu {
+nav .c-side-menu {
   position: fixed;
   top: 0;
   left: 0;
@@ -119,10 +119,10 @@ nav .side-menu {
   flex-direction: column;
   gap: 1rem;
 }
-nav .side-menu.open {
+nav .c-side-menu.is-open {
   transform: translateX(0);
 }
-nav .side-menu a {
+nav .c-side-menu a {
   color: var(--color-nav-text);
   text-decoration: none;
   padding: 0.5rem 0.75rem;
@@ -134,20 +134,20 @@ nav .side-menu a {
     color 0.3s;
   display: block;
 }
-nav .side-menu a:hover {
+nav .c-side-menu a:hover {
   background-color: var(--color-subtle-bg);
   color: var(--color-text);
 }
-nav .side-menu a:active {
+nav .c-side-menu a:active {
   background-color: var(--color-subtle-bg-hover);
 }
 
 /* Theme toggle */
-nav .theme-toggle-wrapper {
+nav .c-theme-toggle-wrapper {
   position: relative;
   display: inline-block;
 }
-nav .theme-toggle-main {
+nav .c-theme-toggle-main {
   position: relative;
   color: var(--color-nav-text);
   text-decoration: none;
@@ -162,15 +162,15 @@ nav .theme-toggle-main {
     background-color 0.3s,
     color 0.3s;
 }
-nav .theme-toggle-main:hover {
+nav .c-theme-toggle-main:hover {
   background-color: var(--color-subtle-bg);
   color: var(--color-text);
 }
-nav .theme-toggle-main:active {
+nav .c-theme-toggle-main:active {
   background-color: var(--color-subtle-bg-hover);
 }
 
-nav .theme-options {
+nav .c-theme-options {
   position: absolute;
   top: calc(100% + 4px);
   left: 50%;
@@ -183,7 +183,7 @@ nav .theme-options {
   box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
-nav .theme-option {
+nav .c-theme-option {
   width: 28px;
   height: 28px;
   padding: 0;
@@ -197,27 +197,27 @@ nav .theme-option {
     background-color 0.2s,
     box-shadow 0.2s;
 }
-nav .theme-option.light {
+nav .c-theme-option.is-light {
   background-color: var(--color-light-gray);
   color: var(--color-nav-text);
 }
-nav .theme-option.dark {
+nav .c-theme-option.is-dark {
   background-color: var(--color-dark-gray);
   color: var(--color-white);
 }
-nav .theme-option:hover {
+nav .c-theme-option:hover {
   box-shadow: var(--shadow-soft);
 }
-nav .theme-option.active {
+nav .c-theme-option.is-active {
   border-color: var(--color-warning-accent);
 }
 
 /* Language selector */
-nav .language-selector-wrapper {
+nav .c-language-selector-wrapper {
   position: relative;
   display: inline-block;
 }
-nav .language-selector-main {
+nav .c-language-selector-main {
   position: relative;
   color: var(--color-nav-text);
   text-decoration: none;
@@ -235,14 +235,14 @@ nav .language-selector-main {
     background-color 0.3s,
     color 0.3s;
 }
-nav .language-selector-main:hover {
+nav .c-language-selector-main:hover {
   background-color: var(--color-subtle-bg);
   color: var(--color-text);
 }
-nav .language-selector-main:active {
+nav .c-language-selector-main:active {
   background-color: var(--color-subtle-bg-hover);
 }
-nav .language-options {
+nav .c-language-options {
   position: absolute;
   top: calc(100% + 4px);
   left: 50%;
@@ -256,7 +256,7 @@ nav .language-options {
   box-shadow: var(--shadow-medium);
   z-index: 1001;
 }
-nav .language-option {
+nav .c-language-option {
   padding: 4px 8px;
   border-radius: 4px;
   border: 1px solid var(--color-border-neutral);
@@ -268,10 +268,10 @@ nav .language-option {
     background-color 0.2s,
     box-shadow 0.2s;
 }
-nav .language-option:hover {
+nav .c-language-option:hover {
   box-shadow: var(--shadow-soft);
 }
-nav .language-option.active {
+nav .c-language-option.is-active {
   border-color: var(--color-warning-accent);
 }
 /* ---------- Responsive Design ---------- */
@@ -283,7 +283,7 @@ nav .language-option.active {
     box-shadow: var(--shadow-nav-mobile);
   }
   nav a,
-  nav button:not(.theme-option) {
+  nav button:not(.c-theme-option) {
     min-width: 0;
     margin: 3px;
     padding: 10px 5px;
@@ -300,7 +300,7 @@ nav .language-option.active {
     flex-wrap: nowrap;
   }
   nav a,
-  nav button:not(.theme-option) {
+  nav button:not(.c-theme-option) {
     min-width: 0;
     padding: 8px 3px;
     font-size: 0.8rem;
@@ -309,7 +309,7 @@ nav .language-option.active {
 }
 @media (max-width: 360px) {
   nav a,
-  nav button:not(.theme-option) {
+  nav button:not(.c-theme-option) {
     min-width: 0;
     margin: 4px 3px;
     padding: 8px 3px;

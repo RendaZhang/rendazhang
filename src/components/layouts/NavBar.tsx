@@ -11,16 +11,16 @@ export default function NavBar(): ReactElement {
 
   return (
     <nav>
-      <div className="nav-left">
+      <div className="c-nav-left">
         <HamburgerMenu />
-        <a href={HOME_PAGE_PATH} className="nav-logo">
+        <a href={HOME_PAGE_PATH} className="c-nav-logo">
           <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
         </a>
       </div>
-      <div className="nav-right">
+      <div className="c-nav-right">
         <LanguageSelector />
         <ThemeToggle />
-        <a href={LOGIN_PAGE_PATH} aria-label="Login" className="avatar-link">
+        <a href={LOGIN_PAGE_PATH} aria-label="Login" className="c-avatar-link">
           <AvatarIcon />
         </a>
       </div>

@@ -5,6 +5,7 @@
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [当前架构](#%E5%BD%93%E5%89%8D%E6%9E%B6%E6%9E%84)
   - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
+    - [命名规则与目录约定](#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%BA%A6%E5%AE%9A)
   - [CSS / 浏览器基线（2024/2025）](#css--%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9F%BA%E7%BA%BF20242025)
     - [必备特性](#%E5%BF%85%E5%A4%87%E7%89%B9%E6%80%A7)
     - [渐进增强](#%E6%B8%90%E8%BF%9B%E5%A2%9E%E5%BC%BA)
@@ -17,7 +18,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 17:29 (UTC+08:00)
+- **最后更新**: August 09, 2025, 18:25 (UTC+08:00)
 
 ---
 
@@ -58,6 +59,25 @@ src/
     ├── utilities/
     ├── components/
     └── theme.css
+```
+
+### 命名规则与目录约定
+
+- 组件类以 `c-` 前缀命名，例如 `c-btn-primary`、`c-form-control`。
+- 工具类以 `u-` 前缀命名，用于通用辅助样式，如 `u-text-error`。
+- 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`。
+- JavaScript 钩子使用 `js-` 前缀，仅供脚本选择器使用。
+
+组件样式按照以下目录结构组织，每个组件占用独立文件夹并提供入口文件：
+
+```
+src/styles/components/
+├── button/
+│   └── button.css
+├── form/
+│   └── form.css
+└── navigation/
+    └── navigation.css
 ```
 
 ---
