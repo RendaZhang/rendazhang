@@ -78,7 +78,7 @@
 /* Position with `.fixed-bottom-right` utility when displayed.         */
 /* ------------------------------------------------------------------ */
 #enhancement-progress {
-  background: var(--overlay-light-bg);
+  background: var(--overlay-surface);
   padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-elevation-3);
@@ -87,15 +87,8 @@
   gap: var(--space-3);
   z-index: 1000;
   transition: opacity var(--duration-normal) ease;
-  border: 1px solid var(--color-border-muted);
-}
-
-@media (prefers-color-scheme: dark) {
-  #enhancement-progress {
-    background: var(--overlay-dark-surface);
-    color: var(--color-text);
-    border-color: var(--color-border-light);
-  }
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text);
 }
 
 /* Pulsing dots shown inside the progress overlay */

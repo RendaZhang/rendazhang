@@ -71,6 +71,8 @@
     --md-blockquote-border: var(--color-md-blockquote-border);
     --md-blockquote-bg: var(--color-md-blockquote-bg);
     --md-hr-bg: var(--color-md-hr);
+    --social-icon-filter: none;
+    --overlay-surface: var(--overlay-light-bg);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -117,6 +119,8 @@
       --md-blockquote-border: var(--color-md-blockquote-border);
       --md-blockquote-bg: var(--color-md-blockquote-bg);
       --md-hr-bg: var(--color-md-hr);
+      --social-icon-filter: brightness(0) invert(1);
+      --overlay-surface: var(--overlay-dark-surface);
     }
   }
 
@@ -163,6 +167,8 @@
     --md-blockquote-border: var(--color-md-blockquote-border);
     --md-blockquote-bg: var(--color-md-blockquote-bg);
     --md-hr-bg: var(--color-md-hr);
+    --social-icon-filter: brightness(0) invert(1);
+    --overlay-surface: var(--overlay-dark-surface);
   }
 }
 

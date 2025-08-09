@@ -33,9 +33,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .c-social-icons img[alt='CSDN logo'],
-  .c-social-icons img[alt='Medium logo'] {
-    filter: brightness(0) invert(1);
-  }
+.c-social-icons img[alt='CSDN logo'],
+.c-social-icons img[alt='Medium logo'] {
+  filter: var(--social-icon-filter);
 }
