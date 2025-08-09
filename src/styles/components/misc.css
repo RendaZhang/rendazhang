@@ -46,7 +46,23 @@
   color: var(--color-white);
   cursor: pointer;
   z-index: 9999;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-elevation-2);
+  transition:
+    filter 0.3s,
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+
+.back-to-top:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-elevation-3);
+}
+.back-to-top:active {
+  transform: scale(0.96);
+}
+.back-to-top:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
 }
 
 .back-to-top svg {

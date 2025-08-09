@@ -74,16 +74,16 @@
 /* Utility border radius classes */
 .rounded-4 {
   /* Small radius for buttons and small elements */
-  border-radius: var(--space-1);
+  border-radius: var(--radius-xs);
 }
 .rounded-8 {
   /* Standard border radius for cards and dialogs */
-  border-radius: var(--space-2);
+  border-radius: var(--radius-s);
 }
 
 .shadow-medium {
   /* Moderate elevation for floating elements */
-  box-shadow: var(--shadow-medium);
+  box-shadow: var(--shadow-elevation-2);
 }
 /* Fixed utility positioning for floating controls */
 .fixed-bottom-right {

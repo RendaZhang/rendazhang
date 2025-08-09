@@ -504,6 +504,13 @@
     --space-9: 4rem; /* 64px */
     --space-10: 5rem; /* 80px */
 
+    /*! ==== Borders & Radius ==== */
+    --radius-xs: var(--space-1);
+    --radius-s: var(--space-2);
+    --radius-m: var(--space-3);
+    --radius-l: var(--space-6);
+    --border-1: 1px solid var(--color-border-light);
+
     /*! ==== Typography ==== */
     --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif; /* old: --font-body */
     /* Fluid type scale */
@@ -523,6 +530,10 @@
     --duration-slow: 0.5s;
 
     /*! ==== Shadows & Overlays ==== */
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-brand) 40%, transparent);
+    --shadow-elevation-1: 0 1px 2px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    --shadow-elevation-2: 0 2px 4px color-mix(in srgb, var(--color-base-black) 15%, transparent);
+    --shadow-elevation-3: 0 4px 6px color-mix(in srgb, var(--color-base-black) 20%, transparent);
     --shadow-elevated: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-elevated */
     --overlay-bg: color-mix(
       in srgb,

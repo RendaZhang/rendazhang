@@ -13,6 +13,22 @@
   cursor: pointer;
   z-index: 9999;
   padding: 0;
+  box-shadow: var(--shadow-elevation-2);
+  transition:
+    filter 0.3s,
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+.chat-widget-toggle:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-elevation-3);
+}
+.chat-widget-toggle:active {
+  transform: scale(0.96);
+}
+.chat-widget-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
 }
 .chat-widget-toggle svg {
   width: calc(var(--space-7) - var(--space-1));

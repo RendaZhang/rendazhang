@@ -12,12 +12,16 @@
   /* Fallback layout when `subgrid` isn't supported */
   grid-template-rows: auto auto auto auto 1fr;
   grid-row: span 5;
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--space-2);
+  border: var(--border-1);
+  border-radius: var(--radius-s);
   padding: var(--space-5);
   text-align: center;
   background: var(--color-surface);
-  box-shadow: var(--shadow-cert-card);
+  box-shadow: var(--shadow-elevation-1);
+}
+.cert-card:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-elevation-1), var(--focus-ring);
 }
 
 @supports (grid-template-rows: subgrid) {
@@ -62,7 +66,7 @@
 @media (prefers-color-scheme: dark) {
   .credly-container {
     background: var(--color-surface);
-    border-radius: var(--space-2);
+    border-radius: var(--radius-s);
     padding: var(--space-2);
   }
 }

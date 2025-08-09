@@ -1,4 +1,4 @@
-/* Markdown dark mode styles aligned to spacing and type tokens */
+/* Markdown dark mode styles aligned to design tokens */
 html.dark-mode .markdown-body {
   background-color: var(--color-md-bg);
   color: var(--color-md-text);
@@ -36,7 +36,7 @@ html.dark-mode .markdown-body table {
   border-collapse: collapse;
   width: 100%;
   margin: var(--space-6) 0;
-  box-shadow: var(--shadow-md-table);
+  box-shadow: var(--shadow-elevation-2);
 }
 html.dark-mode .markdown-body th {
   background-color: var(--color-md-th-bg);
@@ -68,7 +68,7 @@ html.dark-mode .markdown-body pre,
 html.dark-mode .markdown-body code {
   background-color: var(--color-md-code-bg);
   color: var(--color-md-code-color);
-  border-radius: var(--space-1);
+  border-radius: var(--radius-xs);
 }
 
 /* 链接优化 */
@@ -79,6 +79,11 @@ html.dark-mode .markdown-body a {
 html.dark-mode .markdown-body a:hover {
   color: var(--color-md-link-hover);
   text-decoration: underline;
+}
+html.dark-mode .markdown-body a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-xs);
 }
 
 /* 引用块优化 */

@@ -16,6 +16,7 @@
     - [示例](#%E7%A4%BA%E4%BE%8B)
       - [✅ Do](#-do)
       - [❌ Don't](#-dont)
+  - [交互态与可访问性](#%E4%BA%A4%E4%BA%92%E6%80%81%E4%B8%8E%E5%8F%AF%E8%AE%BF%E9%97%AE%E6%80%A7)
   - [扩展与约定](#%E6%89%A9%E5%B1%95%E4%B8%8E%E7%BA%A6%E5%AE%9A)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -23,7 +24,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 23:25 (UTC+08:00)
+- **最后更新**: August 10, 2025, 00:11 (UTC+08:00)
 
 ---
 
@@ -219,6 +220,23 @@ h1 {
 #### ❌ Don't
 - 直接使用 `px` 指定字号或间距。
 - 在同一页面混用不同单位导致排版不一致。
+
+## 交互态与可访问性
+
+- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-1`、`--shadow-elevation-1`…`--shadow-elevation-3` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
+- 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
+- 交互态矩阵：
+
+| 状态          | 说明                                   |
+|---------------|----------------------------------------|
+| `:hover`      | 轻微提亮或提升阴影                     |
+| `:active`     | 按压回落，移除提升效果                 |
+| `:focus-visible` | `box-shadow: var(--focus-ring)` 高亮焦点 |
+| `:disabled`   | `opacity: 0.6; cursor: not-allowed;`   |
+
+- 对比度要求：正文文本≥4.5:1，UI 文本与图标≥3:1，确保视觉可达性。
+- 导航、表单、聊天等组件已统一采用 `--radius-*`、`--shadow-elevation-*` 与
+  `--focus-ring` Token，确保交互态一致且可访问。
 
 ## 扩展与约定
 

@@ -3,7 +3,8 @@
   background: var(--gradient-primary);
   border: none;
   color: var(--color-white);
-  box-shadow: var(--shadow-elevated);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-2);
   transition:
     filter 0.3s,
     transform 0.3s;
@@ -15,10 +16,21 @@
 .c-btn-primary:active {
   transform: translateY(0);
 }
+.c-btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+}
+.c-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 .c-btn-secondary {
   background: var(--color-subtle-bg);
   color: var(--color-text-muted);
-  border: 1px solid var(--color-border-muted);
+  border: var(--border-1);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-1);
   transition:
     filter 0.3s,
     transform 0.3s;
@@ -27,6 +39,15 @@
   background: var(--color-subtle-bg-hover);
   color: var(--color-text-darker);
 }
+.c-btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-elevation-1), var(--focus-ring);
+}
+.c-btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
 /* -------------------------------------------------------------- */
 /* Chat buttons - extend base button styles with larger radius.   */
@@ -34,7 +55,7 @@
 /* -------------------------------------------------------------- */
 .c-btn-chat {
   padding: var(--space-3) var(--space-6);
-  border-radius: var(--space-6);
+  border-radius: var(--radius-l);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -58,6 +79,6 @@
   /* Space buttons evenly when flex wrapped */
   margin: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--space-1);
+  border-radius: var(--radius-xs);
   text-decoration: none;
 }
