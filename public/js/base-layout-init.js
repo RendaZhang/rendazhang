@@ -2,13 +2,7 @@
 // Loads before rendering to apply stored theme, language and title preferences.
 (() => {
   const dataset = document.currentScript?.dataset || {};
-  const {
-    themeKey = '',
-    langKey = '',
-    titleZh = '',
-    titleEn = '',
-    isProd = 'true'
-  } = dataset;
+  const { themeKey = '', langKey = '', titleZh = '', titleEn = '', isProd = 'true' } = dataset;
 
   const isProduction = isProd === 'true';
   const log = (...args) => {
@@ -57,7 +51,7 @@
       log('BaseLayout script systemPrefersDark: ' + systemPrefersDark);
       log('BaseLayout script shouldUseDark: ' + shouldUseDark);
       if (shouldUseDark) {
-        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.add('is-dark-mode');
       }
       document.documentElement.dataset.initialTheme =
         storedTheme || (systemPrefersDark ? 'dark' : 'light');

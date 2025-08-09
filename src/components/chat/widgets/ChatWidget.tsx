@@ -80,19 +80,19 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   return (
     <>
       {open && (
-        <div className="chat-widget-panel bg-surface rounded-8 shadow-medium">
+        <div className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
           {loaded && (
             <iframe
               src={`${CHAT_PAGE_PATH}/`}
               title={AI_CHAT_WIDGET_TITLE}
-              className="chat-widget-iframe"
+              className="c-chat-widget-iframe"
               loading="lazy"
             />
           )}
         </div>
       )}
       <button
-        className="chat-widget-toggle flex-center shadow-medium fixed-bottom-right"
+        className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
       >

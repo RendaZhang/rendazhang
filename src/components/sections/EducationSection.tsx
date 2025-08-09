@@ -12,15 +12,15 @@ export default function EducationSection({
   educationZh
 }: EducationSectionProps): ReactElement {
   return (
-    <section className="education-section" id="education">
+    <section className="c-education-section" id="education">
       <h2 id="educationTitle">
         <LocalizedSection zhContent={educationZh.title} enContent={educationEn.title} />
       </h2>
       <div id="educationList">
         {educationZh.entries.map((entry, idx) => (
-          <div className="education-item mb-4" key={idx}>
-            <div className="section-header">
-              <span className="education-period mie-2">
+          <div className="c-education-item" key={idx}>
+            <div className="c-section-header">
+              <span className="c-education-period">
                 <LocalizedSection
                   zhContent={entry.period}
                   enContent={educationEn.entries[idx].period}
@@ -33,7 +33,7 @@ export default function EducationSection({
                 />
               </span>
             </div>
-            <h3 className="education-degree my-2">
+            <h3 className="c-education-degree">
               <LocalizedSection
                 zhContent={entry.degree}
                 enContent={educationEn.entries[idx].degree}

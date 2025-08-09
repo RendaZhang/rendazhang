@@ -37,19 +37,19 @@ export default function ThemeToggle() {
   };
 
   return (
-    <div className="theme-toggle-wrapper">
+    <div className="c-theme-toggle-wrapper">
       <button
         ref={buttonRef}
-        className="theme-toggle-main"
+        className="c-theme-toggle-main"
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
       >
         <LocalizedSection zhContent={textsZh.button} enContent={textsEn.button} />
       </button>
       {open && (
-        <div ref={optionsRef} className="theme-options">
+        <div ref={optionsRef} className="c-theme-options">
           <button
-            className={`theme-option light ${!darkMode ? 'active' : ''}`}
+            className={`c-theme-option is-light ${!darkMode ? 'is-active' : ''}`}
             aria-label={texts.light || '切换到浅色模式'}
             title={texts.light || '切换到浅色模式'}
             onClick={() => handleSelect(false)}
@@ -76,7 +76,7 @@ export default function ThemeToggle() {
             </svg>
           </button>
           <button
-            className={`theme-option dark ${darkMode ? 'active' : ''}`}
+            className={`c-theme-option is-dark ${darkMode ? 'is-active' : ''}`}
             aria-label={texts.dark || '切换到深色模式'}
             title={texts.dark || '切换到深色模式'}
             onClick={() => handleSelect(true)}

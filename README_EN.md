@@ -40,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 09, 2025, 06:08 (UTC+08:00)
+- **Last Updated**: August 10, 2025, 05:39 (UTC+08:00)
 
 ---
 
@@ -86,8 +86,8 @@ src/
 ├── hooks/               # Custom hooks for business logic
 ├── styles/
 │   ├── core/               # Core variables
-│   │   ├── _colors.css     # Color system
-│   │   ├── _spacing.css    # Spacing system
+│   │   ├── tokens.css      # Design tokens (colors, spacing, etc.)
+│   │   ├── legacy-alias.css # Legacy variable aliases
 │   │   └── _gradients.css  # Gradient system
 │   ├── components/         # Component styles
 │   ├── utilities/          # Utility classes
@@ -335,8 +335,8 @@ flowchart TD
 
 - `index.astro`: A multi-section homepage containing modules such as "Hero", "About Me", "Education", "Blog", "Skills & Abilities", "Experience", and "Contact Me", with a default floating `ChatWidget` badge.
 - `certifications.astro`: Grid-based certification cards with Credly verification
-- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github.min.css` and `github-markdown-light.min.css` for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as `ChatMessageList` and `ChatInput` for better maintainability.
-- `docs.astro`: Technical documentation page that loads both `github.min.css` and `github-markdown-light.min.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
+- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github.css` and `github-markdown-light.css` for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as `ChatMessageList` and `ChatInput` for better maintainability.
+- `docs.astro`: Technical documentation page that loads both `github.css` and `github-markdown-light.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
 - `login.astro`: Login form page.
 - `register.astro`: Register form page.
 - `404.astro/500.astro`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (500) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
@@ -348,6 +348,8 @@ flowchart TD
 **Lazy Loading**: All images have lazy loading enabled with a loading animation. For high-definition images, LQIP (Low-Quality Image Placeholder) lazy loading optimization is applied (e.g., the Hero section on the homepage).
 
 #### Color Scheme
+
+The core colors of the project are designed using OKLCH design tokens and provide sRGB fallback through `color-mix` to ensure perceptual consistency across light and dark modes.
 
 For detailed information, refer to the documentation: 📄 [Color Scheme](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88).
 
@@ -424,7 +426,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
 
 ### Style System Description
 
-> Explain the project's CSS architecture and build process, and demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For more details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
+> Introduce the project's CSS architecture, the OKLCH-based design token system, and the build process. Demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
 
 ---
 

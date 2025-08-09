@@ -13,13 +13,13 @@ export default function ContactSection(): ReactElement {
   const infosEn = contactEn.info || [];
   const formTexts = { zh: contactZh.form, en: contactEn.form };
   return (
-    <section className="contact-section" id="contact">
+    <section className="c-contact-section" id="contact">
       <h2 className="section-title">
         <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
       </h2>
-      <div className="grid-row">
-        <div className="grid-col-md-4 mb-4">
-          <div className="contact-info mb-3">
+      <div className="u-grid-row">
+        <div className="u-grid-col-md-4">
+          <div className="c-contact-info">
             <strong>
               <LocalizedSection zhContent={infosZh[0]?.label} enContent={infosEn[0]?.label} />
             </strong>
@@ -30,7 +30,7 @@ export default function ContactSection(): ReactElement {
               />
             </div>
           </div>
-          <div className="contact-info mb-3">
+          <div className="c-contact-info">
             <strong>
               <LocalizedSection zhContent={infosZh[1]?.label} enContent={infosEn[1]?.label} />
             </strong>
@@ -41,7 +41,7 @@ export default function ContactSection(): ReactElement {
               />
             </div>
           </div>
-          <div className="contact-info">
+          <div className="c-contact-info">
             <strong>
               <LocalizedSection zhContent={infosZh[2]?.label} enContent={infosEn[2]?.label} />
             </strong>
@@ -53,7 +53,7 @@ export default function ContactSection(): ReactElement {
             </div>
           </div>
         </div>
-        <div className="grid-col-md-8">
+        <div className="u-grid-col-md-8">
           <ContactForm texts={formTexts} />
         </div>
       </div>

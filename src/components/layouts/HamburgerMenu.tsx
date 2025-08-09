@@ -23,7 +23,7 @@ export default function HamburgerMenu(): ReactElement {
         open &&
         menuRef.current &&
         !menuRef.current.contains(e.target as Node) &&
-        !(e.target as Element).closest('.hamburger-btn')
+        !(e.target as Element).closest('.c-hamburger-btn')
       ) {
         setOpen(false);
       }
@@ -42,7 +42,7 @@ export default function HamburgerMenu(): ReactElement {
   return (
     <>
       <button
-        className={`hamburger-btn${open ? ' open' : ''}`}
+        className={`c-hamburger-btn${open ? ' is-open' : ''}`}
         aria-label={NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.menu || 'Menu'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -51,8 +51,11 @@ export default function HamburgerMenu(): ReactElement {
         <span />
         <span />
       </button>
-      <div className={`side-menu-overlay${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
-      <div ref={menuRef} className={`side-menu${open ? ' open' : ''}`}>
+      <div
+        className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
+        onClick={() => setOpen(false)}
+      />
+      <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
         {items.map((item) => (
           <a key={item.key} href={item.href} onClick={() => setOpen(false)}>
             <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />

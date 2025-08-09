@@ -54,7 +54,7 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
       initialSet.current = true;
 
       // 优先读取 DOM 类名
-      const hasDarkClass = document.documentElement.classList.contains('dark-mode');
+      const hasDarkClass = document.documentElement.classList.contains('is-dark-mode');
       logger.log('ThemeProvider hasDarkClass: ' + hasDarkClass);
 
       // 其次读取存储
@@ -74,14 +74,14 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
       setDarkMode(shouldBeDark);
 
       // 确保 DOM 状态正确
-      document.documentElement.classList.toggle('dark-mode', shouldBeDark);
+      document.documentElement.classList.toggle('is-dark-mode', shouldBeDark);
 
       logger.log('ThemeProvider shouldBeDark: ' + shouldBeDark);
       return;
     }
 
     // 3. 后续状态变化时同步
-    document.documentElement.classList.toggle('dark-mode', darkMode);
+    document.documentElement.classList.toggle('is-dark-mode', darkMode);
     try {
       logger.log('ThemeProvider darkMode: ' + darkMode);
       storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');

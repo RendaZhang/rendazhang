@@ -1,0 +1,219 @@
+/* Forms */
+/* Form elements now leverage spacing and type tokens for consistency */
+.c-form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.c-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.c-form-control {
+  background-color: var(--color-surface);
+  border: var(--border-0);
+  border-radius: var(--radius-xs);
+  color: var(--color-text);
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
+
+  &:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+}
+
+.c-invalid-feedback,
+.c-valid-feedback {
+  font-size: var(--font-size-1);
+  margin-top: var(--space-1);
+}
+
+.c-invalid-feedback {
+  color: var(--color-error);
+}
+
+.c-valid-feedback {
+  color: var(--color-success);
+}
+
+.c-form-check {
+  align-items: center;
+  display: flex;
+}
+
+.c-form-check--spaced {
+  margin-top: var(--space-4);
+}
+
+.c-form-check-input {
+  height: var(--space-4);
+  width: var(--space-4);
+}
+
+.c-form-check-label {
+  margin-inline-start: var(--space-2);
+}
+
+/* Auth Forms */
+.c-login-container,
+.c-register-container {
+  background: var(--color-surface);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-login);
+  container-type: inline-size;
+  margin: var(--space-5) auto;
+  padding: var(--space-5);
+  width: 100%;
+
+  @container (min-width: 481px) {
+    margin: var(--space-10) auto;
+  }
+}
+
+.c-login-form,
+.c-register-form {
+  margin: 0 auto;
+  max-width: 450px;
+  width: 100%;
+
+  /* ------------------------------------------------------------------ */
+  /* Responsive width for authentication forms                          */
+  /* Centralized here so login.css and register.css stay minimal.       */
+  /* ------------------------------------------------------------------ */
+  @container (min-width: 769px) and (max-width: 1024px) {
+    width: 70%;
+  }
+
+  @container (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.c-login-title,
+.c-register-title {
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.c-password-wrapper {
+  position: relative;
+}
+
+.c-password-toggle {
+  cursor: pointer;
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:focus-visible {
+    border-radius: var(--radius-xs);
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+}
+
+.c-password-strength {
+  background: var(--color-gray);
+  border-radius: calc(var(--radius-xs) / 2);
+  height: var(--space-1);
+  margin-top: var(--space-1);
+
+  &.is-weak {
+    background: var(--color-error);
+  }
+
+  &.is-medium {
+    background: var(--color-warning);
+  }
+
+  &.is-strong {
+    background: var(--color-success);
+  }
+}
+
+.c-password-strength-label {
+  font-size: var(--font-size-1);
+  margin-top: var(--space-1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Generic horizontal progress bar used across forms                   */
+/* ------------------------------------------------------------------ */
+.c-progress-container {
+  background: var(--color-gray);
+  border-radius: var(--radius-xs);
+  height: var(--space-2);
+  margin-top: var(--space-4);
+  overflow: hidden;
+  width: 100%;
+}
+
+.c-progress-bar {
+  background: var(--color-brand-blue);
+  height: 100%;
+  transition: width var(--duration-normal) var(--easing-standard);
+  width: 0;
+}
+
+.c-third-party {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-top: var(--space-4);
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:focus-visible {
+      border-radius: var(--radius-xs);
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+  }
+}
+
+.c-global-error {
+  color: var(--color-error);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+/* -------------------------------------------------------------- */
+/* Feedback Utilities                                             */
+/* Common classes for form success and error messages.            */
+/* Keeps colors consistent across pages.                          */
+/* -------------------------------------------------------------- */
+.c-form-message {
+  margin-top: var(--space-2);
+}
+
+.c-form-text {
+  margin-top: var(--space-2);
+}
+
+.c-form-submit {
+  margin-top: var(--space-4);
+}
+
+.c-form-alt {
+  margin-top: var(--space-4);
+}
+
+.u-text-success {
+  color: var(--color-success);
+}
+
+.u-text-error {
+  color: var(--color-error);
+}
+
+.u-text-warning {
+  color: var(--color-warning);
+}

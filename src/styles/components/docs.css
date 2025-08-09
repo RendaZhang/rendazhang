@@ -1,6 +1,7 @@
-main.main-content.docs-main {
-  padding: 0.2rem 0.7rem;
-  max-width: 900px;
+/* Docs pages adhere to spacing tokens and `--measure` for readability */
+main.c-main-content.c-docs-main {
+  max-width: var(--measure);
+  padding: var(--space-1) var(--space-3);
 }
 
 /* Loading animation for docs page is styled globally in theme.css */

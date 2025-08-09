@@ -10,7 +10,7 @@ mermaid.initialize({ startOnLoad: false });
 
 export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): void {
   const hint = document.createElement('div');
-  hint.className = 'hint-message';
+  hint.className = 'c-hint-message';
   hint.textContent = msg;
   document.body.appendChild(hint);
   setTimeout(() => {

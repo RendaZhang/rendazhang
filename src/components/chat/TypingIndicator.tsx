@@ -6,10 +6,10 @@ interface TypingIndicatorProps {
 
 export default function TypingIndicator({ innerRef }: TypingIndicatorProps) {
   return (
-    <div className="typing-indicator" id="typing-indicator" ref={innerRef}>
-      <span className="typing-dot"></span>
-      <span className="typing-dot"></span>
-      <span className="typing-dot"></span>
+    <div className="c-typing-indicator" id="typing-indicator" ref={innerRef}>
+      <span className="c-typing-dot"></span>
+      <span className="c-typing-dot"></span>
+      <span className="c-typing-dot"></span>
     </div>
   );
 }

@@ -1,29 +1,30 @@
 /* Responsive hero elements rely on utilities from theme.css */
-.responsive-hero-placeholder {
-  filter: blur(20px);
-  transition: opacity 0.3s ease;
+/* Blur and motion values reference spacing and duration tokens */
+.c-responsive-hero-placeholder {
+  filter: blur(var(--space-5));
+  transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 1;
 }
-.responsive-hero-placeholder.loaded {
+.c-responsive-hero-placeholder.is-loaded {
   opacity: 0;
 }
 
-.responsive-hero-placeholder,
-.responsive-hero-img {
-  /* absolute positioning handled by .absolute-fill */
+.c-responsive-hero-placeholder,
+.c-responsive-hero-img {
+  /* absolute positioning handled by .u-absolute-fill */
   object-fit: cover;
 }
 
-.responsive-hero-img {
+.c-responsive-hero-img {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 2;
 }
-.responsive-hero-img.loaded {
+.c-responsive-hero-img.is-loaded {
   opacity: 1;
 }
 
-.responsive-hero-content {
-  /* content overlay centered via .flex-center and positioned by .absolute-fill */
+.c-responsive-hero-content {
+  /* content overlay centered via .u-flex-center and positioned by .u-absolute-fill */
   z-index: 3;
 }

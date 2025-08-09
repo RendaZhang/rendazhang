@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 export default function CertificationsEffects(): null {
   useEffect(() => {
-    const container = document.querySelector('.credly-container');
+    const container = document.querySelector('.c-credly-container');
     if (!(container instanceof HTMLElement)) return;
-    const loader = container.querySelector('.credly-spinner') as HTMLElement | null;
+    const loader = container.querySelector('.c-credly-spinner') as HTMLElement | null;
 
     const hide = (): void => {
       if (loader) loader.style.display = 'none';

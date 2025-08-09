@@ -122,15 +122,15 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   };
 
   return (
-    <div className="chat-wrapper">
-      <header className="app-header">
+    <div className="c-chat-wrapper">
+      <header className="c-app-header">
         <h1>
           <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
         </h1>
       </header>
-      <div className="chat-container" id="chat-container" ref={chatContainerRef}>
+      <div className="c-chat-container" id="chat-container" ref={chatContainerRef}>
         {messages.length === 0 ? (
-          <div className="info-text">
+          <div className="c-info-text">
             <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
           </div>
         ) : (

@@ -21,10 +21,10 @@ export default function EnhancementProgress({
   if (!show) return null;
   return (
     <div id="enhancement-progress" className="fixed-bottom-right" ref={innerRef}>
-      <div className="pulse-container">
-        <div className="pulse-dot pulse-dot-1"></div>
-        <div className="pulse-dot pulse-dot-2"></div>
-        <div className="pulse-dot pulse-dot-3"></div>
+      <div className="c-pulse-container">
+        <div className="c-pulse-dot c-pulse-dot-1"></div>
+        <div className="c-pulse-dot c-pulse-dot-2"></div>
+        <div className="c-pulse-dot c-pulse-dot-3"></div>
       </div>
       <p>
         <LocalizedSection

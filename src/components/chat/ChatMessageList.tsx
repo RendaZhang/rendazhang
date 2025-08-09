@@ -34,7 +34,7 @@ export default function ChatMessageList({
       );
     }
     return (
-      <div key={idx} className="message user-message">
+      <div key={idx} className="c-message c-user-message">
         {msg.content}
       </div>
     );

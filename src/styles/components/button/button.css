@@ -1,0 +1,92 @@
+/* Buttons */
+.c-btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-2);
+  color: var(--color-white);
+  transition:
+    filter var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+    outline: none;
+  }
+
+  &:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.c-btn-secondary {
+  background: var(--color-subtle-bg);
+  border: var(--border-0);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-1);
+  color: var(--color-text-muted);
+  transition:
+    filter var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
+
+  &:hover {
+    background: var(--color-subtle-bg-hover);
+    color: var(--color-text-darker);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--shadow-elevation-1), var(--focus-ring);
+    outline: none;
+  }
+
+  &:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* -------------------------------------------------------------- */
+/* Chat buttons - extend base button styles with larger radius.   */
+/* Apply alongside `.c-btn-primary` or `.c-btn-secondary`.        */
+/* -------------------------------------------------------------- */
+.c-btn-chat {
+  align-items: center;
+  border-radius: var(--radius-l);
+  display: flex;
+  font-weight: 600;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  transition: all var(--duration-normal) var(--easing-standard);
+
+  /* Disabled state for reusable chat buttons */
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Verification buttons                                                */
+/* Reuse c-btn-primary styles to keep colors/shadows consistent.       */
+/* Only spacing is customized here so the class can be combined with   */
+/* .c-btn-primary in markup.                                            */
+/* ------------------------------------------------------------------ */
+.c-verify-btn {
+  border-radius: var(--radius-xs);
+  /* Space buttons evenly when flex wrapped */
+  margin: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  text-decoration: none;
+}
