@@ -6,7 +6,7 @@ import responsiveHeroCssUrl from '../styles/components/responsive-hero.css?url';
 import socialIconsCssUrl from '../styles/components/social-icons.css?url';
 import chatWidgetCssUrl from '../styles/components/chat_widget.css?url';
 import markdownDarkModeCssUrl from '../styles/components/markdown-dark-mode.css?url';
-import githubCssUrl from '../styles/components/github.min.css?url';
+import githubCssUrl from '../styles/components/github.css?url';
 import githubCodeHighlightCssUrl from '../styles/components/github-markdown-light.css?url';
 import faviconPngUrl from '../assets/favicons/favicon.png?url';
 import faviconIcoUrl from '../assets/favicons/favicon.ico?url';

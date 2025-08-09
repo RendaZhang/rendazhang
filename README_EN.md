@@ -40,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 10, 2025, 04:52 (UTC+08:00)
+- **Last Updated**: August 10, 2025, 05:39 (UTC+08:00)
 
 ---
 
@@ -335,8 +335,8 @@ flowchart TD
 
 - `index.astro`: A multi-section homepage containing modules such as "Hero", "About Me", "Education", "Blog", "Skills & Abilities", "Experience", and "Contact Me", with a default floating `ChatWidget` badge.
 - `certifications.astro`: Grid-based certification cards with Credly verification
-- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github.min.css` and `github-markdown-light.css` for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as `ChatMessageList` and `ChatInput` for better maintainability.
-- `docs.astro`: Technical documentation page that loads both `github.min.css` and `github-markdown-light.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
+- `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github.css` and `github-markdown-light.css` for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as `ChatMessageList` and `ChatInput` for better maintainability.
+- `docs.astro`: Technical documentation page that loads both `github.css` and `github-markdown-light.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
 - `login.astro`: Login form page.
 - `register.astro`: Register form page.
 - `404.astro/500.astro`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (500) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
