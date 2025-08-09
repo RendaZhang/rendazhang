@@ -63,7 +63,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 22:14 (UTC+08:00)
+- **最后更新**: August 09, 2025, 22:15 (UTC+08:00)
 
 ---
 
@@ -1052,7 +1052,7 @@
 
 ### BUG-049: Vite 报错 `@import must precede all other statements`
 
-- **问题状态**：已解决 (Resolved)
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-09
 - **重现环境**：`npm run build`
 - **问题现象**：
@@ -1066,7 +1066,7 @@
 
 ### BUG-050: Auth form containers use fixed top margin
 
-- **问题状态**：已解决 (Resolved)
+- **问题状态**：已关闭 (Closed)
 - **发现日期**：2025-08-09
 - **重现环境**：登录或注册表单嵌入侧栏/弹窗
 - **问题现象**：
