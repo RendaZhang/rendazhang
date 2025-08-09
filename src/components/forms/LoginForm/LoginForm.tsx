@@ -103,7 +103,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
         </h1>
         {globalError && <div className="c-global-error">{globalError}</div>}
-        <div className="mb-3">
+        <div className="c-form-group">
           <label htmlFor="email" className="c-form-label">
             <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
           </label>
@@ -118,7 +118,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           />
           {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
         </div>
-        <div className="mb-3 c-password-wrapper">
+        <div className="c-form-group c-password-wrapper">
           <label htmlFor="password" className="c-form-label">
             <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
           </label>
@@ -150,7 +150,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           )}
           {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
         </div>
-        <div className="mb-3 c-form-check d-flex justify-content-between">
+        <div className="c-form-check c-form-group d-flex justify-content-between">
           <div>
             <input
               id="remember"
@@ -159,7 +159,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               checked={remember}
               onChange={(e) => setRemember(e.target.checked)}
             />
-            <label htmlFor="remember" className="c-form-check-label mis-2">
+            <label htmlFor="remember" className="c-form-check-label">
               <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
             </label>
           </div>
@@ -169,7 +169,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
         </div>
         <button
           type="submit"
-          className="c-btn-primary w-100"
+          className="c-btn-primary w-100 c-form-submit"
           disabled={status === 'loading' || status === 'success'}
         >
           {status === 'loading' ? (
@@ -211,7 +211,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             />
           </button>
         </div>
-        <div className="text-center mt-3">
+        <div className="text-center c-form-alt">
           <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
           <a href={REGISTER_PAGE_PATH}>
             <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />

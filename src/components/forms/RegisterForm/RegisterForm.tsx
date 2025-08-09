@@ -133,7 +133,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         <h1 className="c-register-title">
           <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
         </h1>
-        <div className="mb-3">
+        <div className="c-form-group">
           <label htmlFor="email" className="c-form-label">
             <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
           </label>
@@ -148,7 +148,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           />
           {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
         </div>
-        <div className="mb-3">
+        <div className="c-form-group">
           <label htmlFor="username" className="c-form-label">
             <LocalizedSection zhContent={textsZh.usernameLabel} enContent={textsEn.usernameLabel} />
           </label>
@@ -217,19 +217,19 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
           </div>
         </div>
-        <div className="form-text mt-2">
+        <div className="form-text">
           <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
         </div>
-        <div className="form-check mt-3">
+        <div className="c-form-check c-form-check--spaced">
           <input
             id="agree"
-            className="form-check-input"
+            className="c-form-check-input"
             type="checkbox"
             checked={agree}
             onChange={(e) => handleChange('agree', e.target.checked)}
             required
           />
-          <label htmlFor="agree" className="form-check-label">
+          <label htmlFor="agree" className="c-form-check-label">
             <LocalizedSection
               zhContent={
                 <>
@@ -245,12 +245,12 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             />
           </label>
         </div>
-        <div className="c-progress-container mt-3">
+        <div className="c-progress-container">
           <div className="c-progress-bar" style={{ width: progress + '%' }}></div>
         </div>
         <button
           type="submit"
-          className="c-btn-primary w-100 mt-3"
+          className="c-btn-primary w-100 c-form-submit"
           disabled={!canSubmit || status === 'loading' || status === 'success'}
         >
           {status === 'loading' ? (
@@ -278,7 +278,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             />
           </button>
         </div>
-        <div className="text-center mt-3">
+        <div className="text-center c-form-alt">
           <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
           <a href={LOGIN_PAGE_PATH}>
             <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />

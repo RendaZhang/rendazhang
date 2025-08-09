@@ -107,7 +107,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="contact-form">
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="name"
@@ -118,7 +118,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="contact"
@@ -129,7 +129,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="_subject"
@@ -140,7 +140,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <textarea
           name="message"
           className="c-form-control"

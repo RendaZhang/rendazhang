@@ -18,8 +18,8 @@ export default function ContactSection(): ReactElement {
         <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
       </h2>
       <div className="grid-row">
-        <div className="grid-col-md-4 mb-4">
-          <div className="contact-info mb-3">
+        <div className="grid-col-md-4">
+          <div className="contact-info">
             <strong>
               <LocalizedSection zhContent={infosZh[0]?.label} enContent={infosEn[0]?.label} />
             </strong>
@@ -30,7 +30,7 @@ export default function ContactSection(): ReactElement {
               />
             </div>
           </div>
-          <div className="contact-info mb-3">
+          <div className="contact-info">
             <strong>
               <LocalizedSection zhContent={infosZh[1]?.label} enContent={infosEn[1]?.label} />
             </strong>

@@ -15,7 +15,7 @@ export default function SkillsSection({ skillsEn, skillsZh }: SkillsSectionProps
       </h2>
       <div id="skillsBars">
         {skillsZh.categories.map((cat, idx) => (
-          <div className="skill-bar mb-2" key={idx}>
+          <div className="skill-bar" key={idx}>
             <span className="skill-label">
               <LocalizedSection zhContent={cat.label} enContent={skillsEn.categories[idx].label} />
             </span>

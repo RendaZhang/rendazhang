@@ -16,7 +16,10 @@
     - [示例](#%E7%A4%BA%E4%BE%8B)
       - [✅ Do](#-do)
       - [❌ Don't](#-dont)
+  - [Token 用法示例](#token-%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B)
+  - [组件示意](#%E7%BB%84%E4%BB%B6%E7%A4%BA%E6%84%8F)
   - [交互态与可访问性](#%E4%BA%A4%E4%BA%92%E6%80%81%E4%B8%8E%E5%8F%AF%E8%AE%BF%E9%97%AE%E6%80%A7)
+  - [样式 Lint 与预提交](#%E6%A0%B7%E5%BC%8F-lint-%E4%B8%8E%E9%A2%84%E6%8F%90%E4%BA%A4)
   - [扩展与约定](#%E6%89%A9%E5%B1%95%E4%B8%8E%E7%BA%A6%E5%AE%9A)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -24,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 00:11 (UTC+08:00)
+- **最后更新**: August 10, 2025, 00:39 (UTC+08:00)
 
 ---
 
@@ -214,12 +217,40 @@ h1 {
 ```
 
 #### ✅ Do
+
 - 使用 `var(--font-size-n)` 和 `var(--space-n)` 引用全局刻度。
 - 保持段落宽度不超过 `var(--measure)`（约 65ch）。
 
 #### ❌ Don't
+
 - 直接使用 `px` 指定字号或间距。
 - 在同一页面混用不同单位导致排版不一致。
+
+---
+
+## Token 用法示例
+
+```css
+.c-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-s);
+  background: var(--color-surface);
+}
+```
+
+- 文本、颜色、间距等均应通过 Token 引用，避免硬编码。
+
+---
+
+## 组件示意
+
+统一的组件示例展示了 Token 的实际应用：
+
+```html
+<button class="c-btn-primary">Primary</button>
+```
+
+---
 
 ## 交互态与可访问性
 
@@ -237,6 +268,14 @@ h1 {
 - 对比度要求：正文文本≥4.5:1，UI 文本与图标≥3:1，确保视觉可达性。
 - 导航、表单、聊天等组件已统一采用 `--radius-*`、`--shadow-elevation-*` 与
   `--focus-ring` Token，确保交互态一致且可访问。
+
+---
+
+## 样式 Lint 与预提交
+
+项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。该检查通过 pre-commit 与 `lint-staged` 自动运行。
+
+---
 
 ## 扩展与约定
 

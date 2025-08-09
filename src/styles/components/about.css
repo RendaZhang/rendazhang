@@ -1,7 +1,6 @@
 /*
   About page styles
-  - Layout and spacing utilities come from theme.css
-  - Only page-specific adjustments are defined here
+  - Layout and spacing tokens are applied per component here
 */
 .hero {
   color: var(--color-white);
@@ -18,9 +17,9 @@
   padding: 0;
 }
 
-/* Individual list items now use .mb-2 utility */
-
-/* Margin utilities (e.g., .mt-3, .mb-4) are defined in theme.css */
+.about-section li {
+  margin-bottom: var(--space-2);
+}
 
 /* Override global body flex alignment so main content starts below nav */
 body.about-page {
@@ -30,7 +29,7 @@ body.about-page {
 .skill-bar {
   display: flex;
   align-items: center;
-  /* vertical spacing via .mb-2 utility */
+  margin-bottom: var(--space-2);
 }
 
 .skill-label {
@@ -42,40 +41,52 @@ body.about-page {
   height: var(--space-4);
 }
 
-/* Use .mb-4 for spacing between items */
-
-.experience-period {
-  /* right spacing handled by .mie-2 */
+.experience-item,
+.education-item,
+.blog-item {
+  margin-bottom: var(--space-6);
 }
 
-.experience-role {
-  /* vertical spacing handled by .my-2 */
-}
-/* Use .mb-4 for spacing between items */
-
-.education-period {
-  /* right spacing handled by .mie-2 */
+.experience-period,
+.education-period,
+.blog-category {
+  margin-inline-end: var(--space-2);
 }
 
+.experience-role,
 .education-degree {
-  /* vertical spacing handled by .my-2 */
+  margin-block: var(--space-2);
 }
 
 /* Blog section */
-
-/* Use .mb-4 for spacing between items */
 
 .blog-header {
   display: flex;
   justify-content: space-between;
 }
 
-.blog-category {
-  /* right spacing handled by .mie-2 */
+/* Resume link */
+.resume-link {
+  margin-top: var(--space-4);
+}
+
+.resume-link .c-btn-secondary {
+  margin-inline-start: var(--space-2);
 }
 
 /* Contact section */
+.contact-section .grid-col-md-4 {
+  margin-bottom: var(--space-6);
+}
+
+.contact-info {
+  margin-bottom: var(--space-4);
+}
 
 .contact-info strong {
   display: block;
+}
+
+.section-header {
+  font-weight: bold;
 }
