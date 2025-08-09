@@ -221,7 +221,7 @@ nav {
     height: calc(var(--space-7) - var(--space-1));
     padding: 0;
     border-radius: var(--radius-xs);
-    border: 1px solid var(--color-border-neutral);
+    border: var(--border-3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -311,7 +311,7 @@ nav {
   .c-language-option {
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-xs);
-    border: 1px solid var(--color-border-neutral);
+    border: var(--border-3);
     background-color: var(--color-nav-bg);
     color: var(--color-nav-text);
     cursor: pointer;

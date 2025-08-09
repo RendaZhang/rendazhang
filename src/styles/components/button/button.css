@@ -33,7 +33,7 @@
 .c-btn-secondary {
   background: var(--color-subtle-bg);
   color: var(--color-text-muted);
-  border: var(--border-1);
+  border: var(--border-0);
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-elevation-1);
   transition:

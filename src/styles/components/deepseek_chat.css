@@ -93,7 +93,7 @@
 .c-input-area {
   padding: var(--space-4);
   background: var(--color-surface);
-  border-top: 1px solid var(--color-border-muted);
+  border-top: var(--border-1);
   display: flex;
   gap: var(--space-3);
 }
@@ -103,7 +103,7 @@
   padding: var(--space-4) var(--space-5);
   background: var(--color-subtle-bg-alt);
   color: var(--color-text);
-  border: 1px solid var(--color-border-light);
+  border: var(--border-0);
   border-radius: var(--radius-l);
   font-size: var(--font-size-2);
   resize: none;
@@ -152,7 +152,7 @@
   bottom: var(--space-2);
   left: var(--space-2);
   background: var(--color-border-muted);
-  border: 1px solid var(--color-border-soft);
+  border: var(--border-2);
   cursor: pointer;
   color: var(--color-text-deep);
   font-size: var(--font-size-0);
@@ -198,7 +198,7 @@
 /* Basic mode styles applied when enhancement libraries fail to load */
 .basic-mode .c-ai-message {
   background: var(--color-subtle-bg);
-  border: 1px solid var(--color-border-muted);
+  border: var(--border-1);
 }
 
 .basic-mode .c-ai-message pre {

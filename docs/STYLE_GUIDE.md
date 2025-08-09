@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 01:38 (UTC+08:00)
+- **最后更新**: August 10, 2025, 03:44 (UTC+08:00)
 
 ---
 
@@ -235,11 +235,13 @@ h1 {
 .c-card {
   padding: var(--space-4);
   border-radius: var(--radius-s);
+  border: var(--border-1);
   background: var(--color-surface);
 }
 ```
 
 - 文本、颜色、间距等均应通过 Token 引用，避免硬编码。
+- 边框请使用 `--border-0` 至 `--border-3` 变量映射不同色阶。
 
 ---
 
@@ -255,7 +257,7 @@ h1 {
 
 ## 交互态与可访问性
 
-- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-1`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
+- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-0`…`--border-3`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
 - 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
 - 交互态矩阵：
 
