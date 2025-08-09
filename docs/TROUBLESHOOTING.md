@@ -63,7 +63,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 22:15 (UTC+08:00)
+- **最后更新**: August 10, 2025, 04:32 (UTC+08:00)
 
 ---
 
@@ -321,7 +321,7 @@
     import storage from '/src/utils/storage';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
-      if (stored === 'dark') document.documentElement.classList.add('dark-mode');
+      if (stored === 'dark') document.documentElement.classList.add('is-dark-mode');
     } catch {}
   </script>
   ```
@@ -350,7 +350,7 @@
   useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-      const isDark = document.documentElement.classList.contains('dark-mode');
+      const isDark = document.documentElement.classList.contains('is-dark-mode');
       setDarkMode(isDark);
     }
   }, []);
@@ -364,9 +364,9 @@
 - **问题现象**：
   - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
 - **根本原因**：
-  - `chat_widget.css` 默认背景为白色，未针对 `.dark-mode` 提供样式
+  - `chat_widget.css` 默认背景为白色，未针对 `.is-dark-mode` 提供样式
 - **解决方案**：
-  - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
+  - 在样式表中添加 `.is-dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
 
 ### BUG-015: Enhancement progress stuck when scripts load from memory cache
@@ -616,7 +616,7 @@
 - **根本原因**：
   - 未在 CSS 中声明 `color-scheme`
 - **解决方案**：
-  - 在 `:root` 设置 `color-scheme: light` 并在 `.dark-mode` 设置 `color-scheme: dark`
+  - 在 `:root` 设置 `color-scheme: light` 并在 `.is-dark-mode` 设置 `color-scheme: dark`
 - **验证结果**：✅ 主题切换后控件样式一致
 
 ### BUG-032: Hero 模糊占位图不会消失

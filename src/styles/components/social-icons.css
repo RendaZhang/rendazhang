@@ -17,7 +17,7 @@
     vertical-align: middle;
     width: var(--space-7);
 
-    &.loaded {
+    &.is-loaded {
       opacity: 1;
     }
 

@@ -37,7 +37,7 @@ export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn 
 
   return (
     <div
-      className="c-message c-ai-message markdown-body"
+      className="c-message c-ai-message c-markdown-body"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}

@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 03:44 (UTC+08:00)
+- **最后更新**: August 10, 2025, 04:32 (UTC+08:00)
 
 ---
 
@@ -74,7 +74,8 @@ src/
 
 - 组件类以 `c-` 前缀命名，例如 `c-btn-primary`、`c-form-control`。
 - 工具类以 `u-` 前缀命名，用于通用辅助样式，如 `u-text-error`。
-- 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`。
+- 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`、`is-dark-mode`、`is-lang-zh`。
+- 布局主容器统一使用 `c-main-content`，语言切换使用 `is-lang-zh`、`is-lang-en`。
 - JavaScript 钩子使用 `js-` 前缀，仅供脚本选择器使用。
 
 组件样式按照以下目录结构组织，每个组件占用独立文件夹并提供入口文件：

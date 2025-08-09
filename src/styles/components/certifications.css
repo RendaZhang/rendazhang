@@ -7,6 +7,23 @@
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   padding: var(--space-7) 0;
 }
+.c-credly-container {
+  background: var(--color-surface);
+  border-radius: var(--radius-s);
+  margin: var(--space-4) auto;
+  max-width: 270px;
+  min-height: 270px;
+  padding: var(--space-2);
+  position: relative;
+
+  /* ------------------------------------------------------------------ */
+  /* Centered spinner for Credly badge iframe loading                    */
+  /* Uses global .c-spinner styles defined in theme.css                     */
+  /* ------------------------------------------------------------------ */
+  .c-credly-spinner {
+    z-index: 10;
+  }
+}
 .c-cert-card {
   background: var(--color-surface);
   border: var(--border-0);
@@ -60,24 +77,6 @@
     .c-verify-btn {
       flex: 1 1 auto;
     }
-  }
-}
-/* Credly 加载动画 */
-.c-credly-container {
-  background: var(--color-surface);
-  border-radius: var(--radius-s);
-  margin: var(--space-4) auto;
-  max-width: 270px;
-  min-height: 270px;
-  padding: var(--space-2);
-  position: relative;
-
-  /* ------------------------------------------------------------------ */
-  /* Centered spinner for Credly badge iframe loading                    */
-  /* Uses global .c-spinner styles defined in theme.css                     */
-  /* ------------------------------------------------------------------ */
-  .c-credly-spinner {
-    z-index: 10;
   }
 }
 body:has(.c-cert-page) {

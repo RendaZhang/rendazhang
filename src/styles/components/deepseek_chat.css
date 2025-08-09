@@ -166,7 +166,7 @@
 }
 
 .c-ai-message:hover .c-copy-btn,
-.c-ai-message.show-copy .c-copy-btn {
+.c-ai-message.is-copy-visible .c-copy-btn {
   display: inline-block;
 }
 
@@ -196,12 +196,12 @@
 /* Styles moved to theme.css for reuse */
 
 /* Basic mode styles applied when enhancement libraries fail to load */
-.basic-mode .c-ai-message {
+.is-basic-mode .c-ai-message {
   background: var(--color-subtle-bg);
   border: var(--border-1);
 }
 
-.basic-mode .c-ai-message pre {
+.is-basic-mode .c-ai-message pre {
   background: var(--color-subtle-bg-hover);
   overflow: auto;
   padding: var(--space-3);
@@ -222,14 +222,14 @@
   z-index: 1000;
 }
 
-body.embedded {
+body.is-embedded {
   padding-top: var(--space-5);
 }
 
-body.embedded nav {
+body.is-embedded nav {
   display: none;
 }
 
-body.embedded .c-chat-wrapper {
+body.is-embedded .c-chat-wrapper {
   height: calc(100vh - 40px);
 }

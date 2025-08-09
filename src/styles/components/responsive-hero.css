@@ -5,7 +5,7 @@
   transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 1;
 }
-.c-responsive-hero-placeholder.loaded {
+.c-responsive-hero-placeholder.is-loaded {
   opacity: 0;
 }
 
@@ -20,7 +20,7 @@
   transition: opacity var(--duration-normal) var(--easing-standard);
   z-index: 2;
 }
-.c-responsive-hero-img.loaded {
+.c-responsive-hero-img.is-loaded {
   opacity: 1;
 }
 

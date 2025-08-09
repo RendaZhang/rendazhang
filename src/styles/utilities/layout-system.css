@@ -3,7 +3,7 @@
 /* Containers leverage spacing tokens and `--measure` for consistent
    horizontal rhythm and readable line lengths. */
 
-.container {
+.u-container {
   margin: 0 auto;
   max-width: var(--measure);
   width: 100%;

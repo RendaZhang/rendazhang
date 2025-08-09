@@ -1,93 +1,93 @@
 /* Markdown dark mode styles aligned to design tokens */
-html.dark-mode .markdown-body {
+html.is-dark-mode .c-markdown-body {
   background-color: var(--color-md-bg);
   color: var(--color-md-text);
 }
 
 /* 标题层级优化 */
-html.dark-mode .markdown-body h1 {
+html.is-dark-mode .c-markdown-body h1 {
   border-bottom: 1px solid var(--color-md-heading-border);
   color: var(--color-md-h1);
 }
-html.dark-mode .markdown-body h2 {
+html.is-dark-mode .c-markdown-body h2 {
   border-bottom: 1px solid var(--color-md-h2-border); /* 次级标题添加下划线 */
   color: var(--color-md-h2);
 }
-html.dark-mode .markdown-body h3 {
+html.is-dark-mode .c-markdown-body h3 {
   color: var(--color-md-h3);
   font-size: var(--font-size-3); /* 明确层级区分 */
 }
-html.dark-mode .markdown-body h4 {
+html.is-dark-mode .c-markdown-body h4 {
   color: var(--color-md-h4);
   font-size: var(--font-size-2);
 }
 
 /* 精准控制强调文本 */
-html.dark-mode .markdown-body strong:not(a strong):not(table strong) {
-  color: var(--color-md-strong);
-}
-html.dark-mode .markdown-body a strong {
+html.is-dark-mode .c-markdown-body a strong {
   color: inherit; /* 链接内强调文本继承链接颜色 */
 }
 
 /* 表格深度优化 */
-html.dark-mode .markdown-body table {
+html.is-dark-mode .c-markdown-body table {
   background-color: var(--color-md-table-bg);
   border-collapse: collapse;
   box-shadow: var(--shadow-elevation-2);
   margin: var(--space-6) 0;
   width: 100%;
 }
-html.dark-mode .markdown-body th {
+html.is-dark-mode .c-markdown-body th {
   background-color: var(--color-md-th-bg);
   color: var(--color-md-th-color);
   font-weight: 600;
   text-align: left;
 }
-html.dark-mode .markdown-body td {
+html.is-dark-mode .c-markdown-body td {
   background-color: var(--color-md-td-bg);
   color: var(--color-md-td-color); /* 提高单元格文本可读性 */
 }
-html.dark-mode .markdown-body td,
-html.dark-mode .markdown-body th {
+html.is-dark-mode .c-markdown-body td,
+html.is-dark-mode .c-markdown-body th {
   border: 1px solid var(--color-md-table-border);
   padding: var(--space-3) var(--space-4); /* 增加单元格内边距 */
 }
 /* 表格内强调文本特殊处理 */
-html.dark-mode .markdown-body table strong {
+html.is-dark-mode .c-markdown-body table strong {
   color: var(--color-md-strong);
   font-weight: 600;
 }
+html.is-dark-mode .c-markdown-body strong:not(a strong):not(table strong) {
+  color: var(--color-md-strong);
+}
 /* 斑马条纹提升可读性 */
-html.dark-mode .markdown-body tr:nth-child(even) td {
+html.is-dark-mode .c-markdown-body tr:nth-child(even) td {
   background-color: var(--color-md-zebra-bg);
 }
 
 /* 代码块优化 */
-html.dark-mode .markdown-body pre,
-html.dark-mode .markdown-body code {
+html.is-dark-mode .c-markdown-body pre,
+html.is-dark-mode .c-markdown-body code {
   background-color: var(--color-md-code-bg);
   border-radius: var(--radius-xs);
   color: var(--color-md-code-color);
 }
 
 /* 链接优化 */
-html.dark-mode .markdown-body a {
+html.is-dark-mode .c-markdown-body a {
   color: var(--color-md-link);
   transition: color var(--duration-fast);
 }
-html.dark-mode .markdown-body a:hover {
+html.is-dark-mode .c-markdown-body a:hover {
   color: var(--color-md-link-hover);
   text-decoration: underline;
 }
-html.dark-mode .markdown-body a:focus-visible {
+html.is-dark-mode .c-markdown-body a:focus-visible {
   border-radius: var(--radius-xs);
   box-shadow: var(--focus-ring);
   outline: none;
 }
 
 /* 引用块优化 */
-html.dark-mode .markdown-body blockquote {
+html.is-dark-mode .c-markdown-body blockquote {
   background-color: var(--color-md-blockquote-bg);
   border-left: var(--space-1) solid var(--color-md-blockquote-border);
   color: var(--color-md-blockquote);
@@ -95,7 +95,7 @@ html.dark-mode .markdown-body blockquote {
 }
 
 /* 水平线优化 */
-html.dark-mode .markdown-body hr {
+html.is-dark-mode .c-markdown-body hr {
   background-color: var(--color-md-hr);
   height: 1px;
   margin: calc(var(--space-7) - var(--space-1)) 0;

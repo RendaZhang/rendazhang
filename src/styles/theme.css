@@ -124,7 +124,7 @@
     }
   }
 
-  html.dark-mode {
+  html.is-dark-mode {
     --color-bg: var(--color-gray-900);
     --color-text: var(--color-gray-50);
     --color-nav-bg: var(--color-gray-800);
@@ -213,10 +213,10 @@
   }
 
   /* ---------- Language Helpers ---------- */
-  html[lang^='en'] .lang-zh {
+  html[lang^='en'] .is-lang-zh {
     display: none;
   }
-  html[lang^='zh'] .lang-en {
+  html[lang^='zh'] .is-lang-en {
     display: none;
   }
 }

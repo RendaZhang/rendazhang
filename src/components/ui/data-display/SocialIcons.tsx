@@ -33,7 +33,7 @@ function SocialIcon({ href, id, src, alt, ariaLabel }: SocialIconProps): ReactEl
         width={imgWidth}
         height={imgHeight}
         loading="lazy"
-        className={loaded ? 'loaded' : 'loading'}
+        className={loaded ? 'is-loaded' : 'is-loading'}
         onLoad={() => setLoaded(true)}
       />
     </a>
