@@ -26,9 +26,13 @@ export const REGISTER_CONTENT = {
       confirm: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
     },
     errors: {
+      emailRequired: 'Email is required',
+      usernameRequired: 'Username is required',
+      passwordRequired: 'Password is required',
       emailInvalid: 'Invalid email format',
-      usernameTaken: 'Username is taken',
-      passwordMismatch: 'Passwords do not match'
+      usernameTaken: 'Username is already taken',
+      passwordMismatch: 'Passwords do not match',
+      agreement: 'Please agree to the terms'
     },
     strength: {
       weak: 'Weak',
@@ -63,9 +67,13 @@ export const REGISTER_CONTENT = {
       confirm: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
     },
     errors: {
+      emailRequired: '邮箱不能为空',
+      usernameRequired: '用户名不能为空',
+      passwordRequired: '密码不能为空',
       emailInvalid: '邮箱格式错误',
       usernameTaken: '用户名已被占用',
-      passwordMismatch: '两次密码不一致'
+      passwordMismatch: '两次密码不一致',
+      agreement: '请勾选同意'
     },
     strength: {
       weak: '弱',

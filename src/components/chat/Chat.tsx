@@ -9,6 +9,7 @@ import { LocalizedSection } from '../ui';
 import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
+import LoadingIndicator from './LoadingIndicator';
 
 interface ChatProps {
   texts?: typeof DEEPSEEK_CHAT_CONTENT;
@@ -20,20 +21,65 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const textsZh = texts.zh;
   const textsEn = texts.en;
   const activeTexts = langKey === 'zh' ? textsZh : textsEn;
-  const { messages, addMessage, setMessages, clearHistory } = useChatHistory();
+  const {
+    messages,
+    addMessage,
+    setMessages,
+    clearHistory,
+    isLoaded: historyLoaded
+  } = useChatHistory();
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [placeholder, setPlaceholder] = useState('');
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
-  const librariesLoaded = true;
+  const [librariesLoaded, setLibrariesLoaded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const pageReadyRef = useRef(false);
+  const enhancementReadyRef = useRef(false);
+  const isReady = historyLoaded;
 
   const handleRendered = useCallback(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+    if (!pageReadyRef.current) {
+      window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+      pageReadyRef.current = true;
+    }
+    if (librariesLoaded && !enhancementReadyRef.current) {
+      window.parent?.postMessage({ type: 'chat-enhancement-ready' }, '*');
+      enhancementReadyRef.current = true;
+    }
+  }, [librariesLoaded]);
+
+  useEffect(() => {
+    const loadLibraries = async () => {
+      try {
+        await Promise.all([import('highlight.js'), import('mermaid')]);
+        setLibrariesLoaded(true);
+      } catch (err) {
+        console.error('Failed to load enhancement libraries', err);
+        setLoadError(true);
+      }
+    };
+    loadLibraries();
   }, []);
+
+  useEffect(() => {
+    if (isReady && messages.length === 0 && !pageReadyRef.current) {
+      window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+      pageReadyRef.current = true;
+    }
+  }, [isReady, messages.length]);
+
+  useEffect(() => {
+    if (isReady && librariesLoaded && messages.length === 0 && !enhancementReadyRef.current) {
+      window.parent?.postMessage({ type: 'chat-enhancement-ready' }, '*');
+      enhancementReadyRef.current = true;
+    }
+  }, [isReady, librariesLoaded, messages.length]);
 
   // Auto-adjust textarea height
   useEffect(() => {
@@ -50,10 +96,21 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     }
   }, [messages]);
 
-  // Update placeholder after language changes
+  // Update placeholder after language or readiness changes
   useEffect(() => {
-    setPlaceholder(activeTexts.placeholders.default);
-  }, [langKey, activeTexts]);
+    if (!isReady) {
+      setPlaceholder(loadError ? activeTexts.placeholders.error : activeTexts.placeholders.loading);
+    } else {
+      setPlaceholder(activeTexts.placeholders.default);
+    }
+  }, [langKey, activeTexts, isReady, loadError]);
+
+  // Focus textarea when ready
+  useEffect(() => {
+    if (isReady && messageInputRef.current) {
+      messageInputRef.current.focus();
+    }
+  }, [isReady]);
 
   const handleSend = async () => {
     const message = input.trim();
@@ -65,9 +122,16 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     if (typingIndicatorRef.current) {
       typingIndicatorRef.current.style.display = 'block';
     }
+    let hasReceivedChunk = false;
 
     try {
       const aiText = await sendMessageToAI(message, (partial) => {
+        if (!hasReceivedChunk) {
+          hasReceivedChunk = true;
+          if (typingIndicatorRef.current) {
+            typingIndicatorRef.current.style.display = 'none';
+          }
+        }
         setMessages((prev) => {
           const lastMsg = prev[prev.length - 1];
           if (lastMsg && lastMsg.role === ROLES.AI) {
@@ -129,7 +193,9 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         </h1>
       </header>
       <div className="c-chat-container" id="chat-container" ref={chatContainerRef}>
-        {messages.length === 0 ? (
+        {!isReady ? (
+          <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />
+        ) : messages.length === 0 ? (
           <div className="c-info-text">
             <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
           </div>
@@ -151,7 +217,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         onSend={handleSend}
         onReset={handleReset}
         onKeyDown={handleKeyDown}
-        disabled={isSending}
+        disabled={!isReady || isSending}
         placeholder={placeholder}
         inputRef={messageInputRef}
         textsZh={textsZh}

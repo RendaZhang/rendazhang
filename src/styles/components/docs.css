@@ -4,4 +4,13 @@ main.c-main-content.c-docs-main {
   padding: var(--space-1) var(--space-3);
 }
 
+main.c-main-content.c-docs-main h1,
+main.c-main-content.c-docs-main h2,
+main.c-main-content.c-docs-main h3,
+main.c-main-content.c-docs-main h4,
+main.c-main-content.c-docs-main h5,
+main.c-main-content.c-docs-main h6 {
+  scroll-margin-top: var(--space-10);
+}
+
 /* Loading animation for docs page is styled globally in theme.css */

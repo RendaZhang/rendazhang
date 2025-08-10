@@ -13,15 +13,15 @@ interface LoadingIndicatorProps {
 
 export default function LoadingIndicator({ isError, textsZh, textsEn }: LoadingIndicatorProps) {
   return (
-    <div id="c-loading-indicator" className="c-loading-indicator">
+    <div id="c-loading-indicator" className="c-loading-indicator" role="status" aria-live="polite">
       {isError ? (
-        <p>
+        <p className="c-loading-indicator-text">
           <LocalizedSection zhContent={textsZh.coreLoadFailed} enContent={textsEn.coreLoadFailed} />
         </p>
       ) : (
         <>
-          <div className="c-spinner c-chat-spinner"></div>
-          <p>
+          <div className="c-chat-widget-skeleton" aria-hidden="true"></div>
+          <p className="c-loading-indicator-text">
             <LocalizedSection zhContent={textsZh.loading} enContent={textsEn.loading} />
           </p>
         </>

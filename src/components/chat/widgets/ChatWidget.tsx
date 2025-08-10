@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../constants';
 
 const loadedStyles = new Set<string>();
@@ -63,7 +63,11 @@ interface ChatWidgetProps {
 
 export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const [open, setOpen] = useState(defaultOpen);
-  const [loaded, setLoaded] = useState(defaultOpen);
+  const [shouldLoad, setShouldLoad] = useState(defaultOpen);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     loadStyle(STYLE_PATHS.CHAT_WIDGET);
@@ -72,26 +76,72 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const toggle = () => setOpen((o) => !o);
 
   useEffect(() => {
-    if (open && !loaded) {
-      setLoaded(true);
+    if (open && !shouldLoad) {
+      setShouldLoad(true);
     }
-  }, [open, loaded]);
+    if (!open) {
+      setIframeLoaded(false);
+    }
+  }, [open, shouldLoad]);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.source === iframeRef.current?.contentWindow &&
+        event.data?.type === 'chat-enhancement-ready'
+      ) {
+        setIframeLoaded(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
 
   return (
     <>
       {open && (
-        <div className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
-          {loaded && (
-            <iframe
-              src={`${CHAT_PAGE_PATH}/`}
-              title={AI_CHAT_WIDGET_TITLE}
-              className="c-chat-widget-iframe"
-              loading="lazy"
-            />
+        <div ref={panelRef} className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
+          {shouldLoad && (
+            <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
+              <iframe
+                ref={iframeRef}
+                src={`${CHAT_PAGE_PATH}/`}
+                title={AI_CHAT_WIDGET_TITLE}
+                className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
+                loading="lazy"
+              />
+              {!iframeLoaded && <div className="c-chat-widget-skeleton" aria-hidden="true" />}
+            </div>
           )}
         </div>
       )}
       <button
+        ref={buttonRef}
         className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}

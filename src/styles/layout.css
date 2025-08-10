@@ -9,20 +9,9 @@ body {
   justify-content: flex-start;
   margin: 0;
   min-height: 100vh;
-  padding: calc(var(--space-9) - var(--space-1)) 0 0;
+  /* Ensure that the navigation bar and the main content do not overlap. */
+  padding: var(--space-9) 0 0;
   width: 100%;
-}
-
-@media (max-width: 768px) {
-  body {
-    padding-top: calc(var(--space-9) + var(--space-2));
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding-top: var(--space-10);
-  }
 }
 
 main.c-main-content {

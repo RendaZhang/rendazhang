@@ -1,27 +1,34 @@
 import { useEffect, useRef, useState, type IframeHTMLAttributes, type ReactElement } from 'react';
-import { CREDLY_HOST, CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME } from '../../../constants';
+import { CREDLY_BADGE_ID, CREDLY_EMBED_IFRAME, CREDLY_HOST } from '../../../constants';
+import LocalizedSection from './LocalizedSection';
 
-interface CompleteIframe extends HTMLIFrameElement {
-  complete: boolean;
-}
-
-const hasComplete = (iframe: HTMLIFrameElement): iframe is CompleteIframe => 'complete' in iframe;
+type LoadStatus = 'loading' | 'loaded' | 'error';
 
 export default function CredlyBadge(): ReactElement {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [status, setStatus] = useState<LoadStatus>('loading');
 
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
-    const handle = () => setLoaded(true);
-    if (hasComplete(iframe) && iframe.complete) {
-      handle();
-      return;
+
+    const timeout = setTimeout(() => {
+      setStatus((prev) => (prev === 'loading' ? 'error' : prev));
+    }, 10_000);
+
+    try {
+      if (iframe.contentDocument?.readyState === 'complete') {
+        clearTimeout(timeout);
+        setStatus('loaded');
+      }
+    } catch {
+      // Cross-origin; rely on load event
     }
-    iframe.addEventListener('load', handle, { once: true });
-    return () => iframe.removeEventListener('load', handle);
+
+    return () => clearTimeout(timeout);
   }, []);
+
+  const handleLoad = () => setStatus('loaded');
 
   const iframeSrc = `${CREDLY_HOST}/embedded_badge/${CREDLY_BADGE_ID}`;
 
@@ -33,6 +40,7 @@ export default function CredlyBadge(): ReactElement {
     id: `embedded-badge-${CREDLY_BADGE_ID}`,
     title: 'View my verified achievement on Credly.',
     src: iframeSrc,
+    onLoad: handleLoad,
     style: {
       width: `${CREDLY_EMBED_IFRAME.WIDTH}px`,
       height: `${CREDLY_EMBED_IFRAME.HEIGHT}px`
@@ -40,8 +48,13 @@ export default function CredlyBadge(): ReactElement {
   };
 
   return (
-    <div className="c-credly-container">
-      {!loaded && <div className="c-spinner c-spinner-center c-credly-spinner"></div>}
+    <div className={`c-credly-container${status === 'loaded' ? ' is-loaded' : ''}`}>
+      {status === 'loading' && <div className="c-credly-skeleton" />}
+      {status === 'error' && (
+        <div className="c-credly-error">
+          <LocalizedSection zhContent="加载失败，请重试" enContent="Load failed, please retry" />
+        </div>
+      )}
       <iframe ref={iframeRef} {...iframeProps}></iframe>
     </div>
   );
