@@ -59,13 +59,14 @@
     - [BUG-051: Certification page styles bound to body element](#bug-051-certification-page-styles-bound-to-body-element)
     - [BUG-052: Docs 页面标题 ID 重复导致 GitHub Actions 锚点失效](#bug-052-docs-%E9%A1%B5%E9%9D%A2%E6%A0%87%E9%A2%98-id-%E9%87%8D%E5%A4%8D%E5%AF%BC%E8%87%B4-github-actions-%E9%94%9A%E7%82%B9%E5%A4%B1%E6%95%88)
     - [BUG-053: 导航栏遮挡主体内容](#bug-053-%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E4%B8%BB%E4%BD%93%E5%86%85%E5%AE%B9)
+    - [BUG-054: Chat Widget 打开时 Mermaid 与代码高亮渲染闪烁](#bug-054-chat-widget-%E6%89%93%E5%BC%80%E6%97%B6-mermaid-%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%B8%B2%E6%9F%93%E9%97%AA%E7%83%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 01:35 (UTC+08:00)
+- **最后更新**: August 11, 2025, 03:02 (UTC+08:00)
 
 ---
 
@@ -1120,3 +1121,20 @@
   - 调整侧栏菜单顶部间距以适配新高度
 - **验证结果**：✅ `npx stylelint src/styles/layout.css src/styles/components/navigation/navigation.css`, `npm test`, `npm run lint`
 - **经验总结**：布局应随组件尺寸动态调整，避免固定值导致覆盖
+
+### BUG-054: Chat Widget 打开时 Mermaid 与代码高亮渲染闪烁
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-10
+- **重现环境**：Chrome 最新版，嵌入式 Chat Widget
+- **问题现象**：
+  - 打开 Chat Widget 后骨架屏过早移除导致内容闪烁
+  - Mermaid 图表与代码高亮在加载过程中短暂未渲染
+- **根本原因**：
+  - iframe `onLoad` 触发时 Markdown 增强尚未完成
+  - 父页面未等待 `highlight.js` 与 `mermaid` 渲染结束即移除骨架屏
+- **解决方案**：
+  1. 子页面在动态导入 `highlight.js` 与 `mermaid` 并完成渲染后发送 `chat-page-ready`
+  2. ChatWidget 监听 `chat-page-ready` 消息，收到后才隐藏骨架屏
+- **验证结果**：✅ `npm test` 与 `npm run lint`
+- **经验总结**：等待第三方库渲染完成再展示内容可避免 UI 闪烁
