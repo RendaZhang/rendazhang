@@ -1,3 +1,5 @@
+@import './chat_widget_skeleton.css';
+
 /* Floating chat button, centered using .u-flex-center */
 /* Dimensions expressed via spacing tokens */
 .c-chat-widget-toggle {
@@ -66,43 +68,8 @@
   opacity: 1;
 }
 
-.c-chat-widget-skeleton {
-  background: var(--color-surface);
-  border: none;
-  border-radius: var(--radius-l);
-  height: 100%;
-  inset: 0;
-  overflow: hidden;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-}
-
-.c-chat-widget-skeleton::before {
-  animation: c-chat-widget-shimmer calc(var(--duration-slow) * 2) infinite;
-  background: linear-gradient(
-    90deg,
-    var(--color-surface) 0%,
-    var(--color-subtle-bg) 50%,
-    var(--color-surface) 100%
-  );
-  content: '';
-  inset: 0;
-  position: absolute;
-  transform: translateX(-100%);
-}
-
-@keyframes c-chat-widget-shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .c-chat-widget-iframe {
     transition: none;
-  }
-  .c-chat-widget-skeleton::before {
-    animation: none;
   }
 }

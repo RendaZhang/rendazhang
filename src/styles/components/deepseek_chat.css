@@ -1,3 +1,5 @@
+@import './chat_widget_skeleton.css';
+
 /* Spacing and type values aligned to design tokens */
 .c-chat-wrapper {
   background: var(--color-surface);
@@ -175,15 +177,40 @@
 }
 
 /* Loading indicator styles */
-.c-loading-indicator {
-  color: var(--color-text-muted);
-  padding: var(--space-5);
-  text-align: center;
-}
+/*
+  Full-bleed loading indicator：让加载条“视觉上忽略”父容器的 padding
 
-.c-chat-spinner {
-  /* Extra spacing for the chat loading indicator */
-  margin: 0 auto var(--space-3);
+  原理：
+  - 父级 .c-chat-container 设有 padding: var(--space-5)。
+  - 这里用负的 margin-inline / margin-block 抵消父级 padding，
+    并把 width 扩大 2 × padding，使组件横向（及可选的纵向）满出到容器外边缘。
+  - 采用逻辑方向属性（margin-inline / margin-block），自动适配 LTR/RTL 和书写模式。
+
+  使用要求：
+  - 确保父级使用与此处一致的间距变量：
+      .c-chat-container { padding: var(--space-5); }
+  - 若只需横向满出，删除 margin-block-start / margin-block-end 两行即可。
+
+  注意事项：
+  - 若父级有 overflow: hidden 或 border-radius，满出部分可能被裁剪；
+    需要时把裁剪/圆角放到更外层容器。
+  - 若有层叠问题，可酌情增加 z-index；或改用绝对定位的覆盖层方案。
+*/
+.c-loading-indicator {
+  align-items: center;
+  color: var(--color-text-muted);
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  /* 顶到容器的上/下边缘，就加这两行 */
+  margin-block-end: calc(-1 * var(--space-5));
+  margin-block-start: calc(-1 * var(--space-5));
+  /* 横向满出到容器边缘 */
+  margin-inline: calc(-1 * var(--space-5));
+  padding: var(--space-5);
+  position: relative;
+  text-align: center;
+  width: calc(100% + 2 * var(--space-5));
 }
 
 /* Disabled state styling */
