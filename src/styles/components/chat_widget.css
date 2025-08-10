@@ -69,6 +69,7 @@
 .c-chat-widget-skeleton {
   background: var(--color-surface);
   border: none;
+  border-radius: var(--radius-l);
   height: 100%;
   inset: 0;
   overflow: hidden;

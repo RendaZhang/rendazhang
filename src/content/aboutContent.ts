@@ -2,7 +2,7 @@ import {
   CONTACT_EMAIL_PRIMARY,
   CONTACT_PHONE_INTL,
   CONTACT_PHONE_LOCAL,
-  SITE_BASE_URL,
+  SITE_DOMAIN,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
 } from '../constants';
@@ -32,7 +32,7 @@ export const ABOUT_CONTENT = {
       { label: 'Email:', value: ` ${CONTACT_EMAIL_PRIMARY}` },
       { label: 'Phone:', value: ` ${CONTACT_PHONE_INTL}` },
       { label: 'Address:', value: ' Nanshan District, Shenzhen, Guangdong, China 518000' },
-      { label: 'Website:', value: ` ${SITE_BASE_URL}` },
+      { label: 'Website:', value: ` ${SITE_DOMAIN}` },
       { label: 'Status:', value: ' Open to cloud-native backend roles (1-month notice)' }
     ],
     resumeLabel: 'Download Resume',
@@ -205,7 +205,7 @@ export const ABOUT_CONTENT = {
       { label: '邮箱:', value: ` ${CONTACT_EMAIL_PRIMARY}` },
       { label: '电话:', value: ` ${CONTACT_PHONE_LOCAL}` },
       { label: '地址:', value: ' 中国广东省深圳市南山区 518000' },
-      { label: '个人网站:', value: ` ${SITE_BASE_URL}` },
+      { label: '网站:', value: ` ${SITE_DOMAIN}` },
       { label: '状态:', value: ' 积极寻找后端/云原生开发岗位（一个月内可入职）' }
     ],
     resumeLabel: '下载我的简历',
