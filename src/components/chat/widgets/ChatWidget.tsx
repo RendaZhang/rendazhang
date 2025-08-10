@@ -67,6 +67,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     loadStyle(STYLE_PATHS.CHAT_WIDGET);
@@ -106,6 +107,21 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     };
   }, [open]);
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.source === iframeRef.current?.contentWindow &&
+        event.data?.type === 'chat-page-ready'
+      ) {
+        setIframeLoaded(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   return (
     <>
       {open && (
@@ -113,11 +129,11 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
           {shouldLoad && (
             <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
               <iframe
+                ref={iframeRef}
                 src={`${CHAT_PAGE_PATH}/`}
                 title={AI_CHAT_WIDGET_TITLE}
                 className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
                 loading="lazy"
-                onLoad={() => setIframeLoaded(true)}
               />
               {!iframeLoaded && <div className="c-chat-widget-skeleton" aria-hidden="true" />}
             </div>

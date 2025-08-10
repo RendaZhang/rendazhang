@@ -2,11 +2,8 @@ import { useEffect, useRef } from 'react';
 import { UI_DURATIONS } from '../constants';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import hljs from 'highlight.js';
-import mermaid from 'mermaid';
 import logger from '../utils/logger';
-
-mermaid.initialize({ startOnLoad: false });
+let mermaidInitialized = false;
 
 export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): void {
   const hint = document.createElement('div');
@@ -21,6 +18,11 @@ export function showHint(msg: string, duration: number = UI_DURATIONS.HINT): voi
 
 async function renderMermaidDiagrams(container: HTMLElement | null): Promise<void> {
   if (!container) return;
+  const { default: mermaid } = await import('mermaid');
+  if (!mermaidInitialized) {
+    mermaid.initialize({ startOnLoad: false });
+    mermaidInitialized = true;
+  }
   const blocks = container.querySelectorAll<HTMLElement>(
     'pre code.language-mermaid, pre code.mermaid'
   );
@@ -47,6 +49,7 @@ async function renderMermaidDiagrams(container: HTMLElement | null): Promise<voi
 
 export async function applyEnhancements(container: HTMLElement | null): Promise<void> {
   if (!container) return;
+  const { default: hljs } = await import('highlight.js');
   container.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
       return;

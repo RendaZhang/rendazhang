@@ -27,12 +27,29 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
-  const librariesLoaded = true;
+  const [librariesLoaded, setLibrariesLoaded] = useState(false);
+  const notifiedRef = useRef(false);
 
   const handleRendered = useCallback(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+    if (librariesLoaded && !notifiedRef.current) {
+      window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+      notifiedRef.current = true;
+    }
+  }, [librariesLoaded]);
+
+  useEffect(() => {
+    const loadLibraries = async () => {
+      await Promise.all([import('highlight.js'), import('mermaid')]);
+      setLibrariesLoaded(true);
+      if (messages.length === 0 && !notifiedRef.current) {
+        window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+        notifiedRef.current = true;
+      }
+    };
+    loadLibraries();
   }, []);
 
   // Auto-adjust textarea height
