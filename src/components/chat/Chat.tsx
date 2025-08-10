@@ -35,6 +35,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
   const [librariesLoaded, setLibrariesLoaded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const pageReadyRef = useRef(false);
   const enhancementReadyRef = useRef(false);
   const isReady = historyLoaded;
@@ -60,6 +61,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         setLibrariesLoaded(true);
       } catch (err) {
         console.error('Failed to load enhancement libraries', err);
+        setLoadError(true);
       }
     };
     loadLibraries();
@@ -181,7 +183,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       </header>
       <div className="c-chat-container" id="chat-container" ref={chatContainerRef}>
         {!isReady ? (
-          <LoadingIndicator isError={false} textsZh={textsZh} textsEn={textsEn} />
+          <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />
         ) : messages.length === 0 ? (
           <div className="c-info-text">
             <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
