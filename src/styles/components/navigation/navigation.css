@@ -14,7 +14,7 @@ nav {
   display: flex;
   justify-content: space-between;
   left: 0;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-4);
   position: fixed;
   right: 0;
   text-align: center;
@@ -128,7 +128,7 @@ nav {
     left: 0;
     max-width: 80%;
     overflow-y: auto;
-    padding: calc(var(--space-9) - var(--space-1)) var(--space-5) var(--space-5);
+    padding: var(--space-9) var(--space-5) var(--space-5);
     position: fixed;
     top: 0;
     transform: translateX(-100%);
