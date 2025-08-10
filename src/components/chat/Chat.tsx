@@ -122,9 +122,16 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     if (typingIndicatorRef.current) {
       typingIndicatorRef.current.style.display = 'block';
     }
+    let hasReceivedChunk = false;
 
     try {
       const aiText = await sendMessageToAI(message, (partial) => {
+        if (!hasReceivedChunk) {
+          hasReceivedChunk = true;
+          if (typingIndicatorRef.current) {
+            typingIndicatorRef.current.style.display = 'none';
+          }
+        }
         setMessages((prev) => {
           const lastMsg = prev[prev.length - 1];
           if (lastMsg && lastMsg.role === ROLES.AI) {
