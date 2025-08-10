@@ -57,13 +57,14 @@
     - [BUG-049: Vite 报错 `@import must precede all other statements`](#bug-049-vite-%E6%8A%A5%E9%94%99-import-must-precede-all-other-statements)
     - [BUG-050: Auth form containers use fixed top margin](#bug-050-auth-form-containers-use-fixed-top-margin)
     - [BUG-051: Certification page styles bound to body element](#bug-051-certification-page-styles-bound-to-body-element)
+    - [BUG-052: Docs 页面标题 ID 重复导致 GitHub Actions 锚点失效](#bug-052-docs-%E9%A1%B5%E9%9D%A2%E6%A0%87%E9%A2%98-id-%E9%87%8D%E5%A4%8D%E5%AF%BC%E8%87%B4-github-actions-%E9%94%9A%E7%82%B9%E5%A4%B1%E6%95%88)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 05:39 (UTC+08:00)
+- **最后更新**: August 10, 2025, 20:15 (UTC+08:00)
 
 ---
 
@@ -1089,3 +1090,16 @@
 - **解决方案**：
   - 改用通用 `.cert-page` 包裹元素并更新模板及容器查询选择器
 - **验证结果**：✅ `npm test` 与 `npm run lint`
+
+### BUG-052: Docs 页面标题 ID 重复导致 GitHub Actions 锚点失效
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-10
+- **重现环境**：Chrome 最新版，英文模式 `http://localhost:4321/docs`
+- **问题现象**：
+  - 英文模式访问 `/docs#github-actions` 不会滚动到对应段落
+- **根本原因**：
+  - 中英文 README 中存在相同标题，生成重复 `id="github-actions"`，浏览器跳转到被隐藏的中文部分
+- **解决方案**：
+  - 根据页面语言为标题 ID 及 TOC 链接添加 `zh-` 或 `en-` 前缀，避免重复 ID
+- **验证结果**：✅ 本地测试 `http://localhost:4321/docs#en-github-actions` 与中文对应链接均能正确定位

@@ -31,19 +31,21 @@ export default function DocsEffects(): null {
       const docZh = parser.parseFromString(htmlZh, 'text/html');
       const docEn = parser.parseFromString(htmlEn, 'text/html');
 
-      if (anchorIdsZh.length) {
-        const headingsZh = docZh.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        anchorIdsZh.forEach((id, i) => {
-          if (headingsZh[i]) headingsZh[i].id = id;
+      const applyAnchors = (doc: Document, anchorIds: string[], prefix: string): void => {
+        if (anchorIds.length) {
+          const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+          anchorIds.forEach((id, i) => {
+            if (headings[i]) headings[i].id = `${prefix}${id}`;
+          });
+        }
+        doc.querySelectorAll('a[href^="#"]').forEach((a) => {
+          const rawId = decodeURIComponent(a.getAttribute('href')!.slice(1));
+          a.setAttribute('href', `#${prefix}${rawId}`);
         });
-      }
+      };
 
-      if (anchorIdsEn.length) {
-        const headingsEn = docEn.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        anchorIdsEn.forEach((id, i) => {
-          if (headingsEn[i]) headingsEn[i].id = id;
-        });
-      }
+      applyAnchors(docZh, anchorIdsZh, 'zh-');
+      applyAnchors(docEn, anchorIdsEn, 'en-');
 
       document.getElementById('content-zh')!.innerHTML = docZh.body.innerHTML;
       document.getElementById('content-en')!.innerHTML = docEn.body.innerHTML;
