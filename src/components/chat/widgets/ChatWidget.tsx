@@ -111,7 +111,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     const handleMessage = (event: MessageEvent) => {
       if (
         event.source === iframeRef.current?.contentWindow &&
-        event.data?.type === 'chat-page-ready'
+        event.data?.type === 'chat-enhancement-ready'
       ) {
         setIframeLoaded(true);
       }

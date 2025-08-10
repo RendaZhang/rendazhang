@@ -66,7 +66,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 03:02 (UTC+08:00)
+- **最后更新**: August 11, 2025, 04:18 (UTC+08:00)
 
 ---
 
@@ -1134,7 +1134,7 @@
   - iframe `onLoad` 触发时 Markdown 增强尚未完成
   - 父页面未等待 `highlight.js` 与 `mermaid` 渲染结束即移除骨架屏
 - **解决方案**：
-  1. 子页面在动态导入 `highlight.js` 与 `mermaid` 并完成渲染后发送 `chat-page-ready`
-  2. ChatWidget 监听 `chat-page-ready` 消息，收到后才隐藏骨架屏
+  1. 子页面在动态导入 `highlight.js` 与 `mermaid` 并完成渲染后发送 `chat-enhancement-ready`
+  2. ChatWidget 监听 `chat-enhancement-ready` 消息，收到后才隐藏骨架屏
 - **验证结果**：✅ `npm test` 与 `npm run lint`
 - **经验总结**：等待第三方库渲染完成再展示内容可避免 UI 闪烁

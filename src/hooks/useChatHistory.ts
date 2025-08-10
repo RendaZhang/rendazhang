@@ -9,11 +9,13 @@ interface UseChatHistory {
   addMessage: (role: ChatRole, content: string) => ChatMessage[];
   setMessages: (updater: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => ChatMessage[];
   clearHistory: () => void;
+  isLoaded: boolean;
 }
 
 export default function useChatHistory(): UseChatHistory {
   const sessionRef = useRef<ChatSession>(new ChatSession());
   const [messages, setMessagesState] = useState<ChatMessage[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const stored = (storage.get(STORAGE_KEY) || []) as ChatMessage[];
@@ -23,6 +25,7 @@ export default function useChatHistory(): UseChatHistory {
     }));
     sessionRef.current.setHistory(loaded);
     setMessagesState(sessionRef.current.getHistory());
+    setIsLoaded(true);
   }, []);
 
   const save = (list: ChatMessage[]): void => {
@@ -60,5 +63,5 @@ export default function useChatHistory(): UseChatHistory {
     setMessagesState(sessionRef.current.getHistory());
   };
 
-  return { messages, addMessage, setMessages: saveMessages, clearHistory };
+  return { messages, addMessage, setMessages: saveMessages, clearHistory, isLoaded };
 }
