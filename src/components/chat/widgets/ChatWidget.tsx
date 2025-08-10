@@ -119,11 +119,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
                 loading="lazy"
                 onLoad={() => setIframeLoaded(true)}
               />
-              {!iframeLoaded && (
-                <div className="c-chat-widget-skeleton" aria-hidden="true">
-                  <div className="c-spinner c-spinner-center" />
-                </div>
-              )}
+              {!iframeLoaded && <div className="c-chat-widget-skeleton" aria-hidden="true" />}
             </div>
           )}
         </div>

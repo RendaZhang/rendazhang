@@ -105,7 +105,4 @@
   .c-chat-widget-skeleton::before {
     animation: none;
   }
-  .c-chat-widget-panel .c-spinner {
-    animation: none;
-  }
 }
