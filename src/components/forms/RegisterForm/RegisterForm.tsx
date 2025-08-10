@@ -42,7 +42,6 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const errorsText = activeTexts.errors as Record<string, string> | undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [strength, setStrength] = useState<PasswordStrength>('');
   const [progress, setProgress] = useState<number>(0);
@@ -58,17 +57,17 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     { email: '', username: '', password: '', confirm: '', agree: false },
     {
       email: (value) => {
-        if (!value) return errorsText?.emailRequired || '邮箱不能为空';
+        if (!value) return activeTexts.errors?.emailRequired || '邮箱不能为空';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return errorsText?.emailInvalid || '邮箱格式错误';
+          return activeTexts.errors?.emailInvalid || '邮箱格式错误';
         }
         return '';
       },
-      username: (value) => (!value ? errorsText?.usernameRequired || '用户名不能为空' : ''),
-      password: (value) => (!value ? errorsText?.passwordRequired || '密码不能为空' : ''),
+      username: (value) => (!value ? activeTexts.errors?.usernameRequired || '用户名不能为空' : ''),
+      password: (value) => (!value ? activeTexts.errors?.passwordRequired || '密码不能为空' : ''),
       confirm: (value, all) =>
-        value !== all.password ? errorsText?.passwordMismatch || '两次密码不一致' : '',
-      agree: (value) => (!value ? errorsText?.agreement || '请勾选同意' : '')
+        value !== all.password ? activeTexts.errors?.passwordMismatch || '两次密码不一致' : '',
+      agree: (value) => (!value ? activeTexts.errors?.agreement || '请勾选同意' : '')
     }
   );
   const { email, username, password, confirm, agree } = values;
