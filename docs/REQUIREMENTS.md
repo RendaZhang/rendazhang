@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
+- **最后更新**: August 10, 2025, 04:32 (UTC+08:00)
 
 ---
 
@@ -278,10 +278,10 @@ graph TD
 - 通过 `html[lang]` 属性控制内容显隐
 - CSS 规则：
   ```css
-  html[lang^='en'] .lang-zh {
+  html[lang^='en'] .is-lang-zh {
     display: none;
   }
-  html[lang^='zh'] .lang-en {
+  html[lang^='zh'] .is-lang-en {
     display: none;
   }
   ```

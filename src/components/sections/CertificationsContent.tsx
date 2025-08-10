@@ -15,11 +15,11 @@ export default function CertificationsContent(): ReactElement {
         <LocalizedSection zhContent={textsZh.heading} enContent={textsEn.heading} />
       </h1>
 
-      <section className="cert-grid">
+      <section className="c-cert-grid">
         {textsZh.certificates.map((certZh, idx) => {
           const certEn = textsEn.certificates[idx];
           return (
-            <article className="cert-card" key={idx}>
+            <article className="c-cert-card" key={idx}>
               <h2>
                 <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
               </h2>
@@ -56,9 +56,9 @@ export default function CertificationsContent(): ReactElement {
                 />
               </p>
               <CredlyBadge />
-              <p className="verify-links">
+              <p className="c-verify-links">
                 <a
-                  className="verify-btn btn-primary"
+                  className="c-verify-btn c-btn-primary"
                   href={VERIFY_URLS.CREDLY}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -69,7 +69,7 @@ export default function CertificationsContent(): ReactElement {
                   />
                 </a>
                 <a
-                  className="verify-btn btn-primary"
+                  className="c-verify-btn c-btn-primary"
                   href={VERIFY_URLS.AWS}
                   target="_blank"
                   rel="noopener noreferrer"

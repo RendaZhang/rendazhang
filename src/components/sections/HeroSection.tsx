@@ -22,7 +22,7 @@ export default function HeroSection({
         imageMap={HERO_IMAGE_PATHS}
         imageWidths={WIDTHS}
         imagePlaceholder={MAIN_HERO}
-        className="hero"
+        className="c-hero"
       >
         <h1 id="heroHeading">
           <LocalizedSection

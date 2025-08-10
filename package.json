@@ -5,6 +5,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro}": [
       "eslint src/ astro.config.ts eslint.config.ts --ext .js,.jsx,.ts,.tsx,.astro --fix-dry-run --cache --cache-location .eslintcache"
+    ],
+    "*.css": [
+      "stylelint --fix"
     ]
   },
   "scripts": {
@@ -69,6 +72,10 @@
     "postcss-import": "^16.1.1",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "stylelint": "^16.23.1",
+    "stylelint-config-standard": "^39.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-order": "^7.0.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"

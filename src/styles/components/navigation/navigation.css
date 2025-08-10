@@ -1,0 +1,381 @@
+/* ------------------------------------------------------------------ */
+/* Navigation                                                          */
+/* Global nav bar styling uses primary gradient and shadow variables.  */
+/* Refactored with native CSS nesting for clarity and maintenance.     */
+/* ------------------------------------------------------------------ */
+/* Navigation spacing and sizing values mapped to design tokens */
+nav {
+  align-items: center;
+  backdrop-filter: blur(var(--space-2));
+  background-color: var(--color-nav-bg);
+  box-shadow: var(--shadow-elevation-3);
+  color: var(--color-nav-text);
+  container-type: inline-size;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: var(--space-3) var(--space-4);
+  position: fixed;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+
+  .c-nav-left,
+  .c-nav-right {
+    align-items: center;
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .c-nav-logo {
+    font-weight: 600;
+  }
+
+  .c-avatar-link {
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    padding: var(--space-1);
+  }
+
+  a,
+  button:not(.c-theme-option) {
+    background: none;
+    border-radius: var(--radius-s);
+    box-shadow: none;
+    color: var(--color-nav-text);
+    padding: var(--space-2) var(--space-3);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-normal),
+      color var(--duration-normal);
+  }
+
+  button:not(.c-theme-option) {
+    border: none;
+    cursor: pointer;
+  }
+
+  a:hover,
+  button:not(.c-theme-option):hover {
+    background-color: var(--color-subtle-bg);
+    color: var(--color-text);
+  }
+
+  a:active,
+  button:not(.c-theme-option):active {
+    background-color: var(--color-subtle-bg-hover);
+  }
+
+  a:focus-visible,
+  button:not(.c-theme-option):focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+
+  /* Hamburger menu */
+  .c-hamburger-btn {
+    span {
+      background: var(--color-nav-text);
+      border-radius: calc(var(--radius-xs) / 4);
+      display: block;
+      height: var(--space-1);
+      margin: var(--space-1) 0;
+      transition:
+        transform var(--duration-normal),
+        opacity var(--duration-normal);
+      width: var(--space-6);
+    }
+
+    &.is-open {
+      span:nth-child(1) {
+        transform: translateY(var(--space-1)) rotate(45deg);
+      }
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      span:nth-child(3) {
+        transform: translateY(calc(var(--space-1) * -1)) rotate(-45deg);
+      }
+    }
+  }
+
+  /* Side menu */
+  .c-side-menu-overlay {
+    background: var(--overlay-bg);
+    inset: 0;
+    opacity: 0;
+    position: fixed;
+    transition: opacity var(--duration-normal);
+    visibility: hidden;
+    z-index: 1001;
+
+    &.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .c-side-menu {
+    background: var(--color-nav-bg);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    height: 100vh;
+    left: 0;
+    max-width: 80%;
+    overflow-y: auto;
+    padding: calc(var(--space-9) - var(--space-1)) var(--space-5) var(--space-5);
+    position: fixed;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform var(--duration-normal);
+    width: calc(var(--space-10) * 2.75);
+    z-index: 1002;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+
+    a {
+      background: none;
+      border-radius: var(--radius-s);
+      box-shadow: none;
+      color: var(--color-nav-text);
+      display: block;
+      padding: var(--space-2) var(--space-3);
+      text-decoration: none;
+      transition:
+        background-color var(--duration-normal),
+        color var(--duration-normal);
+
+      &:hover {
+        background-color: var(--color-subtle-bg);
+        color: var(--color-text);
+      }
+
+      &:active {
+        background-color: var(--color-subtle-bg-hover);
+      }
+
+      &:focus-visible {
+        box-shadow: var(--focus-ring);
+        outline: none;
+      }
+    }
+  }
+
+  /* Theme toggle */
+  .c-theme-toggle-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+
+  .c-theme-toggle-main {
+    background: none;
+    border: none;
+    border-radius: var(--radius-s);
+    box-shadow: none;
+    color: var(--color-nav-text);
+    cursor: pointer;
+    font-size: var(--font-size-1);
+    padding: var(--space-2) var(--space-3);
+    position: relative;
+    text-decoration: none;
+    transition:
+      background-color var(--duration-normal),
+      color var(--duration-normal);
+
+    &:hover {
+      background-color: var(--color-subtle-bg);
+      color: var(--color-text);
+    }
+
+    &:active {
+      background-color: var(--color-subtle-bg-hover);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+  }
+
+  .c-theme-options {
+    background-color: var(--color-nav-bg);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-elevation-2);
+    display: flex;
+    gap: var(--space-1);
+    left: 50%;
+    padding: var(--space-1);
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    transform: translateX(-50%);
+    z-index: 1001;
+  }
+
+  .c-theme-option {
+    align-items: center;
+    border: var(--border-3);
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    display: flex;
+    height: calc(var(--space-7) - var(--space-1));
+    justify-content: center;
+    padding: 0;
+    transition:
+      background-color var(--duration-fast),
+      box-shadow var(--duration-fast);
+    width: calc(var(--space-7) - var(--space-1));
+
+    &.is-light {
+      background-color: var(--color-light-gray);
+      color: var(--color-dark-gray);
+    }
+
+    &.is-dark {
+      background-color: var(--color-dark-gray);
+      color: var(--color-white);
+    }
+
+    &:hover {
+      box-shadow: var(--shadow-elevation-2);
+    }
+
+    &.is-active {
+      border-color: var(--color-warning-accent);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+  }
+
+  /* Language selector */
+  .c-language-selector-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+
+  .c-language-selector-main {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: var(--radius-s);
+    box-shadow: none;
+    color: var(--color-nav-text);
+    cursor: pointer;
+    display: flex;
+    font-size: var(--font-size-1);
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    position: relative;
+    text-decoration: none;
+    transition:
+      background-color var(--duration-normal),
+      color var(--duration-normal);
+
+    &:hover {
+      background-color: var(--color-subtle-bg);
+      color: var(--color-text);
+    }
+
+    &:active {
+      background-color: var(--color-subtle-bg-hover);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+  }
+
+  .c-language-options {
+    background-color: var(--color-nav-bg);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-elevation-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    left: 50%;
+    padding: var(--space-1);
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    transform: translateX(-50%);
+    z-index: 1001;
+  }
+
+  .c-language-option {
+    background-color: var(--color-nav-bg);
+    border: var(--border-3);
+    border-radius: var(--radius-xs);
+    color: var(--color-nav-text);
+    cursor: pointer;
+    font-size: var(--font-size-1);
+    padding: var(--space-1) var(--space-2);
+    transition:
+      background-color var(--duration-fast),
+      box-shadow var(--duration-fast);
+
+    &:hover {
+      box-shadow: var(--shadow-elevation-2);
+    }
+
+    &.is-active {
+      border-color: var(--color-warning-accent);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--focus-ring);
+      outline: none;
+    }
+  }
+
+  /* ---------- Responsive Design ---------- */
+  @container (max-width: 768px) {
+    box-shadow: var(--shadow-elevation-3);
+    gap: var(--space-2);
+    height: auto;
+    padding: var(--space-2) var(--space-3);
+
+    a,
+    button:not(.c-theme-option) {
+      border-radius: var(--radius-s);
+      box-sizing: border-box;
+      font-size: var(--font-size-1);
+      margin: var(--space-1);
+      min-width: 0;
+      padding: var(--space-3) var(--space-1);
+      text-align: center;
+    }
+  }
+
+  @container (max-width: 480px) {
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
+
+    a,
+    button:not(.c-theme-option) {
+      border-radius: var(--radius-s);
+      font-size: var(--font-size-0);
+      min-width: 0;
+      padding: var(--space-2) var(--space-1);
+    }
+  }
+
+  @container (max-width: 360px) {
+    a,
+    button:not(.c-theme-option) {
+      font-size: var(--font-size-0);
+      margin: var(--space-1) var(--space-1);
+      min-width: 0;
+      padding: var(--space-2) var(--space-1);
+    }
+  }
+}

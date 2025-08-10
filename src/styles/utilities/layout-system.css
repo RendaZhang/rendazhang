@@ -1,19 +1,22 @@
 /*! Layout system extracted from theme.css */
 
-.container {
-  max-width: 800px;
+/* Containers leverage spacing tokens and `--measure` for consistent
+   horizontal rhythm and readable line lengths. */
+
+.u-container {
   margin: 0 auto;
+  max-width: var(--measure);
   width: 100%;
 }
 
 /* Page section block with unified spacing */
-.about-section,
-.skills-section,
-.education-section,
-.experience-section,
-.blog-section,
-.contact-section {
-  padding: 2rem 1rem;
-  max-width: 800px;
+.c-about-section,
+.c-skills-section,
+.c-education-section,
+.c-experience-section,
+.c-blog-section,
+.c-contact-section {
   margin: 0 auto;
+  max-width: var(--measure);
+  padding: var(--space-7) var(--space-4);
 }

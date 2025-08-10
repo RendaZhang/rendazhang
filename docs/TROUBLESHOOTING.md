@@ -54,13 +54,16 @@
     - [BUG-046: 输入时 Mermaid 图表频繁重渲染](#bug-046-%E8%BE%93%E5%85%A5%E6%97%B6-mermaid-%E5%9B%BE%E8%A1%A8%E9%A2%91%E7%B9%81%E9%87%8D%E6%B8%B2%E6%9F%93)
     - [BUG-047: 构建后 env.ts 无法读取环境变量](#bug-047-%E6%9E%84%E5%BB%BA%E5%90%8E-envts-%E6%97%A0%E6%B3%95%E8%AF%BB%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
     - [BUG-048: 404/500 页面主题和语言初始化失败](#bug-048-404500-%E9%A1%B5%E9%9D%A2%E4%B8%BB%E9%A2%98%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%9D%E5%A7%8B%E5%8C%96%E5%A4%B1%E8%B4%A5)
+    - [BUG-049: Vite 报错 `@import must precede all other statements`](#bug-049-vite-%E6%8A%A5%E9%94%99-import-must-precede-all-other-statements)
+    - [BUG-050: Auth form containers use fixed top margin](#bug-050-auth-form-containers-use-fixed-top-margin)
+    - [BUG-051: Certification page styles bound to body element](#bug-051-certification-page-styles-bound-to-body-element)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2025, 20:35 (UTC+08:00)
+- **最后更新**: August 10, 2025, 05:39 (UTC+08:00)
 
 ---
 
@@ -276,8 +279,11 @@
   - `index.css` 全局设置 `body` 为 `display:flex; height:100vh;`
     且取消了顶部间距，导致非首页也沿用该布局
 - **解决方案**：
-  - 为证书页设置 `bodyClass="cert-page"` 并在 `certifications.css`
+  - 为证书页添加 `<div class="cert-page">` 包裹并在 `certifications.css`
     中恢复 `padding-top` 和常规布局
+- **改进**：已将 `certifications.css` 中基于视口的 `@media` 改为容器查询；
+  `.cert-page` 现设置 `container-type: inline-size` 并使用 `@container`
+  控制 `padding-top`，使页面可在侧栏或弹窗内复用。
 - **验证结果**：✅ 调整后在 600px 高度下页面不再与导航重叠
 
 ### BUG-011: Verify buttons not responsive on small screens
@@ -288,7 +294,7 @@
 - **问题现象**：
   - 两个验证按钮在窄屏下无法并排显示
 - **根本原因**：
-  - `.verify-btn` 仅使用 margin-right，缺乏弹性布局导致按钮宽度固定
+  - `.c-verify-btn` 仅使用 margin-right，缺乏弹性布局导致按钮宽度固定
 - **解决方案**：
   - 将按钮容器设为 flex 布局并给予按钮 `flex:1`，同时统一 margin
   - 样式已移至 `theme.css`，便于在其他页面复用
@@ -315,7 +321,7 @@
     import storage from '/src/utils/storage';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
-      if (stored === 'dark') document.documentElement.classList.add('dark-mode');
+      if (stored === 'dark') document.documentElement.classList.add('is-dark-mode');
     } catch {}
   </script>
   ```
@@ -344,7 +350,7 @@
   useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-      const isDark = document.documentElement.classList.contains('dark-mode');
+      const isDark = document.documentElement.classList.contains('is-dark-mode');
       setDarkMode(isDark);
     }
   }, []);
@@ -358,9 +364,9 @@
 - **问题现象**：
   - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
 - **根本原因**：
-  - `chat_widget.css` 默认背景为白色，未针对 `.dark-mode` 提供样式
+  - `chat_widget.css` 默认背景为白色，未针对 `.is-dark-mode` 提供样式
 - **解决方案**：
-  - 在样式表中添加 `.dark-mode .chat-widget-panel { background:#1e1e1e; }`
+  - 在样式表中添加 `.is-dark-mode .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
 
 ### BUG-015: Enhancement progress stuck when scripts load from memory cache
@@ -563,10 +569,10 @@
   - Chat 页面代码块无语法着色
   - Docs 页面排版不具备 GitHub 风格
 - **根本原因**：
-  - Chat 页面仅引入 `github-markdown-light.min.css`
-  - Docs 页面仅引入 `github.min.css`
+  - Chat 页面仅引入 `github-markdown-light.css`
+  - Docs 页面仅引入 `github.css`
 - **解决方案**：
-  - 两个页面同时加载 `github.min.css` 与 `github-markdown-light.min.css`
+  - 两个页面同时加载 `github.css` 与 `github-markdown-light.css`
 - **验证结果**：✅ 两页面的代码高亮与排版均保持一致
 
 ### BUG-029: DOMPurify source map warning during dev
@@ -610,7 +616,7 @@
 - **根本原因**：
   - 未在 CSS 中声明 `color-scheme`
 - **解决方案**：
-  - 在 `:root` 设置 `color-scheme: light` 并在 `.dark-mode` 设置 `color-scheme: dark`
+  - 在 `:root` 设置 `color-scheme: light` 并在 `.is-dark-mode` 设置 `color-scheme: dark`
 - **验证结果**：✅ 主题切换后控件样式一致
 
 ### BUG-032: Hero 模糊占位图不会消失
@@ -1043,3 +1049,43 @@
   3. 调整 Nginx CSP 配置允许 `'self'` 加载该脚本
 - **验证结果**：✅ 404/500 页面渲染前正确应用主题与语言
 - **经验总结**：外部脚本更易于 CSP 控制，可避免主题/语言闪烁问题
+
+### BUG-049: Vite 报错 `@import must precede all other statements`
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-09
+- **重现环境**：`npm run build`
+- **问题现象**：
+  - 构建时控制台输出 `@import must precede all other statements` 警告
+- **根本原因**：
+  - `src/styles/theme.css` 中的 `@import` 语句位于 `@layer` 内容之后，违反 CSS 规范
+- **解决方案**：
+  - 将所有 `@import` 语句移动到文件顶部，紧接 `@layer` 声明
+- **验证结果**：✅ `npm run build` 无警告
+- **经验总结**：`@import` 必须在文件其他语句之前，可配合 `layer(name)` 指定层级
+
+### BUG-050: Auth form containers use fixed top margin
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-09
+- **重现环境**：登录或注册表单嵌入侧栏/弹窗
+- **问题现象**：
+  - 固定 `margin: 80px auto` 造成顶部留白过多甚至溢出
+- **根本原因**：
+  - `.c-login-container` 与 `.c-register-container` 使用硬编码外边距，未根据容器宽度调整
+- **解决方案**：
+  - 采用容器查询：默认外边距 20px，宽容器时增至 80px，确保在侧栏/弹窗中贴合父容器
+- **验证结果**：✅ `npm test` 与 `npm run lint`
+
+### BUG-051: Certification page styles bound to body element
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-09
+- **重现环境**：证书页嵌入侧栏/弹窗
+- **问题现象**：
+  - `.cert-page` 的 `@container` 查询与 `padding-top` 在非 `<body>` 容器中失效
+- **根本原因**：
+  - 样式使用 `body.cert-page` 选择器，仅作用于 `<body>` 元素
+- **解决方案**：
+  - 改用通用 `.cert-page` 包裹元素并更新模板及容器查询选择器
+- **验证结果**：✅ `npm test` 与 `npm run lint`

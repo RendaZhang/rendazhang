@@ -11,8 +11,8 @@ export default function LocalizedSection({
 }: LocalizedSectionProps): ReactElement {
   return (
     <>
-      <span className="lang-zh">{zhContent}</span>
-      <span className="lang-en">{enContent}</span>
+      <span className="is-lang-zh">{zhContent}</span>
+      <span className="is-lang-en">{enContent}</span>
     </>
   );
 }

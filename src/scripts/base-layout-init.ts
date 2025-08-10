@@ -77,7 +77,7 @@
       log('BaseLayout script systemPrefersDark: ' + systemPrefersDark);
       log('BaseLayout script shouldUseDark: ' + shouldUseDark);
       if (shouldUseDark) {
-        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.add('is-dark-mode');
       }
       document.documentElement.dataset.initialTheme =
         typeof storedTheme === 'string' && storedTheme

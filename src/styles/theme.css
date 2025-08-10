@@ -1,176 +1,240 @@
-@import './core/_colors.css';
-@import './core/_spacing.css';
+@layer reset, tokens, base, components, utilities, overrides;
+/* overrides layer reserved for legacy page-specific patches */
+
+@import './core/tokens.css';
+@import './core/legacy-alias.css';
 @import './core/_gradients.css';
-@import './utilities/layout-system.css';
-@import './utilities/utility-classes.css';
-@import './layout.css';
-@import './components/navigation.css';
-@import './components/app-header.css';
-@import './components/buttons.css';
-@import './components/forms.css';
-@import './components/loaders.css';
-@import './components/misc.css';
-@import './dark-mode.css';
+@import './layout.css' layer(base);
+@import './components/navigation/navigation.css' layer(components);
+@import './components/app-header.css' layer(components);
+@import './components/button/button.css' layer(components);
+@import './components/form/form.css' layer(components);
+@import './components/loaders.css' layer(components);
+@import './components/misc.css' layer(components);
+@import './utilities/layout-system.css' layer(utilities);
+@import './utilities/utility-classes.css' layer(utilities);
 
-/* ====================================================================== */
-/* Theme Styles - improved readability and responsiveness */
-/* ====================================================================== */
+@layer reset {
+  html {
+    box-sizing: border-box;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 
-/* ---------- CSS Variables ---------- */
-:root {
-  color-scheme: light;
-  --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif;
-
-  /* -------------------------------------------------------------- */
-  /* Derived variables (legacy names kept for compatibility)        */
-  /* -------------------------------------------------------------- */
-  --color-bg: rgb(var(--color-gray-50));
-  --color-text: rgb(var(--color-gray-900));
-  --color-nav-bg: rgb(var(--color-gray-50));
-  --color-nav-text: rgb(var(--color-gray-900));
-  --color-surface: rgb(var(--color-gray-100));
-  --color-gray: rgb(var(--color-gray));
-  --color-brand-blue: rgb(var(--color-brand-blue));
-  --color-spinner: rgb(var(--color-spinner));
-  --color-white: rgb(var(--color-white-rgb));
-  --color-black: rgb(var(--color-black-rgb));
-  --color-border-light: rgb(var(--color-border-light));
-  --color-subtle-bg: rgb(var(--color-subtle-bg));
-  --color-subtle-bg-alt: rgb(var(--color-subtle-bg-alt));
-  --color-subtle-bg-hover: rgb(var(--color-subtle-bg-hover));
-  --color-text-muted: rgb(var(--color-text-muted));
-  --color-text-darker: rgb(var(--color-text-darker));
-  --color-text-deep: rgb(var(--color-text-deep));
-  --color-border-muted: rgb(var(--color-border-muted));
-  --color-border-soft: rgb(var(--color-border-soft));
-  --color-gray-medium: rgb(var(--color-gray-medium));
-  --color-spinner-track: rgb(var(--color-spinner-track));
-  --color-border-neutral: rgb(var(--color-border-neutral));
-  --color-light-gray: rgb(var(--color-light-gray));
-  --color-dark-gray: rgb(var(--color-dark-gray));
-  --color-dark-black: rgb(var(--color-dark-black));
-  --color-warning-accent: rgb(var(--color-warning-accent));
-  --color-dark-surface: rgb(var(--color-dark-surface));
-  --color-accent-purple: rgb(var(--color-primary));
-  --md-bg: rgb(var(--color-md-bg));
-  --md-text: rgb(var(--color-md-text));
-  --md-heading-border: rgb(var(--color-md-heading-border));
-  --md-h1-color: rgb(var(--color-md-h1));
-  --md-h2-color: rgb(var(--color-md-h2));
-  --md-h2-border: rgb(var(--color-md-h2-border));
-  --md-h3-color: rgb(var(--color-md-h3));
-  --md-h4-color: rgb(var(--color-md-h4));
-  --md-strong-color: rgb(var(--color-md-strong));
-  --md-table-bg: rgb(var(--color-md-table-bg));
-  --md-th-bg: rgb(var(--color-md-th-bg));
-  --md-th-color: rgb(var(--color-md-th-color));
-  --md-td-color: rgb(var(--color-md-td-color));
-  --md-td-bg: rgb(var(--color-md-td-bg));
-  --md-table-border: rgb(var(--color-md-table-border));
-  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
-  --md-code-bg: rgb(var(--color-md-code-bg));
-  --md-code-color: rgb(var(--color-md-code-color));
-  --md-link-color: rgb(var(--color-md-link));
-  --md-link-hover: rgb(var(--color-md-link-hover));
-  --md-blockquote-color: rgb(var(--color-md-blockquote));
-  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
-  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
-  --md-hr-bg: rgb(var(--color-md-hr));
-  --shadow-elevated: 0 4px 6px rgba(var(--color-black-rgb), 0.1);
-  --overlay-bg: rgba(var(--color-black-rgb), 0.4);
-  --shadow-medium: 0 2px 8px rgba(var(--color-black-rgb), 0.2);
-  --shadow-soft: 0 0 4px rgba(var(--color-black-rgb), 0.3);
-  --shadow-large: 0 8px 30px rgba(var(--color-black-rgb), 0.08);
-  --shadow-dialog: 0 4px 20px rgba(var(--color-black-rgb), 0.15);
-  --shadow-focus-purple: 0 0 0 3px rgba(var(--color-primary), 0.2);
-  --overlay-light-bg: rgba(var(--color-white-rgb), 0.95);
-  --overlay-dark-bg: rgba(var(--color-black-rgb), 0.75);
-  --overlay-dark-surface: rgba(var(--color-dark-black), 0.95);
-  --shadow-dark: 0 4px 10px rgba(var(--color-black-rgb), 0.5);
-  --shadow-login-light: 0 4px 12px rgba(var(--color-black-rgb), 0.1);
-  --shadow-login-dark: 0 4px 12px rgba(var(--color-black-rgb), 0.5);
-  --shadow-message: 0 2px 8px rgba(var(--color-black-rgb), 0.05);
-  --shadow-focus-blue: 0 0 0 3px rgba(var(--color-tertiary), 0.4);
-  --shadow-nav-mobile: 0 2px 10px rgba(var(--color-black-rgb), 0.1);
-  --shadow-cert-card: 0 2px 6px rgba(var(--color-black-rgb), 0.05);
-  --shadow-cert-card-hover: 0 4px 6px rgba(var(--color-black-rgb), 0.1);
-  --shadow-md-table: 0 2px 4px rgba(var(--color-black-rgb), 0.2);
-  --overlay-modal-bg: rgba(var(--color-black-rgb), 0.5);
+  /* Ensure code blocks are scrollable on smaller screens */
+  pre {
+    overflow-x: auto;
+  }
 }
 
-/* Dark mode overrides */
-html.dark-mode {
-  color-scheme: dark;
-  --color-bg: rgb(var(--color-gray-900));
-  --color-text: rgb(var(--color-gray-50));
-  --color-nav-bg: rgb(var(--color-gray-800));
-  --color-nav-text: rgb(var(--color-gray-50));
-  --color-success: rgb(var(--color-success));
-  --color-warning: rgb(var(--color-warning));
-  --color-error: rgb(var(--color-error));
-  --gradient-primary: var(--gradient-dark);
-  --color-surface: rgb(var(--color-gray-800));
-  --color-gray: rgb(var(--color-gray-700));
-  --color-brand-blue: rgb(var(--color-brand-blue));
-  --color-spinner: rgb(var(--color-spinner));
-  --color-white: rgb(var(--color-white-rgb));
-  --color-border-light: rgb(var(--color-gray-700));
-  --color-subtle-bg: rgb(var(--color-gray-700));
-  --color-subtle-bg-alt: rgb(var(--color-dark-black));
-  --color-subtle-bg-hover: rgb(var(--color-gray-700));
-  --color-text-muted: rgb(var(--color-text-muted));
-  --color-text-darker: rgb(var(--color-text-darker));
-  --color-text-deep: rgb(var(--color-text-deep));
-  --color-border-muted: rgb(var(--color-gray-700));
-  --color-border-soft: rgb(var(--color-gray-700));
-  --color-gray-medium: rgb(var(--color-gray-medium));
-  --color-spinner-track: rgb(var(--color-gray-700));
-  --color-accent-purple: rgb(var(--color-primary));
-  --md-bg: rgb(var(--color-md-bg));
-  --md-text: rgb(var(--color-md-text));
-  --md-heading-border: rgb(var(--color-md-heading-border));
-  --md-h1-color: rgb(var(--color-md-h1));
-  --md-h2-color: rgb(var(--color-md-h2));
-  --md-h2-border: rgb(var(--color-md-h2-border));
-  --md-h3-color: rgb(var(--color-md-h3));
-  --md-h4-color: rgb(var(--color-md-h4));
-  --md-strong-color: rgb(var(--color-md-strong));
-  --md-table-bg: rgb(var(--color-md-table-bg));
-  --md-th-bg: rgb(var(--color-md-th-bg));
-  --md-th-color: rgb(var(--color-md-th-color));
-  --md-td-color: rgb(var(--color-md-td-color));
-  --md-td-bg: rgb(var(--color-md-td-bg));
-  --md-table-border: rgb(var(--color-md-table-border));
-  --md-zebra-bg: rgb(var(--color-md-zebra-bg));
-  --md-code-bg: rgb(var(--color-md-code-bg));
-  --md-code-color: rgb(var(--color-md-code-color));
-  --md-link-color: rgb(var(--color-md-link));
-  --md-link-hover: rgb(var(--color-md-link-hover));
-  --md-blockquote-color: rgb(var(--color-md-blockquote));
-  --md-blockquote-border: rgb(var(--color-md-blockquote-border));
-  --md-blockquote-bg: rgb(var(--color-md-blockquote-bg));
-  --md-hr-bg: rgb(var(--color-md-hr));
+@layer tokens {
+  /* ---------- CSS Variables ---------- */
+  :root {
+    /* -------------------------------------------------------------- */
+    /* Derived variables (legacy names kept for compatibility)        */
+    /* -------------------------------------------------------------- */
+    --color-bg: var(--color-gray-50);
+    --color-text: var(--color-gray-900);
+    --color-nav-bg: var(--color-gray-50);
+    --color-nav-text: var(--color-gray-900);
+    --color-surface: var(--color-gray-100);
+    --color-white: var(--color-base-white);
+    --color-black: var(--color-base-black);
+    --color-warning-accent: var(--color-warning-accent);
+    --color-accent-purple: var(--color-brand);
+    --shadow-login: var(--shadow-login-light);
+    --md-bg: var(--color-md-bg);
+    --md-text: var(--color-md-text);
+    --md-heading-border: var(--color-md-heading-border);
+    --md-h1-color: var(--color-md-h1);
+    --md-h2-color: var(--color-md-h2);
+    --md-h2-border: var(--color-md-h2-border);
+    --md-h3-color: var(--color-md-h3);
+    --md-h4-color: var(--color-md-h4);
+    --md-strong-color: var(--color-md-strong);
+    --md-table-bg: var(--color-md-table-bg);
+    --md-th-bg: var(--color-md-th-bg);
+    --md-th-color: var(--color-md-th-color);
+    --md-td-color: var(--color-md-td-color);
+    --md-td-bg: var(--color-md-td-bg);
+    --md-table-border: var(--color-md-table-border);
+    --md-zebra-bg: var(--color-md-zebra-bg);
+    --md-code-bg: var(--color-md-code-bg);
+    --md-code-color: var(--color-md-code-color);
+    --md-link-color: var(--color-md-link);
+    --md-link-hover: var(--color-md-link-hover);
+    --md-blockquote-color: var(--color-md-blockquote);
+    --md-blockquote-border: var(--color-md-blockquote-border);
+    --md-blockquote-bg: var(--color-md-blockquote-bg);
+    --md-hr-bg: var(--color-md-hr);
+    --social-icon-filter: none;
+    --overlay-surface: var(--overlay-light-bg);
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: var(--color-gray-900);
+      --color-text: var(--color-gray-50);
+      --color-nav-bg: var(--color-gray-800);
+      --color-nav-text: var(--color-gray-50);
+      --gradient-primary: var(--gradient-dark);
+      --color-surface: var(--color-gray-800);
+      --color-gray: var(--color-gray-700);
+      --color-white: var(--color-base-white);
+      --color-border-light: var(--color-gray-700);
+      --color-subtle-bg: var(--color-gray-700);
+      --color-subtle-bg-alt: var(--color-dark-black);
+      --color-subtle-bg-hover: var(--color-gray-700);
+      --color-border-muted: var(--color-gray-700);
+      --color-border-soft: var(--color-gray-700);
+      --color-spinner-track: var(--color-gray-700);
+      --color-accent-purple: var(--color-brand);
+      --shadow-login: var(--shadow-login-dark);
+      --md-bg: var(--color-md-bg);
+      --md-text: var(--color-md-text);
+      --md-heading-border: var(--color-md-heading-border);
+      --md-h1-color: var(--color-md-h1);
+      --md-h2-color: var(--color-md-h2);
+      --md-h2-border: var(--color-md-h2-border);
+      --md-h3-color: var(--color-md-h3);
+      --md-h4-color: var(--color-md-h4);
+      --md-strong-color: var(--color-md-strong);
+      --md-table-bg: var(--color-md-table-bg);
+      --md-th-bg: var(--color-md-th-bg);
+      --md-th-color: var(--color-md-th-color);
+      --md-td-color: var(--color-md-td-color);
+      --md-td-bg: var(--color-md-td-bg);
+      --md-table-border: var(--color-md-table-border);
+      --md-zebra-bg: var(--color-md-zebra-bg);
+      --md-code-bg: var(--color-md-code-bg);
+      --md-code-color: var(--color-md-code-color);
+      --md-link-color: var(--color-md-link);
+      --md-link-hover: var(--color-md-link-hover);
+      --md-blockquote-color: var(--color-md-blockquote);
+      --md-blockquote-border: var(--color-md-blockquote-border);
+      --md-blockquote-bg: var(--color-md-blockquote-bg);
+      --md-hr-bg: var(--color-md-hr);
+      --social-icon-filter: brightness(0) invert(1);
+      --overlay-surface: var(--overlay-dark-surface);
+      color-scheme: dark;
+    }
+  }
+
+  html.is-dark-mode {
+    --color-bg: var(--color-gray-900);
+    --color-text: var(--color-gray-50);
+    --color-nav-bg: var(--color-gray-800);
+    --color-nav-text: var(--color-gray-50);
+    --gradient-primary: var(--gradient-dark);
+    --color-surface: var(--color-gray-800);
+    --color-gray: var(--color-gray-700);
+    --color-white: var(--color-base-white);
+    --color-border-light: var(--color-gray-700);
+    --color-subtle-bg: var(--color-gray-700);
+    --color-subtle-bg-alt: var(--color-dark-black);
+    --color-subtle-bg-hover: var(--color-gray-700);
+    --color-border-muted: var(--color-gray-700);
+    --color-border-soft: var(--color-gray-700);
+    --color-spinner-track: var(--color-gray-700);
+    --color-accent-purple: var(--color-brand);
+    --shadow-login: var(--shadow-login-dark);
+    --md-bg: var(--color-md-bg);
+    --md-text: var(--color-md-text);
+    --md-heading-border: var(--color-md-heading-border);
+    --md-h1-color: var(--color-md-h1);
+    --md-h2-color: var(--color-md-h2);
+    --md-h2-border: var(--color-md-h2-border);
+    --md-h3-color: var(--color-md-h3);
+    --md-h4-color: var(--color-md-h4);
+    --md-strong-color: var(--color-md-strong);
+    --md-table-bg: var(--color-md-table-bg);
+    --md-th-bg: var(--color-md-th-bg);
+    --md-th-color: var(--color-md-th-color);
+    --md-td-color: var(--color-md-td-color);
+    --md-td-bg: var(--color-md-td-bg);
+    --md-table-border: var(--color-md-table-border);
+    --md-zebra-bg: var(--color-md-zebra-bg);
+    --md-code-bg: var(--color-md-code-bg);
+    --md-code-color: var(--color-md-code-color);
+    --md-link-color: var(--color-md-link);
+    --md-link-hover: var(--color-md-link-hover);
+    --md-blockquote-color: var(--color-md-blockquote);
+    --md-blockquote-border: var(--color-md-blockquote-border);
+    --md-blockquote-bg: var(--color-md-blockquote-bg);
+    --md-hr-bg: var(--color-md-hr);
+    --social-icon-filter: brightness(0) invert(1);
+    --overlay-surface: var(--overlay-dark-surface);
+    color-scheme: dark;
+  }
 }
 
-/* ---------- Global Reset ---------- */
-html {
-  box-sizing: border-box;
-}
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+@layer base {
+  /* ---------- Typographic Baseline ---------- */
+  body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-2);
+    line-height: 1.5;
+  }
+
+  main,
+  article {
+    margin-inline: auto;
+    max-width: var(--measure);
+  }
+
+  p {
+    line-height: 1.6;
+    margin-block: 0 var(--space-4);
+    max-width: var(--measure);
+  }
+
+  h1 {
+    font-size: var(--font-size-5);
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: var(--font-size-4);
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: var(--font-size-3);
+    line-height: 1.4;
+  }
+
+  h4 {
+    font-size: var(--font-size-2);
+    line-height: 1.5;
+  }
+
+  /* ---------- Language Helpers ---------- */
+  html[lang^='en'] .is-lang-zh {
+    display: none;
+  }
+  html[lang^='zh'] .is-lang-en {
+    display: none;
+  }
 }
 
-/* Ensure code blocks are scrollable on smaller screens */
-pre {
-  overflow-x: auto;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-/* ---------- Language Helpers ---------- */
-html[lang^='en'] .lang-zh {
-  display: none;
-}
-html[lang^='zh'] .lang-en {
-  display: none;
+@layer overrides {
+  /* legacy page-specific patches */
 }

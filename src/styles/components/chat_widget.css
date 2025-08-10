@@ -1,48 +1,51 @@
-/* Floating chat button, centered using .flex-center */
-.chat-widget-toggle {
-  position: fixed; /* anchored via .fixed-bottom-right utility */
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: none;
+/* Floating chat button, centered using .u-flex-center */
+/* Dimensions expressed via spacing tokens */
+.c-chat-widget-toggle {
   background: var(--gradient-primary);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-elevation-2);
   color: var(--color-white);
-  font-size: 0;
-  line-height: 1; /* vertical alignment handled by flex-center */
   cursor: pointer;
-  z-index: 9999;
+  font-size: 0;
+  height: calc(var(--space-9) - var(--space-1));
+  line-height: 1; /* vertical alignment handled by u-flex-center */
   padding: 0;
-}
-
-.chat-widget-toggle svg {
-  width: 28px;
-  height: 28px;
-  pointer-events: none;
-}
-
-.chat-widget-panel {
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 360px;
-  max-height: 80vh;
+  transition:
+    filter var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard);
+  width: calc(var(--space-9) - var(--space-1));
   z-index: 9999;
+}
+.c-chat-widget-toggle:hover {
+  box-shadow: var(--shadow-elevation-3);
+  filter: brightness(1.1);
+}
+.c-chat-widget-toggle:active {
+  transform: scale(0.96);
+}
+.c-chat-widget-toggle:focus-visible {
+  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+  outline: none;
+}
+.c-chat-widget-toggle svg {
+  height: calc(var(--space-7) - var(--space-1));
+  pointer-events: none;
+  width: calc(var(--space-7) - var(--space-1));
+}
+.c-chat-widget-panel {
+  bottom: calc(var(--space-10) + var(--space-2));
+  max-height: 80vh;
   /* visual styles moved to utility classes */
   overflow: hidden;
+  position: fixed;
+  right: var(--space-5);
+  width: calc(var(--space-10) * 4.5);
+  z-index: 9999;
 }
-
-/* Dark mode overrides - maintain accessible contrast */
-html.dark-mode .chat-widget-toggle {
-  background: var(--gradient-dark);
-}
-
-/* Dark mode panel background */
-html.dark-mode .chat-widget-panel {
-  background: var(--color-surface);
-}
-
-.chat-widget-iframe {
-  width: 100%;
-  height: 70vh;
+.c-chat-widget-iframe {
   border: none;
+  height: 70vh;
+  width: 100%;
 }

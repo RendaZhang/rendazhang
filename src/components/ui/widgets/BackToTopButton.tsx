@@ -34,7 +34,7 @@ export default function BackToTopButton(): ReactElement {
 
   return (
     <button
-      className="back-to-top flex-center"
+      className="c-back-to-top u-flex-center"
       aria-label="Back to top"
       onClick={scrollToTop}
       onKeyDown={handleKeyDown}

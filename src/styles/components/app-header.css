@@ -1,16 +1,10 @@
 /* ------------------------------------------------------------------ */
 /* App Header - shared style for page headers                           */
 /* ------------------------------------------------------------------ */
-.app-header {
+.c-app-header {
   background: var(--gradient-primary); /* match primary navigation */
   color: var(--color-white);
-  padding: 20px;
-  text-align: center;
+  padding: var(--space-5);
   position: relative;
-}
-
-/* Dark mode header retains unified palette */
-html.dark-mode .app-header {
-  background: var(--gradient-dark);
-  color: var(--color-white);
+  text-align: center;
 }

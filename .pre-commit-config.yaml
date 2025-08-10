@@ -47,6 +47,17 @@ repos:
         types_or: [javascript, jsx, ts, tsx, astro, css, json, markdown, yaml]
         exclude: \.(png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga|pdf)$
 
+  # 样式检查
+  - repo: local
+    hooks:
+      - id: stylelint
+        name: Stylelint
+        entry: npx stylelint --config stylelint.config.cjs
+        language: system
+        pass_filenames: true
+        types: [css]
+        args: ['--fix']
+
   # 语法/风格检查（仅对已暂存文件）
   # 可以在 .env 或 .env.local 文件中通过环境变量 SKIP_ESLINT 来决定是否跳过 ESLINT 的检查
   - repo: local

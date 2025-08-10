@@ -107,43 +107,43 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="contact-form">
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="name"
-          className="form-control"
+          className="c-form-control"
           placeholder={placeholders.name || ''}
           value={form.name}
           onChange={handleChange}
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="contact"
-          className="form-control"
+          className="c-form-control"
           placeholder={placeholders.contact || ''}
           value={form.contact}
           onChange={handleChange}
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <input
           type="text"
           name="_subject"
-          className="form-control"
+          className="c-form-control"
           placeholder={placeholders.subject || ''}
           value={form._subject}
           onChange={handleChange}
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="c-form-group">
         <textarea
           name="message"
-          className="form-control"
+          className="c-form-control"
           rows={5}
           placeholder={placeholders.message || ''}
           value={form.message}
@@ -151,7 +151,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
           required
         />
       </div>
-      <button type="submit" className="btn btn-primary" disabled={status === 'loading'}>
+      <button type="submit" className="c-btn-primary" disabled={status === 'loading'}>
         {status === 'loading' ? (
           <LocalizedSection zhContent={textsZh.sending} enContent={textsEn.sending} />
         ) : (
@@ -159,11 +159,11 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
         )}
       </button>
       {status === 'success' && (
-        <div className="form-message text-success">
+        <div className="c-form-message u-text-success">
           <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         </div>
       )}
-      {status === 'error' && error && <div className="form-message text-error">{error}</div>}
+      {status === 'error' && error && <div className="c-form-message u-text-error">{error}</div>}
     </form>
   );
 }

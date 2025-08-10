@@ -1,32 +1,68 @@
-.social-icons {
+/* Social icon sizes and spacing mapped to tokens */
+.c-social-icons {
+  container-type: inline-size;
+  margin: var(--space-5) 0;
   text-align: center;
-  margin: 20px 0;
-}
-.social-icons a {
-  position: relative;
-  display: inline-block;
-}
-.social-icons img {
-  width: 32px;
-  height: 32px;
-  margin: 0 8px;
-  vertical-align: middle;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.social-icons img.loaded {
-  opacity: 1;
-}
-.social-icons .spinner {
-  --spinner-size: 32px;
-  --spinner-color: var(--color-spinner);
-}
-@media (max-width: 480px) {
-  .social-icons img {
-    width: 24px;
-    height: 24px;
+
+  a {
+    display: inline-block;
+    position: relative;
   }
-  .social-icons .spinner {
-    --spinner-size: 24px;
+
+  img {
+    height: var(--space-7);
+    margin: 0 var(--space-2);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--easing-standard);
+    vertical-align: middle;
+    width: var(--space-7);
+
+    &.is-loaded {
+      opacity: 1;
+    }
+
+    &[alt='CSDN logo'],
+    &[alt='Medium logo'] {
+      filter: var(--social-icon-filter);
+    }
   }
+
+  .c-spinner {
+    --spinner-size: var(--space-7);
+    --spinner-color: var(--color-spinner);
+  }
+
+  @container (max-width: 480px) {
+    img {
+      height: var(--space-6);
+      width: var(--space-6);
+    }
+
+    .c-spinner {
+      --spinner-size: var(--space-6);
+    }
+  }
+}
+
+/* Modal overlay for WeChat QR code */
+.c-modal {
+  align-items: center;
+  background: var(--overlay-modal-bg);
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+}
+
+.c-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.c-modal-content .c-modal-close {
+  align-self: flex-end;
+  cursor: pointer;
 }
