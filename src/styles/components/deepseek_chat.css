@@ -213,6 +213,11 @@
   width: calc(100% + 2 * var(--space-5));
 }
 
+.c-loading-indicator-text {
+  position: relative;
+  z-index: 1;
+}
+
 /* Disabled state styling */
 #message-input:disabled {
   background: var(--color-subtle-bg);
