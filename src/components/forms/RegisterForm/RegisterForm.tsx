@@ -75,8 +75,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   useEffect(() => {
     const saved = storage.get(REGISTER_DRAFT_KEY) as Partial<RegisterFormValues> | null;
     if (saved) {
-      handleChange('email', saved.email || '');
-      handleChange('username', saved.username || '');
+      if (saved.email) handleChange('email', saved.email);
+      if (saved.username) handleChange('username', saved.username);
     }
   }, []);
 
@@ -86,7 +86,11 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   }, [langKey, texts]);
 
   useEffect(() => {
-    storage.set(REGISTER_DRAFT_KEY, { email, username });
+    if (email || username) {
+      storage.set(REGISTER_DRAFT_KEY, { email, username });
+    } else {
+      storage.remove(REGISTER_DRAFT_KEY);
+    }
   }, [email, username]);
 
   useEffect(() => {
