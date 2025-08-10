@@ -44,8 +44,67 @@
   width: calc(var(--space-10) * 4.5);
   z-index: 9999;
 }
+
+.c-chat-widget-frame-wrapper {
+  height: 70vh;
+  position: relative;
+  width: 100%;
+}
+
 .c-chat-widget-iframe {
   border: none;
-  height: 70vh;
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  transition: opacity var(--duration-normal) var(--easing-standard);
   width: 100%;
+  z-index: 0;
+}
+
+.c-chat-widget-iframe.is-loaded {
+  opacity: 1;
+}
+
+.c-chat-widget-skeleton {
+  background: var(--color-surface);
+  border: none;
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.c-chat-widget-skeleton::before {
+  animation: c-chat-widget-shimmer calc(var(--duration-slow) * 2) infinite;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 0%,
+    var(--color-subtle-bg) 50%,
+    var(--color-surface) 100%
+  );
+  content: '';
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+@keyframes c-chat-widget-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-chat-widget-iframe {
+    transition: none;
+  }
+  .c-chat-widget-skeleton::before {
+    animation: none;
+  }
+  .c-chat-widget-panel .c-spinner {
+    animation: none;
+  }
 }

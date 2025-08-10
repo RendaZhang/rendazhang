@@ -63,7 +63,8 @@ interface ChatWidgetProps {
 
 export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const [open, setOpen] = useState(defaultOpen);
-  const [loaded, setLoaded] = useState(defaultOpen);
+  const [shouldLoad, setShouldLoad] = useState(defaultOpen);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -74,10 +75,13 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const toggle = () => setOpen((o) => !o);
 
   useEffect(() => {
-    if (open && !loaded) {
-      setLoaded(true);
+    if (open && !shouldLoad) {
+      setShouldLoad(true);
     }
-  }, [open, loaded]);
+    if (!open) {
+      setIframeLoaded(false);
+    }
+  }, [open, shouldLoad]);
 
   useEffect(() => {
     if (!open) {
@@ -106,13 +110,21 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     <>
       {open && (
         <div ref={panelRef} className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
-          {loaded && (
-            <iframe
-              src={`${CHAT_PAGE_PATH}/`}
-              title={AI_CHAT_WIDGET_TITLE}
-              className="c-chat-widget-iframe"
-              loading="lazy"
-            />
+          {shouldLoad && (
+            <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
+              <iframe
+                src={`${CHAT_PAGE_PATH}/`}
+                title={AI_CHAT_WIDGET_TITLE}
+                className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
+                loading="lazy"
+                onLoad={() => setIframeLoaded(true)}
+              />
+              {!iframeLoaded && (
+                <div className="c-chat-widget-skeleton" aria-hidden="true">
+                  <div className="c-spinner c-spinner-center" />
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
