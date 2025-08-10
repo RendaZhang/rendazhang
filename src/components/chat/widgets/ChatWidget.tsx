@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../constants';
 
 const loadedStyles = new Set<string>();
@@ -64,6 +64,8 @@ interface ChatWidgetProps {
 export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [loaded, setLoaded] = useState(defaultOpen);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     loadStyle(STYLE_PATHS.CHAT_WIDGET);
@@ -77,10 +79,33 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     }
   }, [open, loaded]);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [open]);
+
   return (
     <>
       {open && (
-        <div className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
+        <div ref={panelRef} className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
           {loaded && (
             <iframe
               src={`${CHAT_PAGE_PATH}/`}
@@ -92,6 +117,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
         </div>
       )}
       <button
+        ref={buttonRef}
         className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
         onClick={toggle}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
