@@ -12,15 +12,58 @@
   margin: var(--space-4) auto;
   max-width: 270px;
   min-height: 270px;
+  overflow: hidden;
   padding: var(--space-2);
   position: relative;
 
-  /* ------------------------------------------------------------------ */
-  /* Centered spinner for Credly badge iframe loading                    */
-  /* Uses global .c-spinner styles defined in theme.css                     */
-  /* ------------------------------------------------------------------ */
-  .c-credly-spinner {
+  iframe {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &.is-loaded iframe {
+    opacity: 1;
+  }
+
+  .c-credly-skeleton,
+  .c-credly-error {
+    align-items: center;
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    position: absolute;
     z-index: 10;
+  }
+
+  .c-credly-skeleton {
+    animation: c-skeleton-pulse 1.5s ease-in-out infinite;
+    background: var(--color-border);
+  }
+
+  &.is-loaded .c-credly-skeleton {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .c-credly-error {
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-1);
+    padding: var(--space-2);
+    text-align: center;
+  }
+}
+
+@keyframes c-skeleton-pulse {
+  0% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.45;
   }
 }
 /* Certification card */
