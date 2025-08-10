@@ -3,7 +3,6 @@
 .c-cert-grid {
   display: grid;
   gap: var(--space-6);
-  grid-auto-rows: 1fr;
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   padding: var(--space-7) 0;
 }
@@ -24,15 +23,15 @@
     z-index: 10;
   }
 }
+/* Certification card */
 .c-cert-card {
   background: var(--color-surface);
   border: var(--border-0);
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-elevation-1);
-  display: grid;
-  grid-row: span 5;
-  /* Fallback layout when `subgrid` isn't supported */
-  grid-template-rows: auto auto auto auto 1fr;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   padding: var(--space-5);
   text-align: center;
 
@@ -41,36 +40,19 @@
     outline: none;
   }
 
-  @supports (grid-template-rows: subgrid) {
-    grid-template-rows: subgrid;
-  }
-
   h2 {
     font-size: var(--font-size-2);
-    grid-row: 1;
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
   }
 
   p {
-    margin: var(--space-1) 0;
-
-    &:nth-of-type(1) {
-      grid-row: 2;
-    }
-
-    &:nth-of-type(2) {
-      grid-row: 3;
-    }
-  }
-
-  .c-credly-container {
-    grid-row: 4;
+    margin: 0;
   }
 
   .c-verify-links {
     display: flex;
     flex-wrap: wrap;
-    grid-row: 5;
+    gap: var(--space-2);
     justify-content: center;
 
     /* Verification buttons share gradient via .c-btn-primary; only layout here */
@@ -79,26 +61,14 @@
     }
   }
 }
-body:has(.c-cert-page) {
-  display: block;
-  padding: 0;
-}
 
 .c-cert-page {
   container-type: inline-size;
   min-height: 100vh;
-  padding: calc(var(--space-9) - var(--space-1)) 0 0;
+  padding: 0;
 
   h1 {
     margin-top: var(--space-6);
     text-align: center;
-  }
-
-  @container (max-width: 768px) {
-    padding-top: calc(var(--space-9) + var(--space-2));
-  }
-
-  @container (max-width: 480px) {
-    padding-top: var(--space-10);
   }
 }

@@ -76,9 +76,9 @@ export default function SocialIcons(): ReactElement {
           alt="Medium logo"
         />
       </div>
-      <div id="wechatModal" className="modal u-d-none">
-        <div className="modal-content bg-surface rounded-8">
-          <span className="close">&times;</span>
+      <div id="wechatModal" className="c-modal u-d-none">
+        <div className="c-modal-content bg-surface rounded-8">
+          <span className="c-modal-close">&times;</span>
           <div className="c-loader">
             <div className="c-dot"></div>
             <div className="c-dot"></div>

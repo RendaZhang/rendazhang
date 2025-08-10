@@ -6,11 +6,23 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-body);
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0;
   min-height: 100vh;
-  padding: var(--space-10) 0 0;
+  padding: calc(var(--space-9) - var(--space-1)) 0 0;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: calc(var(--space-9) + var(--space-2));
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: var(--space-10);
+  }
 }
 
 main.c-main-content {
