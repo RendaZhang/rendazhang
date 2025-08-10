@@ -98,8 +98,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
 
   // Update placeholder after language or readiness changes
   useEffect(() => {
-    setPlaceholder(isReady ? activeTexts.placeholders.default : activeTexts.placeholders.loading);
-  }, [langKey, activeTexts, isReady]);
+    if (!isReady) {
+      setPlaceholder(loadError ? activeTexts.placeholders.error : activeTexts.placeholders.loading);
+    } else {
+      setPlaceholder(activeTexts.placeholders.default);
+    }
+  }, [langKey, activeTexts, isReady, loadError]);
 
   // Focus textarea when ready
   useEffect(() => {
@@ -200,20 +204,18 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         )}
       </div>
       <TypingIndicator innerRef={typingIndicatorRef} />
-      {isReady && (
-        <ChatInput
-          value={input}
-          onChange={setInput}
-          onSend={handleSend}
-          onReset={handleReset}
-          onKeyDown={handleKeyDown}
-          disabled={!isReady || isSending}
-          placeholder={placeholder}
-          inputRef={messageInputRef}
-          textsZh={textsZh}
-          textsEn={textsEn}
-        />
-      )}
+      <ChatInput
+        value={input}
+        onChange={setInput}
+        onSend={handleSend}
+        onReset={handleReset}
+        onKeyDown={handleKeyDown}
+        disabled={!isReady || isSending}
+        placeholder={placeholder}
+        inputRef={messageInputRef}
+        textsZh={textsZh}
+        textsEn={textsEn}
+      />
     </div>
   );
 }
