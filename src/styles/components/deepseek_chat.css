@@ -223,7 +223,8 @@
 }
 
 body.is-embedded {
-  padding-top: var(--space-5);
+  background: transparent;
+  padding: 0;
 }
 
 body.is-embedded nav {
@@ -231,5 +232,5 @@ body.is-embedded nav {
 }
 
 body.is-embedded .c-chat-wrapper {
-  height: calc(100vh - 40px);
+  height: 100vh;
 }

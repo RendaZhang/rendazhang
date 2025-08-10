@@ -35,7 +35,6 @@
   width: calc(var(--space-7) - var(--space-1));
 }
 .c-chat-widget-panel {
-  background: var(--color-surface);
   bottom: calc(var(--space-10) + var(--space-2));
   max-height: 80vh;
   /* visual styles moved to utility classes */
