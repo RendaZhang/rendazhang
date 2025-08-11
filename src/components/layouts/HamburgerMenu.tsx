@@ -12,6 +12,7 @@ import { LocalizedSection } from '../ui';
 
 export default function HamburgerMenu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { lang } = useLanguage();
 
@@ -19,6 +20,13 @@ export default function HamburgerMenu(): ReactElement {
   const textsZh = NAV_CONTENT.zh.drawer;
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
     function handleClickOutside(e: MouseEvent) {
       if (
         open &&
@@ -31,7 +39,7 @@ export default function HamburgerMenu(): ReactElement {
     }
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [open]);
+  }, [open, mounted]);
 
   const items: { href: string; key: keyof typeof textsEn }[] = [
     { href: HOME_PAGE_PATH, key: 'home' },
@@ -52,7 +60,7 @@ export default function HamburgerMenu(): ReactElement {
         <span />
         <span />
       </button>
-      {typeof document !== 'undefined' &&
+      {mounted &&
         createPortal(
           <>
             <div
