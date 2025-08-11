@@ -350,6 +350,23 @@ nav {
   }
 }
 
+/* Theme toggle icons */
+.is-theme-light {
+  display: inline-flex;
+}
+
+.is-theme-dark {
+  display: none;
+}
+
+[data-theme='dark'] .is-theme-light {
+  display: none;
+}
+
+[data-theme='dark'] .is-theme-dark {
+  display: inline-flex;
+}
+
 /* Side menu */
 .c-side-menu-overlay {
   background: var(--overlay-bg);
