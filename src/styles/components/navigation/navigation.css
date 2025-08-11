@@ -288,7 +288,7 @@ nav {
   /* ---------- Responsive Design ---------- */
 }
 
-@container (max-width: var(--bp-md)) {
+@container (max-width: 48rem) {
   nav {
     flex-wrap: nowrap;
     gap: var(--space-2);
@@ -316,7 +316,7 @@ nav {
   }
 }
 
-@container (max-width: var(--bp-sm)) {
+@container (max-width: 30rem) {
   nav {
     flex-wrap: nowrap;
     gap: var(--space-2);
@@ -349,7 +349,7 @@ nav {
   }
 }
 
-@container (max-width: var(--bp-xs)) {
+@container (max-width: 22.5rem) {
   nav {
     flex-wrap: wrap;
     gap: var(--space-1);

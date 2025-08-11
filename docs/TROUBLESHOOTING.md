@@ -62,13 +62,14 @@
     - [BUG-054: Chat Widget 打开时 Mermaid 与代码高亮渲染闪烁](#bug-054-chat-widget-%E6%89%93%E5%BC%80%E6%97%B6-mermaid-%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%B8%B2%E6%9F%93%E9%97%AA%E7%83%81)
     - [BUG-055: Credly 嵌入 iframe 多次刷新后未进入 `loaded`（`onLoad` 事件被缓存触发提前消耗）](#bug-055-credly-%E5%B5%8C%E5%85%A5-iframe-%E5%A4%9A%E6%AC%A1%E5%88%B7%E6%96%B0%E5%90%8E%E6%9C%AA%E8%BF%9B%E5%85%A5-loadedonload-%E4%BA%8B%E4%BB%B6%E8%A2%AB%E7%BC%93%E5%AD%98%E8%A7%A6%E5%8F%91%E6%8F%90%E5%89%8D%E6%B6%88%E8%80%97)
     - [BUG-056: Dark theme icon hydration flicker](#bug-056-dark-theme-icon-hydration-flicker)
+    - [BUG-057: Navigation container queries using `var()` ignored](#bug-057-navigation-container-queries-using-var-ignored)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 12, 2025, 04:50 (UTC+08:00)
+- **最后更新**: August 12, 2025, 06:49 (UTC+08:00)
 
 ---
 
@@ -1174,3 +1175,48 @@
   - CSS 根据 `html[data-theme]` 显隐对应图标
 - **验证结果**：✅ `npm test` 与 `npm run lint`
 - **经验总结**：同时渲染多状态图标并用 CSS 控制可避免 SSR 与客户端状态不一致
+
+### BUG-057: Navigation container queries using `var()` ignored
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-11
+- **重现环境**：Chrome 最新版（桌面）、组件：Navigation；文件：`src/styles/components/navigation/navigation.css`
+- **复现步骤**：
+  1. 在宽容器与窄容器（例如主栏与侧栏 320–480px）中复用导航组件；
+  2. 观察 `.navigation` 在不同容器宽度下布局未发生预期变化；
+  3. DevTools 检查 `@container` 规则，发现整段被浏览器忽略（灰色/无效状态）。
+- **问题现象**：
+  - 响应式样式未生效，导航布局在不同容器宽度下保持不变；
+  - `@container` 内所有声明均未应用。
+- **根本原因**：
+  - 在 `@container` 条件表达式中使用了 `var(--bp-md)`、`var(--bp-sm)` 等自定义属性；
+  - CSS 规范要求 `@container`/`@media` 的条件在**解析阶段**必须是可求值的常量，`var()` 属于**运行时**替换，导致浏览器直接忽略整段规则；
+  - 补充说明：`@custom-media` 仅适用于 `@media` 并且目前需要构建期转译；即便定义了 `@custom-media --nav-md (...)`，也**不能**在 `@container` 中使用（无 `@custom-container` 语法）。
+- **解决方案**：
+  - **采用明确长度值**替换变量，使用原生可解析的容器查询：
+    ```css
+    /* 组件根：启用容器查询 */
+    .navigation { container-type: inline-size; }
+
+    /* 断点示例 */
+    @container (max-width: 48rem) { /* ... */ }
+    @container (max-width: 30rem) { /* ... */ }
+    @container (max-width: 22.5rem) { /* ... */ }
+    ```
+  - （可选提高可维护性）在**构建期**使用 PostCSS Mixins/Sass 将别名展开为上面的标准语法，避免散落的“写死值”：
+    ```css
+    /* 伪代码示例：PostCSS mixins */
+    @define-mixin cq-nav-md { @container (max-width: 48rem) { @mixin-content; } }
+    /* 使用 */
+    @mixin cq-nav-md { .navigation .menu { flex-direction: column; } }
+    ```
+- **验证结果**：
+  - ✅ `npx stylelint src/styles/components/navigation/navigation.css`
+  - ✅ `npm test`
+  - ✅ `npm run lint`
+  - ✅ 手动验证：在 22.5rem / 30rem / 48rem 附近调整容器宽度，布局按预期切换
+- **经验总结**：
+  - `@container`/`@media` 的查询条件必须在**解析期**可确定，禁止 `var()`；
+  - `@custom-media` 仅服务于 `@media` 且需构建期转译，**不能**在 `@container` 中当断点别名；
+  - 若追求可维护性与组件化，推荐“**容器查询 + 构建期 mixin 展开**”的组合：输出仍是原生语法，运行时零成本；
+  - 只给需要组件内响应的根元素加 `container-type`，避免过度标记，减少不必要的计算。
