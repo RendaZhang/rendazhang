@@ -226,7 +226,7 @@
 }
 
 /* Disabled state styling */
-#message-input:disabled {
+.c-message-input:disabled {
   background: var(--color-subtle-bg);
   cursor: not-allowed;
 }

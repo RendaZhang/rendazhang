@@ -507,6 +507,7 @@
     /*! ==== Breakpoints ==== */
     --bp-xs: 22.5rem; /* 360px */
     --bp-sm: 30rem; /* 480px */
+    --bp-sm-2: 36rem; /* 576px */
     --bp-md: 48rem; /* 768px */
     --bp-lg: 64rem; /* 1024px */
 
