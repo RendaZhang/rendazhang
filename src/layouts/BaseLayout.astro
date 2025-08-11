@@ -213,15 +213,14 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    <NavBarWrapper client:visible initialLang={initialLang} showNav={showNav}>
-      <main class={mainClass} {...mainAttrs}>
-        <slot />
-      </main>
-      {showChatWidget && <ChatWidget client:visible />}
-      <BackToTopButton client:load />
-      <slot name="bodyEnd" />
-      {showFooter && <slot name="footer" />}
-    </NavBarWrapper>
+    {showNav && <NavBarWrapper client:only="react" initialLang={initialLang} showNav={showNav} />}
+    <main class={mainClass} {...mainAttrs}>
+      <slot />
+    </main>
+    {showChatWidget && <ChatWidget client:visible />}
+    <BackToTopButton client:load />
+    <slot name="bodyEnd" />
+    {showFooter && <slot name="footer" />}
     {extraScripts.filter(Boolean).map((src: string) => <script is:inline defer src={src} />)}
   </body>
 </html>
