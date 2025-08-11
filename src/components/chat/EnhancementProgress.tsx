@@ -20,7 +20,7 @@ export default function EnhancementProgress({
 }: EnhancementProgressProps) {
   if (!show) return null;
   return (
-    <div id="enhancement-progress" className="fixed-bottom-right" ref={innerRef}>
+    <div className="c-enhancement-progress fixed-bottom-right" ref={innerRef}>
       <div className="c-pulse-container">
         <div className="c-pulse-dot c-pulse-dot-1"></div>
         <div className="c-pulse-dot c-pulse-dot-2"></div>

@@ -30,7 +30,7 @@ export default function ChatInput({
   return (
     <div className="c-input-area">
       <textarea
-        id="message-input"
+        className="c-message-input"
         ref={inputRef}
         value={value}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}

@@ -1,3 +1,4 @@
+/* Loader components using design tokens for dimensions and animation */
 /* ------------------------------------------------------------------ */
 /* Generic spinner used across multiple components.                   */
 /* Size and color can be customized via CSS variables.                */
@@ -77,7 +78,7 @@
 /* Enhancement Progress Overlay - used by chat when loading features   */
 /* Position with `.fixed-bottom-right` utility when displayed.         */
 /* ------------------------------------------------------------------ */
-#enhancement-progress {
+.c-enhancement-progress {
   align-items: center;
   background: var(--overlay-surface);
   border: var(--border-0);

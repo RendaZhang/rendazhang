@@ -515,6 +515,7 @@
     --radius-s: var(--space-2);
     --radius-m: var(--space-3);
     --radius-l: var(--space-6);
+    --border-width-hairline: 1px;
     --border-0: 1px solid var(--color-border-light);
     --border-1: 1px solid var(--color-border-muted);
     --border-2: 1px solid var(--color-border-soft);

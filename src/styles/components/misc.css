@@ -1,4 +1,4 @@
-/* Variable fallback example */
+/* Miscellaneous component styles using design tokens */
 .c-example-fallback {
   color: var(--undefined-var, var(--color-text));
 }
@@ -30,7 +30,7 @@
 }
 
 .c-error-description {
-  max-width: 40rem;
+  max-width: var(--measure);
 }
 
 /* Back to top button */

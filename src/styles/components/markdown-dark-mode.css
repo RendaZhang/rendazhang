@@ -97,6 +97,6 @@ html.is-dark-mode .c-markdown-body blockquote {
 /* 水平线优化 */
 html.is-dark-mode .c-markdown-body hr {
   background-color: var(--color-md-hr);
-  height: 1px;
+  height: var(--border-width-hairline);
   margin: calc(var(--space-7) - var(--space-1)) 0;
 }

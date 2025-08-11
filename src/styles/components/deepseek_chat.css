@@ -1,3 +1,4 @@
+/* Chat component styles leveraging design tokens */
 @import './chat_widget_skeleton.css';
 
 /* Spacing and type values aligned to design tokens */
@@ -107,7 +108,7 @@
   padding: var(--space-4);
 }
 
-#message-input {
+.c-message-input {
   background: var(--color-subtle-bg-alt);
   border: var(--border-0);
   border-radius: var(--radius-l);
@@ -119,7 +120,7 @@
   resize: none;
 }
 
-#message-input:focus-visible {
+.c-message-input:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
 }
