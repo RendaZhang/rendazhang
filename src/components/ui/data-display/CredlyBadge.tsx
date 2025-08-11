@@ -7,6 +7,7 @@ type LoadStatus = 'loading' | 'loaded' | 'error';
 export default function CredlyBadge(): ReactElement {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [status, setStatus] = useState<LoadStatus>('loading');
+  const [reloadKey, setReloadKey] = useState(0);
 
   const iframeSrc = `${CREDLY_HOST}/embedded_badge/${CREDLY_BADGE_ID}`;
 
@@ -19,7 +20,7 @@ export default function CredlyBadge(): ReactElement {
     const onLoad = () => {
       if (done) return;
       done = true;
-      setStatus('loaded');
+      requestAnimationFrame(() => setStatus('loaded'));
     };
 
     // 1) 先绑事件（只触发一次）
@@ -45,7 +46,20 @@ export default function CredlyBadge(): ReactElement {
         /* ignore */ void err;
       }
     };
-  }, [iframeSrc]);
+  }, [iframeSrc, reloadKey]);
+
+  const handleRetry = () => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    setStatus('loading');
+    try {
+      iframe.src = 'about:blank';
+    } catch {
+      /* ignore */
+    }
+    // 让 effect 重新执行
+    setReloadKey((n) => n + 1);
+  };
 
   return (
     <div className={`c-credly-container${status === 'loaded' ? ' is-loaded' : ''}`}>
@@ -53,6 +67,9 @@ export default function CredlyBadge(): ReactElement {
       {status === 'error' && (
         <div className="c-credly-error">
           <LocalizedSection zhContent="加载失败，请重试" enContent="Load failed, please retry" />
+          <button type="button" onClick={handleRetry}>
+            <LocalizedSection zhContent="重试" enContent="Retry" />
+          </button>
         </div>
       )}
       {/* 注意：此处不再通过 props 直接传 src，也不再用 onLoad */}
