@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import {
   HOME_PAGE_PATH,
   CHAT_PAGE_PATH,
@@ -51,17 +52,28 @@ export default function HamburgerMenu(): ReactElement {
         <span />
         <span />
       </button>
-      <div
-        className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
-        onClick={() => setOpen(false)}
-      />
-      <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
-        {items.map((item) => (
-          <a key={item.key} href={item.href} onClick={() => setOpen(false)}>
-            <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />
-          </a>
-        ))}
-      </div>
+      {typeof document !== 'undefined' &&
+        createPortal(
+          <>
+            <div
+              className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
+              onClick={() => setOpen(false)}
+            />
+            <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
+              {items.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="c-side-menu-link"
+                  onClick={() => setOpen(false)}
+                >
+                  <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />
+                </a>
+              ))}
+            </div>
+          </>,
+          document.body
+        )}
     </>
   );
 }
