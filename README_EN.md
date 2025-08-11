@@ -40,7 +40,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 12, 2025, 01:46 (UTC+08:00)
+- **Last Updated**: August 12, 2025, 04:50 (UTC+08:00)
 
 ---
 
@@ -157,10 +157,10 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 #### BaseLayout Component Design Notes
 
-`src/layouts/BaseLayout.astro` serves as the global page framework for the site, responsible for setting `<head>` metadata, SEO tags, and root-level slots. Because the navigation bar and hamburger menu rely entirely on browser interactions, server rendering brings no real benefit and often caused hydration errors, so `<NavBarWrapper>` applies `client:only` to render solely on the client. The primary reasons for keeping this file as an Astro component are as follows:
+`src/layouts/BaseLayout.astro` serves as the global page framework for the site, responsible for setting `<head>` metadata, SEO tags, and root-level slots. The navigation bar and hamburger menu now render on the server and hydrate with `client:load`, avoiding language flicker while preserving interactivity. The primary reasons for keeping this file as an Astro component are as follows:
 
 - **Static Content Does Not Require JavaScript**: The layout structure and metadata generation are purely static content. Astro can directly output HTML without introducing the React runtime.
-- **Maintain Partial Hydration Benefits**: Only interactive regions such as the navigation bar and hamburger menu hydrate on the client. Rendering them on the server previously led to hydration mismatches, so they are excluded from SSR via `client:only` while the rest of the layout stays zero-JS. Rewriting the entire layout in React would introduce additional script and hydration overhead.
+- **Maintain Partial Hydration Benefits**: Only interactive regions such as the navigation bar and hamburger menu use React, rendering static HTML first and hydrating on the client via `client:load`. The rest of the layout remains zero-JS, keeping bundle size minimal. Rewriting the entire layout in React would introduce additional script and hydration overhead.
 - **Leverage Astro Features**: Astro-specific syntax such as `<slot>` and `is:inline` is extensively used in the layout. Migrating to React would require additional encapsulation or plugin support, increasing maintenance costs.
 
 Consider rewriting `BaseLayout.astro` only if there are plans to fully migrate the site to React or if there is a need to share complex React state/context at the layout level. For now, maintaining the Astro version is more concise and efficient.
@@ -303,7 +303,7 @@ Core responsibilities (generated from `.astro` files):
    All pages have "Home" button in navigation
 
 2. **Menu Navigation**
-   - The navigation bar and hamburger menu use `client:only` so they render exclusively in the browser and avoid SSR hydration errors.
+   - The navigation bar and hamburger menu render on the server and hydrate on the client via `client:load`, preserving interactivity without hydration errors.
    - Hamburger menu provides access to:
      - Homepage
      - AI Chat
