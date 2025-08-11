@@ -130,8 +130,9 @@
   gap: var(--space-3);
 }
 
-/* Icon-style send button */
-.c-send-btn {
+/* Icon-style chat buttons */
+.c-send-btn,
+.c-reset-btn {
   align-items: center;
   display: flex;
   justify-content: center;

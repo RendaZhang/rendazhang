@@ -248,7 +248,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         disabled={!isReady || isSending || isResetting}
         placeholder={placeholder}
         inputRef={messageInputRef}
-        textsZh={textsZh}
         textsEn={textsEn}
       />
       <Modal isOpen={showResetModal} onClose={() => !isResetting && setShowResetModal(false)}>

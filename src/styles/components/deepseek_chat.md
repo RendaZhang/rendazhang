@@ -13,6 +13,7 @@
 
 - `.c-message-input` uses `:focus-visible` with `--focus-ring`.
 - Buttons rely on shared chat button states defined in button styles.
+- Icon buttons `.c-send-btn` and `.c-reset-btn` use equal padding for square layouts.
 
 ## Container
 
