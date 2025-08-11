@@ -14,4 +14,4 @@
 
 ## Container
 
-- Applies only when `html` has `is-dark-mode` class; tables and code blocks use spacing tokens for padding.
+- Applies only when `html` has `data-theme='dark'` attribute; tables and code blocks use spacing tokens for padding.

@@ -41,7 +41,9 @@ export default function CredlyBadge(): ReactElement {
       iframe.removeEventListener('load', onLoad);
       try {
         iframe.src = 'about:blank';
-      } catch {}
+      } catch (err) {
+        /* ignore */ void err;
+      }
     };
   }, [iframeSrc]);
 
