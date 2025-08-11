@@ -1,3 +1,4 @@
+@import './skeleton.css';
 /* Loader components using design tokens for dimensions and animation */
 /* ------------------------------------------------------------------ */
 /* Generic spinner used across multiple components.                   */

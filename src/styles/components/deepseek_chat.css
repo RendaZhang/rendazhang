@@ -1,5 +1,5 @@
 /* Chat component styles leveraging design tokens */
-@import './chat_widget_skeleton.css';
+@import './skeleton.css';
 
 /* Spacing and type values aligned to design tokens */
 .c-chat-wrapper {

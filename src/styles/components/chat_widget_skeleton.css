@@ -1,29 +1,4 @@
-.c-skeleton-shimmer::before {
-  animation: c-skeleton-shimmer calc(var(--duration-slow) * 2) infinite;
-  background: linear-gradient(
-    90deg,
-    var(--color-surface) 0%,
-    var(--color-subtle-bg) 50%,
-    var(--color-surface) 100%
-  );
-  content: '';
-  inset: 0;
-  position: absolute;
-  transform: translateX(-100%);
-}
-
-@keyframes c-skeleton-shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .c-skeleton-shimmer::before {
-    animation: none;
-  }
-}
-
+/* Chat widget skeleton container */
 .c-chat-widget-skeleton {
   background: var(--color-surface);
   border: none;
