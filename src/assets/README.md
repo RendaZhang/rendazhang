@@ -42,7 +42,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 11, 2025, 20:45 (UTC+08:00)
+- **最后更新**: August 12, 2025, 01:46 (UTC+08:00)
 
 ---
 
@@ -159,10 +159,10 @@ flowchart TD
 
 #### BaseLayout 组件设计说明
 
-`src/layouts/BaseLayout.astro` 是站点的全局页面框架，用于设置 `<head>` 元信息、SEO 标签以及根级插槽；仅在 `<NavBarWrapper>` 上启用了 React 的 `client:load`。保留该文件为 Astro 组件的主要考虑如下：
+`src/layouts/BaseLayout.astro` 是站点的全局页面框架，用于设置 `<head>` 元信息、SEO 标签以及根级插槽；鉴于导航栏与汉堡菜单的交互高度依赖浏览器环境，服务端渲染既无收益又易触发 Hydration 错误，因此 `<NavBarWrapper>` 通过 `client:only` 仅在客户端渲染。保留该文件为 Astro 组件的主要考虑如下：
 
 - **静态内容无需 JavaScript**：布局结构和元数据生成属于纯静态内容，Astro 可以直接输出 HTML，无需引入 React 运行时。
-- **保持局部水合优势**：当前仅对导航栏等交互区使用 React 水合，其余内容保持零 JS，以最小化 bundle 体积。如果整体改写为 React，会带来额外脚本和水合开销。
+- **保持局部客户端渲染**：当前仅对导航栏等交互区使用 React 并在客户端渲染（`client:only`），其余内容保持零 JS，以最小化 bundle 体积，同时规避服务端渲染带来的 Hydration 错误。如果整体改写为 React，会带来额外脚本和水合开销。
 - **充分利用 Astro 特性**：`<slot>`、`is:inline` 等 Astro 专属语法在布局中被广泛使用，若迁移到 React 需额外封装或插件支持，增加维护成本。
 
 只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 `BaseLayout.astro`。在现阶段，维持 Astro 版本更简洁高效。
@@ -310,6 +310,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
    - 所有页面均包含导航栏中的“主页”按钮，点击后可返回主页。
 
 2. **导航栏菜单跳转**
+   - 导航栏与汉堡菜单的交互完全依赖客户端 DOM，服务端渲染无实际收益且易触发 Hydration 报错，因此设置为 `client:only` 仅在客户端渲染。
    - 通过点击导航栏的“汉堡菜单”按钮，用户可选择跳转到以下四个页面：
      - 首页
      - AI 聊天页

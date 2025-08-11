@@ -22,7 +22,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 19:29 (UTC+08:00)
+- **最后更新**: August 12, 2025, 01:46 (UTC+08:00)
 
 ---
 
@@ -75,6 +75,7 @@
 - **全局导航中枢**：全站统一导航栏（主题/语言切换集成）
 - **统一样式表**：导航与按钮等组件在 `theme.css` 中定义
   - **统一配色方案**：主色 `var(--color-brand)` 与强调色 `var(--color-brand-blue)` 渐变过渡
+- **客户端渲染策略**：导航栏与汉堡菜单的交互完全依赖浏览器环境，服务端渲染既无收益又易触发 Hydration 报错，因而通过 `client:only` 限制为纯客户端渲染
 
 ---
 
@@ -88,7 +89,7 @@
   - 提交前自动运行 doctoc 更新文档目录结构，确保了文档自动化
 - [x] **Pre Commit 功能**
   - Pre Commit 自动将根目录 `README.md` 同步到 `src/assets/` 目录
-  - Pre Commit 自动将根目录 `README.EN.md` 同步到 `src/assets/` 目录
+  - Pre Commit 自动将根目录 `README_EN.md` 同步到 `src/assets/` 目录
   - Pre Commit 自动更新 README 和 `docs/` 目录下的文档的 Doctoc 目录
   - 新增 `validate-assets` 脚本确保图片与音乐文件命名规范
   - Pre Commit 自动执行静态资源命名验证脚本
@@ -112,6 +113,7 @@
   - 集中管理 API 路径、常量等配置项
   - 导航栏包含主页/登录/注册跳转功能
   - 实现从左到右布局：汉堡菜单 → 首页图标 → 主题/语言切换 → 头像图标
+  - 导航栏与汉堡菜单的交互依赖 DOM，已改为使用 `client:only` 仅在客户端渲染，从根源消除 SSR Hydration 错误
   - 主页改变：About 页面（原来的 `about.astro`）已经变为 Index 页面（`index.atro`）
   - 组件化重构：创建复用组件，比如，LocalizedSection 等。
   - 将 Chat.tsx 拆分为：消息列表、输入区、加载状态等独立组件
