@@ -130,11 +130,40 @@
   gap: var(--space-3);
 }
 
+/* Icon-style send button */
+.c-send-btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.c-send-btn svg {
+  height: var(--space-5);
+  pointer-events: none;
+  width: var(--space-5);
+}
+
 .c-info-text {
   color: var(--color-text-muted);
   font-size: var(--font-size-1);
   padding: var(--space-3);
   text-align: center;
+}
+
+@media (max-width: var(--bp-sm)) {
+  .c-input-area {
+    padding: var(--space-5);
+  }
+
+  .c-input-area .c-message-input {
+    flex: 1;
+    padding: var(--space-5);
+  }
+
+  .c-input-area .c-send-btn {
+    border-radius: 50%;
+  }
 }
 
 @container (max-width: var(--container-sm)) {
