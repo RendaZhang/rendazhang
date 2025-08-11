@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 import {
   HOME_PAGE_PATH,
   CHAT_PAGE_PATH,
@@ -11,6 +12,7 @@ import { LocalizedSection } from '../ui';
 
 export default function HamburgerMenu(): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { lang } = useLanguage();
 
@@ -18,6 +20,13 @@ export default function HamburgerMenu(): ReactElement {
   const textsZh = NAV_CONTENT.zh.drawer;
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
     function handleClickOutside(e: MouseEvent) {
       if (
         open &&
@@ -30,7 +39,7 @@ export default function HamburgerMenu(): ReactElement {
     }
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [open]);
+  }, [open, mounted]);
 
   const items: { href: string; key: keyof typeof textsEn }[] = [
     { href: HOME_PAGE_PATH, key: 'home' },
@@ -51,17 +60,28 @@ export default function HamburgerMenu(): ReactElement {
         <span />
         <span />
       </button>
-      <div
-        className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
-        onClick={() => setOpen(false)}
-      />
-      <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
-        {items.map((item) => (
-          <a key={item.key} href={item.href} onClick={() => setOpen(false)}>
-            <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />
-          </a>
-        ))}
-      </div>
+      {mounted &&
+        createPortal(
+          <>
+            <div
+              className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
+              onClick={() => setOpen(false)}
+            />
+            <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
+              {items.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="c-side-menu-link"
+                  onClick={() => setOpen(false)}
+                >
+                  <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />
+                </a>
+              ))}
+            </div>
+          </>,
+          document.body
+        )}
     </>
   );
 }

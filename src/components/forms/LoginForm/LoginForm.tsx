@@ -122,23 +122,25 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           <label htmlFor="password" className="c-form-label">
             <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
           </label>
-          <input
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
-            placeholder={placeholders.password}
-            value={password}
-            onChange={(e) => handleChange('password', e.target.value)}
-          />
-          <span
-            className="c-password-toggle"
-            onClick={() => setShowPassword((v) => !v)}
-            aria-label={
-              showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
-            }
-          >
-            {showPassword ? '🙈' : '👁️'}
-          </span>
+          <div className="c-password-field">
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
+              placeholder={placeholders.password}
+              value={password}
+              onChange={(e) => handleChange('password', e.target.value)}
+            />
+            <span
+              className="c-password-toggle"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={
+                showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
+              }
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </span>
+          </div>
           <div className={passwordStrengthClass}></div>
           {strength && (
             <div className="c-password-strength-label">

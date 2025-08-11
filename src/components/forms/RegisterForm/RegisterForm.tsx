@@ -182,18 +182,20 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
                 enContent={textsEn.passwordLabel}
               />
             </label>
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              className="c-form-control"
-              placeholder={placeholders.password}
-              value={password}
-              onChange={(e) => handleChange('password', e.target.value)}
-              required
-            />
-            <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? '🙈' : '👁️'}
-            </span>
+            <div className="c-password-field">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                className="c-form-control"
+                placeholder={placeholders.password}
+                value={password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                required
+              />
+              <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? '🙈' : '👁️'}
+              </span>
+            </div>
             <div className={passwordStrengthClass}></div>
             {strength && (
               <div className="c-password-strength-label">

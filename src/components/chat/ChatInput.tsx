@@ -1,4 +1,3 @@
-import { LocalizedSection } from '../ui';
 import type { ChatCallback, InputTexts } from '../../types/chat';
 import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
 
@@ -11,7 +10,6 @@ interface ChatInputProps {
   disabled: boolean;
   placeholder: string;
   inputRef: RefObject<HTMLTextAreaElement | null>;
-  textsZh: InputTexts;
   textsEn: InputTexts;
 }
 
@@ -24,7 +22,6 @@ export default function ChatInput({
   disabled,
   placeholder,
   inputRef,
-  textsZh,
   textsEn
 }: ChatInputProps) {
   return (
@@ -43,19 +40,50 @@ export default function ChatInput({
       <div className="c-btn-container">
         <button
           id="send-btn"
-          className="c-btn-primary c-btn-chat"
+          className="c-btn-primary c-btn-chat c-send-btn"
           onClick={onSend}
           disabled={disabled}
+          aria-label={textsEn.sendButton}
         >
-          <LocalizedSection zhContent={textsZh.sendButton} enContent={textsEn.sendButton} />
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
         </button>
         <button
           id="reset-btn"
-          className="c-btn-secondary c-btn-chat"
+          className="c-btn-secondary c-btn-chat c-reset-btn"
           onClick={onReset}
           disabled={disabled}
+          aria-label={textsEn.resetButton}
         >
-          <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+          </svg>
         </button>
       </div>
     </div>

@@ -99,16 +99,18 @@
   text-align: center;
 }
 
-.c-password-wrapper {
+.c-password-field {
   position: relative;
 }
 
 .c-password-toggle {
+  align-items: center;
+  bottom: 0;
   cursor: pointer;
+  display: flex;
   position: absolute;
   right: var(--space-2);
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
 
   &:focus-visible {
     border-radius: var(--radius-xs);

@@ -7,3 +7,5 @@ export * from './LocalizedSection';
 export { default as LocalizedSection } from './LocalizedSection';
 export * from './SocialIcons';
 export { default as SocialIcons } from './SocialIcons';
+export * from './ThemeIcon';
+export { default as ThemeIcon } from './ThemeIcon';

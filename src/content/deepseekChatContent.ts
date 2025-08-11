@@ -16,6 +16,8 @@ export const DEEPSEEK_CHAT_CONTENT = {
     resetFailedPrefix: 'Reset failed',
     sendButton: 'Send',
     resetButton: 'Reset',
+    confirmButtom: 'OK',
+    cancelButton: 'Cancel',
     copyLabel: 'Copy',
     copiedLabel: 'Copied'
   },
@@ -36,6 +38,8 @@ export const DEEPSEEK_CHAT_CONTENT = {
     resetFailedPrefix: '重置失败',
     sendButton: '发送',
     resetButton: '重置会话',
+    confirmButton: '确定',
+    cancelButton: '取消',
     copyLabel: '复制',
     copiedLabel: '已复制'
   }

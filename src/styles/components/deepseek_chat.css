@@ -10,7 +10,7 @@
   /* Wrapper around the chat page, extends the global container */
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
   overflow: hidden;
 }
 
@@ -101,6 +101,7 @@
 }
 
 .c-input-area {
+  align-items: flex-end;
   background: var(--color-surface);
   border-top: var(--border-1);
   display: flex;
@@ -130,6 +131,25 @@
   gap: var(--space-3);
 }
 
+/* Icon-style chat buttons */
+.c-send-btn,
+.c-reset-btn {
+  align-items: center;
+  aspect-ratio: 1;
+  block-size: var(--space-8);
+  display: flex;
+  inline-size: var(--space-8);
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.c-send-btn svg,
+.c-reset-btn svg {
+  block-size: var(--space-5);
+  inline-size: var(--space-5);
+  pointer-events: none;
+}
+
 .c-info-text {
   color: var(--color-text-muted);
   font-size: var(--font-size-1);
@@ -137,10 +157,38 @@
   text-align: center;
 }
 
+@media (max-width: var(--bp-sm)) {
+  .c-input-area {
+    padding: var(--space-5);
+  }
+
+  .c-input-area .c-message-input {
+    flex: 1;
+    padding: var(--space-5);
+  }
+
+  .c-input-area .c-send-btn {
+    border-radius: 50%;
+  }
+
+  .c-input-area .c-send-btn,
+  .c-input-area .c-reset-btn {
+    block-size: var(--space-7);
+    inline-size: var(--space-7);
+    padding: var(--space-2);
+  }
+
+  .c-input-area .c-send-btn svg,
+  .c-input-area .c-reset-btn svg {
+    block-size: var(--space-4);
+    inline-size: var(--space-4);
+  }
+}
+
 @container (max-width: var(--container-sm)) {
   .c-chat-wrapper {
     border-radius: 0;
-    height: calc(100vh - var(--header-height));
+    height: calc(100dvh - var(--header-height));
   }
   .c-btn-container {
     flex-direction: column;
@@ -271,5 +319,5 @@ body.is-embedded nav {
 }
 
 body.is-embedded .c-chat-wrapper {
-  height: 100vh;
+  height: 100dvh;
 }

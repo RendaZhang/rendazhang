@@ -34,15 +34,35 @@ export default function BioSection({ contentEn, contentZh, isZh }: BioSectionPro
         ))}
       </ul>
       <div className="c-resume-link">
-        <a id="resumeLink" href={resumeHref} download={resumeDownload} className="c-btn-primary">
+        <button
+          id="resumeLink"
+          type="button"
+          className="c-btn-primary"
+          onClick={() => {
+            const link = document.createElement('a');
+            link.href = resumeHref;
+            link.download = resumeDownload;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+        >
           <LocalizedSection zhContent={contentZh.resumeLabel} enContent={contentEn.resumeLabel} />
-        </a>
-        <a id="contactBtn" href="#contact" className="c-btn-secondary">
+        </button>
+        <button
+          id="contactBtn"
+          type="button"
+          className="c-btn-secondary"
+          onClick={() => {
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            window.history.pushState(null, '', '#contact');
+          }}
+        >
           <LocalizedSection
             zhContent={contentZh.contact.title}
             enContent={contentEn.contact.title}
           />
-        </a>
+        </button>
       </div>
     </section>
   );
