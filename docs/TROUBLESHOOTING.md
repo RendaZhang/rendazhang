@@ -66,7 +66,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 04:18 (UTC+08:00)
+- **最后更新**: August 11, 2025, 17:30 (UTC+08:00)
 
 ---
 
@@ -573,9 +573,9 @@
   - Docs 页面排版不具备 GitHub 风格
 - **根本原因**：
   - Chat 页面仅引入 `github-markdown-light.css`
-  - Docs 页面仅引入 `github.css`
+  - Docs 页面仅引入 `github-code-highlight.css`
 - **解决方案**：
-  - 两个页面同时加载 `github.css` 与 `github-markdown-light.css`
+  - 两个页面同时加载 `github-code-highlight.css` 与 `github-markdown-light.css`
 - **验证结果**：✅ 两页面的代码高亮与排版均保持一致
 
 ### BUG-029: DOMPurify source map warning during dev

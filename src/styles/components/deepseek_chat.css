@@ -9,7 +9,7 @@
   /* Wrapper around the chat page, extends the global container */
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px);
+  height: calc(100vh - var(--header-height));
   overflow: hidden;
 }
 
@@ -136,12 +136,11 @@
   text-align: center;
 }
 
-@container (max-width: 600px) {
+@container (max-width: var(--container-sm)) {
   .c-chat-wrapper {
     border-radius: 0;
-    height: calc(100vh - 100px);
+    height: calc(100vh - var(--header-height));
   }
-
   .c-btn-container {
     flex-direction: column;
   }
@@ -151,7 +150,7 @@
   }
 
   .c-input-area {
-    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--space-4) - (var(--space-1) / 4) + env(safe-area-inset-bottom));
   }
 }
 /* copy button uses .rounded-4 utility */

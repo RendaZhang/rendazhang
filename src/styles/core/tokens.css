@@ -504,6 +504,12 @@
     --space-9: 4rem; /* 64px */
     --space-10: 5rem; /* 80px */
 
+    /*! ==== Layout ==== */
+    --header-height: calc(var(--space-5) * 5); /* 100px */
+    --container-sm: 37.5rem; /* 600px */
+    --size-cert-card: calc(var(--space-10) * 4); /* 320px */
+    --size-credly-badge: calc(var(--space-10) * 3.375); /* 270px */
+
     /*! ==== Borders & Radius ==== */
     --radius-xs: var(--space-1);
     --radius-s: var(--space-2);

@@ -3,22 +3,22 @@
 .c-cert-grid {
   display: grid;
   gap: var(--space-6);
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--size-cert-card), 100%), 1fr));
   padding: var(--space-7) 0;
 }
 .c-credly-container {
   background: var(--color-surface);
   border-radius: var(--radius-s);
   margin: var(--space-4) auto;
-  max-width: 270px;
-  min-height: 270px;
+  max-width: var(--size-credly-badge);
+  min-height: var(--size-credly-badge);
   overflow: hidden;
   padding: var(--space-2);
   position: relative;
 
   iframe {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-normal) var(--easing-standard);
   }
 
   &.is-loaded iframe {
@@ -36,14 +36,14 @@
   }
 
   .c-credly-skeleton {
-    animation: c-skeleton-pulse 1.5s ease-in-out infinite;
+    animation: c-skeleton-pulse calc(var(--duration-slow) * 3) var(--easing-standard) infinite;
     background: var(--color-border);
   }
 
   &.is-loaded .c-credly-skeleton {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-normal) var(--easing-standard);
   }
 
   .c-credly-error {
