@@ -2,7 +2,7 @@ import { API_BASE_URL, ENDPOINTS } from './api';
 import type { GlobalConfig } from '../types/config';
 
 export const VIEWPORT_ZOOM_ALLOWED =
-  'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes';
+  'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5, user-scalable=yes';
 export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
 
 export const STORAGE_KEY = 'deepseek_chat_history';

@@ -115,6 +115,24 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     }
   }, [isReady]);
 
+  useEffect(() => {
+    const inputEl = messageInputRef.current;
+    if (!inputEl) return;
+
+    const handleFocus = () => {
+      if (typeof inputEl.scrollIntoView === 'function') {
+        inputEl.scrollIntoView({ block: 'nearest' });
+      } else {
+        window.scrollTo({ top: inputEl.offsetTop });
+      }
+    };
+
+    inputEl.addEventListener('focus', handleFocus);
+    return () => {
+      inputEl.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
   const handleSend = async () => {
     const message = input.trim();
     if (!message) return;
