@@ -1,3 +1,5 @@
+@import './chat_widget_skeleton.css';
+
 /* 轻量自定义：卡片排版与响应式 */
 /* Spacing and type values mapped to design tokens */
 .c-cert-grid {
@@ -36,8 +38,8 @@
   }
 
   .c-credly-skeleton {
-    animation: c-skeleton-pulse calc(var(--duration-slow) * 3) var(--easing-standard) infinite;
     background: var(--color-border);
+    overflow: hidden;
   }
 
   &.is-loaded .c-credly-skeleton {
@@ -55,17 +57,6 @@
   }
 }
 
-@keyframes c-skeleton-pulse {
-  0% {
-    opacity: 0.45;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.45;
-  }
-}
 /* Certification card */
 .c-cert-card {
   background: var(--color-surface);

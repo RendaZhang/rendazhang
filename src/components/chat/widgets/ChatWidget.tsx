@@ -135,7 +135,9 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
                 className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
                 loading="lazy"
               />
-              {!iframeLoaded && <div className="c-chat-widget-skeleton" aria-hidden="true" />}
+              {!iframeLoaded && (
+                <div className="c-chat-widget-skeleton c-skeleton-shimmer" aria-hidden="true" />
+              )}
             </div>
           )}
         </div>

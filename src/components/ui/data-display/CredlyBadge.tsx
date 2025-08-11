@@ -63,7 +63,7 @@ export default function CredlyBadge(): ReactElement {
 
   return (
     <div className={`c-credly-container${status === 'loaded' ? ' is-loaded' : ''}`}>
-      {status === 'loading' && <div className="c-credly-skeleton" />}
+      {status === 'loading' && <div className="c-credly-skeleton c-skeleton-shimmer" />}
       {status === 'error' && (
         <div className="c-credly-error">
           <LocalizedSection zhContent="加载失败，请重试" enContent="Load failed, please retry" />
