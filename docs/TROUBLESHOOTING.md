@@ -61,13 +61,14 @@
     - [BUG-053: 导航栏遮挡主体内容](#bug-053-%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E4%B8%BB%E4%BD%93%E5%86%85%E5%AE%B9)
     - [BUG-054: Chat Widget 打开时 Mermaid 与代码高亮渲染闪烁](#bug-054-chat-widget-%E6%89%93%E5%BC%80%E6%97%B6-mermaid-%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%B8%B2%E6%9F%93%E9%97%AA%E7%83%81)
     - [BUG-055: Credly 嵌入 iframe 多次刷新后未进入 `loaded`（`onLoad` 事件被缓存触发提前消耗）](#bug-055-credly-%E5%B5%8C%E5%85%A5-iframe-%E5%A4%9A%E6%AC%A1%E5%88%B7%E6%96%B0%E5%90%8E%E6%9C%AA%E8%BF%9B%E5%85%A5-loadedonload-%E4%BA%8B%E4%BB%B6%E8%A2%AB%E7%BC%93%E5%AD%98%E8%A7%A6%E5%8F%91%E6%8F%90%E5%89%8D%E6%B6%88%E8%80%97)
+    - [BUG-056: HamburgerMenu hydration mismatch](#bug-056-hamburgermenu-hydration-mismatch)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 20:03 (UTC+08:00)
+- **最后更新**: August 12, 2025, 01:19 (UTC+08:00)
 
 ---
 
@@ -1157,3 +1158,18 @@
 - **验证结果**：
   - 连续多次刷新页面、以及浏览器前进/后退返回页面均能稳定进入 `loaded`；未再出现卡在 `loading`/被超时置 `error` 的情况。
 - **经验总结**：跨域 iframe 在强缓存/历史快速恢复场景下常会“先加载、后绑定事件”，应采用“先绑事件再设 `src`”的命令式流程；React 18 StrictMode 的双挂载也会放大时序问题，代码需具备抗抖动能力。
+
+### BUG-056: HamburgerMenu hydration mismatch
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-11
+- **重现环境**：Chrome 最新版，服务器端渲染页面
+- **问题现象**：
+  - 控制台与 Sentry 报 `Hydration failed...`，导航栏仅服务端渲染 `<button>` 元素，客户端却额外插入侧栏遮罩
+- **根本原因**：
+  - `HamburgerMenu` 使用 `typeof document !== 'undefined' && createPortal(...)` 渲染侧栏遮罩，SSR 阶段条件为 `false` 导致 HTML 结构缺失
+  - 浏览器水合时条件为 `true` 插入遮罩，客户端与服务端输出不一致
+- **解决方案**：
+  - 通过 `<NavBarWrapper client:only="react" />` 将导航栏完全在客户端渲染
+  - 组件在非浏览器环境下返回 `null`，确保 SSR 不输出任何导航 HTML
+- **验证结果**：✅ 页面导航无 hydration 警告，菜单与遮罩正常工作
