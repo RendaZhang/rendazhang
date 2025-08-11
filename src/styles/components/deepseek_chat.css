@@ -92,6 +92,13 @@
 
 /* Pulse animation moved to theme.css */
 
+@media (prefers-reduced-motion: reduce) {
+  .c-message,
+  .c-typing-dot {
+    animation: none;
+  }
+}
+
 .c-input-area {
   background: var(--color-surface);
   border-top: var(--border-1);

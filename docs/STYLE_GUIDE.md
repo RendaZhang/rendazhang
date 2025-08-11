@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 04:32 (UTC+08:00)
+- **最后更新**: August 11, 2025, 16:10 (UTC+08:00)
 
 ---
 
@@ -77,6 +77,8 @@ src/
 - 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`、`is-dark-mode`、`is-lang-zh`。
 - 布局主容器统一使用 `c-main-content`，语言切换使用 `is-lang-zh`、`is-lang-en`。
 - JavaScript 钩子使用 `js-` 前缀，仅供脚本选择器使用。
+
+每个 `src/styles/components/*` 目录都包含 README，记录所用 Token、交互态和容器约束，便于复用和维护。
 
 组件样式按照以下目录结构组织，每个组件占用独立文件夹并提供入口文件：
 
@@ -278,7 +280,7 @@ h1 {
 
 ## 样式 Lint 与预提交
 
-项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。该检查通过 pre-commit 与 `lint-staged` 自动运行。
+项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。`stylelint-declaration-strict-value` 插件强制颜色属性使用设计 Token，`function-disallowed-list` 禁用 `rgb`/`rgba` 等原始色值。该检查通过 pre-commit 与 `lint-staged` 自动运行。
 
 ---
 

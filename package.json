@@ -75,6 +75,7 @@
     "stylelint": "^16.23.1",
     "stylelint-config-standard": "^39.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-declaration-strict-value": "^1.10.11",
     "stylelint-order": "^7.0.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",

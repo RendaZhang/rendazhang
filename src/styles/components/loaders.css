@@ -132,3 +132,11 @@
     transform: scale(1.2);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .c-spinner,
+  .c-dot,
+  .c-pulse-dot {
+    animation: none;
+  }
+}
