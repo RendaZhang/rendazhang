@@ -213,7 +213,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    {showNav && <NavBarWrapper client:only="react" initialLang={initialLang} showNav={showNav} />}
+    {showNav && <NavBarWrapper initialLang={initialLang} showNav={showNav} />}
     <main class={mainClass} {...mainAttrs}>
       <slot />
     </main>

@@ -5,13 +5,9 @@ import { NAV_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import type { ReactElement } from 'react';
 
-// Rendered client-side only via Astro's client:only directive in BaseLayout.
+// Server-side rendering provides a static navigation structure.
 
-export default function NavBar(): ReactElement | null {
-  // On the server we skip rendering to avoid emitting HTML.
-  if (typeof window === 'undefined') {
-    return null;
-  }
+export default function NavBar(): ReactElement {
   // 不再根据当前语言只渲染一种文本，避免刷新时语言切换产生闪烁
   const { lang } = useLanguage();
   const textsEn = NAV_CONTENT.en;
