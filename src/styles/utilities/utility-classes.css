@@ -52,12 +52,12 @@
   flex: 1 0 0%;
 }
 /* Container-query driven column utilities */
-@container (min-width: var(--bp-sm-2)) {
+@container (min-width: 36rem) {
   .u-grid-col-sm-6 {
     flex: 0 0 calc(50% - var(--space-4));
   }
 }
-@container (min-width: var(--bp-md)) {
+@container (min-width: 48rem) {
   .u-grid-col-md-4 {
     flex: 0 0 calc(33.333% - var(--space-4));
   }

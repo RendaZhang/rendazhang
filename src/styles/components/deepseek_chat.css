@@ -157,7 +157,7 @@
   text-align: center;
 }
 
-@media (max-width: var(--bp-sm)) {
+@media (max-width: 30rem) {
   .c-input-area {
     padding: var(--space-5);
   }
@@ -185,7 +185,7 @@
   }
 }
 
-@container (max-width: var(--container-sm)) {
+@container (max-width: 37.5rem) {
   .c-chat-wrapper {
     border-radius: 0;
     height: calc(100dvh - var(--header-height));

@@ -20,4 +20,4 @@
 - Hamburger menu lines transform using motion tokens when `.is-open`
 
 ## Container
-The `nav` element declares `container-type: inline-size` for responsive queries. Side menus overlay the viewport and toggle visibility through the `is-open` state.
+The `.c-nav-container` wrapper declares `container-type: inline-size` for responsive queries. Side menus overlay the viewport and toggle visibility through the `is-open` state.
