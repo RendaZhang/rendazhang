@@ -1,0 +1,17 @@
+.c-modal {
+  align-items: center;
+  background: var(--overlay-modal-bg);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+}
+
+.c-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  text-align: center;
+}

@@ -5,7 +5,7 @@ import { useChatHistory } from '../../hooks';
 import { ROLES } from '../../constants';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
-import { LocalizedSection } from '../ui';
+import { LocalizedSection, Modal } from '../ui';
 import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
@@ -30,6 +30,9 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   } = useChatHistory();
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('');
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -167,14 +170,21 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   };
 
   const handleReset = async () => {
-    if (window.confirm(activeTexts.resetConfirm)) {
-      try {
-        await resetChat();
-        clearHistory();
-      } catch (error) {
-        const err = error as Error;
-        alert(`${activeTexts.resetFailedPrefix}: ${err.message}`);
-      }
+    setShowResetModal(true);
+    setResetError(null);
+  };
+
+  const confirmReset = async () => {
+    setIsResetting(true);
+    try {
+      await resetChat();
+      clearHistory();
+      setShowResetModal(false);
+    } catch (error) {
+      const err = error as Error;
+      setResetError(`${activeTexts.resetFailedPrefix}: ${err.message}`);
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -217,12 +227,52 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         onSend={handleSend}
         onReset={handleReset}
         onKeyDown={handleKeyDown}
-        disabled={!isReady || isSending}
+        disabled={!isReady || isSending || isResetting}
         placeholder={placeholder}
         inputRef={messageInputRef}
         textsZh={textsZh}
         textsEn={textsEn}
       />
+      <Modal isOpen={showResetModal} onClose={() => !isResetting && setShowResetModal(false)}>
+        {resetError ? (
+          <>
+            <p>{resetError}</p>
+            <button className="c-btn-primary c-btn-chat" onClick={() => setShowResetModal(false)}>
+              <LocalizedSection
+                zhContent={textsZh.confirmButton}
+                enContent={textsEn.confirmButtom}
+              />
+            </button>
+          </>
+        ) : (
+          <>
+            <p>
+              <LocalizedSection zhContent={textsZh.resetConfirm} enContent={textsEn.resetConfirm} />
+            </p>
+            {isResetting ? (
+              <div className="c-loader" />
+            ) : (
+              <div className="c-btn-container" style={{ justifyContent: 'center' }}>
+                <button
+                  className="c-btn-secondary c-btn-chat"
+                  onClick={() => setShowResetModal(false)}
+                >
+                  <LocalizedSection
+                    zhContent={textsZh.cancelButton}
+                    enContent={textsEn.cancelButton}
+                  />
+                </button>
+                <button className="c-btn-primary c-btn-chat" onClick={confirmReset}>
+                  <LocalizedSection
+                    zhContent={textsZh.resetButton}
+                    enContent={textsEn.resetButton}
+                  />
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </Modal>
     </div>
   );
 }
