@@ -284,21 +284,28 @@ nav {
 
   /* ---------- Responsive Design ---------- */
   @container (max-width: var(--bp-md)) {
-    box-shadow: var(--shadow-elevation-3);
     flex-wrap: nowrap;
     gap: var(--space-2);
-    height: auto;
     padding: var(--space-1) var(--space-3);
 
     a,
     button:not(.c-theme-option) {
       border-radius: var(--radius-s);
-      box-sizing: border-box;
       font-size: var(--font-size-1);
-      margin: var(--space-1);
+      margin: var(--space-1) var(--space-1);
       min-width: 0;
       padding: var(--space-2) var(--space-1);
-      text-align: center;
+    }
+
+    .c-nav-logo,
+    .c-language-selector-main,
+    .c-theme-toggle-main {
+      padding: var(--space-2);
+    }
+
+    .c-nav-logo-icon {
+      block-size: var(--space-5);
+      inline-size: var(--space-5);
     }
   }
 
@@ -311,6 +318,7 @@ nav {
     button:not(.c-theme-option) {
       border-radius: var(--radius-s);
       font-size: var(--font-size-1);
+      margin: var(--space-1) var(--space-1);
       min-width: 0;
       padding: var(--space-2) var(--space-1);
     }
@@ -321,31 +329,45 @@ nav {
       padding: var(--space-2);
     }
 
-    .c-nav-logo .is-lang-zh,
-    .c-nav-logo .is-lang-en,
-    .c-language-selector-main .is-lang-zh,
-    .c-language-selector-main .is-lang-en,
-    .c-theme-toggle-main .is-lang-zh,
-    .c-theme-toggle-main .is-lang-en {
-      display: none;
-    }
-
     .c-nav-logo-icon {
       block-size: var(--space-5);
       inline-size: var(--space-5);
     }
+
+    .is-lang-zh,
+    .is-lang-en {
+      display: none;
+    }
   }
 
   @container (max-width: var(--bp-xs)) {
+    flex-wrap: wrap;
     gap: var(--space-1);
     padding: var(--space-1) var(--space-1);
 
     a,
     button:not(.c-theme-option) {
+      border-radius: var(--radius-xs);
       font-size: var(--font-size-0);
       margin: var(--space-1) var(--space-1);
       min-width: 0;
       padding: var(--space-1) var(--space-1);
+    }
+
+    .c-nav-logo,
+    .c-language-selector-main,
+    .c-theme-toggle-main {
+      padding: var(--space-1);
+    }
+
+    .c-nav-logo-icon {
+      block-size: var(--space-4);
+      inline-size: var(--space-4);
+    }
+
+    .is-lang-zh,
+    .is-lang-en {
+      display: none;
     }
   }
 }
