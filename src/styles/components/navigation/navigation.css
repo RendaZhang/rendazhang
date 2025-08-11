@@ -31,7 +31,15 @@ nav {
   }
 
   .c-nav-logo {
+    align-items: center;
+    display: flex;
     font-weight: 600;
+    gap: var(--space-1);
+
+    .c-nav-logo-icon {
+      block-size: var(--space-6);
+      inline-size: var(--space-6);
+    }
   }
 
   .c-avatar-link {
@@ -110,13 +118,16 @@ nav {
   }
 
   .c-theme-toggle-main {
+    align-items: center;
     background: none;
     border: none;
     border-radius: var(--radius-s);
     box-shadow: none;
     color: var(--color-nav-text);
     cursor: pointer;
+    display: flex;
     font-size: var(--font-size-1);
+    gap: var(--space-1);
     padding: var(--space-2) var(--space-3);
     position: relative;
     text-decoration: none;
@@ -302,6 +313,26 @@ nav {
       font-size: var(--font-size-1);
       min-width: 0;
       padding: var(--space-2) var(--space-1);
+    }
+
+    .c-nav-logo,
+    .c-language-selector-main,
+    .c-theme-toggle-main {
+      padding: var(--space-2);
+    }
+
+    .c-nav-logo .is-lang-zh,
+    .c-nav-logo .is-lang-en,
+    .c-language-selector-main .is-lang-zh,
+    .c-language-selector-main .is-lang-en,
+    .c-theme-toggle-main .is-lang-zh,
+    .c-theme-toggle-main .is-lang-en {
+      display: none;
+    }
+
+    .c-nav-logo-icon {
+      block-size: var(--space-5);
+      inline-size: var(--space-5);
     }
   }
 
