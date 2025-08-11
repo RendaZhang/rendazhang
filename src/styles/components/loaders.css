@@ -107,20 +107,20 @@
   height: var(--space-2);
   position: absolute;
   width: var(--space-2);
+}
 
-  &-1 {
-    left: 0;
-  }
+.c-pulse-dot-1 {
+  left: 0;
+}
 
-  &-2 {
-    animation-delay: var(--duration-fast);
-    left: var(--space-4);
-  }
+.c-pulse-dot-2 {
+  animation-delay: var(--duration-fast);
+  left: var(--space-4);
+}
 
-  &-3 {
-    animation-delay: calc(var(--duration-fast) * 2);
-    left: var(--space-7);
-  }
+.c-pulse-dot-3 {
+  animation-delay: calc(var(--duration-fast) * 2);
+  left: var(--space-7);
 }
 
 @keyframes pulse {
