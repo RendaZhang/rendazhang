@@ -101,6 +101,7 @@
 }
 
 .c-input-area {
+  align-items: flex-end;
   background: var(--color-surface);
   border-top: var(--border-1);
   display: flex;
@@ -134,15 +135,19 @@
 .c-send-btn,
 .c-reset-btn {
   align-items: center;
+  aspect-ratio: 1;
+  block-size: var(--space-8);
   display: flex;
+  inline-size: var(--space-8);
   justify-content: center;
   padding: var(--space-3);
 }
 
-.c-send-btn svg {
-  height: var(--space-5);
+.c-send-btn svg,
+.c-reset-btn svg {
+  block-size: var(--space-5);
+  inline-size: var(--space-5);
   pointer-events: none;
-  width: var(--space-5);
 }
 
 .c-info-text {
@@ -164,6 +169,19 @@
 
   .c-input-area .c-send-btn {
     border-radius: 50%;
+  }
+
+  .c-input-area .c-send-btn,
+  .c-input-area .c-reset-btn {
+    block-size: var(--space-7);
+    inline-size: var(--space-7);
+    padding: var(--space-2);
+  }
+
+  .c-input-area .c-send-btn svg,
+  .c-input-area .c-reset-btn svg {
+    block-size: var(--space-4);
+    inline-size: var(--space-4);
   }
 }
 
