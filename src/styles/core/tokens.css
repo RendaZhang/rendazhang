@@ -543,9 +543,9 @@
     --line-height-7: 2;
 
     /*! ==== Motion ==== */
-    --duration-fast: 0.2s;
-    --duration-normal: 0.3s;
-    --duration-slow: 0.5s;
+    --duration-fast: 0.12s;
+    --duration-normal: 0.18s;
+    --duration-slow: 0.24s;
     --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
     --easing-entrance: cubic-bezier(0, 0, 0.2, 1);
     --easing-exit: cubic-bezier(0.4, 0, 1, 1);

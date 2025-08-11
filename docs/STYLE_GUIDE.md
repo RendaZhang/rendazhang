@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 18:12 (UTC+08:00)
+- **最后更新**: August 11, 2025, 19:29 (UTC+08:00)
 
 ---
 
@@ -206,7 +206,7 @@ graph LR
 
 ## 排版与间距
 
-项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及 `--container-sm`、`--border-width-hairline` 等布局 Token 和 `--duration-fast`、`--duration-normal`、`--duration-slow` 动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
+项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及 `--container-sm`、`--border-width-hairline` 等布局 Token 和 `--duration-fast`、`--duration-normal`、`--duration-slow`（分别为 120/180/240ms）动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
 
 ### 示例
 
@@ -278,12 +278,14 @@ h1 {
 - 导航、表单、聊天等组件已统一采用 `--radius-*`、`--shadow-elevation-*` 与
   `--focus-ring` Token，确保交互态一致且可访问。
 - 动画默认使用 `--easing-standard`、`--easing-entrance`、`--easing-exit` 统一缓动曲线，并在 `@media (prefers-reduced-motion: reduce)` 环境下将 `--duration-*` 变量降至 `0.01ms`，禁用多余动画。
+  统一的时长档为 120/180/240ms，对应 `--duration-fast/normal/slow`。
 
 ---
 
 ## 样式 Lint 与预提交
 
-项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。`stylelint-declaration-strict-value` 插件强制颜色属性使用设计 Token，`function-disallowed-list` 禁用 `rgb`/`rgba` 等原始色值。该检查通过 pre-commit 与 `lint-staged` 自动运行。
+项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。`stylelint-declaration-strict-value` 插件强制颜色属性使用设计 Token，`function-disallowed-list` 禁用 `rgb`/`rgba` 等原始色值。该检查通过 pre-commit 与 `lint-staged` 自动运行。额外的 `npm run test:ui-contrast` 脚本会读取 Token 并验证文本与背景的对比度是否满足 WCAG 标准。
+PR 需使用 `.github/pull_request_template.md` 填写概要与测试，确保样式治理流程可追踪。
 
 ---
 
@@ -295,7 +297,7 @@ h1 {
 - 所有 `@import` 语句需置于文件顶部（除 `@layer` 声明外），以避免 PostCSS 报 `@import must precede all other statements` 警告。
 - 如需使用其他 PostCSS 插件，可在 `postcss.config.cjs` 中统一配置。
 - 欢迎补充更多的架构说明、最佳实践或样式约定到本文件。
-- 深色模式样式已统一通过设计 Token 管理（如 `--shadow-login`），组件内部不再使用零散的 `@media (prefers-color-scheme)`。
+- 深色模式样式已统一通过设计 Token 管理（如 `--shadow-login`），通过 `html[data-theme='dark']` 切换主题，组件内部不再使用零散的 `@media (prefers-color-scheme)`。
 - 栅格工具类改用容器查询实现，如 `.grid-col-sm-6` 会依据容器宽度而非视口断点调整布局。
 - 响应式工具类已迁移至容器查询或组件级布局模式，避免依赖视口断点。
 - 第三方移植的样式（如 GitHub Markdown）可能保留少量固定像素值以保持展示一致性。

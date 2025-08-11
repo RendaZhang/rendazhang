@@ -6,7 +6,7 @@
 /* Loader dimensions aligned with spacing and duration tokens */
 .c-spinner {
   --spinner-size: var(--space-7);
-  --spinner-color: var(--color-accent-purple);
+  --spinner-color: var(--color-brand);
   animation: spinner-spin calc(var(--duration-slow) * 2) linear infinite;
   border: var(--space-1) solid var(--color-spinner-track);
   border-radius: 50%;
@@ -101,7 +101,7 @@
 
 .c-pulse-dot {
   animation: pulse calc(var(--duration-slow) * 3) infinite;
-  background: var(--color-accent-purple);
+  background: var(--color-brand);
   border-radius: 50%;
   height: var(--space-2);
   position: absolute;

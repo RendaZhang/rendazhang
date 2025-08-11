@@ -1,0 +1,14 @@
+/*
+  Generic page section container spacing using design tokens
+  Applied to multiple sections across the site.
+*/
+.c-about-section,
+.c-skills-section,
+.c-education-section,
+.c-experience-section,
+.c-blog-section,
+.c-contact-section {
+  margin: 0 auto;
+  max-width: var(--measure);
+  padding: var(--space-7) var(--space-4);
+}

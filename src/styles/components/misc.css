@@ -1,6 +1,6 @@
 /* Miscellaneous component styles using design tokens */
 .c-example-fallback {
-  color: var(--undefined-var, var(--color-text));
+  color: var(--color-text);
 }
 
 /* Error section styles using spacing and type tokens */

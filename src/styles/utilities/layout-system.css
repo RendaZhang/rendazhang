@@ -8,15 +8,3 @@
   max-width: var(--measure);
   width: 100%;
 }
-
-/* Page section block with unified spacing */
-.c-about-section,
-.c-skills-section,
-.c-education-section,
-.c-experience-section,
-.c-blog-section,
-.c-contact-section {
-  margin: 0 auto;
-  max-width: var(--measure);
-  padding: var(--space-7) var(--space-4);
-}
