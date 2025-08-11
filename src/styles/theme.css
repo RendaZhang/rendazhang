@@ -2,7 +2,6 @@
 /* overrides layer reserved for legacy page-specific patches */
 
 @import './core/tokens.css';
-@import './core/legacy-alias.css';
 @import './core/_gradients.css';
 @import './layout.css' layer(base);
 @import './components/navigation/navigation.css' layer(components);
@@ -11,6 +10,7 @@
 @import './components/form/form.css' layer(components);
 @import './components/loaders.css' layer(components);
 @import './components/misc.css' layer(components);
+@import './components/sections.css' layer(components);
 @import './utilities/layout-system.css' layer(utilities);
 @import './utilities/utility-classes.css' layer(utilities);
 
@@ -43,8 +43,6 @@
     --color-surface: var(--color-gray-100);
     --color-white: var(--color-base-white);
     --color-black: var(--color-base-black);
-    --color-warning-accent: var(--color-warning-accent);
-    --color-accent-purple: var(--color-brand);
     --shadow-login: var(--shadow-login-light);
     --md-bg: var(--color-md-bg);
     --md-text: var(--color-md-text);
@@ -75,56 +73,7 @@
     color-scheme: light dark;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-bg: var(--color-gray-900);
-      --color-text: var(--color-gray-50);
-      --color-nav-bg: var(--color-gray-800);
-      --color-nav-text: var(--color-gray-50);
-      --gradient-primary: var(--gradient-dark);
-      --color-surface: var(--color-gray-800);
-      --color-gray: var(--color-gray-700);
-      --color-white: var(--color-base-white);
-      --color-border-light: var(--color-gray-700);
-      --color-subtle-bg: var(--color-gray-700);
-      --color-subtle-bg-alt: var(--color-dark-black);
-      --color-subtle-bg-hover: var(--color-gray-700);
-      --color-border-muted: var(--color-gray-700);
-      --color-border-soft: var(--color-gray-700);
-      --color-spinner-track: var(--color-gray-700);
-      --color-accent-purple: var(--color-brand);
-      --shadow-login: var(--shadow-login-dark);
-      --md-bg: var(--color-md-bg);
-      --md-text: var(--color-md-text);
-      --md-heading-border: var(--color-md-heading-border);
-      --md-h1-color: var(--color-md-h1);
-      --md-h2-color: var(--color-md-h2);
-      --md-h2-border: var(--color-md-h2-border);
-      --md-h3-color: var(--color-md-h3);
-      --md-h4-color: var(--color-md-h4);
-      --md-strong-color: var(--color-md-strong);
-      --md-table-bg: var(--color-md-table-bg);
-      --md-th-bg: var(--color-md-th-bg);
-      --md-th-color: var(--color-md-th-color);
-      --md-td-color: var(--color-md-td-color);
-      --md-td-bg: var(--color-md-td-bg);
-      --md-table-border: var(--color-md-table-border);
-      --md-zebra-bg: var(--color-md-zebra-bg);
-      --md-code-bg: var(--color-md-code-bg);
-      --md-code-color: var(--color-md-code-color);
-      --md-link-color: var(--color-md-link);
-      --md-link-hover: var(--color-md-link-hover);
-      --md-blockquote-color: var(--color-md-blockquote);
-      --md-blockquote-border: var(--color-md-blockquote-border);
-      --md-blockquote-bg: var(--color-md-blockquote-bg);
-      --md-hr-bg: var(--color-md-hr);
-      --social-icon-filter: brightness(0) invert(1);
-      --overlay-surface: var(--overlay-dark-surface);
-      color-scheme: dark;
-    }
-  }
-
-  html.is-dark-mode {
+  html[data-theme='dark'] {
     --color-bg: var(--color-gray-900);
     --color-text: var(--color-gray-50);
     --color-nav-bg: var(--color-gray-800);
@@ -140,7 +89,6 @@
     --color-border-muted: var(--color-gray-700);
     --color-border-soft: var(--color-gray-700);
     --color-spinner-track: var(--color-gray-700);
-    --color-accent-purple: var(--color-brand);
     --shadow-login: var(--shadow-login-dark);
     --md-bg: var(--color-md-bg);
     --md-text: var(--color-md-text);

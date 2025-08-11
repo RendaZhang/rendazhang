@@ -20,7 +20,7 @@ export default function LoadingIndicator({ isError, textsZh, textsEn }: LoadingI
         </p>
       ) : (
         <>
-          <div className="c-chat-widget-skeleton" aria-hidden="true"></div>
+          <div className="c-chat-widget-skeleton c-skeleton-shimmer" aria-hidden="true"></div>
           <p className="c-loading-indicator-text">
             <LocalizedSection zhContent={textsZh.loading} enContent={textsEn.loading} />
           </p>

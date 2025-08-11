@@ -504,11 +504,26 @@
     --space-9: 4rem; /* 64px */
     --space-10: 5rem; /* 80px */
 
+    /*! ==== Breakpoints ==== */
+    --bp-xs: 22.5rem; /* 360px */
+    --bp-sm: 30rem; /* 480px */
+    --bp-sm-2: 36rem; /* 576px */
+    --bp-md: 48rem; /* 768px */
+    --bp-lg: 64rem; /* 1024px */
+
+    /*! ==== Layout ==== */
+    --header-height: calc(var(--space-5) * 5); /* 100px */
+    --container-sm: 37.5rem; /* 600px */
+    --size-auth-form: 28.125rem; /* 450px */
+    --size-cert-card: calc(var(--space-10) * 4); /* 320px */
+    --size-credly-badge: calc(var(--space-10) * 3.375); /* 270px */
+
     /*! ==== Borders & Radius ==== */
     --radius-xs: var(--space-1);
     --radius-s: var(--space-2);
     --radius-m: var(--space-3);
     --radius-l: var(--space-6);
+    --border-width-hairline: 1px;
     --border-0: 1px solid var(--color-border-light);
     --border-1: 1px solid var(--color-border-muted);
     --border-2: 1px solid var(--color-border-soft);
@@ -536,9 +551,9 @@
     --line-height-7: 2;
 
     /*! ==== Motion ==== */
-    --duration-fast: 0.2s;
-    --duration-normal: 0.3s;
-    --duration-slow: 0.5s;
+    --duration-fast: 0.12s;
+    --duration-normal: 0.18s;
+    --duration-slow: 0.24s;
     --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
     --easing-entrance: cubic-bezier(0, 0, 0.2, 1);
     --easing-exit: cubic-bezier(0.4, 0, 1, 1);

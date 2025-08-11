@@ -1,20 +1,20 @@
 /* stylelint-disable selector-class-pattern, no-descending-specificity */
 
 :root {
-  --color-hljs-text: #24292e;
-  --color-hljs-bg: #fff;
-  --color-hljs-keyword: #d73a49;
-  --color-hljs-title: #6f42c1;
-  --color-hljs-attr: #005cc5;
-  --color-hljs-string: #032f62;
-  --color-hljs-built-in: #e36209;
-  --color-hljs-comment: #6a737d;
-  --color-hljs-name: #22863a;
-  --color-hljs-bullet: #735c0f;
-  --color-hljs-addition: #22863a;
-  --color-hljs-addition-bg: #f0fff4;
-  --color-hljs-deletion: #b31d28;
-  --color-hljs-deletion-bg: #ffeef0;
+  --color-hljs-text: var(--color-text-deep);
+  --color-hljs-bg: var(--color-surface);
+  --color-hljs-keyword: var(--color-error);
+  --color-hljs-title: var(--color-brand-secondary);
+  --color-hljs-attr: var(--color-brand-blue);
+  --color-hljs-string: var(--color-text-deep);
+  --color-hljs-built-in: var(--color-warning);
+  --color-hljs-comment: var(--color-text-muted);
+  --color-hljs-name: var(--color-success);
+  --color-hljs-bullet: var(--color-warning-accent);
+  --color-hljs-addition: var(--color-success);
+  --color-hljs-addition-bg: color-mix(in srgb, var(--color-success) 15%, var(--color-surface));
+  --color-hljs-deletion: var(--color-error);
+  --color-hljs-deletion-bg: color-mix(in srgb, var(--color-error) 15%, var(--color-surface));
 }
 
 pre code.hljs {

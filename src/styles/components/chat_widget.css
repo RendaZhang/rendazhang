@@ -1,3 +1,4 @@
+@import './skeleton.css';
 @import './chat_widget_skeleton.css';
 
 /* Floating chat button, centered using .u-flex-center */

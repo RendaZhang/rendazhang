@@ -213,11 +213,11 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    <NavBarWrapper client:load initialLang={initialLang} showNav={showNav}>
+    <NavBarWrapper client:visible initialLang={initialLang} showNav={showNav}>
       <main class={mainClass} {...mainAttrs}>
         <slot />
       </main>
-      {showChatWidget && <ChatWidget client:load />}
+      {showChatWidget && <ChatWidget client:visible />}
       <BackToTopButton client:load />
       <slot name="bodyEnd" />
       {showFooter && <slot name="footer" />}

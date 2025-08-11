@@ -60,13 +60,14 @@
     - [BUG-052: Docs 页面标题 ID 重复导致 GitHub Actions 锚点失效](#bug-052-docs-%E9%A1%B5%E9%9D%A2%E6%A0%87%E9%A2%98-id-%E9%87%8D%E5%A4%8D%E5%AF%BC%E8%87%B4-github-actions-%E9%94%9A%E7%82%B9%E5%A4%B1%E6%95%88)
     - [BUG-053: 导航栏遮挡主体内容](#bug-053-%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E4%B8%BB%E4%BD%93%E5%86%85%E5%AE%B9)
     - [BUG-054: Chat Widget 打开时 Mermaid 与代码高亮渲染闪烁](#bug-054-chat-widget-%E6%89%93%E5%BC%80%E6%97%B6-mermaid-%E4%B8%8E%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%B8%B2%E6%9F%93%E9%97%AA%E7%83%81)
+    - [BUG-055: Credly 嵌入 iframe 多次刷新后未进入 `loaded`（`onLoad` 事件被缓存触发提前消耗）](#bug-055-credly-%E5%B5%8C%E5%85%A5-iframe-%E5%A4%9A%E6%AC%A1%E5%88%B7%E6%96%B0%E5%90%8E%E6%9C%AA%E8%BF%9B%E5%85%A5-loadedonload-%E4%BA%8B%E4%BB%B6%E8%A2%AB%E7%BC%93%E5%AD%98%E8%A7%A6%E5%8F%91%E6%8F%90%E5%89%8D%E6%B6%88%E8%80%97)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 04:18 (UTC+08:00)
+- **最后更新**: August 11, 2025, 20:03 (UTC+08:00)
 
 ---
 
@@ -324,7 +325,7 @@
     import storage from '/src/utils/storage';
     try {
       const stored = storage.get('${THEME_STORAGE_KEY}');
-      if (stored === 'dark') document.documentElement.classList.add('is-dark-mode');
+      if (stored === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch {}
   </script>
   ```
@@ -353,7 +354,7 @@
   useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-      const isDark = document.documentElement.classList.contains('is-dark-mode');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       setDarkMode(isDark);
     }
   }, []);
@@ -367,9 +368,9 @@
 - **问题现象**：
   - 点击右下角聊天按钮时，弹出面板先显示白色再变黑色
 - **根本原因**：
-  - `chat_widget.css` 默认背景为白色，未针对 `.is-dark-mode` 提供样式
+  - `chat_widget.css` 默认背景为白色，未针对 `[data-theme='dark']` 提供样式
 - **解决方案**：
-  - 在样式表中添加 `.is-dark-mode .chat-widget-panel { background:#1e1e1e; }`
+  - 在样式表中添加 `[data-theme='dark'] .chat-widget-panel { background:#1e1e1e; }`
 - **验证结果**：✅ 弹窗不再闪烁
 
 ### BUG-015: Enhancement progress stuck when scripts load from memory cache
@@ -573,9 +574,9 @@
   - Docs 页面排版不具备 GitHub 风格
 - **根本原因**：
   - Chat 页面仅引入 `github-markdown-light.css`
-  - Docs 页面仅引入 `github.css`
+  - Docs 页面仅引入 `github-code-highlight.css`
 - **解决方案**：
-  - 两个页面同时加载 `github.css` 与 `github-markdown-light.css`
+  - 两个页面同时加载 `github-code-highlight.css` 与 `github-markdown-light.css`
 - **验证结果**：✅ 两页面的代码高亮与排版均保持一致
 
 ### BUG-029: DOMPurify source map warning during dev
@@ -619,7 +620,7 @@
 - **根本原因**：
   - 未在 CSS 中声明 `color-scheme`
 - **解决方案**：
-  - 在 `:root` 设置 `color-scheme: light` 并在 `.is-dark-mode` 设置 `color-scheme: dark`
+  - 在 `:root` 设置 `color-scheme: light` 并在 `[data-theme='dark']` 设置 `color-scheme: dark`
 - **验证结果**：✅ 主题切换后控件样式一致
 
 ### BUG-032: Hero 模糊占位图不会消失
@@ -1005,7 +1006,7 @@
 - **发现日期**：2025-08-07
 - **重现环境**：本地 `npm run dev`，deepseek_chat 页面，Chrome 115+
 - **问题现象**：
-  - 在 message-input 中每输入一个字符，Mermaid 图表就重新渲染一次
+  - 在 `.c-message-input` 中每输入一个字符，Mermaid 图表就重新渲染一次
   - 按住键持续输入时图表渲染消失，停止输入后才恢复
 - **根本原因**：
   - 内联 `onRendered` 回调在每次输入时都会重新创建，触发 Markdown 渲染管线重复执行
@@ -1138,3 +1139,21 @@
   2. ChatWidget 监听 `chat-enhancement-ready` 消息，收到后才隐藏骨架屏
 - **验证结果**：✅ `npm test` 与 `npm run lint`
 - **经验总结**：等待第三方库渲染完成再展示内容可避免 UI 闪烁
+
+### BUG-055: Credly 嵌入 iframe 多次刷新后未进入 `loaded`（`onLoad` 事件被缓存触发提前消耗）
+
+- **问题状态**：已解决 (Resolved)
+- **发现日期**：2025-08-11
+- **重现环境**：Chrome 139.0（Windows 10 x64）；React 19（启用 StrictMode）
+- **问题现象**：
+  - 首次进入页面时，`acclaim-badge` 的 iframe 可正常触发 `onLoad`，`c-credly-container` 增加 `is-loaded`。
+  - 多次刷新或前进/后退返回页面时，iframe 实际内容已显示，但组件状态仍停留在 `loading`（最终被超时逻辑置为 `error`），未切换为 `loaded`。
+- **根本原因**：
+  - 由于跨域与浏览器缓存（memory/disk/bfcache）复用，iframe 可能在 React 将 `onLoad` 监听器挂载之前就已完成加载并触发 `load` 事件，导致事件“丢失”。同时跨域限制使 `contentDocument?.readyState` 的就绪检查不可靠。
+- **解决方案**：
+  - 在 `useEffect` 中**先**用原生 `addEventListener('load', …, { once: true })` 绑定 `load` 事件，**再**赋值 `iframe.src`，确保不漏接瞬时触发的 `load`。
+  - 保留 20s 超时兜底；`cleanup` 时移除监听并将 `iframe.src = 'about:blank'` 以减少节点快速复用的时序问题。
+  - 移除对跨域 `contentDocument?.readyState` 的乐观检查，避免误判。
+- **验证结果**：
+  - 连续多次刷新页面、以及浏览器前进/后退返回页面均能稳定进入 `loaded`；未再出现卡在 `loading`/被超时置 `error` 的情况。
+- **经验总结**：跨域 iframe 在强缓存/历史快速恢复场景下常会“先加载、后绑定事件”，应采用“先绑事件再设 `src`”的命令式流程；React 18 StrictMode 的双挂载也会放大时序问题，代码需具备抗抖动能力。

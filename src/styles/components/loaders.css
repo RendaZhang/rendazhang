@@ -1,3 +1,5 @@
+@import './skeleton.css';
+/* Loader components using design tokens for dimensions and animation */
 /* ------------------------------------------------------------------ */
 /* Generic spinner used across multiple components.                   */
 /* Size and color can be customized via CSS variables.                */
@@ -5,7 +7,7 @@
 /* Loader dimensions aligned with spacing and duration tokens */
 .c-spinner {
   --spinner-size: var(--space-7);
-  --spinner-color: var(--color-accent-purple);
+  --spinner-color: var(--color-brand);
   animation: spinner-spin calc(var(--duration-slow) * 2) linear infinite;
   border: var(--space-1) solid var(--color-spinner-track);
   border-radius: 50%;
@@ -77,7 +79,7 @@
 /* Enhancement Progress Overlay - used by chat when loading features   */
 /* Position with `.fixed-bottom-right` utility when displayed.         */
 /* ------------------------------------------------------------------ */
-#enhancement-progress {
+.c-enhancement-progress {
   align-items: center;
   background: var(--overlay-surface);
   border: var(--border-0);
@@ -100,7 +102,7 @@
 
 .c-pulse-dot {
   animation: pulse calc(var(--duration-slow) * 3) infinite;
-  background: var(--color-accent-purple);
+  background: var(--color-brand);
   border-radius: 50%;
   height: var(--space-2);
   position: absolute;
@@ -130,5 +132,13 @@
   50% {
     opacity: 1;
     transform: scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-spinner,
+  .c-dot,
+  .c-pulse-dot {
+    animation: none;
   }
 }

@@ -1,4 +1,5 @@
-@import './chat_widget_skeleton.css';
+/* Chat component styles leveraging design tokens */
+@import './skeleton.css';
 
 /* Spacing and type values aligned to design tokens */
 .c-chat-wrapper {
@@ -9,7 +10,7 @@
   /* Wrapper around the chat page, extends the global container */
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px);
+  height: calc(100vh - var(--header-height));
   overflow: hidden;
 }
 
@@ -92,6 +93,13 @@
 
 /* Pulse animation moved to theme.css */
 
+@media (prefers-reduced-motion: reduce) {
+  .c-message,
+  .c-typing-dot {
+    animation: none;
+  }
+}
+
 .c-input-area {
   background: var(--color-surface);
   border-top: var(--border-1);
@@ -100,7 +108,7 @@
   padding: var(--space-4);
 }
 
-#message-input {
+.c-message-input {
   background: var(--color-subtle-bg-alt);
   border: var(--border-0);
   border-radius: var(--radius-l);
@@ -112,7 +120,7 @@
   resize: none;
 }
 
-#message-input:focus-visible {
+.c-message-input:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
 }
@@ -129,12 +137,11 @@
   text-align: center;
 }
 
-@container (max-width: 600px) {
+@container (max-width: var(--container-sm)) {
   .c-chat-wrapper {
     border-radius: 0;
-    height: calc(100vh - 100px);
+    height: calc(100vh - var(--header-height));
   }
-
   .c-btn-container {
     flex-direction: column;
   }
@@ -144,7 +151,7 @@
   }
 
   .c-input-area {
-    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--space-4) - (var(--space-1) / 4) + env(safe-area-inset-bottom));
   }
 }
 /* copy button uses .rounded-4 utility */
@@ -219,7 +226,7 @@
 }
 
 /* Disabled state styling */
-#message-input:disabled {
+.c-message-input:disabled {
   background: var(--color-subtle-bg);
   cursor: not-allowed;
 }

@@ -51,10 +51,11 @@
       log('BaseLayout script systemPrefersDark: ' + systemPrefersDark);
       log('BaseLayout script shouldUseDark: ' + shouldUseDark);
       if (shouldUseDark) {
-        document.documentElement.classList.add('is-dark-mode');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
       }
-      document.documentElement.dataset.initialTheme =
-        storedTheme || (systemPrefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.initialTheme = shouldUseDark ? 'dark' : 'light';
     } catch (e) {
       console.error('BaseLayout script: Theme init failed', e);
     }

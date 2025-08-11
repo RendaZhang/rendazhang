@@ -11,7 +11,7 @@
 
   &:hover {
     filter: brightness(1.1);
-    transform: translateY(-2px);
+    transform: translateY(calc(var(--space-1) * -0.5));
   }
 
   &:active {

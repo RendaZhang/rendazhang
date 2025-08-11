@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 10, 2025, 04:32 (UTC+08:00)
+- **最后更新**: August 11, 2025, 23:05 (UTC+08:00)
 
 ---
 
@@ -74,9 +74,12 @@ src/
 
 - 组件类以 `c-` 前缀命名，例如 `c-btn-primary`、`c-form-control`。
 - 工具类以 `u-` 前缀命名，用于通用辅助样式，如 `u-text-error`。
-- 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`、`is-dark-mode`、`is-lang-zh`。
+- 状态类以 `is-` 前缀表示临时状态，例如 `is-open`、`is-active`、`is-lang-zh`。深色模式通过 `html[data-theme='dark']` 切换。
 - 布局主容器统一使用 `c-main-content`，语言切换使用 `is-lang-zh`、`is-lang-en`。
 - JavaScript 钩子使用 `js-` 前缀，仅供脚本选择器使用。
+- 避免使用 `id` 选择器，组件内部统一使用类选择器以控制特异性。
+
+每个 `src/styles/components/*` 目录都包含 README，记录所用 Token、交互态和容器约束，便于复用和维护。对于直接位于 `components/` 下的样式文件，同名的 `.md` 文档提供相同说明。
 
 组件样式按照以下目录结构组织，每个组件占用独立文件夹并提供入口文件：
 
@@ -203,7 +206,7 @@ graph LR
 
 ## 排版与间距
 
-项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及 `--duration-fast`、`--duration-normal`、`--duration-slow` 动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
+项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及断点 `--bp-xs`、`--bp-sm`、`--bp-sm-2`、`--bp-md`、`--bp-lg`、容器宽度 `--container-sm`、`--size-auth-form`、`--border-width-hairline` 等布局 Token 和 `--duration-fast`、`--duration-normal`、`--duration-slow`（分别为 120/180/240ms）动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
 
 ### 示例
 
@@ -222,6 +225,7 @@ h1 {
 
 - 使用 `var(--font-size-n)` 和 `var(--space-n)` 引用全局刻度。
 - 保持段落宽度不超过 `var(--measure)`（约 65ch）。
+- 根据布局需要选用 `--bp-sm`、`--bp-sm-2` 等断点 token 和 `--container-sm` 等容器宽度 token。
 
 #### ❌ Don't
 
@@ -243,6 +247,7 @@ h1 {
 
 - 文本、颜色、间距等均应通过 Token 引用，避免硬编码。
 - 边框请使用 `--border-0` 至 `--border-3` 变量映射不同色阶。
+- 细线条可用 `--border-width-hairline`，容器宽度可用 `--container-sm` 等等。
 
 ---
 
@@ -258,7 +263,7 @@ h1 {
 
 ## 交互态与可访问性
 
-- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-0`…`--border-3`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
+- 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-width-hairline`、`--border-0`…`--border-3`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
 - 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
 - 交互态矩阵：
 
@@ -273,12 +278,14 @@ h1 {
 - 导航、表单、聊天等组件已统一采用 `--radius-*`、`--shadow-elevation-*` 与
   `--focus-ring` Token，确保交互态一致且可访问。
 - 动画默认使用 `--easing-standard`、`--easing-entrance`、`--easing-exit` 统一缓动曲线，并在 `@media (prefers-reduced-motion: reduce)` 环境下将 `--duration-*` 变量降至 `0.01ms`，禁用多余动画。
+  统一的时长档为 120/180/240ms，对应 `--duration-fast/normal/slow`。
 
 ---
 
 ## 样式 Lint 与预提交
 
-项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。该检查通过 pre-commit 与 `lint-staged` 自动运行。
+项目使用 Stylelint 保证样式一致性，规则禁止 `!important` 并限制嵌套深度不超过 3 层。`stylelint-declaration-strict-value` 插件强制颜色属性使用设计 Token，`function-disallowed-list` 禁用 `rgb`/`rgba` 等原始色值。该检查通过 pre-commit 与 `lint-staged` 自动运行。额外的 `npm run test:ui-contrast` 脚本会读取 Token 并验证文本与背景的对比度是否满足 WCAG 标准，可运行 `npm run css:stats` 生成 CSS Stats 报告，监控产物体积与未使用规则。
+PR 需使用 `.github/pull_request_template.md` 填写概要与测试，确保样式治理流程可追踪。
 
 ---
 
@@ -290,6 +297,8 @@ h1 {
 - 所有 `@import` 语句需置于文件顶部（除 `@layer` 声明外），以避免 PostCSS 报 `@import must precede all other statements` 警告。
 - 如需使用其他 PostCSS 插件，可在 `postcss.config.cjs` 中统一配置。
 - 欢迎补充更多的架构说明、最佳实践或样式约定到本文件。
-- 深色模式样式已统一通过设计 Token 管理（如 `--shadow-login`），组件内部不再使用零散的 `@media (prefers-color-scheme)`。
+- 深色模式样式已统一通过设计 Token 管理（如 `--shadow-login`），通过 `html[data-theme='dark']` 切换主题，组件内部不再使用零散的 `@media (prefers-color-scheme)`。
 - 栅格工具类改用容器查询实现，如 `.grid-col-sm-6` 会依据容器宽度而非视口断点调整布局。
 - 响应式工具类已迁移至容器查询或组件级布局模式，避免依赖视口断点。
+- 第三方移植的样式（如 GitHub Markdown）可能保留少量固定像素值以保持展示一致性。
+- 已集成 CSS Stats 工具，可通过 `npm run css:stats` 查看 CSS 产物体积和未使用规则，持续优化样式体积。
