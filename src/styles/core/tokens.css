@@ -504,9 +504,16 @@
     --space-9: 4rem; /* 64px */
     --space-10: 5rem; /* 80px */
 
+    /*! ==== Breakpoints ==== */
+    --bp-xs: 22.5rem; /* 360px */
+    --bp-sm: 30rem; /* 480px */
+    --bp-md: 48rem; /* 768px */
+    --bp-lg: 64rem; /* 1024px */
+
     /*! ==== Layout ==== */
     --header-height: calc(var(--space-5) * 5); /* 100px */
     --container-sm: 37.5rem; /* 600px */
+    --size-auth-form: 28.125rem; /* 450px */
     --size-cert-card: calc(var(--space-10) * 4); /* 320px */
     --size-credly-badge: calc(var(--space-10) * 3.375); /* 270px */
 

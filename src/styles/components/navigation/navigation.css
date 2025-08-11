@@ -338,7 +338,7 @@ nav {
   }
 
   /* ---------- Responsive Design ---------- */
-  @container (max-width: 768px) {
+  @container (max-width: var(--bp-md)) {
     box-shadow: var(--shadow-elevation-3);
     flex-wrap: nowrap;
     gap: var(--space-2);
@@ -357,7 +357,7 @@ nav {
     }
   }
 
-  @container (max-width: 480px) {
+  @container (max-width: var(--bp-sm)) {
     flex-wrap: nowrap;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-2);
@@ -371,7 +371,7 @@ nav {
     }
   }
 
-  @container (max-width: 360px) {
+  @container (max-width: var(--bp-xs)) {
     gap: var(--space-1);
     padding: var(--space-1) var(--space-1);
 

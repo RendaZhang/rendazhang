@@ -9,3 +9,5 @@ This stylesheet provides GitHub-flavored Markdown presentation while aligning me
 - **Border and outline tokens**: standard border variables supply consistent line widths and colors.
 
 No component-specific overrides are required; all sizing and colors are derived from shared tokens to support theming and dark mode.
+
+All fixed measurements now rely on token-based calculations for consistent theming.

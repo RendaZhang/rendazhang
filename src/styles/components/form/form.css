@@ -68,7 +68,7 @@
   padding: var(--space-5);
   width: 100%;
 
-  @container (min-width: 481px) {
+  @container (min-width: var(--bp-sm)) {
     margin: var(--space-10) auto;
   }
 }
@@ -76,18 +76,18 @@
 .c-login-form,
 .c-register-form {
   margin: 0 auto;
-  max-width: 450px;
+  max-width: var(--size-auth-form);
   width: 100%;
 
   /* ------------------------------------------------------------------ */
   /* Responsive width for authentication forms                          */
   /* Centralized here so login.css and register.css stay minimal.       */
   /* ------------------------------------------------------------------ */
-  @container (min-width: 769px) and (max-width: 1024px) {
+  @container (min-width: var(--bp-md)) and (max-width: var(--bp-lg)) {
     width: 70%;
   }
 
-  @container (max-width: 768px) {
+  @container (max-width: var(--bp-md)) {
     width: 100%;
   }
 }

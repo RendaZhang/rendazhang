@@ -27,7 +27,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 11, 2025, 20:03 (UTC+08:00)
+- **最后更新**: August 11, 2025, 20:45 (UTC+08:00)
 
 ---
 
@@ -206,7 +206,7 @@ graph LR
 
 ## 排版与间距
 
-项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及 `--container-sm`、`--border-width-hairline` 等布局 Token 和 `--duration-fast`、`--duration-normal`、`--duration-slow`（分别为 120/180/240ms）动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
+项目使用基于 `clamp()` 的流式字号和 4/8 间距栅格。在 `src/styles/core/tokens.css` 中定义了 `--font-size-0`…`--font-size-7`、`--line-height-0`…`--line-height-7` 与 `--space-1`…`--space-10` 变量，以及断点 `--bp-xs`、`--bp-sm`、`--bp-md`、`--bp-lg`、容器宽度 `--container-sm`、`--size-auth-form`、`--border-width-hairline` 等布局 Token 和 `--duration-fast`、`--duration-normal`、`--duration-slow`（分别为 120/180/240ms）动效变量，组件和基础样式通过这些 Token 保持一致。标准段落间距推荐使用 `margin-block-end: var(--space-4);`，最大行宽由 `--measure` 控制（默认 `65ch`）。
 
 ### 示例
 
@@ -225,7 +225,7 @@ h1 {
 
 - 使用 `var(--font-size-n)` 和 `var(--space-n)` 引用全局刻度。
 - 保持段落宽度不超过 `var(--measure)`（约 65ch）。
-- 根据布局需要选用 `--container-sm` 等容器宽度 token。
+- 根据布局需要选用 `--bp-sm` 等断点 token 和 `--container-sm` 等容器宽度 token。
 
 #### ❌ Don't
 

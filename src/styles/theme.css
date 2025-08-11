@@ -2,7 +2,6 @@
 /* overrides layer reserved for legacy page-specific patches */
 
 @import './core/tokens.css';
-@import './core/legacy-alias.css';
 @import './core/_gradients.css';
 @import './layout.css' layer(base);
 @import './components/navigation/navigation.css' layer(components);
