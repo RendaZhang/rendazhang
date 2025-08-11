@@ -2,27 +2,21 @@ import { ThemeToggle, LanguageSelector, AvatarIcon, LocalizedSection } from '../
 import { HOME_PAGE_PATH, LOGIN_PAGE_PATH, IMAGE_PATHS } from '../../constants';
 import { NAV_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
-import { useEffect, useState, type ComponentType, type ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import HamburgerMenu from './HamburgerMenu';
 
 // Server-side rendering provides a static navigation structure.
 
 export default function NavBar(): ReactElement {
   // 不再根据当前语言只渲染一种文本，避免刷新时语言切换产生闪烁
   const { lang } = useLanguage();
-  const [HamburgerMenu, setHamburgerMenu] = useState<ComponentType | null>(null);
   const textsEn = NAV_CONTENT.en;
   const textsZh = NAV_CONTENT.zh;
-
-  useEffect(() => {
-    import('./HamburgerMenu').then((mod) => {
-      setHamburgerMenu(() => mod.default);
-    });
-  }, []);
 
   return (
     <nav>
       <div className="c-nav-left">
-        {HamburgerMenu && <HamburgerMenu />}
+        <HamburgerMenu />
         <a
           href={HOME_PAGE_PATH}
           aria-label={lang === 'en' ? textsEn.home : textsZh.home}
