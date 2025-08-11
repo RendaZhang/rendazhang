@@ -14,25 +14,27 @@ export default function NavBar(): ReactElement {
   const textsZh = NAV_CONTENT.zh;
 
   return (
-    <nav>
-      <div className="c-nav-left">
-        <HamburgerMenu />
-        <a
-          href={HOME_PAGE_PATH}
-          aria-label={lang === 'en' ? textsEn.home : textsZh.home}
-          className="c-nav-logo"
-        >
-          <img src={IMAGE_PATHS.LOGO_V4} alt="" className="c-nav-logo-icon" />
-          <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
-        </a>
-      </div>
-      <div className="c-nav-right">
-        <LanguageSelector />
-        <ThemeToggle />
-        <a href={LOGIN_PAGE_PATH} aria-label="Login" className="c-avatar-link">
-          <AvatarIcon />
-        </a>
-      </div>
-    </nav>
+    <div className="c-nav-container">
+      <nav>
+        <div className="c-nav-left">
+          <HamburgerMenu />
+          <a
+            href={HOME_PAGE_PATH}
+            aria-label={lang === 'en' ? textsEn.home : textsZh.home}
+            className="c-nav-logo"
+          >
+            <img src={IMAGE_PATHS.LOGO_V4} alt="" className="c-nav-logo-icon" />
+            <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
+          </a>
+        </div>
+        <div className="c-nav-right">
+          <LanguageSelector />
+          <ThemeToggle />
+          <a href={LOGIN_PAGE_PATH} aria-label="Login" className="c-avatar-link">
+            <AvatarIcon />
+          </a>
+        </div>
+      </nav>
+    </div>
   );
 }
