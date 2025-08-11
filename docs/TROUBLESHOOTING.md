@@ -63,13 +63,14 @@
     - [BUG-055: Credly 嵌入 iframe 多次刷新后未进入 `loaded`（`onLoad` 事件被缓存触发提前消耗）](#bug-055-credly-%E5%B5%8C%E5%85%A5-iframe-%E5%A4%9A%E6%AC%A1%E5%88%B7%E6%96%B0%E5%90%8E%E6%9C%AA%E8%BF%9B%E5%85%A5-loadedonload-%E4%BA%8B%E4%BB%B6%E8%A2%AB%E7%BC%93%E5%AD%98%E8%A7%A6%E5%8F%91%E6%8F%90%E5%89%8D%E6%B6%88%E8%80%97)
     - [BUG-056: Dark theme icon hydration flicker](#bug-056-dark-theme-icon-hydration-flicker)
     - [BUG-057: Navigation container queries using `var()` ignored](#bug-057-navigation-container-queries-using-var-ignored)
+    - [BUG-058: esbuild css minify Unexpected "-1" warnings](#bug-058-esbuild-css-minify-unexpected--1-warnings)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 12, 2025, 06:49 (UTC+08:00)
+- **最后更新**: August 12, 2025, 07:21 (UTC+08:00)
 
 ---
 
@@ -1220,3 +1221,21 @@
   - `@custom-media` 仅服务于 `@media` 且需构建期转译，**不能**在 `@container` 中当断点别名；
   - 若追求可维护性与组件化，推荐“**容器查询 + 构建期 mixin 展开**”的组合：输出仍是原生语法，运行时零成本；
   - 只给需要组件内响应的根元素加 `container-type`，避免过度标记，减少不必要的计算。
+
+### BUG-058: esbuild css minify Unexpected "-1" warnings
+
+- **问题状态**：已关闭 (Closed)
+- **发现日期**：2025-08-11
+- **重现环境**：Vite 开发服务器，执行 `esbuild css minify`
+- **问题现象**：
+  - 构建日志输出 `Unexpected "-1"`、`"-2"`、`"-3"` 警告
+- **根本原因**：
+  - `loaders.css` 中使用了 Sass 风格的父选择器拼接 `&-1`/`&-2`/`&-3`
+  - 原生 CSS / PostCSS Nesting 不支持字符串拼接，esbuild 解析失败
+- **解决方案**：
+  - 将上述选择器替换为独立的 `.c-pulse-dot-1`、`.c-pulse-dot-2`、`.c-pulse-dot-3`
+- **验证结果**：
+  - ✅ `npx stylelint src/styles/components/loaders.css`
+  - ✅ `npm run lint`
+  - ✅ `npm test`
+- **经验总结**：原生 CSS 语法下禁止使用 Sass 选择器拼接，需显式书写完整类名。
