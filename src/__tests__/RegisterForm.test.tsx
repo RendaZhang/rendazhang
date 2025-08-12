@@ -25,14 +25,14 @@ describe('RegisterForm password validation', () => {
     fireEvent.change(screen.getByLabelText(/Username/), {
       target: { value: 'user' }
     });
-    fireEvent.change(screen.getByLabelText('Password', { selector: '#password', exact: false }), {
+    fireEvent.change(screen.getByLabelText(/Password/, { selector: '#password' }), {
       target: { value: 'abc123' }
     });
-    fireEvent.change(screen.getByLabelText('Confirm Password', { exact: false }), {
+    fireEvent.change(screen.getByLabelText(/Confirm Password/), {
       target: { value: 'abc123' }
     });
     fireEvent.click(screen.getByRole('checkbox'));
-    const submitButton = screen.getByRole('button', { name: /Register/, exact: false });
+    const submitButton = screen.getByRole('button', { name: /Register/ });
     fireEvent.click(submitButton);
 
     expect((submitButton as HTMLButtonElement).disabled).toBe(true);
