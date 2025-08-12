@@ -32,7 +32,9 @@ export const REGISTER_CONTENT = {
       emailInvalid: 'Invalid email format',
       usernameTaken: 'Username is already taken',
       passwordMismatch: 'Passwords do not match',
-      agreement: 'Please agree to the terms'
+      agreement: 'Please agree to the terms',
+      passwordInvalid:
+        'Password must be at least 8 characters and include at least two of letters, numbers, or special symbols'
     },
     strength: {
       weak: 'Weak',
@@ -73,7 +75,8 @@ export const REGISTER_CONTENT = {
       emailInvalid: '邮箱格式错误',
       usernameTaken: '用户名已被占用',
       passwordMismatch: '两次密码不一致',
-      agreement: '请勾选同意'
+      agreement: '请勾选同意',
+      passwordInvalid: '密码至少8位，包含字母、数字或特殊符号中的两种'
     },
     strength: {
       weak: '弱',

@@ -9,7 +9,8 @@ import {
 import { useLanguage } from '../../providers';
 import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
-import { useFormValidation } from '../../../hooks';
+import { useFormValidation, usePasswordStrength } from '../../../hooks';
+import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
 import { apiClient } from '../../../services';
 
@@ -22,8 +23,6 @@ interface RegisterFormValues {
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
-
 type RegisterTexts = typeof REGISTER_CONTENT;
 
 interface RegisterFormProps {
@@ -44,7 +43,6 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [strength, setStrength] = useState<PasswordStrength>('');
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [globalError, setGlobalError] = useState<string>('');
@@ -66,7 +64,14 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         return '';
       },
       username: (value) => (!value ? activeTexts.errors?.usernameRequired || '用户名不能为空' : ''),
-      password: (value) => (!value ? activeTexts.errors?.passwordRequired || '密码不能为空' : ''),
+      password: (value) => {
+        if (!value) return activeTexts.errors?.passwordRequired || '密码不能为空';
+        if (!validatePasswordComplexity(value))
+          return (
+            activeTexts.errors?.passwordInvalid || '密码至少8位，包含字母、数字或特殊符号中的两种'
+          );
+        return '';
+      },
       confirm: (value, all) =>
         value !== all.password ? activeTexts.errors?.passwordMismatch || '两次密码不一致' : '',
       agree: (value) => (!value ? activeTexts.errors?.agreement || '请勾选同意' : '')
@@ -95,17 +100,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     }
   }, [email, username]);
 
-  useEffect(() => {
-    if (!password) {
-      setStrength('');
-    } else if (password.length < 8) {
-      setStrength('weak');
-    } else if (/[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password)) {
-      setStrength('strong');
-    } else {
-      setStrength('medium');
-    }
-  }, [password]);
+  const strength = usePasswordStrength(password);
 
   const canSubmit: boolean =
     Boolean(email && username && password && confirm && agree) && Object.keys(errors).length === 0;

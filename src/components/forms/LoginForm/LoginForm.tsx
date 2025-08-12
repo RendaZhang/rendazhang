@@ -5,7 +5,8 @@ import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
-import { useFormValidation } from '../../../hooks';
+import { useFormValidation, usePasswordStrength } from '../../../hooks';
+import { validatePasswordComplexity } from '../../../utils/password';
 import logger from '../../../utils/logger';
 import * as Sentry from '@sentry/react';
 import { getEnv, isProduction } from '../../../utils/env';
@@ -16,8 +17,6 @@ interface LoginFormValues {
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
-
 interface LoginFormProps {
   texts?: typeof LOGIN_CONTENT;
 }
@@ -43,6 +42,10 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       },
       password: (value) => {
         if (!value) return activeTexts.errors?.passwordRequired || '密码不能为空';
+        if (!validatePasswordComplexity(value))
+          return (
+            activeTexts.errors?.passwordInvalid || '密码至少8位，包含字母、数字或特殊符号中的两种'
+          );
         return '';
       }
     }
@@ -51,7 +54,6 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [remember, setRemember] = useState<boolean>(false);
   const [globalError, setGlobalError] = useState<string>('');
-  const [strength, setStrength] = useState<PasswordStrength>('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [placeholders, setPlaceholders] = useState<LoginPlaceholders>({
     email: '',
@@ -63,18 +65,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
     setPlaceholders(ph);
   }, [langKey, texts]);
 
-  useEffect(() => {
-    // password strength
-    if (!password) {
-      setStrength('');
-    } else if (password.length < 6) {
-      setStrength('weak');
-    } else if (password.length < 10) {
-      setStrength('medium');
-    } else {
-      setStrength('strong');
-    }
-  }, [password]);
+  const strength = usePasswordStrength(password);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

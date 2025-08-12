@@ -4,5 +4,6 @@ export * from './heroImages';
 export * from './langUtils';
 export * from './logger';
 export { default as logger } from './logger';
+export * from './password';
 export * from './storage';
 export { default as storage } from './storage';

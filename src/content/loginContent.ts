@@ -21,7 +21,9 @@ export const LOGIN_CONTENT = {
       emailInvalid: 'Invalid email format',
       emailRequired: 'Email is required',
       passwordRequired: 'Password is required',
-      credentials: 'Incorrect username or password'
+      credentials: 'Incorrect username or password',
+      passwordInvalid:
+        'Password must be at least 8 characters and include at least two of letters, numbers, or special symbols'
     },
     passwordToggle: {
       show: 'Show password',
@@ -55,7 +57,8 @@ export const LOGIN_CONTENT = {
       emailInvalid: '邮箱格式错误',
       emailRequired: '邮箱不能为空',
       passwordRequired: '密码不能为空',
-      credentials: '账号或密码错误'
+      credentials: '账号或密码错误',
+      passwordInvalid: '密码至少8位，包含字母、数字或特殊符号中的两种'
     },
     passwordToggle: {
       show: '显示密码',
