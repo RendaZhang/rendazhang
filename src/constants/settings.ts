@@ -48,14 +48,11 @@ export const AUTH_TIMINGS = {
   REGISTER_REDIRECT: 5000,
   REGISTER_PROGRESS_STEP: 33
 } as const;
-
-export const LEGACY_CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
 export const TYPING_INTERVAL = 30;
 
 export const GLOBAL_CONFIG: GlobalConfig = {
   API_BASE_URL,
   ENDPOINTS,
-  LEGACY_CHAT_ENDPOINT,
   TYPING_INTERVAL
 };
 

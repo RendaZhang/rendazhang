@@ -11,6 +11,7 @@ import { REGISTER_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { storage } from '../../../utils';
+import { apiClient } from '../../../services';
 
 interface RegisterFormValues {
   email: string;
@@ -20,7 +21,7 @@ interface RegisterFormValues {
   agree: boolean;
 }
 
-type FormStatus = 'idle' | 'loading' | 'success';
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 type PasswordStrength = '' | 'weak' | 'medium' | 'strong';
 
 type RegisterTexts = typeof REGISTER_CONTENT;
@@ -46,6 +47,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const [strength, setStrength] = useState<PasswordStrength>('');
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [globalError, setGlobalError] = useState<string>('');
   const [placeholders, setPlaceholders] = useState<RegisterPlaceholders>({
     email: '',
     username: '',
@@ -113,17 +115,25 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     if (!validateAll()) return;
     setStatus('loading');
     setProgress(0);
+    setGlobalError('');
     const step = AUTH_TIMINGS.REGISTER_PROGRESS_STEP;
     const i = setInterval(() => {
-      setProgress((p) => Math.min(100, p + step));
+      setProgress((p) => Math.min(90, p + step));
     }, AUTH_TIMINGS.REGISTER_PROGRESS_INTERVAL);
-    await new Promise((r) => setTimeout(r, AUTH_TIMINGS.REGISTER_PROGRESS_TOTAL));
-    clearInterval(i);
-    setProgress(100);
-    setStatus('success');
-    setTimeout(() => {
-      window.location.href = LOGIN_PAGE_PATH;
-    }, AUTH_TIMINGS.REGISTER_REDIRECT);
+    try {
+      await apiClient.auth.register({ email, password, display_name: username });
+      clearInterval(i);
+      setProgress(100);
+      setStatus('success');
+      setTimeout(() => {
+        window.location.href = LOGIN_PAGE_PATH;
+      }, AUTH_TIMINGS.REGISTER_REDIRECT);
+    } catch (err) {
+      clearInterval(i);
+      setStatus('error');
+      setGlobalError((err as Error).message);
+      // TODO: Localize backend error messages based on error codes.
+    }
   };
 
   const passwordStrengthClass = strength
@@ -136,6 +146,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         <h1 className="c-register-title">
           <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
         </h1>
+        {globalError && <div className="c-global-error">{globalError}</div>}
         <div className="c-form-group">
           <label htmlFor="email" className="c-form-label">
             <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />

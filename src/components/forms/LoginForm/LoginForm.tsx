@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
+import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
@@ -80,8 +81,8 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
     if (!validateAll()) return;
     try {
       setStatus('loading');
-      // fake async login
-      await new Promise((res) => setTimeout(res, AUTH_TIMINGS.LOGIN_REQUEST));
+      setGlobalError('');
+      await apiClient.auth.login({ identifier: email.trim(), password });
       setStatus('success');
       setTimeout(() => {
         window.location.href = HOME_PAGE_PATH + '/';

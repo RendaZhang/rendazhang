@@ -4,24 +4,43 @@ import type {
   ChatSendMessageRequest,
   ChatSendMessageResponse,
   ResetChatRequest,
-  ResetChatResponse
+  ResetChatResponse,
+  AuthLoginRequest,
+  AuthLoginResponse,
+  AuthRegisterRequest,
+  AuthRegisterResponse,
+  AuthLogoutRequest,
+  AuthLogoutResponse,
+  AuthMeResponse,
+  AuthPasswordForgotRequest,
+  AuthPasswordForgotResponse,
+  AuthPasswordResetRequest,
+  AuthPasswordResetResponse,
+  AuthHealthzResponse
 } from '../types';
 
 async function request<TResponse>(url: string, options: RequestInit = {}): Promise<TResponse> {
   try {
     const response = await fetch(url, {
       headers: { ...JSON_HEADERS, ...(options.headers || {}) },
+      credentials: 'include',
       ...options
     });
+
+    const data = (await response.json().catch(() => ({}))) as TResponse & { error?: string };
+
     if (!response.ok) {
-      const error = new Error(`Request failed: ${response.status}`);
+      const error = new Error(
+        data && (data as any).error ? (data as any).error : `Request failed: ${response.status}`
+      );
       Sentry.captureException(error, {
         tags: { url },
         extra: { options }
       });
       throw error;
     }
-    return response.json() as Promise<TResponse>;
+
+    return data as TResponse;
   } catch (error) {
     Sentry.captureException(error, {
       tags: { url },
@@ -45,6 +64,41 @@ const apiClient = {
         headers: JSON_HEADERS,
         body: JSON.stringify(payload)
       })
+  },
+  auth: {
+    register: (payload: AuthRegisterRequest): Promise<AuthRegisterResponse> =>
+      request<AuthRegisterResponse>(ENDPOINTS.AUTH.REGISTER, {
+        method: 'POST',
+        headers: JSON_HEADERS,
+        body: JSON.stringify(payload)
+      }),
+    login: (payload: AuthLoginRequest): Promise<AuthLoginResponse> =>
+      request<AuthLoginResponse>(ENDPOINTS.AUTH.LOGIN, {
+        method: 'POST',
+        headers: JSON_HEADERS,
+        body: JSON.stringify(payload)
+      }),
+    logout: (payload: AuthLogoutRequest = {}): Promise<AuthLogoutResponse> =>
+      request<AuthLogoutResponse>(ENDPOINTS.AUTH.LOGOUT, {
+        method: 'POST',
+        headers: JSON_HEADERS,
+        body: JSON.stringify(payload)
+      }),
+    me: (): Promise<AuthMeResponse> => request<AuthMeResponse>(ENDPOINTS.AUTH.ME),
+    passwordForgot: (payload: AuthPasswordForgotRequest): Promise<AuthPasswordForgotResponse> =>
+      request<AuthPasswordForgotResponse>(ENDPOINTS.AUTH.PASSWORD_FORGOT, {
+        method: 'POST',
+        headers: JSON_HEADERS,
+        body: JSON.stringify(payload)
+      }),
+    passwordReset: (payload: AuthPasswordResetRequest): Promise<AuthPasswordResetResponse> =>
+      request<AuthPasswordResetResponse>(ENDPOINTS.AUTH.PASSWORD_RESET, {
+        method: 'POST',
+        headers: JSON_HEADERS,
+        body: JSON.stringify(payload)
+      }),
+    healthz: (): Promise<AuthHealthzResponse> =>
+      request<AuthHealthzResponse>(ENDPOINTS.AUTH.HEALTHZ)
   },
   request
 };

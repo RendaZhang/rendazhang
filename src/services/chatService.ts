@@ -10,7 +10,8 @@ export async function sendMessageToAI(
     const response = await fetch(ENDPOINTS.CHAT, {
       method: 'POST',
       headers: JSON_HEADERS,
-      body: JSON.stringify({ message: userInput })
+      body: JSON.stringify({ message: userInput }),
+      credentials: 'include'
     });
 
     if (!response.ok) {
@@ -59,7 +60,8 @@ export async function resetChat(): Promise<boolean> {
     const response = await fetch(ENDPOINTS.RESET, {
       method: 'POST',
       headers: JSON_HEADERS,
-      body: JSON.stringify({})
+      body: JSON.stringify({}),
+      credentials: 'include'
     });
 
     if (!response.ok) {
