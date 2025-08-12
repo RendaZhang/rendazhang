@@ -30,9 +30,8 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
     const data = (await response.json().catch(() => ({}))) as TResponse & { error?: string };
 
     if (!response.ok) {
-      const error = new Error(
-        data && (data as any).error ? (data as any).error : `Request failed: ${response.status}`
-      );
+      const errorMessage = data.error ?? `Request failed: ${response.status}`;
+      const error = new Error(errorMessage);
       Sentry.captureException(error, {
         tags: { url },
         extra: { options }
