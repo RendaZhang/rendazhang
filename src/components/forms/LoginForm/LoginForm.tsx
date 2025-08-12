@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { HOME_PAGE_PATH, REGISTER_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
+import {
+  HOME_PAGE_PATH,
+  REGISTER_PAGE_PATH,
+  LOADING_TEXT,
+  AUTH_TIMINGS,
+  LOGIN_IDENTIFIER_KEY
+} from '../../../constants';
 import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
+import { storage } from '../../../utils';
 import logger from '../../../utils/logger';
 import * as Sentry from '@sentry/react';
 import { getEnv, isProduction } from '../../../utils/env';
@@ -61,6 +68,14 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   });
 
   useEffect(() => {
+    const saved = storage.get<string>(LOGIN_IDENTIFIER_KEY);
+    if (saved) {
+      handleChange('email', saved);
+      setRemember(true);
+    }
+  }, []);
+
+  useEffect(() => {
     const ph = (texts[langKey] && texts[langKey].placeholders) || {};
     setPlaceholders(ph);
   }, [langKey, texts]);
@@ -74,6 +89,11 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       setStatus('loading');
       setGlobalError('');
       await apiClient.auth.login({ identifier: email.trim(), password });
+      if (remember) {
+        storage.set(LOGIN_IDENTIFIER_KEY, email.trim());
+      } else {
+        storage.remove(LOGIN_IDENTIFIER_KEY);
+      }
       setStatus('success');
       setTimeout(() => {
         window.location.href = HOME_PAGE_PATH + '/';
