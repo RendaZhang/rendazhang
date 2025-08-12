@@ -13,7 +13,7 @@
 # ADR 002: Service Layer Abstraction
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 09:41 (UTC+08:00)
+- **最后更新**: August 13, 2025, 06:59 (UTC+08:00)
 
 ---
 
@@ -34,6 +34,8 @@ API requests were scattered across UI components which made error handling and m
 Introduce a dedicated service layer and API client utility. All network requests are centralized in `src/services` and constants such as API endpoints are defined in `src/constants/api.ts`.
 
 Common HTTP logic lives in `apiClient.request`, which wraps `fetch` and throws descriptive errors on failure.
+
+`apiClient` sends requests with `credentials: 'include'`, so user authentication relies on HTTP-only cookies. Client-side token storage and the former `authService` have been removed.
 
 The base URL can be overridden per environment by setting `PUBLIC_API_BASE_URL` in a `.env` file. Errors are automatically reported to Sentry inside `apiClient.request` for centralized monitoring.
 
