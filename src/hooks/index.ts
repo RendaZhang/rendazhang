@@ -7,3 +7,5 @@ export * from './useFormValidation';
 export { default as useFormValidation } from './useFormValidation';
 export * from './useMarkdownPipeline';
 export { default as useMarkdownPipeline } from './useMarkdownPipeline';
+export * from './usePasswordStrength';
+export { default as usePasswordStrength } from './usePasswordStrength';
