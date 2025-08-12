@@ -3,7 +3,6 @@ export * from './components';
 export * from './constants';
 export * from './content';
 export * from './data';
-export * from './features';
 export * from './hooks';
 export * from './layouts';
 export * from './models';
