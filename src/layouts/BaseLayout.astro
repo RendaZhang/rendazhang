@@ -18,6 +18,7 @@ import {
   TWITTER_HANDLE,
   LANG_STORAGE_KEY,
   THEME_STORAGE_KEY,
+  LOGIN_STATE_KEY,
   STYLE_PATHS
 } from '../constants';
 import { isProduction } from '../utils/env';
@@ -153,6 +154,7 @@ const twitterProps = { ...twitterDefaults, ...twitter };
       src="/js/base-layout-init.js"
       data-theme-key={THEME_STORAGE_KEY}
       data-lang-key={LANG_STORAGE_KEY}
+      data-login-key={LOGIN_STATE_KEY}
       data-title-zh={effectiveTitleZh}
       data-title-en={effectiveTitleEn}
       data-is-prod={IS_PROD}></script>

@@ -2,7 +2,7 @@
 // Loads before rendering to apply stored theme, language and title preferences.
 (() => {
   const dataset = document.currentScript?.dataset || {};
-  const { themeKey = '', langKey = '', titleZh = '', titleEn = '', isProd = 'true' } = dataset;
+  const { themeKey = '', langKey = '', titleZh = '', titleEn = '', isProd = 'true', loginKey = '' } = dataset;
 
   const isProduction = isProd === 'true';
   const log = (...args) => {
@@ -107,13 +107,25 @@
     }
   };
 
+  const initAuth = () => {
+    try {
+      const logged = win.__storageHelper.get(loginKey);
+      document.documentElement.dataset.loggedIn = logged ? 'true' : 'false';
+    } catch (e) {
+      console.error('BaseLayout script: Auth init failed', e);
+      document.documentElement.dataset.loggedIn = 'false';
+    }
+  };
+
   try {
     initTheme();
     initLang();
     initTitle();
+    initAuth();
   } catch (e) {
     console.error('Initialization failed', e);
     document.documentElement.dataset.initialTheme = 'light';
     document.documentElement.dataset.initialLang = 'zh-CN';
+    document.documentElement.dataset.loggedIn = 'false';
   }
 })();

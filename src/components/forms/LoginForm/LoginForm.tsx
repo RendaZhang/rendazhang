@@ -6,6 +6,7 @@ import {
   LOADING_TEXT,
   AUTH_TIMINGS,
   LOGIN_IDENTIFIER_KEY,
+  LOGIN_STATE_KEY,
   FORGOT_PASSWORD_PAGE_PATH
 } from '../../../constants';
 import { apiClient } from '../../../services';
@@ -88,6 +89,10 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       setStatus('loading');
       setGlobalError('');
       await apiClient.auth.login({ identifier: email.trim(), password });
+      storage.set(LOGIN_STATE_KEY, true);
+      if (typeof document !== 'undefined') {
+        document.documentElement.dataset.loggedIn = 'true';
+      }
       if (remember) {
         storage.set(LOGIN_IDENTIFIER_KEY, email.trim());
       } else {

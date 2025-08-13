@@ -10,6 +10,7 @@ export const THEME_STORAGE_KEY = 'preferred_theme';
 export const LANG_STORAGE_KEY = 'preferred_lang';
 export const REGISTER_DRAFT_KEY = 'register_draft';
 export const LOGIN_IDENTIFIER_KEY = 'login_identifier';
+export const LOGIN_STATE_KEY = 'logged_in';
 
 export const MAX_TOKENS = 15000;
 export const AVG_WORD_LENGTH = 4;

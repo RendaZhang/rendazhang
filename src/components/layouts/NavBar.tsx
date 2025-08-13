@@ -23,7 +23,7 @@ import HamburgerMenu from './HamburgerMenu';
 export default function NavBar(): ReactElement {
   // 不再根据当前语言只渲染一种文本，避免刷新时语言切换产生闪烁
   const { lang } = useLanguage();
-  const { isLoggedIn, logout } = useAuth();
+  const { logout } = useAuth();
   const textsEn = NAV_CONTENT.en;
   const textsZh = NAV_CONTENT.zh;
   const [showConfirm, setShowConfirm] = useState(false);
@@ -60,43 +60,36 @@ export default function NavBar(): ReactElement {
         <div className="c-nav-right">
           <LanguageSelector />
           <ThemeToggle />
-          {isLoggedIn ? (
-            <>
-              <button
-                type="button"
-                onClick={openLogoutDialog}
-                aria-label={lang === 'en' ? textsEn.logout : textsZh.logout}
-                className="c-avatar-link c-logout-link"
-              >
-                <LogoutIcon />
-              </button>
-              <ConfirmDialog
-                isOpen={showConfirm}
-                message={
-                  <LocalizedSection
-                    zhContent={textsZh.logoutConfirm}
-                    enContent={textsEn.logoutConfirm}
-                  />
-                }
-                confirmLabel={
-                  <LocalizedSection zhContent={textsZh.logout} enContent={textsEn.logout} />
-                }
-                cancelLabel={
-                  <LocalizedSection zhContent={textsZh.cancel} enContent={textsEn.cancel} />
-                }
-                onConfirm={handleLogout}
-                onCancel={closeLogoutDialog}
+          <a
+            href={LOGIN_PAGE_PATH}
+            aria-label={lang === 'en' ? textsEn.login : textsZh.login}
+            className="c-avatar-link c-login-link"
+          >
+            <AvatarIcon />
+          </a>
+          <button
+            type="button"
+            onClick={openLogoutDialog}
+            aria-label={lang === 'en' ? textsEn.logout : textsZh.logout}
+            className="c-avatar-link c-logout-link"
+          >
+            <LogoutIcon />
+          </button>
+          <ConfirmDialog
+            isOpen={showConfirm}
+            message={
+              <LocalizedSection
+                zhContent={textsZh.logoutConfirm}
+                enContent={textsEn.logoutConfirm}
               />
-            </>
-          ) : (
-            <a
-              href={LOGIN_PAGE_PATH}
-              aria-label={lang === 'en' ? textsEn.login : textsZh.login}
-              className="c-avatar-link"
-            >
-              <AvatarIcon />
-            </a>
-          )}
+            }
+            confirmLabel={
+              <LocalizedSection zhContent={textsZh.logout} enContent={textsEn.logout} />
+            }
+            cancelLabel={<LocalizedSection zhContent={textsZh.cancel} enContent={textsEn.cancel} />}
+            onConfirm={handleLogout}
+            onCancel={closeLogoutDialog}
+          />
         </div>
       </nav>
     </div>

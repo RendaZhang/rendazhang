@@ -65,13 +65,14 @@
     - [BUG-057: Navigation container queries using `var()` ignored](#bug-057-navigation-container-queries-using-var-ignored)
     - [BUG-058: esbuild css minify Unexpected "-1" warnings](#bug-058-esbuild-css-minify-unexpected--1-warnings)
     - [BUG-059: Automatic 401 redirect causes endless login loop](#bug-059-automatic-401-redirect-causes-endless-login-loop)
+    - [BUG-060: NavBar login icon flickers before auth check](#bug-060-navbar-login-icon-flickers-before-auth-check)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 14, 2025, 03:53 (UTC+08:00)
+- **最后更新**: August 14, 2025, 07:40 (UTC+08:00)
 
 ---
 
@@ -1252,3 +1253,19 @@
   - 为请求添加 `skipAuthRedirect` 选项，并在 `auth.me` 中启用以避免初始检查触发跳转
 - **验证结果**：✅ 未登录访问页面不再无限重定向
 - **经验总结**：身份探测类请求需跳过全局 401 重定向，以防止页面级循环。
+
+### BUG-060: NavBar login icon flickers before auth check
+
+- **问题状态**：已解决 (Resolved)
+- **发现日期**：2025-08-14
+- **重现环境**：Chrome 最新版，已登录状态
+- **问题现象**：
+  - 已登录用户刷新页面时，导航栏先短暂显示默认人像图标，随后才切换为登出图标
+- **根本原因**：
+  - 首屏渲染时无法立即获知登录状态，导致初始 DOM 使用未登录样式，水合后才更新
+- **解决方案**：
+  - 登录成功后写入本地 `LOGIN_STATE_KEY` 标记，`BaseLayout` 初始化脚本在渲染前读取并设置 `data-logged-in`
+  - `AuthProvider` 以该标记作为初始值并在 `/auth/me` 校验后同步状态与 DOM 属性
+  - 同时渲染登录与登出图标，使用 CSS 基于 `data-logged-in` 切换可见性
+- **验证结果**：✅ 已登录状态下刷新页面不再出现图标闪烁
+- **经验总结**：需在服务端渲染阶段对关键状态进行预置，避免客户端校验造成的 UI 闪烁

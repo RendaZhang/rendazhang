@@ -1,6 +1,7 @@
 // Markdown libraries expected to be loaded globally
 import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
-import logger from '../utils/logger';
+import { LOGIN_STATE_KEY } from '../constants';
+import { storage, logger } from '../utils';
 
 export async function sendMessageToAI(
   userInput: string,
@@ -15,6 +16,8 @@ export async function sendMessageToAI(
     });
 
     if (response.status === 401) {
+      storage.remove(LOGIN_STATE_KEY);
+      document.documentElement.dataset.loggedIn = 'false';
       window.location.href = '/login';
       throw new Error('Unauthorized');
     }
@@ -70,6 +73,8 @@ export async function resetChat(): Promise<boolean> {
     });
 
     if (response.status === 401) {
+      storage.remove(LOGIN_STATE_KEY);
+      document.documentElement.dataset.loggedIn = 'false';
       window.location.href = '/login';
       throw new Error('Unauthorized');
     }

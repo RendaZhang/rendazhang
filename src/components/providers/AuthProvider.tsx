@@ -7,7 +7,8 @@ import {
   type ReactElement
 } from 'react';
 import { apiClient } from '../../services';
-import logger from '../../utils/logger';
+import { storage, logger } from '../../utils';
+import { LOGIN_STATE_KEY } from '../../constants';
 import * as Sentry from '@sentry/react';
 
 interface AuthContextValue {
@@ -22,13 +23,23 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps): ReactElement {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(storage.get(LOGIN_STATE_KEY));
+  });
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.loggedIn = isLoggedIn ? 'true' : 'false';
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const init = async () => {
       try {
         await apiClient.auth.me();
         setIsLoggedIn(true);
+        storage.set(LOGIN_STATE_KEY, true);
       } catch (e) {
         const status = (e as { status?: number }).status;
         if (status !== 401) {
@@ -36,6 +47,7 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
           Sentry.captureException(e);
         }
         setIsLoggedIn(false);
+        storage.remove(LOGIN_STATE_KEY);
       }
     };
     init();
@@ -49,6 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
       Sentry.captureException(e);
     } finally {
       setIsLoggedIn(false);
+      storage.remove(LOGIN_STATE_KEY);
     }
   };
 

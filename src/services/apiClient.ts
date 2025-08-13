@@ -1,5 +1,6 @@
 import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
-import * as Sentry from '@sentry/react';
+import { LOGIN_STATE_KEY } from '../constants';
+import { storage } from '../utils';
 import type {
   ChatSendMessageRequest,
   ChatSendMessageResponse,
@@ -21,8 +22,8 @@ import type {
 
 /**
  * Removes sensitive or non-serializable fields from request options before
- * sending them to logging systems such as Sentry. This prevents leaking
- * authentication tokens or large payload bodies.
+ * sending them to logging systems. This prevents leaking authentication
+ * tokens or large payload bodies.
  *
  * - Strips the `Authorization` header if present.
  * - Omits the `body` property entirely.
@@ -68,7 +69,7 @@ function sanitizeOptions(options: RequestInit): Record<string, unknown> {
  *   headers.
  * - Parses the JSON response and throws an `Error` with status information when
  *   the response is not OK.
- * - Any captured errors are reported to Sentry with sanitized options.
+ * - Any captured errors needed to be reported with sanitized options.
  *
  * @param url - Endpoint to request.
  * @param options - Additional `fetch` options.
@@ -106,14 +107,18 @@ async function request<TResponse>(url: string, options: RequestOptions = {}): Pr
       };
       error.status = response.status;
       if (data.error) error.error = data.error;
-      const sanitizedOptions = sanitizeOptions(options);
-      Sentry.captureException(error, {
-        tags: { url },
-        extra: { options: sanitizedOptions }
-      });
-      if (response.status === 401 && url !== ENDPOINTS.AUTH.LOGIN && !options.skipAuthRedirect) {
+      // const sanitizedOptions = sanitizeOptions(options);
+      // Sentry.captureException(error, {
+      //   tags: { url },
+      //   extra: { options: sanitizedOptions }
+      // });
+      if (response.status === 401) {
         if (typeof window !== 'undefined') {
-          window.location.href = '/login';
+          storage.remove(LOGIN_STATE_KEY);
+          document.documentElement.dataset.loggedIn = 'false';
+          if (url !== ENDPOINTS.AUTH.LOGIN && !options.skipAuthRedirect) {
+            window.location.href = '/login';
+          }
         }
       }
       throw error;
@@ -129,10 +134,10 @@ async function request<TResponse>(url: string, options: RequestOptions = {}): Pr
       err.error = 'network';
     }
     const sanitizedOptions = sanitizeOptions(options);
-    Sentry.captureException(err, {
-      tags: { url },
-      extra: { options: sanitizedOptions }
-    });
+    // Sentry.captureException(err, {
+    //   tags: { url },
+    //   extra: { options: sanitizedOptions }
+    // });
     throw err;
   }
 }

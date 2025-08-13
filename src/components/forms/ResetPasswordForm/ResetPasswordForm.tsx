@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { LOGIN_PAGE_PATH, LOADING_TEXT, FORGOT_PASSWORD_PAGE_PATH } from '../../../constants';
+import {
+  LOGIN_PAGE_PATH,
+  LOADING_TEXT,
+  FORGOT_PASSWORD_PAGE_PATH,
+  LOGIN_STATE_KEY
+} from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { apiClient } from '../../../services';
+import { storage } from '../../../utils';
 
 interface ResetFormValues {
   password: string;
@@ -93,8 +99,12 @@ export default function ResetPasswordForm() {
   // 保存从 URL 中解析出的 token；undefined 表示尚未解析，空字符串表示无效
   const [token, setToken] = useState<string | undefined>(undefined);
 
-  // 初始化时从地址栏读取 token
+  // 初始化时清理登录标记并从地址栏读取 token
   useEffect(() => {
+    storage.remove(LOGIN_STATE_KEY);
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.loggedIn = 'false';
+    }
     const params = new URLSearchParams(window.location.search);
     const t = params.get('token');
     setToken(t || '');

@@ -52,6 +52,20 @@ nav {
     padding: var(--space-1);
   }
 
+  .c-logout-link {
+    display: none;
+  }
+
+  html[data-logged-in='true'] & {
+    .c-login-link {
+      display: none;
+    }
+
+    .c-logout-link {
+      display: flex;
+    }
+  }
+
   a,
   button:not(.c-theme-option) {
     background: none;
