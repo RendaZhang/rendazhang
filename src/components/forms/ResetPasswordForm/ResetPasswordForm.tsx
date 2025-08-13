@@ -72,6 +72,15 @@ const TEXTS = {
   }
 } as const;
 
+/**
+ * 重置密码表单组件。
+ *
+ * 负责：
+ * - 从 URL 解析重置令牌
+ * - 校验密码输入
+ * - 调用后端接口重置密码
+ * - 根据状态渲染成功、错误或重新发送邮件等视图
+ */
 export default function ResetPasswordForm() {
   const { lang } = useLanguage();
   const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
@@ -79,14 +88,17 @@ export default function ResetPasswordForm() {
   const textsEn = TEXTS.en;
   const activeTexts = TEXTS[langKey];
 
+  // 保存从 URL 中解析出的 token；undefined 表示尚未解析，空字符串表示无效
   const [token, setToken] = useState<string | undefined>(undefined);
 
+  // 初始化时从地址栏读取 token
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get('token');
     setToken(t || '');
   }, []);
 
+  // 表单验证：校验密码复杂度以及确认密码是否一致
   const { values, errors, handleChange, validateAll } = useFormValidation<ResetFormValues>(
     { password: '', confirm: '' },
     {
@@ -103,19 +115,24 @@ export default function ResetPasswordForm() {
 
   const { password, confirm } = values;
   const [showPassword, setShowPassword] = useState(false);
+  // 控制密码显示或隐藏
   const togglePassword = (): void => setShowPassword((v) => !v);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [globalError, setGlobalError] = useState('');
+  // 计算密码强度及对应的展示样式
   const strength = usePasswordStrength(password);
   const passwordStrengthClass = strength
     ? `c-password-strength is-${strength}`
     : 'c-password-strength';
+  // 统计密码包含的字符种类数量，用于显示提示
   const classCount =
     Number(/[A-Za-z]/.test(password)) +
     Number(/\d/.test(password)) +
     Number(/[^A-Za-z0-9]/.test(password));
+  // 是否满足提交条件：密码复杂度符合且两次输入一致
   const canSubmit = validatePasswordComplexity(password) && password === confirm;
 
+  /** 提交表单并调用重置密码 API */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!validateAll()) return;
@@ -131,8 +148,11 @@ export default function ResetPasswordForm() {
     } catch (err) {
       const { error: apiError, message } = err as { error?: string; message?: string };
       if (apiError?.includes('Token')) {
-        setGlobalError(activeTexts.errors.tokenMissing);
-      } else if (apiError?.includes('weak password')) {
+        // API 表示 token 无效时，清空 token 以触发重新发送邮件的界面
+        setToken('');
+        return;
+      }
+      if (apiError?.includes('weak password')) {
         setGlobalError(activeTexts.errors.passwordInvalid);
       } else {
         setGlobalError(message || activeTexts.errors.default);
@@ -141,8 +161,10 @@ export default function ResetPasswordForm() {
     }
   };
 
+  // token 尚未解析时不渲染内容，避免闪烁
   if (token === undefined) return null;
 
+  // token 为空视为链接无效或已过期，展示重新发送邮件按钮
   if (!token) {
     return (
       <div className="c-login-container">
@@ -161,6 +183,7 @@ export default function ResetPasswordForm() {
     );
   }
 
+  // 重置成功后展示成功提示及登录入口
   if (status === 'success') {
     return (
       <div className="c-login-container">

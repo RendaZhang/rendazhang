@@ -74,7 +74,7 @@ describe('ResetPasswordForm', () => {
     });
   });
 
-  it('shows invalid link message on token error', async () => {
+  it('shows resend button on token error', async () => {
     setToken('abc');
     vi.mocked(apiClient.auth.passwordReset).mockRejectedValue({
       error: 'Token invalid or expired'
@@ -87,7 +87,7 @@ describe('ResetPasswordForm', () => {
       target: { value: 'Abcd1234!' }
     });
     fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
-    const errorMsg = await screen.findByText('Invalid or expired link');
-    expect(errorMsg).toBeTruthy();
+    const resendBtn = await screen.findByRole('link', { name: /Resend email/ });
+    expect(resendBtn).toBeTruthy();
   });
 });
