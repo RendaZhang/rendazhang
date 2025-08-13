@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import {
   LOGIN_PAGE_PATH,
   LOADING_TEXT,
@@ -46,7 +46,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const togglePassword = (): void => setShowPassword((v) => !v);
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<FormStatus>('idle');
-  const [globalError, setGlobalError] = useState<string>('');
+  const [globalError, setGlobalError] = useState<ReactNode>('');
   const [placeholders, setPlaceholders] = useState<RegisterPlaceholders>({
     email: '',
     username: '',
@@ -144,10 +144,29 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         error?: string;
         message: string;
       };
-      const authTexts = AUTH_ERROR_CONTENT[langKey] || {};
-      const key = (status ?? code ?? 'default').toString();
-      const localized = authTexts[key as keyof typeof authTexts] || authTexts.default || message;
-      setGlobalError(localized);
+      if (status === 409) {
+        setGlobalError(
+          <LocalizedSection
+            zhContent={
+              <>
+                {textsZh.emailTakenPrefix}
+                <a href={LOGIN_PAGE_PATH}>{textsZh.loginNow}</a>
+              </>
+            }
+            enContent={
+              <>
+                {textsEn.emailTakenPrefix}
+                <a href={LOGIN_PAGE_PATH}>{textsEn.loginNow}</a>
+              </>
+            }
+          />
+        );
+      } else {
+        const authTexts = AUTH_ERROR_CONTENT[langKey] || {};
+        const key = (status ?? code ?? 'default').toString();
+        const localized = authTexts[key as keyof typeof authTexts] || authTexts.default || message;
+        setGlobalError(localized);
+      }
     }
   };
 
