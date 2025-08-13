@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('../components/providers', () => ({
   useLanguage: () => ({ lang: 'en' })
@@ -15,6 +15,10 @@ vi.mock('../services', () => ({
 
 import RegisterForm from '../components/forms/RegisterForm/RegisterForm';
 import { apiClient } from '../services';
+
+beforeEach(() => {
+  vi.mocked(apiClient.auth.register).mockClear();
+});
 
 describe('RegisterForm password validation', () => {
   it('shows weak label and prevents submission for weak password', async () => {
@@ -39,5 +43,34 @@ describe('RegisterForm password validation', () => {
     expect(apiClient.auth.register).not.toHaveBeenCalled();
     const strength = await screen.findByText('Weak');
     expect(strength).toBeTruthy();
+  });
+});
+
+describe('RegisterForm data normalization', () => {
+  it('normalizes email and username before submission', async () => {
+    render(<RegisterForm />);
+    fireEvent.change(screen.getByLabelText(/Email/), {
+      target: { value: 'Test@Example.com' }
+    });
+    fireEvent.change(screen.getByLabelText(/Username/), {
+      target: { value: '  user  ' }
+    });
+    fireEvent.change(screen.getByLabelText(/Password/, { selector: '#password' }), {
+      target: { value: 'Abcdef12!' }
+    });
+    fireEvent.change(screen.getByLabelText(/Confirm Password/), {
+      target: { value: 'Abcdef12!' }
+    });
+    fireEvent.click(screen.getByRole('checkbox'));
+    const form = document.querySelector('form');
+    fireEvent.submit(form as HTMLFormElement);
+
+    await waitFor(() =>
+      expect(apiClient.auth.register).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'Abcdef12!',
+        display_name: 'user'
+      })
+    );
   });
 });

@@ -117,7 +117,13 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
       setProgress((p) => Math.min(90, p + step));
     }, AUTH_TIMINGS.REGISTER_PROGRESS_INTERVAL);
     try {
-      await apiClient.auth.register({ email, password, display_name: username });
+      const emailNormalized = email.trim().toLowerCase();
+      const usernameNormalized = username.trim();
+      await apiClient.auth.register({
+        email: emailNormalized,
+        password,
+        display_name: usernameNormalized
+      });
       clearInterval(i);
       setProgress(100);
       storage.remove(REGISTER_DRAFT_KEY);
