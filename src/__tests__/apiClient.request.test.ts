@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('@sentry/react', () => ({ captureException: vi.fn() }));
-import * as Sentry from '@sentry/react';
 import apiClient from '../services/apiClient';
 
 describe('apiClient request', () => {
