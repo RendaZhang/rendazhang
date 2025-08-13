@@ -119,6 +119,10 @@ export default function ResetPasswordForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!validateAll()) return;
+    if (!token) {
+      setGlobalError(activeTexts.errors.tokenMissing);
+      return;
+    }
     try {
       setStatus('loading');
       setGlobalError('');
@@ -251,12 +255,10 @@ export default function ResetPasswordForm() {
         <button
           type="submit"
           className="c-btn-primary u-w-100 c-form-submit"
-          disabled={status === 'loading' || status === 'success' || !canSubmit}
+          disabled={status === 'loading' || !canSubmit}
         >
           {status === 'loading' ? (
             <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
-          ) : status === 'success' ? (
-            <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
           ) : (
             <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
           )}
