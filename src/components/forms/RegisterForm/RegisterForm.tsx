@@ -126,6 +126,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
       }, AUTH_TIMINGS.REGISTER_REDIRECT);
     } catch (err) {
       clearInterval(i);
+      setProgress(0);
       setStatus('error');
       const {
         status,
