@@ -131,6 +131,9 @@ export default function ForgotPasswordForm() {
             <LocalizedSection zhContent={textsZh.submitButton} enContent={textsEn.submitButton} />
           )}
         </button>
+        <div className="u-text-center c-form-alt">
+          <a href={LOGIN_PAGE_PATH}>{texts.back}</a>
+        </div>
       </form>
     </div>
   );
