@@ -90,4 +90,22 @@ describe('ResetPasswordForm', () => {
     const resendBtn = await screen.findByRole('link', { name: /Resend email/ });
     expect(resendBtn).toBeTruthy();
   });
+
+  it('shows network error message', async () => {
+    setToken('abc');
+    vi.mocked(apiClient.auth.passwordReset).mockRejectedValue({
+      message: 'Network',
+      error: 'network'
+    });
+    render(<ResetPasswordForm />);
+    fireEvent.change(screen.getByLabelText(/New Password/), {
+      target: { value: 'Abcd1234!' }
+    });
+    fireEvent.change(screen.getByLabelText(/Confirm Password/), {
+      target: { value: 'Abcd1234!' }
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
+    const errorMsg = await screen.findByText('Network error, please try again later');
+    expect(errorMsg).toBeTruthy();
+  });
 });

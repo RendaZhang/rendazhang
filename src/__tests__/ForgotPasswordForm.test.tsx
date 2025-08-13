@@ -45,4 +45,18 @@ describe('ForgotPasswordForm', () => {
     expect(error).toBeTruthy();
     expect(apiClient.auth.passwordForgot).not.toHaveBeenCalled();
   });
+
+  it('shows network error message', async () => {
+    vi.mocked(apiClient.auth.passwordForgot).mockRejectedValue({
+      message: 'Network',
+      error: 'network'
+    });
+    render(<ForgotPasswordForm />);
+    fireEvent.change(screen.getByLabelText(/Email/), {
+      target: { value: 'user@example.com' }
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Send Reset Email/ }));
+    const errorMsg = await screen.findByText('Network error, please try again later');
+    expect(errorMsg).toBeTruthy();
+  });
 });

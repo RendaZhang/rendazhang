@@ -30,6 +30,7 @@ const TEXTS = {
       passwordInvalid: '密码需8–128位，并包含字母/数字/特殊字符中的至少两类',
       passwordMismatch: '两次密码不一致',
       tokenMissing: '链接无效或已过期',
+      network: '网络错误，请稍后重试',
       default: '重置失败'
     },
     strength: {
@@ -58,6 +59,7 @@ const TEXTS = {
         'Password must be 8–128 characters and include at least two of letters, numbers or symbols',
       passwordMismatch: 'Passwords do not match',
       tokenMissing: 'Invalid or expired link',
+      network: 'Network error, please try again later',
       default: 'Reset failed'
     },
     strength: {
@@ -147,12 +149,13 @@ export default function ResetPasswordForm() {
       setStatus('success');
     } catch (err) {
       const { error: apiError, message } = err as { error?: string; message?: string };
-      if (apiError?.includes('Token')) {
+      if (apiError === 'network') {
+        setGlobalError(activeTexts.errors.network);
+      } else if (apiError?.includes('Token')) {
         // API 表示 token 无效时，清空 token 以触发重新发送邮件的界面
         setToken('');
         return;
-      }
-      if (apiError?.includes('weak password')) {
+      } else if (apiError?.includes('weak password')) {
         setGlobalError(activeTexts.errors.passwordInvalid);
       } else {
         setGlobalError(message || activeTexts.errors.default);

@@ -22,6 +22,7 @@ const TEXTS = {
     errors: {
       emailRequired: '邮箱不能为空',
       emailInvalid: '邮箱格式不正确',
+      network: '网络错误，请稍后重试',
       default: '发送失败'
     }
   },
@@ -35,6 +36,7 @@ const TEXTS = {
     errors: {
       emailRequired: 'Email is required',
       emailInvalid: 'Invalid email format',
+      network: 'Network error, please try again later',
       default: 'Request failed'
     }
   }
@@ -72,9 +74,14 @@ export default function ForgotPasswordForm() {
       const normalizedEmail = email.trim().toLowerCase();
       await apiClient.auth.passwordForgot({ identifier: normalizedEmail });
       setStatus('success');
-    } catch {
+    } catch (err) {
       setStatus('error');
-      setGlobalError(texts.errors.default);
+      const { error: apiError } = err as { error?: string };
+      if (apiError === 'network') {
+        setGlobalError(texts.errors.network);
+      } else {
+        setGlobalError(texts.errors.default);
+      }
     }
   };
 
