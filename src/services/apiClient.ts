@@ -133,7 +133,7 @@ async function request<TResponse>(url: string, options: RequestOptions = {}): Pr
     if (err.status === undefined && err.error === undefined) {
       err.error = 'network';
     }
-    const sanitizedOptions = sanitizeOptions(options);
+    // const sanitizedOptions = sanitizeOptions(options);
     // Sentry.captureException(err, {
     //   tags: { url },
     //   extra: { options: sanitizedOptions }
