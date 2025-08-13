@@ -119,6 +119,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
       await apiClient.auth.register({ email, password, display_name: username });
       clearInterval(i);
       setProgress(100);
+      storage.remove(REGISTER_DRAFT_KEY);
       setStatus('success');
       setTimeout(() => {
         window.location.href = LOGIN_PAGE_PATH;
