@@ -25,7 +25,7 @@
     - [CI/CD Workflow](#cicd-workflow)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
-    - [Password Reset Specification](#password-reset-specification)
+    - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
     - [Native to Astro + React Migration](#native-to-astro--react-migration)
     - [Responsive Image System Maintenance](#responsive-image-system-maintenance)
     - [Error Tracking](#error-tracking)
@@ -41,7 +41,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 13, 2025, 22:14 (UTC+08:00)
+- **Last Updated**: August 13, 2025, 22:48 (UTC+08:00)
 
 ---
 
@@ -399,9 +399,9 @@ location /_astro/ {
 
 > For project feature requirements, priorities, and development plans, please refer to the following document: 📄 [Project Requirements List](https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95). This document lists all requirements for the current version, along with detailed descriptions and development statuses, making it easy for you to track project progress and plan development tasks.
 
-### Password Reset Specification
+### User Authentication and Password Reset Specification
 
-> For the forgot password and reset password page routes, API contracts, password policy, and security considerations, see: 📄 [Reset Password Flow Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PASSWORD_RESET_SPECIFICATION.md#%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81reset-password%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97).
+> For details on page routing, API contracts, password policies, and security considerations related to user authentication and password reset, please refer to: 📄 [Authentication Specification](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/AUTH_SPECIFICATION.md).
 
 ### Native to Astro + React Migration
 

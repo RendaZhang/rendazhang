@@ -1,15 +1,22 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [重置密码业务规范](#%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E4%B8%9A%E5%8A%A1%E8%A7%84%E8%8C%83)
-  - [路由与端点](#%E8%B7%AF%E7%94%B1%E4%B8%8E%E7%AB%AF%E7%82%B9)
-  - [业务流](#%E4%B8%9A%E5%8A%A1%E6%B5%81)
+- [用户鉴权规范](#%E7%94%A8%E6%88%B7%E9%89%B4%E6%9D%83%E8%A7%84%E8%8C%83)
+  - [鉴权接口一览](#%E9%89%B4%E6%9D%83%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88)
+  - [通用规范](#%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83)
+    - [请求与响应](#%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94)
+    - [Cookie 与会话](#cookie-%E4%B8%8E%E4%BC%9A%E8%AF%9D)
+    - [速率限制（后端内置）](#%E9%80%9F%E7%8E%87%E9%99%90%E5%88%B6%E5%90%8E%E7%AB%AF%E5%86%85%E7%BD%AE)
+  - [密码重置业务流](#%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E4%B8%9A%E5%8A%A1%E6%B5%81)
     - [忘记密码（入口在登录页/独立页面）](#%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%85%A5%E5%8F%A3%E5%9C%A8%E7%99%BB%E5%BD%95%E9%A1%B5%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2)
     - [重置密码页 `/reset_password?token=...`](#%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E9%A1%B5-reset_passwordtoken)
   - [密码策略](#%E5%AF%86%E7%A0%81%E7%AD%96%E7%95%A5)
   - [API 契约（请求/响应与错误）](#api-%E5%A5%91%E7%BA%A6%E8%AF%B7%E6%B1%82%E5%93%8D%E5%BA%94%E4%B8%8E%E9%94%99%E8%AF%AF)
     - [发起重置（忘记密码）](#%E5%8F%91%E8%B5%B7%E9%87%8D%E7%BD%AE%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81)
     - [完成重置](#%E5%AE%8C%E6%88%90%E9%87%8D%E7%BD%AE)
+  - [接口测试脚本](#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC)
+    - [Debug 模式（`DEBUG_RETURN_RESET_TOKEN=1`）](#debug-%E6%A8%A1%E5%BC%8Fdebug_return_reset_token1)
+    - [生产模式（`DEBUG_RETURN_RESET_TOKEN=0`）](#%E7%94%9F%E4%BA%A7%E6%A8%A1%E5%BC%8Fdebug_return_reset_token0)
   - [安全与边界条件](#%E5%AE%89%E5%85%A8%E4%B8%8E%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6)
     - [Token 行为](#token-%E8%A1%8C%E4%B8%BA)
     - [防枚举/提示文案](#%E9%98%B2%E6%9E%9A%E4%B8%BE%E6%8F%90%E7%A4%BA%E6%96%87%E6%A1%88)
@@ -22,28 +29,58 @@
     - [可视化反馈建议](#%E5%8F%AF%E8%A7%86%E5%8C%96%E5%8F%8D%E9%A6%88%E5%BB%BA%E8%AE%AE)
   - [文案与多语言（示例）](#%E6%96%87%E6%A1%88%E4%B8%8E%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%A4%BA%E4%BE%8B)
   - [监控与埋点（可选）](#%E7%9B%91%E6%8E%A7%E4%B8%8E%E5%9F%8B%E7%82%B9%E5%8F%AF%E9%80%89)
-  - [开发/测试清单（前端）](#%E5%BC%80%E5%8F%91%E6%B5%8B%E8%AF%95%E6%B8%85%E5%8D%95%E5%89%8D%E7%AB%AF)
+  - [开发/测试清单](#%E5%BC%80%E5%8F%91%E6%B5%8B%E8%AF%95%E6%B8%85%E5%8D%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 重置密码业务规范
+# 用户鉴权规范
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 13, 2025, 22:14 (UTC+08:00)
+- **最后更新**: August 13, 2025, 22:48 (UTC+08:00)
 
 ---
 
-## 路由与端点
+## 鉴权接口一览
 
-- **前端页面路由**：`/reset_password?token=<URL_SAFE_TOKEN>`
-- **后端 API**（对外均带前缀 `/cloudchat`）：
-  - 发起：`POST /cloudchat/auth/password/forgot`
-  - 完成：`POST /cloudchat/auth/password/reset`
-- **会话与 Cookie**：此流程**无需已登录**；提交 `reset` 时可以附带 `credentials: 'include'`（同源），但不是必须。
+- 前端页面路由：`/reset_password?token=<URL_SAFE_TOKEN>`
+- 后端接口（均加前缀 `/cloudchat`）：
+  - 注册：`POST /auth/register`
+  - 登录：`POST /auth/login`
+  - 登出：`POST /auth/logout`
+  - 当前用户：`GET /auth/me`
+  - 忘记密码：`POST /auth/password/forgot`
+  - 重置密码：`POST /auth/password/reset`
+  - 健康检查：`GET /auth/healthz`
 
----
+## 通用规范
 
-## 业务流
+### 请求与响应
+
+- `Content-Type: application/json`（除 GET）
+- 成功：`{ "ok": true, ... }`
+- 失败：`{ "ok": false, "error": "..." }`
+- 所有认证接口默认 `Cache-Control: no-store`
+- 前端请求需携带 `credentials: 'include'`
+
+### Cookie 与会话
+
+- `cc_auth`：登录成功后设置；`HttpOnly; SameSite=Lax; Secure(生产); Max-Age=604800`。
+- `cc_app`：应用态会话；同样 `HttpOnly; SameSite=Lax; Secure(生产)`。
+- 密码重置成功后会删除该用户所有 `sess:*` 会话。
+
+### 速率限制（后端内置）
+
+| 场景   | 维度            | 配额        |
+| ------ | --------------- | ----------- |
+| 注册   | IP              | 10/小时     |
+| 注册   | Email           | 3/小时      |
+| 登录   | IP & 账号       | 10/10分钟   |
+| 忘记密码 | IP            | 20/小时     |
+| 忘记密码 | 账号            | 5/小时      |
+
+> 触发限速时：注册返回 429；登录统一 401；忘记密码仍返回 200（防枚举）。
+
+## 密码重置业务流
 
 用户视角的业务流。
 
@@ -102,6 +139,12 @@
 { "ok": true }
 ```
 
+- Debug 模式（`DEBUG_RETURN_RESET_TOKEN=1`）下响应示例：
+
+  ```json
+  { "ok": true, "debug_token": "<TOKEN>" }
+  ```
+
 **节流**：
 
 - IP：20/小时
@@ -137,6 +180,53 @@
 
 ```json
 { "ok": false, "error": "Invalid token or weak password" }
+```
+
+---
+
+## 接口测试脚本
+
+### Debug 模式（`DEBUG_RETURN_RESET_TOKEN=1`）
+
+```bash
+# 申请重置（返回 debug_token）
+resp=$(curl -s -X POST https://www.rendazhang.com/cloudchat/auth/password/forgot \
+  -H 'Content-Type: application/json' \
+  -d '{"identifier":"alice@example.com"}')
+TOKEN=$(python - <<'PY'
+import sys, json
+print(json.load(sys.stdin).get('debug_token',''))
+PY)
+
+echo "TOKEN=$TOKEN"
+
+# 用 token 重置（200）
+curl -i -X POST https://www.rendazhang.com/cloudchat/auth/password/reset \
+  -H 'Content-Type: application/json' \
+  -d '{"token":"'"$TOKEN"'","password":"NewP@ssw0rd43!"}'
+
+# 重放同一 token（400）
+curl -i -X POST https://www.rendazhang.com/cloudchat/auth/password/reset \
+  -H 'Content-Type: application/json' \
+  -d '{"token":"'"$TOKEN"'","password":"Whatever123!"}'
+```
+
+### 生产模式（`DEBUG_RETURN_RESET_TOKEN=0`）
+
+```bash
+# 申请重置（始终 200；收邮件）
+curl -s -X POST https://www.rendazhang.com/cloudchat/auth/password/forgot \
+  -H 'Content-Type: application/json' \
+  -d '{"identifier":"alice@example.com"}'
+# 邮件链接示例： https://www.rendazhang.com/reset_password?token=...
+
+# 手动把邮件中的 token 粘到命令里：
+TOKEN='<PASTE_FROM_EMAIL>'
+
+# 用 token 重置（200）
+curl -i -X POST https://www.rendazhang.com/cloudchat/auth/password/reset \
+  -H 'Content-Type: application/json' \
+  -d '{"token":"'"$TOKEN"'","password":"NewP@ssw0rd43!"}'
 ```
 
 ---
@@ -275,7 +365,7 @@ function passwordOk(p: string): boolean {
 
 ---
 
-## 开发/测试清单（前端）
+## 开发/测试清单
 
 - [ ] `/reset_password?token=...` 无 token → 提示正确
 - [ ] 弱密码 → 按前端规则禁用提交，伪造请求也能被后端 400 拒绝
@@ -283,3 +373,4 @@ function passwordOk(p: string): boolean {
 - [ ] 二次使用同 token → 400 “链接无效或已过期”
 - [ ] 所有请求 `fetch` 均设置 `credentials: 'include'`（保持同源）
 - [ ] 页面不引入第三方脚本读取 URL，避免 token 泄露；设置 `<meta name="referrer" content="same-origin">`
+- [ ] 按《接口测试脚本》验证 Debug 与生产模式的 A5/A6 流程
