@@ -18,7 +18,7 @@ import { apiClient } from '../services';
 
 describe('LoginForm error handling', () => {
   it('shows credential error message', async () => {
-    (apiClient.auth.login as any).mockRejectedValue({
+    vi.mocked(apiClient.auth.login).mockRejectedValue({
       message: 'Unauthorized',
       status: 401
     });
@@ -35,7 +35,7 @@ describe('LoginForm error handling', () => {
   });
 
   it('shows network error message', async () => {
-    (apiClient.auth.login as any).mockRejectedValue({
+    vi.mocked(apiClient.auth.login).mockRejectedValue({
       message: 'Network',
       error: 'network'
     });
