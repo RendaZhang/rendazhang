@@ -25,7 +25,7 @@ describe('ForgotPasswordForm', () => {
     vi.mocked(apiClient.auth.passwordForgot).mockResolvedValue({ ok: true });
     render(<ForgotPasswordForm />);
     fireEvent.change(screen.getByLabelText(/Email/), {
-      target: { value: 'user@example.com' }
+      target: { value: '  User@Example.COM  ' }
     });
     fireEvent.click(screen.getByRole('button', { name: /Send Reset Email/ }));
     const success = await screen.findByText(/If the email exists, we have sent a reset email/i);

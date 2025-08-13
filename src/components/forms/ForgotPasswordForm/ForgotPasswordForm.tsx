@@ -69,7 +69,8 @@ export default function ForgotPasswordForm() {
     try {
       setStatus('loading');
       setGlobalError('');
-      await apiClient.auth.passwordForgot({ identifier: email });
+      const normalizedEmail = email.trim().toLowerCase();
+      await apiClient.auth.passwordForgot({ identifier: normalizedEmail });
       setStatus('success');
     } catch {
       setStatus('error');
