@@ -19,6 +19,17 @@ import type {
   AuthHealthzResponse
 } from '../types';
 
+/**
+ * Removes sensitive or non-serializable fields from request options before
+ * sending them to logging systems such as Sentry. This prevents leaking
+ * authentication tokens or large payload bodies.
+ *
+ * - Strips the `Authorization` header if present.
+ * - Omits the `body` property entirely.
+ *
+ * @param options - Original `fetch` options.
+ * @returns A shallow copy of `options` with sensitive fields removed.
+ */
 function sanitizeOptions(options: RequestInit): Record<string, unknown> {
   const sanitized: Record<string, unknown> = { ...options };
 
@@ -35,16 +46,44 @@ function sanitizeOptions(options: RequestInit): Record<string, unknown> {
   return sanitized;
 }
 
+/**
+ * Performs an HTTP request with common defaults and error handling.
+ *
+ * Behavior:
+ * - Forces `credentials: 'include'` so that cookies are always sent and cannot
+ *   be overridden by callers.
+ * - For `GET` requests, strips the `Content-Type` header to comply with the
+ *   backend authentication specification.
+ * - For other methods, merges the default JSON headers with any caller-provided
+ *   headers.
+ * - Parses the JSON response and throws an `Error` with status information when
+ *   the response is not OK.
+ * - Any captured errors are reported to Sentry with sanitized options.
+ *
+ * @param url - Endpoint to request.
+ * @param options - Additional `fetch` options.
+ * @returns Resolves with the parsed JSON response.
+ * @throws Error containing `status` and optional `error` fields when the
+ * response indicates failure.
+ */
 async function request<TResponse>(url: string, options: RequestInit = {}): Promise<TResponse> {
   try {
     const method = (options.method || 'GET').toUpperCase();
     // Avoid sending `Content-Type` for GET requests as per AUTH_SPECIFICATION.
-    const headers =
-      method === 'GET' ? options.headers : { ...JSON_HEADERS, ...(options.headers || {}) };
+    let headers: HeadersInit | undefined;
+    if (method === 'GET') {
+      if (options.headers) {
+        const hdrs = new Headers(options.headers as HeadersInit);
+        hdrs.delete('Content-Type');
+        headers = Object.fromEntries(hdrs.entries());
+      }
+    } else {
+      headers = { ...JSON_HEADERS, ...(options.headers || {}) };
+    }
     const response = await fetch(url, {
+      ...options,
       headers,
-      credentials: 'include',
-      ...options
+      credentials: 'include'
     });
 
     const data = (await response.json().catch(() => ({}))) as TResponse & { error?: string };
@@ -88,6 +127,10 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
   }
 }
 
+/**
+ * Typed helpers wrapping the `request` function for each backend endpoint.
+ * Consumers should use these methods instead of calling `fetch` directly.
+ */
 const apiClient = {
   chat: {
     sendMessage: (payload: ChatSendMessageRequest): Promise<ChatSendMessageResponse> =>
