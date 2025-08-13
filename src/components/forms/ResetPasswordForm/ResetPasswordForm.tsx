@@ -181,6 +181,9 @@ export default function ResetPasswordForm() {
           <a className="c-btn-primary" href={FORGOT_PASSWORD_PAGE_PATH}>
             <LocalizedSection zhContent={textsZh.resend} enContent={textsEn.resend} />
           </a>
+          <a href={LOGIN_PAGE_PATH}>
+            <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
+          </a>
         </div>
       </div>
     );
