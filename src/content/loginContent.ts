@@ -9,7 +9,7 @@ export const LOGIN_CONTENT = {
     success: 'Success',
     thirdParty: {
       google: 'Login with Google',
-      github: 'Login with GitHub'
+      github: 'Login with GitHub (coming soon)'
     },
     newUser: 'New user?',
     registerNow: 'Register Now',
@@ -45,7 +45,7 @@ export const LOGIN_CONTENT = {
     success: '成功',
     thirdParty: {
       google: 'Google 登录',
-      github: 'GitHub 登录'
+      github: 'GitHub 登录（暂未支持）'
     },
     newUser: '新用户？',
     registerNow: '立即注册',

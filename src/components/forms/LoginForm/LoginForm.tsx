@@ -14,9 +14,6 @@ import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
-import logger from '../../../utils/logger';
-import * as Sentry from '@sentry/react';
-import { getEnv, isProduction } from '../../../utils/env';
 
 interface LoginFormValues {
   email: string;
@@ -221,30 +218,13 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           )}
         </button>
         <div className="c-third-party">
-          <button
-            type="button"
-            aria-label={activeTexts.thirdParty.google}
-            onClick={() => {
-              //window.location.href = `${API_BASE_URL}/auth/google`;
-              logger.log('LoginForm PUBLIC_CDN_BASE: ' + getEnv('PUBLIC_CDN_BASE'));
-              logger.log('LoginForm CDN_BASE: ' + getEnv('CDN_BASE'));
-              logger.log('isProduction isProduction: ' + isProduction());
-              logger.log(
-                'LoginForm import.meta.PUBLIC_CDN_BASE: ' + import.meta.env.PUBLIC_CDN_BASE
-              );
-              Sentry.captureException(
-                new Error(
-                  'Sentry Testing in Login Form PUBLIC_TAG_NAME: ' + getEnv('PUBLIC_TAG_NAME')
-                )
-              );
-            }}
-          >
+          <a href="/cloudchat/auth/google" aria-label={activeTexts.thirdParty.google}>
             <LocalizedSection
               zhContent={textsZh.thirdParty.google}
               enContent={textsEn.thirdParty.google}
             />
-          </button>
-          <button type="button" aria-label={activeTexts.thirdParty.github}>
+          </a>
+          <button type="button" aria-label={activeTexts.thirdParty.github} disabled>
             <LocalizedSection
               zhContent={textsZh.thirdParty.github}
               enContent={textsEn.thirdParty.github}
