@@ -41,21 +41,22 @@ interface RequestOptions extends RequestInit {
   skipAuthRedirect?: boolean;
 }
 
-function sanitizeOptions(options: RequestInit): Record<string, unknown> {
-  const sanitized: Record<string, unknown> = { ...options };
+// Helper functiion for sanitization
+// function sanitizeOptions(options: RequestInit): Record<string, unknown> {
+//   const sanitized: Record<string, unknown> = { ...options };
 
-  if (sanitized.headers) {
-    const headers = new Headers(sanitized.headers as HeadersInit);
-    headers.delete('Authorization');
-    sanitized.headers = Object.fromEntries(headers.entries());
-  }
+//   if (sanitized.headers) {
+//     const headers = new Headers(sanitized.headers as HeadersInit);
+//     headers.delete('Authorization');
+//     sanitized.headers = Object.fromEntries(headers.entries());
+//   }
 
-  if ('body' in sanitized) {
-    delete sanitized.body;
-  }
+//   if ('body' in sanitized) {
+//     delete sanitized.body;
+//   }
 
-  return sanitized;
-}
+//   return sanitized;
+// }
 
 /**
  * Performs an HTTP request with common defaults and error handling.
