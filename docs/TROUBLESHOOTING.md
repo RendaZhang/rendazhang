@@ -64,13 +64,14 @@
     - [BUG-056: Dark theme icon hydration flicker](#bug-056-dark-theme-icon-hydration-flicker)
     - [BUG-057: Navigation container queries using `var()` ignored](#bug-057-navigation-container-queries-using-var-ignored)
     - [BUG-058: esbuild css minify Unexpected "-1" warnings](#bug-058-esbuild-css-minify-unexpected--1-warnings)
+    - [BUG-059: Automatic 401 redirect causes endless login loop](#bug-059-automatic-401-redirect-causes-endless-login-loop)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 13, 2025, 06:02 (UTC+08:00)
+- **最后更新**: August 14, 2025, 03:53 (UTC+08:00)
 
 ---
 
@@ -1237,3 +1238,17 @@
   - ✅ `npm run lint`
   - ✅ `npm test`
 - **经验总结**：原生 CSS 语法下禁止使用 Sass 选择器拼接，需显式书写完整类名。
+
+### BUG-059: Automatic 401 redirect causes endless login loop
+
+- **问题状态**：已解决 (Resolved)
+- **发现日期**：2025-08-13
+- **重现环境**：Chrome 最新版，未登录状态
+- **问题现象**：
+  - 打开任何页面都会不断跳转到登录页
+- **根本原因**：
+  - 全局 API 客户端在收到 401 响应时强制重定向到登录页，`AuthProvider` 初始化请求 `auth.me` 时触发无限循环
+- **解决方案**：
+  - 为请求添加 `skipAuthRedirect` 选项，并在 `auth.me` 中启用以避免初始检查触发跳转
+- **验证结果**：✅ 未登录访问页面不再无限重定向
+- **经验总结**：身份探测类请求需跳过全局 401 重定向，以防止页面级循环。

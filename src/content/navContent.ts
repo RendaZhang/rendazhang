@@ -2,6 +2,9 @@ export const NAV_CONTENT = {
   en: {
     home: 'Home',
     login: 'Login',
+    logout: 'Logout',
+    logoutConfirm: 'Are you sure you want to log out?',
+    cancel: 'Cancel',
     register: 'Register',
     menu: 'Menu',
     drawer: {
@@ -19,6 +22,9 @@ export const NAV_CONTENT = {
   zh: {
     home: '首页',
     login: '登录',
+    logout: '退出',
+    logoutConfirm: '确定要退出登录吗？',
+    cancel: '取消',
     register: '注册',
     menu: '菜单',
     drawer: {

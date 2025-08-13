@@ -30,6 +30,16 @@ import type {
  * @param options - Original `fetch` options.
  * @returns A shallow copy of `options` with sensitive fields removed.
  */
+interface RequestOptions extends RequestInit {
+  /**
+   * When true, bypasses the automatic redirect to the login page on 401
+   * responses. This is useful for endpoints like `auth.me` that intentionally
+   * probe the current authentication state and expect a 401 when the user is
+   * not logged in.
+   */
+  skipAuthRedirect?: boolean;
+}
+
 function sanitizeOptions(options: RequestInit): Record<string, unknown> {
   const sanitized: Record<string, unknown> = { ...options };
 
@@ -66,7 +76,7 @@ function sanitizeOptions(options: RequestInit): Record<string, unknown> {
  * @throws Error containing `status` and optional `error` fields when the
  * response indicates failure.
  */
-async function request<TResponse>(url: string, options: RequestInit = {}): Promise<TResponse> {
+async function request<TResponse>(url: string, options: RequestOptions = {}): Promise<TResponse> {
   try {
     const method = (options.method || 'GET').toUpperCase();
     // Avoid sending `Content-Type` for GET requests as per AUTH_SPECIFICATION.
@@ -101,7 +111,7 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
         tags: { url },
         extra: { options: sanitizedOptions }
       });
-      if (response.status === 401 && url !== ENDPOINTS.AUTH.LOGIN) {
+      if (response.status === 401 && url !== ENDPOINTS.AUTH.LOGIN && !options.skipAuthRedirect) {
         if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }
@@ -165,7 +175,8 @@ const apiClient = {
         headers: JSON_HEADERS,
         body: JSON.stringify(payload)
       }),
-    me: (): Promise<AuthMeResponse> => request<AuthMeResponse>(ENDPOINTS.AUTH.ME),
+    me: (): Promise<AuthMeResponse> =>
+      request<AuthMeResponse>(ENDPOINTS.AUTH.ME, { skipAuthRedirect: true }),
     passwordForgot: (payload: AuthPasswordForgotRequest): Promise<AuthPasswordForgotResponse> =>
       request<AuthPasswordForgotResponse>(ENDPOINTS.AUTH.PASSWORD_FORGOT, {
         method: 'POST',

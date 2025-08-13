@@ -5,6 +5,8 @@ export * from './CredlyBadge';
 export { default as CredlyBadge } from './CredlyBadge';
 export * from './LocalizedSection';
 export { default as LocalizedSection } from './LocalizedSection';
+export * from './LogoutIcon';
+export { default as LogoutIcon } from './LogoutIcon';
 export * from './SocialIcons';
 export { default as SocialIcons } from './SocialIcons';
 export * from './ThemeIcon';

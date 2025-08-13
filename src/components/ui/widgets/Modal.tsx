@@ -1,4 +1,5 @@
-import type { ReactNode, MouseEvent } from 'react';
+import { useState, useEffect, type ReactNode, type ReactElement, type MouseEvent } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -6,8 +7,14 @@ interface ModalProps {
   children: ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
-  if (!isOpen) return null;
+export default function Modal({ isOpen, onClose, children }: ModalProps): ReactElement | null {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -15,9 +22,10 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
     }
   };
 
-  return (
+  return createPortal(
     <div className="c-modal" role="dialog" aria-modal="true" onClick={handleOverlayClick}>
       <div className="c-modal-content bg-surface rounded-8">{children}</div>
-    </div>
+    </div>,
+    document.body
   );
 }

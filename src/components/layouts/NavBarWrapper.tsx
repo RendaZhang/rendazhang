@@ -1,4 +1,4 @@
-import { ThemeProvider, I18nProvider } from '../providers';
+import { ThemeProvider, I18nProvider, AuthProvider } from '../providers';
 import NavBar from './NavBar';
 import ErrorBoundary from '../ErrorBoundary';
 import type { ReactNode, ReactElement } from 'react';
@@ -17,10 +17,12 @@ export default function NavBarWrapper({
   return (
     <ThemeProvider>
       <I18nProvider initialLang={initialLang}>
-        <ErrorBoundary>
-          {showNav && <NavBar />}
-          {children}
-        </ErrorBoundary>
+        <AuthProvider>
+          <ErrorBoundary>
+            {showNav && <NavBar />}
+            {children}
+          </ErrorBoundary>
+        </AuthProvider>
       </I18nProvider>
     </ThemeProvider>
   );
