@@ -19,8 +19,8 @@ export const REGISTER_CONTENT = {
       hide: 'Hide password'
     },
     thirdParty: {
-      google: 'Sign up with Google',
-      apple: 'Sign up with Apple'
+      google: 'Sign up with Google (coming soon)',
+      wechat: 'Sign up with WeChat (coming soon)'
     },
     existingUser: 'Already have an account?',
     placeholders: {
@@ -66,8 +66,8 @@ export const REGISTER_CONTENT = {
       hide: '隐藏密码'
     },
     thirdParty: {
-      google: 'Google 注册',
-      apple: 'Apple 注册'
+      google: 'Google 注册（暂未支持）',
+      wechat: '微信注册（暂未支持）'
     },
     existingUser: '已有账号？',
     placeholders: {

@@ -218,16 +218,16 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
           )}
         </button>
         <div className="c-third-party">
-          <a href="/cloudchat/auth/google" aria-label={activeTexts.thirdParty.google}>
+          <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
             <LocalizedSection
               zhContent={textsZh.thirdParty.google}
               enContent={textsEn.thirdParty.google}
             />
-          </a>
-          <button type="button" aria-label={activeTexts.thirdParty.github} disabled>
+          </button>
+          <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
             <LocalizedSection
-              zhContent={textsZh.thirdParty.github}
-              enContent={textsEn.thirdParty.github}
+              zhContent={textsZh.thirdParty.wechat}
+              enContent={textsEn.thirdParty.wechat}
             />
           </button>
         </div>

@@ -310,16 +310,16 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
           )}
         </button>
         <div className="c-third-party">
-          <button type="button" aria-label={activeTexts.thirdParty.google}>
+          <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
             <LocalizedSection
               zhContent={textsZh.thirdParty.google}
               enContent={textsEn.thirdParty.google}
             />
           </button>
-          <button type="button" aria-label={activeTexts.thirdParty.apple}>
+          <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
             <LocalizedSection
-              zhContent={textsZh.thirdParty.apple}
-              enContent={textsEn.thirdParty.apple}
+              zhContent={textsZh.thirdParty.wechat}
+              enContent={textsEn.thirdParty.wechat}
             />
           </button>
         </div>

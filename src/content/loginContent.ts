@@ -8,8 +8,8 @@ export const LOGIN_CONTENT = {
     loginButton: 'Login',
     success: 'Success',
     thirdParty: {
-      google: 'Login with Google',
-      github: 'Login with GitHub (coming soon)'
+      google: 'Login with Google (coming soon)',
+      wechat: 'Login with WeChat (coming soon)'
     },
     newUser: 'New user?',
     registerNow: 'Register Now',
@@ -44,8 +44,8 @@ export const LOGIN_CONTENT = {
     loginButton: '登录',
     success: '成功',
     thirdParty: {
-      google: 'Google 登录',
-      github: 'GitHub 登录（暂未支持）'
+      google: 'Google 登录（暂未支持）',
+      wechat: '微信登录（暂未支持）'
     },
     newUser: '新用户？',
     registerNow: '立即注册',
