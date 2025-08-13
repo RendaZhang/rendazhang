@@ -5,7 +5,7 @@ const NUMBER_RE = /\d/;
 const SPECIAL_RE = /[^A-Za-z0-9]/;
 
 export function validatePasswordComplexity(password: string): boolean {
-  if (!password || password.length < 8) return false;
+  if (!password || password.length < 8 || password.length > 128) return false;
   let types = 0;
   if (LETTER_RE.test(password)) types++;
   if (NUMBER_RE.test(password)) types++;
@@ -15,7 +15,7 @@ export function validatePasswordComplexity(password: string): boolean {
 
 export function getPasswordStrength(password: string): PasswordStrength {
   if (!password) return '';
-  if (password.length < 8) return 'weak';
+  if (password.length < 8 || password.length > 128) return 'weak';
   let types = 0;
   if (LETTER_RE.test(password)) types++;
   if (NUMBER_RE.test(password)) types++;

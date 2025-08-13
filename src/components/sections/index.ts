@@ -17,6 +17,8 @@ export * from './EducationSection';
 export { default as EducationSection } from './EducationSection';
 export * from './ExperienceSection';
 export { default as ExperienceSection } from './ExperienceSection';
+export * from './ForgotPasswordContent';
+export { default as ForgotPasswordContent } from './ForgotPasswordContent';
 export * from './HeroSection';
 export { default as HeroSection } from './HeroSection';
 export * from './LoginContent';

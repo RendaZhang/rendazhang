@@ -32,6 +32,8 @@ export const CERTIFICATIONS_PAGE_PATH = '/certifications';
 export const DOCS_PAGE_PATH = '/docs';
 export const LOGIN_PAGE_PATH = '/login';
 export const REGISTER_PAGE_PATH = '/register';
+export const FORGOT_PASSWORD_PAGE_PATH = '/forgot_password';
+export const RESET_PASSWORD_PAGE_PATH = '/reset_password';
 export const HOME_PAGE_PATH = '/';
 
 export const DOC_CONTENT = {

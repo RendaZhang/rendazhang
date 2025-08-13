@@ -19,6 +19,24 @@ import type {
   AuthHealthzResponse
 } from '../types';
 
+function sanitizeOptions(options: RequestInit): Record<string, unknown> {
+  const sanitized: Record<string, unknown> = { ...options };
+  if (typeof sanitized.body === 'string') {
+    try {
+      const body = JSON.parse(sanitized.body);
+      ['password', 'token', 'identifier'].forEach((key) => {
+        if (key in body) {
+          body[key] = '[REDACTED]';
+        }
+      });
+      sanitized.body = body;
+    } catch {
+      sanitized.body = '[REDACTED]';
+    }
+  }
+  return sanitized;
+}
+
 async function request<TResponse>(url: string, options: RequestInit = {}): Promise<TResponse> {
   try {
     const response = await fetch(url, {
@@ -37,9 +55,10 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
       };
       error.status = response.status;
       if (data.error) error.error = data.error;
+      const safeOptions = sanitizeOptions(options);
       Sentry.captureException(error, {
         tags: { url },
-        extra: { options }
+        extra: { options: safeOptions }
       });
       throw error;
     }
@@ -53,9 +72,10 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
     if (err.status === undefined && err.error === undefined) {
       err.error = 'network';
     }
+    const safeOptions = sanitizeOptions(options);
     Sentry.captureException(err, {
       tags: { url },
-      extra: { options }
+      extra: { options: safeOptions }
     });
     throw err;
   }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { LOGIN_PAGE_PATH, LOADING_TEXT, AUTH_TIMINGS } from '../../../constants';
+import { LOGIN_PAGE_PATH, LOADING_TEXT, FORGOT_PASSWORD_PAGE_PATH } from '../../../constants';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
@@ -20,10 +20,14 @@ const TEXTS = {
     passwordLabel: '新密码',
     confirmLabel: '确认密码',
     resetButton: '重置密码',
-    success: '密码重置成功',
+    success: '密码已重置，请使用新密码登录。',
+    resend: '重新发送邮件',
+    login: '前往登录',
+    lengthHint: '长度',
+    classHint: '字符种类',
     errors: {
       passwordRequired: '密码不能为空',
-      passwordInvalid: '密码至少8位，包含字母、数字或特殊符号中的两种',
+      passwordInvalid: '密码需8–128位，并包含字母/数字/特殊字符中的至少两类',
       passwordMismatch: '两次密码不一致',
       tokenMissing: '链接无效或已过期',
       default: '重置失败'
@@ -43,11 +47,15 @@ const TEXTS = {
     passwordLabel: 'New Password',
     confirmLabel: 'Confirm Password',
     resetButton: 'Reset Password',
-    success: 'Password reset successful',
+    success: 'Password has been reset. Please log in with your new password.',
+    resend: 'Resend email',
+    login: 'Back to login',
+    lengthHint: 'Length',
+    classHint: 'Character types',
     errors: {
       passwordRequired: 'Password is required',
       passwordInvalid:
-        'Password must be at least 8 characters and include two of letters, numbers or symbols',
+        'Password must be 8–128 characters and include at least two of letters, numbers or symbols',
       passwordMismatch: 'Passwords do not match',
       tokenMissing: 'Invalid or expired link',
       default: 'Reset failed'
@@ -71,12 +79,12 @@ export default function ResetPasswordForm() {
   const textsEn = TEXTS.en;
   const activeTexts = TEXTS[langKey];
 
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get('token');
-    if (t) setToken(t);
+    setToken(t || '');
   }, []);
 
   const { values, errors, handleChange, validateAll } = useFormValidation<ResetFormValues>(
@@ -102,28 +110,67 @@ export default function ResetPasswordForm() {
   const passwordStrengthClass = strength
     ? `c-password-strength is-${strength}`
     : 'c-password-strength';
+  const classCount =
+    Number(/[A-Za-z]/.test(password)) +
+    Number(/\d/.test(password)) +
+    Number(/[^A-Za-z0-9]/.test(password));
+  const canSubmit = validatePasswordComplexity(password) && password === confirm;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!token) {
-      setGlobalError(activeTexts.errors.tokenMissing);
-      return;
-    }
     if (!validateAll()) return;
     try {
       setStatus('loading');
       setGlobalError('');
       await apiClient.auth.passwordReset({ token, password });
       setStatus('success');
-      setTimeout(() => {
-        window.location.href = LOGIN_PAGE_PATH;
-      }, AUTH_TIMINGS.LOGIN_REDIRECT);
     } catch (err) {
-      const message = (err as { message?: string }).message || activeTexts.errors.default;
-      setGlobalError(message);
+      const { error: apiError, message } = err as { error?: string; message?: string };
+      if (apiError?.includes('Token')) {
+        setGlobalError(activeTexts.errors.tokenMissing);
+      } else if (apiError?.includes('weak password')) {
+        setGlobalError(activeTexts.errors.passwordInvalid);
+      } else {
+        setGlobalError(message || activeTexts.errors.default);
+      }
       setStatus('error');
     }
   };
+
+  if (token === undefined) return null;
+
+  if (!token) {
+    return (
+      <div className="c-login-container">
+        <div className="c-reset-invalid">
+          <p>
+            <LocalizedSection
+              zhContent={textsZh.errors.tokenMissing}
+              enContent={textsEn.errors.tokenMissing}
+            />
+          </p>
+          <a className="c-btn-primary" href={FORGOT_PASSWORD_PAGE_PATH}>
+            <LocalizedSection zhContent={textsZh.resend} enContent={textsEn.resend} />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="c-login-container">
+        <div className="c-reset-success">
+          <p>
+            <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
+          </p>
+          <a className="c-btn-primary" href={LOGIN_PAGE_PATH}>
+            <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="c-login-container">
@@ -187,10 +234,24 @@ export default function ResetPasswordForm() {
           />
           {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
         </div>
+        <div className="c-password-hints">
+          <div>
+            <LocalizedSection
+              zhContent={`${textsZh.lengthHint}：${password.length} / 8-128`}
+              enContent={`${textsEn.lengthHint}: ${password.length} / 8-128`}
+            />
+          </div>
+          <div>
+            <LocalizedSection
+              zhContent={`${textsZh.classHint}：${classCount} / ≥2`}
+              enContent={`${textsEn.classHint}: ${classCount} / ≥2`}
+            />
+          </div>
+        </div>
         <button
           type="submit"
           className="c-btn-primary u-w-100 c-form-submit"
-          disabled={status === 'loading' || status === 'success'}
+          disabled={status === 'loading' || status === 'success' || !canSubmit}
         >
           {status === 'loading' ? (
             <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />

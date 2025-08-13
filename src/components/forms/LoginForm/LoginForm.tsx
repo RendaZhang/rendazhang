@@ -5,7 +5,8 @@ import {
   REGISTER_PAGE_PATH,
   LOADING_TEXT,
   AUTH_TIMINGS,
-  LOGIN_IDENTIFIER_KEY
+  LOGIN_IDENTIFIER_KEY,
+  FORGOT_PASSWORD_PAGE_PATH
 } from '../../../constants';
 import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
@@ -200,7 +201,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
             </label>
           </div>
-          <a href="/reset_password" className="small">
+          <a href={FORGOT_PASSWORD_PAGE_PATH} className="small">
             <LocalizedSection zhContent={textsZh.forgot} enContent={textsEn.forgot} />
           </a>
         </div>
