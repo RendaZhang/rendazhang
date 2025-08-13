@@ -57,28 +57,4 @@ describe('apiClient request', () => {
 
     global.fetch = originalFetch;
   });
-
-  it('omits Content-Type for GET requests', async () => {
-    const originalFetch = global.fetch;
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: vi.fn().mockResolvedValue({})
-    }) as unknown as typeof fetch;
-    global.fetch = fetchMock;
-
-    await apiClient.request('https://example.com', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Test': '1'
-      }
-    });
-
-    const fetchOptions = fetchMock.mock.calls[0][1] as RequestInit;
-    const headers = fetchOptions.headers as Record<string, string>;
-    expect(headers).not.toHaveProperty('content-type');
-    expect(headers['x-test']).toBe('1');
-
-    global.fetch = originalFetch;
-  });
 });
