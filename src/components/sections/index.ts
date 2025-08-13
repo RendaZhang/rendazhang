@@ -23,6 +23,8 @@ export * from './LoginContent';
 export { default as LoginContent } from './LoginContent';
 export * from './RegisterContent';
 export { default as RegisterContent } from './RegisterContent';
+export * from './ResetPasswordContent';
+export { default as ResetPasswordContent } from './ResetPasswordContent';
 export * from './SkillsSection';
 export { default as SkillsSection } from './SkillsSection';
 export * from './SocialIconsEffects';

@@ -203,7 +203,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
             </label>
           </div>
-          <a href="/reset" className="small">
+          <a href="/reset_password" className="small">
             <LocalizedSection zhContent={textsZh.forgot} enContent={textsEn.forgot} />
           </a>
         </div>
