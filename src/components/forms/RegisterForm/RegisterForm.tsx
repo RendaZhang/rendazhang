@@ -104,7 +104,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const strength = usePasswordStrength(password);
 
   const canSubmit: boolean =
-    Boolean(email && username && password && confirm && agree) && Object.keys(errors).length === 0;
+    Boolean(email && username && password && confirm && agree) &&
+    Object.values(errors).every((e) => !e);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
