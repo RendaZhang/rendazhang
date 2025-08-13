@@ -16,6 +16,7 @@ const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const titleZh = PAGE_TITLES.LOGIN_ZH;
 const titleEn = PAGE_TITLES.LOGIN_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
+Astro.response.headers.set('Cache-Control', 'no-store');
 ---
 
 <BaseLayout
@@ -28,5 +29,8 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   canonical={`${SITE_BASE_URL}${LOGIN_PAGE_PATH}/`}
   metaRobots="noindex, nofollow"
 >
+  <Fragment slot="head">
+    <meta name="referrer" content="same-origin" />
+  </Fragment>
   <LoginContent client:load />
 </BaseLayout>
