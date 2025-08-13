@@ -192,6 +192,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             placeholder={placeholders.email}
             value={email}
             onChange={(e) => handleChange('email', e.target.value)}
+            autoComplete="email"
             required
           />
           {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
@@ -207,6 +208,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             placeholder={placeholders.username}
             value={username}
             onChange={(e) => handleChange('username', e.target.value)}
+            autoComplete="username"
             required
           />
           {errors.username && <div className="c-invalid-feedback">{errors.username}</div>}
@@ -235,6 +237,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
                 placeholder={placeholders.password}
                 value={password}
                 onChange={(e) => handleChange('password', e.target.value)}
+                autoComplete="new-password"
                 required
               />
               <button
@@ -276,6 +279,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               placeholder={placeholders.confirm}
               value={confirm}
               onChange={(e) => handleChange('confirm', e.target.value)}
+              autoComplete="new-password"
               required
             />
             {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}

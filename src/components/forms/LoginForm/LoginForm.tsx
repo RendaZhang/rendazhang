@@ -142,6 +142,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             placeholder={placeholders.email}
             value={email}
             onChange={(e) => handleChange('email', e.target.value)}
+            autoComplete="username"
             autoFocus
           />
           {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
@@ -158,6 +159,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               placeholder={placeholders.password}
               value={password}
               onChange={(e) => handleChange('password', e.target.value)}
+              autoComplete="current-password"
             />
             <button
               type="button"
