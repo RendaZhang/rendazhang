@@ -16,6 +16,7 @@
 
 ## States
 - `.c-form-control:focus-visible` applies `--focus-ring`
+- `.c-password-toggle` resets default button styles
 - `.c-password-toggle:focus-visible` uses `--focus-ring`
 - `.c-form-control:disabled` inherits disabled styling
 - `.c-invalid-feedback` and `.c-valid-feedback` use semantic color tokens

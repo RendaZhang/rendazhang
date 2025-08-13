@@ -59,6 +59,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   );
   const { email, password } = values;
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const togglePassword = (): void => setShowPassword((v) => !v);
   const [remember, setRemember] = useState<boolean>(false);
   const [globalError, setGlobalError] = useState<string>('');
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -160,15 +161,23 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               value={password}
               onChange={(e) => handleChange('password', e.target.value)}
             />
-            <span
+            <button
+              type="button"
               className="c-password-toggle"
-              onClick={() => setShowPassword((v) => !v)}
+              onClick={togglePassword}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  togglePassword();
+                }
+              }}
               aria-label={
                 showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
               }
+              aria-pressed={showPassword}
             >
               {showPassword ? '🙈' : '👁️'}
-            </span>
+            </button>
           </div>
           <div className={passwordStrengthClass}></div>
           {strength && (

@@ -43,6 +43,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const togglePassword = (): void => setShowPassword((v) => !v);
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [globalError, setGlobalError] = useState<string>('');
@@ -211,9 +212,23 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
                 onChange={(e) => handleChange('password', e.target.value)}
                 required
               />
-              <span className="c-password-toggle" onClick={() => setShowPassword(!showPassword)}>
+              <button
+                type="button"
+                className="c-password-toggle"
+                onClick={togglePassword}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePassword();
+                  }
+                }}
+                aria-label={
+                  showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
+                }
+                aria-pressed={showPassword}
+              >
                 {showPassword ? '🙈' : '👁️'}
-              </span>
+              </button>
             </div>
             <div className={passwordStrengthClass}></div>
             {strength && (

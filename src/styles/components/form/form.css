@@ -105,9 +105,12 @@
 
 .c-password-toggle {
   align-items: center;
+  background: none;
+  border: 0;
   bottom: 0;
   cursor: pointer;
   display: flex;
+  padding: 0;
   position: absolute;
   right: var(--space-2);
   top: 0;

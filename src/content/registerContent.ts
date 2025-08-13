@@ -14,6 +14,10 @@ export const REGISTER_CONTENT = {
     emailTakenPrefix: 'Email already registered? ',
     loginNow: 'Login now',
     usernameAvailable: '✓ Available',
+    passwordToggle: {
+      show: 'Show password',
+      hide: 'Hide password'
+    },
     thirdParty: {
       google: 'Sign up with Google',
       apple: 'Sign up with Apple'
@@ -57,6 +61,10 @@ export const REGISTER_CONTENT = {
     emailTakenPrefix: '该邮箱已注册？',
     loginNow: '立即登录',
     usernameAvailable: '✓ 可用',
+    passwordToggle: {
+      show: '显示密码',
+      hide: '隐藏密码'
+    },
     thirdParty: {
       google: 'Google 注册',
       apple: 'Apple 注册'
