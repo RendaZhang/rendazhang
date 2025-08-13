@@ -1,0 +1,40 @@
+import { describe, it, expect, vi } from 'vitest';
+
+vi.mock('@sentry/react', () => ({ captureException: vi.fn() }));
+import * as Sentry from '@sentry/react';
+import apiClient from '../services/apiClient';
+
+describe('apiClient request', () => {
+  it('strips sensitive data before reporting to Sentry', async () => {
+    const bodyContent = JSON.stringify({ secret: 'value' });
+    const originalFetch = global.fetch;
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: vi.fn().mockResolvedValue({ error: 'server error' })
+    }) as unknown as typeof fetch;
+
+    await expect(
+      apiClient.request('https://example.com', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer secret',
+          'Content-Type': 'application/json'
+        },
+        body: bodyContent
+      })
+    ).rejects.toThrow();
+
+    const captureSpy = Sentry.captureException as unknown as ReturnType<typeof vi.fn>;
+    expect(captureSpy).toHaveBeenCalled();
+    const extra = captureSpy.mock.calls[0][1]?.extra as {
+      options: { body?: unknown; headers: Record<string, unknown> };
+    };
+    expect(extra?.options.body).toBeUndefined();
+    expect(extra?.options.headers.Authorization).toBeUndefined();
+    expect(JSON.stringify(extra)).not.toContain(bodyContent);
+
+    captureSpy.mockReset();
+    global.fetch = originalFetch;
+  });
+});

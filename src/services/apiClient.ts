@@ -21,19 +21,17 @@ import type {
 
 function sanitizeOptions(options: RequestInit): Record<string, unknown> {
   const sanitized: Record<string, unknown> = { ...options };
-  if (typeof sanitized.body === 'string') {
-    try {
-      const body = JSON.parse(sanitized.body);
-      ['password', 'token', 'identifier'].forEach((key) => {
-        if (key in body) {
-          body[key] = '[REDACTED]';
-        }
-      });
-      sanitized.body = body;
-    } catch {
-      sanitized.body = '[REDACTED]';
-    }
+
+  if (sanitized.headers) {
+    const headers = new Headers(sanitized.headers as HeadersInit);
+    headers.delete('Authorization');
+    sanitized.headers = Object.fromEntries(headers.entries());
   }
+
+  if ('body' in sanitized) {
+    delete sanitized.body;
+  }
+
   return sanitized;
 }
 
@@ -55,10 +53,10 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
       };
       error.status = response.status;
       if (data.error) error.error = data.error;
-      const safeOptions = sanitizeOptions(options);
+      const sanitizedOptions = sanitizeOptions(options);
       Sentry.captureException(error, {
         tags: { url },
-        extra: { options: safeOptions }
+        extra: { options: sanitizedOptions }
       });
       throw error;
     }
@@ -72,10 +70,10 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
     if (err.status === undefined && err.error === undefined) {
       err.error = 'network';
     }
-    const safeOptions = sanitizeOptions(options);
+    const sanitizedOptions = sanitizeOptions(options);
     Sentry.captureException(err, {
       tags: { url },
-      extra: { options: safeOptions }
+      extra: { options: sanitizedOptions }
     });
     throw err;
   }
