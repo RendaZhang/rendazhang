@@ -3,7 +3,6 @@
 ## Tokens
 
 - `--overlay-modal-bg`
-- `--space-2`
 - `--space-3`
 - `--space-4`
 - `--space-8`

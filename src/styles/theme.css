@@ -9,6 +9,7 @@
 @import './components/button/button.css' layer(components);
 @import './components/form/form.css' layer(components);
 @import './components/loaders.css' layer(components);
+@import './components/modal.css' layer(components);
 @import './components/misc.css' layer(components);
 @import './components/sections.css' layer(components);
 @import './utilities/layout-system.css' layer(utilities);
