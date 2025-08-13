@@ -14,6 +14,11 @@ export async function sendMessageToAI(
       credentials: 'include'
     });
 
+    if (response.status === 401) {
+      window.location.href = '/login';
+      throw new Error('Unauthorized');
+    }
+
     if (!response.ok) {
       throw new Error(`Request failed: ${response.status}`);
     }
@@ -63,6 +68,11 @@ export async function resetChat(): Promise<boolean> {
       body: JSON.stringify({}),
       credentials: 'include'
     });
+
+    if (response.status === 401) {
+      window.location.href = '/login';
+      throw new Error('Unauthorized');
+    }
 
     if (!response.ok) {
       throw new Error(`Reset failed: ${response.status}`);
