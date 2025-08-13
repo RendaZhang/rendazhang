@@ -37,8 +37,12 @@ function sanitizeOptions(options: RequestInit): Record<string, unknown> {
 
 async function request<TResponse>(url: string, options: RequestInit = {}): Promise<TResponse> {
   try {
+    const method = (options.method || 'GET').toUpperCase();
+    // Avoid sending `Content-Type` for GET requests as per AUTH_SPECIFICATION.
+    const headers =
+      method === 'GET' ? options.headers : { ...JSON_HEADERS, ...(options.headers || {}) };
     const response = await fetch(url, {
-      headers: { ...JSON_HEADERS, ...(options.headers || {}) },
+      headers,
       credentials: 'include',
       ...options
     });
@@ -58,6 +62,11 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
         tags: { url },
         extra: { options: sanitizedOptions }
       });
+      if (response.status === 401 && url !== ENDPOINTS.AUTH.LOGIN) {
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login';
+        }
+      }
       throw error;
     }
 

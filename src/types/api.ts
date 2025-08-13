@@ -17,8 +17,11 @@ export interface ChatSendMessageResponse {
 export type ResetChatRequest = Record<string, never>;
 
 export interface ResetChatResponse {
-  /** Indicates whether the reset operation succeeded */
-  success: boolean;
+  /**
+   * Backend returns a status message instead of `{ ok: true }`.
+   * See `/reset_chat` in backend API documentation.
+   */
+  status: string;
 }
 
 // #region Auth endpoints
@@ -80,6 +83,8 @@ export interface AuthPasswordForgotRequest {
 
 export interface AuthPasswordForgotResponse {
   ok: boolean;
+  /** Present only when server runs with `DEBUG_RETURN_RESET_TOKEN=1`. */
+  debug_token?: string;
 }
 
 export interface AuthPasswordResetRequest {
