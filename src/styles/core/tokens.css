@@ -243,6 +243,7 @@
       oklch(23.33% 0.0268 284.13),
       transparent
     ); /* old: --color-md-zebra-bg */
+    --color-md-pre-bg: color-mix(in srgb, oklch(20% 0 0), transparent); /* old: --color-md-pre-bg */
     --color-md-code-bg: color-mix(
       in srgb,
       oklch(78.8% 0.1104 282.42),

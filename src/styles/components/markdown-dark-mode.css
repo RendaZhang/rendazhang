@@ -13,7 +13,7 @@ html[data-theme='dark'] {
   --md-color-placeholder: var(--color-text-muted);
   --md-color-hr-bg: var(--color-subtle-bg);
   --md-color-hr-border: var(--color-border-muted);
-  --md-color-pre-bg: oklch(0.2 0 0 / 1);
+  --md-color-pre-bg: var(--md-color-pre-bg);
   --md-color-pre-border: var(--color-border-muted);
 }
 
@@ -521,7 +521,7 @@ html[data-theme='dark'] .c-markdown-body table tr {
   border-top: var(--border-1);
 }
 html[data-theme='dark'] .c-markdown-body table tr:nth-child(2n) {
-  background-color: oklch(0.26 0 0);
+  background-color: var(--md-zebra-bg);
 }
 html[data-theme='dark'] .c-markdown-body table img {
   background-color: transparent;
@@ -650,7 +650,7 @@ html[data-theme='dark'] .c-markdown-body .highlight pre {
 }
 html[data-theme='dark'] .c-markdown-body .highlight pre,
 html[data-theme='dark'] .c-markdown-body pre {
-  background-color: var(--color-subtle-bg);
+  background-color: var(--md-color-pre-bg);
   border-radius: calc(var(--space-1) * 1.5);
   font-size: 85%;
   line-height: 1.45;
