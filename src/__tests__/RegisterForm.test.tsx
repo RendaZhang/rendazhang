@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import RegisterForm from '../components/forms/RegisterForm/RegisterForm';
 
 vi.mock('../components/providers', () => ({
   useLanguage: () => ({ lang: 'en' })
@@ -14,6 +13,7 @@ vi.mock('../services', () => ({
   }
 }));
 
+import RegisterForm from '../components/forms/RegisterForm/RegisterForm';
 import { apiClient } from '../services';
 
 describe('RegisterForm password validation', () => {

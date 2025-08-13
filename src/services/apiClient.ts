@@ -31,7 +31,12 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
 
     if (!response.ok) {
       const errorMessage = data.error ?? `Request failed: ${response.status}`;
-      const error = new Error(errorMessage);
+      const error = new Error(errorMessage) as Error & {
+        status?: number;
+        error?: string;
+      };
+      error.status = response.status;
+      if (data.error) error.error = data.error;
       Sentry.captureException(error, {
         tags: { url },
         extra: { options }
@@ -41,11 +46,18 @@ async function request<TResponse>(url: string, options: RequestInit = {}): Promi
 
     return data as TResponse;
   } catch (error) {
-    Sentry.captureException(error, {
+    const err = (error instanceof Error ? error : new Error(String(error))) as Error & {
+      status?: number;
+      error?: string;
+    };
+    if (err.status === undefined && err.error === undefined) {
+      err.error = 'network';
+    }
+    Sentry.captureException(err, {
       tags: { url },
       extra: { options }
     });
-    throw error;
+    throw err;
   }
 }
 

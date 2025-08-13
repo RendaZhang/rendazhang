@@ -9,7 +9,7 @@ import {
 } from '../../../constants';
 import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
-import { LOGIN_CONTENT } from '../../../content';
+import { LOGIN_CONTENT, AUTH_ERROR_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
@@ -98,8 +98,25 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       setTimeout(() => {
         window.location.href = HOME_PAGE_PATH;
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
-    } catch {
-      setGlobalError(activeTexts.errors?.credentials || '账号或密码错误');
+    } catch (err) {
+      const {
+        status,
+        error: code,
+        message
+      } = err as {
+        status?: number;
+        error?: string;
+        message: string;
+      };
+      const authTexts = AUTH_ERROR_CONTENT[langKey] || {};
+      const key = (status ?? code ?? 'default').toString();
+      const localized =
+        authTexts[key as keyof typeof authTexts] ||
+        authTexts.default ||
+        message ||
+        activeTexts.errors?.credentials ||
+        '账号或密码错误';
+      setGlobalError(localized);
       setStatus('error');
     }
   };

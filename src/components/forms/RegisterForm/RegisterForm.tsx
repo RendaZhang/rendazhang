@@ -7,7 +7,7 @@ import {
   REGISTER_DRAFT_KEY
 } from '../../../constants';
 import { useLanguage } from '../../providers';
-import { REGISTER_CONTENT } from '../../../content';
+import { REGISTER_CONTENT, AUTH_ERROR_CONTENT } from '../../../content';
 import { LocalizedSection } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
@@ -126,8 +126,19 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     } catch (err) {
       clearInterval(i);
       setStatus('error');
-      setGlobalError((err as Error).message);
-      // TODO: Localize backend error messages based on error codes.
+      const {
+        status,
+        error: code,
+        message
+      } = err as {
+        status?: number;
+        error?: string;
+        message: string;
+      };
+      const authTexts = AUTH_ERROR_CONTENT[langKey] || {};
+      const key = (status ?? code ?? 'default').toString();
+      const localized = authTexts[key as keyof typeof authTexts] || authTexts.default || message;
+      setGlobalError(localized);
     }
   };
 

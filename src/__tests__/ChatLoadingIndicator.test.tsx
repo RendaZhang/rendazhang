@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import Chat from '../components/chat/Chat';
 import type { ChatMessage } from '../types/chat';
 
@@ -23,6 +23,11 @@ vi.mock('../hooks', () => ({
 vi.mock('../components/providers', () => ({
   useLanguage: () => ({ lang: 'en' })
 }));
+
+beforeAll(() => {
+  // jsdom does not implement scrollTo
+  window.scrollTo = vi.fn();
+});
 
 describe('Chat loading indicator', () => {
   it('removes skeleton after load completes', () => {
