@@ -272,7 +272,7 @@
     --font-size-5: clamp(2rem, 2rem + 1vw, 3rem);
     --font-size-6: clamp(3rem, 3rem + 1vw, 4rem);
     --font-size-7: clamp(4rem, 4rem + 1vw, 6rem);
-    --measure: 65ch; /* optimal line length */
+    --measure: 75ch; /* optimal line length */
     --line-height-0: 1.1;
     --line-height-1: 1.2;
     --line-height-2: 1.3;
