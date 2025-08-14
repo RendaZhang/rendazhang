@@ -601,7 +601,7 @@
     --shadow-md-table: 0 2px 4px color-mix(in srgb, var(--color-base-black) 20%, transparent); /* old: --shadow-md-table */
     --overlay-modal-bg: color-mix(
       in srgb,
-      var(--color-base-black) 50%,
+      var(--color-base-black) 88%,
       transparent
     ); /* old: --overlay-modal-bg */
   }

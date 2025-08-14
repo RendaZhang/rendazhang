@@ -1,6 +1,7 @@
 .c-modal {
   align-items: center;
   background: var(--overlay-modal-bg);
+  color: var(--color-base-white);
   display: flex;
   inset: 0;
   justify-content: center;
