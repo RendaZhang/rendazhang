@@ -30,7 +30,6 @@ export default function ProfileContent(): ReactElement {
     fetchUser();
   }, []);
 
-  const texts = PROFILE_CONTENT[langKey];
   const loading = LOADING_TEXT[langKey.toUpperCase() as 'EN' | 'ZH'];
 
   if (!user) {
@@ -48,7 +47,7 @@ export default function ProfileContent(): ReactElement {
       <div className="c-profile-row">
         <span className="c-profile-label">
           <LocalizedSection
-            zhContent={texts.labels.uid}
+            zhContent={PROFILE_CONTENT.zh.labels.uid}
             enContent={PROFILE_CONTENT.en.labels.uid}
           />
           :
@@ -58,7 +57,7 @@ export default function ProfileContent(): ReactElement {
       <div className="c-profile-row">
         <span className="c-profile-label">
           <LocalizedSection
-            zhContent={texts.labels.email}
+            zhContent={PROFILE_CONTENT.zh.labels.email}
             enContent={PROFILE_CONTENT.en.labels.email}
           />
           :
@@ -68,7 +67,7 @@ export default function ProfileContent(): ReactElement {
       <div className="c-profile-row">
         <span className="c-profile-label">
           <LocalizedSection
-            zhContent={texts.labels.phone}
+            zhContent={PROFILE_CONTENT.zh.labels.phone}
             enContent={PROFILE_CONTENT.en.labels.phone}
           />
           :
@@ -78,7 +77,7 @@ export default function ProfileContent(): ReactElement {
       <div className="c-profile-row">
         <span className="c-profile-label">
           <LocalizedSection
-            zhContent={texts.labels.displayName}
+            zhContent={PROFILE_CONTENT.zh.labels.displayName}
             enContent={PROFILE_CONTENT.en.labels.displayName}
           />
           :
@@ -88,7 +87,7 @@ export default function ProfileContent(): ReactElement {
       <div className="c-profile-row">
         <span className="c-profile-label">
           <LocalizedSection
-            zhContent={texts.labels.active}
+            zhContent={PROFILE_CONTENT.zh.labels.active}
             enContent={PROFILE_CONTENT.en.labels.active}
           />
           :
