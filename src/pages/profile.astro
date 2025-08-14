@@ -1,0 +1,26 @@
+---
+import { BaseLayout } from '../layouts';
+import { ProfileContent } from '../components/sections';
+import { SITE_BASE_URL, VIEWPORT_NO_ZOOM, PROFILE_PAGE_PATH, PAGE_TITLES } from '../constants';
+import '../styles/components/profile.css';
+import { getCurrentLang } from '../utils';
+
+const langDefault = getCurrentLang();
+const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
+const titleZh = PAGE_TITLES.PROFILE_ZH;
+const titleEn = PAGE_TITLES.PROFILE_EN;
+const title = langKey === 'zh' ? titleZh : titleEn;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<BaseLayout
+  lang={langDefault}
+  titleZh={titleZh}
+  titleEn={titleEn}
+  title={title}
+  viewport={VIEWPORT_NO_ZOOM}
+  canonical={`${SITE_BASE_URL}${PROFILE_PAGE_PATH}/`}
+  metaRobots="noindex, nofollow"
+>
+  <ProfileContent client:load />
+</BaseLayout>

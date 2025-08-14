@@ -23,6 +23,8 @@ export * from './HeroSection';
 export { default as HeroSection } from './HeroSection';
 export * from './LoginContent';
 export { default as LoginContent } from './LoginContent';
+export * from './ProfileContent';
+export { default as ProfileContent } from './ProfileContent';
 export * from './RegisterContent';
 export { default as RegisterContent } from './RegisterContent';
 export * from './ResetPasswordContent';

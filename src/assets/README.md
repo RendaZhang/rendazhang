@@ -43,7 +43,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 13, 2025, 22:48 (UTC+08:00)
+- **最后更新**: August 14, 2025, 16:44 (UTC+08:00)
 
 ---
 
@@ -288,6 +288,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 - 回到顶部按钮
 - 技术文档渲染展示页 (docs/)
 - 登录与注册表单
+- 个人信息页（登录后可从汉堡菜单访问）
 - 联系表单
 - 内容平台链接
 - 证书展示
@@ -301,6 +302,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 - `certifications.astro`：证书列表页。
 - `deepseek_chat.astro`：AI 聊天界面。
 - `docs.astro`：技术文档页面。
+- `profile.astro`：个人信息页。
 - `login.astro`：登录页。
 - `register.astro`：注册页。
 - `404.astro`，`500.astro`：错误页面。
@@ -312,11 +314,12 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 
 2. **导航栏菜单跳转**
    - 导航栏与汉堡菜单在服务端输出静态标记，并通过 `client:load` 在客户端水合，既保留交互又避免 Hydration 报错。
-   - 通过点击导航栏的“汉堡菜单”按钮，用户可选择跳转到以下四个页面：
+   - 通过点击导航栏的“汉堡菜单”按钮，用户可选择跳转到以下页面：
      - 首页
      - AI 聊天页
      - 证书页
      - 技术文档页
+     - 个人信息页（登录后可见）
 
 3. **登录页面跳转**
    - 通过点击导航栏的“人像图标”按钮，用户可跳转到登录页面。
@@ -328,17 +331,20 @@ flowchart TD
     A[主页] -->|汉堡菜单| B[AI 聊天页]
     A -->|汉堡菜单| C[证书页]
     A -->|汉堡菜单| D[技术文档页]
+    A -->|汉堡菜单| F[个人信息页]
     A -->|人像图标| E[登录页面]
     B -->|主页按钮| A
     C -->|主页按钮| A
     D -->|主页按钮| A
     E -->|主页按钮| A
+    F -->|主页按钮| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#ff9,stroke:#333
     style D fill:#99f,stroke:#333
     style E fill:#f99,stroke:#333
+    style F fill:#9ff,stroke:#333
 ```
 
 #### 页面内容
@@ -347,6 +353,7 @@ flowchart TD
 - `certifications.astro`：栅格卡片形式展示证书，并嵌入 Credly 验证链接。
 - `deepseek_chat.astro`：由聊天记录区域与输入框组成的对话界面，支持流式输出并实时渲染 AI 返回的 Markdown 内容，提供一键复制原始内容的功能，并在页面刷新后自动保留历史记录，同时加载 `github-code-highlight.css` 和 `github-markdown-light.css` 以保持代码高亮与排版一致。聊天组件已拆分为 `ChatMessageList`、`ChatInput` 等子组件，方便复用与维护。
 - `docs.astro`：技术文档页面，使用同样的两份 GitHub 样式表配合 highlight.js 渲染 Markdown 与代码。
+- `profile.astro`：个人信息页，展示当前登录用户的信息。
 - `login.astro`：登录表单页。
 - `register.astro`：注册表单页。
 - `404.astro / 500.astro`：用于处理页面不存在（404）和服务器内部错误（500）的定制化错误页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。

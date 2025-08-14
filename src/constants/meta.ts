@@ -12,7 +12,9 @@ export const PAGE_TITLES = {
   LOGIN_ZH: '登录 · 张人大',
   LOGIN_EN: 'Login · Renda Zhang',
   REGISTER_ZH: '注册 · 张人大',
-  REGISTER_EN: 'Register · Renda Zhang'
+  REGISTER_EN: 'Register · Renda Zhang',
+  PROFILE_ZH: '个人信息 · 张人大',
+  PROFILE_EN: 'Profile · Renda Zhang'
 } as const;
 
 export const LOGO_ALT = {

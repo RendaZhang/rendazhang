@@ -5,4 +5,5 @@ export * from './certificationsContent';
 export * from './deepseekChatContent';
 export * from './loginContent';
 export * from './navContent';
+export * from './profileContent';
 export * from './registerContent';

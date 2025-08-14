@@ -4,10 +4,11 @@ import {
   HOME_PAGE_PATH,
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
-  DOCS_PAGE_PATH
+  DOCS_PAGE_PATH,
+  PROFILE_PAGE_PATH
 } from '../../constants';
 import { NAV_CONTENT } from '../../content';
-import { useLanguage } from '../providers';
+import { useLanguage, useAuth } from '../providers';
 import { LocalizedSection } from '../ui';
 
 export default function HamburgerMenu(): ReactElement {
@@ -15,6 +16,7 @@ export default function HamburgerMenu(): ReactElement {
   const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { lang } = useLanguage();
+  const { isLoggedIn } = useAuth();
 
   const textsEn = NAV_CONTENT.en.drawer;
   const textsZh = NAV_CONTENT.zh.drawer;
@@ -41,12 +43,16 @@ export default function HamburgerMenu(): ReactElement {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [open, mounted]);
 
-  const items: { href: string; key: keyof typeof textsEn }[] = [
+  const baseItems: { href: string; key: keyof typeof textsEn }[] = [
     { href: HOME_PAGE_PATH, key: 'home' },
     { href: CHAT_PAGE_PATH, key: 'chat' },
     { href: CERTIFICATIONS_PAGE_PATH, key: 'certs' },
     { href: DOCS_PAGE_PATH, key: 'docs' }
   ];
+
+  const items = isLoggedIn
+    ? [...baseItems, { href: PROFILE_PAGE_PATH, key: 'profile' as keyof typeof textsEn }]
+    : baseItems;
 
   return (
     <>

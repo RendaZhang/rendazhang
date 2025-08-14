@@ -41,7 +41,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 13, 2025, 22:48 (UTC+08:00)
+- **Last Updated**: August 14, 2025, 16:44 (UTC+08:00)
 
 ---
 
@@ -281,6 +281,7 @@ For details on the core functionality system of the website, please refer to the
 - Back-to-top button
 - Tech documentation rendering (docs/)
 - Login/registration forms
+- Profile page (accessible via hamburger menu after login)
 - Contact form
 - Content platform links
 - Certification showcase
@@ -294,6 +295,7 @@ Core responsibilities (generated from `.astro` files):
 - `certifications.astro`: Certification gallery
 - `deepseek_chat.astro`: AI chat interface
 - `docs.astro`: Technical documentation page
+- `profile.astro`: User profile page
 - `login.astro`: Login page
 - `register.astro`: Registration page
 - `404.astro`, `500.astro`: Error pages
@@ -310,6 +312,7 @@ Core responsibilities (generated from `.astro` files):
      - AI Chat
      - Certifications
      - Tech Docs
+     - Profile (visible after login)
 
 3. **Login Page Access**
    Profile icon in nav redirects to login
@@ -319,17 +322,20 @@ flowchart TD
     A[Home] -->|Hamburger| B[AI Chat]
     A -->|Hamburger| C[Certifications]
     A -->|Hamburger| D[Tech Docs]
+    A -->|Hamburger| F[Profile]
     A -->|Profile Icon| E[Login]
     B -->|Home Button| A
     C -->|Home Button| A
     D -->|Home Button| A
     E -->|Home Button| A
+    F -->|Home Button| A
 
     style A fill:#9f9,stroke:#333
     style B fill:#f9f,stroke:#333
     style C fill:#ff9,stroke:#333
     style D fill:#99f,stroke:#333
     style E fill:#f99,stroke:#333
+    style F fill:#9ff,stroke:#333
 ```
 
 #### Page Content
@@ -338,6 +344,7 @@ flowchart TD
 - `certifications.astro`: Grid-based certification cards with Credly verification
 - `deepseek_chat.astro`: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both `github-code-highlight.css` and `github-markdown-light.css` for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as `ChatMessageList` and `ChatInput` for better maintainability.
 - `docs.astro`: Technical documentation page that loads both `github-code-highlight.css` and `github-markdown-light.css` together with highlight.js for GitHub-style Markdown layout and code highlighting.
+- `profile.astro`: User profile page displaying the current user's info.
 - `login.astro`: Login form page.
 - `register.astro`: Register form page.
 - `404.astro/500.astro`: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (500) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.
