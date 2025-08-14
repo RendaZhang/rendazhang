@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { LOGIN_PAGE_PATH, LOADING_TEXT } from '../../../constants';
 import { useLanguage } from '../../providers';
-import { LocalizedSection } from '../../ui';
+import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { apiClient } from '../../../services';
 
@@ -101,40 +101,44 @@ export default function ForgotPasswordForm() {
   }
 
   return (
-    <div className="c-login-container">
-      <form onSubmit={handleSubmit} className="c-login-form">
-        <h1 className="c-login-title">
-          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-        </h1>
-        {globalError && <div className="c-global-error">{globalError}</div>}
-        <div className="c-form-group">
-          <label htmlFor="email" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
-          </label>
-          <input
-            id="email"
-            type="email"
-            className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
-            value={email}
-            onChange={(e) => handleChange('email', e.target.value)}
-          />
-          {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
-        </div>
-        <button
-          type="submit"
-          className="c-btn-primary u-w-100 c-form-submit"
-          disabled={status === 'loading'}
-        >
-          {status === 'loading' ? (
-            <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
-          ) : (
-            <LocalizedSection zhContent={textsZh.submitButton} enContent={textsEn.submitButton} />
-          )}
-        </button>
-        <div className="u-text-center c-form-alt">
-          <a href={LOGIN_PAGE_PATH}>{texts.back}</a>
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="c-login-container">
+        <form onSubmit={handleSubmit} className="c-login-form">
+          <h1 className="c-login-title">
+            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
+          </h1>
+          {globalError && <div className="c-global-error">{globalError}</div>}
+          <div className="c-form-group">
+            <label htmlFor="email" className="c-form-label">
+              <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
+            </label>
+            <input
+              id="email"
+              type="email"
+              className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
+              value={email}
+              onChange={(e) => handleChange('email', e.target.value)}
+            />
+            {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+          </div>
+          <button
+            type="submit"
+            className="c-btn-primary u-w-100 c-form-submit"
+            disabled={status === 'loading'}
+          >
+            {status === 'loading' ? (
+              <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+            ) : (
+              <LocalizedSection zhContent={textsZh.submitButton} enContent={textsEn.submitButton} />
+            )}
+          </button>
+          <div className="u-text-center c-form-alt">
+            <a href={LOGIN_PAGE_PATH}>{texts.back}</a>
+          </div>
+        </form>
+      </div>
+      {/* Overlay covers the page while the email request is processing */}
+      <AuthOverlay active={status === 'loading'} />
+    </>
   );
 }

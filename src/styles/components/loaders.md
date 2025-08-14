@@ -15,3 +15,8 @@
 ## Container
 
 - `.c-spinner-center` utility centers loaders absolutely; `.c-enhancement-progress` positioned with utilities.
+
+## Auth Overlay
+
+- `.c-auth-overlay` covers the entire viewport with a translucent backdrop and centered spinner.
+- Toggle `.is-active` modifier to fade in the overlay and capture pointer events during auth redirects.

@@ -135,6 +135,29 @@
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Full-screen overlay shown during auth page transitions              */
+/* ------------------------------------------------------------------ */
+.c-auth-overlay {
+  align-items: center;
+  backdrop-filter: blur(2px);
+  background: var(--overlay-surface);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none; /* ignore clicks until activated */
+  position: fixed;
+  transition: opacity var(--duration-normal) var(--easing-standard);
+  z-index: 1002;
+}
+
+/* Modifier class reveals the overlay and blocks interaction */
+.c-auth-overlay.is-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .c-spinner,
   .c-dot,

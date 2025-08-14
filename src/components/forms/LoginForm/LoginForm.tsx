@@ -12,7 +12,7 @@ import {
 import { apiClient } from '../../../services';
 import { useLanguage } from '../../providers';
 import { LOGIN_CONTENT, AUTH_ERROR_CONTENT } from '../../../content';
-import { LocalizedSection } from '../../ui';
+import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
@@ -58,6 +58,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   );
   const { email, password } = values;
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  // Toggle between text/password input types for the password field
   const togglePassword = (): void => setShowPassword((v) => !v);
   const [remember, setRemember] = useState<boolean>(false);
   const [globalError, setGlobalError] = useState<string>('');
@@ -68,6 +69,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   });
 
   useEffect(() => {
+    // Restore previously saved email if user chose "remember me"
     const saved = storage.get<string>(LOGIN_IDENTIFIER_KEY);
     if (saved) {
       handleChange('email', saved);
@@ -76,6 +78,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   }, []);
 
   useEffect(() => {
+    // Refresh placeholder text whenever language or supplied texts change
     const ph = (texts[langKey] && texts[langKey].placeholders) || {};
     setPlaceholders(ph);
   }, [langKey, texts]);
@@ -91,6 +94,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
       await apiClient.auth.login({ identifier: email.trim(), password });
       storage.set(LOGIN_STATE_KEY, true);
       if (typeof document !== 'undefined') {
+        // Mark the document as logged in so navigation can update icons instantly
         document.documentElement.dataset.loggedIn = 'true';
       }
       if (remember) {
@@ -99,6 +103,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
         storage.remove(LOGIN_IDENTIFIER_KEY);
       }
       setStatus('success');
+      // Delay redirect slightly so the success state and overlay are visible
       setTimeout(() => {
         window.location.href = HOME_PAGE_PATH;
       }, AUTH_TIMINGS.LOGIN_REDIRECT);
@@ -130,122 +135,129 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
     : 'c-password-strength';
 
   return (
-    <div className="c-login-container">
-      <form onSubmit={handleSubmit} className="c-login-form">
-        <h1 className="c-login-title">
-          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-        </h1>
-        {globalError && <div className="c-global-error">{globalError}</div>}
-        <div className="c-form-group">
-          <label htmlFor="email" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
-          </label>
-          <input
-            id="email"
-            type="email"
-            className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
-            placeholder={placeholders.email}
-            value={email}
-            onChange={(e) => handleChange('email', e.target.value)}
-            autoComplete="username"
-            autoFocus
-          />
-          {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
-        </div>
-        <div className="c-form-group c-password-wrapper">
-          <label htmlFor="password" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
-          </label>
-          <div className="c-password-field">
+    <>
+      <div className="c-login-container">
+        <form onSubmit={handleSubmit} className="c-login-form">
+          <h1 className="c-login-title">
+            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
+          </h1>
+          {globalError && <div className="c-global-error">{globalError}</div>}
+          <div className="c-form-group">
+            <label htmlFor="email" className="c-form-label">
+              <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
+            </label>
             <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
-              placeholder={placeholders.password}
-              value={password}
-              onChange={(e) => handleChange('password', e.target.value)}
-              autoComplete="current-password"
+              id="email"
+              type="email"
+              className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
+              placeholder={placeholders.email}
+              value={email}
+              onChange={(e) => handleChange('email', e.target.value)}
+              autoComplete="username"
+              autoFocus
             />
-            <button
-              type="button"
-              className="c-password-toggle"
-              onClick={togglePassword}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  togglePassword();
+            {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+          </div>
+          <div className="c-form-group c-password-wrapper">
+            <label htmlFor="password" className="c-form-label">
+              <LocalizedSection
+                zhContent={textsZh.passwordLabel}
+                enContent={textsEn.passwordLabel}
+              />
+            </label>
+            <div className="c-password-field">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
+                placeholder={placeholders.password}
+                value={password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="c-password-toggle"
+                onClick={togglePassword}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePassword();
+                  }
+                }}
+                aria-label={
+                  showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
                 }
-              }}
-              aria-label={
-                showPassword ? activeTexts.passwordToggle.hide : activeTexts.passwordToggle.show
-              }
-              aria-pressed={showPassword}
-            >
-              {showPassword ? '🙈' : '👁️'}
+                aria-pressed={showPassword}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
+            <div className={passwordStrengthClass}></div>
+            {strength && (
+              <div className="c-password-strength-label">
+                <LocalizedSection
+                  zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
+                  enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
+                />
+              </div>
+            )}
+            {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
+          </div>
+          <div className="c-form-check c-form-group u-d-flex u-justify-content-between">
+            <div>
+              <input
+                id="remember"
+                type="checkbox"
+                className="c-form-check-input"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              <label htmlFor="remember" className="c-form-check-label">
+                <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
+              </label>
+            </div>
+            <a href={FORGOT_PASSWORD_PAGE_PATH} className="small">
+              <LocalizedSection zhContent={textsZh.forgot} enContent={textsEn.forgot} />
+            </a>
+          </div>
+          <button
+            type="submit"
+            className="c-btn-primary u-w-100 c-form-submit"
+            disabled={status === 'loading' || status === 'success'}
+          >
+            {status === 'loading' ? (
+              <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+            ) : status === 'success' ? (
+              <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
+            ) : (
+              <LocalizedSection zhContent={textsZh.loginButton} enContent={textsEn.loginButton} />
+            )}
+          </button>
+          <div className="c-third-party">
+            <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
+              <LocalizedSection
+                zhContent={textsZh.thirdParty.google}
+                enContent={textsEn.thirdParty.google}
+              />
+            </button>
+            <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
+              <LocalizedSection
+                zhContent={textsZh.thirdParty.wechat}
+                enContent={textsEn.thirdParty.wechat}
+              />
             </button>
           </div>
-          <div className={passwordStrengthClass}></div>
-          {strength && (
-            <div className="c-password-strength-label">
-              <LocalizedSection
-                zhContent={textsZh.strength[strength as 'weak' | 'medium' | 'strong']}
-                enContent={textsEn.strength[strength as 'weak' | 'medium' | 'strong']}
-              />
-            </div>
-          )}
-          {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
-        </div>
-        <div className="c-form-check c-form-group u-d-flex u-justify-content-between">
-          <div>
-            <input
-              id="remember"
-              type="checkbox"
-              className="c-form-check-input"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-            />
-            <label htmlFor="remember" className="c-form-check-label">
-              <LocalizedSection zhContent={textsZh.remember} enContent={textsEn.remember} />
-            </label>
+          <div className="u-text-center c-form-alt">
+            <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
+            <a href={REGISTER_PAGE_PATH}>
+              <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />
+            </a>
           </div>
-          <a href={FORGOT_PASSWORD_PAGE_PATH} className="small">
-            <LocalizedSection zhContent={textsZh.forgot} enContent={textsEn.forgot} />
-          </a>
-        </div>
-        <button
-          type="submit"
-          className="c-btn-primary u-w-100 c-form-submit"
-          disabled={status === 'loading' || status === 'success'}
-        >
-          {status === 'loading' ? (
-            <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
-          ) : status === 'success' ? (
-            <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
-          ) : (
-            <LocalizedSection zhContent={textsZh.loginButton} enContent={textsEn.loginButton} />
-          )}
-        </button>
-        <div className="c-third-party">
-          <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
-            <LocalizedSection
-              zhContent={textsZh.thirdParty.google}
-              enContent={textsEn.thirdParty.google}
-            />
-          </button>
-          <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
-            <LocalizedSection
-              zhContent={textsZh.thirdParty.wechat}
-              enContent={textsEn.thirdParty.wechat}
-            />
-          </button>
-        </div>
-        <div className="u-text-center c-form-alt">
-          <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
-          <a href={REGISTER_PAGE_PATH}>
-            <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />
-          </a>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+      {/* Show full-screen overlay while logging in or before redirect */}
+      <AuthOverlay active={status === 'loading' || status === 'success'} />
+    </>
   );
 }

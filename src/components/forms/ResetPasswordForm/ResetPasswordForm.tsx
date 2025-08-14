@@ -7,7 +7,7 @@ import {
   LOGIN_STATE_KEY
 } from '../../../constants';
 import { useLanguage } from '../../providers';
-import { LocalizedSection } from '../../ui';
+import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { apiClient } from '../../../services';
@@ -216,93 +216,100 @@ export default function ResetPasswordForm() {
   }
 
   return (
-    <div className="c-login-container">
-      <form onSubmit={handleSubmit} className="c-login-form">
-        <h1 className="c-login-title">
-          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-        </h1>
-        {globalError && <div className="c-global-error">{globalError}</div>}
-        <div className="c-form-group c-password-wrapper">
-          <label htmlFor="password" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.passwordLabel} enContent={textsEn.passwordLabel} />
-          </label>
-          <div className="c-password-field">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
-              value={password}
-              onChange={(e) => handleChange('password', e.target.value)}
-              autoFocus
-            />
-            <button
-              type="button"
-              className="c-password-toggle"
-              onClick={togglePassword}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  togglePassword();
-                }
-              }}
-              aria-label={
-                showPassword ? activeTexts.passwordToggle?.hide : activeTexts.passwordToggle?.show
-              }
-              aria-pressed={showPassword}
-            >
-              {showPassword ? '🙈' : '👁️'}
-            </button>
-          </div>
-          <div className={passwordStrengthClass}></div>
-          {strength && (
-            <div className="c-password-strength-label">
+    <>
+      <div className="c-login-container">
+        <form onSubmit={handleSubmit} className="c-login-form">
+          <h1 className="c-login-title">
+            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
+          </h1>
+          {globalError && <div className="c-global-error">{globalError}</div>}
+          <div className="c-form-group c-password-wrapper">
+            <label htmlFor="password" className="c-form-label">
               <LocalizedSection
-                zhContent={textsZh.strength?.[strength as 'weak' | 'medium' | 'strong']}
-                enContent={textsEn.strength?.[strength as 'weak' | 'medium' | 'strong']}
+                zhContent={textsZh.passwordLabel}
+                enContent={textsEn.passwordLabel}
+              />
+            </label>
+            <div className="c-password-field">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
+                value={password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                autoFocus
+              />
+              <button
+                type="button"
+                className="c-password-toggle"
+                onClick={togglePassword}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePassword();
+                  }
+                }}
+                aria-label={
+                  showPassword ? activeTexts.passwordToggle?.hide : activeTexts.passwordToggle?.show
+                }
+                aria-pressed={showPassword}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
+            <div className={passwordStrengthClass}></div>
+            {strength && (
+              <div className="c-password-strength-label">
+                <LocalizedSection
+                  zhContent={textsZh.strength?.[strength as 'weak' | 'medium' | 'strong']}
+                  enContent={textsEn.strength?.[strength as 'weak' | 'medium' | 'strong']}
+                />
+              </div>
+            )}
+            {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
+          </div>
+          <div className="c-form-group">
+            <label htmlFor="confirm" className="c-form-label">
+              <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
+            </label>
+            <input
+              id="confirm"
+              type={showPassword ? 'text' : 'password'}
+              className={`c-form-control ${errors.confirm ? 'is-invalid' : ''}`}
+              value={confirm}
+              onChange={(e) => handleChange('confirm', e.target.value)}
+            />
+            {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
+          </div>
+          <div className="c-password-hints">
+            <div>
+              <LocalizedSection
+                zhContent={`${textsZh.lengthHint}：${password.length} / 8-128`}
+                enContent={`${textsEn.lengthHint}: ${password.length} / 8-128`}
               />
             </div>
-          )}
-          {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
-        </div>
-        <div className="c-form-group">
-          <label htmlFor="confirm" className="c-form-label">
-            <LocalizedSection zhContent={textsZh.confirmLabel} enContent={textsEn.confirmLabel} />
-          </label>
-          <input
-            id="confirm"
-            type={showPassword ? 'text' : 'password'}
-            className={`c-form-control ${errors.confirm ? 'is-invalid' : ''}`}
-            value={confirm}
-            onChange={(e) => handleChange('confirm', e.target.value)}
-          />
-          {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
-        </div>
-        <div className="c-password-hints">
-          <div>
-            <LocalizedSection
-              zhContent={`${textsZh.lengthHint}：${password.length} / 8-128`}
-              enContent={`${textsEn.lengthHint}: ${password.length} / 8-128`}
-            />
+            <div>
+              <LocalizedSection
+                zhContent={`${textsZh.classHint}：${classCount} / ≥2`}
+                enContent={`${textsEn.classHint}: ${classCount} / ≥2`}
+              />
+            </div>
           </div>
-          <div>
-            <LocalizedSection
-              zhContent={`${textsZh.classHint}：${classCount} / ≥2`}
-              enContent={`${textsEn.classHint}: ${classCount} / ≥2`}
-            />
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="c-btn-primary u-w-100 c-form-submit"
-          disabled={status === 'loading' || !canSubmit}
-        >
-          {status === 'loading' ? (
-            <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
-          ) : (
-            <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
-          )}
-        </button>
-      </form>
-    </div>
+          <button
+            type="submit"
+            className="c-btn-primary u-w-100 c-form-submit"
+            disabled={status === 'loading' || !canSubmit}
+          >
+            {status === 'loading' ? (
+              <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+            ) : (
+              <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
+            )}
+          </button>
+        </form>
+      </div>
+      {/* Overlay prevents interaction while the reset request is in flight */}
+      <AuthOverlay active={status === 'loading'} />
+    </>
   );
 }
