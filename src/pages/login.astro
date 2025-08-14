@@ -6,7 +6,9 @@ import {
   VIEWPORT_NO_ZOOM,
   LOGIN_PAGE_PATH,
   PAGE_TITLES,
-  LOGIN_DESCRIPTION
+  LOGIN_DESCRIPTION,
+  HOME_PAGE_PATH, // path to redirect authenticated users
+  LOGIN_STATE_KEY // localStorage key indicating login state
 } from '../constants';
 import '../styles/components/login.css';
 import { getCurrentLang } from '../utils';
@@ -17,6 +19,22 @@ const titleZh = PAGE_TITLES.LOGIN_ZH;
 const titleEn = PAGE_TITLES.LOGIN_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
 Astro.response.headers.set('Cache-Control', 'no-store');
+// Inline script that prevents authenticated users from visiting the login page.
+const redirectScript = `
+(function () {
+  try {
+    const d = document.documentElement;
+    // Determine login status via DOM flag or persisted state.
+    const logged =
+      d.dataset.loggedIn === 'true' ||
+      localStorage.getItem('${LOGIN_STATE_KEY}');
+    // Replace current history entry so the login page isn't retained.
+    if (logged) window.location.replace('${HOME_PAGE_PATH}');
+  } catch (e) {
+    // Fail silently to avoid blocking page rendering if any errors occur.
+  }
+})();
+`;
 ---
 
 <BaseLayout
@@ -31,6 +49,8 @@ Astro.response.headers.set('Cache-Control', 'no-store');
 >
   <Fragment slot="head">
     <meta name="referrer" content="same-origin" />
+    <!-- Redirect authenticated users away from the login page -->
+    <script is:inline set:html={redirectScript} />
   </Fragment>
   <LoginContent client:load />
 </BaseLayout>
