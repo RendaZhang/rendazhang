@@ -1,6 +1,6 @@
 export const PROFILE_CONTENT = {
   en: {
-    title: 'User Profile',
+    title: 'Account Profile',
     labels: {
       uid: 'UID',
       email: 'Email',
@@ -10,7 +10,7 @@ export const PROFILE_CONTENT = {
     }
   },
   zh: {
-    title: '个人信息',
+    title: '账号信息',
     labels: {
       uid: 'UID',
       email: '邮箱',

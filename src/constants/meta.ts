@@ -9,12 +9,12 @@ export const PAGE_TITLES = {
   ABOUT_EN: 'Renda Zhang · Software Engineer',
   DOCS_ZH: '技术文档 · 张人大',
   DOCS_EN: 'Technical Documentation · Renda Zhang',
-  LOGIN_ZH: '登录 · 张人大',
-  LOGIN_EN: 'Login · Renda Zhang',
-  REGISTER_ZH: '注册 · 张人大',
-  REGISTER_EN: 'Register · Renda Zhang',
-  PROFILE_ZH: '个人信息 · 张人大',
-  PROFILE_EN: 'Profile · Renda Zhang'
+  LOGIN_ZH: '登录',
+  LOGIN_EN: 'Login',
+  REGISTER_ZH: '注册',
+  REGISTER_EN: 'Register',
+  PROFILE_ZH: '账号信息',
+  PROFILE_EN: 'Account Profile'
 } as const;
 
 export const LOGO_ALT = {

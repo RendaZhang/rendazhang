@@ -7,13 +7,13 @@ export const NAV_CONTENT = {
     cancel: 'Cancel',
     register: 'Register',
     menu: 'Menu',
-    profile: 'Profile',
+    profile: 'Account Profile',
     drawer: {
       home: 'Home',
       chat: 'AI Chat',
       certs: 'Certifications',
       docs: 'Tech Docs',
-      profile: 'Profile'
+      profile: 'Account Profile'
     },
     theme: {
       button: 'Theme',
@@ -29,13 +29,13 @@ export const NAV_CONTENT = {
     cancel: '取消',
     register: '注册',
     menu: '菜单',
-    profile: '个人信息',
+    profile: '账号信息',
     drawer: {
       home: '首页',
       chat: 'AI 聊天',
       certs: '证书',
       docs: '技术文档',
-      profile: '个人信息'
+      profile: '账号信息'
     },
     theme: {
       button: '切换主题',
