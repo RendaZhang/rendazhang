@@ -38,10 +38,33 @@ nav {
     display: flex;
     font-weight: 600;
     gap: var(--space-1);
+    /* Home link renders both logged-out and logged-in states so the
+       correct version can be toggled purely with CSS using the
+       `data-logged-in` attribute on <html>. */
+    .c-nav-home-logged-in,
+    .c-nav-home-logged-out {
+      align-items: center;
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .c-nav-home-logged-in {
+      display: none; /* Hidden by default until user is authenticated */
+    }
 
     .c-nav-logo-icon {
       block-size: var(--space-6);
       inline-size: var(--space-6);
+    }
+
+    html[data-logged-in='true'] & {
+      .c-nav-home-logged-out {
+        display: none; /* Hide logo+Home text when logged in */
+      }
+
+      .c-nav-home-logged-in {
+        display: flex; /* Show logged-in icon and text */
+      }
     }
   }
 

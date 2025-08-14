@@ -23,7 +23,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 14, 2025, 18:14 (UTC+08:00)
+- **最后更新**: August 15, 2025, 00:10 (UTC+08:00)
 
 ---
 
@@ -77,7 +77,7 @@
 - **统一样式表**：导航与按钮等组件在 `theme.css` 中定义
   - **统一配色方案**：主色 `var(--color-brand)` 与强调色 `var(--color-brand-blue)` 渐变过渡
 - **SSR + 客户端水合**：导航栏与汉堡菜单先在服务端渲染静态结构，并通过 `client:load` 在客户端水合，兼顾交互体验与稳定性
-- **登录状态持久化**：导航栏根据 `AuthProvider` 的登录状态切换图标；`AuthProvider` 初始值读取 `localStorage` 中的无敏感标记，`BaseLayout` 初始化脚本在 `<html>` 上设置 `data-logged-in`，通过 CSS 同时渲染登录/登出图标以避免闪烁；点击登出会弹出本地化确认对话框
+- **登录状态持久化**：导航栏根据 `AuthProvider` 的登录状态切换图标；`AuthProvider` 初始值读取 `localStorage` 中的无敏感标记，`BaseLayout` 初始化脚本在 `<html>` 上设置 `data-logged-in`，通过 CSS 同时渲染登录/登出图标和首页链接的已登录图标与文本以避免闪烁；点击登出会弹出本地化确认对话框
 - **用户账号信息入口**：登录后，汉堡菜单显示 `Account Profile` 链接，指向账号信息页
 
 ### 用户账户体系

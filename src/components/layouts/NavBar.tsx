@@ -3,6 +3,7 @@ import {
   LanguageSelector,
   AvatarIcon,
   LogoutIcon,
+  LoggedInIcon,
   LocalizedSection,
   ConfirmDialog
 } from '../ui';
@@ -53,8 +54,16 @@ export default function NavBar(): ReactElement {
             aria-label={lang === 'en' ? textsEn.home : textsZh.home}
             className="c-nav-logo"
           >
-            <img src={IMAGE_PATHS.LOGO_V4} alt="" className="c-nav-logo-icon" />
-            <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
+            {/* Display both home-link variants so CSS can toggle visibility
+                via `data-logged-in` without causing hydration flicker. */}
+            <span className="c-nav-home-logged-out">
+              <img src={IMAGE_PATHS.LOGO_V4} alt="" className="c-nav-logo-icon" />
+              <LocalizedSection zhContent={textsZh.home} enContent={textsEn.home} />
+            </span>
+            <span className="c-nav-home-logged-in">
+              <LoggedInIcon />
+              <LocalizedSection zhContent={textsZh.loggedIn} enContent={textsEn.loggedIn} />
+            </span>
           </a>
         </div>
         <div className="c-nav-right">

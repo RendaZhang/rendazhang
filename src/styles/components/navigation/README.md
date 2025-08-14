@@ -18,6 +18,7 @@
 - `:active` uses `--color-subtle-bg-hover`
 - `:focus-visible` adds `--focus-ring`
 - Hamburger menu lines transform using motion tokens when `.is-open`
+- `html[data-logged-in='true']` swaps the home link to a logged-in icon and text
 
 ## Container
 The `.c-nav-container` wrapper declares `container-type: inline-size` for responsive queries. Side menus overlay the viewport and toggle visibility through the `is-open` state.
