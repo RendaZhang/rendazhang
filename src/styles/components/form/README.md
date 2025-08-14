@@ -13,6 +13,9 @@
 - `--color-error`
 - `--color-success`
 - `--shadow-login`
+- `--duration-fast`
+- `--duration-normal`
+- `--easing-standard`
 
 ## States
 - `.c-form-control:focus-visible` applies `--focus-ring`
@@ -20,6 +23,8 @@
 - `.c-password-toggle:focus-visible` uses `--focus-ring`
 - `.c-form-control:disabled` inherits disabled styling
 - `.c-invalid-feedback` and `.c-valid-feedback` use semantic color tokens
+- `.c-form-control` transitions border and shadow using motion tokens
+- `.c-login-container` fades in with a vertical slide animation
 
 ## Container
 Authentication forms use `container-type: inline-size` and adjust width via container queries. Fields span the full container width while remaining within a max-width wrapper.

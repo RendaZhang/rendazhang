@@ -17,6 +17,10 @@
   color: var(--color-text);
   display: block;
   padding: var(--space-2) var(--space-3);
+  /* Smoothly animate focus styling */
+  transition:
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
   width: 100%;
 
   &:focus-visible {
@@ -70,6 +74,22 @@
 
   @container (min-width: 30rem) {
     margin: var(--space-10) auto;
+  }
+}
+
+/* Fade-in animation for authentication views */
+.c-login-container {
+  animation: fade-in-up var(--duration-normal) var(--easing-standard);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-4)); /* start slightly below */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* end at natural position */
   }
 }
 

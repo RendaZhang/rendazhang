@@ -73,6 +73,19 @@ nav {
     border-radius: 50%;
     display: flex;
     padding: var(--space-1);
+    /* Subtle scale and brightness transitions for avatar */
+    transition:
+      transform var(--duration-fast) var(--easing-standard),
+      filter var(--duration-fast) var(--easing-standard);
+
+    &:hover {
+      filter: brightness(1.1);
+      transform: scale(1.05); /* enlarge slightly on hover */
+    }
+
+    &:active {
+      transform: scale(0.95); /* press feedback */
+    }
   }
 
   .c-logout-link {

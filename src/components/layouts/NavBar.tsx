@@ -16,7 +16,7 @@ import {
 import { NAV_CONTENT } from '../../content';
 import { useLanguage, useAuth } from '../providers';
 import { storage } from '../../utils';
-import { useState, type ReactElement } from 'react';
+import { useState, type ReactElement, type CSSProperties } from 'react';
 import HamburgerMenu from './HamburgerMenu';
 
 // Server-side rendering provides a static navigation structure.
@@ -27,18 +27,23 @@ export default function NavBar(): ReactElement {
   const { logout } = useAuth();
   const textsEn = NAV_CONTENT.en;
   const textsZh = NAV_CONTENT.zh;
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false); // controls visibility of logout confirmation
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // disables logout button and shows spinner
 
+  // Show confirmation dialog before logging out
   const openLogoutDialog = (): void => {
     setShowConfirm(true);
   };
 
+  // Hide confirmation dialog
   const closeLogoutDialog = (): void => {
     setShowConfirm(false);
   };
 
+  // Execute logout flow and redirect to login page
   const handleLogout = async (): Promise<void> => {
     closeLogoutDialog();
+    setIsLoggingOut(true); // trigger spinner and disable button
     await logout();
     storage.remove(LOGIN_IDENTIFIER_KEY);
     window.location.href = LOGIN_PAGE_PATH;
@@ -81,9 +86,24 @@ export default function NavBar(): ReactElement {
             onClick={openLogoutDialog}
             aria-label={lang === 'en' ? textsEn.logout : textsZh.logout}
             className="c-avatar-link c-logout-link"
+            disabled={isLoggingOut} // prevent repeated clicks during logout
           >
-            <LogoutIcon />
+            {isLoggingOut ? (
+              <span
+                className="c-spinner"
+                style={
+                  {
+                    '--spinner-size': 'var(--space-5)',
+                    '--spinner-color': 'var(--color-nav-text)'
+                  } as CSSProperties
+                }
+                aria-hidden="true"
+              /> /* Show loading indicator while logging out */
+            ) : (
+              <LogoutIcon />
+            )}
           </button>
+          {/* Logout confirmation dialog */}
           <ConfirmDialog
             isOpen={showConfirm}
             message={
