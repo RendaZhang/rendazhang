@@ -38,7 +38,8 @@ export const REGISTER_CONTENT = {
       passwordMismatch: 'Passwords do not match',
       agreement: 'Please agree to the terms',
       passwordInvalid:
-        'Password must be at least 8 characters and include at least two of letters, numbers, or special symbols'
+        'Password must be at least 8 characters and include at least two of letters, numbers, or special symbols',
+      default: 'Registration failed'
     },
     strength: {
       weak: 'Weak',
@@ -84,7 +85,8 @@ export const REGISTER_CONTENT = {
       usernameTaken: '用户名已被占用',
       passwordMismatch: '两次密码不一致',
       agreement: '请勾选同意',
-      passwordInvalid: '密码至少8位，包含字母、数字或特殊符号中的两种'
+      passwordInvalid: '密码至少8位，包含字母、数字或特殊符号中的两种',
+      default: '注册失败'
     },
     strength: {
       weak: '弱',
