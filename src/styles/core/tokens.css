@@ -1,496 +1,227 @@
 @layer tokens {
   :root {
     /*! ==== Brand colors ==== */
-    --color-brand: color-mix(
-      in srgb,
-      oklch(45.89% 0.2417 295.61),
-      transparent
-    ); /* old: --color-primary */
-    --color-accent: color-mix(
-      in srgb,
-      oklch(59.5% 0.2157 260.53),
-      transparent
-    ); /* old: --color-accent */
-    --color-brand-secondary: color-mix(
-      in srgb,
-      oklch(50.81% 0.1773 275.87),
-      transparent
-    ); /* old: --color-secondary */
-    --color-brand-tertiary: color-mix(
-      in srgb,
-      oklch(70.69% 0.1492 279.75),
-      transparent
-    ); /* old: --color-tertiary */
-    --color-brand-blue: color-mix(
-      in srgb,
-      oklch(55.58% 0.2142 269.03),
-      transparent
-    ); /* old: --color-brand-blue */
-    --color-spinner: color-mix(
-      in srgb,
-      oklch(65.31% 0.1348 242.71),
-      transparent
-    ); /* old: --color-spinner */
+    /* Primary brand color for links and primary actions */
+    --color-brand: color-mix(in srgb, oklch(45.89% 0.2417 295.61), transparent);
+    /* Accent color for highlights and focus states */
+    --color-accent: color-mix(in srgb, oklch(59.5% 0.2157 260.53), transparent);
+    /* Secondary brand shade for hover states */
+    --color-brand-secondary: color-mix(in srgb, oklch(50.81% 0.1773 275.87), transparent);
+    /* Tertiary brand shade used in gradients and subtle backgrounds */
+    --color-brand-tertiary: color-mix(in srgb, oklch(70.69% 0.1492 279.75), transparent);
+    /* Blue variant for informational elements */
+    --color-brand-blue: color-mix(in srgb, oklch(55.58% 0.2142 269.03), transparent);
+    /* Default spinner stroke color */
+    --color-spinner: color-mix(in srgb, oklch(65.31% 0.1348 242.71), transparent);
 
     /*! ==== Semantic colors ==== */
-    --color-success: color-mix(
-      in srgb,
-      oklch(74.59% 0.1812 152.35),
-      transparent
-    ); /* old: --color-success */
-    --color-warning: color-mix(
-      in srgb,
-      oklch(83.58% 0.1689 91.77),
-      transparent
-    ); /* old: --color-warning */
-    --color-error: color-mix(
-      in srgb,
-      oklch(63.07% 0.194 29.43),
-      transparent
-    ); /* old: --color-error */
-    --color-warning-accent: color-mix(
-      in srgb,
-      oklch(77.03% 0.1741 64.05),
-      transparent
-    ); /* old: --color-warning-accent */
+    /* Success messages and confirmations */
+    --color-success: color-mix(in srgb, oklch(74.59% 0.1812 152.35), transparent);
+    /* Warning indicators */
+    --color-warning: color-mix(in srgb, oklch(83.58% 0.1689 91.77), transparent);
+    /* Error messages and destructive actions */
+    --color-error: color-mix(in srgb, oklch(63.07% 0.194 29.43), transparent);
+    /* Accent color for warning backgrounds */
+    --color-warning-accent: color-mix(in srgb, oklch(77.03% 0.1741 64.05), transparent);
 
     /*! ==== Neutral colors ==== */
-    --color-gray-900: color-mix(
-      in srgb,
-      oklch(17.7% 0.0307 282.81),
-      transparent
-    ); /* old: --color-gray-900 */
-    --color-gray-800: color-mix(
-      in srgb,
-      oklch(26.6% 0.0371 283.59),
-      transparent
-    ); /* old: --color-gray-800 */
-    --color-gray-100: color-mix(
-      in srgb,
-      oklch(97.3% 0.0133 286.15),
-      transparent
-    ); /* old: --color-gray-100 */
-    --color-gray-50: color-mix(
-      in srgb,
-      oklch(98.65% 0.0066 286.28),
-      transparent
-    ); /* old: --color-gray-50 */
-    --color-base-white: color-mix(
-      in srgb,
-      oklch(100% 0 0),
-      transparent
-    ); /* old: --color-white-rgb */
-    --color-base-black: color-mix(in srgb, oklch(0% 0 0), transparent); /* old: --color-black-rgb */
-    --color-gray: color-mix(in srgb, oklch(89.75% 0 0), transparent); /* old: --color-gray */
-    --color-border-light: color-mix(
-      in srgb,
-      oklch(92.49% 0 0),
-      transparent
-    ); /* old: --color-border-light */
-    --color-subtle-bg: color-mix(
-      in srgb,
-      oklch(98.42% 0.0034 247.86),
-      transparent
-    ); /* old: --color-subtle-bg */
-    --color-subtle-bg-alt: color-mix(
-      in srgb,
-      oklch(98.76% 0.0017 247.84),
-      transparent
-    ); /* old: --color-subtle-bg-alt */
-    --color-subtle-bg-hover: color-mix(
-      in srgb,
-      oklch(96.83% 0.0069 247.9),
-      transparent
-    ); /* old: --color-subtle-bg-hover */
-    --color-text-muted: color-mix(
-      in srgb,
-      oklch(55.44% 0.0407 257.42),
-      transparent
-    ); /* old: --color-text-muted */
-    --color-text-darker: color-mix(
-      in srgb,
-      oklch(44.55% 0.0374 257.28),
-      transparent
-    ); /* old: --color-text-darker */
-    --color-text-deep: color-mix(
-      in srgb,
-      oklch(37.17% 0.0392 257.29),
-      transparent
-    ); /* old: --color-text-deep */
-    --color-border-muted: color-mix(
-      in srgb,
-      oklch(92.88% 0.0126 255.51),
-      transparent
-    ); /* old: --color-border-muted */
-    --color-border-soft: color-mix(
-      in srgb,
-      oklch(86.9% 0.0198 252.89),
-      transparent
-    ); /* old: --color-border-soft */
-    --color-gray-medium: color-mix(
-      in srgb,
-      oklch(71.07% 0.0351 256.79),
-      transparent
-    ); /* old: --color-gray-medium */
-    --color-spinner-track: color-mix(
-      in srgb,
-      oklch(96.42% 0 0),
-      transparent
-    ); /* old: --color-spinner-track */
-    --color-border-neutral: color-mix(
-      in srgb,
-      oklch(84.52% 0 0),
-      transparent
-    ); /* old: --color-border-neutral */
-    --color-light-gray: color-mix(
-      in srgb,
-      oklch(98.51% 0 0),
-      transparent
-    ); /* old: --color-light-gray */
-    --color-dark-gray: color-mix(
-      in srgb,
-      oklch(17.76% 0 0),
-      transparent
-    ); /* old: --color-dark-gray */
-    --color-dark-black: color-mix(
-      in srgb,
-      oklch(25.2% 0 0),
-      transparent
-    ); /* old: --color-dark-black */
-    --color-dark-surface: color-mix(
-      in srgb,
-      oklch(28.5% 0 0),
-      transparent
-    ); /* old: --color-dark-surface */
+    /* Highest contrast text on light surfaces */
+    --color-gray-900: color-mix(in srgb, oklch(17.7% 0.0307 282.81), transparent);
+    /* Dark surface backgrounds */
+    --color-gray-800: color-mix(in srgb, oklch(26.6% 0.0371 283.59), transparent);
+    /* Card and surface backgrounds */
+    --color-gray-100: color-mix(in srgb, oklch(97.3% 0.0133 286.15), transparent);
+    /* Base page background */
+    --color-gray-50: color-mix(in srgb, oklch(98.65% 0.0066 286.28), transparent);
+    /* Absolute white for text and icons on dark surfaces */
+    --color-base-white: color-mix(in srgb, oklch(100% 0 0), transparent);
+    /* Absolute black for overlays and shadows */
+    --color-base-black: color-mix(in srgb, oklch(0% 0 0), transparent);
+    /* Default gray for icons and placeholders */
+    --color-gray: color-mix(in srgb, oklch(89.75% 0 0), transparent);
+    /* Light borders and dividers */
+    --color-border-light: color-mix(in srgb, oklch(92.49% 0 0), transparent);
+    /* Neutral background for secondary UI */
+    --color-subtle-bg: color-mix(in srgb, oklch(98.42% 0.0034 247.86), transparent);
+    /* Alternate neutral background */
+    --color-subtle-bg-alt: color-mix(in srgb, oklch(98.76% 0.0017 247.84), transparent);
+    /* Hover state for neutral backgrounds */
+    --color-subtle-bg-hover: color-mix(in srgb, oklch(96.83% 0.0069 247.9), transparent);
+    /* Muted text for secondary information */
+    --color-text-muted: color-mix(in srgb, oklch(55.44% 0.0407 257.42), transparent);
+    /* Default body text color */
+    --color-text-darker: color-mix(in srgb, oklch(44.55% 0.0374 257.28), transparent);
+    /* Strong emphasis text color */
+    --color-text-deep: color-mix(in srgb, oklch(37.17% 0.0392 257.29), transparent);
+    /* Neutral border color */
+    --color-border-muted: color-mix(in srgb, oklch(92.88% 0.0126 255.51), transparent);
+    /* Soft border for grouping elements */
+    --color-border-soft: color-mix(in srgb, oklch(86.9% 0.0198 252.89), transparent);
+    /* Mid gray for icons and placeholders */
+    --color-gray-medium: color-mix(in srgb, oklch(71.07% 0.0351 256.79), transparent);
+    /* Background track for spinners */
+    --color-spinner-track: color-mix(in srgb, oklch(96.42% 0 0), transparent);
+    /* Neutral border for inputs */
+    --color-border-neutral: color-mix(in srgb, oklch(84.52% 0 0), transparent);
+    /* Light gray surface color */
+    --color-light-gray: color-mix(in srgb, oklch(98.51% 0 0), transparent);
+    /* Dark gray text on light backgrounds */
+    --color-dark-gray: color-mix(in srgb, oklch(17.76% 0 0), transparent);
+    /* Deep black used in dark theme surfaces */
+    --color-dark-black: color-mix(in srgb, oklch(25.2% 0 0), transparent);
+    /* Dark surface color for panels in dark theme */
+    --color-dark-surface: color-mix(in srgb, oklch(28.5% 0 0), transparent);
 
     /*! ==== Extended colors ==== */
-    --color-gray-700: color-mix(
-      in srgb,
-      oklch(38.67% 0 0),
-      transparent
-    ); /* old: --color-gray-700 */
+    /* Secondary text on dark backgrounds */
+    --color-gray-700: color-mix(in srgb, oklch(38.67% 0 0), transparent);
 
     /*! ==== Markdown colors ==== */
-    --color-md-bg: color-mix(in srgb, oklch(18.22% 0 0), transparent); /* old: --color-md-bg */
-    --color-md-text: color-mix(in srgb, oklch(90.67% 0 0), transparent); /* old: --color-md-text */
-    --color-md-heading-border: color-mix(
-      in srgb,
-      oklch(36.44% 0.0582 283.13),
-      transparent
-    ); /* old: --color-md-heading-border */
-    --color-md-h1: color-mix(
-      in srgb,
-      oklch(95.95% 0.02 286.02),
-      transparent
-    ); /* old: --color-md-h1 */
-    --color-md-h2: color-mix(
-      in srgb,
-      oklch(87.3% 0.0647 284.98),
-      transparent
-    ); /* old: --color-md-h2 */
-    --color-md-h2-border: color-mix(
-      in srgb,
-      oklch(30.79% 0.0411 283.72),
-      transparent
-    ); /* old: --color-md-h2-border */
-    --color-md-h3: color-mix(
-      in srgb,
-      oklch(82.98% 0.0879 284.32),
-      transparent
-    ); /* old: --color-md-h3 */
-    --color-md-h4: color-mix(
-      in srgb,
-      oklch(78.68% 0.1116 283.54),
-      transparent
-    ); /* old: --color-md-h4 */
-    --color-md-strong: color-mix(
-      in srgb,
-      oklch(100% 0 0),
-      transparent
-    ); /* old: --color-md-strong */
-    --color-md-table-bg: color-mix(
-      in srgb,
-      oklch(24.23% 0.0285 284.07),
-      transparent
-    ); /* old: --color-md-table-bg */
-    --color-md-th-bg: color-mix(
-      in srgb,
-      oklch(29.49% 0.038 283.83),
-      transparent
-    ); /* old: --color-md-th-bg */
-    --color-md-th-color: color-mix(
-      in srgb,
-      oklch(91.63% 0.042 285.54),
-      transparent
-    ); /* old: --color-md-th-color */
-    --color-md-td-color: color-mix(
-      in srgb,
-      oklch(88.68% 0.0341 285.68),
-      transparent
-    ); /* old: --color-md-td-color */
-    --color-md-td-bg: color-mix(
-      in srgb,
-      oklch(26.54% 0.0353 283.74),
-      transparent
-    ); /* old: --color-md-td-bg */
-    --color-md-table-border: color-mix(
-      in srgb,
-      oklch(37.4% 0.0528 283.55),
-      transparent
-    ); /* old: --color-md-table-border */
-    --color-md-zebra-bg: color-mix(
-      in srgb,
-      oklch(23.33% 0.0268 284.13),
-      transparent
-    ); /* old: --color-md-zebra-bg */
-    --color-md-pre-bg: color-mix(in srgb, oklch(20% 0 0), transparent); /* old: --color-md-pre-bg */
-    --color-md-code-bg: color-mix(
-      in srgb,
-      oklch(78.8% 0.1104 282.42),
-      transparent
-    ); /* old: --color-md-code-bg */
-    --color-md-code-color: color-mix(
-      in srgb,
-      oklch(14.33% 0.0059 41.04),
-      transparent
-    ); /* old: --color-md-code-color */
-    --color-md-link: color-mix(
-      in srgb,
-      oklch(70.69% 0.1491 279.75),
-      transparent
-    ); /* old: --color-md-link */
-    --color-md-link-hover: color-mix(
-      in srgb,
-      oklch(77.05% 0.1196 281.1),
-      transparent
-    ); /* old: --color-md-link-hover */
-    --color-md-blockquote: color-mix(
-      in srgb,
-      oklch(81.02% 0.0984 283.34),
-      transparent
-    ); /* old: --color-md-blockquote */
-    --color-md-blockquote-border: color-mix(
-      in srgb,
-      oklch(50.81% 0.1772 275.86),
-      transparent
-    ); /* old: --color-md-blockquote-border */
-    --color-md-blockquote-bg: color-mix(
-      in srgb,
-      oklch(23.5% 0.0325 283.62),
-      transparent
-    ); /* old: --color-md-blockquote-bg */
-    --color-md-hr: color-mix(
-      in srgb,
-      oklch(33.77% 0.0592 282.77),
-      transparent
-    ); /* old: --color-md-hr */
+    /* Background for markdown containers */
+    --color-md-bg: color-mix(in srgb, oklch(18.22% 0 0), transparent);
+    /* Default markdown body text */
+    --color-md-text: color-mix(in srgb, oklch(90.67% 0 0), transparent);
+    /* Divider under markdown headings */
+    --color-md-heading-border: color-mix(in srgb, oklch(36.44% 0.0582 283.13), transparent);
+    /* Markdown h1 heading text */
+    --color-md-h1: color-mix(in srgb, oklch(95.95% 0.02 286.02), transparent);
+    /* Markdown h2 heading text */
+    --color-md-h2: color-mix(in srgb, oklch(87.3% 0.0647 284.98), transparent);
+    /* Border below markdown h2 */
+    --color-md-h2-border: color-mix(in srgb, oklch(30.79% 0.0411 283.72), transparent);
+    /* Markdown h3 heading text */
+    --color-md-h3: color-mix(in srgb, oklch(82.98% 0.0879 284.32), transparent);
+    /* Markdown h4 heading text */
+    --color-md-h4: color-mix(in srgb, oklch(78.68% 0.1116 283.54), transparent);
+    /* Strong text inside markdown */
+    --color-md-strong: color-mix(in srgb, oklch(100% 0 0), transparent);
+    /* Table background within markdown */
+    --color-md-table-bg: color-mix(in srgb, oklch(24.23% 0.0285 284.07), transparent);
+    /* Table header background */
+    --color-md-th-bg: color-mix(in srgb, oklch(29.49% 0.038 283.83), transparent);
+    /* Table header text color */
+    --color-md-th-color: color-mix(in srgb, oklch(91.63% 0.042 285.54), transparent);
+    /* Table cell text color */
+    --color-md-td-color: color-mix(in srgb, oklch(88.68% 0.0341 285.68), transparent);
+    /* Table cell background */
+    --color-md-td-bg: color-mix(in srgb, oklch(26.54% 0.0353 283.74), transparent);
+    /* Border color for markdown tables */
+    --color-md-table-border: color-mix(in srgb, oklch(37.4% 0.0528 283.55), transparent);
+    /* Zebra striping for table rows */
+    --color-md-zebra-bg: color-mix(in srgb, oklch(23.33% 0.0268 284.13), transparent);
+    /* Background for <pre> blocks */
+    --color-md-pre-bg: color-mix(in srgb, oklch(20% 0 0), transparent);
+    /* Background for inline code */
+    --color-md-code-bg: color-mix(in srgb, oklch(78.8% 0.1104 282.42), transparent);
+    /* Text color for inline code */
+    --color-md-code-color: color-mix(in srgb, oklch(14.33% 0.0059 41.04), transparent);
+    /* Markdown link color */
+    --color-md-link: color-mix(in srgb, oklch(70.69% 0.1491 279.75), transparent);
+    /* Hover state for markdown links */
+    --color-md-link-hover: color-mix(in srgb, oklch(77.05% 0.1196 281.1), transparent);
+    /* Blockquote text color */
+    --color-md-blockquote: color-mix(in srgb, oklch(81.02% 0.0984 283.34), transparent);
+    /* Left border for blockquotes */
+    --color-md-blockquote-border: color-mix(in srgb, oklch(50.81% 0.1772 275.86), transparent);
+    /* Background for blockquote container */
+    --color-md-blockquote-bg: color-mix(in srgb, oklch(23.5% 0.0325 283.62), transparent);
+    /* Divider line in markdown */
+    --color-md-hr: color-mix(in srgb, oklch(33.77% 0.0592 282.77), transparent);
 
     /*! ==== 404 page colors ==== */
-    --color-404-text: color-mix(
-      in srgb,
-      oklch(33.51% 0.0331 260.91),
-      transparent
-    ); /* old: --color-404-text */
-    --color-404-primary: color-mix(
-      in srgb,
-      oklch(60.29% 0.1466 243.46),
-      transparent
-    ); /* old: --color-404-primary */
-    --color-404-primary-hover: color-mix(
-      in srgb,
-      oklch(55.08% 0.1393 245.43),
-      transparent
-    ); /* old: --color-404-primary-hover */
-    --color-404-primary-dark: color-mix(
-      in srgb,
-      oklch(45.2% 0.1309 251.01),
-      transparent
-    ); /* old: --color-404-primary-dark */
-    --color-404-primary-darker: color-mix(
-      in srgb,
-      oklch(37.71% 0.1062 250.07),
-      transparent
-    ); /* old: --color-404-primary-darker */
-    --color-404-heading: color-mix(
-      in srgb,
-      oklch(32.07% 0.1509 270.29),
-      transparent
-    ); /* old: --color-404-heading */
-    --color-404-lead: color-mix(
-      in srgb,
-      oklch(45.41% 0.0304 228.62),
-      transparent
-    ); /* old: --color-404-lead */
-    --color-404-search-border: color-mix(
-      in srgb,
-      oklch(95.32% 0.0218 239.43),
-      transparent
-    ); /* old: --color-404-search-border */
-    --color-404-signature: color-mix(
-      in srgb,
-      oklch(63.88% 0.0327 229.55),
-      transparent
-    ); /* old: --color-404-signature */
+    /* Base text color on 404 page */
+    --color-404-text: color-mix(in srgb, oklch(33.51% 0.0331 260.91), transparent);
+    /* Primary button background */
+    --color-404-primary: color-mix(in srgb, oklch(60.29% 0.1466 243.46), transparent);
+    /* Hover state for primary button */
+    --color-404-primary-hover: color-mix(in srgb, oklch(55.08% 0.1393 245.43), transparent);
+    /* Pressed state for primary button */
+    --color-404-primary-dark: color-mix(in srgb, oklch(45.2% 0.1309 251.01), transparent);
+    /* Darkest state for primary button */
+    --color-404-primary-darker: color-mix(in srgb, oklch(37.71% 0.1062 250.07), transparent);
+    /* Heading text color on 404 page */
+    --color-404-heading: color-mix(in srgb, oklch(32.07% 0.1509 270.29), transparent);
+    /* Lead paragraph text */
+    --color-404-lead: color-mix(in srgb, oklch(45.41% 0.0304 228.62), transparent);
+    /* Border color for search input */
+    --color-404-search-border: color-mix(in srgb, oklch(95.32% 0.0218 239.43), transparent);
+    /* Signature text color */
+    --color-404-signature: color-mix(in srgb, oklch(63.88% 0.0327 229.55), transparent);
+    /* Hover background for secondary button */
     --color-404-btn-secondary-hover-bg: color-mix(
       in srgb,
       oklch(95.32% 0.0218 239.43),
       transparent
-    ); /* old: --color-404-btn-secondary-hover-bg */
-    --color-404-bg-start: color-mix(
-      in srgb,
-      oklch(96.02% 0.0244 206.2),
-      transparent
-    ); /* old: --color-404-bg-start */
-    --color-404-bg-end: color-mix(
-      in srgb,
-      oklch(88.48% 0.0546 243.39),
-      transparent
-    ); /* old: --color-404-bg-end */
-    --color-404-circle1-start: color-mix(
-      in srgb,
-      oklch(83.08% 0.0969 229.09),
-      transparent
-    ); /* old: --color-404-circle1-start */
-    --color-404-circle1-end: color-mix(
-      in srgb,
-      oklch(77.26% 0.1268 231.11),
-      transparent
-    ); /* old: --color-404-circle1-end */
-    --color-404-circle2-start: color-mix(
-      in srgb,
-      oklch(89.47% 0.0604 227.77),
-      transparent
-    ); /* old: --color-404-circle2-start */
-    --color-404-circle2-end: color-mix(
-      in srgb,
-      oklch(83.08% 0.0969 229.09),
-      transparent
-    ); /* old: --color-404-circle2-end */
-    --color-404-circle3-start: color-mix(
-      in srgb,
-      oklch(95.81% 0.0243 226.47),
-      transparent
-    ); /* old: --color-404-circle3-start */
-    --color-404-circle3-end: color-mix(
-      in srgb,
-      oklch(89.47% 0.0604 227.77),
-      transparent
-    ); /* old: --color-404-circle3-end */
-    --color-404-signature-line: color-mix(
-      in srgb,
-      oklch(70.64% 0.0268 229.31),
-      transparent
-    ); /* old: --color-404-signature-line */
+    );
+    /* Start color for 404 page background gradient */
+    --color-404-bg-start: color-mix(in srgb, oklch(96.02% 0.0244 206.2), transparent);
+    /* End color for 404 page background gradient */
+    --color-404-bg-end: color-mix(in srgb, oklch(88.48% 0.0546 243.39), transparent);
+    /* Start color for first decorative circle */
+    --color-404-circle1-start: color-mix(in srgb, oklch(83.08% 0.0969 229.09), transparent);
+    /* End color for first decorative circle */
+    --color-404-circle1-end: color-mix(in srgb, oklch(77.26% 0.1268 231.11), transparent);
+    /* Start color for second decorative circle */
+    --color-404-circle2-start: color-mix(in srgb, oklch(89.47% 0.0604 227.77), transparent);
+    /* End color for second decorative circle */
+    --color-404-circle2-end: color-mix(in srgb, oklch(83.08% 0.0969 229.09), transparent);
+    /* Start color for third decorative circle */
+    --color-404-circle3-start: color-mix(in srgb, oklch(95.81% 0.0243 226.47), transparent);
+    /* End color for third decorative circle */
+    --color-404-circle3-end: color-mix(in srgb, oklch(89.47% 0.0604 227.77), transparent);
+    /* Color of signature underline */
+    --color-404-signature-line: color-mix(in srgb, oklch(70.64% 0.0268 229.31), transparent);
 
     /*! ==== 50x page colors ==== */
-    --color-50x-text: color-mix(
-      in srgb,
-      oklch(33.51% 0.0331 260.91),
-      transparent
-    ); /* old: --color-50x-text */
-    --color-50x-error-stroke: color-mix(
-      in srgb,
-      oklch(61.37% 0.2039 25.56),
-      transparent
-    ); /* old: --color-50x-error-stroke */
-    --color-50x-heading: color-mix(
-      in srgb,
-      oklch(24.33% 0.0247 263.95),
-      transparent
-    ); /* old: --color-50x-heading */
-    --color-50x-lead: color-mix(
-      in srgb,
-      oklch(44.74% 0.0343 261.32),
-      transparent
-    ); /* old: --color-50x-lead */
-    --color-50x-message-bg: color-mix(
-      in srgb,
-      oklch(98.22% 0.0041 271.37),
-      transparent
-    ); /* old: --color-50x-message-bg */
-    --color-50x-signature: color-mix(
-      in srgb,
-      oklch(59.56% 0.0381 257.87),
-      transparent
-    ); /* old: --color-50x-signature */
-    --color-50x-primary-btn: color-mix(
-      in srgb,
-      oklch(59.46% 0.1398 250.3),
-      transparent
-    ); /* old: --color-50x-primary-btn */
-    --color-50x-primary-btn-hover: color-mix(
-      in srgb,
-      oklch(52.41% 0.1259 252.32),
-      transparent
-    ); /* old: --color-50x-primary-btn-hover */
-    --color-50x-secondary-text: color-mix(
-      in srgb,
-      oklch(44.74% 0.0343 261.32),
-      transparent
-    ); /* old: --color-50x-secondary-text */
-    --color-50x-secondary-border: color-mix(
-      in srgb,
-      oklch(92.88% 0.0126 255.51),
-      transparent
-    ); /* old: --color-50x-secondary-border */
-    --color-50x-secondary-bg-hover: color-mix(
-      in srgb,
-      oklch(98.34% 0.0042 236.5),
-      transparent
-    ); /* old: --color-50x-secondary-bg-hover */
+    /* Base text color on 50x page */
+    --color-50x-text: color-mix(in srgb, oklch(33.51% 0.0331 260.91), transparent);
+    /* Stroke color for error icon */
+    --color-50x-error-stroke: color-mix(in srgb, oklch(61.37% 0.2039 25.56), transparent);
+    /* Heading text color on 50x page */
+    --color-50x-heading: color-mix(in srgb, oklch(24.33% 0.0247 263.95), transparent);
+    /* Lead paragraph text */
+    --color-50x-lead: color-mix(in srgb, oklch(44.74% 0.0343 261.32), transparent);
+    /* Background for error message box */
+    --color-50x-message-bg: color-mix(in srgb, oklch(98.22% 0.0041 271.37), transparent);
+    /* Signature text color */
+    --color-50x-signature: color-mix(in srgb, oklch(59.56% 0.0381 257.87), transparent);
+    /* Primary action button */
+    --color-50x-primary-btn: color-mix(in srgb, oklch(59.46% 0.1398 250.3), transparent);
+    /* Hover state for primary action */
+    --color-50x-primary-btn-hover: color-mix(in srgb, oklch(52.41% 0.1259 252.32), transparent);
+    /* Secondary text color */
+    --color-50x-secondary-text: color-mix(in srgb, oklch(44.74% 0.0343 261.32), transparent);
+    /* Secondary button border */
+    --color-50x-secondary-border: color-mix(in srgb, oklch(92.88% 0.0126 255.51), transparent);
+    /* Hover background for secondary button */
+    --color-50x-secondary-bg-hover: color-mix(in srgb, oklch(98.34% 0.0042 236.5), transparent);
+    /* Hover border for secondary button */
     --color-50x-secondary-border-hover: color-mix(
       in srgb,
       oklch(86.87% 0.0187 250.61),
       transparent
-    ); /* old: --color-50x-secondary-border-hover */
-    --color-50x-bg-start: color-mix(
-      in srgb,
-      oklch(97.55% 0.0045 258.32),
-      transparent
-    ); /* old: --color-50x-bg-start */
-    --color-50x-bg-end: color-mix(
-      in srgb,
-      oklch(94.28% 0.0189 255.53),
-      transparent
-    ); /* old: --color-50x-bg-end */
-    --color-50x-decor1-start: color-mix(
-      in srgb,
-      oklch(95.14% 0.025 236.82),
-      transparent
-    ); /* old: --color-50x-decor1-start */
-    --color-50x-decor1-end: color-mix(
-      in srgb,
-      oklch(93.19% 0.0316 255.59),
-      transparent
-    ); /* old: --color-50x-decor1-end */
-    --color-50x-decor2-start: color-mix(
-      in srgb,
-      oklch(94.33% 0.0284 294.59),
-      transparent
-    ); /* old: --color-50x-decor2-start */
-    --color-50x-decor2-end: color-mix(
-      in srgb,
-      oklch(97.71% 0.0125 236.62),
-      transparent
-    ); /* old: --color-50x-decor2-end */
-    --color-50x-icon-start: color-mix(
-      in srgb,
-      oklch(95.68% 0.0221 7.17),
-      transparent
-    ); /* old: --color-50x-icon-start */
-    --color-50x-icon-end: color-mix(
-      in srgb,
-      oklch(89.31% 0.0569 11.54),
-      transparent
-    ); /* old: --color-50x-icon-end */
-    --color-50x-signature-line: color-mix(
-      in srgb,
-      oklch(86.87% 0.0187 250.61),
-      transparent
-    ); /* old: --color-50x-signature-line */
+    );
+    /* Start color for 50x page background gradient */
+    --color-50x-bg-start: color-mix(in srgb, oklch(97.55% 0.0045 258.32), transparent);
+    /* End color for 50x page background gradient */
+    --color-50x-bg-end: color-mix(in srgb, oklch(94.28% 0.0189 255.53), transparent);
+    /* Start color for first decorative shape */
+    --color-50x-decor1-start: color-mix(in srgb, oklch(95.14% 0.025 236.82), transparent);
+    /* End color for first decorative shape */
+    --color-50x-decor1-end: color-mix(in srgb, oklch(93.19% 0.0316 255.59), transparent);
+    /* Start color for second decorative shape */
+    --color-50x-decor2-start: color-mix(in srgb, oklch(94.33% 0.0284 294.59), transparent);
+    /* End color for second decorative shape */
+    --color-50x-decor2-end: color-mix(in srgb, oklch(97.71% 0.0125 236.62), transparent);
+    /* Start color for error icon gradient */
+    --color-50x-icon-start: color-mix(in srgb, oklch(95.68% 0.0221 7.17), transparent);
+    /* End color for error icon gradient */
+    --color-50x-icon-end: color-mix(in srgb, oklch(89.31% 0.0569 11.54), transparent);
+    /* Color of signature underline */
+    --color-50x-signature-line: color-mix(in srgb, oklch(86.87% 0.0187 250.61), transparent);
 
     /*! ==== Semantic ==== */
-    --color-text-heading: var(--color-brand); /* old: --color-text-heading */
+    --color-text-heading: var(--color-brand);
 
     /*! ==== Spacing ==== */
     /* 4/8 spacing scale expressed in rem for flexibility */
@@ -531,7 +262,7 @@
     --border-3: 1px solid var(--color-border-neutral);
 
     /*! ==== Typography ==== */
-    --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif; /* old: --font-body */
+    --font-body: 'Open Sans', 'Segoe UI', 'Microsoft YaHei', sans-serif;
     /* Fluid type scale */
     --font-size-0: clamp(0.75rem, 0.75rem + 0.2vw, 0.875rem);
     --font-size-1: clamp(0.875rem, 0.875rem + 0.2vw, 1rem);
@@ -560,50 +291,54 @@
     --easing-exit: cubic-bezier(0.4, 0, 1, 1);
 
     /*! ==== Shadows & Overlays ==== */
+    /* Outline for keyboard focus */
     --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-brand) 40%, transparent);
+    /* Low elevation shadow */
     --shadow-elevation-1: 0 1px 2px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    /* Medium elevation shadow */
     --shadow-elevation-2: 0 2px 4px color-mix(in srgb, var(--color-base-black) 15%, transparent);
+    /* High elevation shadow */
     --shadow-elevation-3: 0 4px 6px color-mix(in srgb, var(--color-base-black) 20%, transparent);
-    --shadow-elevated: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-elevated */
-    --overlay-bg: color-mix(
-      in srgb,
-      var(--color-base-black) 40%,
-      transparent
-    ); /* old: --overlay-bg */
-    --shadow-medium: 0 2px 8px color-mix(in srgb, var(--color-base-black) 20%, transparent); /* old: --shadow-medium */
-    --shadow-soft: 0 0 4px color-mix(in srgb, var(--color-base-black) 30%, transparent); /* old: --shadow-soft */
-    --shadow-large: 0 8px 30px color-mix(in srgb, var(--color-base-black) 8%, transparent); /* old: --shadow-large */
-    --shadow-dialog: 0 4px 20px color-mix(in srgb, var(--color-base-black) 15%, transparent); /* old: --shadow-dialog */
-    --shadow-focus-brand: 0 0 0 3px color-mix(in srgb, var(--color-brand) 20%, transparent); /* old: --shadow-focus-purple */
-    --overlay-light-bg: color-mix(
-      in srgb,
-      var(--color-base-white) 95%,
-      transparent
-    ); /* old: --overlay-light-bg */
-    --overlay-dark-bg: color-mix(
-      in srgb,
-      var(--color-base-black) 75%,
-      transparent
-    ); /* old: --overlay-dark-bg */
-    --overlay-dark-surface: color-mix(
-      in srgb,
-      var(--color-dark-black) 95%,
-      transparent
-    ); /* old: --overlay-dark-surface */
-    --shadow-dark: 0 4px 10px color-mix(in srgb, var(--color-base-black) 50%, transparent); /* old: --shadow-dark */
-    --shadow-login-light: 0 4px 12px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-login-light */
-    --shadow-login-dark: 0 4px 12px color-mix(in srgb, var(--color-base-black) 50%, transparent); /* old: --shadow-login-dark */
-    --shadow-message: 0 2px 8px color-mix(in srgb, var(--color-base-black) 5%, transparent); /* old: --shadow-message */
-    --shadow-focus-blue: 0 0 0 3px color-mix(in srgb, var(--color-brand-tertiary) 40%, transparent); /* old: --shadow-focus-blue */
-    --shadow-nav-mobile: 0 2px 10px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-nav-mobile */
-    --shadow-cert-card: 0 2px 6px color-mix(in srgb, var(--color-base-black) 5%, transparent); /* old: --shadow-cert-card */
-    --shadow-cert-card-hover: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent); /* old: --shadow-cert-card-hover */
-    --shadow-md-table: 0 2px 4px color-mix(in srgb, var(--color-base-black) 20%, transparent); /* old: --shadow-md-table */
-    --overlay-modal-bg: color-mix(
-      in srgb,
-      var(--color-base-black) 88%,
-      transparent
-    ); /* old: --overlay-modal-bg */
+    /* Generic elevated surface shadow */
+    --shadow-elevated: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    /* Default overlay background for dialogs */
+    --overlay-bg: color-mix(in srgb, var(--color-base-black) 40%, transparent);
+    /* Medium intensity shadow */
+    --shadow-medium: 0 2px 8px color-mix(in srgb, var(--color-base-black) 20%, transparent);
+    /* Soft ambient shadow */
+    --shadow-soft: 0 0 4px color-mix(in srgb, var(--color-base-black) 30%, transparent);
+    /* Large spread shadow for emphasis */
+    --shadow-large: 0 8px 30px color-mix(in srgb, var(--color-base-black) 8%, transparent);
+    /* Dialog drop shadow */
+    --shadow-dialog: 0 4px 20px color-mix(in srgb, var(--color-base-black) 15%, transparent);
+    /* Focus ring with brand color */
+    --shadow-focus-brand: 0 0 0 3px color-mix(in srgb, var(--color-brand) 20%, transparent);
+    /* Light theme modal overlay */
+    --overlay-light-bg: color-mix(in srgb, var(--color-base-white) 95%, transparent);
+    /* Dark theme modal overlay */
+    --overlay-dark-bg: color-mix(in srgb, var(--color-base-black) 75%, transparent);
+    /* Dark theme elevated surface */
+    --overlay-dark-surface: color-mix(in srgb, var(--color-dark-black) 95%, transparent);
+    /* Strong shadow used in dark theme */
+    --shadow-dark: 0 4px 10px color-mix(in srgb, var(--color-base-black) 50%, transparent);
+    /* Login modal shadow in light theme */
+    --shadow-login-light: 0 4px 12px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    /* Login modal shadow in dark theme */
+    --shadow-login-dark: 0 4px 12px color-mix(in srgb, var(--color-base-black) 50%, transparent);
+    /* Chat/message bubble shadow */
+    --shadow-message: 0 2px 8px color-mix(in srgb, var(--color-base-black) 5%, transparent);
+    /* Focus ring variant for blue accents */
+    --shadow-focus-blue: 0 0 0 3px color-mix(in srgb, var(--color-brand-tertiary) 40%, transparent);
+    /* Mobile navigation drop shadow */
+    --shadow-nav-mobile: 0 2px 10px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    /* Certification card shadow */
+    --shadow-cert-card: 0 2px 6px color-mix(in srgb, var(--color-base-black) 5%, transparent);
+    /* Hover shadow for certification card */
+    --shadow-cert-card-hover: 0 4px 6px color-mix(in srgb, var(--color-base-black) 10%, transparent);
+    /* Shadow used by markdown tables */
+    --shadow-md-table: 0 2px 4px color-mix(in srgb, var(--color-base-black) 20%, transparent);
+    /* Backdrop for modal dialogs */
+    --overlay-modal-bg: color-mix(in srgb, var(--color-base-black) 88%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {

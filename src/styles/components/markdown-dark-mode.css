@@ -13,7 +13,7 @@ html[data-theme='dark'] {
   --md-color-placeholder: var(--color-text-muted);
   --md-color-hr-bg: var(--color-subtle-bg);
   --md-color-hr-border: var(--color-border-muted);
-  --md-color-pre-bg: var(--md-color-pre-bg);
+  --md-color-pre-bg: var(--color-md-pre-bg);
   --md-color-pre-border: var(--color-border-muted);
 }
 

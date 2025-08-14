@@ -28,7 +28,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 12, 2025, 06:58 (UTC+08:00)
+- **最后更新**: August 15, 2025, 04:27 (UTC+08:00)
 
 ---
 
@@ -131,6 +131,7 @@ src/styles/components/
 - 公共组件样式统一由 `theme.css` 管理
 - Markdown 深色模式拥有独立的颜色 Token，可在 `src/styles/core/tokens.css` 中统一维护。
 - 叠加层和阴影相关的颜色通过 `--color-base-black` 与 `--color-base-white` Token 设置，便于调整透明度并适配主题切换。
+- 颜色与渐变 Token 集中在 `src/styles/core/tokens.css` 与 `_gradients.css`，并在同目录的 `tokens.md`、`_gradients.md` 文件说明用途；所有 Token 必须附带用途注释，禁止在组件中硬编码颜色。
 
 **样式架构分层**：
 - `src/styles/core/`: 定义基础设计 Token，包括颜色、间距和渐变等变量
@@ -263,6 +264,7 @@ h1 {
 - 文本、颜色、间距等均应通过 Token 引用，避免硬编码。
 - 边框请使用 `--border-0` 至 `--border-3` 变量映射不同色阶。
 - 细线条可用 `--border-width-hairline`，容器宽度可用 `--container-sm` 等等。
+- 新增颜色或渐变需在 `tokens.css`、`_gradients.css` 中定义并附加注释，同时更新对应的 `tokens.md`、`_gradients.md` 文档。
 
 ---
 

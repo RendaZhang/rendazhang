@@ -1,12 +1,15 @@
 @layer tokens {
   :root {
     /*! ==== \u6e10\u53d8\u7cfb\u7edf ==== */
+    /* Default direction used by gradient tokens */
     --gradient-direction: to right;
+    /* Primary brand gradient for buttons and highlights */
     --gradient-primary: linear-gradient(
       var(--gradient-direction),
       var(--color-brand),
       var(--color-brand-secondary)
     );
+    /* Dark theme gradient variant */
     --gradient-dark: linear-gradient(
       135deg,
       var(--color-brand-secondary) 0%,
@@ -14,37 +17,44 @@
     );
 
     /*! ==== 404 页面渐变 ==== */
+    /* Background gradient for 404 page */
     --gradient-404-bg: linear-gradient(
       135deg,
       var(--color-404-bg-start) 0%,
       var(--color-404-bg-end) 100%
     );
+    /* First decorative circle gradient */
     --gradient-404-circle-1: linear-gradient(
       135deg,
       var(--color-404-circle1-start) 0%,
       var(--color-404-circle1-end) 100%
     );
+    /* Second decorative circle gradient */
     --gradient-404-circle-2: linear-gradient(
       135deg,
       var(--color-404-circle2-start) 0%,
       var(--color-404-circle2-end) 100%
     );
+    /* Third decorative circle gradient */
     --gradient-404-circle-3: linear-gradient(
       135deg,
       var(--color-404-circle3-start) 0%,
       var(--color-404-circle3-end) 100%
     );
+    /* Signature underline gradient */
     --gradient-404-signature-line: linear-gradient(
       to right,
       transparent,
       var(--color-404-signature-line),
       transparent
     );
+    /* Primary button gradient */
     --gradient-404-btn-primary: linear-gradient(
       135deg,
       var(--color-404-primary) 0%,
       var(--color-404-primary-dark) 100%
     );
+    /* Hover state for primary button */
     --gradient-404-btn-primary-hover: linear-gradient(
       135deg,
       var(--color-404-primary-hover) 0%,
@@ -52,26 +62,31 @@
     );
 
     /*! ==== 50x 页面渐变 ==== */
+    /* Background gradient for 50x pages */
     --gradient-50x-bg: linear-gradient(
       135deg,
       var(--color-50x-bg-start) 0%,
       var(--color-50x-bg-end) 100%
     );
+    /* Decorative shape gradient A */
     --gradient-50x-decor-1: linear-gradient(
       120deg,
       var(--color-50x-decor1-start) 0%,
       var(--color-50x-decor1-end) 100%
     );
+    /* Decorative shape gradient B */
     --gradient-50x-decor-2: linear-gradient(
       300deg,
       var(--color-50x-decor2-start) 0%,
       var(--color-50x-decor2-end) 100%
     );
+    /* Error icon gradient */
     --gradient-50x-icon: linear-gradient(
       135deg,
       var(--color-50x-icon-start) 0%,
       var(--color-50x-icon-end) 100%
     );
+    /* Signature underline gradient */
     --gradient-50x-signature-line: linear-gradient(
       to right,
       transparent,
