@@ -12,19 +12,19 @@ export const ABOUT_CONTENT = {
     heroHeading: "Hello! I'm<span> Renda Zhang</span>",
     heroTaglines: [
       'Backend Engineer',
-      'Java & Spring Developer',
-      'Cloud-Native Microservices',
+      'Java & Spring Boot',
+      'Cloud-Native Platform',
       'Kubernetes & Terraform',
       'CI/CD Automation'
     ],
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
-      "Hello! I'm Renda Zhang, a backend engineer based in Shenzhen, China.",
-      'I build cloud-native Java and Spring microservices on GCP and AWS using Kubernetes and Terraform.',
-      'I automate CI/CD pipelines and tune high-concurrency systems.',
-      'I collaborate in agile, English-speaking teams and can work with Node.js and TypeScript when needed.',
-      'I hold a B.S. in Computer Science from the University of Minnesota and am open to new cloud-native backend roles.'
+      "Hello! I'm Renda Zhang, a backend engineer based in Shenzhen, China with five years of Java/Spring delivery.",
+      'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, and GitHub Actions/Argo CD to ship safely.',
+      'I build observability and performance guardrails end to end, tuning high-concurrency paths with Redis and message queues.',
+      'I partner with frontend teams on SSR/CSR experiences, instrumentation, and selective hydration for merchant-facing products.',
+      'I hold an AWS Solutions Architect – Associate (Jun 2025) and a B.S. in Computer Science from the University of Minnesota.'
     ],
     info: [
       { label: 'Name:', value: ' Renda Zhang' },
@@ -33,7 +33,11 @@ export const ABOUT_CONTENT = {
       { label: 'Phone:', value: ` ${CONTACT_PHONE_INTL}` },
       { label: 'Address:', value: ' Nanshan District, Shenzhen, Guangdong, China 518000' },
       { label: 'Website:', value: ` ${SITE_DOMAIN}` },
-      { label: 'Status:', value: ' Open to cloud-native backend roles (1-month notice)' }
+      { label: 'Status:', value: ' Open to cloud-native backend roles (1-month notice)' },
+      {
+        label: 'Certifications:',
+        value: ' AWS Certified Solutions Architect – Associate (Jun 2025)'
+      }
     ],
     resumeLabel: 'Download Resume',
     contact: {
@@ -62,27 +66,27 @@ export const ABOUT_CONTENT = {
       title: 'Skills & Knowledge',
       categories: [
         { label: 'Java & Spring Backend', level: 98 },
-        { label: 'Cloud & Containerization', level: 95 },
-        { label: 'Microservices & Architecture', level: 92 },
-        { label: 'Database & Caching', level: 95 },
-        { label: 'Messaging Systems', level: 90 },
-        { label: 'DevOps & CI/CD', level: 90 },
-        { label: 'Testing & Performance', level: 88 },
-        { label: 'Languages & Collaboration', level: 75 }
+        { label: 'Cloud & Platform Engineering', level: 95 },
+        { label: 'Microservices & API Design', level: 93 },
+        { label: 'Data Stores & Caching', level: 94 },
+        { label: 'Messaging & Eventing', level: 90 },
+        { label: 'DevOps & CI/CD Automation', level: 92 },
+        { label: 'Observability & Reliability', level: 88 },
+        { label: 'Communication & Leadership', level: 80 }
       ],
       items: [
         'Java, SQL, HTML/CSS, JavaScript, Python, C/C++, PHP, Clojure',
         'Spring Boot, Spring Cloud, Spring Security, Spring Data JPA, MyBatis, OpenFeign, Resilience4j',
-        'GCP, AWS (EC2, ECS, EKS, Lambda, S3), Kubernetes, Docker, Terraform',
-        'MySQL, MongoDB, Redis, ElasticSearch, Aurora, DynamoDB',
-        'RabbitMQ, Kafka, SQS, Step Functions',
-        'Eureka, Spring Cloud Gateway, Load Balancing, Circuit Breaking',
-        'JWT, OAuth2, SpringDoc OpenAPI, Swagger',
-        'Jenkins, GitLab CI/CD, GitHub Actions, Maven, Git, Linux Shell, Nginx',
-        'JMeter, JUnit, Mockito',
-        'Node.js / TypeScript (basic)',
-        'RESTful API design & Agile collaboration',
-        'English (Full professional), Chinese (Native)'
+        'Microservices, REST, gRPC, API design, Auth/OAuth2/OIDC, idempotency, rate limiting',
+        'AWS (EKS, ECS, IAM, ALB, S3, CloudFront), GCP, Kubernetes, Docker, Terraform, CDK',
+        'MySQL, Aurora, MongoDB, Redis, DynamoDB, ElasticSearch',
+        'Kafka, RabbitMQ, SQS, DLQ, retry and dedupe patterns',
+        'GitHub Actions, Argo CD, Jenkins, GitLab CI/CD, Maven, Git, Linux Shell',
+        'OpenTelemetry, Prometheus, Grafana, SLOs, blue-green and canary releases',
+        'JMeter, JUnit, Mockito, Postman, Swagger, SpringDoc',
+        'React, TypeScript, SSR, CSR, selective hydration, Sentry, CSP, BFF',
+        'Team collaboration, leadership, problem solving, adaptability',
+        'English (Full professional), Chinese (Native: Mandarin & Cantonese)'
       ]
     },
     experience: {
@@ -92,13 +96,15 @@ export const ABOUT_CONTENT = {
           period: 'Jun 2024 - Present',
           company: 'Shenzhen Fanxin Technology',
           title: 'Java Backend Engineer - Cloud-Native',
-          summary: 'Cross-border SaaS team delivering AWS-based order and inventory services.',
+          summary:
+            'API-first SaaS with merchant console, developer portal, and embeddable widgets; lead Java backend and cloud-native delivery.',
           bullets: [
-            'Designed and maintained 6 Spring Boot microservices on AWS ECS Fargate handling 80k-150k requests per day and spikes over 1.2k QPS.',
-            'Built IaC pipelines with Terraform and AWS CDK to provision Dev, Stage, and Prod environments in under 20 minutes.',
-            'Re-architected bulk inventory sync with Lambda, SQS, and Step Functions, cutting processing time from ~25 minutes to 7 minutes.',
-            'Introduced Redis Cluster and Aurora read replicas, lifting cache hit rate to ~96% and reducing MTTR by 45%.',
-            'Established GitHub Actions and AWS CodePipeline CI/CD with CloudWatch, Grafana, and X-Ray monitoring.'
+            'Drove microservice design and API contracts, strengthening auth, idempotency, and rate limiting with OpenAPI-driven docs and SDKs.',
+            'Built multi-environment CI/CD with blue-green, canary, and feature flags for safe releases and rapid rollback.',
+            'Established observability across metrics, traces, and structured logs with actionable dashboards and runbooks.',
+            'Ran services on Kubernetes with probe gates, HPA elasticity, immutable images, config-as-code, and least-privilege access.',
+            'Optimized data paths via relational storage plus Redis caching and decoupled flows with queues using dedupe, retry, and DLQ patterns.',
+            'Partnered with frontend on merchant console, developer portal, and widgets, aligning SSR/CSR choices and correlating Sentry events.'
           ]
         },
         {
@@ -106,13 +112,19 @@ export const ABOUT_CONTENT = {
           company: 'Michaels (Shenzhen) Technology Services Co., Ltd.',
           title: 'Software Development Engineer - Backend',
           summary:
-            'Built the Michaels.com e-commerce backend including PLM and MakerPlace modules.',
+            'Built Michaels.com e-commerce platform and core PLM/MakerPlace services serving global consumers and sellers.',
           bullets: [
-            'Architected containerized deployments on GCP with Kubernetes and Docker plus CI/CD automation.',
-            'Led PLM lifecycle tracking, supplier integration, and analytics, reducing stockouts by 15%.',
-            'Developed MakerPlace seller onboarding, product listing, and order management with JWT rotation and OAuth2 login.',
-            'Optimized MongoDB indexes and API payloads, improving throughput by ~30%.',
-            'Collaborated with frontend, QA, and DevOps teams in Scrum for frequent, reliable releases.'
+            'Architected and launched the consumer-facing Michaels.com platform handling high-volume traffic and order journeys.',
+            'Led Kubernetes and Docker deployments on GCP across dev, staging, and prod with automated CI/CD pipelines.',
+            'Established Scrum rituals and governance as the team scaled from ~15 to 300 engineers.',
+            'Directed backend for PLM and MakerPlace modules spanning onboarding, inventory, orders, and user systems.',
+            'Coordinated with frontend, QA, and DevOps for continuous delivery, canary releases, and high-frequency deployments.',
+            'Maintained environment configs, logging, and integrations while preparing data warm-ups and database migrations for smooth releases.',
+            'Developed unit and integration tests with JUnit and Mockito, sustaining GitLab CI/CD quality gates.',
+            'Conducted API load testing with JMeter, pinpointing bottlenecks and tuning MongoDB indexes and payloads for ~30% throughput gains.',
+            'Implemented backend tracking for user behaviors, powering funnel analysis and business insights.',
+            'Led PLM enhancements for lifecycle tracking, supplier integrations, and reporting, reducing stockouts by 15%.',
+            'Delivered MakerPlace seller onboarding, secure auth with JWT rotation and OAuth2, and well-documented REST APIs.'
           ]
         },
         {
@@ -140,11 +152,12 @@ export const ABOUT_CONTENT = {
           company: 'Samsung Mobile R&D Center - Guangzhou',
           title: 'Software Engineer - Android Application',
           bullets: [
-            'Developed feedback modules and app integration features for Galaxy apps.',
-            'Implemented Samsung account OAuth2 login with JWT-based authentication.',
-            'Embedded Baidu and Adobe analytics for user behavior tracking.',
-            'Created Android UI automation scripts to improve regression stability.',
-            'Collaborated using Agile, Git, and Gerrit; participated in patent discussions.'
+            'Delivered feedback modules and guided the merger of Galaxy Community and Samsung Space applications.',
+            'Implemented Samsung account OAuth2 login with JWT-based security and authorization policies.',
+            'Instrumented Baidu and Adobe analytics, aligning event schemas with backend logging for behavior analysis.',
+            'Ensured Android compatibility, triaged verification and market issues, and drove production fixes.',
+            'Built and maintained Android UI automation scripts, boosting regression stability and release efficiency.',
+            'Coordinated patent discussions, certification testing, and agile ceremonies with cross-functional teams.'
           ]
         }
       ]
@@ -184,8 +197,8 @@ export const ABOUT_CONTENT = {
     heroHeading: '你好，我是<span>张人大</span>',
     heroTaglines: [
       '后端工程师',
-      'Java 与 Spring 开发',
-      '云原生微服务',
+      'Java 与 Spring Boot',
+      '云原生平台',
       'Kubernetes 与 Terraform',
       'CI/CD 自动化'
     ],
@@ -193,11 +206,11 @@ export const ABOUT_CONTENT = {
     title: '自我介绍',
     greeting: '你好，',
     paragraphs: [
-      '大家好，我是张人大，居住在中国深圳的后端工程师。',
-      '使用 Kubernetes 与 Terraform 在 GCP 与 AWS 上构建基于 Java 与 Spring 的云原生微服务。',
-      '负责 CI/CD 流水线自动化并优化高并发系统性能。',
-      '在敏捷英语团队中合作自如，必要时能阅读和编写 Node.js 与 TypeScript 服务。',
-      '毕业于美国明尼苏达大学双城校区计算机科学专业，正积极寻找后端/云原生开发岗位。'
+      '大家好，我是张人大，常驻深圳的后端工程师，拥有 5 年 Java/Spring 交付经验。',
+      '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 安全交付。',
+      '擅长建立端到端可观测性与性能防护体系，利用 Redis 与消息队列优化高并发链路。',
+      '与前端团队共建商家控制台等产品，按需选择 SSR/CSR/渐进水合并贯通埋点。',
+      '持有 AWS 解决方案架构师（助理，2025 年 6 月）认证，本科毕业于美国明尼苏达大学计算机科学专业。'
     ],
     info: [
       { label: '姓名:', value: ' 张人大' },
@@ -206,7 +219,11 @@ export const ABOUT_CONTENT = {
       { label: '电话:', value: ` ${CONTACT_PHONE_LOCAL}` },
       { label: '地址:', value: ' 中国广东省深圳市南山区 518000' },
       { label: '网站:', value: ` ${SITE_DOMAIN}` },
-      { label: '状态:', value: ' 积极寻找后端/云原生开发岗位（一个月内可入职）' }
+      { label: '状态:', value: ' 积极寻找后端/云原生开发岗位（一个月内可入职）' },
+      {
+        label: '认证:',
+        value: ' AWS 认证解决方案架构师 – 助理（2025 年 6 月）'
+      }
     ],
     resumeLabel: '下载我的简历',
     contact: {
@@ -235,27 +252,27 @@ export const ABOUT_CONTENT = {
       title: '技能与能力',
       categories: [
         { label: 'Java 与 Spring 后端', level: 98 },
-        { label: '云原生与容器化', level: 95 },
-        { label: '微服务架构', level: 92 },
-        { label: '数据库与缓存', level: 95 },
-        { label: '消息队列与异步', level: 90 },
-        { label: 'DevOps 与 CI/CD', level: 90 },
-        { label: '测试与性能优化', level: 88 },
-        { label: '语言与协作', level: 75 }
+        { label: '云原生与平台工程', level: 95 },
+        { label: '微服务与 API 设计', level: 93 },
+        { label: '数据存储与缓存', level: 94 },
+        { label: '消息队列与事件驱动', level: 90 },
+        { label: 'DevOps 与 CI/CD 自动化', level: 92 },
+        { label: '可观测性与可靠性', level: 88 },
+        { label: '沟通协作与领导力', level: 80 }
       ],
       items: [
         'Java、SQL、HTML/CSS、JavaScript、Python、C/C++、PHP、Clojure',
         'Spring Boot、Spring Cloud、Spring Security、Spring Data JPA、MyBatis、OpenFeign、Resilience4j',
-        'GCP、AWS（EC2、ECS、EKS、Lambda、S3）、Kubernetes、Docker、Terraform',
-        'MySQL、MongoDB、Redis、ElasticSearch、Aurora、DynamoDB',
-        'RabbitMQ、Kafka、SQS、Step Functions',
-        'Eureka、Spring Cloud Gateway、负载均衡、熔断',
-        'JWT、OAuth2、SpringDoc OpenAPI、Swagger',
-        'Jenkins、GitLab CI/CD、GitHub Actions、Maven、Git、Linux Shell、Nginx',
-        'JMeter、JUnit、Mockito',
-        'Node.js / TypeScript（基础）',
-        'RESTful API 设计与敏捷协作',
-        '中文（母语）、英语（专业工作水平）'
+        '微服务、REST、gRPC、API 设计、Auth/OAuth2/OIDC、幂等、限流',
+        'AWS（EKS、ECS、IAM、ALB、S3、CloudFront）、GCP、Kubernetes、Docker、Terraform、CDK',
+        'MySQL、Aurora、MongoDB、Redis、DynamoDB、ElasticSearch',
+        'Kafka、RabbitMQ、SQS，结合去重、重试、死信队列等模式',
+        'GitHub Actions、Argo CD、Jenkins、GitLab CI/CD、Maven、Git、Linux Shell',
+        'OpenTelemetry、Prometheus、Grafana、SLO、蓝绿发布与金丝雀发布',
+        'JMeter、JUnit、Mockito、Postman、Swagger、SpringDoc',
+        'React、TypeScript、SSR、CSR、渐进水合、Sentry、CSP、BFF',
+        '团队协作、领导力、问题解决、适应变化',
+        '中文（普通话/粤语）、英语（专业工作水平）'
       ]
     },
     experience: {
@@ -265,26 +282,34 @@ export const ABOUT_CONTENT = {
           period: '2024年6月 - 至今',
           company: '深圳市凡新科技有限公司',
           title: 'Java 后端开发工程师（云原生方向）',
-          summary: '跨境 SaaS 团队，基于 AWS 提供订单与库存服务。',
+          summary:
+            '面向 B 端的 API-first SaaS，提供管理控制台、开发者门户与嵌入式组件，负责后端与云原生交付。',
           bullets: [
-            '设计并维护 6 个 Spring Boot 微服务（AWS ECS Fargate），日处理 8万-15万 次请求，峰值超 1.2k QPS。',
-            '使用 Terraform 和 AWS CDK 搭建 IaC，一键交付 Dev、Stage、Prod 环境 <20 分钟。',
-            '借助 Lambda、SQS、Step Functions 重构库存批量同步流程，执行时间从约 25 分钟降至 7 分钟。',
-            '引入 Redis Cluster 与 Aurora 只读副本，实现读写分离，缓存命中率约 96%，MTTR 缩短 45%。',
-            '搭建 GitHub Actions + AWS CodePipeline CI/CD 流水线，结合 CloudWatch、Grafana、X-Ray 监控。'
+            '主导微服务建模与接口契约，完善鉴权、幂等与限流策略，并结合 OpenAPI 沉淀文档与 SDK。',
+            '建设多环境 CI/CD 流程，引入蓝绿、金丝雀与特性开关，保障版本可灰度可回滚。',
+            '搭建指标、链路、结构化日志一体的可观测体系，编制仪表盘与 Runbook 支撑排障。',
+            '在 Kubernetes 上治理弹性与探针机制，保持镜像不可变、配置即代码与最小权限原则。',
+            '结合关系型存储与 Redis 缓存优化读写，引入消息队列去重/重试/死信模式解耦流程。',
+            '与前端共建商家控制台、开发者门户与嵌入式组件，匹配 SSR/CSR 策略并串联 Sentry 事件。'
           ]
         },
         {
           period: '2020年11月 - 2024年4月',
           company: '麦克尔斯（深圳）科技服务有限公司',
           title: '后端开发工程师',
-          summary: '参与 Michaels.com 电商平台及 PLM、MakerPlace 模块建设。',
+          summary: '搭建 Michaels.com 电商平台及 PLM/MakerPlace 核心服务，面向全球消费者与卖家。',
           bullets: [
-            '在 GCP 上使用 Kubernetes 与 Docker 构建容器化部署并集成 CI/CD 自动化。',
-            '负责 PLM 生命周期管理、供应商对接与分析看板，缺货率降低 15%。',
-            '开发 MakerPlace 商家入驻、商品发布与订单管理，启用 JWT 轮换与 OAuth2 登录。',
-            '优化 MongoDB 索引和 API 结构，接口吞吐提升约 30%。',
-            '在 Scrum 团队中与前端、QA、DevOps 协作，支持高频发布。'
+            '主导从 0 到 1 的 Michaels.com 平台架构，承载高并发访问与完整订单链路。',
+            '负责 GCP 上的 Kubernetes/Docker 多环境部署与 CI/CD 自动化发布。',
+            '在团队从约 15 人扩张至 300+ 过程中持续推进 Scrum 节奏与治理。',
+            '牵头 PLM 与 MakerPlace 核心模块，覆盖商品入驻、库存、订单与用户体系。',
+            '与前端、QA、DevOps 协同实现持续交付、金丝雀发布与高频上线。',
+            '维护配置、日志与集成参数，编制数据预热与数据库迁移脚本，确保平滑上线。',
+            '编写 JUnit/Mockito 单元与集成测试，支撑 GitLab CI/CD 质量闸口。',
+            '使用 JMeter 压测 API，定位瓶颈并优化 MongoDB 索引与负载，吞吐提升约 30%。',
+            '构建后端行为埋点，支撑转化漏斗与业务分析。',
+            '在 PLM 模块中完善生命周期跟踪、供应商整合与报表，缺货率下降 15%。',
+            '在 MakerPlace 模块中交付商家入驻、JWT 轮换、OAuth2 登录与标准化 REST API。'
           ]
         },
         {
@@ -312,11 +337,12 @@ export const ABOUT_CONTENT = {
           company: '三星广州通信技术研究有限公司',
           title: '软件工程师 - Android 应用',
           bullets: [
-            '负责盖乐世空间 App 反馈模块开发与维护。',
-            '实现三星账号 OAuth2 登录与 JWT 认证流程。',
-            '接入百度统计和 Adobe Analytics 进行用户行为追踪。',
-            '编写 Android UI 自动化测试脚本，提升回归效率。',
-            '参与专利研讨和算法练习，采用敏捷模式协作。'
+            '负责盖乐世社区与盖乐世空间合并期间的反馈模块研发与上线。',
+            '实现三星账号 OAuth2 登录与 JWT 安全策略，统一授权流程。',
+            '接入百度统计与 Adobe Analytics，设计事件结构并联调后端日志。',
+            '保障 Android 兼容性，响应验证及市场反馈并推动问题修复。',
+            '编写维护 Android UI 自动化脚本，提升回归效率与稳定性。',
+            '协调专利研讨、认证测试与敏捷协作，衔接设计、测试与产品团队。'
           ]
         }
       ]
