@@ -79,5 +79,5 @@ export const SOCIAL_ICON_PATHS = {
   MEDIUM: mediumLogo
 } as const;
 
-export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250622.pdf';
-export const RESUME_ZH_DOWNLOAD = '个人简历_张人大_20250622.pdf';
+export const RESUME_EN_DOWNLOAD = 'Resume_RendaZhang_20250922.pdf';
+export const RESUME_ZH_DOWNLOAD = '个人简历_张人大_20250922.pdf';
