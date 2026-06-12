@@ -15,6 +15,9 @@
   - [🔧 技术需求](#-%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82)
     - [已完成需求 ✅](#%E5%B7%B2%E5%AE%8C%E6%88%90%E9%9C%80%E6%B1%82-)
     - [待完成需求 ⏳](#%E5%BE%85%E5%AE%8C%E6%88%90%E9%9C%80%E6%B1%82-)
+  - [2026-06-12 线上巡检问题记录](#2026-06-12-%E7%BA%BF%E4%B8%8A%E5%B7%A1%E6%A3%80%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95)
+    - [已由 Nginx 配置修复的依赖项](#%E5%B7%B2%E7%94%B1-nginx-%E9%85%8D%E7%BD%AE%E4%BF%AE%E5%A4%8D%E7%9A%84%E4%BE%9D%E8%B5%96%E9%A1%B9)
+    - [后续加固](#%E5%90%8E%E7%BB%AD%E5%8A%A0%E5%9B%BA)
   - [关键技术说明 🔍](#%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E8%AF%B4%E6%98%8E-)
   - [🌱 未来计划](#-%E6%9C%AA%E6%9D%A5%E8%AE%A1%E5%88%92)
 
@@ -23,7 +26,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 15, 2025, 04:27 (UTC+08:00)
+- **最后更新**: June 12, 2026, 22:30 (UTC+08:00)
 
 ---
 
@@ -260,6 +263,23 @@
   - 验证关键功能是否正常
 - [ ] **环境变量管理**
   - 实现敏感变量加密存储
+
+---
+
+## 2026-06-12 线上巡检问题记录
+
+### 已由 Nginx 配置修复的依赖项
+
+- [x] **Canonical host 对齐**：前端 canonical、Open Graph、robots 与 sitemap 均以 `https://www.rendazhang.com` 为主；Nginx 已将 `https://rendazhang.com/*` 统一 301 到 www。
+- [x] **指纹资源长缓存**：Astro 构建产物位于 `/_astro/` 且带内容哈希；Nginx 已确保该目录返回一年 immutable 缓存。
+- [x] **页面与静态资源安全头**：首页、聊天页、XML/JSON 和静态资源响应已由 Nginx 显式补齐 HSTS/CSP/X-Frame-Options 等安全头。
+- [x] **敏感探测路径**：`/.env`、`/.env.local` 等路径已由 Nginx 返回 404，不再回退到首页 200。
+
+### 后续加固
+
+- [ ] 本地 `.env.local` 包含 Sentry 配置和 auth token，当前已被 `.gitignore` 忽略且未入库；仍需确认是否按密钥治理要求轮换。
+- [ ] 部署后健康检查应覆盖首页、`/deepseek_chat/`、`sitemap.xml`、`/_astro/*.css` 的安全头与缓存头。
+- [ ] 保持 `SITE_BASE_URL`、canonical、robots `Host`、sitemap URL 与 Nginx canonical host 一致。
 
 ---
 
