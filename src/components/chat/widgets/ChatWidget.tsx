@@ -110,6 +110,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (
+        event.origin === window.location.origin &&
         event.source === iframeRef.current?.contentWindow &&
         event.data?.type === 'chat-enhancement-ready'
       ) {

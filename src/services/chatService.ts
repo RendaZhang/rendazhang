@@ -33,28 +33,41 @@ export async function sendMessageToAI(
     const decoder = new TextDecoder();
     let aiMessage = '';
 
+    let pendingLine = '';
+
+    const processLine = (line: string) => {
+      if (!line.trim()) {
+        return;
+      }
+      try {
+        const data = JSON.parse(line) as { text?: unknown };
+        if (typeof data.text === 'string') {
+          aiMessage += data.text;
+          // Pass accumulated Markdown back to caller
+          if (onChunkCallback) {
+            onChunkCallback(aiMessage);
+          }
+        }
+      } catch (e) {
+        logger.error('Parse error:', e);
+      }
+    };
+
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split('\n').filter((line) => line.trim());
+      pendingLine += decoder.decode(value, { stream: true });
+      const lines = pendingLine.split('\n');
+      pendingLine = lines.pop() ?? '';
 
       for (const line of lines) {
-        try {
-          const data = JSON.parse(line);
-          if (data.text) {
-            aiMessage += data.text;
-            // Pass accumulated Markdown back to caller
-            if (onChunkCallback) {
-              onChunkCallback(aiMessage);
-            }
-          }
-        } catch (e) {
-          logger.error('Parse error:', e);
-        }
+        processLine(line);
       }
     }
+
+    pendingLine += decoder.decode();
+    processLine(pendingLine);
 
     return aiMessage;
   } catch (error) {

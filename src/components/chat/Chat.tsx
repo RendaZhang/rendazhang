@@ -43,19 +43,25 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const enhancementReadyRef = useRef(false);
   const isReady = historyLoaded;
 
+  const notifyParent = useCallback((type: 'chat-page-ready' | 'chat-enhancement-ready') => {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type }, window.location.origin);
+    }
+  }, []);
+
   const handleRendered = useCallback(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
     if (!pageReadyRef.current) {
-      window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+      notifyParent('chat-page-ready');
       pageReadyRef.current = true;
     }
     if (librariesLoaded && !enhancementReadyRef.current) {
-      window.parent?.postMessage({ type: 'chat-enhancement-ready' }, '*');
+      notifyParent('chat-enhancement-ready');
       enhancementReadyRef.current = true;
     }
-  }, [librariesLoaded]);
+  }, [librariesLoaded, notifyParent]);
 
   useEffect(() => {
     const loadLibraries = async () => {
@@ -72,17 +78,17 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
 
   useEffect(() => {
     if (isReady && messages.length === 0 && !pageReadyRef.current) {
-      window.parent?.postMessage({ type: 'chat-page-ready' }, '*');
+      notifyParent('chat-page-ready');
       pageReadyRef.current = true;
     }
-  }, [isReady, messages.length]);
+  }, [isReady, messages.length, notifyParent]);
 
   useEffect(() => {
     if (isReady && librariesLoaded && messages.length === 0 && !enhancementReadyRef.current) {
-      window.parent?.postMessage({ type: 'chat-enhancement-ready' }, '*');
+      notifyParent('chat-enhancement-ready');
       enhancementReadyRef.current = true;
     }
-  }, [isReady, librariesLoaded, messages.length]);
+  }, [isReady, librariesLoaded, messages.length, notifyParent]);
 
   // Auto-adjust textarea height
   useEffect(() => {
@@ -257,7 +263,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
             <button className="c-btn-primary c-btn-chat" onClick={() => setShowResetModal(false)}>
               <LocalizedSection
                 zhContent={textsZh.confirmButton}
-                enContent={textsEn.confirmButtom}
+                enContent={textsEn.confirmButton}
               />
             </button>
           </>

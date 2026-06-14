@@ -16,7 +16,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     resetFailedPrefix: 'Reset failed',
     sendButton: 'Send',
     resetButton: 'Reset',
-    confirmButtom: 'OK',
+    confirmButton: 'OK',
     cancelButton: 'Cancel',
     copyLabel: 'Copy',
     copiedLabel: 'Copied'

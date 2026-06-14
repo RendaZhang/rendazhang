@@ -13,7 +13,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 05, 2025, 07:26 (UTC+08:00)
+- **最后更新**: June 14, 2026, 21:05 (UTC+08:00)
 
 ---
 
@@ -44,9 +44,10 @@ on:
 | Step                | 关键命令 / Action                      | 说明                            |
 | ------------------- | ---------------------------------- | ----------------------------- |
 | Checkout            | `actions/checkout@v4`              | 拉取代码                          |
-| Node setup          | `actions/setup-node@v4`            | `node-version: 20.x`          |
-| Install             | `pnpm install --frozen-lockfile`   | 安装依赖                          |
-| Build               | `pnpm build`                       | 产物位于 `dist/`                  |
+| Node setup          | `actions/setup-node@v4`            | `node-version: '22'`          |
+| Install             | `npm ci`                           | 使用 `package-lock.json` 安装依赖，保证 CI 可复现 |
+| Checks and tests    | `npm run sync && npm run lint && npm run typecheck && npm run check && npm run test:coverage` | 构建前执行同步、Lint、TypeScript、Astro 和覆盖率检查 |
+| Build               | `npm run build`                    | 产物位于 `dist/`                  |
 | Upload source maps  | 由 `@sentry/astro` integration 自动完成 | 需 `SENTRY_AUTH_TOKEN`         |
 | Create / update tag | `actions/github-script@v7`         | 删除旧 `vX.Y.Z` 标签并重建            |
 | Publish Release     | `softprops/action-gh-release@v1`   | 附带 changelog / dist 资产        |
@@ -69,4 +70,5 @@ env:
 | -------------- | -------------------------- | ------------------------------------ |
 | `undefined` 变量 | Job 未绑定 `environment`      | 在 job 顶部添加 `environment: production` |
 | Sentry 上传 403  | `SENTRY_AUTH_TOKEN` 未注入    | 确认 secrets 名称与 workflow 匹配           |
-| Source map 未生成 | `build.sourcemap: true` 缺失 | 检查 `astro.config.mjs`                |
+| Source map 未生成 | `build.sourcemap: true` 缺失 | 检查 `astro.config.ts`                 |
+| 本地与 CI 依赖不一致 | 使用了 `npm install` 或其他包管理器更新依赖 | CI 以 `package-lock.json` 和 `npm ci` 为准；依赖变更需提交更新后的 lockfile |

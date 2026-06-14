@@ -41,7 +41,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 14, 2025, 18:14 (UTC+08:00)
+- **Last Updated**: June 14, 2026, 21:05 (UTC+08:00)
 
 ---
 
@@ -252,10 +252,16 @@ Verify builds using `npm run preview`.
 
 Pushing to `master` triggers GitHub Actions Auto-Deployment:
 
-1. Code checkout & dependency installation
-2. `npm run build` generates static files
-3. `appleboy/scp-action` deploys `dist/` to server (e.g., `/var/www/html`)
-4. Nginx serves content post-deployment
+1. Check out the code with `actions/checkout@v4`.
+2. Set up Node.js 22 with `actions/setup-node@v4` and enable npm caching.
+3. Run `npm ci` so dependency installation is based on `package-lock.json`.
+4. Before building, run `npm run sync`, `npm run lint`, `npm run typecheck`, `npm run check`, and `npm run test:coverage`.
+5. Run `npm run build` to generate the `dist/` static files; production builds remove source maps.
+6. Use `appleboy/scp-action` to upload the contents of `dist/` to the server directory, such as `/var/www/html`.
+7. Publish the release branch, recreate the version tag, create the GitHub Release, and try to purge the jsDelivr CDN cache.
+8. After deployment, Nginx serves the static site; no frontend service restart is required.
+
+> Local commits do not automatically run the full Astro check. To validate manually, run: `npm run check`
 
 Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 [GitHub Actions Setup](https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions)
 

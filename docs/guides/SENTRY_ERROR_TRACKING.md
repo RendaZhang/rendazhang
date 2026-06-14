@@ -10,7 +10,7 @@
     - [环境变量加载优先级](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%85%88%E7%BA%A7)
       - [本地 production 模拟](#%E6%9C%AC%E5%9C%B0-production-%E6%A8%A1%E6%8B%9F)
   - [Sentry 初始化配置](#sentry-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE)
-    - [`astro.config.mjs` 关键配置](#astroconfigmjs-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
+    - [`astro.config.ts` 关键配置](#astroconfigts-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
     - [`sentry.client.config.ts` 浏览器端配置](#sentryclientconfigts-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE)
   - [错误过滤与安全策略](#%E9%94%99%E8%AF%AF%E8%BF%87%E6%BB%A4%E4%B8%8E%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5)
     - [安全过滤规则](#%E5%AE%89%E5%85%A8%E8%BF%87%E6%BB%A4%E8%A7%84%E5%88%99)
@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 07, 2025, 12:01 (UTC+08:00)
+- **最后更新**: June 14, 2026, 23:34 (UTC+08:00)
 
 ---
 
@@ -45,7 +45,7 @@
 | 文件      |      用途      | 是否提交到仓库 |
 |-----------|---------------|----------------|
 | `.env` / `.env.local`     | 存储本地开发用的环境变量 | ❌ 否   |
-| `astro.config.mjs`        | Astro 主配置文件，集成 Sentry 插件 | ✅ 是 |
+| `astro.config.ts`         | Astro 主配置文件，集成 Sentry 插件 | ✅ 是 |
 | `sentry.client.config.ts` | Sentry 浏览器端初始化配置 | ✅ 是   |
 
 ### 环境变量说明
@@ -99,14 +99,14 @@ graph LR
 export NODE_ENV=production && npm run dev
 ```
 
-* `astro.config.mjs` 通过 `loadEnv(getEnv('NODE_ENV') ?? 'production', …)` 始终加载 `production` 变量。
+* `astro.config.ts` 通过 `loadEnv(getEnv('NODE_ENV') ?? 'production', …)` 始终加载 `production` 变量。
 * `PUBLIC_NODE_ENV` 仍可手动覆盖为 `development`，在浏览器端用于区分日志级别。
 
 ---
 
 ## Sentry 初始化配置
 
-### `astro.config.mjs` 关键配置
+### `astro.config.ts` 关键配置
 
 ```ts
 import { defineConfig } from 'astro/config';
@@ -247,7 +247,7 @@ curl -X POST https://sentry.io/api/0/organizations/renda-nh/releases/ \
 
 ### 调试配置建议
 
-> 若仅做 UI 开发、不想上传事件，可在启动命令前加 `SKIP_SENTRY=true`（已在 `astro.config.mjs` 里检测此环境变量）。
+> 若仅做 UI 开发、不想上传事件，可在启动命令前加 `SKIP_SENTRY=true`（已在 `astro.config.ts` 里检测此环境变量）。
 
 1. **启用调试模式**：
    ```ts
@@ -368,7 +368,7 @@ sentry-cli sourcemaps upload ./dist \
 
 > 提示：遇到上传问题可临时设置 `debug: true` 获取详细日志：
 > ```js
-> // astro.config.mjs
+> // astro.config.ts
 > sourceMapsUploadOptions: {
 >   debug: true,
 >   // ...
