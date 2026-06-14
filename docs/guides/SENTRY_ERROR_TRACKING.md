@@ -34,7 +34,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 14, 2026, 23:34 (UTC+08:00)
+- **最后更新**: June 15, 2026, 00:06 (UTC+08:00)
 
 ---
 
@@ -128,7 +128,13 @@ export default defineConfig({
         authToken: getEnv('SENTRY_AUTH_TOKEN'),
         org: getEnv('SENTRY_ORG'),
         project: getEnv('SENTRY_PROJECT'),
-        release: getEnv('TAG_NAME')
+        telemetry: false,
+        unstable_sentryVitePluginOptions: {
+          release: {
+            name: getEnv('PUBLIC_TAG_NAME') || getEnv('SENTRY_RELEASE'),
+            inject: false
+          }
+        }
       }
     })
   ],
@@ -142,6 +148,10 @@ export default defineConfig({
   }
 });
 ```
+
+生产站点的 CSP 不允许未列入 hash 的 inline script。Sentry Vite plugin 默认会向构建产物注入
+`SENTRY_RELEASE` inline module；这里通过 `release.inject: false` 禁用该注入，运行时 release
+继续由 `sentry.client.config.ts` 的 `PUBLIC_TAG_NAME` 提供。
 
 ### `sentry.client.config.ts` 浏览器端配置
 

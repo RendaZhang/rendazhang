@@ -35,7 +35,6 @@ export default function ChatInput({
         disabled={disabled}
         placeholder={placeholder}
         rows={1}
-        autoFocus
       ></textarea>
       <div className="c-btn-container">
         <button

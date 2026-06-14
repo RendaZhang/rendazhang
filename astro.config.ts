@@ -44,7 +44,13 @@ export default defineConfig({
               authToken: SENTRY_AUTH_TOKEN,
               org: SENTRY_ORG,
               project: SENTRY_PROJECT,
-              telemetry: false // 禁用遥测
+              telemetry: false, // 禁用遥测
+              unstable_sentryVitePluginOptions: {
+                release: {
+                  name: PUBLIC_TAG_NAME || process.env.SENTRY_RELEASE,
+                  inject: false
+                }
+              }
             }
             // 自动清理旧文件
             // cleanArtifacts: true,
