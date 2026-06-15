@@ -23,6 +23,7 @@
   - [Documentation](#documentation)
     - [Git Branching & Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
+    - [Frontend Architecture Conventions](#frontend-architecture-conventions)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
@@ -41,7 +42,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 15, 2026, 13:41 (UTC+08:00)
+- **Last Updated**: June 15, 2026, 22:56 (UTC+08:00)
 
 ---
 
@@ -403,6 +404,10 @@ location /_astro/ {
 ### CI/CD Workflow
 
 > `deploy.yml` defines the deployment process triggered when code is pushed or merged into `master`, including tag management and environment variable mappings. See: 📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline).
+
+### Frontend Architecture Conventions
+
+> Current conventions for Astro pages, `BaseLayout`, React Islands, hydration, service boundaries, utilities, style tokens, CSP, and iframe constraints are documented in: 📄 [Frontend Architecture Conventions](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md).
 
 ### BUG Tracking
 

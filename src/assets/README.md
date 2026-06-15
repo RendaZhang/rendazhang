@@ -23,6 +23,7 @@
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
     - [Git 分支与发布流程](#git-%E5%88%86%E6%94%AF%E4%B8%8E%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B)
     - [CI/CD 工作流](#cicd-%E5%B7%A5%E4%BD%9C%E6%B5%81)
+    - [前端架构约定](#%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%BA%A6%E5%AE%9A)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
     - [用户认证与密码重置规范](#%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%B8%8E%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E8%A7%84%E8%8C%83)
@@ -43,7 +44,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 15, 2026, 13:41 (UTC+08:00)
+- **最后更新**: June 15, 2026, 22:56 (UTC+08:00)
 
 ---
 
@@ -409,6 +410,10 @@ location /_astro/ {
 ### CI/CD 工作流
 
 > `deploy.yml` 定义了推送到 `master` 时触发的自动部署流程，包括标签管理、发布分支与环境变量映射等，可参考：📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline)。
+
+### 前端架构约定
+
+> Astro 页面、`BaseLayout`、React Islands、Hydration、服务层、工具函数、样式 Token、CSP 与 iframe 约束的当前约定见：📄 [前端架构约定](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md)。
 
 ### BUG 记录
 
