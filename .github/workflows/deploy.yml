@@ -8,7 +8,6 @@ on:
 
 env:
   TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   build-and-deploy:
@@ -17,13 +16,13 @@ jobs:
     steps:
       - name: Checkout Astro Project code
         id: checkout-code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
         id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: 'npm'
@@ -43,7 +42,7 @@ jobs:
 
       - name: Upload coverage report
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage
           path: coverage
@@ -86,7 +85,7 @@ jobs:
 
       - name: Delete existing release, tag, and release branch (if any)
         id: delete-release-tag-branch
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
         with:
@@ -135,7 +134,7 @@ jobs:
 
       - name: Publish dist/ directory to release branch
         id: publish-release-branch
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
@@ -194,7 +193,7 @@ jobs:
 
       - name: Create GitHub release and upload release artifacts
         id: create-release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.TAG_NAME }}
           name: ${{ env.TAG_NAME }}

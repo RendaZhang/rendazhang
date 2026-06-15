@@ -13,7 +13,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 14, 2026, 21:05 (UTC+08:00)
+- **最后更新**: June 15, 2026, 13:23 (UTC+08:00)
 
 ---
 
@@ -43,15 +43,19 @@ on:
 
 | Step                | 关键命令 / Action                      | 说明                            |
 | ------------------- | ---------------------------------- | ----------------------------- |
-| Checkout            | `actions/checkout@v4`              | 拉取代码                          |
-| Node setup          | `actions/setup-node@v4`            | `node-version: '22'`          |
+| Checkout            | `actions/checkout@v5`              | 拉取代码；Action 自身使用 Node 24 runtime |
+| Node setup          | `actions/setup-node@v5`            | `node-version: '22'`；项目构建 runtime 保持 Node 22 |
 | Install             | `npm ci`                           | 使用 `package-lock.json` 安装依赖，保证 CI 可复现 |
 | Checks and tests    | `npm run sync && npm run lint && npm run typecheck && npm run check && npm run test:coverage` | 构建前执行同步、Lint、TypeScript、Astro 和覆盖率检查 |
 | Build               | `npm run build`                    | 产物位于 `dist/`                  |
 | Upload source maps  | 由 `@sentry/astro` integration 自动完成 | 需 `SENTRY_AUTH_TOKEN`         |
-| Create / update tag | `actions/github-script@v7`         | 删除旧 `vX.Y.Z` 标签并重建            |
-| Publish Release     | `softprops/action-gh-release@v1`   | 附带 changelog / dist 资产        |
+| Upload coverage     | `actions/upload-artifact@v6`       | 上传 `coverage/` 报告；Action 自身使用 Node 24 runtime |
+| Create / update tag | `actions/github-script@v8`         | 删除旧 `vX.Y.Z` 标签并重建            |
+| Publish release branch | `peaceiris/actions-gh-pages@v4`  | 将 `dist/` 推送到 `release/<tag>` 分支 |
+| Publish Release     | `softprops/action-gh-release@v3`   | 附带 changelog / dist 资产        |
 | Deploy to server    | `scp` / `rsync` / `ssh`            | 将 `dist/` 拷贝至 `/var/www/html` |
+
+> Workflow 中的 JavaScript action 已升级到声明 Node 24 runtime 的版本；项目构建仍通过 `actions/setup-node` 使用 Node 22。
 
 > 服务器侧 Nginx 配置示例可参考我维护的另一个 Nginx 仓库中的配置文件：[`rendazhang.conf`](https://github.com/RendaZhang/nginx-conf/blob/master/sites-available/rendazhang.conf)。
 
