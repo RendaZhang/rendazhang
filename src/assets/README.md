@@ -43,7 +43,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 14, 2026, 21:05 (UTC+08:00)
+- **最后更新**: June 15, 2026, 12:37 (UTC+08:00)
 
 ---
 
@@ -260,7 +260,7 @@ Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 4. 构建前执行 `npm run sync`、`npm run lint`、`npm run typecheck`、`npm run check` 和 `npm run test:coverage`。
 5. 执行 `npm run build` 生成 `dist/` 静态文件；生产环境会删除 source map。
 6. 通过 `appleboy/scp-action` 将 `dist/` 内容上传到服务器指定目录（如 `/var/www/html`）。
-7. 发布 release 分支、重建版本标签、创建 GitHub Release，并尝试清理 jsDelivr CDN 缓存。
+7. 发布 release 分支、重建版本标签、创建 GitHub Release，并尝试清理 jsDelivr 版本缓存。
 8. 部署完成后即可通过 Nginx 提供服务；静态站点不需要重启前端服务。
 
 > 本地提交不会自动运行完整 Astro 检查，如需校验请手动执行：`npm run check`

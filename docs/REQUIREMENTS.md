@@ -26,7 +26,7 @@
 # 项目需求清单
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 12, 2026, 22:30 (UTC+08:00)
+- **最后更新**: June 15, 2026, 12:37 (UTC+08:00)
 
 ---
 
@@ -411,11 +411,11 @@ graph LR
 
 **缓存清理策略**：
 
-  | 清理类型       | 命令                                                                 |
-  |----------------|----------------------------------------------------------------------|
-  | 单个文件       | `curl -X PURGE https://cdn.jsdelivr.net/gh/user/repo@version/file`   |
-  | 整个目录       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version/path` |
-  | 整个版本       | `curl -X PURGE https://purge.jsdelivr.net/gh/user/repo@version`      |
+  | 清理类型       | 命令                                                            |
+  |----------------|-----------------------------------------------------------------|
+  | 单个文件       | `curl https://purge.jsdelivr.net/gh/user/repo@version/file`     |
+  | 整个目录       | `curl https://purge.jsdelivr.net/gh/user/repo@version/path`     |
+  | 整个版本       | `curl https://purge.jsdelivr.net/gh/user/repo@version`          |
 
 **Sentry 监控架构**：
 

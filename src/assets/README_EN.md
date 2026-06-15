@@ -41,7 +41,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 14, 2026, 21:05 (UTC+08:00)
+- **Last Updated**: June 15, 2026, 12:37 (UTC+08:00)
 
 ---
 
@@ -258,7 +258,7 @@ Pushing to `master` triggers GitHub Actions Auto-Deployment:
 4. Before building, run `npm run sync`, `npm run lint`, `npm run typecheck`, `npm run check`, and `npm run test:coverage`.
 5. Run `npm run build` to generate the `dist/` static files; production builds remove source maps.
 6. Use `appleboy/scp-action` to upload the contents of `dist/` to the server directory, such as `/var/www/html`.
-7. Publish the release branch, recreate the version tag, create the GitHub Release, and try to purge the jsDelivr CDN cache.
+7. Publish the release branch, recreate the version tag, create the GitHub Release, and try to purge the jsDelivr version cache.
 8. After deployment, Nginx serves the static site; no frontend service restart is required.
 
 > Local commits do not automatically run the full Astro check. To validate manually, run: `npm run check`

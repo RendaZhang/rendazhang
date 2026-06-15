@@ -72,7 +72,7 @@
 # 前端 BUG 跟踪数据库
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 14, 2025, 07:40 (UTC+08:00)
+- **最后更新**: June 15, 2026, 12:37 (UTC+08:00)
 
 ---
 
@@ -668,25 +668,19 @@
 - **根本原因**：
   - jsDelivr 对 GitHub 仓库的缓存更新有延迟
   - 清理请求未正确覆盖所有资源路径
+  - GitHub Release 附件不在 jsDelivr 读取的 tag 文件树内，不能用 `release/build.tar.gz` 作为 CDN purge 目标
 - **解决方案**：
   1. 添加重试机制和延迟等待
   2. 增加清理整个版本目录的请求
-  3. 使用 `curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}"` 清理整个版本
+  3. 使用 `https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}` 清理当前版本根路径
 - **验证结果**：✅ 缓存清理成功率提高到 100%
 - **相关代码**：
   ```yaml
   - name: Purge CDN cache
     run: |
-      # 清理整个版本目录
-      curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}"
-
-      # 清理特定资源
-      url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ env.PUBLIC_TAG_NAME }}/release/build.tar.gz"
-      for i in {1..3}; do
-        response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
-        [ "$response" -eq 200 ] && break
-        sleep 5 # 等待 5 秒后重试
-      done
+      url="https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"
+      response=$(curl -sS -o purge-response.json -w "%{http_code}" "$url")
+      [ "$response" -eq 200 ] || echo "::warning::CDN purge failed with status $response for $url"
   ```
 
 ### BUG-035: 客户端环境变量未注入

@@ -8,6 +8,7 @@ on:
 
 env:
   TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   build-and-deploy:
@@ -183,7 +184,7 @@ jobs:
           - **Build date**: $(date -u)
           - **Commit**: [$GITHUB_SHA](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA)
           - **Tag**: ${{ env.TAG_NAME }}
-          - **Artifact**: [build.tar.gz](https://cdn.jsdelivr.net/gh/$GITHUB_REPOSITORY@${{ env.TAG_NAME }}/release/build.tar.gz)
+          - **Artifact**: [build.tar.gz](https://github.com/$GITHUB_REPOSITORY/releases/download/${{ env.TAG_NAME }}/build.tar.gz)
 
           **Changes since last release**:
           \`\`\`
@@ -208,11 +209,12 @@ jobs:
       - name: Purge jsdelivr CDN cache
         id: purge-cdn-cache
         run: |
-          TAG_NAME_WITHOUT_V=$(echo "${{ env.TAG_NAME }}" | sed 's/^v//')
-          url="https://cdn.jsdelivr.net/gh/${{ github.repository }}@${TAG_NAME_WITHOUT_V}/release/build.tar.gz"
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X PURGE "$url")
+          url="https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"
+          response=$(curl -sS -o purge-response.json -w "%{http_code}" "$url")
           if [ "$response" -eq 200 ]; then
-            echo "CDN cache purged successfully"
+            echo "CDN version cache purge requested successfully"
+            cat purge-response.json
           else
             echo "::warning::CDN purge failed with status $response for $url"
+            cat purge-response.json || true
           fi
