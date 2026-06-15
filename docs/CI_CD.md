@@ -13,7 +13,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 15, 2026, 13:23 (UTC+08:00)
+- **最后更新**: June 15, 2026, 13:30 (UTC+08:00)
 
 ---
 
@@ -44,7 +44,7 @@ on:
 | Step                | 关键命令 / Action                      | 说明                            |
 | ------------------- | ---------------------------------- | ----------------------------- |
 | Checkout            | `actions/checkout@v5`              | 拉取代码；Action 自身使用 Node 24 runtime |
-| Node setup          | `actions/setup-node@v5`            | `node-version: '22'`；项目构建 runtime 保持 Node 22 |
+| Node setup          | `actions/setup-node@v6`            | `node-version: '22'`；项目构建 runtime 保持 Node 22 |
 | Install             | `npm ci`                           | 使用 `package-lock.json` 安装依赖，保证 CI 可复现 |
 | Checks and tests    | `npm run sync && npm run lint && npm run typecheck && npm run check && npm run test:coverage` | 构建前执行同步、Lint、TypeScript、Astro 和覆盖率检查 |
 | Build               | `npm run build`                    | 产物位于 `dist/`                  |
