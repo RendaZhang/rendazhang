@@ -43,7 +43,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 15, 2026, 12:37 (UTC+08:00)
+- **最后更新**: June 15, 2026, 13:41 (UTC+08:00)
 
 ---
 
@@ -254,8 +254,8 @@ flowchart TD
 
 Push 到 `master` 分支会触发 GitHub Actions 自动部署：
 
-1. 使用 `actions/checkout@v4` 检出代码。
-2. 使用 `actions/setup-node@v4` 安装 Node.js 22，并启用 npm 缓存。
+1. 使用 `actions/checkout@v5` 检出代码。
+2. 使用 `actions/setup-node@v6` 安装 Node.js 22，并启用 npm 缓存。
 3. 执行 `npm ci`，以 `package-lock.json` 为准安装依赖。
 4. 构建前执行 `npm run sync`、`npm run lint`、`npm run typecheck`、`npm run check` 和 `npm run test:coverage`。
 5. 执行 `npm run build` 生成 `dist/` 静态文件；生产环境会删除 source map。

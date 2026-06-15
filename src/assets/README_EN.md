@@ -41,7 +41,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 15, 2026, 12:37 (UTC+08:00)
+- **Last Updated**: June 15, 2026, 13:41 (UTC+08:00)
 
 ---
 
@@ -252,8 +252,8 @@ Verify builds using `npm run preview`.
 
 Pushing to `master` triggers GitHub Actions Auto-Deployment:
 
-1. Check out the code with `actions/checkout@v4`.
-2. Set up Node.js 22 with `actions/setup-node@v4` and enable npm caching.
+1. Check out the code with `actions/checkout@v5`.
+2. Set up Node.js 22 with `actions/setup-node@v6` and enable npm caching.
 3. Run `npm ci` so dependency installation is based on `package-lock.json`.
 4. Before building, run `npm run sync`, `npm run lint`, `npm run typecheck`, `npm run check`, and `npm run test:coverage`.
 5. Run `npm run build` to generate the `dist/` static files; production builds remove source maps.
