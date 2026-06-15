@@ -33,11 +33,16 @@ tokens to this file or to any committed document.
 ## Local Development
 
 - Use Node.js 22 for parity with GitHub Actions.
+- Runtime version files are committed for local tooling:
+  - `.nvmrc` for nvm/fnm-compatible Node selection.
+  - `.mise.toml` for mise-based Node selection.
 - Install with `npm ci` when reproducing CI. Use `npm install` only when
   intentionally changing dependencies and committing the updated lockfile.
 - Common commands:
 
 ```bash
+mise install
+mise exec -- npm ci
 npm run dev
 npm run lint
 npm run typecheck
