@@ -1,6 +1,6 @@
 # 颜色 Token 说明
 
-`tokens.css` 集中定义了所有配色变量，组件应通过 `var(--token)` 引用颜色，以便统一维护与主题切换。
+`tokens.css` 集中定义基础配色变量，组件应通过 `var(--token)` 引用颜色，以便统一维护与主题切换。面向当前主题的语义别名和 `html[data-theme='dark']` 覆盖由 `theme-tokens.css` 维护。
 
 ## 品牌色 (Brand)
 
@@ -49,3 +49,5 @@
 - `--color-404-*`、`--color-50x-*`：错误页专用色彩。
 
 如需新增颜色 Token，请在 `tokens.css` 中定义，并在此文件补充说明。
+
+如需新增全站主题语义别名，请在 `theme-tokens.css` 中定义，并在 `theme-tokens.md` 中补充说明。

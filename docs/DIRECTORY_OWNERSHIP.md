@@ -25,7 +25,7 @@
 # 前端目录所有权地图
 
 - **作者**: 张人大
-- **最后更新**: June 16, 2026, 00:09 (UTC+08:00)
+- **最后更新**: June 16, 2026, 04:06 (UTC+08:00)
 
 ## 文档目的
 
@@ -190,7 +190,7 @@
 
 | 子目录 | 所有权 |
 | --- | --- |
-| `core` | 颜色、间距、字体、阴影、Markdown、页面语义 token 和渐变 token。 |
+| `core` | 基础颜色、间距、字体、阴影、Markdown/page 基础 token、主题语义别名、`data-theme` 覆盖和渐变 token。 |
 | `components` | 导航、按钮、表单、modal、Chat、docs、certifications、profile 等组件或页面相关样式。 |
 | `utilities` | 通用布局和工具类，例如 flex、grid、position、text helpers。 |
 

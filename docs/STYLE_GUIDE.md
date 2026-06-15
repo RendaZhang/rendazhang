@@ -28,7 +28,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 15, 2025, 04:27 (UTC+08:00)
+- **最后更新**: June 16, 2026, 04:06 (UTC+08:00)
 
 ---
 
@@ -42,10 +42,10 @@
 
 项目的样式位于 `src/styles/` 目录，按职责划分为以下几个部分：
 
-- `core/`：定义全局颜色、间距、渐变等基础变量。
+- `core/`：定义基础 Token、主题语义映射、渐变等全局变量。
 - `utilities/`：提供布局、工具类等复用样式。
 - `components/`：存放各页面或组件的独立样式文件。
-- `theme.css`：作为入口文件，统一导入上述基础与工具样式并声明全局 CSS 变量，并在内部定义 `@layer reset, tokens, base, components, utilities;` 来管理层叠顺序。
+- `theme.css`：作为入口文件，统一导入上述基础、组件与工具样式，并在内部定义 `@layer reset, tokens, base, components, utilities;` 来管理层叠顺序。
 
 各目录与层级的对应关系如下：
 
@@ -124,17 +124,17 @@ src/styles/components/
 
 ## 配色方案
 
-本项目的核心色彩以 OKLCH 设计令牌形式维护，并通过 `color-mix(in srgb, …)` 生成向下兼容的 sRGB 回退；在支持 OKLCH 的浏览器中，通过 `@supports (color: oklch(0% 0 0))` 覆盖为原生 OKLCH 值，以确保不同渲染环境下感知一致。
+本项目的核心色彩以 OKLCH 设计令牌形式维护，并通过 `color-mix(in srgb, …)` 生成向下兼容的 sRGB 回退；在支持 OKLCH 的浏览器中，通过 `@supports (color: oklch(0% 0 0))` 覆盖为原生 OKLCH 值，以确保不同渲染环境下感知一致。基础色值位于 `src/styles/core/tokens.css`；面向当前主题的语义别名和 `html[data-theme='dark']` 覆盖位于 `src/styles/core/theme-tokens.css`。
 
 **统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
 - 公共组件样式统一由 `theme.css` 管理
-- Markdown 深色模式拥有独立的颜色 Token，可在 `src/styles/core/tokens.css` 中统一维护。
+- Markdown 深色模式拥有独立的基础颜色 Token，可在 `src/styles/core/tokens.css` 中维护；旧版 `--md-*` 语义别名由 `src/styles/core/theme-tokens.css` 统一映射。
 - 叠加层和阴影相关的颜色通过 `--color-base-black` 与 `--color-base-white` Token 设置，便于调整透明度并适配主题切换。
-- 颜色与渐变 Token 集中在 `src/styles/core/tokens.css` 与 `_gradients.css`，并在同目录的 `tokens.md`、`_gradients.md` 文件说明用途；所有 Token 必须附带用途注释，禁止在组件中硬编码颜色。
+- 颜色、主题语义和渐变 Token 分别集中在 `src/styles/core/tokens.css`、`theme-tokens.css` 与 `_gradients.css`，并在同目录的 `tokens.md`、`theme-tokens.md`、`_gradients.md` 文件说明用途；所有 Token 必须附带用途注释，禁止在组件中硬编码颜色。
 
 **样式架构分层**：
-- `src/styles/core/`: 定义基础设计 Token，包括颜色、间距和渐变等变量
+- `src/styles/core/`: 定义基础设计 Token、主题语义别名和渐变等变量
 - `src/styles/components/`: 组件级样式（如 `about.css`、`chat_widget.css` 等）
 - `src/styles/utilities/`: 布局与通用工具类，内含 `.debug` 调试轮廓
 - `src/styles/theme.css`: 样式入口文件，自动引入 `core/` 和 `utilities/`
@@ -146,6 +146,13 @@ graph TD
   B --> C[组件变量]
   C --> D[实际应用]
 ```
+
+当前文件边界：
+
+- `tokens.css`：基础值，例如品牌色、中性色、状态色、间距、排版、阴影和页面专用色。
+- `theme-tokens.css`：语义主题别名，例如 `--color-bg`、`--color-text`、`--color-surface`、`--color-nav-bg`、`--shadow-login` 和 `html[data-theme='dark']` 覆盖。
+- `_gradients.css`：基于基础色和主题覆盖的渐变 Token。
+- 组件局部 Token：保留在对应组件样式文件中。
 
 **色彩情感评估**：
 - 深紫色：传达专业、创新
@@ -264,7 +271,7 @@ h1 {
 - 文本、颜色、间距等均应通过 Token 引用，避免硬编码。
 - 边框请使用 `--border-0` 至 `--border-3` 变量映射不同色阶。
 - 细线条可用 `--border-width-hairline`，容器宽度可用 `--container-sm` 等等。
-- 新增颜色或渐变需在 `tokens.css`、`_gradients.css` 中定义并附加注释，同时更新对应的 `tokens.md`、`_gradients.md` 文档。
+- 新增基础色、主题语义别名或渐变需分别在 `tokens.css`、`theme-tokens.css`、`_gradients.css` 中定义并附加注释，同时更新对应的 `tokens.md`、`theme-tokens.md`、`_gradients.md` 文档。
 
 ---
 
