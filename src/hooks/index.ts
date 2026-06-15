@@ -9,3 +9,5 @@ export * from './useMarkdownPipeline';
 export { default as useMarkdownPipeline } from './useMarkdownPipeline';
 export * from './usePasswordStrength';
 export { default as usePasswordStrength } from './usePasswordStrength';
+export * from './useUiPreferences';
+export { default as useUiPreferences } from './useUiPreferences';

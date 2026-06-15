@@ -8,5 +8,6 @@ export * from './layouts';
 export * from './models';
 export * from './scripts';
 export * from './services';
+export * from './stores';
 export * from './types';
 export * from './utils';

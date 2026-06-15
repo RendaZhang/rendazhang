@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../constants';
+import { setChatWidgetOpen } from '../../../stores/uiPreferencesStore';
 
 const loadedStyles = new Set<string>();
 
@@ -122,6 +123,17 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
+
+  useEffect(() => {
+    setChatWidgetOpen(open);
+  }, [open]);
+
+  useEffect(
+    () => () => {
+      setChatWidgetOpen(false);
+    },
+    []
+  );
 
   return (
     <>

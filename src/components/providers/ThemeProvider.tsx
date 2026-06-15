@@ -8,6 +8,7 @@ import {
   type ReactElement
 } from 'react';
 import { THEME_STORAGE_KEY } from '../../constants';
+import { setPreferencesReady, setThemeMode, type ThemeMode } from '../../stores/uiPreferencesStore';
 import storage from '../../utils/storage';
 import logger from '../../utils/logger';
 import * as Sentry from '@sentry/react';
@@ -31,6 +32,8 @@ export const useTheme = (): ThemeContextValue => useContext(ThemeContext) || def
 interface ThemeProviderProps {
   children: ReactNode;
 }
+
+const toThemeMode = (enabled: boolean): ThemeMode => (enabled ? 'dark' : 'light');
 
 export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
   // 使用 ref 跟踪初始状态是否已设置
@@ -71,6 +74,8 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
 
       // 设置初始状态
       const shouldBeDark = hasDarkTheme || storedValue;
+      setThemeMode(toThemeMode(shouldBeDark));
+      setPreferencesReady(true);
       setDarkMode(shouldBeDark);
 
       // 确保 DOM 状态正确
@@ -82,6 +87,8 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
 
     // 3. 后续状态变化时同步
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    setThemeMode(toThemeMode(darkMode));
+    setPreferencesReady(true);
     try {
       logger.log('ThemeProvider darkMode: ' + darkMode);
       storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
