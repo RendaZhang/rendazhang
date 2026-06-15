@@ -24,6 +24,7 @@
     - [Git Branching & Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
     - [Frontend Architecture Conventions](#frontend-architecture-conventions)
+    - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
@@ -42,7 +43,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 15, 2026, 22:56 (UTC+08:00)
+- **Last Updated**: June 15, 2026, 23:22 (UTC+08:00)
 
 ---
 
@@ -408,6 +409,10 @@ location /_astro/ {
 ### Frontend Architecture Conventions
 
 > Current conventions for Astro pages, `BaseLayout`, React Islands, hydration, service boundaries, utilities, style tokens, CSP, and iframe constraints are documented in: 📄 [Frontend Architecture Conventions](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md).
+
+### Frontend Directory Ownership Map
+
+> Directory ownership for `src/components`, `src/services`, `src/utils`, `src/styles`, `src/content`, and future `src/stores` / `src/controllers` is documented in: 📄 [Frontend Directory Ownership Map](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md).
 
 ### BUG Tracking
 
