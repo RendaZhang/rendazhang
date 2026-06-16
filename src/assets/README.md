@@ -25,6 +25,7 @@
     - [CI/CD 工作流](#cicd-%E5%B7%A5%E4%BD%9C%E6%B5%81)
     - [前端架构约定](#%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%BA%A6%E5%AE%9A)
     - [前端目录所有权地图](#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE)
+    - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
     - [用户认证与密码重置规范](#%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%B8%8E%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E8%A7%84%E8%8C%83)
@@ -45,7 +46,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 15, 2026, 23:22 (UTC+08:00)
+- **最后更新**: June 16, 2026, 13:39 (UTC+08:00)
 
 ---
 
@@ -419,6 +420,10 @@ location /_astro/ {
 ### 前端目录所有权地图
 
 > `src/components`、`src/services`、`src/utils`、`src/styles`、`src/content` 以及未来 `src/stores` / `src/controllers` 的目录职责边界见：📄 [前端目录所有权地图](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md)。
+
+### Chat Widget 协议说明
+
+> 浮动 Chat Widget 与 `/deepseek_chat/` 同源 iframe 的 `postMessage` ready 协议、origin/source 校验、加载生命周期和后续重构约束见：📄 [Chat Widget 协议说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md)。
 
 ### BUG 记录
 

@@ -25,7 +25,7 @@
 # 前端目录所有权地图
 
 - **作者**: 张人大
-- **最后更新**: June 16, 2026, 04:06 (UTC+08:00)
+- **最后更新**: June 16, 2026, 13:39 (UTC+08:00)
 
 ## 文档目的
 
@@ -119,6 +119,8 @@
 - Chat 消息展示、输入、加载状态、typing 状态和 Markdown 增强触发。
 - 同源 iframe ready 消息契约的 UI 侧处理。
 - 当前 Chat 页面中的流式交互编排，直到后续 controller 切片拆分。
+
+Chat Widget 与 `/deepseek_chat/` iframe 的消息类型、origin/source 校验和 ready 生命周期见：[Chat Widget 协议说明](./CHAT_WIDGET_PROTOCOL.md)。
 
 不拥有：
 

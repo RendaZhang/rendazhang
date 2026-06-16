@@ -25,6 +25,7 @@
     - [CI/CD Workflow](#cicd-workflow)
     - [Frontend Architecture Conventions](#frontend-architecture-conventions)
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
+    - [Chat Widget Protocol](#chat-widget-protocol)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
@@ -43,7 +44,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 15, 2026, 23:22 (UTC+08:00)
+- **Last Updated**: June 16, 2026, 13:39 (UTC+08:00)
 
 ---
 
@@ -413,6 +414,10 @@ location /_astro/ {
 ### Frontend Directory Ownership Map
 
 > Directory ownership for `src/components`, `src/services`, `src/utils`, `src/styles`, `src/content`, and future `src/stores` / `src/controllers` is documented in: 📄 [Frontend Directory Ownership Map](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md).
+
+### Chat Widget Protocol
+
+> The same-origin iframe `postMessage` ready protocol between the floating Chat Widget and `/deepseek_chat/`, including origin/source checks, loading lifecycle, and refactor constraints, is documented in: 📄 [Chat Widget Protocol](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md).
 
 ### BUG Tracking
 
