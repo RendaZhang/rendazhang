@@ -8,7 +8,13 @@ import {
   type ReactElement
 } from 'react';
 import { THEME_STORAGE_KEY } from '../../constants';
-import { setPreferencesReady, setThemeMode, type ThemeMode } from '../../stores/uiPreferencesStore';
+import {
+  persistThemeMode,
+  readStoredThemeMode,
+  setPreferencesReady,
+  setThemeMode,
+  type ThemeMode
+} from '../../stores/uiPreferencesStore';
 import storage from '../../utils/storage';
 import logger from '../../utils/logger';
 import * as Sentry from '@sentry/react';
@@ -61,19 +67,17 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
       logger.log('ThemeProvider hasDarkTheme: ' + hasDarkTheme);
 
       // 其次读取存储
-      let storedValue = false;
+      let storedTheme: ThemeMode = 'light';
       try {
-        const stored = storage.get(THEME_STORAGE_KEY);
-        logger.log('ThemeProvider stored: ' + stored);
-        storedValue = stored === 'dark';
-        logger.log('ThemeProvider storedValue: ' + storedValue);
+        storedTheme = readStoredThemeMode(storage, THEME_STORAGE_KEY);
+        logger.log('ThemeProvider stored: ' + storedTheme);
       } catch (e) {
         logger.log('Failed to get stored with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
         Sentry.captureException(e);
       }
 
       // 设置初始状态
-      const shouldBeDark = hasDarkTheme || storedValue;
+      const shouldBeDark = hasDarkTheme || storedTheme === 'dark';
       setThemeMode(toThemeMode(shouldBeDark));
       setPreferencesReady(true);
       setDarkMode(shouldBeDark);
@@ -91,7 +95,7 @@ export function ThemeProvider({ children }: ThemeProviderProps): ReactElement {
     setPreferencesReady(true);
     try {
       logger.log('ThemeProvider darkMode: ' + darkMode);
-      storage.set(THEME_STORAGE_KEY, darkMode ? 'dark' : 'light');
+      persistThemeMode(toThemeMode(darkMode), storage, THEME_STORAGE_KEY);
     } catch (e) {
       logger.error('Failed to set darkMode with THEME_STORAGE_KEY' + THEME_STORAGE_KEY);
       Sentry.captureException(e);

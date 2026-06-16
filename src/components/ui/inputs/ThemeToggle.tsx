@@ -1,15 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../providers';
 import { NAV_CONTENT } from '../../../content';
+import { useUiPreferences } from '../../../hooks';
 import { useLanguage } from '../../providers';
 import { LocalizedSection, ThemeIcon, SunIcon, MoonIcon } from '..';
 
 export default function ThemeToggle() {
   const { darkMode, setTheme } = useTheme();
   const { lang } = useLanguage();
+  const { themeMode, preferencesReady } = useUiPreferences();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const optionsRef = useRef<HTMLDivElement | null>(null);
+  const selectedThemeMode = preferencesReady ? themeMode : darkMode ? 'dark' : 'light';
+  const lightSelected = selectedThemeMode === 'light';
+  const darkSelected = selectedThemeMode === 'dark';
 
   // 渲染中英文两套文本，避免首次挂载语言切换造成闪烁
   const textsZh = NAV_CONTENT.zh.theme;
@@ -51,16 +56,18 @@ export default function ThemeToggle() {
       {open && (
         <div ref={optionsRef} className="c-theme-options">
           <button
-            className={`c-theme-option is-light ${!darkMode ? 'is-active' : ''}`}
+            className={`c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
             aria-label={texts.light || '切换到浅色模式'}
+            aria-pressed={lightSelected}
             title={texts.light || '切换到浅色模式'}
             onClick={() => handleSelect(false)}
           >
             <SunIcon size={20} />
           </button>
           <button
-            className={`c-theme-option is-dark ${darkMode ? 'is-active' : ''}`}
+            className={`c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
             aria-label={texts.dark || '切换到深色模式'}
+            aria-pressed={darkSelected}
             title={texts.dark || '切换到深色模式'}
             onClick={() => handleSelect(true)}
           >
