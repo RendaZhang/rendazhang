@@ -46,7 +46,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 16, 2026, 13:39 (UTC+08:00)
+- **最后更新**: June 16, 2026, 22:13 (UTC+08:00)
 
 ---
 
@@ -419,7 +419,7 @@ location /_astro/ {
 
 ### 前端目录所有权地图
 
-> `src/components`、`src/services`、`src/utils`、`src/styles`、`src/content` 以及未来 `src/stores` / `src/controllers` 的目录职责边界见：📄 [前端目录所有权地图](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md)。
+> `src/components`、`src/services`、`src/utils`、`src/styles`、`src/content`、`src/stores` 和 `src/controllers` 的目录职责边界见：📄 [前端目录所有权地图](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md)。
 
 ### Chat Widget 协议说明
 

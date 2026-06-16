@@ -2,6 +2,7 @@
 export * from './components';
 export * from './constants';
 export * from './content';
+export * from './controllers';
 export * from './data';
 export * from './hooks';
 export * from './layouts';

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { KeyboardEvent } from 'react';
-import { sendMessageToAI, resetChat } from '../../services';
+import { createChatController, type ChatController } from '../../controllers/chatController';
 import { useChatHistory } from '../../hooks';
-import { ROLES } from '../../constants';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
 import { LocalizedSection, Modal } from '../ui';
@@ -37,11 +36,16 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
+  const chatControllerRef = useRef<ChatController | null>(null);
   const [librariesLoaded, setLibrariesLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const pageReadyRef = useRef(false);
   const enhancementReadyRef = useRef(false);
   const isReady = historyLoaded;
+  if (!chatControllerRef.current) {
+    chatControllerRef.current = createChatController();
+  }
+  const chatController = chatControllerRef.current;
 
   const notifyParent = useCallback((type: 'chat-page-ready' | 'chat-enhancement-ready') => {
     if (window.parent && window.parent !== window) {
@@ -140,57 +144,37 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   }, []);
 
   const handleSend = async () => {
-    const message = input.trim();
-    if (!message) return;
-
-    addMessage(ROLES.USER, message);
-    setInput('');
-    setIsSending(true);
-    if (typingIndicatorRef.current) {
-      typingIndicatorRef.current.style.display = 'block';
-    }
-    let hasReceivedChunk = false;
-
-    try {
-      const aiText = await sendMessageToAI(message, (partial) => {
-        if (!hasReceivedChunk) {
-          hasReceivedChunk = true;
-          if (typingIndicatorRef.current) {
-            typingIndicatorRef.current.style.display = 'none';
-          }
+    await chatController.sendMessage({
+      input,
+      addMessage,
+      setMessages,
+      onAccepted: () => {
+        setInput('');
+        setIsSending(true);
+        if (typingIndicatorRef.current) {
+          typingIndicatorRef.current.style.display = 'block';
         }
-        setMessages((prev) => {
-          const lastMsg = prev[prev.length - 1];
-          if (lastMsg && lastMsg.role === ROLES.AI) {
-            lastMsg.content = partial;
-            return [...prev.slice(0, -1), { ...lastMsg }];
-          }
-          return [...prev, { role: ROLES.AI, content: partial }];
-        });
+      },
+      onFirstChunk: () => {
+        if (typingIndicatorRef.current) {
+          typingIndicatorRef.current.style.display = 'none';
+        }
+      },
+      onChunk: () => {
         if (chatContainerRef.current) {
           chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-      });
-      setMessages((prev) => {
-        const updated = [...prev];
-        const lastMsg = updated[updated.length - 1];
-        if (lastMsg && lastMsg.role === ROLES.AI) {
-          lastMsg.content = aiText;
+      },
+      onFinally: () => {
+        setIsSending(false);
+        if (typingIndicatorRef.current) {
+          typingIndicatorRef.current.style.display = 'none';
         }
-        return updated;
-      });
-    } catch (error) {
-      const err = error as Error;
-      addMessage(ROLES.AI, `Error: ${err.message}`);
-    } finally {
-      setIsSending(false);
-      if (typingIndicatorRef.current) {
-        typingIndicatorRef.current.style.display = 'none';
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
       }
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    }
+    });
   };
 
   const handleReset = async () => {
@@ -200,16 +184,13 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
 
   const confirmReset = async () => {
     setIsResetting(true);
-    try {
-      await resetChat();
-      clearHistory();
-      setShowResetModal(false);
-    } catch (error) {
-      const err = error as Error;
-      setResetError(`${activeTexts.resetFailedPrefix}: ${err.message}`);
-    } finally {
-      setIsResetting(false);
-    }
+    await chatController.resetHistory({
+      clearHistory,
+      errorPrefix: activeTexts.resetFailedPrefix,
+      onSuccess: () => setShowResetModal(false),
+      onError: (message) => setResetError(message),
+      onFinally: () => setIsResetting(false)
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {

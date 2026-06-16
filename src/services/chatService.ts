@@ -3,16 +3,22 @@ import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
 import { LOGIN_STATE_KEY } from '../constants';
 import { storage, logger } from '../utils';
 
+export interface ChatRequestOptions {
+  signal?: AbortSignal;
+}
+
 export async function sendMessageToAI(
   userInput: string,
-  onChunkCallback?: (chunk: string) => void
+  onChunkCallback?: (chunk: string) => void,
+  options: ChatRequestOptions = {}
 ): Promise<string> {
   try {
     const response = await fetch(ENDPOINTS.CHAT, {
       method: 'POST',
       headers: JSON_HEADERS,
       body: JSON.stringify({ message: userInput }),
-      credentials: 'include'
+      credentials: 'include',
+      signal: options.signal
     });
 
     if (response.status === 401) {

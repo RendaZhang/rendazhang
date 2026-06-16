@@ -44,7 +44,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 16, 2026, 13:39 (UTC+08:00)
+- **Last Updated**: June 16, 2026, 22:13 (UTC+08:00)
 
 ---
 
@@ -413,7 +413,7 @@ location /_astro/ {
 
 ### Frontend Directory Ownership Map
 
-> Directory ownership for `src/components`, `src/services`, `src/utils`, `src/styles`, `src/content`, and future `src/stores` / `src/controllers` is documented in: 📄 [Frontend Directory Ownership Map](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md).
+> Directory ownership for `src/components`, `src/services`, `src/utils`, `src/styles`, `src/content`, `src/stores`, and `src/controllers` is documented in: 📄 [Frontend Directory Ownership Map](https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md).
 
 ### Chat Widget Protocol
 
