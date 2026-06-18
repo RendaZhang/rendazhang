@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import { CONTACT_FORM_ENDPOINT } from '../../../constants';
+import { submitContactForm, type ContactFormSubmission } from '../../../services/contactService';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
-
-interface ContactFormFields extends Record<string, string> {
-  name: string;
-  contact: string;
-  _subject: string;
-  message: string;
-}
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -46,13 +39,13 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
   const textsZh = texts.zh || {};
   const textsEn = texts.en || {};
   const activeTexts = texts[langKey] || {};
-  const initialForm: ContactFormFields = {
+  const initialForm: ContactFormSubmission = {
     name: '',
     contact: '',
     _subject: '',
     message: ''
   };
-  const [form, setForm] = useState<ContactFormFields>(initialForm);
+  const [form, setForm] = useState<ContactFormSubmission>(initialForm);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [error, setError] = useState<string>('');
   const [placeholders, setPlaceholders] = useState<PlaceholderTexts>({
@@ -82,17 +75,8 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
     setStatus('loading');
     setError('');
     try {
-      const body = new URLSearchParams(form).toString();
-      const res = await fetch(CONTACT_FORM_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json; charset=utf-8',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body
-      });
-      const data = await res.json();
-      if (data.ok) {
+      const submitted = await submitContactForm(form);
+      if (submitted) {
         setStatus('success');
         setForm(initialForm);
       } else {

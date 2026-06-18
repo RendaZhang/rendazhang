@@ -2,10 +2,6 @@ import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
 import { LOGIN_STATE_KEY } from '../constants';
 import { storage } from '../utils';
 import type {
-  ChatSendMessageRequest,
-  ChatSendMessageResponse,
-  ResetChatRequest,
-  ResetChatResponse,
   AuthLoginRequest,
   AuthLoginResponse,
   AuthRegisterRequest,
@@ -247,20 +243,6 @@ async function streamLines(url: string, options: StreamLinesOptions): Promise<vo
  * Consumers should use these methods instead of calling `fetch` directly.
  */
 const apiClient = {
-  chat: {
-    sendMessage: (payload: ChatSendMessageRequest): Promise<ChatSendMessageResponse> =>
-      request<ChatSendMessageResponse>(ENDPOINTS.CHAT, {
-        method: 'POST',
-        headers: JSON_HEADERS,
-        body: JSON.stringify(payload)
-      }),
-    reset: (payload: ResetChatRequest = {}): Promise<ResetChatResponse> =>
-      request<ResetChatResponse>(ENDPOINTS.RESET, {
-        method: 'POST',
-        headers: JSON_HEADERS,
-        body: JSON.stringify(payload)
-      })
-  },
   auth: {
     register: (payload: AuthRegisterRequest): Promise<AuthRegisterResponse> =>
       request<AuthRegisterResponse>(ENDPOINTS.AUTH.REGISTER, {
