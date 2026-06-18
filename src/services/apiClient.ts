@@ -39,6 +39,84 @@ interface RequestOptions extends RequestInit {
    * not logged in.
    */
   skipAuthRedirect?: boolean;
+  /**
+   * Optional message for 401 errors. Chat streaming historically surfaces
+   * `Unauthorized`, while regular JSON endpoints use the response body or
+   * status fallback.
+   */
+  unauthorizedMessage?: string;
+  /**
+   * Optional per-endpoint HTTP error message override for non-OK responses.
+   */
+  failureMessage?: (response: Response) => string;
+}
+
+interface StreamLinesOptions extends RequestOptions {
+  onLine: (line: string) => void;
+}
+
+type ApiError = Error & {
+  status?: number;
+  error?: string;
+};
+
+function createApiError(message: string, status?: number, errorCode?: string): ApiError {
+  const error = new Error(message) as ApiError;
+  if (typeof status === 'number') {
+    error.status = status;
+  }
+  if (errorCode) {
+    error.error = errorCode;
+  }
+  return error;
+}
+
+function normalizeApiError(error: unknown): ApiError {
+  const err = (error instanceof Error ? error : new Error(String(error))) as ApiError;
+  if (err.status === undefined && err.error === undefined) {
+    err.error = 'network';
+  }
+  return err;
+}
+
+function createFetchOptions(options: RequestOptions): RequestInit {
+  const { skipAuthRedirect, unauthorizedMessage, failureMessage, ...fetchOptions } = options;
+  void skipAuthRedirect;
+  void unauthorizedMessage;
+  void failureMessage;
+
+  const method = (fetchOptions.method || 'GET').toUpperCase();
+  let headers: HeadersInit | undefined;
+  if (method === 'GET') {
+    if (fetchOptions.headers) {
+      const hdrs = new Headers(fetchOptions.headers as HeadersInit);
+      hdrs.delete('Content-Type');
+      headers = Object.fromEntries(hdrs.entries());
+    }
+  } else {
+    headers = { ...JSON_HEADERS, ...(fetchOptions.headers || {}) };
+  }
+
+  return {
+    ...fetchOptions,
+    headers,
+    credentials: 'include'
+  };
+}
+
+function handleUnauthorized(url: string, options: RequestOptions): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  storage.remove(LOGIN_STATE_KEY);
+  document.documentElement.dataset.loggedIn = 'false';
+  if (url !== ENDPOINTS.AUTH.LOGIN && !options.skipAuthRedirect) {
+    window.location.href = '/login';
+  }
+}
+
+async function fetchWithDefaults(url: string, options: RequestOptions = {}): Promise<Response> {
+  return fetch(url, createFetchOptions(options));
 }
 
 // Helper functiion for sanitization
@@ -80,66 +158,87 @@ interface RequestOptions extends RequestInit {
  */
 async function request<TResponse>(url: string, options: RequestOptions = {}): Promise<TResponse> {
   try {
-    const method = (options.method || 'GET').toUpperCase();
-    // Avoid sending `Content-Type` for GET requests as per AUTH_SPECIFICATION.
-    let headers: HeadersInit | undefined;
-    if (method === 'GET') {
-      if (options.headers) {
-        const hdrs = new Headers(options.headers as HeadersInit);
-        hdrs.delete('Content-Type');
-        headers = Object.fromEntries(hdrs.entries());
-      }
-    } else {
-      headers = { ...JSON_HEADERS, ...(options.headers || {}) };
-    }
-    const response = await fetch(url, {
-      ...options,
-      headers,
-      credentials: 'include'
-    });
+    const response = await fetchWithDefaults(url, options);
 
-    const data = (await response.json().catch(() => ({}))) as TResponse & { error?: string };
+    const data = ((await response.json?.().catch(() => ({}))) ?? {}) as TResponse & {
+      error?: string;
+    };
 
     if (!response.ok) {
-      const errorMessage = data.error ?? `Request failed: ${response.status}`;
-      const error = new Error(errorMessage) as Error & {
-        status?: number;
-        error?: string;
-      };
-      error.status = response.status;
-      if (data.error) error.error = data.error;
+      if (response.status === 401) {
+        handleUnauthorized(url, options);
+      }
+      const errorMessage =
+        response.status === 401 && options.unauthorizedMessage
+          ? options.unauthorizedMessage
+          : (options.failureMessage?.(response) ??
+            data.error ??
+            `Request failed: ${response.status}`);
+      const error = createApiError(errorMessage, response.status, data.error);
       // const sanitizedOptions = sanitizeOptions(options);
       // Sentry.captureException(error, {
       //   tags: { url },
       //   extra: { options: sanitizedOptions }
       // });
-      if (response.status === 401) {
-        if (typeof window !== 'undefined') {
-          storage.remove(LOGIN_STATE_KEY);
-          document.documentElement.dataset.loggedIn = 'false';
-          if (url !== ENDPOINTS.AUTH.LOGIN && !options.skipAuthRedirect) {
-            window.location.href = '/login';
-          }
-        }
-      }
       throw error;
     }
 
     return data as TResponse;
   } catch (error) {
-    const err = (error instanceof Error ? error : new Error(String(error))) as Error & {
-      status?: number;
-      error?: string;
-    };
-    if (err.status === undefined && err.error === undefined) {
-      err.error = 'network';
-    }
+    const err = normalizeApiError(error);
     // const sanitizedOptions = sanitizeOptions(options);
     // Sentry.captureException(err, {
     //   tags: { url },
     //   extra: { options: sanitizedOptions }
     // });
     throw err;
+  }
+}
+
+async function streamLines(url: string, options: StreamLinesOptions): Promise<void> {
+  const { onLine, ...requestOptions } = options;
+  try {
+    const response = await fetchWithDefaults(url, requestOptions);
+
+    if (response.status === 401) {
+      handleUnauthorized(url, requestOptions);
+      throw createApiError(requestOptions.unauthorizedMessage ?? 'Unauthorized', response.status);
+    }
+
+    if (!response.ok) {
+      throw createApiError(
+        requestOptions.failureMessage?.(response) ?? `Request failed: ${response.status}`,
+        response.status
+      );
+    }
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      throw new Error('Readable stream not supported');
+    }
+
+    const decoder = new TextDecoder();
+    let pendingLine = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      pendingLine += decoder.decode(value, { stream: true });
+      const lines = pendingLine.split('\n');
+      pendingLine = lines.pop() ?? '';
+
+      for (const line of lines) {
+        onLine(line);
+      }
+    }
+
+    pendingLine += decoder.decode();
+    if (pendingLine) {
+      onLine(pendingLine);
+    }
+  } catch (error) {
+    throw normalizeApiError(error);
   }
 }
 
@@ -198,7 +297,9 @@ const apiClient = {
     healthz: (): Promise<AuthHealthzResponse> =>
       request<AuthHealthzResponse>(ENDPOINTS.AUTH.HEALTHZ)
   },
-  request
+  request,
+  streamLines
 };
 
 export default apiClient;
+export type { RequestOptions, StreamLinesOptions };

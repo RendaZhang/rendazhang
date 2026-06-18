@@ -57,4 +57,33 @@ describe('chatService unauthorized handling', () => {
     expect(onChunk).toHaveBeenNthCalledWith(1, 'Hello');
     expect(onChunk).toHaveBeenNthCalledWith(2, 'Hello world');
   });
+
+  it('ignores malformed stream lines and continues parsing valid chunks', async () => {
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(encoder.encode('not-json\n{"text":"ok"}\n'));
+        controller.close();
+      }
+    });
+    const onChunk = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      body: stream
+    }) as unknown as typeof fetch;
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    await expect(sendMessageToAI('hi', onChunk)).resolves.toBe('ok');
+    expect(onChunk).toHaveBeenCalledWith('ok');
+    expect(consoleError).toHaveBeenCalled();
+  });
+
+  it('preserves reset failure status message', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      status: 503,
+      ok: false
+    }) as unknown as typeof fetch;
+
+    await expect(resetChat()).rejects.toThrow('Reset failed: 503');
+  });
 });

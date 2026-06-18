@@ -1,7 +1,8 @@
 // Markdown libraries expected to be loaded globally
-import { ENDPOINTS, JSON_HEADERS } from '../constants/api';
-import { LOGIN_STATE_KEY } from '../constants';
-import { storage, logger } from '../utils';
+import { ENDPOINTS } from '../constants/api';
+import type { ResetChatResponse } from '../types';
+import { logger } from '../utils';
+import apiClient from './apiClient';
 
 export interface ChatRequestOptions {
   signal?: AbortSignal;
@@ -13,33 +14,7 @@ export async function sendMessageToAI(
   options: ChatRequestOptions = {}
 ): Promise<string> {
   try {
-    const response = await fetch(ENDPOINTS.CHAT, {
-      method: 'POST',
-      headers: JSON_HEADERS,
-      body: JSON.stringify({ message: userInput }),
-      credentials: 'include',
-      signal: options.signal
-    });
-
-    if (response.status === 401) {
-      storage.remove(LOGIN_STATE_KEY);
-      document.documentElement.dataset.loggedIn = 'false';
-      window.location.href = '/login';
-      throw new Error('Unauthorized');
-    }
-
-    if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`);
-    }
-
-    const reader = response.body?.getReader();
-    if (!reader) {
-      throw new Error('Readable stream not supported');
-    }
-    const decoder = new TextDecoder();
     let aiMessage = '';
-
-    let pendingLine = '';
 
     const processLine = (line: string) => {
       if (!line.trim()) {
@@ -59,21 +34,14 @@ export async function sendMessageToAI(
       }
     };
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-
-      pendingLine += decoder.decode(value, { stream: true });
-      const lines = pendingLine.split('\n');
-      pendingLine = lines.pop() ?? '';
-
-      for (const line of lines) {
-        processLine(line);
-      }
-    }
-
-    pendingLine += decoder.decode();
-    processLine(pendingLine);
+    await apiClient.streamLines(ENDPOINTS.CHAT, {
+      method: 'POST',
+      body: JSON.stringify({ message: userInput }),
+      signal: options.signal,
+      unauthorizedMessage: 'Unauthorized',
+      failureMessage: (response) => `Request failed: ${response.status}`,
+      onLine: processLine
+    });
 
     return aiMessage;
   } catch (error) {
@@ -84,23 +52,12 @@ export async function sendMessageToAI(
 
 export async function resetChat(): Promise<boolean> {
   try {
-    const response = await fetch(ENDPOINTS.RESET, {
+    await apiClient.request<ResetChatResponse>(ENDPOINTS.RESET, {
       method: 'POST',
-      headers: JSON_HEADERS,
       body: JSON.stringify({}),
-      credentials: 'include'
+      unauthorizedMessage: 'Unauthorized',
+      failureMessage: (response) => `Reset failed: ${response.status}`
     });
-
-    if (response.status === 401) {
-      storage.remove(LOGIN_STATE_KEY);
-      document.documentElement.dataset.loggedIn = 'false';
-      window.location.href = '/login';
-      throw new Error('Unauthorized');
-    }
-
-    if (!response.ok) {
-      throw new Error(`Reset failed: ${response.status}`);
-    }
 
     return true;
   } catch (error) {

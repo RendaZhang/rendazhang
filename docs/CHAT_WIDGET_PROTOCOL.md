@@ -25,7 +25,7 @@
 # Chat Widget 协议说明
 
 - **作者**: 张人大
-- **最后更新**: June 16, 2026, 22:13 (UTC+08:00)
+- **最后更新**: June 18, 2026, 20:21 (UTC+08:00)
 
 ## 文档目的
 
@@ -60,7 +60,7 @@
 
 ### Chat 服务层
 
-`src/services/chatService.ts` 拥有当前 Chat 流式请求和 reset 请求。它不是 iframe `postMessage` 协议的一部分，也不应接收或解释 widget ready 消息。
+`src/services/chatService.ts` 拥有当前 Chat 流式请求的领域语义和 reset 请求约定，并通过 `src/services/apiClient.ts` 复用底层 fetch、认证和 line streaming transport。它不是 iframe `postMessage` 协议的一部分，也不应接收或解释 widget ready 消息。
 
 ## 当前消息类型
 
