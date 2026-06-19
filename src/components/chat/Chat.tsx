@@ -77,7 +77,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         setLoadError(true);
       }
     };
-    loadLibraries();
+    void loadLibraries();
   }, []);
 
   useEffect(() => {
@@ -177,7 +177,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     });
   };
 
-  const handleReset = async () => {
+  const handleReset = () => {
     setShowResetModal(true);
     setResetError(null);
   };
@@ -196,7 +196,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      void handleSend();
     }
   };
 
@@ -266,7 +266,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
                     enContent={textsEn.cancelButton}
                   />
                 </button>
-                <button className="c-btn-primary c-btn-chat" onClick={confirmReset}>
+                <button
+                  className="c-btn-primary c-btn-chat"
+                  onClick={() => {
+                    void confirmReset();
+                  }}
+                >
                   <LocalizedSection
                     zhContent={textsZh.resetButton}
                     enContent={textsEn.resetButton}

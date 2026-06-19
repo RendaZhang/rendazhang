@@ -25,7 +25,7 @@
 # 前端目录所有权地图
 
 - **作者**: 张人大
-- **最后更新**: June 18, 2026, 21:55 (UTC+08:00)
+- **最后更新**: June 19, 2026, 18:15 (UTC+08:00)
 
 ## 文档目的
 
@@ -333,4 +333,4 @@ styles -> styles only
 - Slice 3.1 已将 `src/stores` 作为小型客户端 UI/preference 边界落地。
 - Slice 4.2 已将 `src/controllers/chatController.ts` 作为 Chat 编排边界落地。
 - Slice 5.1 可以用本文和 ADR 002 作为统一 API client 的 rule source。
-- Slice 6.1 可以把本文中的导入方向转化为 lint 规则或 reviewer checklist。
+- Slice 6.1 已收紧 Promise、外链安全和 TypeScript 抑制注释检查；导入方向 lint 仍保留为后续 rule source 或 reviewer checklist。

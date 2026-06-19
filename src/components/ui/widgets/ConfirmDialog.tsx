@@ -6,7 +6,7 @@ interface ConfirmDialogProps {
   message: ReactNode;
   confirmLabel: ReactNode;
   cancelLabel: ReactNode;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onCancel: () => void;
 }
 
@@ -25,7 +25,13 @@ export default function ConfirmDialog({
         <button type="button" className="c-btn-secondary" onClick={onCancel}>
           {cancelLabel}
         </button>
-        <button type="button" className="c-btn-primary" onClick={onConfirm}>
+        <button
+          type="button"
+          className="c-btn-primary"
+          onClick={() => {
+            void onConfirm();
+          }}
+        >
           {confirmLabel}
         </button>
       </div>

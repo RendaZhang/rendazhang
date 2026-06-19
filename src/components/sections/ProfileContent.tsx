@@ -27,7 +27,7 @@ export default function ProfileContent(): ReactElement {
         window.location.href = LOGIN_PAGE_PATH;
       }
     };
-    fetchUser();
+    void fetchUser();
   }, []);
 
   const loading = LOADING_TEXT[langKey.toUpperCase() as 'EN' | 'ZH'];

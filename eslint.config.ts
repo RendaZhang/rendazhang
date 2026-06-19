@@ -18,7 +18,9 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        ecmaFeatures: { jsx: true }
+        ecmaFeatures: { jsx: true },
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname
       },
       globals: {
         ...globals.browser,
@@ -40,9 +42,21 @@ export default [
       ...js.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        {
+          'ts-expect-error': 'allow-with-description',
+          'ts-ignore': 'allow-with-description',
+          'ts-nocheck': true,
+          'ts-check': false,
+          minimumDescriptionLength: 10
+        }
+      ],
+      '@typescript-eslint/no-floating-promises': ['error', { ignoreIIFE: true, ignoreVoid: true }],
       '@typescript-eslint/no-explicit-any': 'error',
       'no-undef': 'off',
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-no-target-blank': 'error',
       'prettier/prettier': ['error', { endOfLine: 'auto' }]
     }
   },

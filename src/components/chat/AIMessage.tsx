@@ -3,6 +3,7 @@ import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
 import { UI_DURATIONS } from '../../constants';
 import { LocalizedSection } from '../ui';
+import { logger } from '../../utils';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
 
 interface AIMessageProps {
@@ -20,13 +21,18 @@ export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn 
 
   const handleCopy = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(text).then(() => {
-      setIsCopied(true);
-      setTimeout(() => {
-        setIsCopied(false);
-        setShowBtn(false);
-      }, UI_DURATIONS.COPY_FEEDBACK);
-    });
+    void navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+          setShowBtn(false);
+        }, UI_DURATIONS.COPY_FEEDBACK);
+      })
+      .catch((error) => {
+        logger.error('Clipboard copy failed:', error);
+      });
   };
 
   const handleMouseEnter = () => setShowBtn(true);

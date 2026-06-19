@@ -1,10 +1,12 @@
 import type { ChatCallback, InputTexts } from '../../types/chat';
 import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
 
+type ChatInputAction = () => void | Promise<void>;
+
 interface ChatInputProps {
   value: string;
   onChange: (val: string) => void;
-  onSend: ChatCallback;
+  onSend: ChatInputAction;
   onReset: ChatCallback;
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   disabled: boolean;
@@ -40,7 +42,9 @@ export default function ChatInput({
         <button
           id="send-btn"
           className="c-btn-primary c-btn-chat c-send-btn"
-          onClick={onSend}
+          onClick={() => {
+            void onSend();
+          }}
           disabled={disabled}
           aria-label={textsEn.sendButton}
         >

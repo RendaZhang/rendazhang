@@ -5,6 +5,7 @@
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [先决条件](#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6)
   - [运行测试](#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95)
+  - [静态检查](#%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5)
   - [测试用例说明](#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%B4%E6%98%8E)
     - [`src/__tests__/env.test.ts`](#src__tests__envtestts)
     - [`src/__tests__/storage.test.ts`](#src__tests__storagetestts)
@@ -19,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 03:52 (UTC+08:00)
+- **最后更新**: June 19, 2026, 18:15 (UTC+08:00)
 
 ---
 
@@ -51,6 +52,13 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - `npm run test:watch`：在监听模式下运行测试，适合开发时使用。
 - `npm run test:coverage`：生成测试覆盖率报告，输出至 `coverage/` 目录，可打开 `coverage/index.html` 查看详细结果。
 - `npm run test:ui`：启动 Vitest 提供的 Web UI。
+
+## 静态检查
+
+- `npm run lint`：运行 ESLint flat config，覆盖 `src`、`astro.config.ts` 和 `eslint.config.ts`。当前配置启用 TypeScript project service，以便对 Promise 使用做类型感知检查。
+- Promise 必须被 `await`、带 rejection handler，或用 `void` 明确标记为有意忽略；React effect 内的异步初始化、事件回调触发的异步流程和第三方 API 调用都应显式处理。
+- `target="_blank"` 链接必须保留安全的 `rel` 属性；`@ts-ignore`、`@ts-expect-error` 等 TypeScript 抑制注释必须带足够说明。
+- 当前未引入 `eslint-plugin-react-hooks` 或 `eslint-plugin-jsx-a11y`。Hooks exhaustive deps 与更广泛的 JSX a11y 规则仍按代码评审检查，是否新增依赖留给后续切片决策。
 
 ## 测试用例说明
 

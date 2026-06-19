@@ -75,7 +75,11 @@ export default function useMarkdownPipeline(
     };
 
     if (enhance) {
-      applyEnhancements(ref.current).then(doCallback);
+      void applyEnhancements(ref.current)
+        .catch((error) => {
+          logger.error('Markdown enhancement error:', error);
+        })
+        .finally(doCallback);
     } else {
       doCallback();
     }

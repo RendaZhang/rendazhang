@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
         storage.remove(LOGIN_STATE_KEY);
       }
     };
-    init();
+    void init();
   }, []);
 
   const logout = async (): Promise<void> => {
