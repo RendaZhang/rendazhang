@@ -23,6 +23,7 @@
   - [文档说明](#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E)
     - [Git 分支与发布流程](#git-%E5%88%86%E6%94%AF%E4%B8%8E%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B)
     - [CI/CD 工作流](#cicd-%E5%B7%A5%E4%BD%9C%E6%B5%81)
+    - [Astro 6 迁移预检](#astro-6-%E8%BF%81%E7%A7%BB%E9%A2%84%E6%A3%80)
     - [前端架构约定](#%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%BA%A6%E5%AE%9A)
     - [前端目录所有权地图](#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE)
     - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
@@ -46,7 +47,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 16, 2026, 22:13 (UTC+08:00)
+- **最后更新**: June 20, 2026, 10:59 (UTC+08:00)
 
 ---
 
@@ -412,6 +413,10 @@ location /_astro/ {
 ### CI/CD 工作流
 
 > `deploy.yml` 定义了推送到 `master` 时触发的自动部署流程，包括标签管理、发布分支与环境变量映射等，可参考：📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline)。
+
+### Astro 6 迁移预检
+
+> Astro 6 升级前的当前基线、目标包集合、Node/Vite/Sentry 兼容性风险、验证清单和回滚策略见：📄 [Astro 6 迁移预检](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_6_MIGRATION_PRECHECK.md)。
 
 ### 前端架构约定
 

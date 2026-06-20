@@ -23,6 +23,7 @@
   - [Documentation](#documentation)
     - [Git Branching & Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
+    - [Astro 6 Migration Precheck](#astro-6-migration-precheck)
     - [Frontend Architecture Conventions](#frontend-architecture-conventions)
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
     - [Chat Widget Protocol](#chat-widget-protocol)
@@ -44,7 +45,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 16, 2026, 22:13 (UTC+08:00)
+- **Last Updated**: June 20, 2026, 10:59 (UTC+08:00)
 
 ---
 
@@ -406,6 +407,10 @@ location /_astro/ {
 ### CI/CD Workflow
 
 > `deploy.yml` defines the deployment process triggered when code is pushed or merged into `master`, including tag management and environment variable mappings. See: 📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline).
+
+### Astro 6 Migration Precheck
+
+> The current baseline, target package set, Node/Vite/Sentry compatibility risks, validation checklist, and rollback plan for the Astro 6 upgrade are documented in: 📄 [Astro 6 Migration Precheck](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_6_MIGRATION_PRECHECK.md).
 
 ### Frontend Architecture Conventions
 
