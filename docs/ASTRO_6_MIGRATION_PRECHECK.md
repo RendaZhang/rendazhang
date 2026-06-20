@@ -3,7 +3,7 @@
 
 - [Astro 6 迁移预检](#astro-6-%E8%BF%81%E7%A7%BB%E9%A2%84%E6%A3%80)
   - [文档目的](#%E6%96%87%E6%A1%A3%E7%9B%AE%E7%9A%84)
-  - [当前基线](#%E5%BD%93%E5%89%8D%E5%9F%BA%E7%BA%BF)
+  - [7.1 预检基线](#71-%E9%A2%84%E6%A3%80%E5%9F%BA%E7%BA%BF)
   - [官方资料摘要](#%E5%AE%98%E6%96%B9%E8%B5%84%E6%96%99%E6%91%98%E8%A6%81)
   - [当前代码影响面](#%E5%BD%93%E5%89%8D%E4%BB%A3%E7%A0%81%E5%BD%B1%E5%93%8D%E9%9D%A2)
     - [Astro 页面与 layout](#astro-%E9%A1%B5%E9%9D%A2%E4%B8%8E-layout)
@@ -12,6 +12,7 @@
     - [Chat Widget 与 iframe](#chat-widget-%E4%B8%8E-iframe)
     - [Sentry 与 sourcemap](#sentry-%E4%B8%8E-sourcemap)
   - [7.2 建议目标包集合](#72-%E5%BB%BA%E8%AE%AE%E7%9B%AE%E6%A0%87%E5%8C%85%E9%9B%86%E5%90%88)
+  - [7.2 执行结果](#72-%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C)
   - [预期 audit 结果](#%E9%A2%84%E6%9C%9F-audit-%E7%BB%93%E6%9E%9C)
   - [7.2 验证清单](#72-%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95)
   - [回滚策略](#%E5%9B%9E%E6%BB%9A%E7%AD%96%E7%95%A5)
@@ -22,7 +23,7 @@
 # Astro 6 迁移预检
 
 - **作者**: 张人大
-- **最后更新**: June 20, 2026, 10:59 (UTC+08:00)
+- **最后更新**: June 20, 2026, 18:05 (UTC+08:00)
 
 ## 文档目的
 
@@ -30,9 +31,10 @@
 
 本文是 Slice 7.1 的预检结果，不执行 Astro 升级，不修改依赖或 lockfile，不改变 UI、Chat、API、运行时、后端、Nginx 或生产服务器服务。
 
-## 当前基线
+## 7.1 预检基线
 
-当前前端仓库基线来自 `package.json`、`package-lock.json`、`astro.config.ts`、`.github/workflows/deploy.yml` 和本地只读命令。
+以下基线来自 Slice 7.1 执行时的 `package.json`、`package-lock.json`、`astro.config.ts`、
+`.github/workflows/deploy.yml` 和本地只读命令，用于说明升级前状态。
 
 | 项目 | 当前状态 | 迁移含义 |
 | --- | --- | --- |
@@ -163,6 +165,27 @@ Chat Widget 协议必须保持不变：
 
 7.2 应同时把 Node 22 下限从宽泛 `>=22 <23` 明确为 `>=22.12 <23`，或至少在 PR/commit 说明中记录本地和 CI 均满足 Node 22.12+。这不是 Node 24 升级。
 
+## 7.2 执行结果
+
+Slice 7.2 按最小范围执行 Astro 6 upgrade：
+
+- `astro` 升级到 `6.4.8`。
+- `@astrojs/react` 升级到 `5.0.7`。
+- npm 将 transitive `vite` 解析到 `7.3.5`，`@vitejs/plugin-react` 解析到 `5.2.0`，
+  `esbuild` 解析到 `0.27.7`。
+- `package.json` / `package-lock.json` 的 Node engine 下限收紧为 `>=22.12 <23`；项目仍保持
+  Node 22，不升级到 Node 24。
+- `react` / `react-dom` 保持 `19.1.0`，`vitest` 保持 `3.2.6`，TypeScript 保持 `5.8.3`，
+  Sentry package 版本保持不变。
+- `vitest.config.ts` 从 Astro 的完整 `getViteConfig()` 改为 `vitest/config` 的最小 jsdom
+  测试配置，并显式 dedupe `react` / `react-dom`。原因是 Astro 6 / `@astrojs/react` 5 的
+  Vite integration 配置进入 Vitest 3 后会让 React 组件测试触发重复 dispatcher 的
+  invalid hook call；生产 Astro build 仍使用 `astro.config.ts`。
+- `astro.config.ts` 中 Sentry `release.inject: false`、sourcemap、env define 和 dev proxy 配置保持
+  不变。
+- Chat Widget 同源 iframe protocol、hydration 指令、auth/profile/contact form/API 代码和 UI
+  行为未做功能性修改。
+
 ## 预期 audit 结果
 
 7.2 的目标是减少或消除生产 audit 中的 Astro advisories。升级后必须重新运行：
@@ -178,6 +201,16 @@ npm ls astro @astrojs/react @astrojs/check @sentry/astro @sentry/react @sentry/v
 - 生产 audit 中 Astro XSS / SSRF advisories 消失，或如仍存在，必须有具体 npm advisory / package constraint 解释。
 - esbuild finding 如果仍存在，必须确认是否来自 Astro/Vite semver range，不能笼统标为已解决。
 - dev-only `@astrojs/check` / YAML finding 可作为残余风险保留，但必须记录 `@astrojs/check@0.9.9` 仍为 npm latest，且任何 downgrade/force path 不属于 Astro 6 最小迁移。
+
+实际结果：
+
+- Astro high advisories 已消失。
+- `npm audit --omit=dev --audit-level=low` 仍报告 2 个 low finding，来自
+  `astro@6.4.8 -> esbuild@0.27.7`。npm 的 force fix 路径会安装 `astro@5.17.2`，这会回退
+  Astro major，不能作为本 slice 的安全修复。
+- `npm audit --audit-level=low` 仍报告 7 个 finding：2 个 low 来自上述 esbuild 链，5 个
+  moderate 来自 dev-only `@astrojs/check` / `yaml-language-server` / `yaml` 链。npm force
+  path 会安装 `@astrojs/check@0.9.2`，不属于本 slice。
 
 ## 7.2 验证清单
 

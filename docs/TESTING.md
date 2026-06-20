@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 19, 2026, 18:15 (UTC+08:00)
+- **最后更新**: June 20, 2026, 18:05 (UTC+08:00)
 
 ---
 
@@ -40,11 +40,16 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 
 ## 先决条件
 
-- 已安装 [Node.js](https://nodejs.org/)（推荐与 `.nvmrc` 中一致的版本）。
+- 已安装 [Node.js](https://nodejs.org/)（推荐与 `.nvmrc` 中一致的版本）。当前 Astro 6 / Vite 7
+  基线要求 Node.js 22.12+，项目仍保持 Node 22，不使用 Node 24。
 - 在仓库根目录执行 `npm install` 安装依赖。
 - 部分测试（例如 `src/__tests__/env.test.ts`）会通过 `node --import tsx` 在子进程中运行 TypeScript 文件，请确保 Node.js 版本支持该标志（建议 Node.js 20 及以上）。
 - 测试默认在 [jsdom](https://github.com/jsdom/jsdom) 环境中运行，部分用例（如 `src/__tests__/storage.test.ts`）依赖它提供的 `window.localStorage`、`document.cookie` 等浏览器 API。
 - 若需编写 React 组件或 Hook 测试，请确保已安装 `@testing-library/react`（见上文）。
+- `vitest.config.ts` 使用独立的 `vitest/config` 最小配置，而不是复用 Astro 的完整
+  `getViteConfig()`。这是 Astro 6 / `@astrojs/react` 5 后的测试边界：生产构建继续由
+  `astro.config.ts` 管理，单元测试只需要 jsdom、React/ReactDOM 去重和 TS/TSX transform，
+  避免把 Astro React integration 的客户端优化配置带入 Vitest 后触发重复 React dispatcher。
 
 ## 运行测试
 
