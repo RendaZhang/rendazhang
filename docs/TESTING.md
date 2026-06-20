@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 20, 2026, 18:05 (UTC+08:00)
+- **最后更新**: June 20, 2026, 21:53 (UTC+08:00)
 
 ---
 
@@ -63,6 +63,7 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - `npm run lint`：运行 ESLint flat config，覆盖 `src`、`astro.config.ts` 和 `eslint.config.ts`。当前配置启用 TypeScript project service，以便对 Promise 使用做类型感知检查。
 - Promise 必须被 `await`、带 rejection handler，或用 `void` 明确标记为有意忽略；React effect 内的异步初始化、事件回调触发的异步流程和第三方 API 调用都应显式处理。
 - `target="_blank"` 链接必须保留安全的 `rel` 属性；`@ts-ignore`、`@ts-expect-error` 等 TypeScript 抑制注释必须带足够说明。
+- ESLint 同时强制当前低误报的 import-boundary 子集：services、controllers、stores、utils、content、components 和 hooks 不能跨越 `docs/DIRECTORY_OWNERSHIP.md` 中已经落地的稳定所有权边界。
 - 当前未引入 `eslint-plugin-react-hooks` 或 `eslint-plugin-jsx-a11y`。Hooks exhaustive deps 与更广泛的 JSX a11y 规则仍按代码评审检查，是否新增依赖留给后续切片决策。
 
 ## 测试用例说明

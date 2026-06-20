@@ -25,7 +25,7 @@
 # 前端目录所有权地图
 
 - **作者**: 张人大
-- **最后更新**: June 19, 2026, 18:15 (UTC+08:00)
+- **最后更新**: June 20, 2026, 21:53 (UTC+08:00)
 
 ## 文档目的
 
@@ -313,6 +313,23 @@ styles -> styles only
 - 普通组件反向导入 `src/pages`。
 - 手工编辑自动生成的 `index.ts` barrel 文件。
 
+当前 ESLint 已对稳定、低误报的目录边界启用 `no-restricted-imports`：
+
+- `src/services` 和 `src/controllers` 不能导入 `components`、`pages`、`layouts`、`styles`
+  或 CSS 文件。
+- `src/stores` 不能导入 React、React DOM、React 专用 Sentry 入口、services、hooks、UI、
+  pages、layouts、styles 或 CSS 文件。
+- `src/utils` 不能导入 UI、页面、layout、service、controller、store、hook、style 或 CSS
+  文件。
+- `src/content` 不能导入 UI、运行时流程、service、page、layout、store、hook、style 或 CSS
+  文件。
+- `src/components` 和 `src/hooks` 不能导入 Astro pages/layouts，也不能直接读取
+  `src/utils/env` 的低层环境 helper；需要环境判断时应通过 `src/utils` 中的语义 helper
+  暴露。
+
+这些规则只覆盖当前已经稳定的所有权边界。Hooks exhaustive deps、更广泛的 JSX a11y
+检查，以及更细的组件内分层仍属于后续切片或代码评审范围。
+
 ## 新增文件放置规则
 
 - 新路由：放在 `src/pages`，只做路由级 metadata、layout props、静态结构和 island 选择。
@@ -333,4 +350,5 @@ styles -> styles only
 - Slice 3.1 已将 `src/stores` 作为小型客户端 UI/preference 边界落地。
 - Slice 4.2 已将 `src/controllers/chatController.ts` 作为 Chat 编排边界落地。
 - Slice 5.1 可以用本文和 ADR 002 作为统一 API client 的 rule source。
-- Slice 6.1 已收紧 Promise、外链安全和 TypeScript 抑制注释检查；导入方向 lint 仍保留为后续 rule source 或 reviewer checklist。
+- Slice 6.1 已收紧 Promise、外链安全和 TypeScript 抑制注释检查。
+- Slice 6.2 已用 ESLint 强制执行当前低误报的 import-boundary 子集；其余更细的导入方向仍保留为后续 rule source 或 reviewer checklist。

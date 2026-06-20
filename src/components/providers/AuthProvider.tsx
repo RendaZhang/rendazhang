@@ -7,7 +7,7 @@ import {
   type ReactElement
 } from 'react';
 import { apiClient } from '../../services';
-import { storage, logger, isProduction } from '../../utils';
+import { storage, logger, shouldSuppressAuthProbeError } from '../../utils';
 import { LOGIN_STATE_KEY } from '../../constants';
 import * as Sentry from '@sentry/react';
 
@@ -42,8 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
         storage.set(LOGIN_STATE_KEY, true);
       } catch (e) {
         const status = (e as { status?: number }).status;
-        const isExpectedLocalMissingBackend = status === 404 && !isProduction();
-        if (status !== 401 && !isExpectedLocalMissingBackend) {
+        if (status !== 401 && !shouldSuppressAuthProbeError(status)) {
           logger.error('AuthProvider init failed', e);
           Sentry.captureException(e);
         }
