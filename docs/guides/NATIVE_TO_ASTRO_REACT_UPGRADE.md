@@ -58,7 +58,7 @@
 # 旧版原生前端到 Astro + React 新前端的渐进升级计划
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 09, 2025, 02:00 (UTC+08:00)
+- **最后更新**: June 21, 2026, 14:49 (UTC+08:00)
 
 ---
 
@@ -736,7 +736,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'  # 使用 Node 22 LTS。
+          node-version: '24'  # 使用 Node 24 LTS。
 
       - name: Install dependencies
         run: npm ci  # 使用 ci 以确保一致性。

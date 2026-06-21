@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 20, 2026, 21:53 (UTC+08:00)
+- **最后更新**: June 21, 2026, 14:49 (UTC+08:00)
 
 ---
 
@@ -40,8 +40,8 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 
 ## 先决条件
 
-- 已安装 [Node.js](https://nodejs.org/)（推荐与 `.nvmrc` 中一致的版本）。当前 Astro 6 / Vite 7
-  基线要求 Node.js 22.12+，项目仍保持 Node 22，不使用 Node 24。
+- 已安装 [Node.js](https://nodejs.org/)（推荐与 `.nvmrc` 中一致的版本）。当前项目基线使用
+  Node.js 24 LTS；Astro 6 / Vite 7 的最低要求仍低于该版本。
 - 在仓库根目录执行 `npm install` 安装依赖。
 - 部分测试（例如 `src/__tests__/env.test.ts`）会通过 `node --import tsx` 在子进程中运行 TypeScript 文件，请确保 Node.js 版本支持该标志（建议 Node.js 20 及以上）。
 - 测试默认在 [jsdom](https://github.com/jsdom/jsdom) 环境中运行，部分用例（如 `src/__tests__/storage.test.ts`）依赖它提供的 `window.localStorage`、`document.cookie` 等浏览器 API。

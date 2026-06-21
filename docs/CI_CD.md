@@ -13,7 +13,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 15, 2026, 13:30 (UTC+08:00)
+- **最后更新**: June 21, 2026, 14:49 (UTC+08:00)
 
 ---
 
@@ -44,7 +44,7 @@ on:
 | Step                | 关键命令 / Action                      | 说明                            |
 | ------------------- | ---------------------------------- | ----------------------------- |
 | Checkout            | `actions/checkout@v5`              | 拉取代码；Action 自身使用 Node 24 runtime |
-| Node setup          | `actions/setup-node@v6`            | `node-version: '22'`；项目构建 runtime 保持 Node 22 |
+| Node setup          | `actions/setup-node@v6`            | `node-version: '24'`；项目构建 runtime 使用 Node 24 LTS |
 | Install             | `npm ci`                           | 使用 `package-lock.json` 安装依赖，保证 CI 可复现 |
 | Checks and tests    | `npm run sync && npm run lint && npm run typecheck && npm run check && npm run test:coverage` | 构建前执行同步、Lint、TypeScript、Astro 和覆盖率检查 |
 | Build               | `npm run build`                    | 产物位于 `dist/`                  |
@@ -55,7 +55,7 @@ on:
 | Publish Release     | `softprops/action-gh-release@v3`   | 附带 changelog / dist 资产        |
 | Deploy to server    | `scp` / `rsync` / `ssh`            | 将 `dist/` 拷贝至 `/var/www/html` |
 
-> Workflow 中的 JavaScript action 已升级到声明 Node 24 runtime 的版本；项目构建仍通过 `actions/setup-node` 使用 Node 22。
+> Workflow 中的 JavaScript action 和项目构建 runtime 均使用 Node 24。
 
 > 服务器侧 Nginx 配置示例可参考我维护的另一个 Nginx 仓库中的配置文件：[`rendazhang.conf`](https://github.com/RendaZhang/nginx-conf/blob/master/sites-available/rendazhang.conf)。
 

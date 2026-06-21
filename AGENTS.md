@@ -32,7 +32,7 @@ tokens to this file or to any committed document.
 
 ## Local Development
 
-- Use Node.js 22 for parity with GitHub Actions.
+- Use Node.js 24 for parity with GitHub Actions.
 - Runtime version files are committed for local tooling:
   - `.nvmrc` for nvm/fnm-compatible Node selection.
   - `.mise.toml` for mise-based Node selection.

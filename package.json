@@ -2,10 +2,10 @@
   "name": "newastrarenda",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "npm@10.9.2",
+  "packageManager": "npm@11.13.0",
   "engines": {
-    "node": ">=22.12 <23",
-    "npm": ">=10 <11"
+    "node": ">=24.17 <25",
+    "npm": ">=11 <12"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro}": [

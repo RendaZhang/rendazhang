@@ -23,13 +23,16 @@
 # Astro 6 迁移预检
 
 - **作者**: 张人大
-- **最后更新**: June 20, 2026, 18:05 (UTC+08:00)
+- **最后更新**: June 21, 2026, 14:49 (UTC+08:00)
 
 ## 文档目的
 
 本文记录当前 Astro 5 前端迁移到 Astro 6 前必须确认的包版本、兼容性风险、验证清单和回滚策略。
 
 本文是 Slice 7.1 的预检结果，不执行 Astro 升级，不修改依赖或 lockfile，不改变 UI、Chat、API、运行时、后端、Nginx 或生产服务器服务。
+
+> Slice 1.8 之后，当前前端项目 runtime 已切换到 Node 24 LTS。下方 7.1/7.2 中的 Node
+> 信息保留为历史执行基线，不再代表当前运行时。
 
 ## 7.1 预检基线
 
@@ -38,8 +41,8 @@
 
 | 项目 | 当前状态 | 迁移含义 |
 | --- | --- | --- |
-| Node | 本地 `v22.16.0`；`package.json` 为 `>=22 <23`；GitHub Actions 使用 `node-version: '22'` | Astro 6.4.8 和 Vite 7 要求 Node 22.12+；继续使用 Node 22，但 7.2 应确认 CI 实际解析到 22.12+ |
-| npm | `10.9.2`；`packageManager` 为 `npm@10.9.2` | 与当前 engines `>=10 <11` 一致 |
+| Node | Slice 7.1 历史基线：本地 `v22.16.0`；`package.json` 为 22.x；GitHub Actions 使用 22.x | Astro 6.4.8 和 Vite 7 要求 22.12+；Slice 7.2 当时继续使用 22.x，并确认 CI 实际解析到满足要求的版本 |
+| npm | Slice 7.1 历史基线：`10.9.2`；`packageManager` 为 npm 10.9.2 | 与当时 npm major 10 的 engines 约束一致 |
 | Astro | `astro@5.18.2` | 生产 audit 剩余主链要求 Astro 6.4.8 |
 | React integration | `@astrojs/react@4.4.2` | Astro 6 目标应与 `@astrojs/react@5.0.7` 一起评估 |
 | React | `react@19.1.0`、`react-dom@19.1.0` | `@astrojs/react@5.0.7` peer 仍支持 React 19 |
@@ -163,7 +166,7 @@ Chat Widget 协议必须保持不变：
 | `@sentry/astro` / `@sentry/react` | 保持 10.x；可接受同 major patch/minor if lockfile naturally updates | 不把 Sentry major/tooling cleanup 混入 Astro 最小迁移 |
 | `@sentry/vite-plugin` | 不主动变更，除非构建或 peer 冲突要求 | 当前 direct dependency 未被源码 import，`@sentry/astro` 自带 5.3.0 |
 
-7.2 应同时把 Node 22 下限从宽泛 `>=22 <23` 明确为 `>=22.12 <23`，或至少在 PR/commit 说明中记录本地和 CI 均满足 Node 22.12+。这不是 Node 24 升级。
+7.2 当时应同时把 22.x 下限从宽泛 22.x 明确为 22.12+，或至少在 PR/commit 说明中记录本地和 CI 均满足 22.12+。这一步当时不是 Node 24 升级；当前 runtime 切换由后续 Slice 1.8 处理。
 
 ## 7.2 执行结果
 
@@ -173,8 +176,8 @@ Slice 7.2 按最小范围执行 Astro 6 upgrade：
 - `@astrojs/react` 升级到 `5.0.7`。
 - npm 将 transitive `vite` 解析到 `7.3.5`，`@vitejs/plugin-react` 解析到 `5.2.0`，
   `esbuild` 解析到 `0.27.7`。
-- `package.json` / `package-lock.json` 的 Node engine 下限收紧为 `>=22.12 <23`；项目仍保持
-  Node 22，不升级到 Node 24。
+- `package.json` / `package-lock.json` 的 Node engine 下限在 Slice 7.2 当时收紧到 22.12+；
+  项目当时仍保持 22.x，不升级到 Node 24。当前 runtime 切换由后续 Slice 1.8 处理。
 - `react` / `react-dom` 保持 `19.1.0`，`vitest` 保持 `3.2.6`，TypeScript 保持 `5.8.3`，
   Sentry package 版本保持不变。
 - `vitest.config.ts` 从 Astro 的完整 `getViteConfig()` 改为 `vitest/config` 的最小 jsdom
@@ -290,8 +293,8 @@ curl -sS -i https://www.rendazhang.com/cloudchat/auth/healthz
 
 进入 7.2 的前置条件：
 
-- 继续使用 Node 22，不升 Node 24。
-- 确认本地和 GitHub Actions Node 都满足 22.12+。
+- Slice 7.2 当时继续使用 22.x，不升 Node 24。
+- 确认当时本地和 GitHub Actions Node 都满足 22.12+。
 - 仅升级 Astro 6 最小目标包集合。
 - 保留 `release.inject: false`、Sentry sourcemap 上传、`BaseLayout` 初始化脚本、Chat Widget 同源 iframe 协议和当前 hydration 指令。
 - 升级后必须以 audit、build、test、deploy log、CSP grep、生产只读 smoke 共同决定是否发布。
