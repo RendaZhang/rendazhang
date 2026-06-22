@@ -1,7 +1,17 @@
-import { describe, it, expect, vi } from 'vitest';
+import { beforeEach, describe, it, expect, vi } from 'vitest';
+
+vi.mock('@sentry/react', () => ({
+  addBreadcrumb: vi.fn()
+}));
+
+import * as Sentry from '@sentry/react';
 import { createChatController, type ChatMessageUpdater } from '../controllers/chatController';
 import { ROLES } from '../constants';
 import type { ChatMessage, ChatRole } from '../types/chat';
+
+const sentryMock = Sentry as unknown as {
+  addBreadcrumb: ReturnType<typeof vi.fn>;
+};
 
 function createHistoryHarness(initial: ChatMessage[] = []) {
   let messages = [...initial];
@@ -25,6 +35,10 @@ function createHistoryHarness(initial: ChatMessage[] = []) {
 }
 
 describe('chatController', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('streams a trimmed user message into one assistant message', async () => {
     const history = createHistoryHarness();
     const onAccepted = vi.fn();
@@ -74,6 +88,43 @@ describe('chatController', () => {
     expect(onComplete).toHaveBeenCalledWith('final answer');
     expect(onFinally).toHaveBeenCalledTimes(1);
     expect(controller.hasActiveRequest()).toBe(false);
+  });
+
+  it('records chat breadcrumbs without sending message contents', async () => {
+    const history = createHistoryHarness();
+    const sendMessageToAI = vi.fn(
+      async (_message: string, onChunkCallback?: (chunk: string) => void) => {
+        onChunkCallback?.('partial answer');
+        return 'final answer';
+      }
+    );
+    const controller = createChatController({
+      sendMessageToAI,
+      resetChat: vi.fn(async () => true)
+    });
+
+    await controller.sendMessage({
+      input: 'private question',
+      addMessage: history.addMessage,
+      setMessages: history.setMessages
+    });
+
+    expect(sentryMock.addBreadcrumb).toHaveBeenCalledWith(
+      expect.objectContaining({
+        category: 'chat',
+        message: 'Chat send accepted',
+        data: { input_length: 'private question'.length }
+      })
+    );
+    expect(sentryMock.addBreadcrumb).toHaveBeenCalledWith(
+      expect.objectContaining({
+        category: 'chat',
+        message: 'Chat send completed',
+        data: { response_length: 'final answer'.length }
+      })
+    );
+    expect(JSON.stringify(sentryMock.addBreadcrumb.mock.calls)).not.toContain('private question');
+    expect(JSON.stringify(sentryMock.addBreadcrumb.mock.calls)).not.toContain('final answer');
   });
 
   it('skips empty input without mutating history', async () => {

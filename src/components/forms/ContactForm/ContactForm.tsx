@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { submitContactForm, type ContactFormSubmission } from '../../../services/contactService';
+import { addSentryBreadcrumb } from '../../../utils/sentryContext';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '../../ui';
 
@@ -74,18 +75,22 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
     }
     setStatus('loading');
     setError('');
+    addSentryBreadcrumb('contact.submit.start');
     try {
       const submitted = await submitContactForm(form);
       if (submitted) {
         setStatus('success');
         setForm(initialForm);
+        addSentryBreadcrumb('contact.submit.success');
       } else {
         setStatus('error');
         setError(activeTexts.failed || '发送失败');
+        addSentryBreadcrumb('contact.submit.failure', undefined, 'warning');
       }
     } catch {
       setStatus('error');
       setError(activeTexts.failed || '发送失败');
+      addSentryBreadcrumb('contact.submit.error', undefined, 'warning');
     }
   };
 

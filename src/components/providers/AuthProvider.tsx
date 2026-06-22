@@ -10,6 +10,11 @@ import { apiClient } from '../../services';
 import { storage, logger, shouldSuppressAuthProbeError } from '../../utils';
 import { LOGIN_STATE_KEY } from '../../constants';
 import * as Sentry from '@sentry/react';
+import {
+  addSentryBreadcrumb,
+  clearSentryUser,
+  setAuthenticatedSentryUser
+} from '../../utils/sentryContext';
 
 interface AuthContextValue {
   isLoggedIn: boolean;
@@ -37,7 +42,12 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
   useEffect(() => {
     const init = async () => {
       try {
-        await apiClient.auth.me();
+        const response = await apiClient.auth.me();
+        setAuthenticatedSentryUser(response.user);
+        addSentryBreadcrumb('auth.session.valid', {
+          authenticated: true,
+          active: response.user.is_active
+        });
         setIsLoggedIn(true);
         storage.set(LOGIN_STATE_KEY, true);
       } catch (e) {
@@ -45,7 +55,11 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
         if (status !== 401 && !shouldSuppressAuthProbeError(status)) {
           logger.error('AuthProvider init failed', e);
           Sentry.captureException(e);
+          addSentryBreadcrumb('auth.session.error', { status }, 'warning');
+        } else {
+          addSentryBreadcrumb('auth.session.missing', { status });
         }
+        clearSentryUser();
         setIsLoggedIn(false);
         storage.remove(LOGIN_STATE_KEY);
       }
@@ -56,10 +70,13 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
   const logout = async (): Promise<void> => {
     try {
       await apiClient.auth.logout();
+      addSentryBreadcrumb('auth.logout.success');
     } catch (e) {
       logger.error('AuthProvider logout failed', e);
       Sentry.captureException(e);
+      addSentryBreadcrumb('auth.logout.error', undefined, 'warning');
     } finally {
+      clearSentryUser();
       setIsLoggedIn(false);
       storage.remove(LOGIN_STATE_KEY);
     }

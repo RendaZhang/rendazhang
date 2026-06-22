@@ -1,6 +1,7 @@
 import { ROLES } from '../constants';
 import { resetChat, sendMessageToAI } from '../services';
 import type { ChatMessage, ChatRole } from '../types/chat';
+import { addSentryBreadcrumb } from '../utils/sentryContext';
 
 export interface ChatStreamOptions {
   signal?: AbortSignal;
@@ -68,6 +69,11 @@ function toError(error: unknown): Error {
   return error instanceof Error ? error : new Error(String(error));
 }
 
+function getErrorStatus(error: Error): number | undefined {
+  const status = (error as { status?: unknown }).status;
+  return typeof status === 'number' ? status : undefined;
+}
+
 function createAbortController(): AbortController | null {
   if (typeof AbortController === 'undefined') {
     return null;
@@ -108,6 +114,7 @@ export function createChatController(
       }
 
       options.addMessage(ROLES.USER, message);
+      addSentryBreadcrumb('chat.send.accepted', { input_length: message.length });
       options.onAccepted?.(message);
 
       const abortController = createAbortController();
@@ -120,6 +127,7 @@ export function createChatController(
           (partial) => {
             if (!hasReceivedChunk) {
               hasReceivedChunk = true;
+              addSentryBreadcrumb('chat.send.first_chunk');
               options.onFirstChunk?.();
             }
             upsertAssistantMessage(options.setMessages, partial);
@@ -129,10 +137,12 @@ export function createChatController(
         );
 
         finalizeAssistantMessage(options.setMessages, aiText);
+        addSentryBreadcrumb('chat.send.complete', { response_length: aiText.length });
         options.onComplete?.(aiText);
         return { status: 'sent', response: aiText };
       } catch (error) {
         const err = toError(error);
+        addSentryBreadcrumb('chat.send.error', { status: getErrorStatus(err) }, 'warning');
         options.addMessage(ROLES.AI, `Error: ${err.message}`);
         options.onError?.(err);
         return { status: 'error', error: err };
@@ -148,11 +158,13 @@ export function createChatController(
       try {
         await services.resetChat();
         options.clearHistory();
+        addSentryBreadcrumb('chat.reset.success');
         options.onSuccess?.();
         return { status: 'reset' };
       } catch (error) {
         const err = toError(error);
         const message = `${options.errorPrefix}: ${err.message}`;
+        addSentryBreadcrumb('chat.reset.error', { status: getErrorStatus(err) }, 'warning');
         options.onError?.(message, err);
         return { status: 'error', error: err, message };
       } finally {
@@ -166,6 +178,7 @@ export function createChatController(
       }
       activeAbortController.abort();
       activeAbortController = null;
+      addSentryBreadcrumb('chat.send.cancel');
       return true;
     },
 

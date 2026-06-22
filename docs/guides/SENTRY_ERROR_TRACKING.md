@@ -12,6 +12,7 @@
   - [Sentry 初始化配置](#sentry-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE)
     - [`astro.config.ts` 关键配置](#astroconfigts-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE)
     - [`sentry.client.config.ts` 浏览器端配置](#sentryclientconfigts-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE)
+    - [用户上下文与操作 breadcrumbs](#%E7%94%A8%E6%88%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E6%93%8D%E4%BD%9C-breadcrumbs)
   - [错误过滤与安全策略](#%E9%94%99%E8%AF%AF%E8%BF%87%E6%BB%A4%E4%B8%8E%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5)
     - [安全过滤规则](#%E5%AE%89%E5%85%A8%E8%BF%87%E6%BB%A4%E8%A7%84%E5%88%99)
     - [推荐增强过滤](#%E6%8E%A8%E8%8D%90%E5%A2%9E%E5%BC%BA%E8%BF%87%E6%BB%A4)
@@ -34,7 +35,7 @@
 # Sentry Error Tracking Integration
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 15, 2026, 00:06 (UTC+08:00)
+- **最后更新**: June 22, 2026, 11:11 (UTC+08:00)
 
 ---
 
@@ -175,6 +176,18 @@ Sentry.init({
   }
 });
 ```
+
+### 用户上下文与操作 breadcrumbs
+
+浏览器端错误上报由 `@sentry/astro` 初始化，React 侧通过 `src/utils/sentryContext.ts` 提供一个
+小的上下文边界：
+
+- 登录态探测成功后写入 Sentry user context，仅包含内部数值 `id` 与非联系方式 `uid`。
+- 登出、未登录或登录态失效时清空 user context，并把 auth 状态标记为匿名。
+- Auth、Chat send/reset、Contact form submit 会写入低敏 breadcrumbs，记录操作阶段与状态。
+- breadcrumbs 不记录 email、phone、display name、密码、token、聊天消息、联系表单姓名、联系方式、
+  主题或正文。
+- Replay 采样保持为 0；当前不会通过 Session Replay 收集用户屏幕操作。
 
 ---
 
