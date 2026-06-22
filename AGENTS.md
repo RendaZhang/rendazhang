@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Last updated: 2026-06-15
+Last updated: 2026-06-22
 
 This file gives AI coding agents the project context needed to work safely in the
 `rendazhang` frontend repository. The repository is public, so do not add
@@ -36,6 +36,16 @@ tokens to this file or to any committed document.
 - Runtime version files are committed for local tooling:
   - `.nvmrc` for nvm/fnm-compatible Node selection.
   - `.mise.toml` for mise-based Node selection.
+- `mise` is not macOS-only. For Windows agents, prefer WSL2 + Ubuntu + mise as
+  the supported local-development baseline. Native Windows PowerShell + mise may
+  work, but it is not the primary validated environment for this repository.
+- This repository's `.mise.toml` is authoritative for the frontend Node runtime.
+  A developer machine may also keep a non-committed parent workspace
+  `.mise.toml` to provide shared defaults for sibling repositories, but agents
+  must not rely on that file being present after cloning only this repository.
+- If a non-interactive shell resolves `/usr/local/bin/node`, system Node, or nvm
+  instead of mise, check that `~/.local/share/mise/shims` is on `PATH` and run
+  `mise doctor`. Do not add `source nvm.sh` to project scripts or CI as a fix.
 - Install with `npm ci` when reproducing CI. Use `npm install` only when
   intentionally changing dependencies and committing the updated lockfile.
 - Common commands:
