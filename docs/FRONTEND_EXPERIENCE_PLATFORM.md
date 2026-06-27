@@ -29,7 +29,7 @@
 # 前端体验平台 RFC
 
 - **作者**: 张人大
-- **最后更新**: June 27, 2026, 15:57 (UTC+08:00)
+- **最后更新**: June 27, 2026, 22:41 (UTC+08:00)
 
 ## 文档目的
 
@@ -49,6 +49,7 @@ Phase 8 建立在以下已完成基础上：
 - `src/styles/core/tokens.css`、`src/styles/core/theme-tokens.css` 和 `src/styles/core/_gradients.css` 已分离基础 token、主题语义 token 和渐变 token。
 - Chat Widget 同源 iframe ready 协议、Chat controller、统一 API client 和服务层边界已经文档化并落地。
 - import-boundary lint 已覆盖当前低误报的目录所有权子集。
+- 最小浏览器/hydration smoke harness 已落地为 `npm run smoke:browser`，使用 Playwright Chromium 验证首页、`/deepseek_chat/`、Chat Widget iframe ready 和当前主题 mode 切换。
 
 剩余安全/audit 状态是已接受的低级 `astro` / `esbuild` 残余；它不应驱动 Phase 8 的用户体验切片，除非上游发布安全的非 force 修复路径。
 
@@ -156,16 +157,24 @@ Phase 8 切片应在行为改变的同一提交中更新相关文档：
 
 ### 8.1 Hydration and Browser Smoke Harness
 
-先建立最小浏览器 smoke 工作流。候选覆盖：
+已建立最小浏览器 smoke 工作流。当前工具选择是 Playwright Chromium，因为本阶段需要真实浏览器 console、iframe、storage 和 hydration 行为；纯 HTTP 或 jsdom 无法覆盖这些风险。
 
-- 首页加载无新增 console error。
-- `/deepseek_chat/` 页面加载无 hydration mismatch。
-- Chat Widget 打开后加载同源 iframe，并能到达 ready UI。
-- 主题 mode 切换后 DOM `data-theme`、按钮状态和 storage 保持一致。
-- 语言/nav/auth 可见状态不因水合顺序出现明显闪烁或错误。
-- 生产 CSP 敏感页面不出现 inline script 或 frame-src 回归。
+可运行命令：
 
-该切片需要先决定工具：Playwright 作为完整浏览器依赖，或更轻量的 preview + browser 脚本。无论工具选择如何，都不应在 8.1 同时实现调色板 UI。
+```bash
+npm run smoke:browser
+```
+
+当前覆盖：
+
+- 首页加载无阻塞 console error。
+- `/deepseek_chat/` 页面加载无 hydration mismatch，并确认 iframe 内页不会递归挂载全局 Chat Widget。
+- Chat Widget 打开后加载同源 `/deepseek_chat/` iframe，并在收到 `chat-enhancement-ready` 后到达 ready UI。
+- 主题 mode 切换后 DOM `data-theme`、按钮选中态和 `preferred_theme` storage 保持一致。
+
+该命令会以 `SKIP_SENTRY=true` 构建静态产物，并在本地 smoke 中 mock `/cloudchat/auth/me` 为最小合法用户，避免没有后端时的资源错误污染 console。它不覆盖 Chat streaming、auth 表单提交、联系表单提交或生产 Nginx CSP header；这些仍按对应切片和部署只读检查验证。
+
+后续调色板或交互切片不应绕过该 smoke 门禁，也不应把调色板 UI 与 smoke harness 维护混在同一提交中。
 
 ### 8.2 Theme Palette Token Design
 
@@ -217,7 +226,7 @@ Phase 8 切片应在行为改变的同一提交中更新相关文档：
 - 与改动范围匹配的 Vitest 覆盖或现有 `npm run test:coverage`
 - `pre-commit run --all-files`
 
-一旦 Slice 8.1 建立浏览器 smoke harness，后续影响主题、导航、Chat Widget、iframe、认证表单或水合顺序的切片还必须运行对应 smoke。
+后续影响主题、导航、Chat Widget、iframe、认证表单或水合顺序的切片还必须运行 `npm run smoke:browser`。如果切片只改文档或非浏览器代码，可以在最终报告中说明该命令不适用。
 
 如果切片改变 CSP 敏感输出、inline script、Sentry 构建行为、iframe 来源或 `postMessage`，还必须在最终报告中列出浏览器 console / workflow log / 线上只读检查结果。
 

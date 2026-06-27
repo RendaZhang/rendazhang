@@ -36,6 +36,7 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:ui-contrast": "node scripts/contrast-check.mjs",
+    "smoke:browser": "env -u NO_COLOR SKIP_SENTRY=true npm run build && env -u NO_COLOR playwright test --config=playwright.smoke.config.ts",
     "css:stats": "cssstats src/styles/theme.css"
   },
   "dependencies": {
@@ -59,6 +60,7 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/ts-plugin": "^1.10.9",
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.61.1",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@types/mocha": "^10.0.10",
