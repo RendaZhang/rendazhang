@@ -27,6 +27,7 @@
     - [Frontend Architecture Conventions](#frontend-architecture-conventions)
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
     - [Chat Widget Protocol](#chat-widget-protocol)
+    - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
@@ -45,7 +46,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 21, 2026, 14:49 (UTC+08:00)
+- **Last Updated**: June 27, 2026, 15:57 (UTC+08:00)
 
 ---
 
@@ -423,6 +424,10 @@ location /_astro/ {
 ### Chat Widget Protocol
 
 > The same-origin iframe `postMessage` ready protocol between the floating Chat Widget and `/deepseek_chat/`, including origin/source checks, loading lifecycle, and refactor constraints, is documented in: 📄 [Chat Widget Protocol](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md).
+
+### Frontend Experience Platform RFC
+
+> Phase 8 planning for browser smoke coverage, hydration safety, theme mode vs palette/accent separation, palette slice order, and interaction standards is documented in: 📄 [Frontend Experience Platform RFC](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md).
 
 ### BUG Tracking
 

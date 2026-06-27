@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 21, 2026, 14:49 (UTC+08:00)
+- **最后更新**: June 27, 2026, 15:57 (UTC+08:00)
 
 ---
 
@@ -31,6 +31,8 @@
 - [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)：用于编写 React 组件与 Hook 测试。
 - [jsdom](https://github.com/jsdom/jsdom)：提供浏览器 API 的模拟环境。
 - [@vitest/coverage-v8](https://vitest.dev/guide/coverage.html)：生成覆盖率报告。
+
+Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。该 smoke harness 尚未在本文件中作为可运行命令落地；在后续 Slice 8.1 完成前，浏览器 console、Chat Widget iframe 和主题首屏行为仍按人工验证或切片专项验证记录。
 
 如需手动安装，可执行：
 
@@ -65,6 +67,7 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - `target="_blank"` 链接必须保留安全的 `rel` 属性；`@ts-ignore`、`@ts-expect-error` 等 TypeScript 抑制注释必须带足够说明。
 - ESLint 同时强制当前低误报的 import-boundary 子集：services、controllers、stores、utils、content、components 和 hooks 不能跨越 `docs/DIRECTORY_OWNERSHIP.md` 中已经落地的稳定所有权边界。
 - 当前未引入 `eslint-plugin-react-hooks` 或 `eslint-plugin-jsx-a11y`。Hooks exhaustive deps 与更广泛的 JSX a11y 规则仍按代码评审检查，是否新增依赖留给后续切片决策。
+- 后续 Slice 8.1 建立浏览器 smoke harness 后，影响主题、导航、Chat Widget、iframe、认证表单或 hydration 顺序的切片应把对应 smoke 命令加入验证清单。
 
 ## 测试用例说明
 
