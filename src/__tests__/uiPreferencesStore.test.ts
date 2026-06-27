@@ -5,14 +5,19 @@ import {
   getUiPreferencesSnapshot,
   initializeUiPreferences,
   isThemeMode,
+  isThemePalette,
   persistThemeMode,
+  persistThemePalette,
   readStoredThemeMode,
+  readStoredThemePalette,
   resetUiPreferencesForTests,
   setChatWidgetOpen,
   setPreferencesReady,
   setThemeMode,
+  setThemePalette,
   subscribeUiPreferences,
   type ThemeMode,
+  type ThemePalette,
   type UiPreferenceStorageAdapter
 } from '../stores/uiPreferencesStore';
 
@@ -41,18 +46,21 @@ describe('uiPreferencesStore', () => {
     expect(getUiPreferencesSnapshot()).toBe(DEFAULT_UI_PREFERENCES);
     expect(getUiPreferencesSnapshot()).toEqual({
       themeMode: 'light',
+      themePalette: 'default',
       chatWidgetOpen: false,
       preferencesReady: false
     });
   });
 
-  it('updates theme, chat widget, and readiness state', () => {
+  it('updates theme, palette, chat widget, and readiness state', () => {
     setThemeMode('dark');
+    setThemePalette('default');
     setChatWidgetOpen(true);
     setPreferencesReady(true);
 
     expect(getUiPreferencesSnapshot()).toEqual({
       themeMode: 'dark',
+      themePalette: 'default',
       chatWidgetOpen: true,
       preferencesReady: true
     });
@@ -63,6 +71,9 @@ describe('uiPreferencesStore', () => {
     const unsubscribe = subscribeUiPreferences(listener);
 
     setThemeMode('light');
+    expect(listener).not.toHaveBeenCalled();
+
+    setThemePalette('default');
     expect(listener).not.toHaveBeenCalled();
 
     setThemeMode('dark');
@@ -76,12 +87,14 @@ describe('uiPreferencesStore', () => {
   it('initializes only recognized preference fields', () => {
     initializeUiPreferences({
       themeMode: 'dark',
+      themePalette: 'default',
       chatWidgetOpen: true,
       preferencesReady: true
     });
 
     expect(getUiPreferencesSnapshot()).toEqual({
       themeMode: 'dark',
+      themePalette: 'default',
       chatWidgetOpen: true,
       preferencesReady: true
     });
@@ -103,6 +116,22 @@ describe('uiPreferencesStore', () => {
     expect(isThemeMode('system')).toBe(false);
   });
 
+  it('reads and persists valid palette preferences through an injected storage adapter', () => {
+    const adapter = createStorageAdapter({ preferred_palette: 'default' });
+
+    expect(readStoredThemePalette(adapter, 'preferred_palette')).toBe('default');
+    expect(persistThemePalette('default', adapter, 'preferred_palette')).toBe('default');
+    expect(adapter.values.get('preferred_palette')).toBe('default');
+  });
+
+  it('falls back when stored palette data is not a supported option', () => {
+    const adapter = createStorageAdapter({ preferred_palette: 'aurora' });
+
+    expect(readStoredThemePalette(adapter, 'preferred_palette')).toBe('default');
+    expect(isThemePalette('default')).toBe(true);
+    expect(isThemePalette('aurora')).toBe(false);
+  });
+
   it('keeps theme mode values narrowed to the supported union', () => {
     const mode: ThemeMode = readStoredThemeMode(
       createStorageAdapter({ preferred_theme: 'light' }),
@@ -110,5 +139,14 @@ describe('uiPreferencesStore', () => {
     );
 
     expect(mode).toBe('light');
+  });
+
+  it('keeps palette values narrowed to the supported union', () => {
+    const palette: ThemePalette = readStoredThemePalette(
+      createStorageAdapter({ preferred_palette: 'default' }),
+      'preferred_palette'
+    );
+
+    expect(palette).toBe('default');
   });
 });

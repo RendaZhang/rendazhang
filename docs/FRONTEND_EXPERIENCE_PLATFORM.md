@@ -29,7 +29,7 @@
 # 前端体验平台 RFC
 
 - **作者**: 张人大
-- **最后更新**: June 27, 2026, 23:13 (UTC+08:00)
+- **最后更新**: June 28, 2026, 03:29 (UTC+08:00)
 
 ## 文档目的
 
@@ -192,13 +192,12 @@ npm run smoke:browser
 
 ### 8.3 Global Theme Palette Store
 
-在 8.2 的设计基础上扩展 store 或 provider 边界。输出应包括：
+在 8.2 的设计基础上扩展 store 边界。当前已落地：
 
-- palette/accent 默认值和持久化策略。
-- readiness 标记是否复用现有偏好 readiness。
-- store 单元测试。
-- provider 与 `/js/base-layout-init.js` 的职责是否变化。
-- 不改变 UI 或只做不可见 wiring，除非切片明确批准最小状态暴露。
+- `default` palette 枚举、默认值和 `preferred_palette` 持久化 helper。
+- store 单元测试覆盖默认值、非法存储值回退和类型收窄。
+- readiness 继续复用现有偏好 readiness；provider 与 `/js/base-layout-init.js` 职责未变化。
+- 不新增用户可见 palette UI、`data-palette` DOM 同步或 runtime CSS palette 覆盖。
 
 ### 8.4 Theme Color Switcher MVP
 

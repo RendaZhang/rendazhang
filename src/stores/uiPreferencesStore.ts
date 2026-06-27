@@ -1,9 +1,11 @@
-import { THEME_STORAGE_KEY } from '../constants/settings';
+import { THEME_PALETTE_STORAGE_KEY, THEME_STORAGE_KEY } from '../constants/settings';
 
 export type ThemeMode = 'light' | 'dark';
+export type ThemePalette = 'default';
 
 export interface UiPreferencesState {
   themeMode: ThemeMode;
+  themePalette: ThemePalette;
   chatWidgetOpen: boolean;
   preferencesReady: boolean;
 }
@@ -17,6 +19,7 @@ export type UiPreferencesListener = () => void;
 
 export const DEFAULT_UI_PREFERENCES: Readonly<UiPreferencesState> = Object.freeze({
   themeMode: 'light',
+  themePalette: 'default',
   chatWidgetOpen: false,
   preferencesReady: false
 });
@@ -26,6 +29,10 @@ const listeners = new Set<UiPreferencesListener>();
 
 export function isThemeMode(value: unknown): value is ThemeMode {
   return value === 'light' || value === 'dark';
+}
+
+export function isThemePalette(value: unknown): value is ThemePalette {
+  return value === 'default';
 }
 
 export function getUiPreferencesSnapshot(): Readonly<UiPreferencesState> {
@@ -43,6 +50,10 @@ export function setThemeMode(themeMode: ThemeMode): Readonly<UiPreferencesState>
   return updateUiPreferences({ themeMode });
 }
 
+export function setThemePalette(themePalette: ThemePalette): Readonly<UiPreferencesState> {
+  return updateUiPreferences({ themePalette });
+}
+
 export function setChatWidgetOpen(chatWidgetOpen: boolean): Readonly<UiPreferencesState> {
   return updateUiPreferences({ chatWidgetOpen });
 }
@@ -58,6 +69,10 @@ export function initializeUiPreferences(
 
   if (isThemeMode(nextState.themeMode)) {
     next.themeMode = nextState.themeMode;
+  }
+
+  if (isThemePalette(nextState.themePalette)) {
+    next.themePalette = nextState.themePalette;
   }
 
   if (typeof nextState.chatWidgetOpen === 'boolean') {
@@ -89,6 +104,24 @@ export function persistThemeMode(
   return themeMode;
 }
 
+export function readStoredThemePalette(
+  adapter: UiPreferenceStorageAdapter,
+  key = THEME_PALETTE_STORAGE_KEY,
+  fallback: ThemePalette = DEFAULT_UI_PREFERENCES.themePalette
+): ThemePalette {
+  const storedPalette = adapter.get<ThemePalette>(key);
+  return isThemePalette(storedPalette) ? storedPalette : fallback;
+}
+
+export function persistThemePalette(
+  themePalette: ThemePalette,
+  adapter: UiPreferenceStorageAdapter,
+  key = THEME_PALETTE_STORAGE_KEY
+): ThemePalette {
+  adapter.set(key, themePalette);
+  return themePalette;
+}
+
 export function resetUiPreferencesForTests(): void {
   state = DEFAULT_UI_PREFERENCES;
   listeners.clear();
@@ -99,6 +132,7 @@ function updateUiPreferences(nextState: Partial<UiPreferencesState>): Readonly<U
 
   if (
     next.themeMode === state.themeMode &&
+    next.themePalette === state.themePalette &&
     next.chatWidgetOpen === state.chatWidgetOpen &&
     next.preferencesReady === state.preferencesReady
   ) {

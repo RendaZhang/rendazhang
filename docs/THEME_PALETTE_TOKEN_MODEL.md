@@ -25,7 +25,7 @@
 # 主题调色板 Token 模型
 
 - **作者**: 张人大
-- **最后更新**: June 27, 2026, 23:13 (UTC+08:00)
+- **最后更新**: June 28, 2026, 03:29 (UTC+08:00)
 
 ## 文档目的
 
@@ -105,15 +105,16 @@ CSS token 无法通过 palette 语义变量表达时，才评审是否添加 `ht
 | 状态 | 推荐 key | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | theme mode | `preferred_theme` | 当前逻辑：无值时按系统偏好解析 | 已存在，不改名。 |
-| palette | `preferred_palette` | `default` | Slice 8.3 如实现 store，应只保存公开安全枚举值。 |
+| palette | `preferred_palette` | `default` | Slice 8.3 已在 store 中实现默认值、枚举校验和持久化 helper；当前只保存公开安全枚举值。 |
 | accent | `preferred_accent` | 待定 | 不建议在没有 UI/需求前实现。 |
 
 存储值必须是短枚举字符串，不保存用户输入、颜色自由文本、PII、token、聊天内容或服务端数据。
 
 ### Readiness
 
-当前 `uiPreferencesStore` 的 `preferencesReady` 表示 provider 已完成客户端偏好同步。后续 Slice
-8.3 可以选择复用该 readiness，也可以拆出更明确的 `paletteReady`，但必须先满足：
+当前 `uiPreferencesStore` 的 `preferencesReady` 表示 provider 已完成客户端偏好同步。Slice
+8.3 只增加不可见的 palette store/storage 边界，没有新增 `paletteReady`、DOM attribute 或用户控件。后续如果
+provider 要同步 `data-palette`，可以复用该 readiness，也可以拆出更明确的 `paletteReady`，但必须先满足：
 
 - SSR/预绘制脚本和 React 首次水合读取同一默认值。
 - 按钮选中态不会在 hydration 前后读到冲突状态。
@@ -255,9 +256,10 @@ MVP 不应同时重做页面布局、Chat 流程、auth 流程或后端 API。
 
 ## 后续切片契约
 
-Slice 8.3 进入 store/provider 前，应以本文作为约束：
+Slice 8.3 已按本文约束落地 store/storage 边界。后续进入 provider 或 UI 前，应继续满足：
 
-- `src/stores/uiPreferencesStore.ts` 可以增加 palette 枚举、默认值、读取和持久化 helper。
+- `src/stores/uiPreferencesStore.ts` 已包含 `default` palette 枚举、默认值、读取和持久化 helper；新增
+  palette 值必须先扩展该枚举并补测试。
 - store 必须保持 framework-neutral，不导入 React、services、components、styles 或 DOM-only 模块。
 - React 读取层继续放在 `src/hooks/useUiPreferences.ts` 或同层 hook。
 - 如果 provider 要同步 `data-palette`，应记录是否扩展现有 `ThemeProvider`，或新增更小的

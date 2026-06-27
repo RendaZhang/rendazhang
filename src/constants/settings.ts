@@ -7,6 +7,7 @@ export const VIEWPORT_NO_ZOOM = 'width=device-width, initial-scale=1.0';
 
 export const STORAGE_KEY = 'deepseek_chat_history';
 export const THEME_STORAGE_KEY = 'preferred_theme';
+export const THEME_PALETTE_STORAGE_KEY = 'preferred_palette';
 export const LANG_STORAGE_KEY = 'preferred_lang';
 export const REGISTER_DRAFT_KEY = 'register_draft';
 export const LOGIN_IDENTIFIER_KEY = 'login_identifier';
