@@ -28,7 +28,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 27, 2026, 15:57 (UTC+08:00)
+- **最后更新**: June 27, 2026, 23:13 (UTC+08:00)
 
 ---
 
@@ -36,7 +36,7 @@
 
 本指南概述了项目当前的样式体系、构建工具链、配色方案以及未来可扩展的方向。
 
-主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。在实现用户可见的调色板控制前，应先完成浏览器 smoke 覆盖和 token 设计切片。
+主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。具体 token、DOM、storage 与验证模型见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。在实现用户可见的调色板控制前，应先完成浏览器 smoke 覆盖和 token 设计切片。
 
 ---
 
@@ -134,7 +134,7 @@ src/styles/components/
 - Markdown 深色模式拥有独立的基础颜色 Token，可在 `src/styles/core/tokens.css` 中维护；旧版 `--md-*` 语义别名由 `src/styles/core/theme-tokens.css` 统一映射。
 - 叠加层和阴影相关的颜色通过 `--color-base-black` 与 `--color-base-white` Token 设置，便于调整透明度并适配主题切换。
 - 颜色、主题语义和渐变 Token 分别集中在 `src/styles/core/tokens.css`、`theme-tokens.css` 与 `_gradients.css`，并在同目录的 `tokens.md`、`theme-tokens.md`、`_gradients.md` 文件说明用途；所有 Token 必须附带用途注释，禁止在组件中硬编码颜色。
-- 未来 palette/accent token 必须先通过 RFC 后续切片定义命名、fallback、对比度和 DOM 表达，再进入用户可见控制。
+- 未来 palette/accent token 必须先遵循 [主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md) 中的命名、fallback、对比度和 DOM 表达，再进入用户可见控制。
 
 **样式架构分层**：
 - `src/styles/core/`: 定义基础设计 Token、主题语义别名和渐变等变量
