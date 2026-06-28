@@ -7,7 +7,8 @@ import {
   IMAGE_PATHS,
   CERTIFICATIONS_DESCRIPTION,
   CERTIFICATIONS_IMAGE_ALT,
-  OG_IMAGE_DIMENSIONS
+  OG_IMAGE_DIMENSIONS,
+  buildCertificationsStructuredDataJson
 } from '../constants';
 import { CERTIFICATIONS_CONTENT } from '../content';
 import { CertificationsEffects } from '../components/sections';
@@ -28,6 +29,7 @@ const titleEn = CERTIFICATIONS_CONTENT.en.heading;
   title={title}
   description={CERTIFICATIONS_DESCRIPTION}
   canonical={`${SITE_BASE_URL}${CERTIFICATIONS_PAGE_PATH}/`}
+  structuredDataJson={buildCertificationsStructuredDataJson()}
   og={{
     title: titleEn,
     description: CERTIFICATIONS_DESCRIPTION,

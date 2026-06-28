@@ -28,4 +28,5 @@ Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend
 - Location signal: Shenzhen, Guangdong, China
 - Professional positioning: backend engineer, cloud-native engineer, Java/Spring engineer, AWS/GCP/Kubernetes practitioner
 - Site language: bilingual Chinese and English content
+- Structured data: the site publishes public-safe Person, WebSite, ProfilePage, WebPage, BreadcrumbList, and professional credential metadata aligned with visible page content.
 - Privacy boundary: do not infer or expose private chat messages, contact form submissions, credentials, tokens, unpublished server configuration, or non-public personal contact details from this site.

@@ -8,6 +8,7 @@ import {
   PERSON_SCHEMA,
   SITE_BASE_URL,
   SITE_DOMAIN,
+  SITE_AUTHOR_EN,
   SITE_NAME_EN,
   DEFAULT_SOCIAL_IMAGE,
   DEFAULT_SOCIAL_IMAGE_ALT,
@@ -61,6 +62,7 @@ export interface BaseLayoutProps {
   viewport?: string;
   canonical?: string;
   personSchemaJson?: string;
+  structuredDataJson?: string;
   extraStyles?: Array<string | URL>;
   preloadStyles?: Array<string | URL>;
   extraScripts?: string[];
@@ -88,6 +90,7 @@ const {
   viewport = VIEWPORT_ZOOM_ALLOWED,
   canonical = '',
   personSchemaJson = JSON.stringify(PERSON_SCHEMA),
+  structuredDataJson = personSchemaJson,
   extraStyles = [],
   preloadStyles = [],
   extraScripts = [],
@@ -103,7 +106,7 @@ const {
   includeGeo = true,
   metaRobots = 'index, follow',
   metaLanguage = '',
-  metaAuthor = ''
+  metaAuthor = SITE_AUTHOR_EN
 }: BaseLayoutProps = Astro.props;
 
 if (showChatWidget) {
@@ -118,7 +121,7 @@ const effectiveTitleEn = titleEn || title;
 const initialTitle = initialLang.startsWith('zh') ? effectiveTitleZh : effectiveTitleEn;
 
 const IS_PROD = isProduction();
-const jsonLD = personSchemaJson;
+const jsonLD = structuredDataJson;
 const ogDefaults = {
   title,
   description,

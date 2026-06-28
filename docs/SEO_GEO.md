@@ -6,6 +6,7 @@
 - [Canonical Host](#canonical-host)
 - [Sitemap](#sitemap)
 - [llms.txt](#llmstxt)
+- [Structured Data](#structured-data)
 - [Docs SSR](#docs-ssr)
 - [Soft 404](#soft-404)
 
@@ -31,6 +32,18 @@
 - 内容只能使用站点或公开资料已经展示的信息：姓名、职业定位、技能、公开页面、公开 profile 链接。
 - 不添加手机号、邮箱、聊天内容、联系表单内容、token、服务器路径、私有配置或非公开身份信息。
 - 当首页职业定位、认证页、技术文档页或公开 profile 链接发生变化时，同步更新 `llms.txt`。
+
+## Structured Data
+
+- 结构化数据由 `src/constants/meta.ts` 集中生成，`BaseLayout.astro` 负责输出
+  `<script type="application/ld+json">`。
+- 首页使用 `Person`、`WebSite`、`ProfilePage`、`BreadcrumbList` 和公开证书节点，定位职业品牌
+  landing page。
+- `/docs/` 使用 `WebPage` 和 `BreadcrumbList`，并保持文档正文 SSR/SSG 输出，避免 schema 与可见内容脱节。
+- `/certifications/` 使用 `CollectionPage`、`ItemList`、`EducationalOccupationalCredential` 和
+  `BreadcrumbList`，只描述页面上可见的公开认证信息。
+- 结构化数据不得包含手机号、邮箱、联系表单内容、聊天内容、token、服务器路径或非公开身份信息。
+- 修改结构化数据时，应同步补充或更新 `src/__tests__/structuredData.test.ts`，至少验证节点类型、canonical URL、公开技能/认证信号，以及敏感信息没有进入 JSON-LD。
 
 ## Docs SSR
 

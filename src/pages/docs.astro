@@ -7,7 +7,8 @@ import {
   VIEWPORT_NO_ZOOM,
   PAGE_TITLES,
   DOCS_DESCRIPTION,
-  DOC_CONTENT
+  DOC_CONTENT,
+  buildDocsStructuredDataJson
 } from '../constants';
 import { DocsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils';
@@ -30,6 +31,7 @@ const docsHtmlEn = marked.parse(DOC_CONTENT.README_EN) as string;
   description={DOCS_DESCRIPTION}
   viewport={VIEWPORT_NO_ZOOM}
   canonical={`${SITE_BASE_URL}${DOCS_PAGE_PATH}/`}
+  structuredDataJson={buildDocsStructuredDataJson()}
   extraStyles={[
     STYLE_PATHS.GITHUB_CODE_HIGHLIGHT,
     STYLE_PATHS.GITHUB_MARKDOWN_LIGHT,
