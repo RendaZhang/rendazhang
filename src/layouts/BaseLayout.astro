@@ -10,6 +10,7 @@ import {
   SITE_DOMAIN,
   SITE_NAME_EN,
   DEFAULT_SOCIAL_IMAGE,
+  DEFAULT_SOCIAL_IMAGE_ALT,
   OG_IMAGE_DIMENSIONS,
   GEO_REGION,
   GEO_PLACENAME_EN,
@@ -127,7 +128,7 @@ const ogDefaults = {
   site_name: SITE_NAME_EN,
   imageWidth: OG_IMAGE_DIMENSIONS.WIDTH,
   imageHeight: OG_IMAGE_DIMENSIONS.HEIGHT,
-  imageAlt: '',
+  imageAlt: DEFAULT_SOCIAL_IMAGE_ALT,
   imageType: 'image/jpeg',
   secureImageUrl: `${SITE_BASE_URL}${DEFAULT_SOCIAL_IMAGE}`
 };
@@ -136,7 +137,7 @@ const twitterDefaults = {
   title,
   description,
   image: ogDefaults.image,
-  imageAlt: '',
+  imageAlt: DEFAULT_SOCIAL_IMAGE_ALT,
   site: TWITTER_HANDLE,
   creator: TWITTER_HANDLE,
   url: canonical,

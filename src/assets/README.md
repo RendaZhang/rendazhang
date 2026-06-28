@@ -28,6 +28,7 @@
     - [前端目录所有权地图](#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE)
     - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
     - [前端体验平台 RFC](#%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C%E5%B9%B3%E5%8F%B0-rfc)
+    - [SEO / GEO 维护说明](#seo--geo-%E7%BB%B4%E6%8A%A4%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
     - [用户认证与密码重置规范](#%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%B8%8E%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E8%A7%84%E8%8C%83)
@@ -48,7 +49,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
+- **最后更新**: June 28, 2026, 17:42 (UTC+08:00)
 
 ---
 
@@ -434,6 +435,10 @@ location /_astro/ {
 ### 前端体验平台 RFC
 
 > Phase 8 的浏览器 smoke、hydration 安全、主题 mode 与 palette/accent 分离、调色板切片顺序和交互标准规划见：📄 [前端体验平台 RFC](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md)。
+
+### SEO / GEO 维护说明
+
+> canonical host、sitemap、`llms.txt`、`/docs/` SSR 正文和 soft-404 验证规则见：📄 [SEO / GEO 维护说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md)。
 
 ### BUG 记录
 

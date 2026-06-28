@@ -28,6 +28,7 @@
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
     - [Chat Widget Protocol](#chat-widget-protocol)
     - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
+    - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
     - [User Authentication and Password Reset Specification](#user-authentication-and-password-reset-specification)
@@ -46,7 +47,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 28, 2026, 17:07 (UTC+08:00)
+- **Last Updated**: June 28, 2026, 17:42 (UTC+08:00)
 
 ---
 
@@ -428,6 +429,10 @@ location /_astro/ {
 ### Frontend Experience Platform RFC
 
 > Phase 8 planning for browser smoke coverage, hydration safety, theme mode vs palette/accent separation, palette slice order, and interaction standards is documented in: 📄 [Frontend Experience Platform RFC](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md).
+
+### SEO / GEO Maintenance
+
+> Canonical host, sitemap, `llms.txt`, `/docs/` SSR content, and soft-404 validation rules are documented in: 📄 [SEO / GEO Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md).
 
 ### BUG Tracking
 

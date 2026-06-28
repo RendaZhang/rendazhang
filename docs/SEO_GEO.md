@@ -1,0 +1,61 @@
+# SEO / GEO 维护说明
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Canonical Host](#canonical-host)
+- [Sitemap](#sitemap)
+- [llms.txt](#llmstxt)
+- [Docs SSR](#docs-ssr)
+- [Soft 404](#soft-404)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+本文记录当前前端站点面向搜索引擎和生成式搜索系统的公开可发现性约定。目标是让搜索引擎和 AI 清楚识别“张人大 / Renda Zhang 是深圳后端、云原生、Java/Spring、AWS/GCP 软件工程师”，同时避免暴露私密联系信息、聊天内容、表单内容或服务器细节。
+
+## Canonical Host
+
+- 公开 canonical host 固定为 `https://www.rendazhang.com`。
+- `https://rendazhang.com/*` 应由 Nginx 301 到 `https://www.rendazhang.com/*`。
+- `SITE_BASE_URL`、canonical、Open Graph URL、`robots.txt`、`sitemap.xml` 和 `llms.txt` 中的主域名必须保持一致。
+
+## Sitemap
+
+- `public/sitemap.xml` 只放主要职业品牌入口：`/`、`/docs/`、`/certifications/`。
+- 每次主要内容、公开认证、技术文档或 SEO metadata 更新后，同步刷新 `lastmod`。
+- `/deepseek_chat/` 是交互工具页，不作为主要 SEO 入口主动放入 sitemap；页面仍可通过站内导航访问。
+
+## llms.txt
+
+- `public/llms.txt` 是面向 LLM / AI 摘要系统的公开入口。
+- 内容只能使用站点或公开资料已经展示的信息：姓名、职业定位、技能、公开页面、公开 profile 链接。
+- 不添加手机号、邮箱、聊天内容、联系表单内容、token、服务器路径、私有配置或非公开身份信息。
+- 当首页职业定位、认证页、技术文档页或公开 profile 链接发生变化时，同步更新 `llms.txt`。
+
+## Docs SSR
+
+- `/docs/` 必须在 Astro SSR/SSG 输出中包含 Markdown 正文 HTML，不能只依赖客户端 loader。
+- `DocsEffects` 可以继续负责代码高亮、Mermaid、anchor 修正等客户端增强；无 JavaScript 抓取时也应能读到正文。
+- 修改技术文档渲染逻辑后，至少检查：
+
+```bash
+npm run check
+npm run smoke:browser
+curl -sS https://www.rendazhang.com/docs/ | rg "Java|Spring|Kubernetes|技术文档|Technical"
+```
+
+## Soft 404
+
+- 静态 Astro 站点不应把未知路径 fallback 到首页。
+- Nginx `location /` 应优先返回真实静态文件，未知路径返回 404，并由现有 `error_page 404 /404.html` 展示错误页。
+- 部署后验证：
+
+```bash
+curl -I https://www.rendazhang.com/
+curl -I https://www.rendazhang.com/sitemap.xml
+curl -I https://www.rendazhang.com/llms.txt
+curl -I https://www.rendazhang.com/definitely-not-real
+curl -I https://www.rendazhang.com/manifest.webmanifest
+```
+
+预期：主页、sitemap 和 `llms.txt` 返回 200；不存在的路径和未提供的 manifest 返回 404。

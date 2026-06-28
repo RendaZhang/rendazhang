@@ -2,7 +2,8 @@ import { IMAGE_PATHS } from './paths';
 
 export const SITE_BASE_URL = 'https://www.rendazhang.com';
 export const SITE_DOMAIN = 'www.rendazhang.com';
-export const SITE_DESCRIPTION_EN = 'Renda Zhang - a Software Engineer from Shenzhen China';
+export const SITE_DESCRIPTION_EN =
+  'Renda Zhang is a Shenzhen-based Java/Spring backend and cloud-native software engineer focused on AWS, GCP, Kubernetes, APIs, and reliable delivery.';
 
 export const PAGE_TITLES = {
   ABOUT_ZH: '张人大 · 软件开发工程师',
@@ -40,6 +41,8 @@ export const OG_IMAGE_DIMENSIONS = {
 } as const;
 
 export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.CERTIFICATIONS_COVER;
+export const DEFAULT_SOCIAL_IMAGE_ALT =
+  'Renda Zhang software engineer profile, cloud-native skills, and certification preview';
 
 export const GEO_REGION = 'CN-GD';
 export const GEO_POSITION = '22.543096;114.057865';
@@ -54,7 +57,9 @@ export const CONTACT_PHONE_INTL = '+86-13925067232';
 export const TWITTER_HANDLE = '@RendaZhang';
 export const SOCIAL_PROFILE_URLS = [
   'https://github.com/RendaZhang',
-  'https://www.linkedin.com/in/RendaZhang'
+  'https://www.linkedin.com/in/RendaZhang',
+  'https://blog.csdn.net/qq_40286307',
+  'https://rendazhang.medium.com'
 ] as const;
 export const SITE_AUTHOR_EN = 'Renda Zhang';
 export const SITE_AUTHOR_ZH = '张人大';
@@ -65,6 +70,7 @@ export const PERSON_SCHEMA = {
   '@context': 'https://schema.org/',
   '@type': 'Person',
   name: 'Renda Zhang',
+  alternateName: ['张人大'],
   hasCredential: [
     {
       '@type': 'EducationalOccupationalCredential',
@@ -80,6 +86,23 @@ export const PERSON_SCHEMA = {
   url: SITE_BASE_URL,
   image: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
   jobTitle: 'Software Engineer',
+  knowsAbout: [
+    'Java',
+    'Spring',
+    'Cloud-native architecture',
+    'AWS',
+    'Google Cloud Platform',
+    'Kubernetes',
+    'Terraform',
+    'API design',
+    'Observability'
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Shenzhen',
+    addressRegion: 'Guangdong',
+    addressCountry: 'CN'
+  },
   worksFor: {
     '@type': 'Organization',
     name: 'Self-Employed'

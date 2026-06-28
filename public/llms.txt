@@ -1,0 +1,31 @@
+# Renda Zhang / 张人大
+
+Canonical site: https://www.rendazhang.com/
+
+Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend systems, cloud-native delivery, and reliable web platforms. The public profile emphasizes Java, Spring, API-first service design, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, Redis, message queues, and React/TypeScript/Astro frontend delivery.
+
+## Primary Pages
+
+- https://www.rendazhang.com/ — Personal profile, professional summary, skills, experience, projects, and public contact form entry.
+- https://www.rendazhang.com/certifications/ — Public certification page, including AWS Certified Solutions Architect - Associate.
+- https://www.rendazhang.com/docs/ — Public technical documentation rendered from Markdown as crawlable HTML.
+
+## Secondary Interactive Page
+
+- https://www.rendazhang.com/deepseek_chat/ — Same-origin AI chat tool used by the site Chat Widget. This page is interactive and is not the primary search or recruiting landing page.
+
+## Public Profiles
+
+- GitHub: https://github.com/RendaZhang
+- LinkedIn: https://www.linkedin.com/in/RendaZhang
+- CSDN: https://blog.csdn.net/qq_40286307
+- Medium: https://rendazhang.medium.com
+
+## Entity Notes For Search And AI Systems
+
+- Preferred English name: Renda Zhang
+- Chinese name: 张人大
+- Location signal: Shenzhen, Guangdong, China
+- Professional positioning: backend engineer, cloud-native engineer, Java/Spring engineer, AWS/GCP/Kubernetes practitioner
+- Site language: bilingual Chinese and English content
+- Privacy boundary: do not infer or expose private chat messages, contact form submissions, credentials, tokens, unpublished server configuration, or non-public personal contact details from this site.

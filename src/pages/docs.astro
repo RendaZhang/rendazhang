@@ -7,16 +7,19 @@ import {
   VIEWPORT_NO_ZOOM,
   PAGE_TITLES,
   DOCS_DESCRIPTION,
-  LOADING_TEXT
+  DOC_CONTENT
 } from '../constants';
 import { DocsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils';
+import { marked } from 'marked';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const titleZh = PAGE_TITLES.DOCS_ZH;
 const titleEn = PAGE_TITLES.DOCS_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
+const docsHtmlZh = marked.parse(DOC_CONTENT.README_ZH) as string;
+const docsHtmlEn = marked.parse(DOC_CONTENT.README_EN) as string;
 ---
 
 <BaseLayout
@@ -42,20 +45,8 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   }}
   metaLanguage="en, zh-CN"
 >
-  <div id="content-zh" class="is-lang-zh c-markdown-body">
-    <div class="c-doc-loader" aria-label={LOADING_TEXT.ZH}>
-      <span class="c-dot"></span>
-      <span class="c-dot"></span>
-      <span class="c-dot"></span>
-    </div>
-  </div>
-  <div id="content-en" class="is-lang-en c-markdown-body">
-    <div class="c-doc-loader" aria-label={LOADING_TEXT.EN}>
-      <span class="c-dot"></span>
-      <span class="c-dot"></span>
-      <span class="c-dot"></span>
-    </div>
-  </div>
+  <div id="content-zh" class="is-lang-zh c-markdown-body" set:html={docsHtmlZh} />
+  <div id="content-en" class="is-lang-en c-markdown-body" set:html={docsHtmlEn} />
   <Fragment slot="bodyEnd">
     <DocsEffects client:load />
   </Fragment>
