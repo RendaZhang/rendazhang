@@ -25,7 +25,7 @@
 # 前端目录所有权地图
 
 - **作者**: 张人大
-- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
+- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
 
 ## 文档目的
 
@@ -108,7 +108,7 @@
 | `sections` | 页面级内容组合组件，例如主页 sections、认证页 content wrapper、证书页内容、文档页效果和 profile 内容。 |
 | `forms` | 表单 UI、验证、提交状态和表单级流程。认证表单使用 `apiClient`；`ContactForm` 通过 `contactService` 保留第三方联系端点的旧路径，不应作为新 JSON API 的默认模式。 |
 | `chat` | Chat 页面、消息列表、输入框、Markdown 增强、流式会话 UI 和 `ChatWidget`。 |
-| `ui` | 可复用 UI 原子或小组件，包括 display、inputs、media、widgets 等。 |
+| `ui` | 可复用 UI 原子或小组件，包括 display、inputs、media、widgets 等。新增共享交互 primitive 前应先参考 [交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。 |
 | 根级组件 | `ErrorBoundary`、`ErrorSection` 等跨页面复用组件。 |
 
 ### `src/components/chat`
@@ -338,6 +338,8 @@ styles -> styles only
 
 - 新路由：放在 `src/pages`，只做路由级 metadata、layout props、静态结构和 island 选择。
 - 新页面级交互：优先放在 `src/components/sections` 或对应 feature-like 子目录，而不是塞进 `.astro` 页面。
+- 新共享交互 primitive：优先放在 `src/components/ui`，并把样式放在 `src/styles/components`；
+  若只服务单个页面或单个 island，优先保留局部组件实现。
 - 新通用 UI：放在 `src/components/ui` 的合适子目录。
 - 新表单：放在 `src/components/forms/<FormName>`，认证相关 API 走 `apiClient`。
 - 新 Chat UI：放在 `src/components/chat`；发送/reset 等复杂编排放在 `src/controllers/chatController.ts` 或同目录后续 controller；Chat 领域服务继续走 `src/services/chatService.ts`，底层 fetch/stream 默认值复用 `src/services/apiClient.ts`。

@@ -28,6 +28,7 @@
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
     - [Chat Widget Protocol](#chat-widget-protocol)
     - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
+    - [Interaction Component Standards](#interaction-component-standards)
     - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -47,7 +48,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 28, 2026, 17:42 (UTC+08:00)
+- **Last Updated**: June 29, 2026, 00:55 (UTC+08:00)
 
 ---
 
@@ -429,6 +430,10 @@ location /_astro/ {
 ### Frontend Experience Platform RFC
 
 > Phase 8 planning for browser smoke coverage, hydration safety, theme mode vs palette/accent separation, palette slice order, and interaction standards is documented in: 📄 [Frontend Experience Platform RFC](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md).
+
+### Interaction Component Standards
+
+> Modal, popover/menu, toast/status, loading, disabled/empty/error state, keyboard behavior, focus management, and browser smoke gates are documented in: 📄 [Interaction Component Standards](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md).
 
 ### SEO / GEO Maintenance
 

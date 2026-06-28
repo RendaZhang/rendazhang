@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
+- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
 
 ---
 
@@ -33,7 +33,7 @@
 - [@vitest/coverage-v8](https://vitest.dev/guide/coverage.html)：生成覆盖率报告。
 - [Playwright](https://playwright.dev/)：运行最小浏览器 smoke，覆盖真实 Chromium console、hydration、Chat Widget iframe ready、主题 mode 和 palette 切换状态。
 
-Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
+Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。交互组件的键盘、focus、ARIA、状态和 browser smoke 门禁见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
 
 如需手动安装，可执行：
 
@@ -85,7 +85,7 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - `target="_blank"` 链接必须保留安全的 `rel` 属性；`@ts-ignore`、`@ts-expect-error` 等 TypeScript 抑制注释必须带足够说明。
 - ESLint 同时强制当前低误报的 import-boundary 子集：services、controllers、stores、utils、content、components 和 hooks 不能跨越 `docs/DIRECTORY_OWNERSHIP.md` 中已经落地的稳定所有权边界。
 - 当前未引入 `eslint-plugin-react-hooks` 或 `eslint-plugin-jsx-a11y`。Hooks exhaustive deps 与更广泛的 JSX a11y 规则仍按代码评审检查，是否新增依赖留给后续切片决策。
-- 影响主题、导航、Chat Widget、iframe、认证表单或 hydration 顺序的切片应把 `npm run smoke:browser` 加入验证清单。该命令是浏览器行为门禁，不替代 Vitest、Astro check、TypeScript 或 ESLint。
+- 影响主题、导航、Chat Widget、iframe、认证表单、modal/popover/menu、overlay、focus/keyboard 行为或 hydration 顺序的切片应把 `npm run smoke:browser` 加入验证清单。该命令是浏览器行为门禁，不替代 Vitest、Astro check、TypeScript 或 ESLint。
 
 ## 测试用例说明
 

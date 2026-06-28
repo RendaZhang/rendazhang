@@ -28,6 +28,7 @@
     - [前端目录所有权地图](#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE)
     - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
     - [前端体验平台 RFC](#%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C%E5%B9%B3%E5%8F%B0-rfc)
+    - [交互组件标准](#%E4%BA%A4%E4%BA%92%E7%BB%84%E4%BB%B6%E6%A0%87%E5%87%86)
     - [SEO / GEO 维护说明](#seo--geo-%E7%BB%B4%E6%8A%A4%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
@@ -49,7 +50,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 28, 2026, 17:42 (UTC+08:00)
+- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
 
 ---
 
@@ -435,6 +436,10 @@ location /_astro/ {
 ### 前端体验平台 RFC
 
 > Phase 8 的浏览器 smoke、hydration 安全、主题 mode 与 palette/accent 分离、调色板切片顺序和交互标准规划见：📄 [前端体验平台 RFC](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md)。
+
+### 交互组件标准
+
+> modal、popover/menu、toast/status、loading、disabled/empty/error state、键盘行为、focus 管理和 browser smoke 门禁见：📄 [交互组件标准](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md)。
 
 ### SEO / GEO 维护说明
 

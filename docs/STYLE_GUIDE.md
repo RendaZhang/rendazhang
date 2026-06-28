@@ -28,7 +28,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
+- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
 
 ---
 
@@ -36,7 +36,7 @@
 
 本指南概述了项目当前的样式体系、构建工具链、配色方案以及未来可扩展的方向。
 
-主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。具体 token、DOM、storage 与验证模型见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。在实现用户可见的调色板控制前，应先完成浏览器 smoke 覆盖和 token 设计切片。
+主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。具体 token、DOM、storage 与验证模型见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。modal、popover/menu、toast/status、loading、键盘行为和 focus 管理规则见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。
 
 ---
 
@@ -292,6 +292,10 @@ h1 {
 ---
 
 ## 交互态与可访问性
+
+交互组件的状态所有权、ARIA、键盘行为、focus 管理和 browser smoke 门禁以
+[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md) 为准。本节只记录样式层的 token 和状态
+class 约定。
 
 - 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-width-hairline`、`--border-0`…`--border-3`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
 - 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
