@@ -118,4 +118,32 @@
     --overlay-surface: var(--overlay-dark-surface);
     color-scheme: dark;
   }
+
+  html[data-palette='aurora'] {
+    /*! ==== Aurora palette semantic overrides ==== */
+    --color-brand: var(--palette-aurora-brand);
+    --color-accent: var(--palette-aurora-accent);
+    --color-brand-secondary: var(--palette-aurora-secondary);
+    --color-brand-tertiary: var(--palette-aurora-tertiary);
+    --color-brand-blue: var(--palette-aurora-accent);
+    --gradient-dark: linear-gradient(
+      135deg,
+      var(--palette-aurora-brand) 0%,
+      var(--palette-aurora-secondary) 100%
+    );
+  }
+
+  html[data-palette='forest'] {
+    /*! ==== Forest palette semantic overrides ==== */
+    --color-brand: var(--palette-forest-brand);
+    --color-accent: var(--palette-forest-accent);
+    --color-brand-secondary: var(--palette-forest-secondary);
+    --color-brand-tertiary: var(--palette-forest-tertiary);
+    --color-brand-blue: var(--palette-forest-accent);
+    --gradient-dark: linear-gradient(
+      135deg,
+      var(--palette-forest-brand) 0%,
+      var(--palette-forest-secondary) 100%
+    );
+  }
 }

@@ -1,14 +1,38 @@
 @layer tokens {
   :root {
     /*! ==== Brand colors ==== */
+    /* Default palette primary brand color */
+    --palette-default-brand: color-mix(in srgb, oklch(45.89% 0.2417 295.61), transparent);
+    /* Default palette accent color */
+    --palette-default-accent: color-mix(in srgb, oklch(59.5% 0.2157 260.53), transparent);
+    /* Default palette secondary brand shade */
+    --palette-default-secondary: color-mix(in srgb, oklch(50.81% 0.1773 275.87), transparent);
+    /* Default palette tertiary brand shade */
+    --palette-default-tertiary: color-mix(in srgb, oklch(70.69% 0.1492 279.75), transparent);
+    /* Aurora palette primary brand color */
+    --palette-aurora-brand: color-mix(in srgb, oklch(46% 0.22 328), transparent);
+    /* Aurora palette accent color */
+    --palette-aurora-accent: color-mix(in srgb, oklch(54% 0.18 250), transparent);
+    /* Aurora palette secondary brand shade */
+    --palette-aurora-secondary: color-mix(in srgb, oklch(50% 0.2 300), transparent);
+    /* Aurora palette tertiary brand shade */
+    --palette-aurora-tertiary: color-mix(in srgb, oklch(62% 0.13 285), transparent);
+    /* Forest palette primary brand color */
+    --palette-forest-brand: color-mix(in srgb, oklch(42% 0.13 160), transparent);
+    /* Forest palette accent color */
+    --palette-forest-accent: color-mix(in srgb, oklch(52% 0.12 195), transparent);
+    /* Forest palette secondary brand shade */
+    --palette-forest-secondary: color-mix(in srgb, oklch(48% 0.12 180), transparent);
+    /* Forest palette tertiary brand shade */
+    --palette-forest-tertiary: color-mix(in srgb, oklch(62% 0.1 150), transparent);
     /* Primary brand color for links and primary actions */
-    --color-brand: color-mix(in srgb, oklch(45.89% 0.2417 295.61), transparent);
+    --color-brand: var(--palette-default-brand);
     /* Accent color for highlights and focus states */
-    --color-accent: color-mix(in srgb, oklch(59.5% 0.2157 260.53), transparent);
+    --color-accent: var(--palette-default-accent);
     /* Secondary brand shade for hover states */
-    --color-brand-secondary: color-mix(in srgb, oklch(50.81% 0.1773 275.87), transparent);
+    --color-brand-secondary: var(--palette-default-secondary);
     /* Tertiary brand shade used in gradients and subtle backgrounds */
-    --color-brand-tertiary: color-mix(in srgb, oklch(70.69% 0.1492 279.75), transparent);
+    --color-brand-tertiary: var(--palette-default-tertiary);
     /* Blue variant for informational elements */
     --color-brand-blue: color-mix(in srgb, oklch(55.58% 0.2142 269.03), transparent);
     /* Default spinner stroke color */
@@ -351,10 +375,22 @@
 
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --color-brand: oklch(45.89% 0.2417 295.61);
-      --color-accent: oklch(59.5% 0.2157 260.53);
-      --color-brand-secondary: oklch(50.81% 0.1773 275.87);
-      --color-brand-tertiary: oklch(70.69% 0.1492 279.75);
+      --palette-default-brand: oklch(45.89% 0.2417 295.61);
+      --palette-default-accent: oklch(59.5% 0.2157 260.53);
+      --palette-default-secondary: oklch(50.81% 0.1773 275.87);
+      --palette-default-tertiary: oklch(70.69% 0.1492 279.75);
+      --palette-aurora-brand: oklch(46% 0.22 328);
+      --palette-aurora-accent: oklch(54% 0.18 250);
+      --palette-aurora-secondary: oklch(50% 0.2 300);
+      --palette-aurora-tertiary: oklch(62% 0.13 285);
+      --palette-forest-brand: oklch(42% 0.13 160);
+      --palette-forest-accent: oklch(52% 0.12 195);
+      --palette-forest-secondary: oklch(48% 0.12 180);
+      --palette-forest-tertiary: oklch(62% 0.1 150);
+      --color-brand: var(--palette-default-brand);
+      --color-accent: var(--palette-default-accent);
+      --color-brand-secondary: var(--palette-default-secondary);
+      --color-brand-tertiary: var(--palette-default-tertiary);
       --color-brand-blue: oklch(55.58% 0.2142 269.03);
       --color-spinner: oklch(65.31% 0.1348 242.71);
       --color-success: oklch(74.59% 0.1812 152.35);

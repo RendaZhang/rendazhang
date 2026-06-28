@@ -48,7 +48,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 27, 2026, 15:57 (UTC+08:00)
+- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
 
 ---
 
@@ -173,7 +173,7 @@ flowchart TD
 
 只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 `BaseLayout.astro`。在现阶段，维持 Astro 版本更简洁高效。
 
-为满足 Nginx 的 CSP 限制并在 404/500 等纯静态页面中复用主题与语言逻辑，原有的内联初始化脚本已抽离为阻塞式外部脚本 `/js/base-layout-init.js`。该文件由 `src/scripts/base-layout-init.ts` 编译生成，并通过 `data-theme-key`、`data-lang-key` 等属性向脚本传递存储键，在渲染前完成主题和语言初始化。
+为满足 Nginx 的 CSP 限制并在 404/500 等纯静态页面中复用主题与语言逻辑，原有的内联初始化脚本已抽离为阻塞式外部脚本 `/js/base-layout-init.js`。该文件由 `src/scripts/base-layout-init.ts` 编译生成，并通过 `data-theme-key`、`data-palette-key`、`data-lang-key` 等属性向脚本传递存储键，在渲染前完成主题 mode、调色板和语言初始化。
 
 ### 本地开发和预览
 

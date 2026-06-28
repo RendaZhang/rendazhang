@@ -208,6 +208,7 @@ nav {
     border-radius: var(--radius-s);
     box-shadow: var(--shadow-elevation-2);
     display: flex;
+    flex-direction: column;
     gap: var(--space-1);
     left: 50%;
     padding: var(--space-1);
@@ -215,6 +216,17 @@ nav {
     top: calc(100% + var(--space-1));
     transform: translateX(-50%);
     z-index: 1001;
+  }
+
+  .c-theme-mode-options,
+  .c-theme-palette-options {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .c-theme-palette-options {
+    border-top: var(--border-2);
+    padding-top: var(--space-1);
   }
 
   .c-theme-option {
@@ -239,6 +251,26 @@ nav {
     &.is-dark {
       background-color: var(--color-dark-gray);
       color: var(--color-white);
+    }
+
+    &.c-theme-palette-option {
+      background: linear-gradient(135deg, var(--palette-swatch-start), var(--palette-swatch-end));
+      color: var(--color-base-white);
+    }
+
+    &.is-palette-default {
+      --palette-swatch-start: var(--palette-default-brand);
+      --palette-swatch-end: var(--palette-default-secondary);
+    }
+
+    &.is-palette-aurora {
+      --palette-swatch-start: var(--palette-aurora-brand);
+      --palette-swatch-end: var(--palette-aurora-accent);
+    }
+
+    &.is-palette-forest {
+      --palette-swatch-start: var(--palette-forest-brand);
+      --palette-swatch-end: var(--palette-forest-accent);
     }
 
     &:hover {

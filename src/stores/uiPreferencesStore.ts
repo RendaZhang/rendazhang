@@ -1,7 +1,8 @@
 import { THEME_PALETTE_STORAGE_KEY, THEME_STORAGE_KEY } from '../constants/settings';
 
 export type ThemeMode = 'light' | 'dark';
-export type ThemePalette = 'default';
+export const THEME_PALETTES = ['default', 'aurora', 'forest'] as const;
+export type ThemePalette = (typeof THEME_PALETTES)[number];
 
 export interface UiPreferencesState {
   themeMode: ThemeMode;
@@ -32,7 +33,7 @@ export function isThemeMode(value: unknown): value is ThemeMode {
 }
 
 export function isThemePalette(value: unknown): value is ThemePalette {
-  return value === 'default';
+  return THEME_PALETTES.some((palette) => palette === value);
 }
 
 export function getUiPreferencesSnapshot(): Readonly<UiPreferencesState> {

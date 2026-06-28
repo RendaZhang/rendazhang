@@ -10,6 +10,7 @@
 (() => {
   interface BaseLayoutDataset extends DOMStringMap {
     themeKey?: string;
+    paletteKey?: string;
     langKey?: string;
     titleZh?: string;
     titleEn?: string;
@@ -20,6 +21,7 @@
   const dataset = (document.currentScript?.dataset || {}) as BaseLayoutDataset;
   const {
     themeKey = '',
+    paletteKey = '',
     langKey = '',
     titleZh = '',
     titleEn = '',
@@ -28,9 +30,14 @@
   } = dataset;
 
   const isProduction = isProd === 'true';
+  const supportedPalettes = ['default', 'aurora', 'forest'] as const;
+  type SupportedPalette = (typeof supportedPalettes)[number];
   const log = (...args: unknown[]) => {
     if (!isProduction) console.log(...args);
   };
+
+  const isSupportedPalette = (value: unknown): value is SupportedPalette =>
+    supportedPalettes.some((palette) => palette === value);
 
   interface StorageHelper {
     __version: string;
@@ -95,6 +102,21 @@
     }
   };
 
+  const initPalette = () => {
+    try {
+      const storedPalette = win.__storageHelper.get(paletteKey);
+      const palette = isSupportedPalette(storedPalette) ? storedPalette : 'default';
+      log('BaseLayout script storedPalette: ' + storedPalette);
+      log('BaseLayout script palette: ' + palette);
+      document.documentElement.setAttribute('data-palette', palette);
+      document.documentElement.dataset.initialPalette = palette;
+    } catch (e) {
+      console.error('BaseLayout script: Palette init failed', e);
+      document.documentElement.setAttribute('data-palette', 'default');
+      document.documentElement.dataset.initialPalette = 'default';
+    }
+  };
+
   // Synchronize document language with stored preference.
   const initLang = () => {
     try {
@@ -153,12 +175,15 @@
 
   try {
     initTheme();
+    initPalette();
     initLang();
     initTitle();
     initAuth();
   } catch (e) {
     console.error('Initialization failed', e);
     document.documentElement.dataset.initialTheme = 'light';
+    document.documentElement.setAttribute('data-palette', 'default');
+    document.documentElement.dataset.initialPalette = 'default';
     document.documentElement.dataset.initialLang = 'zh-CN';
     document.documentElement.dataset.loggedIn = 'false';
   }

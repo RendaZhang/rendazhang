@@ -46,7 +46,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 27, 2026, 15:57 (UTC+08:00)
+- **Last Updated**: June 28, 2026, 17:07 (UTC+08:00)
 
 ---
 
@@ -171,7 +171,7 @@ This repository contains the frontend project: 📁 [Renda Zhang WEB](https://gi
 
 Consider rewriting `BaseLayout.astro` only if there are plans to fully migrate the site to React or if there is a need to share complex React state/context at the layout level. For now, maintaining the Astro version is more concise and efficient.
 
-To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse theme and language logic, the former inline initialization script has been moved to a blocking external script `/js/base-layout-init.js`. The file is generated from `src/scripts/base-layout-init.ts` and passes storage keys via `data-theme-key` and `data-lang-key` attributes so that theme and language are applied before the page renders.
+To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse theme and language logic, the former inline initialization script has been moved to a blocking external script `/js/base-layout-init.js`. The file is generated from `src/scripts/base-layout-init.ts` and passes storage keys via `data-theme-key`, `data-palette-key`, and `data-lang-key` attributes so that theme mode, palette, and language are applied before the page renders.
 
 ### Local Development & Preview
 

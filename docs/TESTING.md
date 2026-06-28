@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 27, 2026, 22:41 (UTC+08:00)
+- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
 
 ---
 
@@ -31,7 +31,7 @@
 - [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)：用于编写 React 组件与 Hook 测试。
 - [jsdom](https://github.com/jsdom/jsdom)：提供浏览器 API 的模拟环境。
 - [@vitest/coverage-v8](https://vitest.dev/guide/coverage.html)：生成覆盖率报告。
-- [Playwright](https://playwright.dev/)：运行最小浏览器 smoke，覆盖真实 Chromium console、hydration、Chat Widget iframe ready 和主题切换状态。
+- [Playwright](https://playwright.dev/)：运行最小浏览器 smoke，覆盖真实 Chromium console、hydration、Chat Widget iframe ready、主题 mode 和 palette 切换状态。
 
 Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
 
@@ -74,6 +74,7 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   - `/deepseek_chat/` 页面加载时无 hydration mismatch 信号，且不会挂载全局 Chat Widget。
   - Chat Widget 打开后加载同源 `/deepseek_chat/` iframe，等待 `chat-enhancement-ready` 后隐藏 skeleton。
   - 主题 mode 切换后 `html[data-theme]`、选中态 `aria-pressed` 和 `preferred_theme` storage 保持一致。
+  - theme palette 切换后 `html[data-palette]`、swatch 选中态 `aria-pressed` 和 `preferred_palette` storage 保持一致。
 
   该 smoke 会 mock `/cloudchat/auth/me` 为最小合法登录用户，避免本地静态 preview 因没有后端而产生资源错误；它不发送真实用户信息，也不覆盖 Chat streaming、auth 表单提交或后端 API 行为。
 

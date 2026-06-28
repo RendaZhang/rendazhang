@@ -3,6 +3,7 @@ import { expect, test, type ConsoleMessage, type Page } from '@playwright/test';
 const AUTH_ME_PATH = '/cloudchat/auth/me';
 const CHAT_PAGE_PATH = '/deepseek_chat/';
 const THEME_STORAGE_KEY = 'preferred_theme';
+const THEME_PALETTE_STORAGE_KEY = 'preferred_palette';
 
 const blockingWarningPatterns = [
   /hydration/i,
@@ -100,6 +101,7 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', /^(light|dark)$/);
+  await expect(page.locator('html')).toHaveAttribute('data-palette', /^(default|aurora|forest)$/);
   await expect(page.locator('main')).toBeVisible();
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
   await settlePage(page);
@@ -143,17 +145,23 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   await audit.assertClean();
 });
 
-test('theme mode toggle keeps DOM state, selected state, and storage coherent', async ({
-  page
-}) => {
+test('theme controls keep DOM state, selected state, and storage coherent', async ({ page }) => {
   const audit = attachConsoleAudit(page, 'theme toggle');
 
-  await page.addInitScript((storageKey) => {
-    window.localStorage.setItem(storageKey, JSON.stringify('light'));
-  }, THEME_STORAGE_KEY);
+  await page.addInitScript(
+    ({ paletteStorageKey, themeStorageKey }) => {
+      window.localStorage.setItem(themeStorageKey, JSON.stringify('light'));
+      window.localStorage.setItem(paletteStorageKey, JSON.stringify('default'));
+    },
+    {
+      paletteStorageKey: THEME_PALETTE_STORAGE_KEY,
+      themeStorageKey: THEME_STORAGE_KEY
+    }
+  );
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).toHaveAttribute('data-palette', 'default');
 
   const themeButton = page.getByRole('button', { name: /^(Theme|切换主题)$/ });
   await themeButton.click();
@@ -170,12 +178,27 @@ test('theme mode toggle keeps DOM state, selected state, and storage coherent', 
     .toBe('dark');
 
   await themeButton.click();
+  await page.getByRole('button', { name: /^(Switch to Forest Palette|切换到森林调色板)$/ }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
+  await expect
+    .poll(async () =>
+      page.evaluate((storageKey) => {
+        const raw = window.localStorage.getItem(storageKey);
+        return raw ? (JSON.parse(raw) as unknown) : null;
+      }, THEME_PALETTE_STORAGE_KEY)
+    )
+    .toBe('forest');
+
+  await themeButton.click();
   await expect(
     page.getByRole('button', { name: /^(Switch to Dark Mode|切换到深色模式)$/ })
   ).toHaveAttribute('aria-pressed', 'true');
   await expect(
     page.getByRole('button', { name: /^(Switch to Light Mode|切换到浅色模式)$/ })
   ).toHaveAttribute('aria-pressed', 'false');
+  await expect(
+    page.getByRole('button', { name: /^(Switch to Forest Palette|切换到森林调色板)$/ })
+  ).toHaveAttribute('aria-pressed', 'true');
   await settlePage(page);
 
   await audit.assertClean();

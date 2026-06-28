@@ -19,7 +19,13 @@ export const NAV_CONTENT = {
     theme: {
       button: 'Theme',
       light: 'Switch to Light Mode',
-      dark: 'Switch to Dark Mode'
+      dark: 'Switch to Dark Mode',
+      paletteGroup: 'Theme color palette',
+      palettes: {
+        default: 'Switch to Default Palette',
+        aurora: 'Switch to Aurora Palette',
+        forest: 'Switch to Forest Palette'
+      }
     }
   },
   zh: {
@@ -42,7 +48,13 @@ export const NAV_CONTENT = {
     theme: {
       button: '切换主题',
       light: '切换到浅色模式',
-      dark: '切换到深色模式'
+      dark: '切换到深色模式',
+      paletteGroup: '主题调色板',
+      palettes: {
+        default: '切换到默认调色板',
+        aurora: '切换到极光调色板',
+        forest: '切换到森林调色板'
+      }
     }
   }
 } as const;

@@ -2,12 +2,22 @@
 // Loads before rendering to apply stored theme, language and title preferences.
 (() => {
   const dataset = document.currentScript?.dataset || {};
-  const { themeKey = '', langKey = '', titleZh = '', titleEn = '', isProd = 'true', loginKey = '' } = dataset;
+  const {
+    themeKey = '',
+    paletteKey = '',
+    langKey = '',
+    titleZh = '',
+    titleEn = '',
+    isProd = 'true',
+    loginKey = ''
+  } = dataset;
 
   const isProduction = isProd === 'true';
+  const supportedPalettes = ['default', 'aurora', 'forest'];
   const log = (...args) => {
     if (!isProduction) console.log(...args);
   };
+  const isSupportedPalette = (value) => supportedPalettes.some((palette) => palette === value);
 
   const win = window;
 
@@ -58,6 +68,21 @@
       document.documentElement.dataset.initialTheme = shouldUseDark ? 'dark' : 'light';
     } catch (e) {
       console.error('BaseLayout script: Theme init failed', e);
+    }
+  };
+
+  const initPalette = () => {
+    try {
+      const storedPalette = win.__storageHelper.get(paletteKey);
+      const palette = isSupportedPalette(storedPalette) ? storedPalette : 'default';
+      log('BaseLayout script storedPalette: ' + storedPalette);
+      log('BaseLayout script palette: ' + palette);
+      document.documentElement.setAttribute('data-palette', palette);
+      document.documentElement.dataset.initialPalette = palette;
+    } catch (e) {
+      console.error('BaseLayout script: Palette init failed', e);
+      document.documentElement.setAttribute('data-palette', 'default');
+      document.documentElement.dataset.initialPalette = 'default';
     }
   };
 
@@ -119,12 +144,15 @@
 
   try {
     initTheme();
+    initPalette();
     initLang();
     initTitle();
     initAuth();
   } catch (e) {
     console.error('Initialization failed', e);
     document.documentElement.dataset.initialTheme = 'light';
+    document.documentElement.setAttribute('data-palette', 'default');
+    document.documentElement.dataset.initialPalette = 'default';
     document.documentElement.dataset.initialLang = 'zh-CN';
     document.documentElement.dataset.loggedIn = 'false';
   }
