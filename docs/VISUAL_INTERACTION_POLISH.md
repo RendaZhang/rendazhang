@@ -4,6 +4,7 @@
 - [外观与交互 Polish](#%E5%A4%96%E8%A7%82%E4%B8%8E%E4%BA%A4%E4%BA%92-polish)
   - [文档目的](#%E6%96%87%E6%A1%A3%E7%9B%AE%E7%9A%84)
   - [当前基线](#%E5%BD%93%E5%89%8D%E5%9F%BA%E7%BA%BF)
+  - [2026-06-30 审计记录](#2026-06-30-%E5%AE%A1%E8%AE%A1%E8%AE%B0%E5%BD%95)
   - [目标](#%E7%9B%AE%E6%A0%87)
   - [非目标](#%E9%9D%9E%E7%9B%AE%E6%A0%87)
   - [视觉与交互原则](#%E8%A7%86%E8%A7%89%E4%B8%8E%E4%BA%A4%E4%BA%92%E5%8E%9F%E5%88%99)
@@ -17,7 +18,7 @@
 # 外观与交互 Polish
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 19:16 (UTC+08:00)
+- **最后更新**: June 30, 2026, 00:26 (UTC+08:00)
 
 ## 文档目的
 
@@ -41,6 +42,49 @@ Phase 9 的默认方向是更鲜明、有记忆点，但仍保持专业、现代
 - 移动端首屏可读且没有明显横向溢出，但仍需要系统化截图、console 和交互 QA。
 
 这些问题不是生产故障；它们是 Phase 9 的用户体验改进机会。
+
+## 2026-06-30 审计记录
+
+Slice 9.1 对生产站点进行了只读视觉与交互审计。Browser 自动化在完整审计脚本中超时后，
+按本文验证边界改用 Playwright fallback。截图保存在 `/tmp/rendazhang-slice-9-1/`，只作为
+本地审计证据，不提交到仓库。
+
+检查范围：
+
+- 桌面 `1366x900`：首页、主题菜单、`forest` palette、Chat Widget、`/docs/`、
+  `/certifications/`。
+- 移动端 `390x844`：首页、主题菜单、`forest` palette、Chat Widget。
+- Console：检查 homepage load、打开主题菜单、切换 palette、打开 Chat Widget、docs 和
+  certifications 页面后的 warning/error。
+
+确认正常的部分：
+
+- 首页、docs、certifications、主题菜单、palette 切换和 Chat Widget 打开路径没有新的
+  warning/error console 输出。
+- 桌面与移动端均未发现横向溢出。
+- `html[data-palette]` 能在 `default` 与 `forest` 之间正确切换，主题菜单的
+  `aria-expanded` 与 palette swatch 的 `aria-pressed` 状态正常。
+- Chat Widget 能加载同源 `/deepseek_chat/` iframe，ready 后 iframe 带
+  `is-loaded` class；当前 iframe 协议没有回归。
+- `/docs/` 和 `/certifications/` 均有 SSR/SSG 可见正文，不再是空 loader。
+
+优先级发现：
+
+| 优先级 | 发现 | 证据 | 建议 |
+| --- | --- | --- | --- |
+| P1 | 桌面首屏层级需要调整 | `1366x900` 下 hero 高约 `975px`，底部落在视口外，下一段从约 `1111px` 开始，首屏看不到后续内容提示 | 下一实现 slice 优先处理 hero 高度、主信息层级、CTA/social 入口和下一段 peeking |
+| P1 | Palette 影响范围仍偏小 | `default` 到 `forest` 的变化主要体现在 Chat 按钮、Chat 外壳和小 swatch；首页整体气质几乎不变 | 通过语义 token 扩大 palette 到 hero overlay、主行动入口、section marker、focus ring 和关键链接 |
+| P2 | 主题菜单功能完整但偏工具化 | 桌面与移动端菜单只由小图标和小色块表达，选中态主要靠边框；可扫读性弱 | 在后续交互 polish 中改善标签、分组、触屏目标和 selected feedback，不改变 store/provider 边界 |
+| P2 | Chat Widget 外壳可继续 polish | ready 协议稳定；移动端 panel 接近全屏并覆盖正文，loading/ready surface 缺少更明确的浮层层级 | 保留 iframe 协议，后续只改善外壳、loading surface、移动端边界和关闭反馈 |
+| P2 | Docs 与 certifications 页面视觉层级偏原始 | docs 首屏像原始 Markdown TOC；certification card 稳定但层级和页面导读较朴素 | 放在首页/palette 后处理，避免把 Phase 9 第一片扩大成多页面 redesign |
+| P3 | 移动端当前稳定 | `390x844` 首页和 Chat Widget 没有横向溢出，正文可读 | 保持为后续实现 slice 的必测证据，不作为第一实现片单独启动 |
+
+推荐第一实现 slice：
+
+`9.2 Homepage First Impression And Palette Impact`。该片应把最高影响的首屏层级和 palette
+可见度放在一起做小范围实现：优先调整 hero/section/CTA/social/Chat toggle 等现有 surface，
+通过 `data-palette` 与语义 token 扩大视觉差异，同时保留现有内容叙事、Chat Widget 协议、
+SEO/GEO 元数据、依赖和运行时。
 
 ## 目标
 
@@ -90,12 +134,14 @@ Phase 9 的主要审计对象：
 ## 候选切片顺序
 
 1. `9.1 Visual Interaction Audit And Polish Plan`：只读审计和计划细化，输出优先级、截图证据和
-   后续 slice 边界。
-2. `9.2 Theme Palette Visual Impact`：扩大 palette 的可感知范围，保持 token 驱动和对比度约束。
-3. `9.3 Homepage First Impression Polish`：优化桌面首屏层级、主要行动入口和下一段内容提示。
-4. `9.4 Interaction Feedback Consistency`：统一 hover、focus、active、loading、disabled 和
+   后续 slice 边界。已完成后，推荐把首屏层级和 palette 可见度合并为第一实现片。
+2. `9.2 Homepage First Impression And Palette Impact`：优化桌面首屏层级、下一段内容提示、
+   主行动入口和 palette 在 hero、section、focus 与关键控件中的可感知范围。
+3. `9.3 Interaction Feedback Consistency`：统一 hover、focus、active、loading、disabled 和
    reduced-motion 行为。
-5. `9.5 Chat Widget Surface Polish`：改善 Chat Widget 按钮、面板 loading surface 和移动端表现。
+4. `9.4 Chat Widget Surface Polish`：改善 Chat Widget 按钮、面板 loading surface 和移动端表现。
+5. `9.5 Docs And Certifications Surface Polish`：改善 docs 导读、Markdown 首屏层级和 certification
+   card/page hierarchy。
 6. `9.6 Mobile Visual QA`：补齐移动端视觉和交互 QA，整理残余问题。
 
 实际顺序可以根据 9.1 的审计结果调整；每个实现 slice 都应保持小范围、可验证。
