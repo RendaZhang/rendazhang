@@ -25,7 +25,7 @@
 # 主题调色板 Token 模型
 
 - **作者**: 张人大
-- **最后更新**: June 28, 2026, 17:07 (UTC+08:00)
+- **最后更新**: June 30, 2026, 01:10 (UTC+08:00)
 
 ## 文档目的
 
@@ -50,7 +50,8 @@
 - `src/styles/core/tokens.css` 放基础颜色、状态色、中性色、Markdown/page 专用色、间距、
   字体、motion、阴影和 overlay token。
 - `src/styles/core/theme-tokens.css` 放当前主题语义别名、`html[data-theme='dark']` 覆盖
-  和 `html[data-palette]` 语义映射。
+  和 `html[data-palette]` 语义映射；Phase 9 起还拥有 palette-aware surface、border 和
+  hero overlay 语义 token。
 - `src/styles/core/_gradients.css` 放基于基础色和语义覆盖的渐变 token。
 - `npm run smoke:browser` 已覆盖首页、`/deepseek_chat/`、Chat Widget iframe ready、主题
   mode 切换和 palette 切换的 DOM/storage/console 行为。
@@ -157,6 +158,9 @@ palette 原始值放在这里，并保持清晰分组，例如：
 - `--color-surface`
 - `--shadow-login`
 - Markdown legacy alias
+- Palette-aware surface、border 与 hero overlay token，例如 `--color-palette-surface`、
+  `--color-palette-surface-strong`、`--color-palette-border`、`--color-hero-accent`、
+  `--color-hero-scrim` 和 `--color-hero-scrim-strong`
 - `html[data-theme='dark']` 覆盖
 
 palette 在这一层把原始 palette 值映射到语义变量，例如：

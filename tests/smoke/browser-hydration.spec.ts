@@ -83,6 +83,18 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-palette', /^(default|aurora|forest)$/);
   await expect(page.locator('main')).toBeVisible();
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
+  await expect(page.locator('.c-about-section')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const aboutTop = document.querySelector('.c-about-section')?.getBoundingClientRect().top;
+        return {
+          nextSectionVisible: typeof aboutTop === 'number' && aboutTop < window.innerHeight,
+          overflowX: document.documentElement.scrollWidth > window.innerWidth
+        };
+      })
+    )
+    .toEqual({ nextSectionVisible: true, overflowX: false });
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);

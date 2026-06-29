@@ -18,7 +18,12 @@ export default function AboutContent(): ReactElement {
 
   return (
     <div id="content">
-      <HeroSection heroHeadingEn={contentEn.heroHeading} heroHeadingZh={contentZh.heroHeading} />
+      <HeroSection
+        heroHeadingEn={contentEn.heroHeading}
+        heroHeadingZh={contentZh.heroHeading}
+        heroTaglinesEn={contentEn.heroTaglines}
+        heroTaglinesZh={contentZh.heroTaglines}
+      />
       <BioSection contentEn={contentEn} contentZh={contentZh} isZh={isZh} />
       <EducationSection educationEn={contentEn.education} educationZh={contentZh.education} />
       <BlogSection blogEn={contentEn.blog} blogZh={contentZh.blog} />

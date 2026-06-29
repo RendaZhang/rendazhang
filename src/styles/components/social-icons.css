@@ -1,17 +1,50 @@
 /* Social icon sizes and spacing mapped to tokens */
 .c-social-icons {
+  align-items: center;
   container-type: inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
   margin: var(--space-5) 0;
   text-align: center;
 
   a {
-    display: inline-block;
+    align-items: center;
+    background: var(--color-palette-surface);
+    border: 1px solid var(--color-palette-border);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-elevation-1);
+    display: inline-flex;
+    justify-content: center;
+    min-height: calc(var(--space-8) + var(--space-1));
+    min-width: calc(var(--space-8) + var(--space-1));
+    padding: var(--space-1);
     position: relative;
+    transition:
+      background-color var(--duration-normal) var(--easing-standard),
+      box-shadow var(--duration-normal) var(--easing-standard),
+      transform var(--duration-normal) var(--easing-standard);
+
+    &:hover {
+      background: var(--color-palette-surface-strong);
+      box-shadow: var(--shadow-elevation-2);
+      transform: translateY(calc(var(--space-1) * -0.5));
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-elevation-1), var(--focus-ring);
+      outline: none;
+    }
   }
 
   img {
     height: var(--space-7);
-    margin: 0 var(--space-2);
+    margin: 0;
     opacity: 0;
     transition: opacity var(--duration-normal) var(--easing-standard);
     vertical-align: middle;

@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, type ReactNode, type ReactElement } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  type ReactNode,
+  type ReactElement,
+  type CSSProperties
+} from 'react';
 
 interface ResponsiveHeroProps {
   imageName?: string;
@@ -40,12 +47,12 @@ export default function ResponsiveHero({
     .map((w) => `${imageMap[`hero-${imageName}-${w}w.jpeg`]} ${w}w`)
     .join(', ');
   const fallbackSrc = imageMap[`hero-${imageName}-800w.jpeg`];
+  const heroStyle = {
+    '--hero-aspect-ratio': String(aspectRatio)
+  } as CSSProperties;
 
   return (
-    <div
-      className={`c-responsive-hero ${className}`}
-      style={{ position: 'relative', width: '100%', paddingTop: `${100 / aspectRatio}%` }}
-    >
+    <div className={`c-responsive-hero ${className}`} style={heroStyle}>
       <img
         className={`c-responsive-hero-placeholder u-absolute-fill${loaded ? ' is-loaded' : ''}`}
         src={placeholderBase64}

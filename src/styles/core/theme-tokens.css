@@ -69,6 +69,22 @@
     --social-icon-filter: none;
     /* Elevated overlay surface for loaders and modals */
     --overlay-surface: var(--overlay-light-bg);
+    /* Palette-tinted surface for selected, hovered, or highlighted UI */
+    --color-palette-surface: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    /* Stronger palette-tinted surface for active controls and key highlights */
+    --color-palette-surface-strong: color-mix(
+      in srgb,
+      var(--color-brand) 18%,
+      var(--color-surface)
+    );
+    /* Palette-aware border for grouped controls and section markers */
+    --color-palette-border: color-mix(in srgb, var(--color-brand) 38%, var(--color-border-soft));
+    /* Hero overlay tint driven by the active palette */
+    --color-hero-accent: color-mix(in srgb, var(--color-accent) 72%, var(--color-base-white));
+    /* Hero text scrim that preserves image contrast while exposing palette color */
+    --color-hero-scrim: color-mix(in srgb, var(--color-base-black) 52%, var(--color-brand));
+    /* Stronger hero edge scrim for desktop first-viewport readability */
+    --color-hero-scrim-strong: color-mix(in srgb, var(--color-base-black) 74%, var(--color-brand));
     color-scheme: light dark;
   }
 
@@ -116,6 +132,16 @@
     --md-hr-bg: var(--color-md-hr);
     --social-icon-filter: brightness(0) invert(1);
     --overlay-surface: var(--overlay-dark-surface);
+    --color-palette-surface: color-mix(in srgb, var(--color-brand) 16%, var(--color-surface));
+    --color-palette-surface-strong: color-mix(
+      in srgb,
+      var(--color-brand) 26%,
+      var(--color-surface)
+    );
+    --color-palette-border: color-mix(in srgb, var(--color-brand) 52%, var(--color-border-soft));
+    --color-hero-accent: color-mix(in srgb, var(--color-accent) 78%, var(--color-base-white));
+    --color-hero-scrim: color-mix(in srgb, var(--color-base-black) 60%, var(--color-brand));
+    --color-hero-scrim-strong: color-mix(in srgb, var(--color-base-black) 80%, var(--color-brand));
     color-scheme: dark;
   }
 

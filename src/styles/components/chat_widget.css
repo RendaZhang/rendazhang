@@ -7,7 +7,10 @@
   background: var(--gradient-primary);
   border: none;
   border-radius: 50%;
-  box-shadow: var(--shadow-elevation-2);
+  box-shadow:
+    var(--shadow-elevation-2),
+    0 0 0 1px var(--color-palette-border),
+    0 0 var(--space-4) color-mix(in srgb, var(--color-brand) 24%, transparent);
   color: var(--color-white);
   cursor: pointer;
   font-size: 0;
@@ -22,7 +25,10 @@
   z-index: 9999;
 }
 .c-chat-widget-toggle:hover {
-  box-shadow: var(--shadow-elevation-3);
+  box-shadow:
+    var(--shadow-elevation-3),
+    0 0 0 2px var(--color-palette-border),
+    0 0 var(--space-5) color-mix(in srgb, var(--color-brand) 34%, transparent);
   filter: brightness(1.1);
 }
 .c-chat-widget-toggle:active {

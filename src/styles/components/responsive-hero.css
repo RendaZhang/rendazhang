@@ -1,5 +1,11 @@
 /* Responsive hero elements rely on utilities from theme.css */
 /* Blur and motion values reference spacing and duration tokens */
+.c-responsive-hero {
+  aspect-ratio: var(--hero-aspect-ratio);
+  position: relative;
+  width: 100%;
+}
+
 .c-responsive-hero-placeholder {
   filter: blur(var(--space-5));
   transition: opacity var(--duration-normal) var(--easing-standard);
@@ -26,5 +32,5 @@
 
 .c-responsive-hero-content {
   /* content overlay centered via .u-flex-center and positioned by .u-absolute-fill */
-  z-index: 3;
+  z-index: 4;
 }
