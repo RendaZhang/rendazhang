@@ -7,7 +7,7 @@ import {
   type ReactElement
 } from 'react';
 import { apiClient } from '../../services';
-import { storage, logger, shouldSuppressAuthProbeError } from '../../utils';
+import { storage, logger, shouldSuppressAuthProbeError, hasStoredLoginSignal } from '../../utils';
 import { LOGIN_STATE_KEY } from '../../constants';
 import * as Sentry from '@sentry/react';
 import {
@@ -30,7 +30,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps): ReactElement {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
-    return Boolean(storage.get(LOGIN_STATE_KEY));
+    return hasStoredLoginSignal();
   });
 
   useEffect(() => {
@@ -41,6 +41,13 @@ export function AuthProvider({ children }: AuthProviderProps): ReactElement {
 
   useEffect(() => {
     const init = async () => {
+      if (!hasStoredLoginSignal()) {
+        addSentryBreadcrumb('auth.session.missing', { reason: 'no-login-signal' });
+        clearSentryUser();
+        setIsLoggedIn(false);
+        return;
+      }
+
       try {
         const response = await apiClient.auth.me();
         setAuthenticatedSentryUser(response.user);

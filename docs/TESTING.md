@@ -20,7 +20,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
+- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
 
 ---
 
@@ -71,12 +71,13 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - `npm run test:ui`：启动 Vitest 提供的 Web UI。
 - `npm run smoke:browser`：先以 `SKIP_SENTRY=true` 构建静态产物，再启动 `astro preview` 并通过 Playwright Chromium 执行浏览器 smoke。当前覆盖：
   - 首页加载时无阻塞 console error。
+  - 未登录且没有本地登录信号时，公共页面不会主动请求 `/cloudchat/auth/me`。
   - `/deepseek_chat/` 页面加载时无 hydration mismatch 信号，且不会挂载全局 Chat Widget。
   - Chat Widget 打开后加载同源 `/deepseek_chat/` iframe，等待 `chat-enhancement-ready` 后隐藏 skeleton。
   - 主题 mode 切换后 `html[data-theme]`、选中态 `aria-pressed` 和 `preferred_theme` storage 保持一致。
   - theme palette 切换后 `html[data-palette]`、swatch 选中态 `aria-pressed` 和 `preferred_palette` storage 保持一致。
 
-  该 smoke 会 mock `/cloudchat/auth/me` 为最小合法登录用户，避免本地静态 preview 因没有后端而产生资源错误；它不发送真实用户信息，也不覆盖 Chat streaming、auth 表单提交或后端 API 行为。
+  该 smoke 会拦截 `/cloudchat/auth/me` 并以 logged-out 响应兜底，同时断言 logged-out 公共页面不会发起该探测请求。它不发送真实用户信息，也不覆盖 Chat streaming、auth 表单提交或后端 API 行为。
 
 ## 静态检查
 

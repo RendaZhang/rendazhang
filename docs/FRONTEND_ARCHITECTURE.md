@@ -25,7 +25,7 @@
 # 前端架构约定
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
+- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
 
 ## 文档目的
 
@@ -109,7 +109,7 @@ React island 应满足以下约定：
 
 - `ThemeProvider` 负责主题状态、`data-theme` 同步、`data-palette` 同步和主题偏好存储。
 - `I18nProvider` 负责初始语言、语言切换、`documentElement.lang` 和 `langChanged` 事件。
-- `AuthProvider` 负责登录状态、`data-logged-in` 同步、用户信息探测和未授权状态清理。
+- `AuthProvider` 负责登录状态、`data-logged-in` 同步、用户信息探测和未授权状态清理。公共页面没有本地 `logged_in` 登录信号时不会主动请求 `/cloudchat/auth/me`；存在本地登录信号时仍会探测并在 401 时清理该信号。
 
 Slice 3.1 引入 `src/stores/uiPreferencesStore.ts` 作为轻量、本地、无额外依赖的客户端 UI/preference store。当前范围只包括：
 

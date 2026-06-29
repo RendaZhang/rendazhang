@@ -29,7 +29,7 @@
 # 前端体验平台 RFC
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
+- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
 
 ## 文档目的
 
@@ -170,11 +170,12 @@ npm run smoke:browser
 当前覆盖：
 
 - 首页加载无阻塞 console error。
+- 未登录且没有本地登录信号时，公共页面不会主动请求 `/cloudchat/auth/me`。
 - `/deepseek_chat/` 页面加载无 hydration mismatch，并确认 iframe 内页不会递归挂载全局 Chat Widget。
 - Chat Widget 打开后加载同源 `/deepseek_chat/` iframe，并在收到 `chat-enhancement-ready` 后到达 ready UI。
 - 主题 mode 切换后 DOM `data-theme`、按钮选中态和 `preferred_theme` storage 保持一致。
 
-该命令会以 `SKIP_SENTRY=true` 构建静态产物，并在本地 smoke 中 mock `/cloudchat/auth/me` 为最小合法用户，避免没有后端时的资源错误污染 console。它不覆盖 Chat streaming、auth 表单提交、联系表单提交或生产 Nginx CSP header；这些仍按对应切片和部署只读检查验证。
+该命令会以 `SKIP_SENTRY=true` 构建静态产物，并在本地 smoke 中拦截 `/cloudchat/auth/me` 作为 logged-out 探测计数器和兜底响应，避免没有后端时的资源错误污染 console。它不覆盖 Chat streaming、auth 表单提交、联系表单提交或生产 Nginx CSP header；这些仍按对应切片和部署只读检查验证。
 
 后续调色板或交互切片不应绕过该 smoke 门禁，也不应把调色板 UI 与 smoke harness 维护混在同一提交中。
 

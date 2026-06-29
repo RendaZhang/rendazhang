@@ -16,24 +16,11 @@ const blockingWarningPatterns = [
   /sentry/i
 ];
 
-const ignoredConsolePatterns = [
-  // The local static preview has no backend. Tests route auth/me to a safe
-  // synthetic user, but keep this guard for browser-level auth probe noise.
-  /cloudchat\/auth\/me/i
-];
-
-function shouldIgnoreConsoleMessage(text: string): boolean {
-  return ignoredConsolePatterns.some((pattern) => pattern.test(text));
-}
-
 function attachConsoleAudit(page: Page, label: string) {
   const issues: string[] = [];
 
   const onConsole = (message: ConsoleMessage) => {
     const text = message.text();
-    if (shouldIgnoreConsoleMessage(text)) {
-      return;
-    }
 
     if (message.type() === 'error') {
       issues.push(`${label} console.error: ${text}`);
@@ -72,31 +59,23 @@ async function settlePage(page: Page): Promise<void> {
   await page.waitForTimeout(250);
 }
 
-async function routeAuthenticatedAuth(page: Page): Promise<void> {
+async function routeLoggedOutAuthProbe(page: Page): Promise<() => number> {
+  let authProbeRequests = 0;
+
   await page.route(`**${AUTH_ME_PATH}`, async (route) => {
+    authProbeRequests += 1;
     await route.fulfill({
-      status: 200,
+      status: 401,
       contentType: 'application/json',
-      body: JSON.stringify({
-        ok: true,
-        user: {
-          id: 1,
-          uid: 'smoke-user',
-          email: null,
-          phone: null,
-          display_name: 'Smoke User',
-          is_active: true
-        }
-      })
+      body: JSON.stringify({ error: 'Unauthorized' })
     });
   });
+
+  return () => authProbeRequests;
 }
 
-test.beforeEach(async ({ page }) => {
-  await routeAuthenticatedAuth(page);
-});
-
 test('homepage loads without blocking browser console errors', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'homepage');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -106,10 +85,12 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
   await settlePage(page);
 
+  expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 
 test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'deepseek_chat');
 
   await page.goto(CHAT_PAGE_PATH, { waitUntil: 'domcontentloaded' });
@@ -118,10 +99,12 @@ test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }
   await expect(page.locator('.c-chat-widget-toggle')).toHaveCount(0);
   await settlePage(page);
 
+  expect(authProbeCount(), 'logged-out chat page should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 
 test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'chat widget');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -142,10 +125,12 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   await expect(iframe).toHaveClass(/is-loaded/);
   await settlePage(page);
 
+  expect(authProbeCount(), 'logged-out Chat Widget path should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 
 test('theme controls keep DOM state, selected state, and storage coherent', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'theme toggle');
 
   await page.addInitScript(
@@ -201,5 +186,6 @@ test('theme controls keep DOM state, selected state, and storage coherent', asyn
   ).toHaveAttribute('aria-pressed', 'true');
   await settlePage(page);
 
+  expect(authProbeCount(), 'logged-out theme control path should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
