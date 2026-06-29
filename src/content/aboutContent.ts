@@ -13,14 +13,15 @@ export const ABOUT_CONTENT = {
     heroTaglines: [
       'Backend Engineer',
       'Java & Spring Boot',
+      'Financial Technology TL',
       'Cloud-Native Platform',
-      'Kubernetes & Terraform',
-      'CI/CD Automation'
+      'Kubernetes & Terraform'
     ],
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
       "Hello! I'm Renda Zhang, a backend engineer based in Shenzhen, China with five years of Java/Spring delivery.",
+      'In July 2026, I will join OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.',
       'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, and GitHub Actions/Argo CD to ship safely.',
       'I build observability and performance guardrails end to end, tuning high-concurrency paths with Redis and message queues.',
       'I partner with frontend teams on SSR/CSR experiences, instrumentation, and selective hydration for merchant-facing products.',
@@ -33,7 +34,11 @@ export const ABOUT_CONTENT = {
       { label: 'Phone:', value: ` ${CONTACT_PHONE_INTL}` },
       { label: 'Address:', value: ' Nanshan District, Shenzhen, Guangdong, China 518000' },
       { label: 'Website:', value: ` ${SITE_DOMAIN}` },
-      { label: 'Status:', value: ' Open to cloud-native backend roles (1-month notice)' },
+      {
+        label: 'Status:',
+        value:
+          ' Leaving Fanxin on Jul 1, 2026; joining OneConnect Financial Technology in the overseas life insurance backend TL role on Jul 6, 2026'
+      },
       {
         label: 'Certifications:',
         value: ' AWS Certified Solutions Architect – Associate (Jun 2025)'
@@ -93,11 +98,24 @@ export const ABOUT_CONTENT = {
       title: 'Experience',
       entries: [
         {
-          period: 'Jun 2024 - Present',
+          period: 'Starts Jul 2026',
+          company: 'OneConnect Financial Technology',
+          title: 'Senior Backend Engineer / Team Lead - Overseas Life Insurance',
+          summary:
+            'Incoming role with the Insurance Business Unit overseas life insurance team, leading backend engineers and delivery for insurance platform systems.',
+          bullets: [
+            'Lead engineering goals, delivery feedback, and development planning for backend team members.',
+            'Partner with product managers and local/global engineering teams to turn insurance product requirements into technical plans.',
+            'Design, review, and deliver Java backend services for distributed, high-concurrency, and high-availability systems.',
+            'Maintain standards for code review, REST/HTTP integrations, Docker-based delivery, and service quality.'
+          ]
+        },
+        {
+          period: 'Jun 2024 - Jul 2026',
           company: 'Shenzhen Fanxin Technology',
           title: 'Java Backend Engineer - Cloud-Native',
           summary:
-            'API-first SaaS with merchant console, developer portal, and embeddable widgets; lead Java backend and cloud-native delivery.',
+            'API-first SaaS with merchant console, developer portal, and embeddable widgets; led Java backend and cloud-native delivery.',
           bullets: [
             'Drove microservice design and API contracts, strengthening auth, idempotency, and rate limiting with OpenAPI-driven docs and SDKs.',
             'Built multi-environment CI/CD with blue-green, canary, and feature flags for safe releases and rapid rollback.',
@@ -198,15 +216,16 @@ export const ABOUT_CONTENT = {
     heroTaglines: [
       '后端工程师',
       'Java 与 Spring Boot',
+      '金融科技 TL',
       '云原生平台',
-      'Kubernetes 与 Terraform',
-      'CI/CD 自动化'
+      'Kubernetes 与 Terraform'
     ],
     subTitle: '我是谁？',
     title: '自我介绍',
     greeting: '你好，',
     paragraphs: [
       '大家好，我是张人大，常驻深圳的后端工程师，拥有 5 年 Java/Spring 交付经验。',
+      '2026 年 7 月 6 日起，我将加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。',
       '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 安全交付。',
       '擅长建立端到端可观测性与性能防护体系，利用 Redis 与消息队列优化高并发链路。',
       '与前端团队共建商家控制台等产品，按需选择 SSR/CSR/渐进水合并贯通埋点。',
@@ -219,7 +238,10 @@ export const ABOUT_CONTENT = {
       { label: '电话:', value: ` ${CONTACT_PHONE_LOCAL}` },
       { label: '地址:', value: ' 中国广东省深圳市南山区 518000' },
       { label: '网站:', value: ` ${SITE_DOMAIN}` },
-      { label: '状态:', value: ' 积极寻找后端/云原生开发岗位（一个月内可入职）' },
+      {
+        label: '状态:',
+        value: ' 将于 2026 年 7 月 1 日从凡新离职，7 月 6 日加入金融壹账通，任后端开发高级工程师/TL'
+      },
       {
         label: '认证:',
         value: ' AWS 认证解决方案架构师 – 助理（2025 年 6 月）'
@@ -279,11 +301,24 @@ export const ABOUT_CONTENT = {
       title: '经历',
       entries: [
         {
-          period: '2024年6月 - 至今',
+          period: '2026年7月起',
+          company: '金融壹账通',
+          title: '后端开发高级工程师 / TL（保险事业部海外寿险团队）',
+          summary:
+            '即将加入保险事业部海外寿险团队，负责后端工程团队协作、技术方案、代码质量与保险平台交付。',
+          bullets: [
+            '带领工程师团队设定目标，跟进交付反馈和发展计划。',
+            '与产品经理协作分析保险产品需求，制定技术方案和执行计划。',
+            '参与 Java 后端服务的设计、实现和交付，审查团队技术设计和代码质量。',
+            '协调本地/全球工程、基础设施和产品团队，保障分布式、高并发、高可用服务质量。'
+          ]
+        },
+        {
+          period: '2024年6月 - 2026年7月',
           company: '深圳市凡新科技有限公司',
           title: 'Java 后端开发工程师（云原生方向）',
           summary:
-            '面向 B 端的 API-first SaaS，提供管理控制台、开发者门户与嵌入式组件，负责后端与云原生交付。',
+            '面向 B 端的 API-first SaaS，提供管理控制台、开发者门户与嵌入式组件，曾负责后端与云原生交付。',
           bullets: [
             '主导微服务建模与接口契约，完善鉴权、幂等与限流策略，并结合 OpenAPI 沉淀文档与 SDK。',
             '建设多环境 CI/CD 流程，引入蓝绿、金丝雀与特性开关，保障版本可灰度可回滚。',

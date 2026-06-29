@@ -12,7 +12,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-本文记录当前前端站点面向搜索引擎和生成式搜索系统的公开可发现性约定。目标是让搜索引擎和 AI 清楚识别“张人大 / Renda Zhang 是深圳后端、云原生、Java/Spring、AWS/GCP 软件工程师”，同时避免暴露私密联系信息、聊天内容、表单内容或服务器细节。
+本文记录当前前端站点面向搜索引擎和生成式搜索系统的公开可发现性约定。目标是让搜索引擎和 AI 清楚识别“张人大 / Renda Zhang 是深圳后端、金融科技、保险平台、云原生、Java/Spring、AWS/GCP 软件工程师，并将于 2026 年 7 月加入金融壹账通担任后端开发高级工程师/TL”，同时避免暴露私密联系信息、聊天内容、表单内容或服务器细节。
 
 ## Canonical Host
 

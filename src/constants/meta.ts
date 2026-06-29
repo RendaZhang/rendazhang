@@ -9,11 +9,11 @@ export const DOCS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/docs/#webpage`;
 export const CERTIFICATIONS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#webpage`;
 export const AWS_SAA_CREDENTIAL_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#aws-saa-c03`;
 export const SITE_DESCRIPTION_EN =
-  'Renda Zhang is a Shenzhen-based Java/Spring backend and cloud-native software engineer focused on AWS, GCP, Kubernetes, APIs, and reliable delivery.';
+  'Renda Zhang is a Shenzhen-based Java/Spring backend and cloud-native software engineer joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026, focused on insurance platforms, AWS, GCP, Kubernetes, APIs, and reliable delivery.';
 
 export const PAGE_TITLES = {
-  ABOUT_ZH: '张人大 · 软件开发工程师',
-  ABOUT_EN: 'Renda Zhang · Software Engineer',
+  ABOUT_ZH: '张人大 · 后端开发高级工程师 / TL',
+  ABOUT_EN: 'Renda Zhang · Senior Backend Engineer / TL',
   DOCS_ZH: '技术文档 · 张人大',
   DOCS_EN: 'Technical Documentation · Renda Zhang',
   LOGIN_ZH: '登录',
@@ -148,27 +148,30 @@ export const PERSON_SCHEMA = {
   hasCredential: [{ '@id': AWS_SAA_CREDENTIAL_SCHEMA_ID }],
   url: SITE_BASE_URL,
   image: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
-  jobTitle: 'Software Engineer',
+  jobTitle: 'Senior Backend Engineer / Team Lead',
   hasOccupation: {
     '@type': 'Occupation',
-    name: 'Backend Software Engineer',
+    name: 'Senior Backend Engineer / Team Lead',
     occupationLocation: {
       '@type': 'City',
       name: GEO_PLACENAME_EN
     },
     skills:
-      'Java, Spring, API design, cloud-native architecture, AWS, Google Cloud Platform, Kubernetes, Terraform, observability'
+      'Java, Spring, API design, insurance platforms, cloud-native architecture, AWS, Google Cloud Platform, Kubernetes, Terraform, observability, team leadership'
   },
   knowsAbout: [
     'Java',
     'Spring',
+    'Insurance platforms',
+    'Financial technology',
     'Cloud-native architecture',
     'AWS',
     'Google Cloud Platform',
     'Kubernetes',
     'Terraform',
     'API design',
-    'Observability'
+    'Observability',
+    'Team leadership'
   ],
   address: {
     '@type': 'PostalAddress',
@@ -176,9 +179,11 @@ export const PERSON_SCHEMA = {
     addressRegion: 'Guangdong',
     addressCountry: 'CN'
   },
-  worksFor: {
+  affiliation: {
     '@type': 'Organization',
-    name: 'Self-Employed'
+    name: 'OneConnect Financial Technology',
+    description:
+      'Incoming employer for a Senior Backend Engineer / Team Lead role starting July 2026.'
   },
   sameAs: SOCIAL_PROFILE_URLS,
   description: SITE_DESCRIPTION_EN

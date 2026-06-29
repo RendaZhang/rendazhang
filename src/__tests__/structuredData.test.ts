@@ -39,11 +39,26 @@ describe('structured data builders', () => {
     expect(serialized).toContain('张人大');
     expect(serialized).toContain('Java');
     expect(serialized).toContain('Kubernetes');
+    expect(serialized).toContain('OneConnect Financial Technology');
+    expect(serialized).toContain('Senior Backend Engineer / Team Lead');
+    expect(serialized).toContain('Insurance platforms');
+    expect(serialized).toContain('Incoming employer');
     expect(serialized).not.toContain('@qq.com');
     expect(serialized).not.toContain('+86-139');
     expect(serialized).not.toContain('139250');
+    expect(serialized).not.toContain('salary');
+    expect(serialized).not.toContain('薪资');
+    expect(serialized).not.toContain('报到地点');
 
-    expect(findNode(graph, PERSON_SCHEMA_ID)['@type']).toBe('Person');
+    const person = findNode(graph, PERSON_SCHEMA_ID);
+    expect(person['@type']).toBe('Person');
+    expect(person['worksFor']).toBeUndefined();
+    expect(person['affiliation']).toEqual(
+      expect.objectContaining({
+        '@type': 'Organization',
+        name: 'OneConnect Financial Technology'
+      })
+    );
     expect(findNode(graph, WEBSITE_SCHEMA_ID)['@type']).toBe('WebSite');
     expect(findNode(graph, AWS_SAA_CREDENTIAL_SCHEMA_ID)['@type']).toBe(
       'EducationalOccupationalCredential'

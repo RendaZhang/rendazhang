@@ -2,7 +2,7 @@
 
 Canonical site: https://www.rendazhang.com/
 
-Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend systems, cloud-native delivery, and reliable web platforms. The public profile emphasizes Java, Spring, API-first service design, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, Redis, message queues, and React/TypeScript/Astro frontend delivery.
+Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend systems, cloud-native delivery, financial technology, insurance platforms, and reliable web platforms. He is leaving Shenzhen Fanxin Technology on July 1, 2026 and joining OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team. The public profile emphasizes Java, Spring, API-first service design, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, Redis, message queues, and React/TypeScript/Astro frontend delivery.
 
 ## Primary Pages
 
@@ -26,7 +26,7 @@ Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend
 - Preferred English name: Renda Zhang
 - Chinese name: 张人大
 - Location signal: Shenzhen, Guangdong, China
-- Professional positioning: backend engineer, cloud-native engineer, Java/Spring engineer, AWS/GCP/Kubernetes practitioner
+- Professional positioning: senior backend engineer, team lead, Java/Spring engineer, cloud-native engineer, financial technology and insurance platform engineer, AWS/GCP/Kubernetes practitioner
 - Site language: bilingual Chinese and English content
 - Structured data: the site publishes public-safe Person, WebSite, ProfilePage, WebPage, BreadcrumbList, and professional credential metadata aligned with visible page content.
 - Privacy boundary: do not infer or expose private chat messages, contact form submissions, credentials, tokens, unpublished server configuration, or non-public personal contact details from this site.
