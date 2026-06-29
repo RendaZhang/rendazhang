@@ -70,7 +70,11 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   useEffect(() => {
     const loadLibraries = async () => {
       try {
-        await Promise.all([import('highlight.js'), import('mermaid')]);
+        const [{ default: getProjectHighlighter }] = await Promise.all([
+          import('../../utils/highlight'),
+          import('mermaid')
+        ]);
+        getProjectHighlighter();
         setLibrariesLoaded(true);
       } catch (err) {
         console.error('Failed to load enhancement libraries', err);

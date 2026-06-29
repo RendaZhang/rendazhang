@@ -20,6 +20,7 @@
     - [8.3 Global Theme Palette Store](#83-global-theme-palette-store)
     - [8.4 Theme Color Switcher MVP](#84-theme-color-switcher-mvp)
     - [8.5 Interaction Component Standards](#85-interaction-component-standards)
+    - [8.9 Bundle Chunk Warning Triage](#89-bundle-chunk-warning-triage)
   - [未来切片验证门禁](#%E6%9C%AA%E6%9D%A5%E5%88%87%E7%89%87%E9%AA%8C%E8%AF%81%E9%97%A8%E7%A6%81)
   - [公开安全边界](#%E5%85%AC%E5%BC%80%E5%AE%89%E5%85%A8%E8%BE%B9%E7%95%8C)
   - [与现有文档的关系](#%E4%B8%8E%E7%8E%B0%E6%9C%89%E6%96%87%E6%A1%A3%E7%9A%84%E5%85%B3%E7%B3%BB)
@@ -29,7 +30,7 @@
 # 前端体验平台 RFC
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
+- **最后更新**: June 29, 2026, 13:50 (UTC+08:00)
 
 ## 文档目的
 
@@ -224,6 +225,22 @@ npm run smoke:browser
 - keyboard、focus trap、escape、aria、reduced motion。
 - 共享 primitive 与局部组件状态的选择规则。
 - 交互组件的单元测试和浏览器 smoke 要求。
+
+### 8.9 Bundle Chunk Warning Triage
+
+已完成构建 chunk warning 分析并做最小切分：
+
+- 最大的 `highlight.js` 全语言 chunk 已替换为 `highlight.js/lib/common` 加项目需要的
+  `nginx` 语言注册，避免首页通过 sections barrel 提前拉入全量高亮库。
+- Docs 页面增强逻辑改为在 `DocsEffects` 挂载后动态加载 `marked`、project highlighter 和
+  `mermaid`。
+- Chat Markdown 增强仍等待 highlighter 与 Mermaid 可用后再发布当前 iframe ready 条件，
+  不改变 Chat Widget 同源 iframe 协议。
+- 剩余 Vite large chunk warning 来自 Mermaid 包内部动态模块，例如 `mermaid.core` 和
+  `wardley` parser；当前不通过调高 `chunkSizeWarningLimit` 隐藏 warning，也不做高风险的
+  Mermaid diagram 子集重写。
+
+后续如果新增大量 Markdown、Mermaid 或代码高亮能力，应按 `docs/TESTING.md` 中的构建体积检查重新确认 chunk 来源、gzip 体积和浏览器 smoke。
 
 ## 未来切片验证门禁
 

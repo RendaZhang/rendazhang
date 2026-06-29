@@ -6,6 +6,7 @@
   - [先决条件](#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6)
   - [运行测试](#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95)
   - [静态检查](#%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5)
+  - [构建体积与 chunk warning](#%E6%9E%84%E5%BB%BA%E4%BD%93%E7%A7%AF%E4%B8%8E-chunk-warning)
   - [测试用例说明](#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%B4%E6%98%8E)
     - [`src/__tests__/env.test.ts`](#src__tests__envtestts)
     - [`src/__tests__/storage.test.ts`](#src__tests__storagetestts)
@@ -20,7 +21,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
+- **最后更新**: June 29, 2026, 13:50 (UTC+08:00)
 
 ---
 
@@ -87,6 +88,31 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 - ESLint 同时强制当前低误报的 import-boundary 子集：services、controllers、stores、utils、content、components 和 hooks 不能跨越 `docs/DIRECTORY_OWNERSHIP.md` 中已经落地的稳定所有权边界。
 - 当前未引入 `eslint-plugin-react-hooks` 或 `eslint-plugin-jsx-a11y`。Hooks exhaustive deps 与更广泛的 JSX a11y 规则仍按代码评审检查，是否新增依赖留给后续切片决策。
 - 影响主题、导航、Chat Widget、iframe、认证表单、modal/popover/menu、overlay、focus/keyboard 行为或 hydration 顺序的切片应把 `npm run smoke:browser` 加入验证清单。该命令是浏览器行为门禁，不替代 Vitest、Astro check、TypeScript 或 ESLint。
+
+## 构建体积与 chunk warning
+
+`npm run build` 可能继续输出 Vite 的 “Some chunks are larger than 500 kB after minification”
+提示。当前已确认：
+
+- 旧的最大 chunk 来自全量 `highlight.js` 语言包；代码现在通过
+  `src/utils/highlight.ts` 使用 `highlight.js/lib/common`，并补注册站点文档需要的 `nginx`
+  语言。
+- Docs 页面增强逻辑在 `DocsEffects` 挂载后动态加载 `marked`、project highlighter 和
+  `mermaid`，首页不应因为 sections barrel 提前加载 Markdown 增强库。
+- 剩余超过 500 kB raw minified 阈值的 chunk 来自 Mermaid 自身的动态模块，例如
+  `mermaid.core` 和 `wardley` parser。gzip 后体积明显低于 raw warning，且只在 docs 或 Chat
+  Markdown 增强路径需要 Mermaid 时加载。
+
+后续如果改动 Markdown、Docs、Chat 消息渲染或 Mermaid 逻辑，应至少重新运行：
+
+```bash
+npm run build
+find dist/_astro -type f -name '*.js' -exec ls -lh {} + | awk '{print $5, $9}' | sort -hr | head -20
+npm run smoke:browser
+```
+
+不要仅通过提高 `build.chunkSizeWarningLimit` 来隐藏 warning；只有在确认 warning 来源、加载路径和
+gzip 体积后，才记录为可接受残余风险。
 
 ## 测试用例说明
 

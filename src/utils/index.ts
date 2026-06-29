@@ -2,6 +2,8 @@
 export * from './auth';
 export * from './env';
 export * from './heroImages';
+export * from './highlight';
+export { default as highlight } from './highlight';
 export * from './langUtils';
 export * from './logger';
 export { default as logger } from './logger';

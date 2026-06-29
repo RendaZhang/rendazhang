@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { DOC_CONTENT } from '../../constants';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
-import mermaid from 'mermaid';
 import logger from '../../utils/logger';
 
 export default function DocsEffects(): null {
   useEffect(() => {
-    try {
+    let cancelled = false;
+
+    const applyEnhancements = async () => {
+      const [{ marked }, { default: getProjectHighlighter }, { default: mermaid }] =
+        await Promise.all([import('marked'), import('../../utils/highlight'), import('mermaid')]);
+      if (cancelled) return;
+
+      const hljs = getProjectHighlighter();
       const zhData = DOC_CONTENT.README_ZH;
       const enData = DOC_CONTENT.README_EN;
 
@@ -61,10 +65,18 @@ export default function DocsEffects(): null {
           : '#content-en .language-mermaid';
       void mermaid.run({ querySelector: mermaidSelector });
       logger.log('All enhancements applied');
-    } catch {
+    };
+
+    void applyEnhancements().catch((error) => {
+      logger.error('Docs enhancement error:', error);
+      if (cancelled) return;
       document.getElementById('content-zh')!.innerHTML = '<p>加载文档时出错</p>';
       document.getElementById('content-en')!.innerHTML = '<p>Error loading documentation</p>';
-    }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return null;

@@ -49,7 +49,8 @@ async function renderMermaidDiagrams(container: HTMLElement | null): Promise<voi
 
 export async function applyEnhancements(container: HTMLElement | null): Promise<void> {
   if (!container) return;
-  const { default: hljs } = await import('highlight.js');
+  const { default: getProjectHighlighter } = await import('../utils/highlight');
+  const hljs = getProjectHighlighter();
   container.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) {
       return;
