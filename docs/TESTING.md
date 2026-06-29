@@ -5,6 +5,7 @@
   - [简介](#%E7%AE%80%E4%BB%8B)
   - [先决条件](#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6)
   - [运行测试](#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95)
+  - [视觉与交互 QA](#%E8%A7%86%E8%A7%89%E4%B8%8E%E4%BA%A4%E4%BA%92-qa)
   - [静态检查](#%E9%9D%99%E6%80%81%E6%A3%80%E6%9F%A5)
   - [构建体积与 chunk warning](#%E6%9E%84%E5%BB%BA%E4%BD%93%E7%A7%AF%E4%B8%8E-chunk-warning)
   - [测试用例说明](#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%B4%E6%98%8E)
@@ -21,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 13:50 (UTC+08:00)
+- **最后更新**: June 29, 2026, 19:16 (UTC+08:00)
 
 ---
 
@@ -34,7 +35,7 @@
 - [@vitest/coverage-v8](https://vitest.dev/guide/coverage.html)：生成覆盖率报告。
 - [Playwright](https://playwright.dev/)：运行最小浏览器 smoke，覆盖真实 Chromium console、hydration、Chat Widget iframe ready、主题 mode 和 palette 切换状态。
 
-Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。交互组件的键盘、focus、ARIA、状态和 browser smoke 门禁见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
+Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。Phase 9 的视觉与交互 polish 验证边界见：[外观与交互 Polish](./VISUAL_INTERACTION_POLISH.md)。交互组件的键盘、focus、ARIA、状态和 browser smoke 门禁见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
 
 如需手动安装，可执行：
 
@@ -79,6 +80,24 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   - theme palette 切换后 `html[data-palette]`、swatch 选中态 `aria-pressed` 和 `preferred_palette` storage 保持一致。
 
   该 smoke 会拦截 `/cloudchat/auth/me` 并以 logged-out 响应兜底，同时断言 logged-out 公共页面不会发起该探测请求。它不发送真实用户信息，也不覆盖 Chat streaming、auth 表单提交或后端 API 行为。
+
+## 视觉与交互 QA
+
+视觉或交互 polish slice 需要保留足够证据，证明改动没有引入首屏、主题、Chat Widget、移动端或
+console 回归：
+
+- 优先使用 Browser 插件检查真实页面；如果 Browser 控制超时或不可用，可以使用 Playwright
+  fallback。
+- 截图和临时 trace 只保存在 `/tmp` 等临时目录，不提交到仓库，除非任务明确要求沉淀视觉基线。
+- 默认至少检查桌面 `1366x900` 和移动端 `390x844`；若改动影响特定断点，应补充对应视口。
+- 记录首页首屏、导航/主题菜单、palette 切换、Chat Widget 打开/ready 状态，以及被改页面的核心
+  交互。
+- 检查 `html[data-theme]`、`html[data-palette]`、关键 `aria-*` / `aria-pressed` 状态和浏览器
+  console warning/error。
+- 影响主题、导航、Chat Widget、iframe、hydration 或 CSP 的实现 slice 必须运行
+  `npm run smoke:browser`。
+- 文档-only 或计划-only slice 不需要 `npm run test:coverage` 或 `npm run smoke:browser`，但最终报告
+  必须说明不适用原因。
 
 ## 静态检查
 

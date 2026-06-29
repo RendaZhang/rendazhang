@@ -90,6 +90,7 @@ repos:
         name: Update docs (TOC + Last Updated)
         entry: npm run update-docs
         language: system
+        require_serial: true
         files: ^(README(?:_EN)?\.md|docs/.*\.md)$
         stages: [pre-commit]
 

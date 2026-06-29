@@ -12,6 +12,7 @@
   - [PostCSS 集成](#postcss-%E9%9B%86%E6%88%90)
   - [配色方案](#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
     - [色彩阶梯与彩度限制](#%E8%89%B2%E5%BD%A9%E9%98%B6%E6%A2%AF%E4%B8%8E%E5%BD%A9%E5%BA%A6%E9%99%90%E5%88%B6)
+    - [Phase 9 外观与交互 Polish 约束](#phase-9-%E5%A4%96%E8%A7%82%E4%B8%8E%E4%BA%A4%E4%BA%92-polish-%E7%BA%A6%E6%9D%9F)
   - [排版与间距](#%E6%8E%92%E7%89%88%E4%B8%8E%E9%97%B4%E8%B7%9D)
     - [示例](#%E7%A4%BA%E4%BE%8B)
       - [✅ Do](#-do)
@@ -28,7 +29,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
+- **最后更新**: June 29, 2026, 19:16 (UTC+08:00)
 
 ---
 
@@ -36,7 +37,7 @@
 
 本指南概述了项目当前的样式体系、构建工具链、配色方案以及未来可扩展的方向。
 
-主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。具体 token、DOM、storage 与验证模型见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。modal、popover/menu、toast/status、loading、键盘行为和 focus 管理规则见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。
+主题调色板和 accent 扩展的阶段性规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。具体 token、DOM、storage 与验证模型见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。modal、popover/menu、toast/status、loading、键盘行为和 focus 管理规则见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。Phase 9 的首屏观感、palette 感知和交互 polish 方向见：[外观与交互 Polish](./VISUAL_INTERACTION_POLISH.md)。
 
 ---
 
@@ -216,6 +217,21 @@ graph LR
 - 对比度以明度 `L` 为基准，暗背景建议 ≥40%，亮背景建议 ≤90%，确保暗/亮模式下视觉一致。
 - 彩度 `C` 控制在 `0.25` 以下，以避免高饱和度导致的设备差异。
 - 标准色阶示例：品牌色 45%、强调色 60%、辅助色 70%，可在此基础上按需扩展。
+
+### Phase 9 外观与交互 Polish 约束
+
+Phase 9 可以让站点更鲜明、更有记忆点，但仍应保持 token 驱动、可访问和专业可信：
+
+- Palette 的视觉影响应优先通过 `html[data-palette]` 和语义 token 扩展，禁止在组件里散落硬编码
+  品牌色。
+- 更明显的 palette 差异可以落在导航选中态、主行动入口、section marker、focus ring、Chat
+  Widget 外壳、docs 链接和卡片边界等关键位置。
+- 新增色彩必须继续满足正文文本 ≥ 4.5:1、UI 文本与图标 ≥ 3:1 的对比度要求。
+- 动效必须使用现有 `--duration-*` 与 `--easing-*` token，并遵守
+  `prefers-reduced-motion`；避免长时间、无明确状态含义的装饰动画。
+- 首屏 polish 应优先改善层级、信息密度和下一段内容提示，不应通过大面积无关装饰或单一色相堆叠
+  来制造视觉冲击。
+- 移动端样式改动必须验证窄屏下无横向溢出，Chat Widget、导航菜单和主题菜单不能遮挡关键内容。
 
 ---
 
