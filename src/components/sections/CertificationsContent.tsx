@@ -10,51 +10,55 @@ export default function CertificationsContent(): ReactElement {
   const textsZh = CERTIFICATIONS_CONTENT.zh;
 
   return (
-    <div className="container">
-      <h1>
-        <LocalizedSection zhContent={textsZh.heading} enContent={textsEn.heading} />
-      </h1>
+    <div className="c-cert-container">
+      <header className="c-cert-hero">
+        <h1>
+          <LocalizedSection zhContent={textsZh.heading} enContent={textsEn.heading} />
+        </h1>
+      </header>
 
       <section className="c-cert-grid">
         {textsZh.certificates.map((certZh, idx) => {
           const certEn = textsEn.certificates[idx];
           return (
             <article className="c-cert-card" key={idx}>
-              <h2>
-                <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
-              </h2>
-              <p>
-                <LocalizedSection
-                  zhContent={
-                    <>
-                      <strong>{certZh.nameLabel}</strong> {certZh.name}
-                    </>
-                  }
-                  enContent={
-                    <>
-                      <strong>{certEn.nameLabel}</strong> {certEn.name}
-                    </>
-                  }
-                />
-              </p>
-              <p>
-                <LocalizedSection
-                  zhContent={
-                    <>
-                      <strong>{certZh.issuedLabel}</strong> {certZh.issued}
-                      &nbsp;&nbsp;•&nbsp;&nbsp;
-                      <strong>{certZh.expiresLabel}</strong> {certZh.expires}
-                    </>
-                  }
-                  enContent={
-                    <>
-                      <strong>{certEn.issuedLabel}</strong> {certEn.issued}
-                      &nbsp;&nbsp;•&nbsp;&nbsp;
-                      <strong>{certEn.expiresLabel}</strong> {certEn.expires}
-                    </>
-                  }
-                />
-              </p>
+              <div className="c-cert-card-copy">
+                <h2>
+                  <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
+                </h2>
+                <dl className="c-cert-meta">
+                  <div>
+                    <dt>
+                      <LocalizedSection zhContent={certZh.nameLabel} enContent={certEn.nameLabel} />
+                    </dt>
+                    <dd>
+                      <LocalizedSection zhContent={certZh.name} enContent={certEn.name} />
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      <LocalizedSection
+                        zhContent={certZh.issuedLabel}
+                        enContent={certEn.issuedLabel}
+                      />
+                    </dt>
+                    <dd>
+                      <LocalizedSection zhContent={certZh.issued} enContent={certEn.issued} />
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      <LocalizedSection
+                        zhContent={certZh.expiresLabel}
+                        enContent={certEn.expiresLabel}
+                      />
+                    </dt>
+                    <dd>
+                      <LocalizedSection zhContent={certZh.expires} enContent={certEn.expires} />
+                    </dd>
+                  </div>
+                </dl>
+              </div>
               <CredlyBadge />
               <p className="c-verify-links">
                 <a

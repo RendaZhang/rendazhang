@@ -1,7 +1,18 @@
 /* Docs pages adhere to spacing tokens and `--measure` for readability */
 main.c-main-content.c-docs-main {
   max-width: var(--measure);
-  padding: var(--space-1) 0;
+  padding: var(--space-6) 0 var(--space-8);
+  width: min(var(--measure), calc(100% - var(--space-6)));
+}
+
+main.c-main-content.c-docs-main .c-markdown-body {
+  background: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
+  border: var(--border-1);
+  border-color: var(--color-palette-border);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-2);
+  color: var(--md-color-text);
+  padding: var(--space-7);
 }
 
 main.c-main-content.c-docs-main h1,
@@ -13,16 +24,183 @@ main.c-main-content.c-docs-main h6 {
   scroll-margin-top: var(--space-10);
 }
 
+main.c-main-content.c-docs-main .c-markdown-body h1 {
+  border-bottom-color: var(--color-palette-border);
+  color: var(--color-text);
+  letter-spacing: 0;
+  margin-top: var(--space-2);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body h2 {
+  border-bottom-color: var(--color-palette-border);
+  color: var(--color-text);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body h3 {
+  color: var(--color-brand-secondary);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body p,
+main.c-main-content.c-docs-main .c-markdown-body li {
+  line-height: var(--line-height-5);
+}
+
 main.c-main-content.c-docs-main .c-markdown-body a {
   border-radius: calc(var(--radius-xs) / 2);
+  color: var(--md-color-link);
+  text-decoration-color: color-mix(in srgb, var(--md-color-link) 45%, transparent);
+  text-decoration-thickness: var(--border-width-hairline);
+  text-underline-offset: calc(var(--space-1) / 2);
   transition:
+    background-color var(--duration-fast) var(--easing-standard),
     color var(--duration-fast) var(--easing-standard),
+    text-decoration-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body a:hover {
+  background-color: color-mix(in srgb, var(--color-palette-surface) 72%, transparent);
+  color: var(--md-color-link-hover);
+  text-decoration-color: currentColor;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body a:active {
+  color: var(--md-color-link-active);
 }
 
 main.c-main-content.c-docs-main .c-markdown-body a:focus-visible {
   box-shadow: var(--focus-ring);
-  outline: none;
+  outline: var(--border-width-hairline) solid var(--color-palette-border);
+  outline-offset: var(--space-1);
+  text-decoration-color: currentColor;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type {
+  background: color-mix(in srgb, var(--color-palette-surface) 72%, var(--color-surface));
+  border: var(--border-1);
+  border-left: var(--space-1) solid var(--color-palette-border);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-1);
+  display: grid;
+  gap: var(--space-2) var(--space-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 var(--space-7);
+  max-block-size: min(calc(var(--space-10) * 7), calc(100vh - var(--space-10) * 2));
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type,
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type ul {
+  list-style: none;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type li {
+  margin: 0;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type ul {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-3);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type a {
+  align-items: center;
+  border-radius: var(--radius-xs);
+  display: inline-flex;
+  min-height: calc(var(--space-6) + var(--space-1));
+  padding: 0 var(--space-1);
+  text-decoration: none;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type > li > a {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type ul a {
+  color: color-mix(in srgb, var(--md-color-link) 68%, var(--color-text));
+  font-size: var(--font-size-1);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body blockquote {
+  background: color-mix(in srgb, var(--color-palette-surface) 55%, var(--color-surface));
+  border-left-color: var(--color-palette-border);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  color: var(--md-color-text);
+  padding: var(--space-3) var(--space-4);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body code,
+main.c-main-content.c-docs-main .c-markdown-body tt {
+  background-color: color-mix(in srgb, var(--color-palette-surface) 64%, var(--color-surface));
+  border: var(--border-width-hairline) solid var(--color-border-soft);
+  border-radius: var(--radius-xs);
+  color: var(--md-color-text);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body pre,
+main.c-main-content.c-docs-main .c-markdown-body [class~='highlight'] pre {
+  background: var(--md-color-pre-bg);
+  border: var(--border-1);
+  border-color: var(--color-border-soft);
+  border-radius: var(--radius-s);
+  box-shadow: inset 0 var(--border-width-hairline) 0
+    color-mix(in srgb, var(--color-base-white) 38%, transparent);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body pre > code {
+  background: transparent;
+  border: 0;
+}
+
+main.c-main-content.c-docs-main .c-markdown-body table {
+  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-bg));
+  border: var(--border-1);
+  border-color: var(--color-border-soft);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-md-table);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body table th {
+  background: var(--color-palette-surface);
+  color: var(--color-text);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body img,
+main.c-main-content.c-docs-main .c-markdown-body [class~='mermaid'] {
+  border-radius: var(--radius-s);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body [class~='mermaid'] {
+  background: color-mix(in srgb, var(--color-surface) 90%, var(--color-bg));
+  border: var(--border-1);
+  border-color: var(--color-border-soft);
+  overflow-x: auto;
+  padding: var(--space-4);
+}
+
+@media (max-width: 48rem) {
+  main.c-main-content.c-docs-main {
+    padding: var(--space-4) 0 var(--space-7);
+    width: calc(100% - var(--space-4));
+  }
+
+  main.c-main-content.c-docs-main .c-markdown-body {
+    padding: var(--space-4);
+  }
+
+  main.c-main-content.c-docs-main .c-markdown-body h1 {
+    font-size: var(--font-size-4);
+  }
+
+  main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type {
+    grid-template-columns: 1fr;
+    margin-bottom: var(--space-6);
+    max-block-size: calc(var(--space-10) * 5);
+    padding: var(--space-3);
+  }
 }
 
 /* Loading animation for docs page is styled globally in theme.css */
