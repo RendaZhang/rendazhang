@@ -78,12 +78,19 @@ nav {
       transform var(--duration-fast) var(--easing-standard),
       filter var(--duration-fast) var(--easing-standard);
 
-    &:hover {
+    &:disabled {
+      cursor: not-allowed;
+      filter: none;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    &:not(:disabled):hover {
       filter: brightness(1.1);
       transform: scale(1.05); /* enlarge slightly on hover */
     }
 
-    &:active {
+    &:not(:disabled):active {
       transform: scale(0.95); /* press feedback */
     }
   }
@@ -108,10 +115,12 @@ nav {
     border-radius: var(--radius-s);
     box-shadow: none;
     color: var(--color-nav-text);
+    min-height: calc(var(--space-8) - var(--space-1));
     padding: var(--space-2) var(--space-3);
     text-decoration: none;
     transition:
       background-color var(--duration-normal),
+      box-shadow var(--duration-normal),
       color var(--duration-normal);
   }
 
@@ -120,21 +129,31 @@ nav {
     cursor: pointer;
   }
 
-  a:hover,
-  button:not(.c-theme-option):hover {
-    background-color: var(--color-palette-surface);
-    color: var(--color-text);
-  }
-
-  a:active,
-  button:not(.c-theme-option):active {
-    background-color: var(--color-palette-surface-strong);
+  button:not(.c-theme-option):disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 
   a:focus-visible,
   button:not(.c-theme-option):focus-visible {
     box-shadow: var(--focus-ring);
     outline: none;
+  }
+
+  a:hover,
+  button:not(.c-theme-option):not(:disabled):hover {
+    background-color: var(--color-palette-surface);
+    color: var(--color-text);
+  }
+
+  a:active,
+  button:not(.c-theme-option):not(:disabled):active {
+    background-color: var(--color-palette-surface-strong);
+  }
+
+  a:hover:focus-visible,
+  button:not(.c-theme-option):not(:disabled):hover:focus-visible {
+    box-shadow: var(--focus-ring);
   }
 
   /* Hamburger menu */
@@ -181,6 +200,7 @@ nav {
     display: flex;
     font-size: var(--font-size-1);
     gap: var(--space-1);
+    min-height: calc(var(--space-8) - var(--space-1));
     padding: var(--space-2) var(--space-3);
     position: relative;
     text-decoration: none;
@@ -236,13 +256,15 @@ nav {
     border-radius: var(--radius-xs);
     cursor: pointer;
     display: flex;
-    height: calc(var(--space-7) - var(--space-1));
+    height: calc(var(--space-8) - var(--space-1));
     justify-content: center;
     padding: 0;
     transition:
       background-color var(--duration-fast),
-      box-shadow var(--duration-fast);
-    width: calc(var(--space-7) - var(--space-1));
+      border-color var(--duration-fast),
+      box-shadow var(--duration-fast),
+      transform var(--duration-fast);
+    width: calc(var(--space-8) - var(--space-1));
 
     &.is-light {
       background-color: var(--color-light-gray);
@@ -278,6 +300,12 @@ nav {
       box-shadow:
         var(--shadow-elevation-2),
         0 0 0 2px var(--color-palette-surface);
+      transform: translateY(calc(var(--space-1) * -0.5));
+    }
+
+    &:active {
+      box-shadow: var(--shadow-elevation-1);
+      transform: translateY(0);
     }
 
     &.is-active {
@@ -290,6 +318,13 @@ nav {
     &:focus-visible {
       box-shadow: var(--focus-ring);
       outline: none;
+    }
+
+    &.is-active:focus-visible {
+      box-shadow:
+        var(--shadow-elevation-1),
+        0 0 0 2px var(--color-palette-surface-strong),
+        var(--focus-ring);
     }
   }
 
@@ -310,6 +345,7 @@ nav {
     display: flex;
     font-size: var(--font-size-1);
     gap: var(--space-1);
+    min-height: calc(var(--space-8) - var(--space-1));
     padding: var(--space-2) var(--space-3);
     position: relative;
     text-decoration: none;
@@ -355,14 +391,25 @@ nav {
     color: var(--color-nav-text);
     cursor: pointer;
     font-size: var(--font-size-1);
+    min-height: calc(var(--space-8) - var(--space-1));
     padding: var(--space-1) var(--space-2);
     transition:
       background-color var(--duration-fast),
-      box-shadow var(--duration-fast);
+      border-color var(--duration-fast),
+      box-shadow var(--duration-fast),
+      color var(--duration-fast),
+      transform var(--duration-fast);
 
     &:hover {
       background-color: var(--color-palette-surface);
       box-shadow: var(--shadow-elevation-2);
+      color: var(--color-text);
+      transform: translateY(calc(var(--space-1) * -0.5));
+    }
+
+    &:active {
+      box-shadow: var(--shadow-elevation-1);
+      transform: translateY(0);
     }
 
     &.is-active {
@@ -375,6 +422,13 @@ nav {
     &:focus-visible {
       box-shadow: var(--focus-ring);
       outline: none;
+    }
+
+    &.is-active:focus-visible {
+      box-shadow:
+        var(--shadow-elevation-1),
+        0 0 0 2px var(--color-palette-surface-strong),
+        var(--focus-ring);
     }
   }
 
@@ -475,6 +529,26 @@ nav {
   }
 }
 
+.c-nav-container nav a:focus-visible,
+.c-nav-container nav button:not(.c-theme-option):not(:disabled):focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.c-nav-container nav .c-theme-option:focus-visible,
+.c-nav-container nav .c-language-option:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.c-nav-container nav .c-theme-option.is-active:focus-visible,
+.c-nav-container nav .c-language-option.is-active:focus-visible {
+  box-shadow:
+    var(--shadow-elevation-1),
+    0 0 0 2px var(--color-palette-surface-strong),
+    var(--focus-ring);
+}
+
 /* Theme toggle icons */
 .is-theme-light {
   display: inline-flex;
@@ -536,10 +610,12 @@ nav {
     box-shadow: none;
     color: var(--color-nav-text);
     display: block;
+    min-height: calc(var(--space-8) - var(--space-1));
     padding: var(--space-2) var(--space-3);
     text-decoration: none;
     transition:
       background-color var(--duration-normal),
+      box-shadow var(--duration-normal),
       color var(--duration-normal);
 
     &:hover {

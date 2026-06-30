@@ -29,7 +29,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 30, 2026, 01:10 (UTC+08:00)
+- **最后更新**: June 30, 2026, 11:46 (UTC+08:00)
 
 ---
 
@@ -318,19 +318,20 @@ h1 {
 class 约定。
 
 - 新增设计 Token：`--radius-xs`、`--radius-s`、`--radius-m`、`--radius-l`、`--border-width-hairline`、`--border-0`…`--border-3`、`--shadow-elevation-1`…`--shadow-elevation-3`、`--shadow-login` 以及 `--focus-ring`。组件应优先引用这些变量以保持圆角、边框和阴影的一致性。
-- 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见。
+- 所有可聚焦元素在 `:focus-visible` 时使用 `box-shadow: var(--focus-ring)`，并根据需要叠加自身的阴影以确保键盘导航可见；当 hover 与 focus 同时存在时，focus ring 必须保留。
+- 紧凑图标按钮、导航菜单项和主题/语言选项应保持稳定的触屏目标，优先使用 spacing token 设置 `min-height` / `width`，避免 hover、loading 或文字切换造成布局跳动。
 - 交互态矩阵：
 
 | 状态          | 说明                                   |
 |---------------|----------------------------------------|
-| `:hover`      | 轻微提亮或提升阴影                     |
+| `:hover`      | 轻微提亮或提升阴影；禁用控件不响应 hover 提升 |
 | `:active`     | 按压回落，移除提升效果                 |
 | `:focus-visible` | `box-shadow: var(--focus-ring)` 高亮焦点 |
-| `:disabled`   | `opacity: 0.6; cursor: not-allowed;`   |
+| `:disabled`   | `opacity: 0.6; cursor: not-allowed;`，并抑制 hover/active 位移 |
 
 - 对比度要求：正文文本≥4.5:1，UI 文本与图标≥3:1，确保视觉可达性。
-- 导航、表单、聊天等组件已统一采用 `--radius-*`、`--shadow-elevation-*` 与
-  `--focus-ring` Token，确保交互态一致且可访问。
+- 导航、主题/语言菜单、按钮、表单、聊天、docs 链接和 certification 卡片已统一采用
+  `--radius-*`、`--shadow-elevation-*`、`--focus-ring`、palette surface/border 和 motion token，确保交互态一致且可访问。
 - 动画默认使用 `--easing-standard`、`--easing-entrance`、`--easing-exit` 统一缓动曲线，并在 `@media (prefers-reduced-motion: reduce)` 环境下将 `--duration-*` 变量降至 `0.01ms`，禁用多余动画。
   统一的时长档为 120/180/240ms，对应 `--duration-fast/normal/slow`。
 

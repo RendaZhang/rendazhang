@@ -68,6 +68,16 @@
   gap: var(--space-2);
   padding: var(--space-5);
   text-align: center;
+  transition:
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+
+  &:focus-within {
+    border-color: var(--color-palette-border);
+    box-shadow:
+      var(--shadow-elevation-1),
+      0 0 0 2px var(--color-palette-surface);
+  }
 
   &:focus-visible {
     box-shadow: var(--shadow-elevation-1), var(--focus-ring);

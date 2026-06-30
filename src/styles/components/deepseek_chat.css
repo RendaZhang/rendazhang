@@ -119,11 +119,32 @@
   max-height: calc(var(--space-10) + var(--space-7) + var(--space-2));
   padding: var(--space-4) var(--space-5);
   resize: none;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
 }
 
 .c-message-input:focus-visible {
+  border-color: var(--color-brand);
   box-shadow: var(--focus-ring);
   outline: none;
+}
+
+.c-message-input:disabled {
+  background: var(--color-subtle-bg);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.c-message-input:not(:disabled):hover {
+  border-color: var(--color-palette-border);
+}
+
+.c-message-input:not(:disabled):hover:focus-visible {
+  border-color: var(--color-brand);
+  box-shadow: var(--focus-ring);
 }
 
 .c-btn-container {
@@ -215,7 +236,20 @@
   left: var(--space-2);
   padding: var(--space-1) var(--space-2);
   position: absolute;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
   z-index: 1;
+}
+.c-copy-btn:hover {
+  background: var(--color-palette-surface);
+  box-shadow: var(--shadow-elevation-1);
+  color: var(--color-text);
+}
+.c-copy-btn:active {
+  transform: translateY(calc(var(--space-1) * 0.5));
 }
 .c-copy-btn:focus-visible {
   box-shadow: var(--focus-ring);
@@ -271,12 +305,6 @@
 .c-loading-indicator-text {
   position: relative;
   z-index: 1;
-}
-
-/* Disabled state styling */
-.c-message-input:disabled {
-  background: var(--color-subtle-bg);
-  cursor: not-allowed;
 }
 
 /* Enhancement progress indicator */

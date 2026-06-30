@@ -61,10 +61,19 @@
   transform: scale(0.96);
 }
 .c-back-to-top:focus-visible {
-  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+  box-shadow:
+    var(--shadow-elevation-2),
+    0 0 0 1px var(--color-palette-border),
+    var(--focus-ring);
   outline: none;
 }
 
 .c-back-to-top svg {
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-back-to-top {
+    transition: none;
+  }
 }

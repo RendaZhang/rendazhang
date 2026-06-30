@@ -13,4 +13,16 @@ main.c-main-content.c-docs-main h6 {
   scroll-margin-top: var(--space-10);
 }
 
+main.c-main-content.c-docs-main .c-markdown-body a {
+  border-radius: calc(var(--radius-xs) / 2);
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+main.c-main-content.c-docs-main .c-markdown-body a:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
 /* Loading animation for docs page is styled globally in theme.css */

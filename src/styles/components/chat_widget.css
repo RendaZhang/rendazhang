@@ -35,7 +35,10 @@
   transform: scale(0.96);
 }
 .c-chat-widget-toggle:focus-visible {
-  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+  box-shadow:
+    var(--shadow-elevation-2),
+    0 0 0 1px var(--color-palette-border),
+    var(--focus-ring);
   outline: none;
 }
 .c-chat-widget-toggle svg {
@@ -76,6 +79,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .c-chat-widget-toggle,
   .c-chat-widget-iframe {
     transition: none;
   }

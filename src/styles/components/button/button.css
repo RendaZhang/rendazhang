@@ -1,59 +1,100 @@
 /* Buttons */
 .c-btn-primary {
+  align-items: center;
   background: var(--gradient-primary);
   border: none;
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-elevation-2);
   color: var(--color-white);
+  cursor: pointer;
+  display: inline-flex;
+  gap: var(--space-2);
+  justify-content: center;
+  min-height: calc(var(--space-8) - var(--space-1));
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
   transition:
     filter var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard);
-
-  &:hover {
-    filter: brightness(1.1);
-    transform: translateY(calc(var(--space-1) * -0.5));
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
 
   &:focus-visible {
     box-shadow: var(--shadow-elevation-2), var(--focus-ring);
     outline: none;
   }
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled='true'] {
     box-shadow: none;
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none;
+  }
+
+  &:not(:disabled):hover {
+    box-shadow: var(--shadow-elevation-3);
+    filter: brightness(1.1);
+    transform: translateY(calc(var(--space-1) * -0.5));
+  }
+
+  &:not(:disabled):active {
+    box-shadow: var(--shadow-elevation-1);
+    transform: translateY(0);
+  }
+
+  &:not(:disabled):hover:focus-visible {
+    box-shadow: var(--shadow-elevation-3), var(--focus-ring);
   }
 }
 
 .c-btn-secondary {
+  align-items: center;
   background: var(--color-subtle-bg);
   border: var(--border-0);
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-elevation-1);
   color: var(--color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  gap: var(--space-2);
+  justify-content: center;
+  min-height: calc(var(--space-8) - var(--space-1));
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
   transition:
+    background-color var(--duration-normal) var(--easing-standard),
+    color var(--duration-normal) var(--easing-standard),
     filter var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard);
-
-  &:hover {
-    background: var(--color-subtle-bg-hover);
-    color: var(--color-text-darker);
-  }
 
   &:focus-visible {
     box-shadow: var(--shadow-elevation-1), var(--focus-ring);
     outline: none;
   }
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled='true'] {
     box-shadow: none;
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none;
+  }
+
+  &:not(:disabled):hover {
+    background: var(--color-subtle-bg-hover);
+    box-shadow: var(--shadow-elevation-2);
+    color: var(--color-text-darker);
+    transform: translateY(calc(var(--space-1) * -0.5));
+  }
+
+  &:not(:disabled):active {
+    box-shadow: var(--shadow-elevation-1);
+    transform: translateY(0);
+  }
+
+  &:not(:disabled):hover:focus-visible {
+    box-shadow: var(--shadow-elevation-2), var(--focus-ring);
   }
 }
 
@@ -68,7 +109,12 @@
   font-weight: 600;
   justify-content: center;
   padding: var(--space-3) var(--space-6);
-  transition: all var(--duration-normal) var(--easing-standard);
+  transition:
+    background-color var(--duration-normal) var(--easing-standard),
+    color var(--duration-normal) var(--easing-standard),
+    filter var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
 
   /* Disabled state for reusable chat buttons */
   &:disabled {
