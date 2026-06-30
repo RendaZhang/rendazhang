@@ -18,7 +18,7 @@
 # 外观与交互 Polish
 
 - **作者**: 张人大
-- **最后更新**: June 30, 2026, 11:46 (UTC+08:00)
+- **最后更新**: June 30, 2026, 12:26 (UTC+08:00)
 
 ## 文档目的
 
@@ -42,7 +42,8 @@ Phase 9 的默认方向是更鲜明、有记忆点，但仍保持专业、现代
 - `default`、`aurora`、`forest` palette 已可用，并通过语义 token 影响 hero overlay、导航
   hover/active、社交入口、section marker 和 Chat Widget 按钮外环。
 - 主题菜单功能完整，Slice 9.3 改善了触屏目标和 selected/focus feedback；更强的标签层级和可扫读性仍可在后续 surface polish 中处理。
-- Chat Widget iframe ready 协议稳定，但打开后的 loading surface 仍有 polish 空间。
+- Slice 9.4 已改善 Chat Widget 外层 launcher/shell/loading surface、ready transition 和移动端
+  gutters；iframe ready 协议、同源路径和 `/deepseek_chat/` 行为保持不变。
 - 移动端首屏可读且没有明显横向溢出，但仍需要系统化截图、console 和交互 QA。
 
 这些问题不是生产故障；它们是 Phase 9 的用户体验改进机会。
@@ -147,7 +148,8 @@ Phase 9 的主要审计对象：
    主行动入口和 palette 在 hero、section、focus 与关键控件中的可感知范围已收紧。
 3. `9.3 Interaction Feedback Consistency`：已完成。统一 hover、focus、active、loading、disabled、
    touch target 和 reduced-motion 行为，不新增组件库或改变产品行为。
-4. `9.4 Chat Widget Surface Polish`：改善 Chat Widget 面板 loading surface、ready transition 和移动端表现。
+4. `9.4 Chat Widget Surface Polish`：已完成。改善 Chat Widget 面板 loading surface、ready
+   transition、launcher state 和移动端表现，未改变 iframe 协议。
 5. `9.5 Docs And Certifications Surface Polish`：改善 docs 导读、Markdown 首屏层级和 certification
    card/page hierarchy。
 6. `9.6 Mobile Visual QA`：补齐移动端视觉和交互 QA，整理残余问题。

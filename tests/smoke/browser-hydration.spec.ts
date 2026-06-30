@@ -120,7 +120,14 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   const audit = attachConsoleAudit(page, 'chat widget');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: /Open Assistant/i }).click();
+  await settlePage(page);
+  const toggle = page.getByRole('button', { name: /Open Assistant/i });
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
+  await expect(page.getByRole('button', { name: /Close Assistant/i })).toHaveAttribute(
+    'aria-expanded',
+    'true'
+  );
 
   const frameWrapper = page.locator('.c-chat-widget-frame-wrapper');
   const iframe = page.locator('iframe.c-chat-widget-iframe');
@@ -135,6 +142,12 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   await expect(chatFrame.locator('.c-message-input')).toBeEnabled({ timeout: 30_000 });
   await expect(frameWrapper).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(iframe).toHaveClass(/is-loaded/);
+  await page.getByRole('button', { name: /Close Assistant/i }).click();
+  await expect(frameWrapper).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /Open Assistant/i })).toHaveAttribute(
+    'aria-expanded',
+    'false'
+  );
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out Chat Widget path should not probe auth/me').toBe(0);

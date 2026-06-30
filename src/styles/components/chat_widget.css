@@ -4,6 +4,7 @@
 /* Floating chat button, centered using .u-flex-center */
 /* Dimensions expressed via spacing tokens */
 .c-chat-widget-toggle {
+  align-items: center;
   background: var(--gradient-primary);
   border: none;
   border-radius: 50%;
@@ -15,8 +16,11 @@
   cursor: pointer;
   font-size: 0;
   height: calc(var(--space-9) - var(--space-1));
+  isolation: isolate;
+  justify-content: center;
   line-height: 1; /* vertical alignment handled by u-flex-center */
   padding: 0;
+  position: fixed;
   transition:
     filter var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard),
@@ -24,6 +28,19 @@
   width: calc(var(--space-9) - var(--space-1));
   z-index: 9999;
 }
+
+.c-chat-widget-toggle::before {
+  background: color-mix(in srgb, var(--color-white) 16%, transparent);
+  border-radius: inherit;
+  content: '';
+  inset: var(--border-width-hairline);
+  opacity: 0.7;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity var(--duration-normal) var(--easing-standard);
+  z-index: -1;
+}
+
 .c-chat-widget-toggle:hover {
   box-shadow:
     var(--shadow-elevation-3),
@@ -31,9 +48,22 @@
     0 0 var(--space-5) color-mix(in srgb, var(--color-brand) 34%, transparent);
   filter: brightness(1.1);
 }
+
+.c-chat-widget-toggle:hover::before {
+  opacity: 0.95;
+}
+
 .c-chat-widget-toggle:active {
   transform: scale(0.96);
 }
+
+.c-chat-widget-toggle[aria-expanded='true'] {
+  box-shadow:
+    var(--shadow-elevation-3),
+    0 0 0 2px var(--color-palette-border),
+    0 0 var(--space-5) color-mix(in srgb, var(--color-brand) 38%, transparent);
+}
+
 .c-chat-widget-toggle:focus-visible {
   box-shadow:
     var(--shadow-elevation-2),
@@ -41,26 +71,52 @@
     var(--focus-ring);
   outline: none;
 }
+
+.c-chat-widget-toggle[aria-expanded='true']:focus-visible {
+  box-shadow:
+    var(--shadow-elevation-3),
+    0 0 0 2px var(--color-palette-border),
+    var(--focus-ring);
+}
+
 .c-chat-widget-toggle svg {
   height: calc(var(--space-7) - var(--space-1));
   pointer-events: none;
   width: calc(var(--space-7) - var(--space-1));
 }
 .c-chat-widget-panel {
+  animation: c-chat-widget-panel-in var(--duration-slow) var(--easing-entrance) both;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-palette-surface) 72%, var(--color-surface)) 0%,
+    var(--color-surface) 42%
+  );
+  border: var(--border-width-hairline) solid var(--color-palette-border);
+  border-radius: var(--radius-l);
   bottom: calc(var(--space-10) + var(--space-2));
-  max-height: 80vh;
-  /* visual styles moved to utility classes */
+  box-shadow:
+    var(--shadow-dialog),
+    0 0 0 1px color-mix(in srgb, var(--color-white) 36%, transparent);
+  inline-size: min(calc(var(--space-10) * 4.5), calc(100vw - var(--space-5) * 2));
+  max-block-size: min(74dvh, calc(var(--space-10) * 8));
   overflow: hidden;
   position: fixed;
   right: var(--space-5);
-  width: calc(var(--space-10) * 4.5);
+  transform-origin: bottom right;
   z-index: 9999;
 }
 
 .c-chat-widget-frame-wrapper {
-  height: 70vh;
+  background: color-mix(in srgb, var(--color-surface) 86%, var(--color-palette-surface));
+  block-size: min(70dvh, calc(var(--space-10) * 7.5));
+  border-radius: inherit;
+  overflow: hidden;
   position: relative;
   width: 100%;
+}
+
+.c-chat-widget-frame-wrapper[aria-busy='true'] {
+  cursor: progress;
 }
 
 .c-chat-widget-iframe {
@@ -69,18 +125,87 @@
   inset: 0;
   opacity: 0;
   position: absolute;
-  transition: opacity var(--duration-normal) var(--easing-standard);
+  transform: translateY(var(--space-2)) scale(0.995);
+  transition:
+    opacity var(--duration-slow) var(--easing-entrance),
+    transform var(--duration-slow) var(--easing-entrance);
   width: 100%;
   z-index: 0;
 }
 
 .c-chat-widget-iframe.is-loaded {
   opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.c-chat-widget-frame-wrapper .c-chat-widget-skeleton {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-palette-surface-strong) 52%, var(--color-surface)) 0%,
+    var(--color-surface) 46%
+  );
+  border-radius: inherit;
+}
+
+.c-chat-widget-frame-wrapper .c-chat-widget-skeleton::after {
+  background:
+    linear-gradient(
+        90deg,
+        var(--color-palette-surface-strong),
+        color-mix(in srgb, var(--color-palette-surface-strong) 48%, var(--color-surface))
+      )
+      0 0 / 42% var(--space-3) no-repeat,
+    linear-gradient(var(--color-palette-surface), var(--color-palette-surface)) 0
+      calc(var(--space-5) + var(--space-2)) / 72% var(--space-3) no-repeat,
+    linear-gradient(var(--color-subtle-bg-hover), var(--color-subtle-bg-hover)) 0
+      calc(var(--space-7) + var(--space-3)) / 86% var(--space-8) no-repeat,
+    linear-gradient(var(--color-subtle-bg), var(--color-subtle-bg)) 0
+      calc(var(--space-10) + var(--space-4)) / 58% var(--space-7) no-repeat,
+    linear-gradient(var(--color-palette-surface), var(--color-palette-surface)) 0 100% / 100%
+      var(--space-8) no-repeat;
+  border-radius: var(--radius-m);
+  content: '';
+  inset: var(--space-5);
+  opacity: 0.82;
+  position: absolute;
+}
+
+@keyframes c-chat-widget-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3)) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .c-chat-widget-toggle,
+  .c-chat-widget-toggle::before,
+  .c-chat-widget-panel,
   .c-chat-widget-iframe {
+    animation: none;
     transition: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .c-chat-widget-toggle {
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    right: calc(var(--space-4) + env(safe-area-inset-right));
+  }
+
+  .c-chat-widget-panel {
+    bottom: calc(var(--space-9) + var(--space-4) + env(safe-area-inset-bottom));
+    inline-size: auto;
+    left: var(--space-3);
+    max-block-size: calc(100dvh - var(--space-10) - var(--space-7) - env(safe-area-inset-bottom));
+    right: var(--space-3);
+  }
+
+  .c-chat-widget-frame-wrapper {
+    block-size: min(72dvh, calc(100dvh - var(--space-10) - var(--space-7)));
   }
 }

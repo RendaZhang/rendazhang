@@ -138,7 +138,11 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   return (
     <>
       {open && (
-        <div ref={panelRef} className="c-chat-widget-panel bg-surface rounded-8 shadow-medium">
+        <div
+          ref={panelRef}
+          id="chat-widget-panel"
+          className="c-chat-widget-panel bg-surface rounded-8 shadow-medium"
+        >
           {shouldLoad && (
             <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
               <iframe
@@ -159,6 +163,9 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
         ref={buttonRef}
         className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
         onClick={toggle}
+        type="button"
+        aria-controls="chat-widget-panel"
+        aria-expanded={open}
         aria-label={open ? 'Close Assistant' : 'Open Assistant'}
       >
         {open ? <CloseIcon size={ICON_SIZES.LARGE} /> : <RobotIcon size={ICON_SIZES.LARGE} />}
