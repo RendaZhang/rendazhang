@@ -1,4 +1,4 @@
-import { HERO_IMAGE_PATHS } from '../../constants';
+import { DOCS_PAGE_PATH, HERO_IMAGE_PATHS } from '../../constants';
 import { MAIN_HERO } from '../../data';
 import { LocalizedSection, ResponsiveHero, SocialIcons } from '../ui';
 import SocialIconsEffects from './SocialIconsEffects';
@@ -31,8 +31,8 @@ export default function HeroSection({
         <div className="c-hero-copy">
           <p className="c-hero-kicker">
             <LocalizedSection
-              zhContent="后端 · 云原生 · 金融科技"
-              enContent="Backend · Cloud · FinTech"
+              zhContent="AI 全栈 · 云原生 · 金融科技"
+              enContent="AI Full-Stack · Cloud-Native · FinTech"
             />
           </p>
           <h1 id="heroHeading">
@@ -49,16 +49,20 @@ export default function HeroSection({
             ))}
           </div>
           <div className="c-hero-actions" aria-label="Hero actions">
-            <a className="c-hero-action c-hero-action-primary" href="#experience">
-              <LocalizedSection zhContent="查看经历" enContent="View Experience" />
+            <a className="c-hero-action c-hero-action-primary" href={DOCS_PAGE_PATH}>
+              <LocalizedSection zhContent="查看技术证明" enContent="View Technical Proof" />
             </a>
-            <a className="c-hero-action c-hero-action-secondary" href="#contact">
-              <LocalizedSection zhContent="联系我" enContent="Contact Me" />
+            <a className="c-hero-action c-hero-action-secondary" href="#experience">
+              <LocalizedSection zhContent="查看经历" enContent="View Experience" />
             </a>
           </div>
         </div>
-        <a className="c-hero-scroll-cue" href="#aboutTitle" aria-label="Scroll to introduction">
-          <LocalizedSection zhContent="继续了解" enContent="Explore" />
+        <a
+          className="c-hero-scroll-cue"
+          href="#aboutTitle"
+          aria-label="Scroll to proof-led introduction"
+        >
+          <LocalizedSection zhContent="了解技术证明" enContent="Explore Proof" />
         </a>
       </ResponsiveHero>
       <SocialIcons />

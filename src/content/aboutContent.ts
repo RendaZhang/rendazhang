@@ -11,20 +11,20 @@ export const ABOUT_CONTENT = {
   en: {
     heroHeading: "Hello! I'm<span> Renda Zhang</span>",
     heroTaglines: [
-      'Backend Engineer',
-      'Java & Spring Boot',
-      'Financial Technology TL',
-      'Cloud-Native Platform',
-      'Kubernetes & Terraform'
+      'AI Full-Stack Development',
+      'Cloud-Native Engineering',
+      'Java/Spring Platforms',
+      'PersonalWeb Proof',
+      'AWS/GCP/Kubernetes'
     ],
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
-      "Hello! I'm Renda Zhang, a backend engineer based in Shenzhen, China with five years of Java/Spring delivery.",
+      "Hello! I'm Renda Zhang, a Shenzhen-based engineer building AI-enabled full-stack and cloud-native web systems on a Java/Spring foundation.",
       'In July 2026, I will join OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.',
-      'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, and GitHub Actions/Argo CD to ship safely.',
-      'I build observability and performance guardrails end to end, tuning high-concurrency paths with Redis and message queues.',
-      'I partner with frontend teams on SSR/CSR experiences, instrumentation, and selective hydration for merchant-facing products.',
+      'My flagship proof is PersonalWeb: an Astro/React portfolio with a same-origin AI Chat Widget, Flask/OpenAI backend integration, technical docs, browser smoke coverage, SEO/GEO, and CI/CD delivery.',
+      'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, GitHub Actions/Argo CD, and observability guardrails to ship safely.',
+      'I tune high-concurrency paths with Redis, queues, and structured reliability practices, then connect backend decisions to SSR/CSR frontend experiences.',
       'I hold an AWS Solutions Architect – Associate (Jun 2025) and a B.S. in Computer Science from the University of Minnesota.'
     ],
     info: [
@@ -70,26 +70,27 @@ export const ABOUT_CONTENT = {
     skills: {
       title: 'Skills & Knowledge',
       categories: [
+        { label: 'AI Full-Stack Development', level: 94 },
         { label: 'Java & Spring Backend', level: 98 },
         { label: 'Cloud & Platform Engineering', level: 95 },
         { label: 'Microservices & API Design', level: 93 },
-        { label: 'Data Stores & Caching', level: 94 },
-        { label: 'Messaging & Eventing', level: 90 },
+        { label: 'Data, Cache & Messaging', level: 92 },
         { label: 'DevOps & CI/CD Automation', level: 92 },
         { label: 'Observability & Reliability', level: 88 },
         { label: 'Communication & Leadership', level: 80 }
       ],
       items: [
-        'Java, SQL, HTML/CSS, JavaScript, Python, C/C++, PHP, Clojure',
+        'Java, SQL, TypeScript, JavaScript, Python, HTML/CSS, C/C++, PHP, Clojure',
         'Spring Boot, Spring Cloud, Spring Security, Spring Data JPA, MyBatis, OpenFeign, Resilience4j',
-        'Microservices, REST, gRPC, API design, Auth/OAuth2/OIDC, idempotency, rate limiting',
+        'Astro, React, TypeScript, SSR, CSR, selective hydration, Chat Widget, Sentry, CSP, BFF',
+        'Flask/OpenAI integration, AI chat UI/backend boundaries, Markdown rendering, browser smoke validation',
         'AWS (EKS, ECS, IAM, ALB, S3, CloudFront), GCP, Kubernetes, Docker, Terraform, CDK',
+        'Microservices, REST, gRPC, API design, Auth/OAuth2/OIDC, idempotency, rate limiting',
         'MySQL, Aurora, MongoDB, Redis, DynamoDB, ElasticSearch',
         'Kafka, RabbitMQ, SQS, DLQ, retry and dedupe patterns',
         'GitHub Actions, Argo CD, Jenkins, GitLab CI/CD, Maven, Git, Linux Shell',
         'OpenTelemetry, Prometheus, Grafana, SLOs, blue-green and canary releases',
         'JMeter, JUnit, Mockito, Postman, Swagger, SpringDoc',
-        'React, TypeScript, SSR, CSR, selective hydration, Sentry, CSP, BFF',
         'Team collaboration, leadership, problem solving, adaptability',
         'English (Full professional), Chinese (Native: Mandarin & Cantonese)'
       ]
@@ -214,21 +215,21 @@ export const ABOUT_CONTENT = {
   zh: {
     heroHeading: '你好，我是<span>张人大</span>',
     heroTaglines: [
-      '后端工程师',
-      'Java 与 Spring Boot',
-      '金融科技 TL',
-      '云原生平台',
-      'Kubernetes 与 Terraform'
+      'AI 全栈开发',
+      '云原生工程',
+      'Java/Spring 平台',
+      'PersonalWeb 证明',
+      'AWS/GCP/Kubernetes'
     ],
     subTitle: '我是谁？',
     title: '自我介绍',
     greeting: '你好，',
     paragraphs: [
-      '大家好，我是张人大，常驻深圳的后端工程师，拥有 5 年 Java/Spring 交付经验。',
+      '大家好，我是张人大，常驻深圳，基于 Java/Spring 构建 AI 全栈与云原生 Web 系统。',
       '2026 年 7 月 6 日起，我将加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。',
-      '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 安全交付。',
-      '擅长建立端到端可观测性与性能防护体系，利用 Redis 与消息队列优化高并发链路。',
-      '与前端团队共建商家控制台等产品，按需选择 SSR/CSR/渐进水合并贯通埋点。',
+      'PersonalWeb 是我的旗舰证明：Astro/React 前端、同源 AI Chat Widget、Flask/OpenAI 后端集成、技术文档、浏览器 smoke、SEO/GEO 与 CI/CD 交付闭环。',
+      '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 和可观测性护栏安全交付。',
+      '擅长用 Redis、消息队列与可靠性实践优化高并发链路，并把后端决策连接到 SSR/CSR 前端体验。',
       '持有 AWS 解决方案架构师（助理，2025 年 6 月）认证，本科毕业于美国明尼苏达大学计算机科学专业。'
     ],
     info: [
@@ -273,26 +274,27 @@ export const ABOUT_CONTENT = {
     skills: {
       title: '技能与能力',
       categories: [
+        { label: 'AI 全栈开发', level: 94 },
         { label: 'Java 与 Spring 后端', level: 98 },
         { label: '云原生与平台工程', level: 95 },
         { label: '微服务与 API 设计', level: 93 },
-        { label: '数据存储与缓存', level: 94 },
-        { label: '消息队列与事件驱动', level: 90 },
+        { label: '数据、缓存与消息', level: 92 },
         { label: 'DevOps 与 CI/CD 自动化', level: 92 },
         { label: '可观测性与可靠性', level: 88 },
         { label: '沟通协作与领导力', level: 80 }
       ],
       items: [
-        'Java、SQL、HTML/CSS、JavaScript、Python、C/C++、PHP、Clojure',
+        'Java、SQL、TypeScript、JavaScript、Python、HTML/CSS、C/C++、PHP、Clojure',
         'Spring Boot、Spring Cloud、Spring Security、Spring Data JPA、MyBatis、OpenFeign、Resilience4j',
-        '微服务、REST、gRPC、API 设计、Auth/OAuth2/OIDC、幂等、限流',
+        'Astro、React、TypeScript、SSR、CSR、渐进水合、Chat Widget、Sentry、CSP、BFF',
+        'Flask/OpenAI 集成、AI 聊天前后端边界、Markdown 渲染、浏览器 smoke 验证',
         'AWS（EKS、ECS、IAM、ALB、S3、CloudFront）、GCP、Kubernetes、Docker、Terraform、CDK',
+        '微服务、REST、gRPC、API 设计、Auth/OAuth2/OIDC、幂等、限流',
         'MySQL、Aurora、MongoDB、Redis、DynamoDB、ElasticSearch',
         'Kafka、RabbitMQ、SQS，结合去重、重试、死信队列等模式',
         'GitHub Actions、Argo CD、Jenkins、GitLab CI/CD、Maven、Git、Linux Shell',
         'OpenTelemetry、Prometheus、Grafana、SLO、蓝绿发布与金丝雀发布',
         'JMeter、JUnit、Mockito、Postman、Swagger、SpringDoc',
-        'React、TypeScript、SSR、CSR、渐进水合、Sentry、CSP、BFF',
         '团队协作、领导力、问题解决、适应变化',
         '中文（普通话/粤语）、英语（专业工作水平）'
       ]
