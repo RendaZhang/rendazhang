@@ -8,6 +8,9 @@
   - [非目标](#%E9%9D%9E%E7%9B%AE%E6%A0%87)
   - [当前内容入口](#%E5%BD%93%E5%89%8D%E5%86%85%E5%AE%B9%E5%85%A5%E5%8F%A3)
   - [当前审计假设](#%E5%BD%93%E5%89%8D%E5%AE%A1%E8%AE%A1%E5%81%87%E8%AE%BE)
+  - [Slice 10.1 审计结果](#slice-101-%E5%AE%A1%E8%AE%A1%E7%BB%93%E6%9E%9C)
+    - [审计后的切片顺序](#%E5%AE%A1%E8%AE%A1%E5%90%8E%E7%9A%84%E5%88%87%E7%89%87%E9%A1%BA%E5%BA%8F)
+    - [需要 owner 决策的问题](#%E9%9C%80%E8%A6%81-owner-%E5%86%B3%E7%AD%96%E7%9A%84%E9%97%AE%E9%A2%98)
   - [内容原则](#%E5%86%85%E5%AE%B9%E5%8E%9F%E5%88%99)
   - [候选切片顺序](#%E5%80%99%E9%80%89%E5%88%87%E7%89%87%E9%A1%BA%E5%BA%8F)
   - [验证方法](#%E9%AA%8C%E8%AF%81%E6%96%B9%E6%B3%95)
@@ -18,7 +21,7 @@
 # 内容可信度与个人定位
 
 - **作者**: 张人大
-- **最后更新**: July 01, 2026, 12:42 (UTC+08:00)
+- **最后更新**: July 01, 2026, 12:57 (UTC+08:00)
 
 ## 文档目的
 
@@ -91,6 +94,57 @@ Phase 10 主要关注以下公开 surface：
 - 工作/学习经历很完整，但对混合受众来说需要更强的信息层级：先给结论，再给细节。
 - 当前 CTA 数量足够，Phase 10 更可能需要调整优先级和上下文，而不是大量新增按钮。
 
+## Slice 10.1 审计结果
+
+审计时间：2026-07-01。审计对象包括 `src/content/aboutContent.ts`、
+`src/content/certificationsContent.ts`、`src/constants/meta.ts`、`public/llms.txt`、
+`public/sitemap.xml`、首页 section 组件、`README.md` / `README_EN.md`、`/docs/`
+渲染入口和证书页入口。
+
+总体结论：
+
+- 当前内容对 Java/Spring 后端、云原生平台、金融科技和保险平台经历的证明较强。
+- “AI 全栈开发”仍主要由 Chat Widget、`/deepseek_chat/`、React/Astro 前端、Flask/OpenAI
+  后端和文档体系间接体现，首页首屏和元信息尚未形成清晰主张。
+- PersonalWeb 是最强的自有项目证明，但证据分散在 README、架构文档、Chat Widget、
+  SEO/GEO、CI/CD、测试和部署说明中，需要被包装成一个可扫读的旗舰项目证明。
+- 证书页稳定可验证，但当前只展示单个 AWS SAA 证书，缺少它与云原生架构能力之间的短解释。
+- 工作/学习经历可信且完整，但长列表更像简历正文；混合受众需要先看到摘要判断，再进入细节。
+- 现有 CTA 数量足够，下一步应优先调整语境和优先级，而不是新增大量入口。
+
+| Surface | 当前强项 | 主要缺口 | 对 Phase 10 定位的支撑 | 建议后续动作 |
+| --- | --- | --- | --- | --- |
+| 首页 hero 与首屏 CTA | 有姓名、后端、云原生、金融科技、Kubernetes/Terraform 和经历/联系入口 | 没有直接表达 AI full-stack；首屏 CTA 更偏“经历/联系”，没有把 PersonalWeb、docs 或证书作为证明入口 | 强支撑 cloud-native 和 work proof；弱支撑 AI full-stack 与 flagship proof | Slice 10.2 调整 hero/kicker/tagline 和 CTA 语境，保持现有入口集合 |
+| About 段落与个人信息 | 覆盖深圳、Java/Spring、OneConnect、AWS/GCP、Kubernetes、Terraform、可观测性、前端协作、AWS SAA 和学历 | 信息密度高且偏履历；PersonalWeb 和 AI chat 没有作为当前能力证明出现 | 支撑专业可信，但 personal-brand 主张不够集中 | Slice 10.2 先改摘要顺序，Slice 10.5 再压缩长经历 |
+| Skills | 云平台、微服务、API、数据、消息、CI/CD、可观测性、React/TypeScript/SSR 等覆盖完整 | AI / LLM 应用能力没有被安全、具体地表达；前端能力在列表中靠后 | 支撑 full-stack 基础，但 AI full-stack 标签需要更明确证据链 | Slice 10.2 小范围重排/改写技能摘要，不新增夸大能力 |
+| Experience 与 Education | 有公司、角色、摘要、交付、Kubernetes/GCP、CI/CD、团队扩张、压测、业务结果和学历事实 | Michaels 与早期经历 bullet 较长，读者需要先看到 proof summary；教育信息可更紧凑 | 强支撑 work/education proof；resume-template 风险最高 | Slice 10.5 做 summary-first 压缩，保留可验证事实 |
+| PersonalWeb / README / docs | README 和 docs 已说明 Astro/React、Flask/OpenAI、Nginx、GitHub Actions、Chat Widget、SEO/GEO、测试、架构和维护规范 | 更像维护文档目录，不像面向访问者的项目 proof surface；证据分散 | 最强支撑 AI full-stack、cloud-native delivery 和工程闭环 | Slice 10.3 增加/强化 PersonalWeb 项目证明入口 |
+| Certifications | AWS SAA 标题、日期、过期日期、Credly 和 AWS 验证入口稳定 | 页面缺少证书与云原生架构/平台能力的短叙事；单证书页面证明链较薄 | 强支撑 cloud-native credibility，弱支撑 broader proof hierarchy | Slice 10.4 加短解释，不改 Credly iframe 协议 |
+| SEO/GEO 与 JSON-LD | Person、WebSite、ProfilePage、WebPage、CollectionPage、Credential 和 breadcrumb 已集中在 `meta.ts` | 当前元描述和 `knowsAbout` 仍更偏 backend/cloud/FinTech；AI full-stack 与 PersonalWeb proof 需等可见内容确定后同步 | 支撑搜索实体一致性，但不应先于可见内容改写 | Slice 10.6 在 visible content 完成后统一同步 |
+| `llms.txt` 与 sitemap | Canonical、主页面、public profiles、隐私边界和 primary/secondary page 区分清楚 | `llms.txt` 未体现新的 AI full-stack 主标签；sitemap `lastmod` 需要跟随主要内容变化 | 支撑 AI 摘要入口，但应避免提前承诺未落地内容 | Slice 10.6 同步 `llms.txt`、sitemap lastmod 和 metadata |
+| CTA surfaces | 首页经历/联系、简历下载、联系表单、导航 docs/certifications/AI chat、Chat Widget 都已存在 | 证明型 CTA 分散在导航和页面底层，首屏没有建立“先看证据”的路径 | CTA 集合足够，层级需要更贴合 mixed audience | Slice 10.2 优先调整文案和顺序，不新增复杂流程 |
+
+### 审计后的切片顺序
+
+| 优先级 | Slice | 结论 |
+| --- | --- | --- |
+| 1 | `10.2 Homepage Positioning And CTA Copy` | 作为下一片。先让首页首屏、about 摘要、技能摘要和 CTA 语境承接 AI full-stack / cloud-native 主张，为后续 proof surface 铺路 |
+| 2 | `10.3 PersonalWeb Project Proof Surface` | 把 PersonalWeb 从分散维护材料整理成可扫读的旗舰项目证明，覆盖前端、后端、AI chat、SEO/GEO、CI/CD、测试和部署闭环 |
+| 3 | `10.4 Certifications And Learning Credibility` | 解释 AWS SAA 如何支撑云原生架构可信度，同时保留现有 Credly/AWS 验证方式 |
+| 4 | `10.5 Work And Education Narrative Compression` | 把长经历列表改成 summary-first proof，减少简历模板感 |
+| 5 | `10.6 SEO GEO LLMS Alignment` | 在可见内容稳定后统一同步 JSON-LD、Open Graph、`llms.txt`、sitemap 和 SEO/GEO 文档 |
+| 6 | `10.7 Content QA And Phase Close` | 进行浏览器、移动端、metadata、公开安全和中英文一致性 QA，决定是否关闭 Phase 10 |
+
+### 需要 owner 决策的问题
+
+以下问题不阻塞 Slice 10.2，但在 10.3 或 10.5 前需要确认：
+
+- PersonalWeb 项目证明应该放在首页新 section，还是优先放在 `/docs/` / README 入口中并从首页链接过去？
+- 是否允许把可见职业标签从“Backend / Cloud / FinTech”扩展为“AI Full-Stack / Cloud-Native /
+  FinTech”，前提是文案只引用站内已公开的 Chat Widget、前端、后端和部署证据？
+- Work/education 压缩时，是否保留全部公司 bullet，只改变层级，还是允许把较旧 freelance / early-career
+  bullet 合并成更短摘要？
+
 ## 内容原则
 
 - **证据优先**：每个强定位都应该能对应站内可见项目、证书、经历、文档或交互能力。
@@ -104,8 +158,8 @@ Phase 10 主要关注以下公开 surface：
 
 | Slice | 状态 | Scope |
 | --- | --- | --- |
-| `10.1 Content Audit And Positioning Plan` | `Ready` | 只读审计当前首页、证书、docs、SEO/GEO、`llms.txt` 和结构化数据，输出具体改文案/结构的优先级计划 |
-| `10.2 Homepage Positioning And CTA Copy` | `Backlog` | 小步调整首页 hero、about、skills 摘要和 CTA 文案，让 AI 全栈/云原生定位更清楚 |
+| `10.1 Content Audit And Positioning Plan` | `Done` | 已完成当前首页、证书、docs、SEO/GEO、`llms.txt` 和结构化数据审计，并确认后续优先级 |
+| `10.2 Homepage Positioning And CTA Copy` | `Ready` | 小步调整首页 hero、about、skills 摘要和 CTA 文案，让 AI 全栈/云原生定位更清楚 |
 | `10.3 PersonalWeb Project Proof Surface` | `Backlog` | 把 PersonalWeb 作为项目证明沉淀到首页或 docs 入口，突出架构、部署、AI chat、SEO/GEO 和验证链路 |
 | `10.4 Certifications And Learning Credibility` | `Backlog` | 强化证书页和学习经历与云原生/架构能力的关系，不改变 Credly iframe 协议 |
 | `10.5 Work And Education Narrative Compression` | `Backlog` | 压缩长经历列表的信息层级，保留可验证事实，降低简历模板感 |
