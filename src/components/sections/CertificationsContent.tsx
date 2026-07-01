@@ -15,6 +15,9 @@ export default function CertificationsContent(): ReactElement {
         <h1>
           <LocalizedSection zhContent={textsZh.heading} enContent={textsEn.heading} />
         </h1>
+        <p className="c-cert-hero-summary">
+          <LocalizedSection zhContent={textsZh.summary} enContent={textsEn.summary} />
+        </p>
       </header>
 
       <section className="c-cert-grid">
@@ -58,6 +61,27 @@ export default function CertificationsContent(): ReactElement {
                     </dd>
                   </div>
                 </dl>
+                <section className="c-cert-proof" aria-labelledby={`cert-proof-${idx}`}>
+                  <h3 id={`cert-proof-${idx}`}>
+                    <LocalizedSection
+                      zhContent={textsZh.proofHeading}
+                      enContent={textsEn.proofHeading}
+                    />
+                  </h3>
+                  <ul>
+                    {textsZh.proofItems.map((itemZh, proofIdx) => (
+                      <li key={itemZh}>
+                        <LocalizedSection
+                          zhContent={itemZh}
+                          enContent={textsEn.proofItems[proofIdx]}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="c-cert-boundary">
+                    <LocalizedSection zhContent={textsZh.boundary} enContent={textsEn.boundary} />
+                  </p>
+                </section>
               </div>
               <CredlyBadge />
               <p className="c-verify-links">

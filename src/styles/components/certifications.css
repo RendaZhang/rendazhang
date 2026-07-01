@@ -46,6 +46,14 @@
   margin: 0;
 }
 
+.c-cert-hero-summary {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-4);
+  margin: var(--space-4) auto 0;
+  max-width: 64ch;
+}
+
 /* Spacing and type values mapped to design tokens */
 .c-cert-grid {
   display: grid;
@@ -229,6 +237,54 @@
 .c-cert-card-copy {
   display: grid;
   gap: var(--space-4);
+}
+
+.c-cert-proof {
+  border-color: var(--color-border-soft);
+  border-top: var(--border-1);
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  text-align: left;
+
+  h3 {
+    color: var(--color-text);
+    font-size: var(--font-size-2);
+    line-height: var(--line-height-3);
+    margin: 0;
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    color: var(--color-text);
+    font-size: var(--font-size-1);
+    line-height: var(--line-height-4);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  li::before {
+    background: var(--color-palette-border);
+    border-radius: 50%;
+    content: '';
+    height: var(--space-2);
+    inset: calc(var(--space-2) * 0.85) auto auto 0;
+    position: absolute;
+    width: var(--space-2);
+  }
+}
+
+.c-cert-boundary {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-4);
 }
 
 .c-cert-meta {
