@@ -3,6 +3,7 @@
 
 - [张人大 · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
+  - [PersonalWeb 项目证明](#personalweb-%E9%A1%B9%E7%9B%AE%E8%AF%81%E6%98%8E)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
     - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
@@ -51,7 +52,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 01, 2026, 12:42 (UTC+08:00)
+- **最后更新**: July 01, 2026, 18:06 (UTC+08:00)
 
 ---
 
@@ -64,6 +65,30 @@
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
 本网站已进行 SEO / GEO 优化。
+
+## PersonalWeb 项目证明
+
+PersonalWeb 是我当前最直接的公开项目证明。它不是大型商业平台，也不包装成生产级 SaaS；它展示的是我如何把个人品牌站、AI 交互、前端体验、后端集成、文档、测试、部署与公开可发现性放进一个可维护的工程闭环。
+
+| 证明方向 | 公开证据 |
+| --- | --- |
+| AI 全栈开发 | 同源浮动 Chat Widget、`/deepseek_chat/` 聊天页、Flask + OpenAI API 后端集成、Markdown/代码渲染和清晰的前后端边界 |
+| 前端体验工程 | Astro 静态页面、React islands、主题 mode 与 palette、响应式 Hero、docs/certifications polish、浏览器 smoke 覆盖 |
+| 云原生与交付纪律 | GitHub Actions 自动构建部署、Node 24 运行时 pin、Nginx/CSP 约束意识、静态发布、生产只读校验 |
+| 可靠性与可维护性 | Vitest 覆盖率、Playwright smoke、Browser QA、Sentry 集成、架构/目录/协议/测试/SEO 文档 |
+| 搜索与 AI 摘要可见性 | SEO/GEO 维护、结构化数据、SSR/SSG docs 正文、`llms.txt` 和 sitemap 规划边界 |
+
+可以从以下入口验证这条证明链：
+
+- [主页](https://www.rendazhang.com/)：查看 AI 全栈、云原生和 PersonalWeb 证明的首屏定位。
+- [AI 聊天页面](https://www.rendazhang.com/deepseek_chat/)：查看同源 Chat 页面、流式输出和 Markdown 增强体验。
+- [Chat Widget 协议说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md)：查看 iframe ready、origin/source 校验和后续重构约束。
+- [前端架构约定](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md)：查看 Astro 页面、React islands、状态、服务层、CSP 与 iframe 边界。
+- [测试指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md)：查看 Vitest、覆盖率、Playwright smoke 与视觉/交互 QA 约定。
+- [CI/CD 工作流](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md)：查看 GitHub Actions 静态构建、部署和 release 流程。
+- [SEO / GEO 维护说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md)：查看公开实体、结构化数据、docs SSR 和 AI 摘要入口边界。
+
+这条证明链刻意不包含私人凭据、客户敏感信息、聊天内容、表单提交、服务器私有路径或非公开运维细节。
 
 > 如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。
 

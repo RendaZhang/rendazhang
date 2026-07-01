@@ -3,6 +3,7 @@
 
 - [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
+  - [PersonalWeb Proof Surface](#personalweb-proof-surface)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
@@ -49,7 +50,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 01, 2026, 12:42 (UTC+08:00)
+- **Last Updated**: July 01, 2026, 18:06 (UTC+08:00)
 
 ---
 
@@ -62,6 +63,30 @@ This is my personally maintained **lightweight** technical showcase website, ser
 **Live Site**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
 The website is optimized for SEO and GEO.
+
+## PersonalWeb Proof Surface
+
+PersonalWeb is my clearest public project proof today. It is not presented as a large commercial platform or production SaaS; it shows how I connect a personal-brand site, AI interaction, frontend experience, backend integration, documentation, tests, deployment, and public discoverability into one maintainable engineering loop.
+
+| Proof Area                       | Public Evidence                                                                                                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AI full-stack development        | Same-origin floating Chat Widget, `/deepseek_chat/` chat page, Flask + OpenAI API backend integration, Markdown/code rendering, and clear frontend/backend boundaries |
+| Frontend experience engineering  | Astro static pages, React islands, theme mode and palettes, responsive hero, docs/certifications polish, and browser smoke coverage                                   |
+| Cloud-native delivery discipline | GitHub Actions automated build/deploy, Node 24 runtime pin, Nginx/CSP awareness, static release flow, and read-only production checks                                 |
+| Reliability and maintainability  | Vitest coverage, Playwright smoke, Browser QA, Sentry integration, and architecture/directory/protocol/testing/SEO documentation                                      |
+| Search and AI-summary visibility | SEO/GEO maintenance, structured data, SSR/SSG docs body, `llms.txt`, and sitemap planning boundaries                                                                  |
+
+You can verify that proof chain from these public entry points:
+
+- [Homepage](https://www.rendazhang.com/): the first-screen positioning for AI full-stack, cloud-native engineering, and PersonalWeb proof.
+- [AI Chat](https://www.rendazhang.com/deepseek_chat/): the same-origin Chat page, streaming output, and Markdown enhancement experience.
+- [Chat Widget Protocol](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md): iframe ready behavior, origin/source checks, and refactor constraints.
+- [Frontend Architecture Conventions](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md): Astro pages, React islands, state, service boundaries, CSP, and iframe rules.
+- [Testing Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md): Vitest, coverage, Playwright smoke, and visual/interaction QA rules.
+- [CI/CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md): GitHub Actions static build, deploy, and release flow.
+- [SEO / GEO Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md): public entity alignment, structured data, docs SSR, and AI-summary boundaries.
+
+This proof chain intentionally does not include private credentials, customer-sensitive information, chat contents, form submissions, private server paths, or non-public operations details.
 
 > If you need a more robust server solution, you can refer to my cloud-native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab). This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.
 
