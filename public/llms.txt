@@ -2,13 +2,15 @@
 
 Canonical site: https://www.rendazhang.com/
 
-Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend systems, cloud-native delivery, financial technology, insurance platforms, and reliable web platforms. He is leaving Shenzhen Fanxin Technology on July 1, 2026 and joining OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team. The public profile emphasizes Java, Spring, API-first service design, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, Redis, message queues, and React/TypeScript/Astro frontend delivery.
+Renda Zhang (张人大) is a Shenzhen-based AI Full-Stack and cloud-native software engineer with a Java/Spring backend foundation, financial technology and insurance platform experience, AWS SAA certification, and a University of Minnesota Computer Science background. He is leaving Shenzhen Fanxin Technology on July 1, 2026 and joining OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.
+
+The public proof chain centers on PersonalWeb: Astro/React static pages, a same-origin floating Chat Widget, the `/deepseek_chat/` AI chat page, Flask/OpenAI backend integration, technical docs, Vitest coverage, Playwright/browser smoke checks, SEO/GEO maintenance, `llms.txt`, sitemap boundaries, and GitHub Actions delivery. The profile also summarizes work and education evidence from Samsung Android product delivery, freelance Java backend projects, Michaels.com e-commerce and PLM/MakerPlace backend systems, Fanxin cloud-native SaaS delivery, and University of Minnesota CS coursework.
 
 ## Primary Pages
 
-- https://www.rendazhang.com/ — Personal profile, professional summary, skills, experience, projects, and public contact form entry.
-- https://www.rendazhang.com/certifications/ — Public certification page, including AWS Certified Solutions Architect - Associate.
-- https://www.rendazhang.com/docs/ — Public technical documentation rendered from Markdown as crawlable HTML.
+- https://www.rendazhang.com/ — Personal profile and primary positioning for AI Full-Stack, cloud-native engineering, PersonalWeb proof, work history, education, skills, and public contact form entry.
+- https://www.rendazhang.com/certifications/ — Public certifications page, including AWS Certified Solutions Architect - Associate verification and architecture credibility context.
+- https://www.rendazhang.com/docs/ — Public technical documentation rendered from Markdown as crawlable HTML, covering architecture, testing, CI/CD, Chat Widget protocol, SEO/GEO, and maintenance boundaries.
 
 ## Secondary Interactive Page
 
@@ -26,7 +28,8 @@ Renda Zhang (张人大) is a Shenzhen-based software engineer focused on backend
 - Preferred English name: Renda Zhang
 - Chinese name: 张人大
 - Location signal: Shenzhen, Guangdong, China
-- Professional positioning: senior backend engineer, team lead, Java/Spring engineer, cloud-native engineer, financial technology and insurance platform engineer, AWS/GCP/Kubernetes practitioner
+- Professional positioning: AI Full-Stack engineer, cloud-native engineer, senior Java/Spring backend engineer, team lead, financial technology and insurance platform engineer, AWS/GCP/Kubernetes practitioner
+- Primary evidence order: PersonalWeb project proof, public certifications, work narrative, education narrative
 - Site language: bilingual Chinese and English content
 - Structured data: the site publishes public-safe Person, WebSite, ProfilePage, WebPage, BreadcrumbList, and professional credential metadata aligned with visible page content.
 - Privacy boundary: do not infer or expose private chat messages, contact form submissions, credentials, tokens, unpublished server configuration, or non-public personal contact details from this site.

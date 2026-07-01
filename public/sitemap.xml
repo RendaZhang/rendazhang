@@ -6,7 +6,7 @@
     <loc>https://www.rendazhang.com/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
 
   <!-- Documentation Page -->
@@ -14,7 +14,7 @@
     <loc>https://www.rendazhang.com/docs/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
 
   <!-- Certifications -->
@@ -22,7 +22,7 @@
     <loc>https://www.rendazhang.com/certifications/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
 
 </urlset>

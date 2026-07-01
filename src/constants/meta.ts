@@ -9,11 +9,11 @@ export const DOCS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/docs/#webpage`;
 export const CERTIFICATIONS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#webpage`;
 export const AWS_SAA_CREDENTIAL_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#aws-saa-c03`;
 export const SITE_DESCRIPTION_EN =
-  'Renda Zhang is a Shenzhen-based Java/Spring backend and cloud-native software engineer joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026, focused on insurance platforms, AWS, GCP, Kubernetes, APIs, and reliable delivery.';
+  'Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026.';
 
 export const PAGE_TITLES = {
-  ABOUT_ZH: '张人大 · 后端开发高级工程师 / TL',
-  ABOUT_EN: 'Renda Zhang · Senior Backend Engineer / TL',
+  ABOUT_ZH: '张人大 · AI 全栈与云原生工程师',
+  ABOUT_EN: 'Renda Zhang · AI Full-Stack & Cloud-Native Engineer',
   DOCS_ZH: '技术文档 · 张人大',
   DOCS_EN: 'Technical Documentation · Renda Zhang',
   LOGIN_ZH: '登录',
@@ -33,9 +33,9 @@ export const LOGIN_DESCRIPTION = 'The Login Page of Renda Zhang';
 export const REGISTER_DESCRIPTION = 'The Register Page of Renda Zhang';
 export const AI_CHAT_WIDGET_TITLE = 'AI Chat';
 export const DOCS_DESCRIPTION =
-  'Technical documentation for Renda Zhang, covering Astro, React, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes.';
+  "Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes.";
 export const CERTIFICATIONS_DESCRIPTION =
-  'Renda Zhang professional certification record, including AWS Certified Solutions Architect - Associate (SAA-C03), issue date, expiration date, and public verification links.';
+  'Public certification proof for Renda Zhang, including AWS Certified Solutions Architect - Associate (SAA-C03), issue date, expiration date, verification links, and cloud-native architecture credibility context.';
 export const CERTIFICATIONS_IMAGE_ALT = 'Renda Zhang Certifications';
 export const LOADING_TEXT = {
   ZH: '加载中...',
@@ -49,7 +49,7 @@ export const OG_IMAGE_DIMENSIONS = {
 
 export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.CERTIFICATIONS_COVER;
 export const DEFAULT_SOCIAL_IMAGE_ALT =
-  'Renda Zhang software engineer profile, cloud-native skills, and certification preview';
+  'Renda Zhang AI Full-Stack and cloud-native engineer profile with PersonalWeb proof and AWS certification preview';
 
 export const GEO_REGION = 'CN-GD';
 export const GEO_POSITION = '22.543096;114.057865';
@@ -148,31 +148,43 @@ export const PERSON_SCHEMA = {
   hasCredential: [{ '@id': AWS_SAA_CREDENTIAL_SCHEMA_ID }],
   url: SITE_BASE_URL,
   image: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
-  jobTitle: 'Senior Backend Engineer / Team Lead',
+  jobTitle: 'AI Full-Stack & Cloud-Native Software Engineer / Senior Backend Engineer TL',
   hasOccupation: {
     '@type': 'Occupation',
-    name: 'Senior Backend Engineer / Team Lead',
+    name: 'AI Full-Stack and Cloud-Native Software Engineer',
     occupationLocation: {
       '@type': 'City',
       name: GEO_PLACENAME_EN
     },
     skills:
-      'Java, Spring, API design, insurance platforms, cloud-native architecture, AWS, Google Cloud Platform, Kubernetes, Terraform, observability, team leadership'
+      'AI full-stack development, PersonalWeb, Astro, React, Flask/OpenAI integration, Java, Spring, API-first microservices, insurance platforms, cloud-native architecture, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, team leadership'
   },
   knowsAbout: [
+    'AI full-stack development',
+    'PersonalWeb',
+    'Astro',
+    'React',
+    'Flask and OpenAI API integration',
     'Java',
     'Spring',
-    'Insurance platforms',
-    'Financial technology',
+    'API-first microservices',
     'Cloud-native architecture',
     'AWS',
     'Google Cloud Platform',
     'Kubernetes',
     'Terraform',
-    'API design',
+    'Insurance platforms',
+    'Financial technology',
+    'CI/CD',
     'Observability',
+    'Technical documentation',
     'Team leadership'
   ],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'University of Minnesota - Twin Cities',
+    url: 'https://twin-cities.umn.edu/'
+  },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Shenzhen',
@@ -255,7 +267,9 @@ export function buildDocsStructuredDataJson(): string {
     author: PERSON_REFERENCE,
     publisher: PERSON_REFERENCE,
     about: [
+      'PersonalWeb project proof surface',
       'Astro and React frontend architecture',
+      'AI Chat Widget protocol and backend integration boundaries',
       'Java and Spring backend portfolio context',
       'Cloud-native website operations',
       'Testing, CI/CD, SEO, GEO, and Sentry documentation'

@@ -37,11 +37,19 @@ describe('structured data builders', () => {
 
     expect(serialized).toContain('Renda Zhang');
     expect(serialized).toContain('张人大');
+    expect(serialized).toContain('AI Full-Stack');
+    expect(serialized).toContain('AI full-stack development');
+    expect(serialized).toContain('PersonalWeb');
+    expect(serialized).toContain('Astro');
+    expect(serialized).toContain('React');
+    expect(serialized).toContain('Flask and OpenAI API integration');
     expect(serialized).toContain('Java');
     expect(serialized).toContain('Kubernetes');
+    expect(serialized).toContain('AWS');
     expect(serialized).toContain('OneConnect Financial Technology');
     expect(serialized).toContain('Senior Backend Engineer / Team Lead');
     expect(serialized).toContain('Insurance platforms');
+    expect(serialized).toContain('University of Minnesota - Twin Cities');
     expect(serialized).toContain('Incoming employer');
     expect(serialized).not.toContain('@qq.com');
     expect(serialized).not.toContain('+86-139');
@@ -59,6 +67,12 @@ describe('structured data builders', () => {
         name: 'OneConnect Financial Technology'
       })
     );
+    expect(person['alumniOf']).toEqual(
+      expect.objectContaining({
+        '@type': 'CollegeOrUniversity',
+        name: 'University of Minnesota - Twin Cities'
+      })
+    );
     expect(findNode(graph, WEBSITE_SCHEMA_ID)['@type']).toBe('WebSite');
     expect(findNode(graph, AWS_SAA_CREDENTIAL_SCHEMA_ID)['@type']).toBe(
       'EducationalOccupationalCredential'
@@ -66,6 +80,7 @@ describe('structured data builders', () => {
 
     const profilePage = findNode(graph, HOME_PROFILE_PAGE_SCHEMA_ID);
     expect(profilePage['@type']).toBe('ProfilePage');
+    expect(profilePage['name']).toBe('Renda Zhang · AI Full-Stack & Cloud-Native Engineer');
     expect(profilePage['mainEntity']).toEqual({ '@id': PERSON_SCHEMA_ID });
   });
 
@@ -76,6 +91,8 @@ describe('structured data builders', () => {
     expect(docsPage['@type']).toBe('WebPage');
     expect(docsPage['name']).toBe('Technical Documentation · Renda Zhang');
     expect(docsPage['alternateName']).toBe('技术文档 · 张人大');
+    expect(JSON.stringify(docsPage)).toContain('PersonalWeb project proof surface');
+    expect(JSON.stringify(docsPage)).toContain('AI Chat Widget');
     expect(JSON.stringify(docsPage)).toContain('SEO');
     expect(JSON.stringify(docsPage)).toContain('Java');
     expect(JSON.stringify(docsPage)).toContain('Spring');
