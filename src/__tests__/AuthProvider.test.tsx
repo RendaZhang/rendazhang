@@ -47,10 +47,10 @@ describe('AuthProvider auth probe behavior', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('auth-state').textContent).toBe('logged-out');
+      expect(document.documentElement.dataset.loggedIn).toBe('false');
     });
 
     expect(apiClient.auth.me).not.toHaveBeenCalled();
-    expect(document.documentElement.dataset.loggedIn).toBe('false');
     expect(localStorage.getItem(LOGIN_STATE_KEY)).toBeNull();
   });
 
@@ -77,9 +77,9 @@ describe('AuthProvider auth probe behavior', () => {
     await waitFor(() => {
       expect(apiClient.auth.me).toHaveBeenCalledTimes(1);
       expect(screen.getByTestId('auth-state').textContent).toBe('logged-in');
+      expect(document.documentElement.dataset.loggedIn).toBe('true');
     });
 
-    expect(document.documentElement.dataset.loggedIn).toBe('true');
     expect(JSON.parse(localStorage.getItem(LOGIN_STATE_KEY) ?? 'false')).toBe(true);
   });
 
@@ -96,9 +96,9 @@ describe('AuthProvider auth probe behavior', () => {
     await waitFor(() => {
       expect(apiClient.auth.me).toHaveBeenCalledTimes(1);
       expect(screen.getByTestId('auth-state').textContent).toBe('logged-out');
+      expect(document.documentElement.dataset.loggedIn).toBe('false');
     });
 
-    expect(document.documentElement.dataset.loggedIn).toBe('false');
     expect(localStorage.getItem(LOGIN_STATE_KEY)).toBeNull();
   });
 });
