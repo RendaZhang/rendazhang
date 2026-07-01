@@ -3,6 +3,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [Content Positioning](#content-positioning)
 - [Canonical Host](#canonical-host)
 - [Sitemap](#sitemap)
 - [llms.txt](#llmstxt)
@@ -12,7 +13,17 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-本文记录当前前端站点面向搜索引擎和生成式搜索系统的公开可发现性约定。目标是让搜索引擎和 AI 清楚识别“张人大 / Renda Zhang 是深圳后端、金融科技、保险平台、云原生、Java/Spring、AWS/GCP 软件工程师，并将于 2026 年 7 月加入金融壹账通担任后端开发高级工程师/TL”，同时避免暴露私密联系信息、聊天内容、表单内容或服务器细节。
+本文记录当前前端站点面向搜索引擎和生成式搜索系统的公开可发现性约定。目标是让搜索引擎和 AI 清楚识别“张人大 / Renda Zhang 是深圳后端、金融科技、保险平台、云原生、AI 全栈、Java/Spring、AWS/GCP 软件工程师，并于 2026 年 7 月加入金融壹账通担任后端开发高级工程师/TL”，同时避免暴露私密联系信息、聊天内容、表单内容或服务器细节。
+
+Phase 10 的内容定位、可信证明和个人品牌约定见：[内容可信度与个人定位](./CONTENT_CREDIBILITY_POSITIONING.md)。SEO/GEO 文案、结构化数据和 `llms.txt` 必须与该文档确认的公开定位保持一致。
+
+## Content Positioning
+
+- 当前公开定位优先表达为：AI 全栈开发、云原生工程、金融科技/保险平台后端与 TL 经验。
+- 主要可信证明优先来自 PersonalWeb、公开证书、工作经历和学习经历。
+- 首页、证书页、docs、JSON-LD 和 `llms.txt` 应保持同一实体叙事：先给定位和证据，再给具体栈和经历细节。
+- 不把个人网站描述成超出现有事实的商业平台；PersonalWeb 可以作为全栈工程、AI chat、SEO/GEO、部署和运维闭环证明。
+- 新增 SEO/GEO 文案时，不添加未公开私人联系方式、客户敏感信息、聊天内容、表单提交内容、token、服务器路径或非公开运维细节。
 
 ## Canonical Host
 

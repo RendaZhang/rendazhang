@@ -18,15 +18,18 @@
 # 外观与交互 Polish
 
 - **作者**: 张人大
-- **最后更新**: June 30, 2026, 12:26 (UTC+08:00)
+- **最后更新**: July 01, 2026, 12:42 (UTC+08:00)
 
 ## 文档目的
 
-本文记录 Phase 9: Visual And Interaction Polish 的公开安全边界。它用于在改动 UI
-之前，先统一当前站点的视觉基线、交互 polish 原则、验证方式和候选切片顺序。
+本文记录 Phase 9: Visual And Interaction Polish 的公开安全边界。它用于统一当前站点的视觉基线、
+交互 polish 原则、验证方式和候选切片顺序。
 
 Phase 9 的默认方向是更鲜明、有记忆点，但仍保持专业、现代、可信。它不是内容叙事重写、
 不是组件库重做，也不是依赖或框架升级阶段。
+
+Phase 9 已完成并关闭。后续围绕个人定位、内容可信度、PersonalWeb 项目证明、证书与经历叙事的工作，
+统一进入 [内容可信度与个人定位](./CONTENT_CREDIBILITY_POSITIONING.md)。
 
 ## 当前基线
 
@@ -44,7 +47,9 @@ Phase 9 的默认方向是更鲜明、有记忆点，但仍保持专业、现代
 - 主题菜单功能完整，Slice 9.3 改善了触屏目标和 selected/focus feedback；更强的标签层级和可扫读性仍可在后续 surface polish 中处理。
 - Slice 9.4 已改善 Chat Widget 外层 launcher/shell/loading surface、ready transition 和移动端
   gutters；iframe ready 协议、同源路径和 `/deepseek_chat/` 行为保持不变。
-- 移动端首屏可读且没有明显横向溢出，但仍需要系统化截图、console 和交互 QA。
+- Slice 9.6 已完成系统化移动端截图、console 和交互 QA。首页、docs、certifications、Chat Widget、
+  `/deepseek_chat/`、导航、主题菜单和语言菜单在 `390x844`，以及 `360x780`、`320x700` 窄屏下未发现
+  明确视觉回归。
 
 这些问题不是生产故障；它们是 Phase 9 的用户体验改进机会。
 
@@ -150,11 +155,11 @@ Phase 9 的主要审计对象：
    touch target 和 reduced-motion 行为，不新增组件库或改变产品行为。
 4. `9.4 Chat Widget Surface Polish`：已完成。改善 Chat Widget 面板 loading surface、ready
    transition、launcher state 和移动端表现，未改变 iframe 协议。
-5. `9.5 Docs And Certifications Surface Polish`：改善 docs 导读、Markdown 首屏层级和 certification
-   card/page hierarchy。
-6. `9.6 Mobile Visual QA`：补齐移动端视觉和交互 QA，整理残余问题。
+5. `9.5 Docs And Certifications Surface Polish`：已完成。改善 docs 导读、Markdown 首屏层级和
+   certification card/page hierarchy。
+6. `9.6 Mobile Visual QA`：已完成。补齐移动端视觉和交互 QA，未发现需要代码修复的明确回归。
 
-实际顺序可以根据 9.1 的审计结果调整；每个实现 slice 都应保持小范围、可验证。
+Phase 9 已关闭。后续如发现新的视觉问题，应作为新的明确任务重新打开，而不是默认追加到 Phase 9。
 
 ## 验证方法
 
@@ -174,6 +179,7 @@ Phase 9 的主要审计对象：
 ## 文档关系
 
 - Phase 8 平台基础见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。
+- Phase 10 内容定位和可信证明见：[内容可信度与个人定位](./CONTENT_CREDIBILITY_POSITIONING.md)。
 - 样式 token 和 CSS 分层见：[样式说明](./STYLE_GUIDE.md)。
 - Theme mode、palette 和 accent 设计见：[主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)。
 - 交互组件行为标准见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。

@@ -29,6 +29,7 @@
     - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
     - [前端体验平台 RFC](#%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C%E5%B9%B3%E5%8F%B0-rfc)
     - [交互组件标准](#%E4%BA%A4%E4%BA%92%E7%BB%84%E4%BB%B6%E6%A0%87%E5%87%86)
+    - [内容可信度与个人定位](#%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BF%A1%E5%BA%A6%E4%B8%8E%E4%B8%AA%E4%BA%BA%E5%AE%9A%E4%BD%8D)
     - [SEO / GEO 维护说明](#seo--geo-%E7%BB%B4%E6%8A%A4%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
     - [开发需求](#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82)
@@ -50,7 +51,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 00:55 (UTC+08:00)
+- **最后更新**: July 01, 2026, 12:42 (UTC+08:00)
 
 ---
 
@@ -440,6 +441,11 @@ location /_astro/ {
 ### 交互组件标准
 
 > modal、popover/menu、toast/status、loading、disabled/empty/error state、键盘行为、focus 管理和 browser smoke 门禁见：📄 [交互组件标准](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md)。
+
+### 内容可信度与个人定位
+
+> Phase 10 的个人品牌内容、可信证明、PersonalWeb 项目证明、证书、工作/学习经历与 SEO/GEO
+> 一致性规划见：📄 [内容可信度与个人定位](https://github.com/RendaZhang/rendazhang/blob/master/docs/CONTENT_CREDIBILITY_POSITIONING.md)。
 
 ### SEO / GEO 维护说明
 

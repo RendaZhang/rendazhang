@@ -29,6 +29,7 @@
     - [Chat Widget Protocol](#chat-widget-protocol)
     - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
     - [Interaction Component Standards](#interaction-component-standards)
+    - [Content And Credibility Positioning](#content-and-credibility-positioning)
     - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -48,7 +49,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: June 29, 2026, 00:55 (UTC+08:00)
+- **Last Updated**: July 01, 2026, 12:42 (UTC+08:00)
 
 ---
 
@@ -434,6 +435,12 @@ location /_astro/ {
 ### Interaction Component Standards
 
 > Modal, popover/menu, toast/status, loading, disabled/empty/error state, keyboard behavior, focus management, and browser smoke gates are documented in: 📄 [Interaction Component Standards](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md).
+
+### Content And Credibility Positioning
+
+> Phase 10 planning for personal-brand content, credibility proof, PersonalWeb project evidence,
+> certifications, work/education narrative, and SEO/GEO alignment is documented in:
+> 📄 [Content And Credibility Positioning](https://github.com/RendaZhang/rendazhang/blob/master/docs/CONTENT_CREDIBILITY_POSITIONING.md).
 
 ### SEO / GEO Maintenance
 
