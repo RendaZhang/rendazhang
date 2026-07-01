@@ -97,6 +97,8 @@ export const ABOUT_CONTENT = {
     },
     experience: {
       title: 'Experience',
+      summary:
+        'Work proof in one scan: the story moves from Android product delivery and freelance Java backend projects into Michaels.com e-commerce platforms, cloud-native SaaS delivery at Fanxin, and a July 2026 OneConnect backend TL role for overseas life insurance systems.',
       entries: [
         {
           period: 'Starts Jul 2026',
@@ -107,8 +109,7 @@ export const ABOUT_CONTENT = {
           bullets: [
             'Lead engineering goals, delivery feedback, and development planning for backend team members.',
             'Partner with product managers and local/global engineering teams to turn insurance product requirements into technical plans.',
-            'Design, review, and deliver Java backend services for distributed, high-concurrency, and high-availability systems.',
-            'Maintain standards for code review, REST/HTTP integrations, Docker-based delivery, and service quality.'
+            'Design, review, and deliver Java backend services for distributed, high-concurrency, and high-availability systems while maintaining code review, REST/HTTP integration, Docker delivery, and service quality standards.'
           ]
         },
         {
@@ -119,11 +120,9 @@ export const ABOUT_CONTENT = {
             'API-first SaaS with merchant console, developer portal, and embeddable widgets; led Java backend and cloud-native delivery.',
           bullets: [
             'Drove microservice design and API contracts, strengthening auth, idempotency, and rate limiting with OpenAPI-driven docs and SDKs.',
-            'Built multi-environment CI/CD with blue-green, canary, and feature flags for safe releases and rapid rollback.',
-            'Established observability across metrics, traces, and structured logs with actionable dashboards and runbooks.',
+            'Built multi-environment CI/CD with blue-green, canary, feature flags, actionable dashboards, and runbooks for safer releases and rollback.',
             'Ran services on Kubernetes with probe gates, HPA elasticity, immutable images, config-as-code, and least-privilege access.',
-            'Optimized data paths via relational storage plus Redis caching and decoupled flows with queues using dedupe, retry, and DLQ patterns.',
-            'Partnered with frontend on merchant console, developer portal, and widgets, aligning SSR/CSR choices and correlating Sentry events.'
+            'Optimized data paths with relational storage, Redis, queues, dedupe, retry, and DLQ patterns while partnering with frontend on SSR/CSR choices and Sentry event correlation.'
           ]
         },
         {
@@ -134,49 +133,43 @@ export const ABOUT_CONTENT = {
             'Built Michaels.com e-commerce platform and core PLM/MakerPlace services serving global consumers and sellers.',
           bullets: [
             'Architected and launched the consumer-facing Michaels.com platform handling high-volume traffic and order journeys.',
-            'Led Kubernetes and Docker deployments on GCP across dev, staging, and prod with automated CI/CD pipelines.',
-            'Established Scrum rituals and governance as the team scaled from ~15 to 300 engineers.',
-            'Directed backend for PLM and MakerPlace modules spanning onboarding, inventory, orders, and user systems.',
-            'Coordinated with frontend, QA, and DevOps for continuous delivery, canary releases, and high-frequency deployments.',
-            'Maintained environment configs, logging, and integrations while preparing data warm-ups and database migrations for smooth releases.',
-            'Developed unit and integration tests with JUnit and Mockito, sustaining GitLab CI/CD quality gates.',
+            'Led GCP Kubernetes/Docker deployments, CI/CD automation, release preparation, logging, configuration, data warm-ups, and database migrations across environments.',
+            'Established Scrum rituals and governance as the team scaled from ~15 to 300 engineers while coordinating frontend, QA, and DevOps delivery.',
+            'Directed PLM and MakerPlace backend modules across onboarding, inventory, orders, users, supplier integrations, reporting, and secure REST APIs.',
             'Conducted API load testing with JMeter, pinpointing bottlenecks and tuning MongoDB indexes and payloads for ~30% throughput gains.',
-            'Implemented backend tracking for user behaviors, powering funnel analysis and business insights.',
-            'Led PLM enhancements for lifecycle tracking, supplier integrations, and reporting, reducing stockouts by 15%.',
-            'Delivered MakerPlace seller onboarding, secure auth with JWT rotation and OAuth2, and well-documented REST APIs.'
+            'Implemented backend behavior tracking for funnel analysis and PLM lifecycle improvements that reduced stockouts by 15%.'
           ]
         },
         {
           period: 'Jun 2020 - Nov 2020',
           company: 'Online Education Platform (Freelance)',
           title: 'Backend Developer',
+          summary:
+            'Freelance Java backend work focused on high-concurrency course access, asynchronous workflows, caching, and search.',
           bullets: [
-            'Split services with Spring Boot and Spring Cloud to handle high-concurrency course access.',
-            'Introduced RabbitMQ and Kafka for async messaging and used Redis caching for performance.',
-            'Used Docker for isolated environments and ElasticSearch for content search.'
+            'Split services with Spring Boot and Spring Cloud, introduced RabbitMQ/Kafka messaging and Redis caching, and used Docker plus ElasticSearch for isolated delivery and content search.'
           ]
         },
         {
           period: 'Nov 2019 - May 2020',
           company: 'E-commerce Mall Platform (Freelance)',
           title: 'Backend Developer',
+          summary:
+            'Freelance e-commerce backend project covering Spring Cloud services, product modeling, data stores, cache strategy, and cloud SMS integration.',
           bullets: [
-            'Built Spring Cloud microservices with MySQL, MongoDB, and Redis to support e-commerce operations.',
-            'Designed SKU/SPU data models and integrated SMS via Alibaba Cloud.',
-            'Improved concurrency handling and optimized database structure and caching strategies.'
+            'Built Spring Cloud microservices with MySQL, MongoDB, and Redis; designed SKU/SPU models; integrated Alibaba Cloud SMS; and improved concurrency, database structure, and caching.'
           ]
         },
         {
           period: 'May 2018 - Jun 2019',
           company: 'Samsung Mobile R&D Center - Guangzhou',
           title: 'Software Engineer - Android Application',
+          summary:
+            'Early product engineering role connecting Android application delivery, account security, analytics instrumentation, QA automation, and cross-functional release work.',
           bullets: [
             'Delivered feedback modules and guided the merger of Galaxy Community and Samsung Space applications.',
-            'Implemented Samsung account OAuth2 login with JWT-based security and authorization policies.',
-            'Instrumented Baidu and Adobe analytics, aligning event schemas with backend logging for behavior analysis.',
-            'Ensured Android compatibility, triaged verification and market issues, and drove production fixes.',
-            'Built and maintained Android UI automation scripts, boosting regression stability and release efficiency.',
-            'Coordinated patent discussions, certification testing, and agile ceremonies with cross-functional teams.'
+            'Implemented Samsung account OAuth2 login with JWT security and instrumented Baidu/Adobe analytics aligned with backend event logging.',
+            'Handled Android compatibility, verification and market issue fixes, UI automation, patent discussions, certification testing, and agile coordination.'
           ]
         }
       ]
@@ -194,6 +187,8 @@ export const ABOUT_CONTENT = {
     },
     education: {
       title: 'Education',
+      summary:
+        'Education supports the engineering narrative with a Computer Science foundation from the University of Minnesota, U.S. academic experience, and coursework spanning systems, networks, algorithms, software engineering, programming languages, and UI design.',
       entries: [
         {
           period: 'Sep 2014 - Dec 2017',
@@ -301,6 +296,8 @@ export const ABOUT_CONTENT = {
     },
     experience: {
       title: '经历',
+      summary:
+        '工作证明主线：从 Android 产品交付和自由职业 Java 后端项目，进入 Michaels.com 企业电商平台，再到凡新云原生 SaaS 交付，并在 2026 年 7 月进入金融壹账通海外寿险后端 TL 岗位。',
       entries: [
         {
           period: '2026年7月起',
@@ -311,8 +308,7 @@ export const ABOUT_CONTENT = {
           bullets: [
             '带领工程师团队设定目标，跟进交付反馈和发展计划。',
             '与产品经理协作分析保险产品需求，制定技术方案和执行计划。',
-            '参与 Java 后端服务的设计、实现和交付，审查团队技术设计和代码质量。',
-            '协调本地/全球工程、基础设施和产品团队，保障分布式、高并发、高可用服务质量。'
+            '参与 Java 后端服务设计、评审和交付，维护代码审查、REST/HTTP 集成、Docker 交付与服务质量标准。'
           ]
         },
         {
@@ -323,11 +319,9 @@ export const ABOUT_CONTENT = {
             '面向 B 端的 API-first SaaS，提供管理控制台、开发者门户与嵌入式组件，曾负责后端与云原生交付。',
           bullets: [
             '主导微服务建模与接口契约，完善鉴权、幂等与限流策略，并结合 OpenAPI 沉淀文档与 SDK。',
-            '建设多环境 CI/CD 流程，引入蓝绿、金丝雀与特性开关，保障版本可灰度可回滚。',
-            '搭建指标、链路、结构化日志一体的可观测体系，编制仪表盘与 Runbook 支撑排障。',
+            '建设多环境 CI/CD、蓝绿/金丝雀、特性开关、仪表盘与 Runbook，保障版本可灰度、可回滚、可排障。',
             '在 Kubernetes 上治理弹性与探针机制，保持镜像不可变、配置即代码与最小权限原则。',
-            '结合关系型存储与 Redis 缓存优化读写，引入消息队列去重/重试/死信模式解耦流程。',
-            '与前端共建商家控制台、开发者门户与嵌入式组件，匹配 SSR/CSR 策略并串联 Sentry 事件。'
+            '结合关系型存储、Redis、消息队列、去重/重试/死信模式优化数据链路，并与前端协作 SSR/CSR 策略和 Sentry 事件串联。'
           ]
         },
         {
@@ -337,49 +331,42 @@ export const ABOUT_CONTENT = {
           summary: '搭建 Michaels.com 电商平台及 PLM/MakerPlace 核心服务，面向全球消费者与卖家。',
           bullets: [
             '主导从 0 到 1 的 Michaels.com 平台架构，承载高并发访问与完整订单链路。',
-            '负责 GCP 上的 Kubernetes/Docker 多环境部署与 CI/CD 自动化发布。',
-            '在团队从约 15 人扩张至 300+ 过程中持续推进 Scrum 节奏与治理。',
-            '牵头 PLM 与 MakerPlace 核心模块，覆盖商品入驻、库存、订单与用户体系。',
-            '与前端、QA、DevOps 协同实现持续交付、金丝雀发布与高频上线。',
-            '维护配置、日志与集成参数，编制数据预热与数据库迁移脚本，确保平滑上线。',
-            '编写 JUnit/Mockito 单元与集成测试，支撑 GitLab CI/CD 质量闸口。',
+            '负责 GCP Kubernetes/Docker 多环境部署、CI/CD 自动化、发布准备、日志、配置、数据预热与数据库迁移。',
+            '在团队从约 15 人扩张至 300+ 过程中推进 Scrum 节奏与治理，并协调前端、QA、DevOps 持续交付。',
+            '牵头 PLM 与 MakerPlace 后端模块，覆盖入驻、库存、订单、用户、供应商整合、报表与安全 REST API。',
             '使用 JMeter 压测 API，定位瓶颈并优化 MongoDB 索引与负载，吞吐提升约 30%。',
-            '构建后端行为埋点，支撑转化漏斗与业务分析。',
-            '在 PLM 模块中完善生命周期跟踪、供应商整合与报表，缺货率下降 15%。',
-            '在 MakerPlace 模块中交付商家入驻、JWT 轮换、OAuth2 登录与标准化 REST API。'
+            '构建后端行为埋点支撑转化漏斗分析，并通过 PLM 生命周期优化将缺货率下降 15%。'
           ]
         },
         {
           period: '2020年6月 - 2020年11月',
           company: '教育平台项目（自由职业）',
           title: 'Java 后端开发',
+          summary: '自由职业 Java 后端项目，重点处理高并发课程访问、异步流程、缓存和内容检索。',
           bullets: [
-            '使用 Spring Boot、Spring Cloud 进行微服务拆分，支持高并发课程访问。',
-            '引入 RabbitMQ、Kafka 构建异步消息机制，并利用 Redis 缓存提升性能。',
-            '借助 Docker 实现环境隔离，使用 ElasticSearch 支持内容检索。'
+            '使用 Spring Boot/Spring Cloud 拆分服务，引入 RabbitMQ/Kafka、Redis、Docker 与 ElasticSearch，支持课程访问、异步处理、缓存和检索。'
           ]
         },
         {
           period: '2019年11月 - 2020年5月',
           company: '商城项目（自由职业）',
           title: 'Java 后端开发',
+          summary:
+            '自由职业电商后端项目，覆盖 Spring Cloud 服务、商品建模、数据存储、缓存策略和云短信集成。',
           bullets: [
-            '基于 Spring Cloud 微服务架构构建电商系统，整合 MySQL、MongoDB、Redis 等技术。',
-            '完成商品 SPU/SKU 建模、订单管理、购物车、短信服务等业务功能。',
-            '提升并发处理能力，优化数据库结构与缓存策略。'
+            '基于 Spring Cloud、MySQL、MongoDB、Redis 构建电商系统，完成 SPU/SKU 建模、阿里云短信集成，并优化并发、数据库结构与缓存。'
           ]
         },
         {
           period: '2018年5月 - 2019年6月',
           company: '三星广州通信技术研究有限公司',
           title: '软件工程师 - Android 应用',
+          summary:
+            '早期产品工程经历，连接 Android 应用交付、账号安全、数据埋点、QA 自动化与跨团队发布协作。',
           bullets: [
             '负责盖乐世社区与盖乐世空间合并期间的反馈模块研发与上线。',
-            '实现三星账号 OAuth2 登录与 JWT 安全策略，统一授权流程。',
-            '接入百度统计与 Adobe Analytics，设计事件结构并联调后端日志。',
-            '保障 Android 兼容性，响应验证及市场反馈并推动问题修复。',
-            '编写维护 Android UI 自动化脚本，提升回归效率与稳定性。',
-            '协调专利研讨、认证测试与敏捷协作，衔接设计、测试与产品团队。'
+            '实现三星账号 OAuth2 登录与 JWT 安全策略，并接入百度统计、Adobe Analytics 与后端事件日志。',
+            '处理 Android 兼容性、验证与市场反馈、UI 自动化、专利研讨、认证测试和敏捷协作。'
           ]
         }
       ]
@@ -397,6 +384,8 @@ export const ABOUT_CONTENT = {
     },
     education: {
       title: '教育',
+      summary:
+        '教育经历为工程叙事提供计算机科学基础：明尼苏达大学本科、美国学习经历，以及系统、网络、算法、软件工程、编程语言和 UI 设计等课程支撑。',
       entries: [
         {
           period: '2014年9月 - 2017年12月',

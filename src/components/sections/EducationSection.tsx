@@ -16,6 +16,9 @@ export default function EducationSection({
       <h2 id="educationTitle">
         <LocalizedSection zhContent={educationZh.title} enContent={educationEn.title} />
       </h2>
+      <p className="c-section-summary">
+        <LocalizedSection zhContent={educationZh.summary} enContent={educationEn.summary} />
+      </p>
       <div id="educationList">
         {educationZh.entries.map((entry, idx) => (
           <div className="c-education-item" key={idx}>

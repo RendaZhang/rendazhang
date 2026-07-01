@@ -10,8 +10,16 @@ interface ExperienceEntry {
 }
 
 interface ExperienceSectionProps {
-  experienceEn: { title: string; entries: ReadonlyArray<ExperienceEntry> };
-  experienceZh: { title: string; entries: ReadonlyArray<ExperienceEntry> };
+  experienceEn: {
+    title: string;
+    summary: string;
+    entries: ReadonlyArray<ExperienceEntry>;
+  };
+  experienceZh: {
+    title: string;
+    summary: string;
+    entries: ReadonlyArray<ExperienceEntry>;
+  };
 }
 
 export default function ExperienceSection({
@@ -23,6 +31,9 @@ export default function ExperienceSection({
       <h2 id="experienceTitle">
         <LocalizedSection zhContent={experienceZh.title} enContent={experienceEn.title} />
       </h2>
+      <p className="c-section-summary">
+        <LocalizedSection zhContent={experienceZh.summary} enContent={experienceEn.summary} />
+      </p>
       <div id="experienceList">
         {experienceZh.entries.map((entry, idx) => (
           <div className="c-experience-item" key={idx}>
