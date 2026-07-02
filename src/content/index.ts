@@ -2,6 +2,7 @@
 export * from './aboutContent';
 export * from './authErrorContent';
 export * from './certificationsContent';
+export * from './chatGuideKnowledge';
 export * from './deepseekChatContent';
 export * from './loginContent';
 export * from './navContent';

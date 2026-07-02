@@ -13,6 +13,7 @@
   - [Implemented Frontend Event Boundary](#implemented-frontend-event-boundary)
   - [Chat Guide Boundary](#chat-guide-boundary)
   - [Implemented Chat Preset Questions MVP](#implemented-chat-preset-questions-mvp)
+  - [Implemented Chat Guide Knowledge Boundary](#implemented-chat-guide-knowledge-boundary)
   - [Phase 11 Slice Order](#phase-11-slice-order)
   - [Validation Expectations](#validation-expectations)
   - [Open Decisions For Later Slices](#open-decisions-for-later-slices)
@@ -22,7 +23,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 12:52 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 13:39 (UTC+08:00)
 - **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
@@ -195,6 +196,10 @@ Good preset-question candidates:
 
 Telemetry for presets may record only the preset ID, not a generated answer or visitor text.
 
+The Slice 11.4 source inventory, preset mapping, refusal language, and runtime context behavior are
+documented in
+[Chat Guide Knowledge Boundary](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_GUIDE_KNOWLEDGE_BOUNDARY.md).
+
 ## Implemented Chat Preset Questions MVP
 
 Slice 11.3 adds the frontend preset question entry path in
@@ -217,6 +222,29 @@ Current behavior:
 - The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
   is unchanged.
 
+## Implemented Chat Guide Knowledge Boundary
+
+Slice 11.4 adds the frontend-only preset knowledge boundary in
+`src/content/chatGuideKnowledge.ts`.
+
+Current behavior:
+
+- The public source categories are `homepage`, `docs`, `frontend_docs`, `certifications`, `llms`,
+  `metadata`, and `public_github_docs`.
+- The preset boundary map covers the five controlled IDs already used by
+  `CHAT_PRESET_QUESTION_IDS`: `who_is_renda`, `personalweb_proof`, `cloud_native_evidence`,
+  `certification_context`, and `recruiter_summary`.
+- `src/components/chat/Chat.tsx` now builds a localized public-context prompt when a preset is
+  selected, fills the existing textarea, and keeps sending through `src/controllers/chatController.ts`.
+- The prompt builder falls back to the controlled localized preset label if a caller supplies text
+  that does not match the known preset question.
+- Free-form Chat behavior is unchanged.
+- Preset telemetry is unchanged: it records only `chat_preset_question_clicked` with `{ presetId }`
+  and never includes the visible prompt, generated answer, chat history, contact/auth/profile data,
+  cookies, tokens, full URLs, query strings, or private paths.
+- The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
+  is unchanged.
+
 ## Phase 11 Slice Order
 
 | Slice | Status | Scope |
@@ -224,7 +252,7 @@ Current behavior:
 | `11.1 Site Intelligence And Visitor Journey Plan` | `Done` | Capture owner decisions, visitor paths, telemetry privacy rules, Chat Guide public-content boundary, and next-slice order |
 | `11.2 Privacy-Safe Frontend Event Boundary` | `Done` | Added typed frontend event names, payload constraints, sanitizer/tests, and no-op transport without sending data to a backend |
 | `11.3 Chat Guide Preset Questions MVP` | `Done` | Added guided preset questions and ID-only event hooks without backend telemetry or Chat Widget protocol changes |
-| `11.4 Site Guide Knowledge Boundary` | `Backlog` | Define public content source inventory, refusal language, and answer-grounding rules |
+| `11.4 Site Guide Knowledge Boundary` | `Done` | Added frontend-only public context source inventory, preset mapping, refusal language, prompt builder, and tests |
 | `11.5 Backend Telemetry API Precheck` | `Backlog` | Decide whether backend persistence is justified and whether Redis aggregate or Postgres events are appropriate |
 | `11.6 Backend Telemetry Implementation` | `Backlog` | Implement first-party backend telemetry only after precheck approval, with retention and deployment runbook |
 | `11.7 Phase 11 QA And Close` | `Backlog` | Verify privacy boundaries, journey behavior, browser smoke, production checks, and close or split residuals |

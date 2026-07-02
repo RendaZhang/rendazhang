@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import Chat from '../components/chat/Chat';
+import { buildChatGuidePresetPrompt } from '../content/chatGuideKnowledge';
 import { sendMessageToAI } from '../services';
 import type { ChatMessage } from '../types/chat';
 
@@ -45,7 +46,15 @@ describe('Chat preset question flow', () => {
     fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
-    expect(input.value).toBe('What does PersonalWeb prove?');
+    const expectedPrompt = buildChatGuidePresetPrompt(
+      'personalweb_proof',
+      'What does PersonalWeb prove?',
+      'en'
+    );
+
+    expect(input.value).toBe(expectedPrompt);
+    expect(input.value).toContain('Answer using only the public PersonalWeb context below');
+    expect(input.value).toContain('PersonalWeb is a public project proof surface');
     expect(sendMessageToAI).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole('button', { name: /send/i }));
@@ -53,6 +62,6 @@ describe('Chat preset question flow', () => {
     await waitFor(() => {
       expect(sendMessageToAI).toHaveBeenCalled();
     });
-    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe('What does PersonalWeb prove?');
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(expectedPrompt);
   });
 });

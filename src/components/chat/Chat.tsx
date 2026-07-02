@@ -4,6 +4,7 @@ import { createChatController, type ChatController } from '../../controllers/cha
 import { useChatHistory } from '../../hooks';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
+import { buildChatGuidePresetPrompt } from '../../content/chatGuideKnowledge';
 import { LocalizedSection, Modal } from '../ui';
 import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
@@ -183,8 +184,8 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     });
   };
 
-  const handlePresetSelect = (_presetId: ChatPresetQuestionId, question: string) => {
-    setInput(question);
+  const handlePresetSelect = (presetId: ChatPresetQuestionId, question: string) => {
+    setInput(buildChatGuidePresetPrompt(presetId, question, langKey));
     messageInputRef.current?.focus();
   };
 
