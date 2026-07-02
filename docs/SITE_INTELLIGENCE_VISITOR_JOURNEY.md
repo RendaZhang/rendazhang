@@ -15,6 +15,7 @@
   - [Implemented Chat Preset Questions MVP](#implemented-chat-preset-questions-mvp)
   - [Implemented Chat Guide Knowledge Boundary](#implemented-chat-guide-knowledge-boundary)
   - [Backend Telemetry API Precheck](#backend-telemetry-api-precheck)
+  - [Phase 12 Handoff](#phase-12-handoff)
   - [Phase 11 Slice Order](#phase-11-slice-order)
   - [Validation Expectations](#validation-expectations)
   - [Open Decisions For Later Slices](#open-decisions-for-later-slices)
@@ -24,8 +25,9 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 17:57 (UTC+08:00)
-- **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
+- **Last Updated**: July 02, 2026, 23:17 (UTC+08:00)
+- **Scope**: Phase 11 planning and Phase 12 handoff for first-party site intelligence, visitor
+  journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
 ## Purpose
@@ -280,6 +282,20 @@ operational details.
 The backend-owned precheck and future guardrails are documented in
 [Visitor Telemetry Backend Precheck](https://github.com/RendaZhang/python-cloud-chat/blob/master/docs/VISITOR_TELEMETRY_PRECHECK.md).
 
+## Phase 12 Handoff
+
+Phase 11 is closed. The shipped Chat Guide boundary is intentionally narrow:
+
+- controlled preset clicks record only `presetId` through the frontend-local/no-op event boundary;
+- unchanged preset sends are grounded with frontend-owned public context;
+- visible input and user chat history store only the short preset question;
+- free-form Chat still uses the generic Chat API path;
+- backend telemetry transport remains No-Go.
+
+Phase 12 owns answer-quality work beyond those Phase 11 boundaries. The next architecture decision
+is documented in
+[Chat Guide Quality Architecture](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_GUIDE_QUALITY_ARCHITECTURE.md).
+
 ## Phase 11 Slice Order
 
 | Slice | Status | Scope |
@@ -290,7 +306,7 @@ The backend-owned precheck and future guardrails are documented in
 | `11.4 Site Guide Knowledge Boundary` | `Done` | Added frontend-only public context source inventory, preset mapping, refusal language, prompt builder, and tests |
 | `11.5 Backend Telemetry API Precheck` | `Done` | Decided No-Go for backend transport now; aggregate-only PostgreSQL counters are the only acceptable future design if reopened |
 | `11.6 Backend Telemetry Implementation` | `Backlog` | Not recommended after the No-Go precheck unless the owner later gives an explicit Go decision |
-| `11.7 Phase 11 QA And Close` | `Ready` | Verify privacy boundaries, journey behavior, browser smoke, production checks, and close or split residuals |
+| `11.7 Phase 11 QA And Close` | `Done` | Final privacy, journey, Chat Guide, browser smoke, production, docs, and local roadmap QA passed with no follow-up defect |
 
 ## Validation Expectations
 
@@ -324,6 +340,8 @@ Backend telemetry slices:
   with an explicit owner decision and start from aggregate-only counters, not raw events.
 - Whether to add a visible privacy note on the site when telemetry transport ships.
 - Whether stricter chat-history retention should be redesigned separately from visitor telemetry.
+- Whether Phase 12 should wire backend Chat Guide prompt policy into live chat is tracked in the
+  Chat Guide quality architecture plan, not in Phase 11 telemetry work.
 
 ## Reference Principles
 
