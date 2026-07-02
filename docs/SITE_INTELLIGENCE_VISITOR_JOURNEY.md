@@ -14,6 +14,7 @@
   - [Chat Guide Boundary](#chat-guide-boundary)
   - [Implemented Chat Preset Questions MVP](#implemented-chat-preset-questions-mvp)
   - [Implemented Chat Guide Knowledge Boundary](#implemented-chat-guide-knowledge-boundary)
+  - [Backend Telemetry API Precheck](#backend-telemetry-api-precheck)
   - [Phase 11 Slice Order](#phase-11-slice-order)
   - [Validation Expectations](#validation-expectations)
   - [Open Decisions For Later Slices](#open-decisions-for-later-slices)
@@ -23,7 +24,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 17:26 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 17:57 (UTC+08:00)
 - **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
@@ -248,6 +249,37 @@ Current behavior:
 - The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
   is unchanged.
 
+## Backend Telemetry API Precheck
+
+Slice 11.5 is a No-Go decision for backend visitor telemetry transport now.
+
+Current behavior remains unchanged:
+
+- `src/services/visitorEvents.ts` stays frontend-local/no-op by default.
+- No visitor events are sent to CloudChat.
+- No backend endpoint, Redis key, PostgreSQL table, retention job, frontend transport, Nginx change,
+  third-party analytics script, cookie, fingerprinting, session replay, dependency change, runtime
+  change, service restart, or production server change is introduced.
+- No visible privacy note is required while events remain local/no-op.
+
+Reasoning:
+
+- The existing Phase 11 frontend boundary is useful as a typed privacy guard even without
+  persistence.
+- The current site does not yet have evidence that persisted visitor telemetry would improve the
+  visitor journey enough to justify a new API surface, migration, retention job, and privacy note.
+- Raw event rows would add privacy and operations risk without current evidence.
+
+If the owner later reopens telemetry persistence, the only acceptable first design is
+aggregate-only, first-party PostgreSQL counters using the existing controlled event taxonomy. That
+future design must still reject unknown events, unknown keys, visitor-entered text, chat messages,
+generated answers, contact form content, auth/profile identifiers, emails, phones, cookies, tokens,
+raw IP event fields, raw user-agent strings, full URLs, query strings, private paths, and private
+operational details.
+
+The backend-owned precheck and future guardrails are documented in
+[Visitor Telemetry Backend Precheck](https://github.com/RendaZhang/python-cloud-chat/blob/master/docs/VISITOR_TELEMETRY_PRECHECK.md).
+
 ## Phase 11 Slice Order
 
 | Slice | Status | Scope |
@@ -256,9 +288,9 @@ Current behavior:
 | `11.2 Privacy-Safe Frontend Event Boundary` | `Done` | Added typed frontend event names, payload constraints, sanitizer/tests, and no-op transport without sending data to a backend |
 | `11.3 Chat Guide Preset Questions MVP` | `Done` | Added guided preset questions and ID-only event hooks without backend telemetry or Chat Widget protocol changes |
 | `11.4 Site Guide Knowledge Boundary` | `Done` | Added frontend-only public context source inventory, preset mapping, refusal language, prompt builder, and tests |
-| `11.5 Backend Telemetry API Precheck` | `Backlog` | Decide whether backend persistence is justified and whether Redis aggregate or Postgres events are appropriate |
-| `11.6 Backend Telemetry Implementation` | `Backlog` | Implement first-party backend telemetry only after precheck approval, with retention and deployment runbook |
-| `11.7 Phase 11 QA And Close` | `Backlog` | Verify privacy boundaries, journey behavior, browser smoke, production checks, and close or split residuals |
+| `11.5 Backend Telemetry API Precheck` | `Done` | Decided No-Go for backend transport now; aggregate-only PostgreSQL counters are the only acceptable future design if reopened |
+| `11.6 Backend Telemetry Implementation` | `Backlog` | Not recommended after the No-Go precheck unless the owner later gives an explicit Go decision |
+| `11.7 Phase 11 QA And Close` | `Ready` | Verify privacy boundaries, journey behavior, browser smoke, production checks, and close or split residuals |
 
 ## Validation Expectations
 
@@ -288,8 +320,8 @@ Backend telemetry slices:
 ## Open Decisions For Later Slices
 
 - Whether anonymous session IDs are needed at all. Recommendation for Slice 11.2: do not add them.
-- Whether a future backend should store raw short-retention events, aggregate-only counters, or no
-  persistent telemetry.
+- Whether a future backend should store any telemetry is currently answered as No-Go. Reopen only
+  with an explicit owner decision and start from aggregate-only counters, not raw events.
 - Whether to add a visible privacy note on the site when telemetry transport ships.
 - Whether stricter chat-history retention should be redesigned separately from visitor telemetry.
 
