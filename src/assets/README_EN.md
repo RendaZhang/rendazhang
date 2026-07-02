@@ -31,6 +31,7 @@
     - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
     - [Interaction Component Standards](#interaction-component-standards)
     - [Content And Credibility Positioning](#content-and-credibility-positioning)
+    - [Site Intelligence And Visitor Journey](#site-intelligence-and-visitor-journey)
     - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -50,7 +51,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 01, 2026, 18:06 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 11:59 (UTC+08:00)
 
 ---
 
@@ -466,6 +467,10 @@ location /_astro/ {
 > Phase 10 planning for personal-brand content, credibility proof, PersonalWeb project evidence,
 > certifications, work/education narrative, and SEO/GEO alignment is documented in:
 > 📄 [Content And Credibility Positioning](https://github.com/RendaZhang/rendazhang/blob/master/docs/CONTENT_CREDIBILITY_POSITIONING.md).
+
+### Site Intelligence And Visitor Journey
+
+> Phase 11 visitor journey, privacy-safe anonymous events, first-party telemetry boundaries, and Chat Guide public-content scope are documented in: 📄 [Site Intelligence And Visitor Journey](https://github.com/RendaZhang/rendazhang/blob/master/docs/SITE_INTELLIGENCE_VISITOR_JOURNEY.md).
 
 ### SEO / GEO Maintenance
 
