@@ -10,6 +10,7 @@
   - [Visitor Journey Map](#visitor-journey-map)
   - [Telemetry Principles](#telemetry-principles)
   - [Candidate Event Taxonomy](#candidate-event-taxonomy)
+  - [Implemented Frontend Event Boundary](#implemented-frontend-event-boundary)
   - [Chat Guide Boundary](#chat-guide-boundary)
   - [Phase 11 Slice Order](#phase-11-slice-order)
   - [Validation Expectations](#validation-expectations)
@@ -20,7 +21,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 11:59 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 12:23 (UTC+08:00)
 - **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
@@ -144,6 +145,28 @@ Disallowed event fields:
   account profile fields, tokens, cookies, secret values, private server paths, full query strings,
   IP addresses as explicit fields, and raw user-agent strings.
 
+## Implemented Frontend Event Boundary
+
+Slice 11.2 adds the frontend-only boundary in `src/services/visitorEvents.ts`.
+
+Current behavior:
+
+- The boundary defines typed event names, route keys, locale values, theme modes, palette values,
+  and Chat preset question IDs.
+- `normalizeVisitorEvent` accepts only the documented event names and event-specific payload keys.
+- Unknown event names, unknown payload keys, sensitive keys, sensitive values, full URLs, query
+  strings, private paths, emails, phone-like values, long IDs, and non-enumerated values fail
+  closed.
+- `trackVisitorEvent` normalizes first and then calls an injected transport.
+- The default transport is `noopVisitorEventTransport`; it does not send data to a backend, write
+  browser storage, set cookies, or call third-party analytics.
+- Later slices may import this service to wire event hooks, but they should continue using
+  controlled IDs such as `presetId`, `targetId`, `anchorId`, or `routeKey` instead of visible text
+  or visitor-entered input.
+
+The boundary is deliberately separate from `src/utils/sentryContext.ts`. Sentry remains runtime
+diagnostics; visitor journey events must stay on this stricter first-party product-event path.
+
 ## Chat Guide Boundary
 
 The Chat Guide may answer from public content only:
@@ -176,7 +199,7 @@ Telemetry for presets may record only the preset ID, not a generated answer or v
 | Slice | Status | Scope |
 | --- | --- | --- |
 | `11.1 Site Intelligence And Visitor Journey Plan` | `Done` | Capture owner decisions, visitor paths, telemetry privacy rules, Chat Guide public-content boundary, and next-slice order |
-| `11.2 Privacy-Safe Frontend Event Boundary` | `Ready` | Add typed frontend event names, payload constraints, sanitizer/tests, and no-op transport without sending data to a backend |
+| `11.2 Privacy-Safe Frontend Event Boundary` | `Done` | Added typed frontend event names, payload constraints, sanitizer/tests, and no-op transport without sending data to a backend |
 | `11.3 Chat Guide Preset Questions MVP` | `Backlog` | Add guided preset questions and event hooks using preset IDs only |
 | `11.4 Site Guide Knowledge Boundary` | `Backlog` | Define public content source inventory, refusal language, and answer-grounding rules |
 | `11.5 Backend Telemetry API Precheck` | `Backlog` | Decide whether backend persistence is justified and whether Redis aggregate or Postgres events are appropriate |
