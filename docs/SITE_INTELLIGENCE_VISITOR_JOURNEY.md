@@ -12,6 +12,7 @@
   - [Candidate Event Taxonomy](#candidate-event-taxonomy)
   - [Implemented Frontend Event Boundary](#implemented-frontend-event-boundary)
   - [Chat Guide Boundary](#chat-guide-boundary)
+  - [Implemented Chat Preset Questions MVP](#implemented-chat-preset-questions-mvp)
   - [Phase 11 Slice Order](#phase-11-slice-order)
   - [Validation Expectations](#validation-expectations)
   - [Open Decisions For Later Slices](#open-decisions-for-later-slices)
@@ -21,7 +22,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 12:23 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 12:52 (UTC+08:00)
 - **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
@@ -194,13 +195,35 @@ Good preset-question candidates:
 
 Telemetry for presets may record only the preset ID, not a generated answer or visitor text.
 
+## Implemented Chat Preset Questions MVP
+
+Slice 11.3 adds the frontend preset question entry path in
+`src/components/chat/ChatPresetQuestions.tsx`, with localized prompt text in
+`src/content/deepseekChatContent.ts`.
+
+Current behavior:
+
+- Presets render on `/deepseek_chat/` only when the Chat UI is ready and no conversation messages
+  are visible.
+- The visible preset list uses the controlled IDs from `CHAT_PRESET_QUESTION_IDS`:
+  `who_is_renda`, `personalweb_proof`, `cloud_native_evidence`, `certification_context`, and
+  `recruiter_summary`.
+- Clicking a preset records only `chat_preset_question_clicked` with `{ presetId }` through
+  `trackVisitorEvent`.
+- Clicking a preset fills the existing Chat textarea and focuses it; the visitor still sends through
+  the normal Chat input/send button and `src/controllers/chatController.ts`.
+- Preset click telemetry never includes the visible prompt text, visitor-entered text, generated
+  answers, chat history, contact/auth/profile data, cookies, tokens, full URLs, or private paths.
+- The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
+  is unchanged.
+
 ## Phase 11 Slice Order
 
 | Slice | Status | Scope |
 | --- | --- | --- |
 | `11.1 Site Intelligence And Visitor Journey Plan` | `Done` | Capture owner decisions, visitor paths, telemetry privacy rules, Chat Guide public-content boundary, and next-slice order |
 | `11.2 Privacy-Safe Frontend Event Boundary` | `Done` | Added typed frontend event names, payload constraints, sanitizer/tests, and no-op transport without sending data to a backend |
-| `11.3 Chat Guide Preset Questions MVP` | `Backlog` | Add guided preset questions and event hooks using preset IDs only |
+| `11.3 Chat Guide Preset Questions MVP` | `Done` | Added guided preset questions and ID-only event hooks without backend telemetry or Chat Widget protocol changes |
 | `11.4 Site Guide Knowledge Boundary` | `Backlog` | Define public content source inventory, refusal language, and answer-grounding rules |
 | `11.5 Backend Telemetry API Precheck` | `Backlog` | Decide whether backend persistence is justified and whether Redis aggregate or Postgres events are appropriate |
 | `11.6 Backend Telemetry Implementation` | `Backlog` | Implement first-party backend telemetry only after precheck approval, with retention and deployment runbook |

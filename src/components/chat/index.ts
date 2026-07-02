@@ -9,6 +9,8 @@ export * from './ChatInput';
 export { default as ChatInput } from './ChatInput';
 export * from './ChatMessageList';
 export { default as ChatMessageList } from './ChatMessageList';
+export * from './ChatPresetQuestions';
+export { default as ChatPresetQuestions } from './ChatPresetQuestions';
 export * from './EnhancementProgress';
 export { default as EnhancementProgress } from './EnhancementProgress';
 export * from './LoadingIndicator';

@@ -9,6 +9,8 @@ import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
 import LoadingIndicator from './LoadingIndicator';
+import ChatPresetQuestions from './ChatPresetQuestions';
+import type { ChatPresetQuestionId } from '../../services/visitorEvents';
 
 interface ChatProps {
   texts?: typeof DEEPSEEK_CHAT_CONTENT;
@@ -181,6 +183,11 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     });
   };
 
+  const handlePresetSelect = (_presetId: ChatPresetQuestionId, question: string) => {
+    setInput(question);
+    messageInputRef.current?.focus();
+  };
+
   const handleReset = () => {
     setShowResetModal(true);
     setResetError(null);
@@ -215,8 +222,17 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         {!isReady ? (
           <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />
         ) : messages.length === 0 ? (
-          <div className="c-info-text">
-            <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
+          <div className="c-chat-empty-state">
+            <div className="c-info-text">
+              <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
+            </div>
+            <ChatPresetQuestions
+              heading={activeTexts.presets.heading}
+              description={activeTexts.presets.description}
+              questions={activeTexts.presets.questions}
+              disabled={isSending || isResetting}
+              onSelect={handlePresetSelect}
+            />
           </div>
         ) : (
           <ChatMessageList
