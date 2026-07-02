@@ -90,6 +90,53 @@ describe('chatController', () => {
     expect(controller.hasActiveRequest()).toBe(false);
   });
 
+  it('sends hidden model input while storing only the display message in history', async () => {
+    const history = createHistoryHarness();
+    const onAccepted = vi.fn();
+    const sendMessageToAI = vi.fn(
+      async (message: string, onChunkCallback?: (chunk: string) => void) => {
+        expect(message).toBe('grounded public context prompt');
+        onChunkCallback?.('grounded partial');
+        return 'grounded answer';
+      }
+    );
+    const controller = createChatController({
+      sendMessageToAI,
+      resetChat: vi.fn(async () => true)
+    });
+
+    await expect(
+      controller.sendMessage({
+        input: '  grounded public context prompt  ',
+        displayInput: '  What does PersonalWeb prove?  ',
+        addMessage: history.addMessage,
+        setMessages: history.setMessages,
+        onAccepted
+      })
+    ).resolves.toEqual({ status: 'sent', response: 'grounded answer' });
+
+    expect(sendMessageToAI).toHaveBeenCalledWith(
+      'grounded public context prompt',
+      expect.any(Function),
+      expect.objectContaining({ signal: expect.any(AbortSignal) })
+    );
+    expect(history.messages).toEqual([
+      { role: ROLES.USER, content: 'What does PersonalWeb prove?' },
+      { role: ROLES.AI, content: 'grounded answer' }
+    ]);
+    expect(onAccepted).toHaveBeenCalledWith('What does PersonalWeb prove?');
+    expect(sentryMock.addBreadcrumb).toHaveBeenCalledWith(
+      expect.objectContaining({
+        category: 'chat',
+        message: 'Chat send accepted',
+        data: { input_length: 'What does PersonalWeb prove?'.length }
+      })
+    );
+    expect(JSON.stringify(sentryMock.addBreadcrumb.mock.calls)).not.toContain(
+      'grounded public context prompt'
+    );
+  });
+
   it('records chat breadcrumbs without sending message contents', async () => {
     const history = createHistoryHarness();
     const sendMessageToAI = vi.fn(

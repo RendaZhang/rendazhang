@@ -14,7 +14,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     },
     presets: {
       heading: 'Start with a public proof question',
-      description: 'Choose a guided prompt, review it in the message box, then send it when ready.',
+      description: 'Choose a short question; public site context is applied when you send.',
       questions: {
         who_is_renda: 'Who is Renda Zhang?',
         personalweb_proof: 'What does PersonalWeb prove?',
@@ -48,7 +48,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     },
     presets: {
       heading: '从公开证明问题开始',
-      description: '选择一个预设问题，先在输入框中确认内容，然后按发送。',
+      description: '选择一个短问题，发送时会自动应用公开网站上下文。',
       questions: {
         who_is_renda: 'Renda Zhang 是谁？',
         personalweb_proof: 'PersonalWeb 证明了什么？',

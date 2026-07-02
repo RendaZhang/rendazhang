@@ -23,7 +23,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 13:39 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 17:26 (UTC+08:00)
 - **Scope**: Phase 11 planning for first-party site intelligence, visitor journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
 
@@ -215,8 +215,9 @@ Current behavior:
   `recruiter_summary`.
 - Clicking a preset records only `chat_preset_question_clicked` with `{ presetId }` through
   `trackVisitorEvent`.
-- Clicking a preset fills the existing Chat textarea and focuses it; the visitor still sends through
-  the normal Chat input/send button and `src/controllers/chatController.ts`.
+- Clicking a preset fills the existing Chat textarea with only the short localized question and
+  focuses it; the visitor still sends through the normal Chat input/send button and
+  `src/controllers/chatController.ts`.
 - Preset click telemetry never includes the visible prompt text, visitor-entered text, generated
   answers, chat history, contact/auth/profile data, cookies, tokens, full URLs, or private paths.
 - The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
@@ -234,8 +235,10 @@ Current behavior:
 - The preset boundary map covers the five controlled IDs already used by
   `CHAT_PRESET_QUESTION_IDS`: `who_is_renda`, `personalweb_proof`, `cloud_native_evidence`,
   `certification_context`, and `recruiter_summary`.
-- `src/components/chat/Chat.tsx` now builds a localized public-context prompt when a preset is
-  selected, fills the existing textarea, and keeps sending through `src/controllers/chatController.ts`.
+- `src/components/chat/Chat.tsx` now shows only the short localized preset question in the textarea.
+- When an unchanged preset question is sent, `Chat.tsx` builds the localized public-context prompt
+  for the model request, while `src/controllers/chatController.ts` stores only the short visible
+  question in chat history.
 - The prompt builder falls back to the controlled localized preset label if a caller supplies text
   that does not match the known preset question.
 - Free-form Chat behavior is unchanged.

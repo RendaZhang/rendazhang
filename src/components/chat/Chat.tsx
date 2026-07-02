@@ -36,6 +36,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('');
+  const [selectedPresetId, setSelectedPresetId] = useState<ChatPresetQuestionId | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
@@ -133,6 +134,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   }, [isReady]);
 
   useEffect(() => {
+    setSelectedPresetId(null);
+  }, [langKey]);
+
+  useEffect(() => {
     const inputEl = messageInputRef.current;
     if (!inputEl) return;
 
@@ -151,12 +156,24 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   }, []);
 
   const handleSend = async () => {
+    const presetQuestion = selectedPresetId
+      ? activeTexts.presets.questions[selectedPresetId]
+      : null;
+    const shouldSendGroundedPreset =
+      Boolean(selectedPresetId && presetQuestion) && input === presetQuestion;
+    const messageInput =
+      shouldSendGroundedPreset && selectedPresetId
+        ? buildChatGuidePresetPrompt(selectedPresetId, input, langKey)
+        : input;
+
     await chatController.sendMessage({
-      input,
+      input: messageInput,
+      displayInput: shouldSendGroundedPreset ? input : undefined,
       addMessage,
       setMessages,
       onAccepted: () => {
         setInput('');
+        setSelectedPresetId(null);
         setIsSending(true);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'block';
@@ -185,8 +202,21 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   };
 
   const handlePresetSelect = (presetId: ChatPresetQuestionId, question: string) => {
-    setInput(buildChatGuidePresetPrompt(presetId, question, langKey));
+    setSelectedPresetId(presetId);
+    setInput(question);
     messageInputRef.current?.focus();
+  };
+
+  const handleInputChange = (nextInput: string) => {
+    setInput(nextInput);
+    if (!selectedPresetId) {
+      return;
+    }
+
+    const presetQuestion = activeTexts.presets.questions[selectedPresetId];
+    if (nextInput !== presetQuestion) {
+      setSelectedPresetId(null);
+    }
   };
 
   const handleReset = () => {
@@ -249,7 +279,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       <TypingIndicator innerRef={typingIndicatorRef} />
       <ChatInput
         value={input}
-        onChange={setInput}
+        onChange={handleInputChange}
         onSend={handleSend}
         onReset={handleReset}
         onKeyDown={handleKeyDown}

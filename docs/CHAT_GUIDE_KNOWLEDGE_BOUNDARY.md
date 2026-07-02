@@ -14,7 +14,7 @@
 
 # Chat Guide Knowledge Boundary
 
-- **Last Updated**: July 02, 2026, 13:39 (UTC+08:00)
+- **Last Updated**: July 02, 2026, 17:26 (UTC+08:00)
 - **Scope**: Slice 11.4 frontend-only Chat Guide public context boundary.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat Guide
   behavior.
@@ -22,8 +22,9 @@
 ## Purpose
 
 The Chat Guide preset questions should answer from public PersonalWeb context instead of generic
-model guesses. Slice 11.4 keeps the implementation frontend-only: preset questions receive a
-controlled public-context prompt before entering the existing Chat input/send flow.
+model guesses. Slice 11.4 keeps the implementation frontend-only: preset questions stay short and
+visible, while unchanged preset sends are internally grounded with a controlled public-context
+prompt before entering the existing Chat input/send flow.
 
 This boundary does not add backend telemetry, persistence, third-party analytics, cookies,
 fingerprinting, dependencies, runtime changes, or Chat Widget iframe protocol changes.
@@ -69,8 +70,11 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
   boundary map, localized prompt context, and `buildChatGuidePresetPrompt`.
 - `src/components/chat/ChatPresetQuestions.tsx` still renders short visible preset buttons and
   records only `chat_preset_question_clicked` with `{ presetId }`.
-- `src/components/chat/Chat.tsx` calls `buildChatGuidePresetPrompt` when a preset is selected and
-  fills the existing textarea with the controlled public-context prompt.
+- `src/components/chat/Chat.tsx` fills the existing textarea with only the short localized preset
+  question.
+- When the unchanged preset question is sent, `Chat.tsx` calls `buildChatGuidePresetPrompt` for the
+  model request while `src/controllers/chatController.ts` stores only the short visible question in
+  chat history.
 - `buildChatGuidePresetPrompt` uses the controlled localized preset question for the final
   `Question:` line if a caller passes text that does not match the known preset label.
 - The visitor still sends through the existing `src/controllers/chatController.ts` flow. Free-form
@@ -96,5 +100,6 @@ Focused tests cover:
 - Chinese identity prompt grounding for `Renda Zhang 是谁？`;
 - fallback to controlled preset text when arbitrary caller text is supplied;
 - prompt text avoiding private values and private endpoint paths;
-- Chat preset flow using the existing textarea and normal send button;
+- Chat preset flow showing only short questions while sending grounded context internally;
+- edited preset text falling back to normal free-form chat;
 - preset telemetry remaining ID-only.

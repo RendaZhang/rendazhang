@@ -26,6 +26,7 @@ export interface ChatControllerServices {
 
 export interface SendChatMessageOptions {
   input: string;
+  displayInput?: string;
   addMessage: AddChatMessage;
   setMessages: SetChatMessages;
   onAccepted?: (message: string) => void;
@@ -109,13 +110,14 @@ export function createChatController(
   return {
     async sendMessage(options) {
       const message = options.input.trim();
-      if (!message) {
+      const displayMessage = (options.displayInput ?? options.input).trim();
+      if (!message || !displayMessage) {
         return { status: 'skipped-empty' };
       }
 
-      options.addMessage(ROLES.USER, message);
-      addSentryBreadcrumb('chat.send.accepted', { input_length: message.length });
-      options.onAccepted?.(message);
+      options.addMessage(ROLES.USER, displayMessage);
+      addSentryBreadcrumb('chat.send.accepted', { input_length: displayMessage.length });
+      options.onAccepted?.(displayMessage);
 
       const abortController = createAbortController();
       activeAbortController = abortController;
