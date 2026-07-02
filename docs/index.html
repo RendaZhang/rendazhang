@@ -1,0 +1,1102 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="/js/base-layout-init.js" data-theme-key="preferred_theme" data-palette-key="preferred_palette" data-lang-key="preferred_lang" data-login-key="logged_in" data-title-zh="技术文档 · 张人大" data-title-en="Technical Documentation · Renda Zhang" data-is-prod="true"></script><title>技术文档 · 张人大</title><meta name="description" content="Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes."><link rel="shortcut icon" type="image/x-icon" href="/_astro/favicon.DWJcqDAl.ico"><link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAACVBJREFUWEedV31sG+UZ/917dz5/xI7j2LEdGydt2kBKQxJakZS04mMgbS1F68oEE2hAp2lsoAHTJpiQtv2DxtCm8g8TYqKgiX8QYghF3Qd/UOhaEbdN0tAQEod8OYljx8nZjT/vznc3vW/rkKTpYHukk+98773P732f3/N7npfDN7TOzk43IeSQ1Wq9W1XVLk3Tmnie94iiCEKIDGAWwBAh5KNCoXDy4sWL2W8yNfd1g3p7e2/Udf15juMelGXZlslksLq6CsMwYLfbwXFXpqitrYXP5wMFBKAE4B2O4146e/bs+H/zcV0Ae/bssRNCXjQM48lEIiEqioJsNktXC57nmWNVVSEIAnRdZ89WqxXBYBAej4eN4Xleq1Qqr3q93hf6+vqKWwHZEkBHR0erzWZ7L5VK7U4mkyiV6IKuGHVEnZqmye7pL72qIOh/DocDzc3NcDqd1W9GNE07eu7cudhmENcA2L9/f7dhGH35fN4Xi8VAV04drLcqAOp0K6PvvV4vQqEQJEmqgk0bhnG4v78/uv6bDQBuu+22VkEQzmQyGd/MzMyGlVc/ohNuNgqQhmO9uVwubN++nfGkaoIgpMvl8v71O7EGgMZckqSoaZq7x8fHIcuU2GDbTS9iXJmGELrtBkxisv8cdhtqXQ6oqoZcPod8UYUuENTYa9Dc1LwBAP3eMIyReDzenUgkGCfWABw4cOC4aZrP0HgPDQ0xllPHlEw2mw1eYoUIwkJSYyXwe0RIRECwoQGBkBVOZw0KhSK+GJ3DqfgCCpqAluaWNR5sCuErp0+ffnYNwN69e28URfESx3FioVDA8PAwI5jFYoHTJiJQXwu35IBDsmJ5ZRmtjX7c07ELLn89LE4HCK9A01QGILsgYygWw9+GptEY2Qa3271VyDRCSDtNUbYDPT09bxJCHqP35XIZly5dYh9RAM0BNyIeB9x1dbBYRCiKikjAgwe+fSfbmUqlAgqa7hjViOXlZczOzuK9C3MwRceWAOjcuq6/FY1GH+eowjkcjoRpmjb6gk44MTEBpViA38Fhe3MEkVAQlFQ2mxVe0Y5wuAFdHS1sl2jI8vk8u6dAKIh0Oo3o4AzOpRfhqWveMlOoWFkslkaup6fnYULI29VRlNGTk5MorGaxO+zCjpYdcLpccLtccNbUoC0QQXvHTbBIGlRNxcryCpaSKVT0CgOiqRo0TcPgwCTOry7BZgtfDwDl2CPcvn373uA47tj6UXQVyaUF7Ag4cKB1N2z+egiqjlCgEZ37u0FloVwuoVQuIxo9h6UvJlEq5JHL5REIhZAr5jE0tojLxTJ8bS1Mnquitd6PaZonuN7e3kHTNLvWv6BMn49P45cPH4JV53B2eABL5RzcnjrsCjVDsljACwJgEoyOfolb2m5FfHoaRnkVdTsieKvvA4RrgjB0gPh8LHOoTFMZ3wRgiAJYMU3Ts+kFPFYBD9/kh7+lCbUhPwYGBtDe3o5wOMzIR+vC+egoxsem4fM2oL+/H4GgH/WRRvR/NoRUagny5QJ8OzvR0tKCqakpRtT1xnGczN1+++0bdfbqiLZICM/e0Y7o58PoOrAPi4uLCAQCqKurg93ugqlbkMtnMTo6gkpuBTOzc1CJBW03d0G0OXH89degGgbc2zpYpaQAtrLrAtgZ8uOpfW2QPE7UhgOgRYnGkhYah70OMOxQK1kspecxMjLCmE9F6/77HoQoOPGnE69hJDaB+h23st2iYbgegBUAG0JAB/ImwdPfPYi9LQ7IugZFVWDoBgNgtdrAURHlgFKpiGI8iWR6Cb7WbQgGG1EuldHfP4p33++D7A5We4St/Ms0DQcJIRtIeEUiefhMA889+i0ksjL8/gbGZEokSii6WirVdGWlhTSKigLR68LIyOcYH59AbCKFCniU/M3XVNMqEo7jhrju7u43eJ7fkIZMkDiBkejIzS5ouRXccecdLP5UHelFAVSVk4pRFVixWMTCwgLe/fAMljJ5kHoqRNe2HVf7iRPXCFEVXYUjKGkVHGnxomtHAHK5gECokUlrtU5QEFS6KbstvAVSRWLsHxsbw8dDE1gwNZCaa6LLXFxt5R5hUmyz2RIcxzEp/goAoBPgsV1t6N0VxGgyDsnpYJJMewK6C3TV1Dm95qfmsfhZErKcweXcKj4dm0Ol9QbYahxbks80zZIkSY3XFKPqaAMcxEoOx+68Ba2tO1FeyWIqNgH7DX7U17jg5ETGAdqIKHYRSqEEWwkYnZrD51NxfDyZgOuG8FqoNqMQRfGtTz755HEGgJZjnucv8Twv0tjQgiRnsmhv8uKJw93wBUKQ8ipio2MYTs7A43Ai4r7SAUuSFeUaEXZJgphXEV++jH+fH8bgcgkWZy0Vy61MU1W1/cKFC1fKMbXOzs7juVzuGVoHKAieM/GrH9yLu24Jg69tZADk9DKGFqYwHouhVCzC7/ezLrgqUDQ7aGjm5+eR1esx+NkXuDifWGtgq750XX8lGo1+1ZBcfWF3u91RQshu9mwaOHbffjx0dwdMyQWLZqKUL2A5KyO+uICJmWlMTk5B1XQINieaImHc/517mOxSqc6oeZiERyyu4F///AfG4ymoxAoO5oiiKN0DAwMbWzLq0+l0tvI8f4YQ4jM5gj07Q3j55w9BB2HxLhWKEOQCMuUCpuUUEokEAzE4vYIfH3sMR+/tYeymqVglaS6XA4GO3/35HcwWhDR0beumtLo9Lperm+f5PnCcz0JMnPjDrxGsIazGU25A0VBSFCwuLzFHtHk9eXoSv/np91EyFYTDIXZCouNpdlCS/r3vA/RPyumFSu3h/jOnrt+WV0FIktRqsVjeEwRh99OPHsH9+3ZBUcrQdWMt72nrlUylcOrUeUj1O/HyU0chNnggZ2TolQoaGhqQSqUwEYthbHRkZGo+dfSvZ6a+/mCyjrJ2h8PxYnPQ++Rfnn9E1FQFZUMAPQpSos7NzeHDMwO4FEth2/Yw0/9Dhw/i0QcOwmKWkZEzmJ6Z0dLJhVeNVeWFn7z+PxzN1ueN1ynd+Mcn7ns+Eml6sKhUbJViCV/OzuHTi8MYm0kBFisuFzTIqxoEnsNzP/shvnfvXaW5udg7c7Pxl3708tv/3+F0c/K+f/wZt6Dj0PJU8u7zscmugdnpJqtk9dADyWiyIF9ezbPjeU9750e//8VvT971+JFvdDz/Dy/cWTz/HGnCAAAAAElFTkSuQmCC"><link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAxFJREFUOE9dk99LU2EYx7/vztmv2mxa6tTNX2lpTdMs86gRZBQUgRBBQdGFlnQjXfQHSF0kXXQhBYkFQTeV0EWUYIQF6lamJln+OlqburacsqPrrLWznTfOyfmj5+Y954Hnw/f5vt+X4L/iOK48Eok0BYPBo7Is5+p0OphMJrfRaOwB0O5yuT5tHCGJH47jjKIotvl8vgZBEAilFIQQKKdS6enpsNlslGGYh5TSZpfL9VvpqwBlOBaLdfM8f1gQBHWAZVn1VADxeFyF5eXlwWq1Kt+9siyfUCAqoKampsPr9TZ6PB4YDAZsY/TQUBkWE4PszFToDQyGp2ZBTNthy7IlRD9wOp2XibIzgCG3202Wlpaw274D+VYr9AzQUH8c2i06hH4tY3TkKx7180jLyEooU3arUAD3CSFNgUAA4UUvjlSWIsduR+XuIpQ4suH3+6Gs9dPvx7O3QwixKWseEkLaSXV19RSAwmg0Cl18GbVFBRDjEriqKnX30aExBL0/EGaBsUkfdFkZ0Gq1CRW8AogCUDv1jlxUOOyQCEVJSSkCCysYfD+I6ZkZpOUX4OnLV8jYW4WFhYWECmkT4NS+YpypK8VyJAyLJQUsY4BnZgKzc7Pgautw++4DzPzRQVG7WpLiwRQhpFC9shhwsdqGouJdSnig1+shLq9AkmKYmObR2dWHsCV7Y474NROV7h8A17g90CYRZGRlwmg0QpIkCHMCJj/zeD4yDjk1dbOJiWuklBKNHEXLhWOILa7AKwaRZ0kDNWhBKOAcGMOLyR/QmU0JAGVZtkINUk5OTkcoFGo8VJyNG1fqQUSK/tFhfJ0Yh3lbCg4e2I/Cgp34tiiiy/kFU9/nQYnmX5BWccbk5OTupK2Gw09ar0FD44gsChj1TKOnbwSNl86jIN8OhmHgnZ9F6+PXvcGoZj3KCYjZbG67efVsQ3lhJhHDEXwcHsGb/glcOncaNVwZwqEVOvDe+bDnw8fmTtf8+mPaaOuthmPlZQ5HEz/+7Wjnu75cnxDFXOCX+17L9Z7MZLn9ZPOdTc/5L1qjVNaISL8iAAAAAElFTkSuQmCC"><link rel="canonical" href="https://www.rendazhang.com/docs/"><meta name="robots" content="index, follow"><meta name="author" content="Renda Zhang"><meta name="language" content="en, zh-CN"><meta name="geo.region" content="CN-GD"><meta name="geo.placename" content="Shenzhen, Guangdong, China"><meta name="geo.position" content="22.543096;114.057865"><meta name="ICBM" content="22.543096, 114.057865"><meta property="og:title" content="Technical Documentation · Renda Zhang"><meta property="og:description" content="Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes."><meta property="og:type" content="website"><meta property="og:url" content="https://www.rendazhang.com/docs/"><meta property="og:image" content="https://www.rendazhang.com/_astro/cover-certifications-high-rectangle-1200x630.wOBfB04m.jpg"><meta property="og:site_name" content="Renda Zhang"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Renda Zhang AI Full-Stack and cloud-native engineer profile with PersonalWeb proof and AWS certification preview"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:secure_url" content="https://www.rendazhang.com/_astro/cover-certifications-high-rectangle-1200x630.wOBfB04m.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="技术文档 · 张人大"><meta name="twitter:description" content="Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes."><meta name="twitter:image" content="https://www.rendazhang.com/_astro/cover-certifications-high-rectangle-1200x630.wOBfB04m.jpg"><meta name="twitter:image:alt" content="Renda Zhang AI Full-Stack and cloud-native engineer profile with PersonalWeb proof and AWS certification preview"><meta name="twitter:site" content="@RendaZhang"><meta name="twitter:creator" content="@RendaZhang"><meta name="twitter:url" content="https://www.rendazhang.com/docs/"><meta name="twitter:domain" content="www.rendazhang.com"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://www.rendazhang.com/#person","name":"Renda Zhang","alternateName":["张人大"],"hasCredential":[{"@id":"https://www.rendazhang.com/certifications/#aws-saa-c03"}],"url":"https://www.rendazhang.com","image":"https://www.rendazhang.com/_astro/logo-v4-high-circle-300x300.D9-4DsN6.png","jobTitle":"AI Full-Stack & Cloud-Native Software Engineer / Senior Backend Engineer TL","hasOccupation":{"@type":"Occupation","name":"AI Full-Stack and Cloud-Native Software Engineer","occupationLocation":{"@type":"City","name":"Shenzhen, Guangdong, China"},"skills":"AI full-stack development, PersonalWeb, Astro, React, Flask/OpenAI integration, Java, Spring, API-first microservices, insurance platforms, cloud-native architecture, AWS, Google Cloud Platform, Kubernetes, Terraform, CI/CD, observability, team leadership"},"knowsAbout":["AI full-stack development","PersonalWeb","Astro","React","Flask and OpenAI API integration","Java","Spring","API-first microservices","Cloud-native architecture","AWS","Google Cloud Platform","Kubernetes","Terraform","Insurance platforms","Financial technology","CI/CD","Observability","Technical documentation","Team leadership"],"alumniOf":{"@type":"CollegeOrUniversity","name":"University of Minnesota - Twin Cities","url":"https://twin-cities.umn.edu/"},"address":{"@type":"PostalAddress","addressLocality":"Shenzhen","addressRegion":"Guangdong","addressCountry":"CN"},"affiliation":{"@type":"Organization","name":"OneConnect Financial Technology","description":"Incoming employer for a Senior Backend Engineer / Team Lead role starting July 2026."},"sameAs":["https://github.com/RendaZhang","https://www.linkedin.com/in/RendaZhang","https://blog.csdn.net/qq_40286307","https://rendazhang.medium.com"],"description":"Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026."},{"@type":"WebSite","@id":"https://www.rendazhang.com/#website","url":"https://www.rendazhang.com/","name":"Renda Zhang","alternateName":["张人大","Renda Zhang Personal Website"],"description":"Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026.","inLanguage":["en","zh-CN"],"author":{"@id":"https://www.rendazhang.com/#person"},"publisher":{"@id":"https://www.rendazhang.com/#person"}},{"@type":"WebPage","@id":"https://www.rendazhang.com/docs/#webpage","url":"https://www.rendazhang.com/docs/","name":"Technical Documentation · Renda Zhang","alternateName":"技术文档 · 张人大","description":"Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes.","inLanguage":["en","zh-CN"],"isPartOf":{"@id":"https://www.rendazhang.com/#website"},"author":{"@id":"https://www.rendazhang.com/#person"},"publisher":{"@id":"https://www.rendazhang.com/#person"},"about":["PersonalWeb project proof surface","Astro and React frontend architecture","AI Chat Widget protocol and backend integration boundaries","Java and Spring backend portfolio context","Cloud-native website operations","Testing, CI/CD, SEO, GEO, and Sentry documentation"],"breadcrumb":{"@id":"https://www.rendazhang.com/docs/#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://www.rendazhang.com/docs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Renda Zhang","item":"https://www.rendazhang.com/"},{"@type":"ListItem","position":2,"name":"Technical Documentation · Renda Zhang","item":"https://www.rendazhang.com/docs/"}]}]}</script><link rel="preload" href="/_astro/chat_widget.CfyK4Rny.css" as="style"><link rel="stylesheet" href="/_astro/github-code-highlight.Cc14v-FC.css"><link rel="stylesheet" href="/_astro/github-markdown-light.BH-j9gO2.css"><link rel="stylesheet" href="/_astro/docs.CkM4nmc5.css"><link rel="stylesheet" href="/_astro/markdown-dark-mode.BNGezgni.css"><link rel="stylesheet" href="/_astro/chat_widget.CfyK4Rny.css"><link rel="stylesheet" href="/_astro/BaseLayout.CuCXrqTg.css"><script type="module" src="/_astro/page.fQqaUCUC.js"></script></head> <body class="docs-page"> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var g=Object.defineProperty;var w=(c,s,d)=>s in c?g(c,s,{enumerable:!0,configurable:!0,writable:!0,value:d}):c[s]=d;var l=(c,s,d)=>w(c,typeof s!="symbol"?s+"":s,d);var E=new Set(["__proto__","constructor","prototype"]);{let c={0:t=>y(t),1:t=>d(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(d(t)),5:t=>new Set(d(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},s=t=>{let[p,e]=t;return p in c?c[p](e):void 0},d=t=>t.map(s),y=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([p,e])=>[p,s(e)]));class f extends HTMLElement{constructor(){super(...arguments);l(this,"Component");l(this,"hydrator");l(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let n=this.querySelectorAll("astro-slot"),r={},i=this.querySelectorAll("template[data-astro-template]");for(let o of i){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("data-astro-template")||"default"]=o.innerHTML,o.remove())}for(let o of n){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("name")||"default"]=o.innerHTML)}let u;try{u=this.hasAttribute("props")?y(JSON.parse(this.getAttribute("props"))):{}}catch(o){let a=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(a+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${a}`,this.getAttribute("props"),o),o}let h;await this.hydrator(this)(this.Component,u,r,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});l(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),n.disconnect(),this.childrenConnectedCallback()},n=new MutationObserver(()=>{var r;((r=this.lastChild)==null?void 0:r.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});n.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}getRetryImportUrl(e){let n=new URL(e,document.baseURI),r=`astro-retry=${Date.now()}`,i=n.hash.replace(/^#/,"");return n.hash=i?`${i}&${r}`:r,n.toString()}async importWithRetry(e){try{return await import(e)}catch(n){return await new Promise(r=>setTimeout(r,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let n=this.getAttribute("component-url"),r=new CustomEvent("astro:hydration-error",{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:n}});this.dispatchEvent(r)&&console.error(`[astro-island] Error hydrating ${n}`,e)}async start(){let e=JSON.parse(this.getAttribute("opts")),n=this.getAttribute("client");if(Astro[n]===void 0){window.addEventListener(`astro:${n}`,()=>this.start(),{once:!0});return}try{await Astro[n](async()=>{let r=this.getAttribute("renderer-url");try{let[i,{default:u}]=await Promise.all([this.importWithRetry(this.getAttribute("component-url")),r?this.importWithRetry(r):Promise.resolve({default:()=>()=>{}})]),h=this.getAttribute("component-export")||"default";if(h.includes(".")){this.Component=i;for(let m of h.split(".")){if(E.has(m)||!this.Component||typeof this.Component!="object"&&typeof this.Component!="function"||!Object.hasOwn(this.Component,m))throw new Error(`Invalid component export path: ${h}`);this.Component=this.Component[m]}}else{if(E.has(h))throw new Error(`Invalid component export path: ${h}`);this.Component=i[h]}return this.hydrator=u,this.hydrate}catch(i){return this.handleHydrationError(i),()=>{}}},e,this)}catch(r){this.handleHydrationError(r)}}attributeChangedCallback(){this.hydrate()}}l(f,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",f)}})();</script><astro-island uid="22U6mD" prefix="r5" component-url="/_astro/index.DdTzwjiC.js" component-export="NavBarWrapper" renderer-url="/_astro/client.KjMsY6if.js" props="{&quot;initialLang&quot;:[0,&quot;zh-CN&quot;],&quot;showNav&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;NavBarWrapper&quot;,&quot;value&quot;:true}" await-children><div class="c-nav-container"><nav><div class="c-nav-left"><button class="c-hamburger-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><a href="/" aria-label="首页" class="c-nav-logo"><span class="c-nav-home-logged-out"><img src="/_astro/logo-v4-high-circle-300x300.D9-4DsN6.png" alt="" class="c-nav-logo-icon"/><span class="is-lang-zh">首页</span><span class="is-lang-en">Home</span></span><span class="c-nav-home-logged-in"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg><span class="is-lang-zh">已登录</span><span class="is-lang-en">Logged In</span></span></a></div><div class="c-nav-right"><div class="c-language-selector-wrapper"><button class="c-language-selector-main" aria-haspopup="listbox" aria-expanded="false" aria-label="切换语言"><span class="is-lang-zh">中文</span><span class="is-lang-en">English</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></button></div><div class="c-theme-toggle-wrapper"><button class="c-theme-toggle-main" aria-expanded="false" aria-label="切换主题"><span class="is-lang-zh">切换主题</span><span class="is-lang-en">Theme</span><span class="is-theme-light" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 18a6 6 0 110-12 6 6 0 010 12z" fill="currentColor"></path><g stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4" y1="12" x2="2" y2="12"></line><line x1="22" y1="12" x2="20" y2="12"></line><line x1="5.64" y1="5.64" x2="4.22" y2="4.22"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="5.64" y1="18.36" x2="4.22" y2="19.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></g></svg></span><span class="is-theme-dark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"></path></svg></span></button></div><a href="/login" aria-label="登录" class="c-avatar-link c-login-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a><button type="button" aria-label="退出" class="c-avatar-link c-logout-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button></div></nav></div><!--astro:end--></astro-island> <main class="c-main-content c-docs-main">  <div id="content-zh" class="is-lang-zh c-markdown-body"><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<ul>
+<li><a href="#%E5%BC%A0%E4%BA%BA%E5%A4%A7-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99">张人大 · 轻量级网站</a><ul>
+<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
+<li><a href="#personalweb-%E9%A1%B9%E7%9B%AE%E8%AF%81%E6%98%8E">PersonalWeb 项目证明</a></li>
+<li><a href="#%E6%8A%80%E6%9C%AF%E6%A0%88">技术栈</a><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">目录结构</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84">参考架构</a></li>
+</ul>
+</li>
+<li><a href="#%E5%89%8D%E7%AB%AF">前端</a><ul>
+<li><a href="#%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E">架构说明</a><ul>
+<li><a href="#baselayout-%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E">BaseLayout 组件设计说明</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E5%92%8C%E9%A2%84%E8%A7%88">本地开发和预览</a><ul>
+<li><a href="#github-actions">GitHub Actions</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">使用说明</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD">网站功能</a><ul>
+<li><a href="#%E9%A1%B5%E9%9D%A2%E5%8A%9F%E8%83%BD">页面功能</a></li>
+<li><a href="#%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC">页面跳转</a></li>
+<li><a href="#%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9">页面内容</a></li>
+<li><a href="#%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96">页面优化</a></li>
+<li><a href="#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88">配色方案</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E7%AB%AF"><strong>后端</strong></a></li>
+<li><a href="#nginx-%E6%9C%8D%E5%8A%A1%E5%99%A8"><strong>Nginx 服务器</strong></a></li>
+<li><a href="#%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E">文档说明</a><ul>
+<li><a href="#git-%E5%88%86%E6%94%AF%E4%B8%8E%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B">Git 分支与发布流程</a></li>
+<li><a href="#cicd-%E5%B7%A5%E4%BD%9C%E6%B5%81">CI/CD 工作流</a></li>
+<li><a href="#astro-6-%E8%BF%81%E7%A7%BB%E9%A2%84%E6%A3%80">Astro 6 迁移预检</a></li>
+<li><a href="#%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%BA%A6%E5%AE%9A">前端架构约定</a></li>
+<li><a href="#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE">前端目录所有权地图</a></li>
+<li><a href="#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E">Chat Widget 协议说明</a></li>
+<li><a href="#%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C%E5%B9%B3%E5%8F%B0-rfc">前端体验平台 RFC</a></li>
+<li><a href="#%E4%BA%A4%E4%BA%92%E7%BB%84%E4%BB%B6%E6%A0%87%E5%87%86">交互组件标准</a></li>
+<li><a href="#%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BF%A1%E5%BA%A6%E4%B8%8E%E4%B8%AA%E4%BA%BA%E5%AE%9A%E4%BD%8D">内容可信度与个人定位</a></li>
+<li><a href="#site-intelligence-%E4%B8%8E%E8%AE%BF%E5%AE%A2%E8%B7%AF%E5%BE%84">Site Intelligence 与访客路径</a></li>
+<li><a href="#chat-guide-%E8%B4%A8%E9%87%8F%E6%9E%B6%E6%9E%84">Chat Guide 质量架构</a></li>
+<li><a href="#seo--geo-%E7%BB%B4%E6%8A%A4%E8%AF%B4%E6%98%8E">SEO / GEO 维护说明</a></li>
+<li><a href="#bug-%E8%AE%B0%E5%BD%95">BUG 记录</a></li>
+<li><a href="#%E5%BC%80%E5%8F%91%E9%9C%80%E6%B1%82">开发需求</a></li>
+<li><a href="#%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%B8%8E%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E8%A7%84%E8%8C%83">用户认证与密码重置规范</a></li>
+<li><a href="#%E5%8E%9F%E7%94%9F%E5%88%B0-astro--react-%E5%8D%87%E7%BA%A7">原生到 Astro + React 升级</a></li>
+<li><a href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4">响应式图片系统维护</a></li>
+<li><a href="#%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA">错误跟踪</a></li>
+<li><a href="#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">工具函数参考文档</a></li>
+<li><a href="#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97">预提交钩子综合指南</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E6%8C%87%E5%8D%97">测试指南</a></li>
+<li><a href="#js-%E2%9E%9C-ts-%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97">JS ➜ TS 迁移指南</a></li>
+<li><a href="#%E6%A0%B7%E5%BC%8F%E4%BD%93%E7%B3%BB%E8%AF%B4%E6%98%8E">样式体系说明</a></li>
+</ul>
+</li>
+<li><a href="#-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97">🤝 贡献指南</a></li>
+<li><a href="#-%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81">🔒 开源许可证</a></li>
+<li><a href="#-%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F">📬 联系方式</a></li>
+</ul>
+</li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<h1>张人大 · 轻量级网站</h1>
+<ul>
+<li><strong>作者</strong>: 张人大</li>
+<li><strong>最后更新</strong>: July 02, 2026, 23:17 (UTC+08:00)</li>
+</ul>
+<hr>
+<h2>简介</h2>
+<p><strong><a href="https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md">Click here to view the English Version in Github</a></strong></p>
+<p>这是我个人维护的 <strong>轻量级</strong> 网站，作为我的技术能力的在线展示平台。</p>
+<p><strong>网站链接</strong>: 🌐 <a href="https://www.rendazhang.com">www.rendazhang.com</a></p>
+<p>本网站已进行 SEO / GEO 优化。</p>
+<h2>PersonalWeb 项目证明</h2>
+<p>PersonalWeb 是我当前最直接的公开项目证明。它不是大型商业平台，也不包装成生产级 SaaS；它展示的是我如何把个人品牌站、AI 交互、前端体验、后端集成、文档、测试、部署与公开可发现性放进一个可维护的工程闭环。</p>
+<table>
+<thead>
+<tr>
+<th>证明方向</th>
+<th>公开证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI 全栈开发</td>
+<td>同源浮动 Chat Widget、<code>/deepseek_chat/</code> 聊天页、Flask + OpenAI API 后端集成、Markdown/代码渲染和清晰的前后端边界</td>
+</tr>
+<tr>
+<td>前端体验工程</td>
+<td>Astro 静态页面、React islands、主题 mode 与 palette、响应式 Hero、docs/certifications polish、浏览器 smoke 覆盖</td>
+</tr>
+<tr>
+<td>云原生与交付纪律</td>
+<td>GitHub Actions 自动构建部署、Node 24 运行时 pin、Nginx/CSP 约束意识、静态发布、生产只读校验</td>
+</tr>
+<tr>
+<td>可靠性与可维护性</td>
+<td>Vitest 覆盖率、Playwright smoke、Browser QA、Sentry 集成、架构/目录/协议/测试/SEO 文档</td>
+</tr>
+<tr>
+<td>搜索与 AI 摘要可见性</td>
+<td>SEO/GEO 维护、结构化数据、SSR/SSG docs 正文、<code>llms.txt</code> 和 sitemap 规划边界</td>
+</tr>
+</tbody></table>
+<p>可以从以下入口验证这条证明链：</p>
+<ul>
+<li><a href="https://www.rendazhang.com/">主页</a>：查看 AI 全栈、云原生和 PersonalWeb 证明的首屏定位。</li>
+<li><a href="https://www.rendazhang.com/deepseek_chat/">AI 聊天页面</a>：查看同源 Chat 页面、流式输出和 Markdown 增强体验。</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md">Chat Widget 协议说明</a>：查看 iframe ready、origin/source 校验和后续重构约束。</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md">前端架构约定</a>：查看 Astro 页面、React islands、状态、服务层、CSP 与 iframe 边界。</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md">测试指南</a>：查看 Vitest、覆盖率、Playwright smoke 与视觉/交互 QA 约定。</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md">CI/CD 工作流</a>：查看 GitHub Actions 静态构建、部署和 release 流程。</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md">SEO / GEO 维护说明</a>：查看公开实体、结构化数据、docs SSR 和 AI 摘要入口边界。</li>
+</ul>
+<p>这条证明链刻意不包含私人凭据、客户敏感信息、聊天内容、表单提交、服务器私有路径或非公开运维细节。</p>
+<blockquote>
+<p>如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 <a href="https://github.com/RendaZhang/renda-cloud-lab">Renda Cloud LAB</a>。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。</p>
+</blockquote>
+<hr>
+<h2>技术栈</h2>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前端</td>
+<td><strong>Astro</strong>, <strong>React</strong>, TypeScript</td>
+</tr>
+<tr>
+<td>状态管理</td>
+<td>React <code>useState</code>、<code>useContext</code>（可扩展 Zustand 等）</td>
+</tr>
+<tr>
+<td>构建工具</td>
+<td>Astro 内置 (基于 Vite)</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>Flask + OpenAI API</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>GitHub Actions + Nginx</td>
+</tr>
+</tbody></table>
+<h3>目录结构</h3>
+<pre><code class="language-bash">src/
+├── assets/
+├── constants/           # 站点元信息、资源路径与应用设置
+├── features/            # 按业务划分的模块
+│   ├── chat/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── services/
+│   └── auth/
+│       ├── components/
+│       ├── hooks/
+│       └── services/
+├── hooks/               # 业务逻辑自定义 hooks
+├── styles/
+│   ├── core/               # 核心变量
+│   │   ├── tokens.css      # 设计 Token（颜色、间距等）
+│   │   └── _gradients.css  # 渐变系统
+│   ├── components/         # 组件样式
+│   ├── utilities/          # 工具类
+│   └── theme.css           # 主入口文件
+├── scripts/
+├── utils/               # 通用工具函数
+├── models/              # 领域模型
+├── services/           # API interaction layer
+└── components/
+    ├── ui/
+    ├── layouts/
+    ├── forms/
+    ├── chat/
+    ├── sections/
+    └── providers/
+</code></pre>
+<h3>参考架构</h3>
+<p>ASCII 图示：</p>
+<pre><code class="language-bash">Web Application Architecture
+============================
+
+Frontend (
+   Astro + React
+   - 负责用户界面和交互
+) → CI/CD (
+   GitHub Actions 自动构建部署
+) → Server (
+   Ubuntu (操作系统)
+   ↓
+   Nginx (静态文件服务)
+   ↓
+   systemd 服务 (进程管理)
+   ↓
+   Gunicorn + Gevent (WSGI 服务器)
+   ↓
+   Backend: Flask App (处理业务逻辑和 API 请求)
+)
+</code></pre>
+<p>Mermaid Flow 图示：</p>
+<pre><code class="language-mermaid">flowchart TD
+    A[Web] --&gt; B[Frontend: Astro + React]
+    A --&gt; C[Server]
+    B --&gt;|负责用户界面和交互| C
+
+    subgraph Server
+        direction TB
+        D[Ubuntu: 操作系统] --&gt; E[Nginx: 静态服务]
+        E --&gt; F[systemd 服务: 进程管理]
+        F --&gt; G[Gunicorn + Gevent: WSGI 服务器]
+        G --&gt; H[Backend: Flask App: 处理业务逻辑和 API 请求]
+    end
+</code></pre>
+<hr>
+<h2>前端</h2>
+<p>本仓库就是前端项目：📁 <a href="https://github.com/RendaZhang/rendazhang">Renda Zhang WEB</a></p>
+<h3>架构说明</h3>
+<h4>BaseLayout 组件设计说明</h4>
+<p><code>src/layouts/BaseLayout.astro</code> 是站点的全局页面框架，用于设置 <code>&lt;head&gt;</code> 元信息、SEO 标签以及根级插槽。导航栏与汉堡菜单虽然依赖浏览器环境，但现在通过 <code>client:load</code> 先在服务端渲染静态结构，再在客户端水合以避免语言闪烁等问题。保留该文件为 Astro 组件的主要考虑如下：</p>
+<ul>
+<li><strong>静态内容无需 JavaScript</strong>：布局结构和元数据生成属于纯静态内容，Astro 可以直接输出 HTML，无需引入 React 运行时。</li>
+<li><strong>保持局部客户端渲染</strong>：当前仅对导航栏等交互区使用 React，并通过 <code>client:load</code> 在服务端输出静态 HTML 后于客户端水合，其余内容保持零 JS，以最小化 bundle 体积。如果整体改写为 React，会带来额外脚本和水合开销。</li>
+<li><strong>充分利用 Astro 特性</strong>：<code>&lt;slot&gt;</code>、<code>is:inline</code> 等 Astro 专属语法在布局中被广泛使用，若迁移到 React 需额外封装或插件支持，增加维护成本。</li>
+</ul>
+<p>只有在计划将站点全面迁移到 React，或需要在布局层共享复杂的 React 状态/上下文时，才考虑改写 <code>BaseLayout.astro</code>。在现阶段，维持 Astro 版本更简洁高效。</p>
+<p>为满足 Nginx 的 CSP 限制并在 404/500 等纯静态页面中复用主题与语言逻辑，原有的内联初始化脚本已抽离为阻塞式外部脚本 <code>/js/base-layout-init.js</code>。该文件由 <code>src/scripts/base-layout-init.ts</code> 编译生成，并通过 <code>data-theme-key</code>、<code>data-palette-key</code>、<code>data-lang-key</code> 等属性向脚本传递存储键，在渲染前完成主题 mode、调色板和语言初始化。</p>
+<h3>本地开发和预览</h3>
+<ol>
+<li><p>安装依赖并启用 pre-commit：</p>
+<pre><code class="language-bash">npm install
+pip install pre-commit
+pre-commit install
+</code></pre>
+</li>
+<li><p>运行本地开发服务器：</p>
+<pre><code class="language-bash">npm run dev
+</code></pre>
+</li>
+<li><p>构建并预览生产版本：</p>
+<pre><code class="language-bash">npm run build
+npm run preview
+</code></pre>
+</li>
+<li><p>如需连接自定义后端接口，可在根目录 <code>.env</code> / <code>.env.local</code> 文件设置 <code>PUBLIC_API_BASE_URL</code>：</p>
+<pre><code class="language-bash">PUBLIC_API_BASE_URL=https://api.example.com
+</code></pre>
+</li>
+<li><p>Sentry 集成还需要以下变量：</p>
+<pre><code class="language-bash">SENTRY_DSN=&lt;server dsn&gt;
+PUBLIC_SENTRY_DSN=&lt;browser dsn&gt;
+SENTRY_PROJECT=&lt;your project&gt;
+SENTRY_AUTH_TOKEN=&lt;auth token&gt;
+</code></pre>
+<p>本地检查或提交前如需跳过 Sentry 上报，可临时添加环境变量：</p>
+<pre><code class="language-bash">SKIP_SENTRY=true pre-commit run --all-files
+SKIP_SENTRY=true npm run astro -- check --incremental
+</code></pre>
+<p>如需临时跳过 ESLint 检查以加快提交，可设置：</p>
+<pre><code class="language-bash">SKIP_ESLINT=true pre-commit run --all-files
+</code></pre>
+</li>
+<li><p>环境变量说明</p>
+<p>本地可以配置在 <code>.env</code> 或者 <code>.env.local</code>，并通过 <code>src/utils/env.ts</code> 的 <code>getEnv()</code> 读取：</p>
+<pre><code class="language-sh"># 公开信息
+PUBLIC_SITE_BASE_URL = &quot;https://www.rendazhang.com&quot;
+PUBLIC_CDN_BASE=&quot;https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/&quot;
+PUBLIC_API_BASE_URL=&quot;/cloudchat&quot;
+PUBLIC_SENTRY_DSN=&quot;https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088&quot;
+PUBLIC_TAG_NAME=&quot;v1.0.1&quot;
+NODE_ENV=&quot;production&quot;
+PUBLIC_NODE_ENV=&quot;development&quot; # 本地调试覆盖为 development
+SKIP_SENTRY=&quot;true&quot; # 跳过 Sentry
+SKIP_ESLINT=&quot;true&quot; # 跳过 ESLint 检查
+
+# 敏感配置（如下为示例）
+SENTRY_AUTH_TOKEN=&quot;sntrys_xxx&quot;
+SENTRY_DSN=&quot;https://private-key@xxx.ingest.us.sentry.io/xxx&quot;
+SENTRY_PROJECT=&quot;xxx&quot;
+SENTRY_ORG=&quot;xxx&quot;
+</code></pre>
+</li>
+</ol>
+<p>执行 <code>npm run build</code> 后，<code>dist/_astro</code> 目录会生成带有哈希后缀的静态文件，方便浏览器长时间缓存。</p>
+<p>浏览器访问 <code>http://localhost:4321</code> 查看效果。</p>
+<p>构建后的静态文件可使用 <code>npm run preview</code> 验证。</p>
+<h4>GitHub Actions</h4>
+<p>Push 到 <code>master</code> 分支会触发 GitHub Actions 自动部署：</p>
+<ol>
+<li>使用 <code>actions/checkout@v5</code> 检出代码。</li>
+<li>使用 <code>actions/setup-node@v6</code> 安装 Node.js 24，并启用 npm 缓存。</li>
+<li>执行 <code>npm ci</code>，以 <code>package-lock.json</code> 为准安装依赖。</li>
+<li>构建前执行 <code>npm run sync</code>、<code>npm run lint</code>、<code>npm run typecheck</code>、<code>npm run check</code> 和 <code>npm run test:coverage</code>。</li>
+<li>执行 <code>npm run build</code> 生成 <code>dist/</code> 静态文件；生产环境会删除 source map。</li>
+<li>通过 <code>appleboy/scp-action</code> 将 <code>dist/</code> 内容上传到服务器指定目录（如 <code>/var/www/html</code>）。</li>
+<li>发布 release 分支、重建版本标签、创建 GitHub Release，并尝试清理 jsDelivr 版本缓存。</li>
+<li>部署完成后即可通过 Nginx 提供服务；静态站点不需要重启前端服务。</li>
+</ol>
+<blockquote>
+<p>本地提交不会自动运行完整 Astro 检查，如需校验请手动执行：<code>npm run check</code></p>
+</blockquote>
+<p>需要在仓库 Secrets 中配置服务器 IP、SSH 用户和私钥等信息。详情见 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions">配置 GitHub Actions</a>。</p>
+<h4>使用说明</h4>
+<p>部署完成后可直接访问各模块页面。</p>
+<p>如下是我的网站的每个页面的链接：</p>
+<ul>
+<li>🌐 <a href="https://www.rendazhang.com/">主页</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/deepseek_chat/">AI 聊天页面</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/certifications/">证书页面</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/docs/">基于本文档渲染后的技术文档页面</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/login/">登录页面</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/register/">注册页面</a></li>
+</ul>
+<h3>网站功能</h3>
+<p>关于网站的核心功能体系，请参考以下文档链接：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB">核心功能体系</a>。该文档详细描述了网站的核心功能模块，包括功能设计和技术实现，是开发与维护的重要参考。</p>
+<ul>
+<li>主题切换（浅色 / 深色）</li>
+<li>语言切换（中文 / 英文）</li>
+<li>与 AI 在线对话</li>
+<li>浮动 AI 聊天窗口</li>
+<li>回到顶部按钮</li>
+<li>技术文档渲染展示页 (docs/)</li>
+<li>登录与注册表单</li>
+<li>已登录用户账号信息页（登录后可从汉堡菜单访问账号注册信息）</li>
+<li>联系表单</li>
+<li>内容平台链接</li>
+<li>证书展示</li>
+<li>简历下载</li>
+</ul>
+<h4>页面功能</h4>
+<p>各页面核心职责如下（均由 <code>.astro</code> 文件生成）：</p>
+<ul>
+<li><code>index.astro</code>：主页，也是张人大介绍页，展示张人大的信息、教育、技能、博客及工作经验。</li>
+<li><code>certifications.astro</code>：证书列表页。</li>
+<li><code>deepseek_chat.astro</code>：AI 聊天界面。</li>
+<li><code>docs.astro</code>：技术文档页面。</li>
+<li><code>profile.astro</code>：用户账号信息页。</li>
+<li><code>login.astro</code>：登录页。</li>
+<li><code>register.astro</code>：注册页。</li>
+<li><code>404.astro</code>，<code>500.astro</code>：错误页面。</li>
+</ul>
+<h4>页面跳转</h4>
+<ol>
+<li><p><strong>返回主页</strong></p>
+<ul>
+<li>所有页面均包含导航栏中的“主页”按钮，点击后可返回主页。</li>
+</ul>
+</li>
+<li><p><strong>导航栏菜单跳转</strong></p>
+<ul>
+<li>导航栏与汉堡菜单在服务端输出静态标记，并通过 <code>client:load</code> 在客户端水合，既保留交互又避免 Hydration 报错。</li>
+<li>通过点击导航栏的“汉堡菜单”按钮，用户可选择跳转到以下页面：<ul>
+<li>首页</li>
+<li>AI 聊天页</li>
+<li>证书页</li>
+<li>技术文档页</li>
+<li>用户账号信息页（登录后可见）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>登录页面跳转</strong></p>
+<ul>
+<li>通过点击导航栏的“人像图标”按钮，用户可跳转到登录页面。</li>
+</ul>
+</li>
+</ol>
+<p>Mermaid Flow 图示：</p>
+<pre><code class="language-mermaid">flowchart TD
+    A[主页] --&gt;|汉堡菜单| B[AI 聊天页]
+    A --&gt;|汉堡菜单| C[证书页]
+    A --&gt;|汉堡菜单| D[技术文档页]
+    A --&gt;|汉堡菜单| F[账号信息页]
+    A --&gt;|人像图标| E[登录页面]
+    B --&gt;|主页按钮| A
+    C --&gt;|主页按钮| A
+    D --&gt;|主页按钮| A
+    E --&gt;|主页按钮| A
+    F --&gt;|主页按钮| A
+
+    style A fill:#9f9,stroke:#333
+    style B fill:#f9f,stroke:#333
+    style C fill:#ff9,stroke:#333
+    style D fill:#99f,stroke:#333
+    style E fill:#f99,stroke:#333
+    style F fill:#9ff,stroke:#333
+</code></pre>
+<h4>页面内容</h4>
+<ul>
+<li><code>index.astro</code>：多 Section 主页，包含 &quot;Hero&quot;、&quot;自我介绍&quot;、&quot;教育&quot;、&quot;博客&quot;、&quot;技能与能力&quot;、&quot;经历&quot;、&quot;联系我吧&quot; 等模块，并默认悬挂 <code>ChatWidget</code> 浮标。</li>
+<li><code>certifications.astro</code>：栅格卡片形式展示证书，并嵌入 Credly 验证链接。</li>
+<li><code>deepseek_chat.astro</code>：由聊天记录区域与输入框组成的对话界面，支持流式输出并实时渲染 AI 返回的 Markdown 内容，提供一键复制原始内容的功能，并在页面刷新后自动保留历史记录，同时加载 <code>github-code-highlight.css</code> 和 <code>github-markdown-light.css</code> 以保持代码高亮与排版一致。聊天组件已拆分为 <code>ChatMessageList</code>、<code>ChatInput</code> 等子组件，方便复用与维护。</li>
+<li><code>docs.astro</code>：技术文档页面，使用同样的两份 GitHub 样式表配合 highlight.js 渲染 Markdown 与代码。</li>
+<li><code>profile.astro</code>：账号信息页，展示当前登录用户的信息。</li>
+<li><code>login.astro</code>：登录表单页。</li>
+<li><code>register.astro</code>：注册表单页。</li>
+<li><code>404.astro / 500.astro</code>：用于处理页面不存在（404）和服务器内部错误（500）的定制化错误页面，提供清晰的错误信息、友好的用户引导和返回主页的链接，以提升用户体验。</li>
+</ul>
+<h4>页面优化</h4>
+<p><strong>自适应布局</strong>：优化页面在不同设备上的显示效果，减少不必要的资源加载和布局计算，从而提高性能。确保页面在不同屏幕尺寸（如桌面、平板、手机）上都能良好显示，提升用户体验。</p>
+<p><strong>懒加载</strong>：所有图片开启了懒加载 + Loading 动画，其中，针对高清图片采用 LQIP 懒加载优化（比如主页的 Hero 区域）</p>
+<h4>配色方案</h4>
+<p>项目的核心色彩使用 OKLCH 设计令牌并通过 <code>color-mix</code> 提供 sRGB 回退，以保证明暗模式下的感知一致性。</p>
+<p>详情参考文档内容：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88">配色方案</a></p>
+<hr>
+<h2><strong>后端</strong></h2>
+<blockquote>
+<p>后端部署的具体步骤和配置，请参考以下项目：📁 <a href="https://github.com/RendaZhang/python-cloud-chat">Python Cloud Chat</a>。该项目提供了完整的后端实现和部署指南，帮助您快速搭建和运行后端服务。</p>
+</blockquote>
+<hr>
+<h2><strong>Nginx 服务器</strong></h2>
+<blockquote>
+<p>前端项目通过 GitHub Actions 自动化构建后，会直接推送到服务器的 <code>/var/www/html</code> 目录，并由 Nginx 提供静态资源服务。</p>
+</blockquote>
+<blockquote>
+<p>关于 Nginx 的详细配置和操作说明，请查看以下仓库：📁 <a href="https://github.com/RendaZhang/nginx-conf">Nginx Conf</a>。该仓库包含了常用的 Nginx 配置文件和使用示例，方便您快速上手。</p>
+</blockquote>
+<blockquote>
+<p>为充分利用构建生成的指纹文件，可在 Nginx 中为 <code>/_astro/</code> 路径添加长效缓存配置：</p>
+</blockquote>
+<pre><code class="language-nginx">location /_astro/ {
+    access_log off;
+    add_header Cache-Control &quot;public, max-age=31536000, immutable&quot;;
+}
+</code></pre>
+<blockquote>
+<p>如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 <a href="https://github.com/RendaZhang/renda-cloud-lab">Renda Cloud LAB</a>。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。</p>
+</blockquote>
+<hr>
+<h2>文档说明</h2>
+<h3>Git 分支与发布流程</h3>
+<blockquote>
+<p>项目采用 <code>master</code>/<code>develop</code> 双主线，并约定 <code>feature</code>、<code>hotfix</code>、<code>experiment</code> 等分支的命名规范与合并策略，详见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow">Git Workflow</a>。</p>
+</blockquote>
+<h3>CI/CD 工作流</h3>
+<blockquote>
+<p><code>deploy.yml</code> 定义了推送到 <code>master</code> 时触发的自动部署流程，包括标签管理、发布分支与环境变量映射等，可参考：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline">CI / CD Pipeline</a>。</p>
+</blockquote>
+<h3>Astro 6 迁移预检</h3>
+<blockquote>
+<p>Astro 6 升级前的当前基线、目标包集合、Node/Vite/Sentry 兼容性风险、验证清单和回滚策略见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_6_MIGRATION_PRECHECK.md">Astro 6 迁移预检</a>。</p>
+</blockquote>
+<h3>前端架构约定</h3>
+<blockquote>
+<p>Astro 页面、<code>BaseLayout</code>、React Islands、Hydration、服务层、工具函数、样式 Token、CSP 与 iframe 约束的当前约定见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md">前端架构约定</a>。</p>
+</blockquote>
+<h3>前端目录所有权地图</h3>
+<blockquote>
+<p><code>src/components</code>、<code>src/services</code>、<code>src/utils</code>、<code>src/styles</code>、<code>src/content</code>、<code>src/stores</code> 和 <code>src/controllers</code> 的目录职责边界见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md">前端目录所有权地图</a>。</p>
+</blockquote>
+<h3>Chat Widget 协议说明</h3>
+<blockquote>
+<p>浮动 Chat Widget 与 <code>/deepseek_chat/</code> 同源 iframe 的 <code>postMessage</code> ready 协议、origin/source 校验、加载生命周期和后续重构约束见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md">Chat Widget 协议说明</a>。</p>
+</blockquote>
+<h3>前端体验平台 RFC</h3>
+<blockquote>
+<p>Phase 8 的浏览器 smoke、hydration 安全、主题 mode 与 palette/accent 分离、调色板切片顺序和交互标准规划见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md">前端体验平台 RFC</a>。</p>
+</blockquote>
+<h3>交互组件标准</h3>
+<blockquote>
+<p>modal、popover/menu、toast/status、loading、disabled/empty/error state、键盘行为、focus 管理和 browser smoke 门禁见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md">交互组件标准</a>。</p>
+</blockquote>
+<h3>内容可信度与个人定位</h3>
+<blockquote>
+<p>Phase 10 的个人品牌内容、可信证明、PersonalWeb 项目证明、证书、工作/学习经历与 SEO/GEO
+一致性规划见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CONTENT_CREDIBILITY_POSITIONING.md">内容可信度与个人定位</a>。</p>
+</blockquote>
+<h3>Site Intelligence 与访客路径</h3>
+<blockquote>
+<p>Phase 11 的访客路径、隐私安全匿名事件、first-party telemetry 边界和 Chat Guide 公开内容范围见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SITE_INTELLIGENCE_VISITOR_JOURNEY.md">Site Intelligence And Visitor Journey</a>。</p>
+</blockquote>
+<h3>Chat Guide 质量架构</h3>
+<blockquote>
+<p>Phase 12 的 Chat Guide 公开知识边界、答案质量问题、后端公共知识包方案和后续切片顺序见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_GUIDE_QUALITY_ARCHITECTURE.md">Chat Guide Quality Architecture</a>。</p>
+</blockquote>
+<h3>SEO / GEO 维护说明</h3>
+<blockquote>
+<p>canonical host、sitemap、<code>llms.txt</code>、<code>/docs/</code> SSR 正文和 soft-404 验证规则见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md">SEO / GEO 维护说明</a>。</p>
+</blockquote>
+<h3>BUG 记录</h3>
+<blockquote>
+<p>前端开发过程中遇到的 BUG 及其解决方案，请参考以下文档：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93">前端 BUG 跟踪数据库</a>。该文档详细记录了 BUG 的描述、复现步骤、解决方案以及相关开发者的处理记录，帮助您快速定位和解决问题。</p>
+</blockquote>
+<h3>开发需求</h3>
+<blockquote>
+<p>项目的功能需求、优先级以及开发计划，请参考以下文档：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95">项目需求清单</a>。该文档列出了当前版本的所有需求，并提供了需求的详细描述和开发状态，方便您了解项目进展和规划开发任务。</p>
+</blockquote>
+<h3>用户认证与密码重置规范</h3>
+<blockquote>
+<p>用户认证与密码重置的页面路由、API 契约、密码策略和安全注意事项等内容，请参考：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/AUTH_SPECIFICATION.md">用户鉴权规范</a>。</p>
+</blockquote>
+<h3>原生到 Astro + React 升级</h3>
+<p>前端目前采用 <strong>Astro</strong> + <strong>React</strong> 的架构，基于分层设计理念，通过 <strong>GitHub Actions</strong> 实现自动化构建，并将构建产物部署到服务器 Nginx 的指定目录下。</p>
+<p>具体的从原生前端升级的操作步骤，请参考以下文档内容：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92">升级计划</a>。该文档详细描述了从旧版原生前端逐步迁移到基于 Astro 和 React 的新前端架构的完整计划与实施步骤。</p>
+<p>开发环境准备的具体步骤，请参考以下文档内容：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96">环境准备</a>。该文档详细说明了如何完成开发环境的配置以及 Astro 项目的初始化工作，确保您能够顺利开始后续的开发任务。</p>
+<h3>响应式图片系统维护</h3>
+<p>网站图片通过自动化脚本生成响应式版本并内置 LQIP 占位效果，方便在不同设备上快速加载。</p>
+<p>详细操作流程与扩展指南请参阅：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3">通用响应式图片处理系统维护文档</a></p>
+<h3>错误跟踪</h3>
+<p>Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration">错误跟踪集成</a>.</p>
+<h3>工具函数参考文档</h3>
+<p><code>src/utils/env.ts</code>、<code>src/utils/langUtils.ts</code>、<code>src/utils/storage.ts</code> 与 <code>src/utils/logger.ts</code> 提供统一的环境变量访问、语言解析、多后端存储方案与可扩展的日志接口。</p>
+<p>文档详见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">工具函数参考文档</a>.</p>
+<h3>预提交钩子综合指南</h3>
+<p>详细预提交钩子说明请参阅：<a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97">预提交钩子综合指南</a></p>
+<h3>测试指南</h3>
+<p>项目使用 <a href="https://vitest.dev/">Vitest</a> 进行单元测试。运行 <code>npm test</code> 即可执行所有测试；<code>npm run test:watch</code> 可在开发过程中持续监听；如需覆盖率报告，可使用 <code>npm run test:coverage</code>。测试文件需以 <code>.test.ts</code> 或 <code>.spec.ts</code> 命名，通常与源码放在同一目录或 <code>__tests__</code> 子目录下。更多示例与编写说明参见：<a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md#%E6%B5%8B%E8%AF%95%E6%8C%87%E5%8D%97">测试指南</a>。</p>
+<h3>JS ➜ TS 迁移指南</h3>
+<blockquote>
+<p>汇总从 JavaScript 到 TypeScript 的完整迁移过程与经验，包括配置、分步策略和常见报错排查。详见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/JS_TO_TS_MIGRATION_GUIDE.md#js-%E2%9E%9C-ts-%E5%85%A8%E9%87%8F%E8%BF%81%E7%A7%BB%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97">JS ➜ TS 全量迁移实战指南</a>。</p>
+</blockquote>
+<h3>样式体系说明</h3>
+<blockquote>
+<p>介绍项目的 CSS 架构、基于 OKLCH 的设计 Token 体系与构建流程，展示 <code>postcss-import</code> 如何在编译阶段内联 <code>theme.css</code> 引用的核心与工具样式以减少运行时请求，详见：📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E">样式说明</a>。</p>
+</blockquote>
+<hr>
+<h2>🤝 贡献指南</h2>
+<ul>
+<li>Fork 并克隆这个仓库。</li>
+<li>进入虚拟环境：<pre><code class="language-bash"># 如果还没安装虚拟环境，执行命令：python -m venv venv
+source venv/bin/activate
+</code></pre>
+</li>
+<li>安装依赖并启用 <strong>pre-commit</strong>:<pre><code class="language-bash">pip install pre-commit
+pre-commit install
+</code></pre>
+</li>
+<li>在每次提交前，钩子会自动运行，执行以下操作：<ul>
+<li>自动修复基础格式问题（行尾空格、文件末尾换行符等）</li>
+<li>更新文档目录和最后更新时间</li>
+<li>同步 README 文件到 assets 目录</li>
+<li>验证静态资源命名规范</li>
+<li>自动生成模块 <code>index.ts</code> 文件</li>
+<li>执行代码格式化和静态检查</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR</p>
+</blockquote>
+<hr>
+<h2>🔒 开源许可证</h2>
+<p>本项目以 <strong>MIT 许可证</strong> 发布，你可以自由使用与修改。请在分发时保留原始许可证声明。</p>
+<hr>
+<h2>📬 联系方式</h2>
+<ul>
+<li>联系人：张人大（Renda Zhang）</li>
+<li>📧 邮箱：<a href="mailto:952402967@qq.com">952402967@qq.com</a></li>
+</ul>
+<blockquote>
+<p>⏰ <strong>维护者</strong>：@张人大 — 如果本项目对你有帮助，请不要忘了点亮 ⭐️ Star 支持我们！</p>
+</blockquote>
+</div> <div id="content-en" class="is-lang-en c-markdown-body"><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<ul>
+<li><a href="#renda-zhang-%C2%B7-lightweight-website">Renda Zhang · Lightweight Website</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#personalweb-proof-surface">PersonalWeb Proof Surface</a></li>
+<li><a href="#tech-stack">Tech Stack</a><ul>
+<li><a href="#directory-structure">Directory Structure</a></li>
+<li><a href="#reference-architecture">Reference Architecture</a></li>
+</ul>
+</li>
+<li><a href="#frontend">Frontend</a><ul>
+<li><a href="#architecture-overview">Architecture Overview</a><ul>
+<li><a href="#baselayout-component-design-notes">BaseLayout Component Design Notes</a></li>
+</ul>
+</li>
+<li><a href="#local-development--preview">Local Development &amp; Preview</a><ul>
+<li><a href="#github-actions">GitHub Actions</a></li>
+<li><a href="#usage-guide">Usage Guide</a></li>
+</ul>
+</li>
+<li><a href="#website-features">Website Features</a><ul>
+<li><a href="#page-functionality">Page Functionality</a></li>
+<li><a href="#page-navigation">Page Navigation</a></li>
+<li><a href="#page-content">Page Content</a></li>
+<li><a href="#page-optimization">Page Optimization</a></li>
+<li><a href="#color-scheme">Color Scheme</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#backend"><strong>Backend</strong></a></li>
+<li><a href="#nginx-server"><strong>Nginx Server</strong></a></li>
+<li><a href="#documentation">Documentation</a><ul>
+<li><a href="#git-branching--release-workflow">Git Branching &amp; Release Workflow</a></li>
+<li><a href="#cicd-workflow">CI/CD Workflow</a></li>
+<li><a href="#astro-6-migration-precheck">Astro 6 Migration Precheck</a></li>
+<li><a href="#frontend-architecture-conventions">Frontend Architecture Conventions</a></li>
+<li><a href="#frontend-directory-ownership-map">Frontend Directory Ownership Map</a></li>
+<li><a href="#chat-widget-protocol">Chat Widget Protocol</a></li>
+<li><a href="#frontend-experience-platform-rfc">Frontend Experience Platform RFC</a></li>
+<li><a href="#interaction-component-standards">Interaction Component Standards</a></li>
+<li><a href="#content-and-credibility-positioning">Content And Credibility Positioning</a></li>
+<li><a href="#site-intelligence-and-visitor-journey">Site Intelligence And Visitor Journey</a></li>
+<li><a href="#seo--geo-maintenance">SEO / GEO Maintenance</a></li>
+<li><a href="#bug-tracking">BUG Tracking</a></li>
+<li><a href="#development-requirements">Development Requirements</a></li>
+<li><a href="#user-authentication-and-password-reset-specification">User Authentication and Password Reset Specification</a></li>
+<li><a href="#native-to-astro--react-migration">Native to Astro + React Migration</a></li>
+<li><a href="#responsive-image-system-maintenance">Responsive Image System Maintenance</a></li>
+<li><a href="#error-tracking">Error Tracking</a></li>
+<li><a href="#utilities-reference">Utilities Reference</a></li>
+<li><a href="#comprehensive-pre-commit-guide">Comprehensive Pre-Commit Guide</a></li>
+<li><a href="#style-system-description">Style System Description</a></li>
+</ul>
+</li>
+<li><a href="#-contribution-guide">🤝 Contribution Guide</a></li>
+<li><a href="#-open-source-license">🔒 Open Source License</a></li>
+<li><a href="#-contact">📬 Contact</a></li>
+</ul>
+</li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<h1>Renda Zhang · Lightweight Website</h1>
+<ul>
+<li><strong>Author</strong>: Renda Zhang</li>
+<li><strong>Last Updated</strong>: July 02, 2026, 11:59 (UTC+08:00)</li>
+</ul>
+<hr>
+<h2>Introduction</h2>
+<p><strong><a href="https://github.com/RendaZhang/rendazhang/blob/master/README.md">点击这里查看 Github 上的中文版</a></strong></p>
+<p>This is my personally maintained <strong>lightweight</strong> technical showcase website, serving as an online portfolio of my technical capabilities.</p>
+<p><strong>Live Site</strong>: 🌐 <a href="https://www.rendazhang.com">www.rendazhang.com</a></p>
+<p>The website is optimized for SEO and GEO.</p>
+<h2>PersonalWeb Proof Surface</h2>
+<p>PersonalWeb is my clearest public project proof today. It is not presented as a large commercial platform or production SaaS; it shows how I connect a personal-brand site, AI interaction, frontend experience, backend integration, documentation, tests, deployment, and public discoverability into one maintainable engineering loop.</p>
+<table>
+<thead>
+<tr>
+<th>Proof Area</th>
+<th>Public Evidence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI full-stack development</td>
+<td>Same-origin floating Chat Widget, <code>/deepseek_chat/</code> chat page, Flask + OpenAI API backend integration, Markdown/code rendering, and clear frontend/backend boundaries</td>
+</tr>
+<tr>
+<td>Frontend experience engineering</td>
+<td>Astro static pages, React islands, theme mode and palettes, responsive hero, docs/certifications polish, and browser smoke coverage</td>
+</tr>
+<tr>
+<td>Cloud-native delivery discipline</td>
+<td>GitHub Actions automated build/deploy, Node 24 runtime pin, Nginx/CSP awareness, static release flow, and read-only production checks</td>
+</tr>
+<tr>
+<td>Reliability and maintainability</td>
+<td>Vitest coverage, Playwright smoke, Browser QA, Sentry integration, and architecture/directory/protocol/testing/SEO documentation</td>
+</tr>
+<tr>
+<td>Search and AI-summary visibility</td>
+<td>SEO/GEO maintenance, structured data, SSR/SSG docs body, <code>llms.txt</code>, and sitemap planning boundaries</td>
+</tr>
+</tbody></table>
+<p>You can verify that proof chain from these public entry points:</p>
+<ul>
+<li><a href="https://www.rendazhang.com/">Homepage</a>: the first-screen positioning for AI full-stack, cloud-native engineering, and PersonalWeb proof.</li>
+<li><a href="https://www.rendazhang.com/deepseek_chat/">AI Chat</a>: the same-origin Chat page, streaming output, and Markdown enhancement experience.</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md">Chat Widget Protocol</a>: iframe ready behavior, origin/source checks, and refactor constraints.</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md">Frontend Architecture Conventions</a>: Astro pages, React islands, state, service boundaries, CSP, and iframe rules.</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md">Testing Guide</a>: Vitest, coverage, Playwright smoke, and visual/interaction QA rules.</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md">CI/CD Pipeline</a>: GitHub Actions static build, deploy, and release flow.</li>
+<li><a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md">SEO / GEO Maintenance</a>: public entity alignment, structured data, docs SSR, and AI-summary boundaries.</li>
+</ul>
+<p>This proof chain intentionally does not include private credentials, customer-sensitive information, chat contents, form submissions, private server paths, or non-public operations details.</p>
+<blockquote>
+<p>If you need a more robust server solution, you can refer to my cloud-native project: 📁 <a href="https://github.com/RendaZhang/renda-cloud-lab">Renda Cloud LAB</a>. This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.</p>
+</blockquote>
+<hr>
+<h2>Tech Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Technologies</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Frontend</td>
+<td><strong>Astro</strong>, <strong>React</strong>, TypeScript</td>
+</tr>
+<tr>
+<td>State Management</td>
+<td>React <code>useState</code>, <code>useContext</code> (Zustand compatible)</td>
+</tr>
+<tr>
+<td>Build Tools</td>
+<td>Astro built-in (Vite-based)</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Flask + OpenAI API</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>GitHub Actions + Nginx</td>
+</tr>
+</tbody></table>
+<h3>Directory Structure</h3>
+<pre><code class="language-text">src/
+├── assets/
+├── constants/           # Site metadata, asset paths, and app settings
+├── features/            # Feature-based modules
+│   ├── chat/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── services/
+│   └── auth/
+│       ├── components/
+│       ├── hooks/
+│       └── services/
+├── hooks/               # Custom hooks for business logic
+├── styles/
+│   ├── core/               # Core variables
+│   │   ├── tokens.css      # Design tokens (colors, spacing, etc.)
+│   │   └── _gradients.css  # Gradient system
+│   ├── components/         # Component styles
+│   ├── utilities/          # Utility classes
+│   └── theme.css           # Main entry file
+├── scripts/
+├── utils/               # Utility helpers
+├── models/              # Domain models
+├── services/           # API interaction layer
+└── components/
+    ├── ui/
+    ├── layouts/
+    ├── forms/
+    ├── chat/
+    ├── sections/
+    └── providers/
+</code></pre>
+<h3>Reference Architecture</h3>
+<p>ASCII Diagram:</p>
+<pre><code class="language-text">Web Application Architecture
+============================
+
+Frontend (
+   Astro + React
+   - Handles UI and interactions
+) → CI/CD (
+   GitHub Actions auto-build &amp; deploy
+) → Server (
+   Ubuntu (OS)
+   ↓
+   Nginx (static file serving)
+   ↓
+   systemd service (process management)
+   ↓
+   Gunicorn + Gevent (WSGI server)
+   ↓
+   Backend: Flask App (business logic &amp; API handling)
+)
+</code></pre>
+<p>Mermaid Flow Diagram:</p>
+<pre><code class="language-mermaid">flowchart TD
+    A[Web] --&gt; B[Frontend: Astro + React]
+    A --&gt; C[Server]
+    B --&gt;|Handles UI and interactions| C
+
+    subgraph Server
+        direction TB
+        D[Ubuntu: OS] --&gt; E[Nginx: Static serving]
+        E --&gt; F[systemd: Process management]
+        F --&gt; G[Gunicorn + Gevent: WSGI server]
+        G --&gt; H[Backend: Flask App: Business logic &amp; APIs]
+    end
+</code></pre>
+<hr>
+<h2>Frontend</h2>
+<p>This repository contains the frontend project: 📁 <a href="https://github.com/RendaZhang/rendazhang">Renda Zhang WEB</a></p>
+<h3>Architecture Overview</h3>
+<h4>BaseLayout Component Design Notes</h4>
+<p><code>src/layouts/BaseLayout.astro</code> serves as the global page framework for the site, responsible for setting <code>&lt;head&gt;</code> metadata, SEO tags, and root-level slots. The navigation bar and hamburger menu now render on the server and hydrate with <code>client:load</code>, avoiding language flicker while preserving interactivity. The primary reasons for keeping this file as an Astro component are as follows:</p>
+<ul>
+<li><strong>Static Content Does Not Require JavaScript</strong>: The layout structure and metadata generation are purely static content. Astro can directly output HTML without introducing the React runtime.</li>
+<li><strong>Maintain Partial Hydration Benefits</strong>: Only interactive regions such as the navigation bar and hamburger menu use React, rendering static HTML first and hydrating on the client via <code>client:load</code>. The rest of the layout remains zero-JS, keeping bundle size minimal. Rewriting the entire layout in React would introduce additional script and hydration overhead.</li>
+<li><strong>Leverage Astro Features</strong>: Astro-specific syntax such as <code>&lt;slot&gt;</code> and <code>is:inline</code> is extensively used in the layout. Migrating to React would require additional encapsulation or plugin support, increasing maintenance costs.</li>
+</ul>
+<p>Consider rewriting <code>BaseLayout.astro</code> only if there are plans to fully migrate the site to React or if there is a need to share complex React state/context at the layout level. For now, maintaining the Astro version is more concise and efficient.</p>
+<p>To satisfy Nginx CSP restrictions and allow static pages like 404/500 to reuse theme and language logic, the former inline initialization script has been moved to a blocking external script <code>/js/base-layout-init.js</code>. The file is generated from <code>src/scripts/base-layout-init.ts</code> and passes storage keys via <code>data-theme-key</code>, <code>data-palette-key</code>, and <code>data-lang-key</code> attributes so that theme mode, palette, and language are applied before the page renders.</p>
+<h3>Local Development &amp; Preview</h3>
+<ol>
+<li><p>Install dependencies and enable pre-commit:</p>
+<pre><code class="language-bash">npm install
+pip install pre-commit
+pre-commit install
+</code></pre>
+</li>
+<li><p>Start local dev server:</p>
+<pre><code class="language-bash">npm run dev
+</code></pre>
+</li>
+<li><p>Build and preview production version:</p>
+<pre><code class="language-bash">npm run build
+npm run preview
+</code></pre>
+</li>
+<li><p>To connect to a custom backend API, set the <code>PUBLIC_API_BASE_URL</code> in the root directory&#39;s <code>.env</code> / <code>.env.local</code> file:</p>
+<pre><code class="language-bash">PUBLIC_API_BASE_URL=https://api.example.com
+</code></pre>
+</li>
+<li><p>Sentry integration also requires:</p>
+<pre><code class="language-bash">SENTRY_DSN=&lt;server dsn&gt;
+PUBLIC_SENTRY_DSN=&lt;browser dsn&gt;
+SENTRY_PROJECT=&lt;your project&gt;
+SENTRY_AUTH_TOKEN=&lt;auth token&gt;
+</code></pre>
+<p>When running local checks or pre-commit without Sentry, prepend:</p>
+<pre><code class="language-bash">SKIP_SENTRY=true pre-commit run --all-files
+SKIP_SENTRY=true npm run astro -- check --incremental
+</code></pre>
+<p>To temporarily skip ESLint checks and speed up commits, use:</p>
+<pre><code class="language-bash">SKIP_ESLINT=true pre-commit run --all-files
+</code></pre>
+</li>
+<li><p>Environment Variables Explanation</p>
+<p>Local configurations can be set in <code>.env</code> or <code>.env.local</code>, and read via the <code>getEnv()</code> function in <code>src/utils/env.ts</code>:</p>
+<pre><code class="language-sh"># Public Information
+PUBLIC_SITE_BASE_URL = &quot;https://www.rendazhang.com&quot;
+PUBLIC_CDN_BASE=&quot;https://cdn.jsdelivr.net/gh/rendazhang/rendazhang@1.0.1/&quot;
+PUBLIC_API_BASE_URL=&quot;/cloudchat&quot;
+PUBLIC_SENTRY_DSN=&quot;https://e184a284f1b7342d197ee0a0151f8353@o4509770577543168.ingest.us.sentry.io/4509770780377088&quot;
+PUBLIC_TAG_NAME=&quot;v1.0.1&quot;
+NODE_ENV=&quot;production&quot;
+PUBLIC_NODE_ENV=&quot;development&quot; # Override to &quot;development&quot; for local debugging
+SKIP_SENTRY=&quot;true&quot; # Skip Sentry
+SKIP_ESLINT=&quot;true&quot; # Skip ESLint checks
+
+# Sensitive configurations (example values below)
+SENTRY_AUTH_TOKEN=&quot;sntrys_xxx&quot;
+SENTRY_DSN=&quot;https://private-key@xxx.ingest.us.sentry.io/xxx&quot;
+SENTRY_PROJECT=&quot;xxx&quot;
+SENTRY_ORG=&quot;xxx&quot;
+</code></pre>
+</li>
+</ol>
+<p>After running <code>npm run build</code>, the <code>dist/_astro</code> directory will contain fingerprinted files with hash suffixes, allowing browsers to cache them long-term.</p>
+<p>Access via <code>http://localhost:4321</code>.</p>
+<p>Verify builds using <code>npm run preview</code>.</p>
+<h4>GitHub Actions</h4>
+<p>Pushing to <code>master</code> triggers GitHub Actions Auto-Deployment:</p>
+<ol>
+<li>Check out the code with <code>actions/checkout@v5</code>.</li>
+<li>Set up Node.js 24 with <code>actions/setup-node@v6</code> and enable npm caching.</li>
+<li>Run <code>npm ci</code> so dependency installation is based on <code>package-lock.json</code>.</li>
+<li>Before building, run <code>npm run sync</code>, <code>npm run lint</code>, <code>npm run typecheck</code>, <code>npm run check</code>, and <code>npm run test:coverage</code>.</li>
+<li>Run <code>npm run build</code> to generate the <code>dist/</code> static files; production builds remove source maps.</li>
+<li>Use <code>appleboy/scp-action</code> to upload the contents of <code>dist/</code> to the server directory, such as <code>/var/www/html</code>.</li>
+<li>Publish the release branch, recreate the version tag, create the GitHub Release, and try to purge the jsDelivr version cache.</li>
+<li>After deployment, Nginx serves the static site; no frontend service restart is required.</li>
+</ol>
+<blockquote>
+<p>Local commits do not automatically run the full Astro check. To validate manually, run: <code>npm run check</code></p>
+</blockquote>
+<p>Configure server IP, SSH user, and private key in Repository Secrets. Details: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%85%8D%E7%BD%AE-github-actions">GitHub Actions Setup</a></p>
+<h4>Usage Guide</h4>
+<p>Access all modules post-deployment:</p>
+<ul>
+<li>🌐 <a href="https://www.rendazhang.com/">Homepage</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/deepseek_chat/">AI Chat</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/certifications/">Certifications</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/docs/">Tech Docs</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/login/">Login</a></li>
+<li>🌐 <a href="https://www.rendazhang.com/register/">Register</a></li>
+</ul>
+<h3>Website Features</h3>
+<p>For details on the core functionality system of the website, please refer to the following documentation link: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%93%E7%B3%BB">Core Functionality System</a>. This document provides a detailed description of the website&#39;s core functional modules, including feature design and technical implementation. It serves as an essential reference for development and maintenance.</p>
+<ul>
+<li>Theme Switching (Light / Dark)</li>
+<li>Language Switching (Chinese / English)</li>
+<li>Online Chat with AI</li>
+<li>Floating AI Chat Window</li>
+<li>Back to Top Button</li>
+<li>Technical Documentation Rendering Page (docs/)</li>
+<li>Login and Registration Form</li>
+<li>Logged-in User Account Information Page (Accessible from the Hamburger Menu after Login)</li>
+<li>Contact Form</li>
+<li>Content Platform Links</li>
+<li>Certificate Display</li>
+<li>Resume Download</li>
+</ul>
+<h4>Page Functionality</h4>
+<p>The core responsibilities of each page are as follows (all generated by <code>.astro</code> files):</p>
+<ul>
+<li><code>index.astro</code>: Homepage, also the introduction page for Zhang Renda, showcasing Zhang Renda&#39;s information, education, skills, blog, and work experience.</li>
+<li><code>certifications.astro</code>: Certifications list page.</li>
+<li><code>deepseek_chat.astro</code>: AI chat interface.</li>
+<li><code>docs.astro</code>: Technical documentation page.</li>
+<li><code>profile.astro</code>: User account information page.</li>
+<li><code>login.astro</code>: Login page.</li>
+<li><code>register.astro</code>: Registration page.</li>
+<li><code>404.astro</code>, <code>500.astro</code>: Error pages.</li>
+</ul>
+<h4>Page Navigation</h4>
+<ol>
+<li><p><strong>Return to Homepage</strong>
+All pages have &quot;Home&quot; button in navigation</p>
+</li>
+<li><p><strong>Navigation Menu Redirection</strong></p>
+<ul>
+<li>The navigation bar and hamburger menu output static markup on the server side and are hydrated on the client side using <code>client:load</code>, ensuring interactivity while avoiding hydration errors.</li>
+<li>By clicking the &quot;Hamburger Menu&quot; button in the navigation bar, users can choose to navigate to the following pages:<ul>
+<li>Homepage</li>
+<li>AI Chat Page</li>
+<li>Certifications Page</li>
+<li>Technical Documentation Page</li>
+<li>User Account Information Page (visible after login)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Login Page Access</strong>
+Profile icon in nav redirects to login</p>
+</li>
+</ol>
+<pre><code class="language-mermaid">flowchart TD
+    A[Home] --&gt;|Hamburger| B[AI Chat]
+    A --&gt;|Hamburger| C[Certifications]
+    A --&gt;|Hamburger| D[Tech Docs]
+    A --&gt;|Hamburger| F[Account Profile]
+    A --&gt;|Profile Icon| E[Login]
+    B --&gt;|Home Button| A
+    C --&gt;|Home Button| A
+    D --&gt;|Home Button| A
+    E --&gt;|Home Button| A
+    F --&gt;|Home Button| A
+
+    style A fill:#9f9,stroke:#333
+    style B fill:#f9f,stroke:#333
+    style C fill:#ff9,stroke:#333
+    style D fill:#99f,stroke:#333
+    style E fill:#f99,stroke:#333
+    style F fill:#9ff,stroke:#333
+</code></pre>
+<h4>Page Content</h4>
+<ul>
+<li><code>index.astro</code>: A multi-section homepage containing modules such as &quot;Hero&quot;, &quot;About Me&quot;, &quot;Education&quot;, &quot;Blog&quot;, &quot;Skills &amp; Abilities&quot;, &quot;Experience&quot;, and &quot;Contact Me&quot;, with a default floating <code>ChatWidget</code> badge.</li>
+<li><code>certifications.astro</code>: Grid-based certification cards with Credly verification</li>
+<li><code>deepseek_chat.astro</code>: A conversational interface consisting of a chat history area and an input box, supporting streaming output and real-time rendering of AI-generated Markdown content. It provides a one-click copy feature for the original content and automatically retains the chat history upon page refresh, and loads both <code>github-code-highlight.css</code> and <code>github-markdown-light.css</code> for consistent GitHub-style code highlighting. The chat UI has been refactored into reusable components such as <code>ChatMessageList</code> and <code>ChatInput</code> for better maintainability.</li>
+<li><code>docs.astro</code>: Technical documentation page that loads both <code>github-code-highlight.css</code> and <code>github-markdown-light.css</code> together with highlight.js for GitHub-style Markdown layout and code highlighting.</li>
+<li><code>profile.astro</code>: Account information page, displaying the information of the currently logged-in user.</li>
+<li><code>login.astro</code>: Login form page.</li>
+<li><code>register.astro</code>: Register form page.</li>
+<li><code>404.astro/500.astro</code>: Custom error pages designed to handle Page Not Found (404) and Internal Server Error (500) scenarios. These pages provide clear error messages, user-friendly guidance, and a link to return to the homepage, enhancing the overall user experience.</li>
+</ul>
+<h4>Page Optimization</h4>
+<p><strong>Adaptive Layout</strong>: Optimizes the display effect of the page on different devices, reduces unnecessary resource loading and layout calculations, and thereby improves performance. Ensures that the page displays well on various screen sizes (e.g., desktop, tablet, mobile), enhancing user experience.</p>
+<p><strong>Lazy Loading</strong>: All images have lazy loading enabled with a loading animation. For high-definition images, LQIP (Low-Quality Image Placeholder) lazy loading optimization is applied (e.g., the Hero section on the homepage).</p>
+<h4>Color Scheme</h4>
+<p>The core colors of the project are designed using OKLCH design tokens and provide sRGB fallback through <code>color-mix</code> to ensure perceptual consistency across light and dark modes.</p>
+<p>For detailed information, refer to the documentation: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88">Color Scheme</a>.</p>
+<hr>
+<h2><strong>Backend</strong></h2>
+<blockquote>
+<p>For detailed steps and configurations on backend deployment, please refer to the following project: 📁 <a href="https://github.com/RendaZhang/python-cloud-chat">Python Cloud Chat</a>. This project provides a complete backend implementation and deployment guide, helping you quickly set up and run backend services.</p>
+</blockquote>
+<hr>
+<h2><strong>Nginx Server</strong></h2>
+<blockquote>
+<p>The frontend project is automatically built via GitHub Actions and pushed to the <code>/var/www/html</code> directory on the server, where Nginx serves the static resources.</p>
+</blockquote>
+<blockquote>
+<p>For detailed Nginx configurations and operational instructions, please check the following repository: 📁 <a href="https://github.com/RendaZhang/nginx-conf">Nginx Conf</a>. This repository includes commonly used Nginx configuration files and examples, making it easy for you to get started.</p>
+</blockquote>
+<blockquote>
+<p>To fully leverage the hashed assets under <code>/_astro</code>, add a long-term cache rule in Nginx:</p>
+</blockquote>
+<pre><code class="language-nginx">location /_astro/ {
+    access_log off;
+    add_header Cache-Control &quot;public, max-age=31536000, immutable&quot;;
+}
+</code></pre>
+<blockquote>
+<p>If you need a more robust server solution, you can refer to my cloud-native project: 📁 <a href="https://github.com/RendaZhang/renda-cloud-lab">Renda Cloud LAB</a>. This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.</p>
+</blockquote>
+<hr>
+<h2>Documentation</h2>
+<h3>Git Branching &amp; Release Workflow</h3>
+<blockquote>
+<p>The project follows a <code>master</code>/<code>develop</code> dual-branch model with conventions for <code>feature</code>, <code>hotfix</code>, and <code>experiment</code> branches. Details: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow">Git Workflow</a>.</p>
+</blockquote>
+<h3>CI/CD Workflow</h3>
+<blockquote>
+<p><code>deploy.yml</code> defines the deployment process triggered when code is pushed or merged into <code>master</code>, including tag management and environment variable mappings. See: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline">CI / CD Pipeline</a>.</p>
+</blockquote>
+<h3>Astro 6 Migration Precheck</h3>
+<blockquote>
+<p>The current baseline, target package set, Node/Vite/Sentry compatibility risks, validation checklist, and rollback plan for the Astro 6 upgrade are documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_6_MIGRATION_PRECHECK.md">Astro 6 Migration Precheck</a>.</p>
+</blockquote>
+<h3>Frontend Architecture Conventions</h3>
+<blockquote>
+<p>Current conventions for Astro pages, <code>BaseLayout</code>, React Islands, hydration, service boundaries, utilities, style tokens, CSP, and iframe constraints are documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md">Frontend Architecture Conventions</a>.</p>
+</blockquote>
+<h3>Frontend Directory Ownership Map</h3>
+<blockquote>
+<p>Directory ownership for <code>src/components</code>, <code>src/services</code>, <code>src/utils</code>, <code>src/styles</code>, <code>src/content</code>, <code>src/stores</code>, and <code>src/controllers</code> is documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/DIRECTORY_OWNERSHIP.md">Frontend Directory Ownership Map</a>.</p>
+</blockquote>
+<h3>Chat Widget Protocol</h3>
+<blockquote>
+<p>The same-origin iframe <code>postMessage</code> ready protocol between the floating Chat Widget and <code>/deepseek_chat/</code>, including origin/source checks, loading lifecycle, and refactor constraints, is documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md">Chat Widget Protocol</a>.</p>
+</blockquote>
+<h3>Frontend Experience Platform RFC</h3>
+<blockquote>
+<p>Phase 8 planning for browser smoke coverage, hydration safety, theme mode vs palette/accent separation, palette slice order, and interaction standards is documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_EXPERIENCE_PLATFORM.md">Frontend Experience Platform RFC</a>.</p>
+</blockquote>
+<h3>Interaction Component Standards</h3>
+<blockquote>
+<p>Modal, popover/menu, toast/status, loading, disabled/empty/error state, keyboard behavior, focus management, and browser smoke gates are documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md">Interaction Component Standards</a>.</p>
+</blockquote>
+<h3>Content And Credibility Positioning</h3>
+<blockquote>
+<p>Phase 10 planning for personal-brand content, credibility proof, PersonalWeb project evidence,
+certifications, work/education narrative, and SEO/GEO alignment is documented in:
+📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/CONTENT_CREDIBILITY_POSITIONING.md">Content And Credibility Positioning</a>.</p>
+</blockquote>
+<h3>Site Intelligence And Visitor Journey</h3>
+<blockquote>
+<p>Phase 11 visitor journey, privacy-safe anonymous events, first-party telemetry boundaries, and Chat Guide public-content scope are documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SITE_INTELLIGENCE_VISITOR_JOURNEY.md">Site Intelligence And Visitor Journey</a>.</p>
+</blockquote>
+<h3>SEO / GEO Maintenance</h3>
+<blockquote>
+<p>Canonical host, sitemap, <code>llms.txt</code>, <code>/docs/</code> SSR content, and soft-404 validation rules are documented in: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md">SEO / GEO Maintenance</a>.</p>
+</blockquote>
+<h3>BUG Tracking</h3>
+<blockquote>
+<p>For BUGs encountered during frontend development and their solutions, please refer to the following document: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/TROUBLESHOOTING.md#%E5%89%8D%E7%AB%AF-bug-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93">Frontend BUG Tracking Database</a>. This document provides detailed records of BUG descriptions, reproduction steps, solutions, and developer notes, helping you quickly identify and resolve issues.</p>
+</blockquote>
+<h3>Development Requirements</h3>
+<blockquote>
+<p>For project feature requirements, priorities, and development plans, please refer to the following document: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/REQUIREMENTS.md#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E6%B8%85%E5%8D%95">Project Requirements List</a>. This document lists all requirements for the current version, along with detailed descriptions and development statuses, making it easy for you to track project progress and plan development tasks.</p>
+</blockquote>
+<h3>User Authentication and Password Reset Specification</h3>
+<blockquote>
+<p>For details on page routing, API contracts, password policies, and security considerations related to user authentication and password reset, please refer to: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/AUTH_SPECIFICATION.md">Authentication Specification</a>.</p>
+</blockquote>
+<h3>Native to Astro + React Migration</h3>
+<p>The front-end currently adopts an architecture based on <strong>Astro</strong> + <strong>React</strong>, following a layered design philosophy. It utilizes <strong>GitHub Actions</strong> for automated builds and deploys the build artifacts to a specified directory on the server&#39;s <strong>Nginx</strong>.</p>
+<p>For detailed steps on upgrading from native frontend, please refer to the following documentation: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E6%97%A7%E7%89%88%E5%8E%9F%E7%94%9F%E5%89%8D%E7%AB%AF%E5%88%B0-astro--react-%E6%96%B0%E5%89%8D%E7%AB%AF%E7%9A%84%E6%B8%90%E8%BF%9B%E5%8D%87%E7%BA%A7%E8%AE%A1%E5%88%92">Upgrade Plan</a>. This document provides a comprehensive plan and implementation steps for gradually migrating from the old native frontend to a new frontend architecture based on Astro and React.</p>
+<p>For detailed steps on setting up the development environment, please refer to the following documentation: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/NATIVE_TO_ASTRO_REACT_UPGRADE.md#%E9%98%B6%E6%AE%B5-1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E-astro-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96">Environment Preparation</a>. This document provides a comprehensive guide on configuring the development environment and initializing an Astro project, ensuring you can smoothly proceed with subsequent development tasks.</p>
+<h3>Responsive Image System Maintenance</h3>
+<p>The website uses an automated pipeline to generate responsive images with built-in LQIP placeholders. For maintenance and extension instructions, see 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/RESPONSIVE_IMAGE_SYSTEM_MAINTENANCE.md#%E9%80%9A%E7%94%A8%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4%E6%96%87%E6%A1%A3">Responsive Image System Maintenance</a></p>
+<h3>Error Tracking</h3>
+<p>Sentry collects runtime and network errors. See 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/SENTRY_ERROR_TRACKING.md#sentry-error-tracking-integration">Error Tracking Integration</a> for configuration.</p>
+<h3>Utilities Reference</h3>
+<p><code>src/utils/env.ts</code>, <code>src/utils/langUtils.ts</code>, <code>src/utils/storage.ts</code>, and <code>src/utils/logger.ts</code> provide unified access to environment variables, language parsing, multi-backend storage solutions, and an extensible logging interface.</p>
+<p>Docs: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/UTILITIES_REFERENCE.md#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">Utilities Reference</a>.</p>
+<h3>Comprehensive Pre-Commit Guide</h3>
+<p>For a detailed explanation of the pre-commit hooks, refer to the <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/guides/PRE_COMMIT_GUIDE.md#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%92%A9%E5%AD%90%E7%BB%BC%E5%90%88%E6%8C%87%E5%8D%97">Comprehensive Pre-Commit Guide</a>.</p>
+<h3>Style System Description</h3>
+<blockquote>
+<p>Introduce the project&#39;s CSS architecture, the OKLCH-based design token system, and the build process. Demonstrate how <code>postcss-import</code> inlines the core and utility styles referenced by <code>theme.css</code> during the compilation phase to reduce runtime requests. For details, see: 📄 <a href="https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E">Style Guide</a>.</p>
+</blockquote>
+<hr>
+<h2>🤝 Contribution Guide</h2>
+<ul>
+<li>Fork and clone this repository.</li>
+<li>Enter the virtual environment:<pre><code class="language-bash"># If the virtual environment is not yet installed, run: python -m venv venv
+source venv/bin/activate
+</code></pre>
+</li>
+<li>Install dependencies and enable <strong>pre-commit</strong>:<pre><code class="language-bash">pip install pre-commit
+pre-commit install
+</code></pre>
+</li>
+<li>Before each commit, the hooks will automatically run and perform the following tasks:<ul>
+<li>Automatically fix basic formatting issues (trailing whitespace, end-of-file newlines, etc.)</li>
+<li>Update the documentation table of contents and the last updated timestamp</li>
+<li>Synchronize the README file to the assets directory</li>
+<li>Validate static resource naming conventions</li>
+<li>Automatically generate module <code>index.ts</code> files</li>
+<li>Perform code formatting and static checks</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.</p>
+</blockquote>
+<hr>
+<h2>🔒 Open Source License</h2>
+<p>Released under <strong>MIT License</strong> - free for use and modification. Retain original license notices when redistributing.</p>
+<hr>
+<h2>📬 Contact</h2>
+<ul>
+<li>Contact: Renda Zhang</li>
+<li>📧 Email: <a href="mailto:952402967@qq.com">952402967@qq.com</a></li>
+</ul>
+<blockquote>
+<p>⏰ <strong>Maintainer</strong>: @RendaZhang — If this project helps you, please give it a ⭐️!</p>
+</blockquote>
+</div>   </main> <script>(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value=="object"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event("astro:visible"));})();</script><astro-island uid="2nHC49" prefix="r6" component-url="/_astro/index.DCdgYsHW.js" component-export="ChatWidget" renderer-url="/_astro/client.KjMsY6if.js" props="{}" ssr client="visible" opts="{&quot;name&quot;:&quot;ChatWidget&quot;,&quot;value&quot;:true}" await-children><button class="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right" type="button" aria-controls="chat-widget-panel" aria-expanded="false" aria-label="Open Assistant"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"></rect><path d="M12 3v4"></path><circle cx="9" cy="13" r="1"></circle><circle cx="15" cy="13" r="1"></circle><path d="M5 19v2h14v-2"></path></svg></button><!--astro:end--></astro-island> <astro-island uid="ZRhxp2" prefix="r7" component-url="/_astro/index.CNgifrbf.js" component-export="BackToTopButton" renderer-url="/_astro/client.KjMsY6if.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;BackToTopButton&quot;,&quot;value&quot;:true}" await-children><button class="c-back-to-top u-flex-center" aria-label="Back to top" style="display:none"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"></path></svg></button><!--astro:end--></astro-island>  <astro-island uid="Z14PM2G" prefix="r4" component-url="/_astro/index.BSw6EM27.js" component-export="DocsEffects" renderer-url="/_astro/client.KjMsY6if.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;DocsEffects&quot;,&quot;value&quot;:true}"></astro-island>    </body> </html>
