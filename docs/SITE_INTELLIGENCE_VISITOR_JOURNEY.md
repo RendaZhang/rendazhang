@@ -25,7 +25,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 02, 2026, 23:17 (UTC+08:00)
+- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
 - **Scope**: Phase 11 planning and Phase 12 handoff for first-party site intelligence, visitor
   journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
@@ -287,7 +287,7 @@ The backend-owned precheck and future guardrails are documented in
 Phase 11 is closed. The shipped Chat Guide boundary is intentionally narrow:
 
 - controlled preset clicks record only `presetId` through the frontend-local/no-op event boundary;
-- unchanged preset sends are grounded with frontend-owned public context;
+- unchanged preset sends are grounded with backend-owned `public_site` guide mode;
 - visible input and user chat history store only the short preset question;
 - free-form Chat still uses the generic Chat API path;
 - backend telemetry transport remains No-Go.

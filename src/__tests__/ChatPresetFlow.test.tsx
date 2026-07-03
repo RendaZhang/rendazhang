@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import Chat from '../components/chat/Chat';
-import { buildChatGuidePresetPrompt } from '../content/chatGuideKnowledge';
 import { ROLES } from '../constants';
 import { sendMessageToAI } from '../services';
 import type { ChatMessage } from '../types/chat';
@@ -41,17 +40,12 @@ describe('Chat preset question flow', () => {
     vi.mocked(sendMessageToAI).mockClear();
   });
 
-  it('shows only the short preset question while sending grounded context internally', async () => {
+  it('shows only the short preset question while sending guide mode metadata', async () => {
     render(<Chat />);
 
     fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
-    const expectedPrompt = buildChatGuidePresetPrompt(
-      'personalweb_proof',
-      'What does PersonalWeb prove?',
-      'en'
-    );
 
     expect(input.value).toBe('What does PersonalWeb prove?');
     expect(input.value).not.toContain('Answer using only the public PersonalWeb context below');
@@ -62,9 +56,19 @@ describe('Chat preset question flow', () => {
     await waitFor(() => {
       expect(sendMessageToAI).toHaveBeenCalled();
     });
-    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(expectedPrompt);
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe('What does PersonalWeb prove?');
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[2]).toEqual(
+      expect.objectContaining({
+        guideMode: 'public_site',
+        presetId: 'personalweb_proof',
+        locale: 'en',
+        signal: expect.any(AbortSignal)
+      })
+    );
+    expect(JSON.stringify(vi.mocked(sendMessageToAI).mock.calls)).not.toContain(
+      'Answer using only the public PersonalWeb context below'
+    );
     expect(chatHistory.addMessage).toHaveBeenCalledWith(ROLES.USER, 'What does PersonalWeb prove?');
-    expect(chatHistory.addMessage).not.toHaveBeenCalledWith(ROLES.USER, expectedPrompt);
   });
 
   it('sends edited preset text as normal free-form chat without hidden context', async () => {
@@ -83,6 +87,11 @@ describe('Chat preset question flow', () => {
     });
     expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(
       'What does PersonalWeb prove? Please keep it brief.'
+    );
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[2]).not.toEqual(
+      expect.objectContaining({
+        guideMode: 'public_site'
+      })
     );
     expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).not.toContain(
       'Answer using only the public PersonalWeb context below'

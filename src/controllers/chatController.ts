@@ -1,10 +1,18 @@
 import { ROLES } from '../constants';
 import { resetChat, sendMessageToAI } from '../services';
+import type {
+  ChatGuideLocale,
+  ChatGuideMode,
+  ChatGuideRequestPresetId
+} from '../services/chatService';
 import type { ChatMessage, ChatRole } from '../types/chat';
 import { addSentryBreadcrumb } from '../utils/sentryContext';
 
 export interface ChatStreamOptions {
   signal?: AbortSignal;
+  guideMode?: ChatGuideMode;
+  presetId?: ChatGuideRequestPresetId;
+  locale?: ChatGuideLocale;
 }
 
 export type SendMessageToAI = (
@@ -27,6 +35,9 @@ export interface ChatControllerServices {
 export interface SendChatMessageOptions {
   input: string;
   displayInput?: string;
+  guideMode?: ChatGuideMode;
+  presetId?: ChatGuideRequestPresetId;
+  locale?: ChatGuideLocale;
   addMessage: AddChatMessage;
   setMessages: SetChatMessages;
   onAccepted?: (message: string) => void;
@@ -122,6 +133,12 @@ export function createChatController(
       const abortController = createAbortController();
       activeAbortController = abortController;
       let hasReceivedChunk = false;
+      const streamOptions: ChatStreamOptions = {
+        ...(abortController ? { signal: abortController.signal } : {}),
+        ...(options.guideMode ? { guideMode: options.guideMode } : {}),
+        ...(options.presetId ? { presetId: options.presetId } : {}),
+        ...(options.locale ? { locale: options.locale } : {})
+      };
 
       try {
         const aiText = await services.sendMessageToAI(
@@ -135,7 +152,7 @@ export function createChatController(
             upsertAssistantMessage(options.setMessages, partial);
             options.onChunk?.(partial);
           },
-          abortController ? { signal: abortController.signal } : undefined
+          streamOptions
         );
 
         finalizeAssistantMessage(options.setMessages, aiText);

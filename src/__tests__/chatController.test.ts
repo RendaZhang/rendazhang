@@ -137,6 +137,59 @@ describe('chatController', () => {
     );
   });
 
+  it('passes guide mode metadata while storing only the visible question', async () => {
+    const history = createHistoryHarness();
+    const sendMessageToAI = vi.fn(
+      async (
+        message: string,
+        onChunkCallback?: (chunk: string) => void,
+        options?: {
+          signal?: AbortSignal;
+          guideMode?: string;
+          presetId?: string;
+          locale?: string;
+        }
+      ) => {
+        expect(message).toBe('What does PersonalWeb prove?');
+        expect(options).toEqual(
+          expect.objectContaining({
+            signal: expect.any(AbortSignal),
+            guideMode: 'public_site',
+            presetId: 'personalweb_proof',
+            locale: 'en'
+          })
+        );
+        onChunkCallback?.('guide partial');
+        return 'guide answer';
+      }
+    );
+    const controller = createChatController({
+      sendMessageToAI,
+      resetChat: vi.fn(async () => true)
+    });
+
+    await expect(
+      controller.sendMessage({
+        input: '  What does PersonalWeb prove?  ',
+        displayInput: '  What does PersonalWeb prove?  ',
+        guideMode: 'public_site',
+        presetId: 'personalweb_proof',
+        locale: 'en',
+        addMessage: history.addMessage,
+        setMessages: history.setMessages
+      })
+    ).resolves.toEqual({ status: 'sent', response: 'guide answer' });
+
+    expect(history.messages).toEqual([
+      { role: ROLES.USER, content: 'What does PersonalWeb prove?' },
+      { role: ROLES.AI, content: 'guide answer' }
+    ]);
+    expect(JSON.stringify(sentryMock.addBreadcrumb.mock.calls)).not.toContain('presetId');
+    expect(JSON.stringify(sentryMock.addBreadcrumb.mock.calls)).not.toContain(
+      'What does PersonalWeb prove?'
+    );
+  });
+
   it('records chat breadcrumbs without sending message contents', async () => {
     const history = createHistoryHarness();
     const sendMessageToAI = vi.fn(

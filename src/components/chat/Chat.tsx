@@ -4,7 +4,6 @@ import { createChatController, type ChatController } from '../../controllers/cha
 import { useChatHistory } from '../../hooks';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
-import { buildChatGuidePresetPrompt } from '../../content/chatGuideKnowledge';
 import { LocalizedSection, Modal } from '../ui';
 import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
@@ -12,6 +11,7 @@ import TypingIndicator from './TypingIndicator';
 import LoadingIndicator from './LoadingIndicator';
 import ChatPresetQuestions from './ChatPresetQuestions';
 import type { ChatPresetQuestionId } from '../../services/visitorEvents';
+import { CHAT_GUIDE_MODE_PUBLIC_SITE } from '../../services/chatService';
 
 interface ChatProps {
   texts?: typeof DEEPSEEK_CHAT_CONTENT;
@@ -161,14 +161,13 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       : null;
     const shouldSendGroundedPreset =
       Boolean(selectedPresetId && presetQuestion) && input === presetQuestion;
-    const messageInput =
-      shouldSendGroundedPreset && selectedPresetId
-        ? buildChatGuidePresetPrompt(selectedPresetId, input, langKey)
-        : input;
 
     await chatController.sendMessage({
-      input: messageInput,
+      input,
       displayInput: shouldSendGroundedPreset ? input : undefined,
+      guideMode: shouldSendGroundedPreset ? CHAT_GUIDE_MODE_PUBLIC_SITE : undefined,
+      presetId: shouldSendGroundedPreset && selectedPresetId ? selectedPresetId : undefined,
+      locale: shouldSendGroundedPreset ? langKey : undefined,
       addMessage,
       setMessages,
       onAccepted: () => {

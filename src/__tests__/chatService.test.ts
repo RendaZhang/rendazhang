@@ -56,6 +56,38 @@ describe('chatService unauthorized handling', () => {
     await expect(sendMessageToAI('hi', onChunk)).resolves.toBe('Hello world');
     expect(onChunk).toHaveBeenNthCalledWith(1, 'Hello');
     expect(onChunk).toHaveBeenNthCalledWith(2, 'Hello world');
+    expect(JSON.parse(String(vi.mocked(global.fetch).mock.calls[0]?.[1]?.body))).toEqual({
+      message: 'hi'
+    });
+  });
+
+  it('sends guide mode fields only for explicit public site guide requests', async () => {
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(encoder.encode('{"text":"guided"}\n'));
+        controller.close();
+      }
+    });
+    global.fetch = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      body: stream
+    }) as unknown as typeof fetch;
+
+    await expect(
+      sendMessageToAI('What does PersonalWeb prove?', undefined, {
+        guideMode: 'public_site',
+        presetId: 'personalweb_proof',
+        locale: 'en'
+      })
+    ).resolves.toBe('guided');
+
+    expect(JSON.parse(String(vi.mocked(global.fetch).mock.calls[0]?.[1]?.body))).toEqual({
+      message: 'What does PersonalWeb prove?',
+      guideMode: 'public_site',
+      presetId: 'personalweb_proof',
+      locale: 'en'
+    });
   });
 
   it('ignores malformed stream lines and continues parsing valid chunks', async () => {

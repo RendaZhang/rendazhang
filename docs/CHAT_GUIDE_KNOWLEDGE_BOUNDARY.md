@@ -14,17 +14,18 @@
 
 # Chat Guide Knowledge Boundary
 
-- **Last Updated**: July 02, 2026, 17:26 (UTC+08:00)
-- **Scope**: Slice 11.4 frontend-only Chat Guide public context boundary.
+- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
+- **Scope**: Slice 11.4 frontend public context boundary, updated after Slice 12.3 backend
+  guide-mode transport.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat Guide
   behavior.
 
 ## Purpose
 
 The Chat Guide preset questions should answer from public PersonalWeb context instead of generic
-model guesses. Slice 11.4 keeps the implementation frontend-only: preset questions stay short and
-visible, while unchanged preset sends are internally grounded with a controlled public-context
-prompt before entering the existing Chat input/send flow.
+model guesses. Preset questions stay short and visible. After Slice 12.3, unchanged preset sends use
+backend opt-in guide mode so the backend-owned prompt builder supplies the model-facing public
+context.
 
 This boundary does not add backend telemetry, persistence, third-party analytics, cookies,
 fingerprinting, dependencies, runtime changes, or Chat Widget iframe protocol changes.
@@ -66,17 +67,21 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
 
 ## Runtime Behavior
 
-- `src/content/chatGuideKnowledge.ts` owns the source categories, disallowed-topic inventory, preset
-  boundary map, localized prompt context, and `buildChatGuidePresetPrompt`.
+- `src/content/chatGuideKnowledge.ts` owns the frontend source categories, disallowed-topic
+  inventory, preset boundary map, localized prompt context, and tests for the original frontend
+  prompt boundary. Live preset sends now use the backend prompt builder through guide mode.
 - `src/components/chat/ChatPresetQuestions.tsx` still renders short visible preset buttons and
   records only `chat_preset_question_clicked` with `{ presetId }`.
 - `src/components/chat/Chat.tsx` fills the existing textarea with only the short localized preset
   question.
-- When the unchanged preset question is sent, `Chat.tsx` calls `buildChatGuidePresetPrompt` for the
-  model request while `src/controllers/chatController.ts` stores only the short visible question in
-  chat history.
-- `buildChatGuidePresetPrompt` uses the controlled localized preset question for the final
-  `Question:` line if a caller passes text that does not match the known preset label.
+- When the unchanged preset question is sent, `Chat.tsx` sends the short visible question plus
+  `{ guideMode: 'public_site', presetId, locale }` through `src/controllers/chatController.ts` and
+  `src/services/chatService.ts`.
+- `src/controllers/chatController.ts` stores only the short visible question in chat history and
+  Sentry breadcrumbs. It does not add preset text, visitor-entered text, generated answers, or
+  guide metadata to telemetry.
+- The backend `/deepseek_chat` route builds the model-facing public-context prompt only for the
+  opt-in `public_site` guide mode.
 - The visitor still sends through the existing `src/controllers/chatController.ts` flow. Free-form
   chat remains unchanged.
 - The same-origin Chat Widget iframe ready protocol remains unchanged.
@@ -100,6 +105,6 @@ Focused tests cover:
 - Chinese identity prompt grounding for `Renda Zhang 是谁？`;
 - fallback to controlled preset text when arbitrary caller text is supplied;
 - prompt text avoiding private values and private endpoint paths;
-- Chat preset flow showing only short questions while sending grounded context internally;
+- Chat preset flow showing only short questions while sending guide-mode metadata to the service;
 - edited preset text falling back to normal free-form chat;
 - preset telemetry remaining ID-only.

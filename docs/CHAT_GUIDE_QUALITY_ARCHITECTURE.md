@@ -18,7 +18,7 @@
 
 # Chat Guide Quality Architecture
 
-- **Last Updated**: July 02, 2026, 23:17 (UTC+08:00)
+- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
 - **Scope**: Slice 12.1 planning and audit for Chat Guide public-knowledge grounding.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat quality.
 
@@ -48,8 +48,8 @@ The smallest reliable architecture is:
 - a backend prompt builder that accepts a controlled Chat Guide mode, controlled preset IDs, and a
   single visitor question;
 - strict tests for source-bounded facts, refusals, bilingual framing, and private-topic rejection;
-- a later opt-in transport slice that uses the prompt builder only for Chat Guide messages while
-  leaving ordinary chat behavior unchanged.
+- an opt-in transport path that uses the prompt builder only for Chat Guide messages while leaving
+  ordinary chat behavior unchanged.
 
 ## Current Runtime Audit
 
@@ -65,11 +65,12 @@ Direct `/deepseek_chat/` path:
 - If the visitor edits that text before sending, `Chat.tsx` clears the selected preset ID and sends
   the edited text as normal free-form chat.
 - If the selected preset remains active and the textarea still exactly matches the controlled
-  localized question, `Chat.tsx` calls `buildChatGuidePresetPrompt` for the model payload while
-  passing the short question as `displayInput`.
+  localized question, `Chat.tsx` sends the short question plus `{ guideMode: 'public_site',
+  presetId, locale }` through the Chat controller.
 - `src/controllers/chatController.ts` stores the visible `displayInput` in user chat history and
-  Sentry breadcrumbs, while sending the model payload through `src/services/chatService.ts`.
-- `src/services/chatService.ts` posts `{ message }` to the configured chat endpoint and parses
+  Sentry breadcrumbs, while passing guide-mode metadata to `src/services/chatService.ts`.
+- `src/services/chatService.ts` posts `{ message }` for default chat and adds `guideMode`,
+  `presetId`, and `locale` only for explicit public-site guide sends. It still parses
   newline-delimited JSON chunks with a `text` field.
 
 Chat Widget iframe path:
@@ -86,9 +87,9 @@ Backend and Nginx path:
 
 - The frontend chat transport reaches the existing backend chat endpoint through the `/cloudchat`
   proxy path.
-- The backend `app.py` route receives a single `message` field, stores conversation messages in the
-  Flask session, streams model deltas as newline-delimited JSON, and appends the assistant response
-  to the session.
+- The backend `app.py` route still accepts default `{ message }` requests. When `guideMode` is the
+  controlled value `public_site`, it builds the model-facing prompt with the backend public
+  knowledge package while storing only the visible visitor `message` in Flask session.
 - The default backend system prompt is configurable by environment and is not currently a
   source-bounded public knowledge policy.
 - Nginx proxies streaming chat routes with buffering disabled and strips the `/cloudchat` prefix
@@ -151,12 +152,12 @@ Current risks:
 
 - Free-form questions still use the generic chat path and do not receive source-bounded public
   context.
-- The current preset grounding is frontend-owned, so backend behavior cannot independently enforce
-  the public-content-only policy.
+- Live guide-mode preset grounding is backend-owned now, but it still needs fixed refusal,
+  unknown-answer, and prompt-injection QA before broader guide behavior is expanded.
 - The backend session preserves chat history for the current chat experience. That is useful for
   generic chat, but public guide mode should avoid letting earlier arbitrary turns contaminate a
   source-bounded answer.
-- A model can still ignore a frontend-provided instruction or overstate unsupported claims.
+- A model can still ignore source-bounded instructions or overstate unsupported claims.
 - The current answer UI does not consistently show source hints or next navigation targets.
 - Bilingual behavior depends on prompt wording and model behavior, not a tested backend answer
   contract.
