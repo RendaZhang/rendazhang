@@ -14,9 +14,9 @@
 
 # Chat Guide Knowledge Boundary
 
-- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
+- **Last Updated**: July 03, 2026, 23:19 (UTC+08:00)
 - **Scope**: Slice 11.4 frontend public context boundary, updated after Slice 12.3 backend
-  guide-mode transport.
+  guide-mode transport and Slice 12.5 source-hint UI.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat Guide
   behavior.
 
@@ -39,6 +39,7 @@ Preset answers may draw only from these public source categories:
 | `homepage` | Visible homepage content for Renda Zhang, PersonalWeb, work history, skills, education, and proof CTAs. |
 | `docs` | `/docs/` rendered technical documentation. |
 | `frontend_docs` | Public frontend repository docs such as architecture, testing, SEO/GEO, directory ownership, and Chat Widget protocol docs. |
+| `backend_docs` | Public backend API and testing docs, exposed as controlled source labels or a `/docs/` next-step hint. |
 | `certifications` | `/certifications/` visible content and public credential verification context. |
 | `llms` | `public/llms.txt` public summary for search and AI systems. |
 | `metadata` | Public metadata and JSON-LD aligned with visible page content. |
@@ -60,10 +61,10 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
 | Preset ID | Source categories | Allowed claims | Refusal or uncertainty rule |
 | --- | --- | --- | --- |
 | `who_is_renda` | `homepage`, `llms`, `metadata`, `public_github_docs` | Renda Zhang is also 张人大; he is publicly positioned as a Shenzhen-based AI full-stack and cloud-native software engineer with Java/Spring, FinTech/insurance platform, AWS SAA, and University of Minnesota CS context; the site states a July 2026 OneConnect Senior Backend Engineer / Team Lead transition. | Do not infer private identity, contact, salary, employer-confidential, or unsupported biographical details. |
-| `personalweb_proof` | `homepage`, `docs`, `frontend_docs`, `llms`, `metadata`, `public_github_docs` | PersonalWeb is a public project proof surface showing Astro/React, same-origin Chat Widget, AI chat page, backend integration, docs, tests, smoke checks, SEO/GEO/LLMS, and GitHub Actions delivery. | Do not overstate it as a large commercial SaaS or infer hidden production scale. |
+| `personalweb_proof` | `homepage`, `docs`, `frontend_docs`, `backend_docs`, `llms`, `metadata`, `public_github_docs` | PersonalWeb is a public project proof surface showing Astro/React, same-origin Chat Widget, AI chat page, backend integration, docs, tests, smoke checks, SEO/GEO/LLMS, and GitHub Actions delivery. | Do not overstate it as a large commercial SaaS or infer hidden production scale. |
 | `cloud_native_evidence` | `homepage`, `docs`, `frontend_docs`, `certifications`, `llms` | Public evidence includes AWS/GCP/Kubernetes positioning, Java/Spring microservices, CI/CD, observability, reliability language, testing, delivery boundaries, AWS SAA, and public work narrative. | Do not claim access to private cloud accounts, private architecture, private incidents, or unpublished configuration. |
 | `certification_context` | `certifications`, `homepage`, `llms`, `metadata` | AWS SAA is a verifiable architecture and learning signal covering cloud fundamentals, reliability tradeoffs, cost awareness, and operational boundaries within a broader proof chain. | Do not present the certificate alone as proof of owning a large AWS production estate. |
-| `recruiter_summary` | `homepage`, `docs`, `frontend_docs`, `certifications`, `llms`, `metadata`, `public_github_docs` | Recruiters should scan homepage positioning, PersonalWeb proof, docs, certifications, work history, education, and public profiles; strongest public signals are AI full-stack, cloud-native delivery, Java/Spring backend depth, FinTech/insurance context, AWS SAA, and University of Minnesota CS. | Avoid private hiring details such as salary, private references, unlisted contact records, or employer-confidential performance claims. |
+| `recruiter_summary` | `homepage`, `docs`, `frontend_docs`, `backend_docs`, `certifications`, `llms`, `metadata`, `public_github_docs` | Recruiters should scan homepage positioning, PersonalWeb proof, docs, certifications, work history, education, and public profiles; strongest public signals are AI full-stack, cloud-native delivery, Java/Spring backend depth, FinTech/insurance context, AWS SAA, and University of Minnesota CS. | Avoid private hiring details such as salary, private references, unlisted contact records, or employer-confidential performance claims. |
 
 ## Runtime Behavior
 
@@ -82,6 +83,14 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
   guide metadata to telemetry.
 - The backend `/deepseek_chat` route builds the model-facing public-context prompt only for the
   opt-in `public_site` guide mode.
+- `src/content/chatGuideKnowledge.ts` also exports controlled source-hint metadata for each preset.
+  Source hints are fixed labels and relative public routes derived from the preset ID; they are not
+  parsed from model output, visitor-entered text, generated answers, or URLs in chat content.
+- `src/components/chat/AIMessage.tsx` renders source hints only when `Chat.tsx` marks the assistant
+  answer as the response to an unchanged controlled guide preset. Edited presets and normal
+  free-form chat do not receive source hints.
+- Source-hint links open in a new tab so the same UI remains safe inside the same-origin Chat Widget
+  iframe without adding parent-to-child messages or changing the ready protocol.
 - The visitor still sends through the existing `src/controllers/chatController.ts` flow. Free-form
   chat remains unchanged.
 - The same-origin Chat Widget iframe ready protocol remains unchanged.
@@ -96,6 +105,12 @@ instead of guessing. The preset context should never include private contact det
 text, chat messages, generated answers, cookies, auth/profile identifiers, backend secrets, private
 paths, full URLs, query strings, or production-only operational details.
 
+Source hints are an extra UI aid, not citations extracted from the model. They may show controlled
+labels such as homepage, `/docs/`, `/certifications/`, `llms.txt`, frontend docs, backend
+API/testing docs, or public GitHub docs. They must not include full URLs, query strings, private
+paths, visitor-entered text, generated answer text, source-hint click telemetry, contact data, or
+auth/profile data.
+
 ## Test Coverage
 
 Focused tests cover:
@@ -107,4 +122,5 @@ Focused tests cover:
 - prompt text avoiding private values and private endpoint paths;
 - Chat preset flow showing only short questions while sending guide-mode metadata to the service;
 - edited preset text falling back to normal free-form chat;
+- source hints rendering only for unchanged controlled guide preset answers;
 - preset telemetry remaining ID-only.

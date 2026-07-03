@@ -24,6 +24,10 @@ export const DEEPSEEK_CHAT_CONTENT = {
         recruiter_summary: 'How should a recruiter evaluate this site quickly?'
       }
     },
+    sourceHints: {
+      heading: 'Public sources',
+      ariaLabel: 'Public source hints for this guided answer'
+    },
     resetConfirm: 'Are you sure you want to reset the conversation? This will clear all history.',
     resetFailedPrefix: 'Reset failed',
     sendButton: 'Send',
@@ -56,6 +60,10 @@ export const DEEPSEEK_CHAT_CONTENT = {
         certification_context: 'AWS 认证如何支持这个网站的可信度？',
         recruiter_summary: '招聘方应该如何快速评估这个网站？'
       }
+    },
+    sourceHints: {
+      heading: '公开来源',
+      ariaLabel: '此导览回答的公开来源提示'
     },
     resetConfirm: '确定要重置会话吗？将清除所有历史记录。',
     resetFailedPrefix: '重置失败',

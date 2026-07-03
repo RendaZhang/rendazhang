@@ -64,6 +64,71 @@
   color: var(--color-text-deep);
 }
 
+.c-chat-source-hints {
+  border-color: var(--color-border-muted);
+  border-top: var(--border-1);
+  display: grid;
+  gap: var(--space-2);
+  margin-block-start: var(--space-3);
+  padding-block-start: var(--space-3);
+}
+
+.c-chat-source-hints-heading {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-0);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+}
+
+.c-chat-source-hint-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c-chat-source-hint-item {
+  margin: 0;
+}
+
+.c-chat-source-hint-link,
+.c-chat-source-hint-label {
+  background: var(--color-palette-surface);
+  border: var(--border-1);
+  border-color: var(--color-palette-border);
+  border-radius: var(--radius-m);
+  color: var(--color-text);
+  display: inline-flex;
+  font-size: var(--font-size-0);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  padding: var(--space-1) var(--space-2);
+  text-decoration: none;
+}
+
+.c-chat-source-hint-link {
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.c-chat-source-hint-link:hover {
+  background: var(--color-surface);
+  border-color: var(--color-brand);
+  color: var(--color-text-deep);
+}
+
+.c-chat-source-hint-link:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
 .c-typing-indicator {
   align-self: flex-start;
   background: var(--color-subtle-bg-hover);

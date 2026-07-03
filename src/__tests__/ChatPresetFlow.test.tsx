@@ -3,7 +3,8 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import Chat from '../components/chat/Chat';
 import { ROLES } from '../constants';
 import { sendMessageToAI } from '../services';
-import type { ChatMessage } from '../types/chat';
+import type { ChatMessage, ChatRole } from '../types/chat';
+import type { ChatMessageUpdater } from '../controllers/chatController';
 
 vi.mock('../services', () => ({
   sendMessageToAI: vi.fn(async () => 'preset answer'),
@@ -18,9 +19,13 @@ const chatHistory = {
   isLoaded: true
 };
 
-vi.mock('../hooks', () => ({
-  useChatHistory: () => chatHistory
-}));
+vi.mock('../hooks', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../hooks')>();
+  return {
+    ...actual,
+    useChatHistory: () => chatHistory
+  };
+});
 
 vi.mock('../components/providers', () => ({
   useLanguage: () => ({ lang: 'en' })
@@ -33,11 +38,24 @@ beforeAll(() => {
 
 describe('Chat preset question flow', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     chatHistory.messages = [];
-    chatHistory.addMessage.mockClear();
-    chatHistory.setMessages.mockClear();
-    chatHistory.clearHistory.mockClear();
-    vi.mocked(sendMessageToAI).mockClear();
+    chatHistory.addMessage.mockImplementation((role: ChatRole, content: string) => {
+      chatHistory.messages = [...chatHistory.messages, { role, content }];
+      return chatHistory.messages;
+    });
+    chatHistory.setMessages.mockImplementation((updater: ChatMessageUpdater) => {
+      chatHistory.messages =
+        typeof updater === 'function' ? updater(chatHistory.messages) : updater;
+      return chatHistory.messages;
+    });
+    chatHistory.clearHistory.mockImplementation(() => {
+      chatHistory.messages = [];
+    });
+    vi.mocked(sendMessageToAI).mockImplementation(async (_message, onChunk) => {
+      onChunk?.('preset answer');
+      return 'preset answer';
+    });
   });
 
   it('shows only the short preset question while sending guide mode metadata', async () => {
@@ -71,6 +89,41 @@ describe('Chat preset question flow', () => {
     expect(chatHistory.addMessage).toHaveBeenCalledWith(ROLES.USER, 'What does PersonalWeb prove?');
   });
 
+  it('renders controlled source hints only for unchanged guide preset answers', async () => {
+    render(<Chat />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
+    fireEvent.click(screen.getByRole('button', { name: /send/i }));
+
+    const hintRegion = await screen.findByLabelText('Public source hints for this guided answer');
+
+    expect(screen.getByText('preset answer')).toBeTruthy();
+    expect(hintRegion.textContent).toContain('Public sources');
+    expect(screen.getByRole('link', { name: '/docs/ project proof' }).getAttribute('href')).toBe(
+      '/docs/'
+    );
+    expect(
+      screen.getByRole('link', { name: 'Frontend architecture/testing docs' }).getAttribute('href')
+    ).toBe('/docs/');
+    expect(
+      screen.getByRole('link', { name: 'Backend API/testing docs' }).getAttribute('href')
+    ).toBe('/docs/');
+    expect(screen.getByRole('link', { name: 'llms.txt public summary' }).getAttribute('href')).toBe(
+      '/llms.txt'
+    );
+    for (const link of hintRegion.querySelectorAll('a')) {
+      expect(link.getAttribute('target')).toBe('_blank');
+      expect(link.getAttribute('rel')).toContain('noopener');
+      expect(link.getAttribute('rel')).toContain('noreferrer');
+    }
+    expect(hintRegion.textContent).not.toContain('What does PersonalWeb prove?');
+    expect(hintRegion.textContent).not.toContain('preset answer');
+    expect(hintRegion.outerHTML).not.toMatch(/https?:\/\/|www\.|[?&][a-z0-9_-]+=/i);
+    expect(hintRegion.outerHTML).not.toMatch(
+      /\/(?:api|cloudchat|internal|private|server)(?:\/|$)/i
+    );
+  });
+
   it('sends edited preset text as normal free-form chat without hidden context', async () => {
     render(<Chat />);
 
@@ -100,5 +153,7 @@ describe('Chat preset question flow', () => {
       ROLES.USER,
       'What does PersonalWeb prove? Please keep it brief.'
     );
+    await screen.findByText('preset answer');
+    expect(screen.queryByLabelText('Public source hints for this guided answer')).toBeNull();
   });
 });

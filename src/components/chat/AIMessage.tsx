@@ -5,6 +5,8 @@ import { UI_DURATIONS } from '../../constants';
 import { LocalizedSection } from '../ui';
 import { logger } from '../../utils';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
+import type { ChatGuideSourceHintGroup } from '../../content/chatGuideKnowledge';
+import ChatGuideSourceHints from './ChatGuideSourceHints';
 
 interface AIMessageProps {
   text: string;
@@ -12,9 +14,21 @@ interface AIMessageProps {
   onRendered?: ChatCallback;
   textsZh: CopyTexts;
   textsEn: CopyTexts;
+  sourceHints?: ChatGuideSourceHintGroup;
+  sourceHintsHeading: string;
+  sourceHintsAriaLabel: string;
 }
 
-export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn }: AIMessageProps) {
+export default function AIMessage({
+  text,
+  enhance,
+  onRendered,
+  textsZh,
+  textsEn,
+  sourceHints,
+  sourceHintsHeading,
+  sourceHintsAriaLabel
+}: AIMessageProps) {
   const [showBtn, setShowBtn] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
@@ -60,6 +74,11 @@ export default function AIMessage({ text, enhance, onRendered, textsZh, textsEn 
         )}
       </button>
       <div ref={contentRef}></div>
+      <ChatGuideSourceHints
+        ariaLabel={sourceHintsAriaLabel}
+        heading={sourceHintsHeading}
+        sourceHints={sourceHints}
+      />
     </div>
   );
 }

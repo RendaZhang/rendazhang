@@ -3,7 +3,8 @@ import {
   buildChatGuidePresetPrompt,
   CHAT_GUIDE_PRESET_BOUNDARIES,
   CHAT_GUIDE_PRESET_IDS,
-  CHAT_GUIDE_PUBLIC_SOURCE_CATEGORIES
+  CHAT_GUIDE_PUBLIC_SOURCE_CATEGORIES,
+  getChatGuideSourceHints
 } from '../content/chatGuideKnowledge';
 import { CHAT_PRESET_QUESTION_IDS } from '../services/visitorEvents';
 
@@ -61,5 +62,27 @@ describe('chat guide knowledge boundary', () => {
 
     expect(prompt).toContain('Question: Who is Renda Zhang?');
     expect(prompt).not.toContain('visitor@example.com');
+  });
+
+  it('builds controlled source hints from preset IDs without private or visitor values', () => {
+    const hints = getChatGuideSourceHints('personalweb_proof', 'en');
+    const renderedHints = JSON.stringify(hints);
+
+    expect(hints.presetId).toBe('personalweb_proof');
+    expect(hints.hints).toEqual([
+      { id: 'docs', label: '/docs/ project proof', href: '/docs/' },
+      {
+        id: 'frontend_docs',
+        label: 'Frontend architecture/testing docs',
+        href: '/docs/'
+      },
+      { id: 'backend_docs', label: 'Backend API/testing docs', href: '/docs/' },
+      { id: 'llms', label: 'llms.txt public summary', href: '/llms.txt' }
+    ]);
+    expect(renderedHints).not.toMatch(/https?:\/\/|www\./i);
+    expect(renderedHints).not.toMatch(/[?&][a-z0-9_-]+=/i);
+    expect(renderedHints).not.toMatch(/\/(?:api|cloudchat|internal|private|server)(?:\/|$)/i);
+    expect(renderedHints).not.toContain('visitor@example.com');
+    expect(renderedHints).not.toContain('generated answer');
   });
 });

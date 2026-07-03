@@ -18,8 +18,9 @@
 
 # Chat Guide Quality Architecture
 
-- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
-- **Scope**: Slice 12.1 planning and audit for Chat Guide public-knowledge grounding.
+- **Last Updated**: July 03, 2026, 23:19 (UTC+08:00)
+- **Scope**: Slice 12.1 planning and audit for Chat Guide public-knowledge grounding, updated
+  through Slice 12.5 source-hint UI.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat quality.
 
 This document audits the current Chat Guide stack and records the smallest safe architecture for
@@ -72,6 +73,10 @@ Direct `/deepseek_chat/` path:
 - `src/services/chatService.ts` posts `{ message }` for default chat and adds `guideMode`,
   `presetId`, and `locale` only for explicit public-site guide sends. It still parses
   newline-delimited JSON chunks with a `text` field.
+- For unchanged controlled preset sends, `src/components/chat/AIMessage.tsx` renders a compact
+  source-hint row derived from the preset ID. The hints use controlled labels and relative public
+  routes from `src/content/chatGuideKnowledge.ts`; they are not parsed from model text and do not
+  record clicks or visitor-entered content.
 
 Chat Widget iframe path:
 
@@ -158,7 +163,8 @@ Current risks:
   generic chat, but public guide mode should avoid letting earlier arbitrary turns contaminate a
   source-bounded answer.
 - A model can still ignore source-bounded instructions or overstate unsupported claims.
-- The current answer UI does not consistently show source hints or next navigation targets.
+- Source hints now exist for unchanged controlled preset answers, but edited/free-form Chat Guide
+  questions still use ordinary chat UI without source-hint metadata.
 - Bilingual behavior depends on prompt wording and model behavior, not a tested backend answer
   contract.
 - Edited preset questions correctly fall back to free-form chat, but that also means edited guide
@@ -207,6 +213,7 @@ Frontend `rendazhang` should own:
 - localized button labels and helper copy;
 - Chat Widget iframe lifecycle and ready protocol;
 - source-hint rendering only after backend/source behavior is reliable.
+- controlled source-hint labels/routes for guided preset answers.
 
 Backend `python-cloud-chat` should own:
 

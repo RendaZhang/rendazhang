@@ -14,6 +14,8 @@
 - `.c-message-input` uses `:focus-visible` with `--focus-ring`.
 - Buttons rely on shared chat button states defined in button styles.
 - Icon buttons `.c-send-btn` and `.c-reset-btn` maintain a square aspect ratio and resize on small screens.
+- `.c-chat-source-hints` renders controlled Chat Guide source labels inside assistant messages; links
+  use tokenized chip styling and must remain relative public routes.
 
 ## Container
 

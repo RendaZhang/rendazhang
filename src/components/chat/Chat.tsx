@@ -1,15 +1,24 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { KeyboardEvent } from 'react';
-import { createChatController, type ChatController } from '../../controllers/chatController';
+import {
+  createChatController,
+  type AddChatMessage,
+  type ChatController
+} from '../../controllers/chatController';
 import { useChatHistory } from '../../hooks';
 import { useLanguage } from '../providers';
 import { DEEPSEEK_CHAT_CONTENT } from '../../content';
+import {
+  getChatGuideSourceHints,
+  type ChatGuideSourceHintGroup
+} from '../../content/chatGuideKnowledge';
 import { LocalizedSection, Modal } from '../ui';
 import ChatMessageList from './ChatMessageList';
 import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
 import LoadingIndicator from './LoadingIndicator';
 import ChatPresetQuestions from './ChatPresetQuestions';
+import { ROLES } from '../../constants';
 import type { ChatPresetQuestionId } from '../../services/visitorEvents';
 import { CHAT_GUIDE_MODE_PUBLIC_SITE } from '../../services/chatService';
 
@@ -37,10 +46,15 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const [resetError, setResetError] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('');
   const [selectedPresetId, setSelectedPresetId] = useState<ChatPresetQuestionId | null>(null);
+  const [sourceHintsByMessageIndex, setSourceHintsByMessageIndex] = useState<
+    Readonly<Record<number, ChatGuideSourceHintGroup>>
+  >({});
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
   const chatControllerRef = useRef<ChatController | null>(null);
+  const pendingGuideSourceHintsRef = useRef<ChatGuideSourceHintGroup | null>(null);
+  const pendingGuideAssistantIndexRef = useRef<number | null>(null);
   const [librariesLoaded, setLibrariesLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const pageReadyRef = useRef(false);
@@ -161,6 +175,20 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       : null;
     const shouldSendGroundedPreset =
       Boolean(selectedPresetId && presetQuestion) && input === presetQuestion;
+    const sourceHints =
+      shouldSendGroundedPreset && selectedPresetId
+        ? getChatGuideSourceHints(selectedPresetId, langKey)
+        : null;
+    const addTrackedMessage: AddChatMessage = (role, content) => {
+      const nextMessages = addMessage(role, content);
+      if (sourceHints && role === ROLES.USER) {
+        pendingGuideSourceHintsRef.current = sourceHints;
+        pendingGuideAssistantIndexRef.current = Array.isArray(nextMessages)
+          ? nextMessages.length
+          : messages.length + 1;
+      }
+      return nextMessages;
+    };
 
     await chatController.sendMessage({
       input,
@@ -168,7 +196,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       guideMode: shouldSendGroundedPreset ? CHAT_GUIDE_MODE_PUBLIC_SITE : undefined,
       presetId: shouldSendGroundedPreset && selectedPresetId ? selectedPresetId : undefined,
       locale: shouldSendGroundedPreset ? langKey : undefined,
-      addMessage,
+      addMessage: addTrackedMessage,
       setMessages,
       onAccepted: () => {
         setInput('');
@@ -179,6 +207,14 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         }
       },
       onFirstChunk: () => {
+        const pendingSourceHints = pendingGuideSourceHintsRef.current;
+        const pendingAssistantIndex = pendingGuideAssistantIndexRef.current;
+        if (pendingSourceHints && pendingAssistantIndex !== null) {
+          setSourceHintsByMessageIndex((currentSourceHints) => ({
+            ...currentSourceHints,
+            [pendingAssistantIndex]: pendingSourceHints
+          }));
+        }
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'none';
         }
@@ -189,6 +225,8 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
         }
       },
       onFinally: () => {
+        pendingGuideSourceHintsRef.current = null;
+        pendingGuideAssistantIndexRef.current = null;
         setIsSending(false);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'none';
@@ -228,7 +266,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     await chatController.resetHistory({
       clearHistory,
       errorPrefix: activeTexts.resetFailedPrefix,
-      onSuccess: () => setShowResetModal(false),
+      onSuccess: () => {
+        setSourceHintsByMessageIndex({});
+        setShowResetModal(false);
+      },
       onError: (message) => setResetError(message),
       onFinally: () => setIsResetting(false)
     });
@@ -271,6 +312,9 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
             librariesLoaded={librariesLoaded}
             textsZh={textsZh}
             textsEn={textsEn}
+            sourceHintsByMessageIndex={sourceHintsByMessageIndex}
+            sourceHintsHeading={activeTexts.sourceHints.heading}
+            sourceHintsAriaLabel={activeTexts.sourceHints.ariaLabel}
             onRendered={handleRendered}
           />
         )}

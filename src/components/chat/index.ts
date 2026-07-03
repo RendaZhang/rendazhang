@@ -5,6 +5,8 @@ export * from './AIMessage';
 export { default as AIMessage } from './AIMessage';
 export * from './Chat';
 export { default as Chat } from './Chat';
+export * from './ChatGuideSourceHints';
+export { default as ChatGuideSourceHints } from './ChatGuideSourceHints';
 export * from './ChatInput';
 export { default as ChatInput } from './ChatInput';
 export * from './ChatMessageList';

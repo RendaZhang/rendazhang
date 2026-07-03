@@ -12,6 +12,7 @@ export const CHAT_GUIDE_PUBLIC_SOURCE_CATEGORIES = [
   'homepage',
   'docs',
   'frontend_docs',
+  'backend_docs',
   'certifications',
   'llms',
   'metadata',
@@ -28,6 +29,17 @@ export interface ChatGuidePresetBoundary {
   refusalGuidance: string;
 }
 
+export interface ChatGuideSourceHint {
+  id: ChatGuidePublicSourceCategory;
+  label: string;
+  href?: string;
+}
+
+export interface ChatGuideSourceHintGroup {
+  presetId: ChatGuidePresetId;
+  hints: readonly ChatGuideSourceHint[];
+}
+
 export const CHAT_GUIDE_PUBLIC_SOURCE_LABELS = {
   homepage: {
     en: 'homepage visible content',
@@ -40,6 +52,10 @@ export const CHAT_GUIDE_PUBLIC_SOURCE_LABELS = {
   frontend_docs: {
     en: 'public frontend docs in this repository',
     zh: '本仓库公开前端文档'
+  },
+  backend_docs: {
+    en: 'public backend API and testing docs',
+    zh: '公开后端 API 与测试文档'
   },
   certifications: {
     en: '/certifications/ page and public verification context',
@@ -96,6 +112,7 @@ export const CHAT_GUIDE_PRESET_BOUNDARIES = {
       'homepage',
       'docs',
       'frontend_docs',
+      'backend_docs',
       'llms',
       'metadata',
       'public_github_docs'
@@ -133,6 +150,7 @@ export const CHAT_GUIDE_PRESET_BOUNDARIES = {
       'homepage',
       'docs',
       'frontend_docs',
+      'backend_docs',
       'certifications',
       'llms',
       'metadata',
@@ -147,6 +165,77 @@ export const CHAT_GUIDE_PRESET_BOUNDARIES = {
       'Avoid private hiring details such as salary, private references, unlisted contact records, or employer-confidential performance claims.'
   }
 } as const satisfies Record<ChatGuidePresetId, ChatGuidePresetBoundary>;
+
+const CHAT_GUIDE_SOURCE_HINT_DEFINITIONS = {
+  homepage: {
+    href: '/',
+    labels: {
+      en: 'Homepage',
+      zh: '主页'
+    }
+  },
+  docs: {
+    href: '/docs/',
+    labels: {
+      en: '/docs/ project proof',
+      zh: '/docs/ 项目证明'
+    }
+  },
+  frontend_docs: {
+    href: '/docs/',
+    labels: {
+      en: 'Frontend architecture/testing docs',
+      zh: '前端架构/测试文档'
+    }
+  },
+  backend_docs: {
+    href: '/docs/',
+    labels: {
+      en: 'Backend API/testing docs',
+      zh: '后端 API/测试文档'
+    }
+  },
+  certifications: {
+    href: '/certifications/',
+    labels: {
+      en: '/certifications/ credentials',
+      zh: '/certifications/ 证书'
+    }
+  },
+  llms: {
+    href: '/llms.txt',
+    labels: {
+      en: 'llms.txt public summary',
+      zh: 'llms.txt 公开摘要'
+    }
+  },
+  metadata: {
+    labels: {
+      en: 'Public metadata',
+      zh: '公开 metadata'
+    }
+  },
+  public_github_docs: {
+    labels: {
+      en: 'Public GitHub docs',
+      zh: '公开 GitHub 文档'
+    }
+  }
+} as const satisfies Record<
+  ChatGuidePublicSourceCategory,
+  {
+    href?: string;
+    labels: Record<ChatGuideLanguage, string>;
+  }
+>;
+
+const CHAT_GUIDE_PRESET_SOURCE_HINT_CATEGORIES = {
+  who_is_renda: ['homepage', 'llms', 'public_github_docs'],
+  personalweb_proof: ['docs', 'frontend_docs', 'backend_docs', 'llms'],
+  cloud_native_evidence: ['docs', 'certifications', 'frontend_docs', 'llms'],
+  certification_context: ['certifications', 'homepage', 'llms'],
+  recruiter_summary: ['homepage', 'docs', 'certifications', 'public_github_docs']
+} as const satisfies Record<ChatGuidePresetId, readonly ChatGuidePublicSourceCategory[]>;
 
 const SHARED_CONTEXT_LINES = {
   en: [
@@ -366,4 +455,23 @@ export function buildChatGuidePresetPrompt(
     '',
     `Question: ${controlledQuestion}`
   ].join('\n');
+}
+
+export function getChatGuideSourceHints(
+  presetId: ChatGuidePresetId,
+  language: ChatGuideLanguage
+): ChatGuideSourceHintGroup {
+  const hints = CHAT_GUIDE_PRESET_SOURCE_HINT_CATEGORIES[presetId].map((sourceCategory) => {
+    const definition = CHAT_GUIDE_SOURCE_HINT_DEFINITIONS[sourceCategory];
+    return {
+      id: sourceCategory,
+      label: definition.labels[language],
+      ...('href' in definition ? { href: definition.href } : {})
+    };
+  });
+
+  return {
+    presetId,
+    hints
+  };
 }

@@ -1,6 +1,7 @@
 import AIMessage from './AIMessage';
 import { ROLES } from '../../constants';
 import type { ChatMessage, ChatCallback, CopyTexts } from '../../types/chat';
+import type { ChatGuideSourceHintGroup } from '../../content/chatGuideKnowledge';
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
@@ -8,6 +9,9 @@ interface ChatMessageListProps {
   librariesLoaded: boolean;
   textsZh: CopyTexts;
   textsEn: CopyTexts;
+  sourceHintsByMessageIndex?: Readonly<Record<number, ChatGuideSourceHintGroup>>;
+  sourceHintsHeading: string;
+  sourceHintsAriaLabel: string;
   onRendered?: ChatCallback;
 }
 
@@ -17,6 +21,9 @@ export default function ChatMessageList({
   librariesLoaded,
   textsZh,
   textsEn,
+  sourceHintsByMessageIndex = {},
+  sourceHintsHeading,
+  sourceHintsAriaLabel,
   onRendered
 }: ChatMessageListProps) {
   return messages.map((msg, idx) => {
@@ -30,6 +37,9 @@ export default function ChatMessageList({
           onRendered={onRendered}
           textsZh={textsZh}
           textsEn={textsEn}
+          sourceHints={sourceHintsByMessageIndex[idx]}
+          sourceHintsHeading={sourceHintsHeading}
+          sourceHintsAriaLabel={sourceHintsAriaLabel}
         />
       );
     }
