@@ -25,6 +25,7 @@
     - [Git 分支与发布流程](#git-%E5%88%86%E6%94%AF%E4%B8%8E%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B)
     - [CI/CD 工作流](#cicd-%E5%B7%A5%E4%BD%9C%E6%B5%81)
     - [运维维护命令索引](#%E8%BF%90%E7%BB%B4%E7%BB%B4%E6%8A%A4%E5%91%BD%E4%BB%A4%E7%B4%A2%E5%BC%95)
+    - [依赖与安全风险登记](#%E4%BE%9D%E8%B5%96%E4%B8%8E%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E7%99%BB%E8%AE%B0)
     - [Astro 6 迁移预检](#astro-6-%E8%BF%81%E7%A7%BB%E9%A2%84%E6%A3%80)
     - [前端架构约定](#%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%BA%A6%E5%AE%9A)
     - [前端目录所有权地图](#%E5%89%8D%E7%AB%AF%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89%E6%9D%83%E5%9C%B0%E5%9B%BE)
@@ -55,7 +56,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 04, 2026, 12:39 (UTC+08:00)
+- **最后更新**: July 04, 2026, 13:05 (UTC+08:00)
 
 ---
 
@@ -449,6 +450,10 @@ location /_astro/ {
 ### 运维维护命令索引
 
 > 前端验证、deploy run 检查、deploy log 噪声分类、依赖审计、后端/Nginx docs-only 同步规则、生产只读检查和本地 roadmap 维护命令见：📄 [Operations Maintenance Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/OPERATIONS.md#operations-maintenance-guide)。
+
+### 依赖与安全风险登记
+
+> 当前 dependency audit / Dependabot 残余风险、`npm audit fix --force` 禁止原因、Astro 7 预检触发条件和安全补丁升级阈值见：📄 [Dependency Security Risk Register](https://github.com/RendaZhang/rendazhang/blob/master/docs/DEPENDENCY_SECURITY_RISK_REGISTER.md#dependency-security-risk-register)。
 
 ### Astro 6 迁移预检
 

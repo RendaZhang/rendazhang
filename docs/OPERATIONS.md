@@ -15,7 +15,7 @@
 # Operations Maintenance Guide
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 04, 2026, 12:39 (UTC+08:00)
+- **Last Updated**: July 04, 2026, 13:05 (UTC+08:00)
 - **Scope**: public-safe command index for routine PersonalWeb maintenance across the frontend,
   backend, Nginx config mirror, local roadmap, and read-only production checks.
 
@@ -87,7 +87,9 @@ npm audit --audit-level=low
 
 The audit commands may exit non-zero when findings exist. Treat the exit as status to inspect, not
 as permission to run `npm audit fix --force`. As of Slice 13.1, the remaining low Astro/esbuild
-finding maps to an Astro 7 force-fix path and must stay precheck-first.
+finding maps to an Astro 7 force-fix path and must stay precheck-first. The current accepted
+residuals, escalation thresholds, and owner actions are recorded in
+[Dependency Security Risk Register](./DEPENDENCY_SECURITY_RISK_REGISTER.md).
 
 Browser smoke:
 

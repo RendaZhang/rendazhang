@@ -14,7 +14,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 04, 2026, 12:39 (UTC+08:00)
+- **最后更新**: July 04, 2026, 13:05 (UTC+08:00)
 
 ---
 
@@ -84,6 +84,8 @@ env:
 
 Routine deploy inspection commands and accepted log-noise classifications live in
 [Operations Maintenance Guide](./OPERATIONS.md#frontend-deploy-inspection).
+Dependency audit decisions, accepted residuals, and escalation thresholds live in
+[Dependency Security Risk Register](./DEPENDENCY_SECURITY_RISK_REGISTER.md).
 
 Current accepted recurring lines:
 
