@@ -7,13 +7,14 @@
   - [3. 主要步骤概览](#3-%E4%B8%BB%E8%A6%81%E6%AD%A5%E9%AA%A4%E6%A6%82%E8%A7%88)
   - [4. 环境变量映射示例](#4-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%98%A0%E5%B0%84%E7%A4%BA%E4%BE%8B)
   - [5. 常见问题](#5-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
+  - [6. Deploy Log Notes](#6-deploy-log-notes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 21, 2026, 14:56 (UTC+08:00)
+- **最后更新**: July 04, 2026, 12:39 (UTC+08:00)
 
 ---
 
@@ -25,9 +26,11 @@
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 ```
 
-* **仅当** 代码推送或 PR 合并到 `master` 时触发部署。
+* 代码推送或 PR 合并到 `master` 时自动触发部署。
+* 维护者也可以通过 GitHub Actions 的 `workflow_dispatch` 手动触发同一部署流程。
 * 如需测试环境，可新增 `staging` 分支与相应 workflow。
 
 ## 2. 环境与密钥
@@ -76,3 +79,20 @@ env:
 | Sentry 上传 403  | `SENTRY_AUTH_TOKEN` 未注入    | 确认 secrets 名称与 workflow 匹配           |
 | Source map 未生成 | `build.sourcemap: true` 缺失 | 检查 `astro.config.ts`                 |
 | 本地与 CI 依赖不一致 | 使用了 `npm install` 或其他包管理器更新依赖 | CI 以 `package-lock.json` 和 `npm ci` 为准；依赖变更需提交更新后的 lockfile |
+
+## 6. Deploy Log Notes
+
+Routine deploy inspection commands and accepted log-noise classifications live in
+[Operations Maintenance Guide](./OPERATIONS.md#frontend-deploy-inspection).
+
+Current accepted recurring lines:
+
+* Vite may report large Mermaid dynamic chunks after minification.
+* Storage/auth tests intentionally exercise failure paths and can print controlled stderr.
+* GitHub release publishing may retry while a recreated tag becomes discoverable.
+* `gh run view --log` may label recent logs as `UNKNOWN STEP`; verify the run conclusion and job
+  steps before treating this as a workflow defect.
+* Sentry source-map upload can print an early "no matching sources" warning before a later upload
+  report and success line.
+* The CDN purge shell body contains an `::warning::` branch; it is only a real warning if the purge
+  request fails and that branch executes.
