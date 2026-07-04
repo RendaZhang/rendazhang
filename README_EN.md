@@ -24,6 +24,9 @@
   - [Documentation](#documentation)
     - [Git Branching & Release Workflow](#git-branching--release-workflow)
     - [CI/CD Workflow](#cicd-workflow)
+    - [Operations Maintenance Guide](#operations-maintenance-guide)
+    - [Dependency Security Risk Register](#dependency-security-risk-register)
+    - [Astro 7 Upgrade Precheck](#astro-7-upgrade-precheck)
     - [Astro 6 Migration Precheck](#astro-6-migration-precheck)
     - [Frontend Architecture Conventions](#frontend-architecture-conventions)
     - [Frontend Directory Ownership Map](#frontend-directory-ownership-map)
@@ -51,7 +54,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 02, 2026, 11:59 (UTC+08:00)
+- **Last Updated**: July 04, 2026, 22:36 (UTC+08:00)
 
 ---
 
@@ -437,6 +440,18 @@ location /_astro/ {
 ### CI/CD Workflow
 
 > `deploy.yml` defines the deployment process triggered when code is pushed or merged into `master`, including tag management and environment variable mappings. See: 📄 [CI / CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md#ci--cd-pipeline).
+
+### Operations Maintenance Guide
+
+> Frontend validation, deploy-run inspection, deploy-log noise classification, dependency audits, backend/Nginx docs-only sync rules, production read-only checks, and local roadmap maintenance commands are documented in: 📄 [Operations Maintenance Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/OPERATIONS.md#operations-maintenance-guide).
+
+### Dependency Security Risk Register
+
+> Current dependency audit / Dependabot residual risk, the reason `npm audit fix --force` is disallowed, Astro 7 upgrade boundaries, and security patch escalation thresholds are documented in: 📄 [Dependency Security Risk Register](https://github.com/RendaZhang/rendazhang/blob/master/docs/DEPENDENCY_SECURITY_RISK_REGISTER.md#dependency-security-risk-register).
+
+### Astro 7 Upgrade Precheck
+
+> The Astro 7 Go/No-Go decision, target package set, Vite 8/Rolldown risks, Sentry source-map checks, CSP gate, Chat Widget smoke scope, and rollback plan are documented in: 📄 [Astro 7 Upgrade Precheck](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_7_UPGRADE_PRECHECK.md).
 
 ### Astro 6 Migration Precheck
 
