@@ -9,6 +9,7 @@
   - [Non-Goals](#non-goals)
   - [Primary Surfaces](#primary-surfaces)
   - [Visitor Proof Paths](#visitor-proof-paths)
+  - [Slice 14.1 Audit Result](#slice-141-audit-result)
   - [Implementation Principles](#implementation-principles)
   - [Candidate Slice Order](#candidate-slice-order)
   - [Validation Expectations](#validation-expectations)
@@ -19,7 +20,7 @@
 
 # Portfolio Proof And Visitor Conversion
 
-- **Last Updated**: July 05, 2026, 15:29 (UTC+08:00)
+- **Last Updated**: July 05, 2026, 15:48 (UTC+08:00)
 - **Scope**: Phase 14 planning for portfolio proof, visitor proof paths, and conversion-oriented
   presentation across the PersonalWeb frontend.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb portfolio and
@@ -131,6 +132,38 @@ Phase 14 should preserve mixed-audience paths:
 | AI/search summarizer | What public facts should be summarized? | metadata/JSON-LD -> `llms.txt` -> `/docs/` body -> homepage content |
 | Casual visitor | What should I click first? | Homepage proof path or Chat Widget guided question |
 
+## Slice 14.1 Audit Result
+
+Slice 14.1 audited the current production homepage, `/docs/`, `/certifications/`,
+`/deepseek_chat/`, homepage Chat Widget open state, README-backed docs content, metadata,
+`llms.txt`, sitemap, and the relevant frontend content/components. The audit did not find a
+release blocker or a reason to change runtime behavior before implementation.
+
+Local desktop/mobile screenshots and console summaries were captured for audit evidence and were
+not committed. The captured production pages had no console warnings or errors in the audited
+states.
+
+| Surface | Current strength | Gap / risk | Decision |
+| --- | --- | --- | --- |
+| Homepage first screen | The hero already leads with AI full-stack, cloud-native, FinTech, PersonalWeb proof, and a primary `View Technical Proof` CTA to `/docs/`. Desktop first viewport shows the next section. | Mobile first viewport makes the short proof scroll cue visible, but the primary CTA buttons are not the strongest visible action. The destination is also a long docs page rather than a scan-first proof surface. | Keep homepage behavior unchanged until the proof destination is clearer. Queue homepage CTA/path work after the case-study surface. |
+| Homepage section order | The current order exposes bio, education, blog, skills, experience, then contact, with PersonalWeb proof described in the bio content. | The proof chain is available but visitors must assemble it from multiple sections. Recruiters and casual visitors may reach education/blog before a concentrated project proof story. | Revisit section and CTA flow in Slice 14.3, after Slice 14.2 defines the target proof surface. |
+| `/docs/` | README-backed docs already contain the strongest PersonalWeb evidence: project proof, stack, architecture, frontend/backend/Nginx boundaries, CI/CD, testing, SEO/GEO, and operations links. | The first screen is a README/table-of-contents reading experience. It is technically strong but not a visitor-facing case-study surface with a clear conclusion, evidence chain, boundaries, and next action. | Implement `14.2 PersonalWeb Case Study Surface` first, using `/docs/` or a linked section as the primary proof owner. |
+| README / public docs | Public docs are deep enough for technical peers and AI/search summarizers. | Evidence is distributed across many docs, so non-technical visitors need a shorter proof path before being sent to deep maintenance docs. | Keep README/docs as source evidence, but add a scan-friendly front layer instead of duplicating every detail. |
+| `/certifications/` | Certification copy already explains AWS SAA as an architecture credibility signal and explicitly avoids overstating large AWS production ownership. | It is supporting proof, not the main PersonalWeb artifact proof. | Leave certification behavior/content alone for now. Link it as proof-chain support from the later case-study/homepage path if needed. |
+| Chat Guide presets and widget | Presets align with the proof path: Renda identity, PersonalWeb proof, cloud-native evidence, AWS certification context, and recruiter summary. The Chat Widget iframe opens with the same preset entry and clean console state. | Chat is useful as a guide, but it should not become the first place visitors must go to understand the proof hierarchy. | Do not change Chat Guide behavior or preset wording in Slice 14.1. Revisit entry copy only after visible proof surfaces land. |
+| Metadata, JSON-LD, `llms.txt`, sitemap | Search and AI-summary surfaces already reflect AI full-stack, cloud-native engineering, PersonalWeb proof, certifications, and main public pages. | Updating these before visible proof-surface changes would create churn and risk describing a surface that is not yet landed. | Defer metadata, JSON-LD, `llms.txt`, and sitemap updates until visible proof content changes in later slices. |
+
+Answered implementation decisions:
+
+| Decision | Slice 14.1 answer |
+| --- | --- |
+| Strongest proof owner | Put the strongest visitor-facing proof layer in `/docs/` or a linked docs section first. Do not create a new standalone route in the next slice unless implementation discovery proves the existing docs route cannot support it cleanly. |
+| `14.2` versus `14.3` order | Implement `14.2 PersonalWeb Case Study Surface` before `14.3 Homepage Proof Path And CTA Flow`. The homepage already has a proof CTA; it needs a clearer target before CTA hierarchy is tuned. |
+| Architecture/system map | Defer a separate interactive architecture map. Slice 14.2 may include a lightweight static architecture/proof summary if it helps scanability, but a heavier interactive map should wait for evidence that it improves comprehension. |
+| Primary CTA strategy | Recruiter path should become homepage -> PersonalWeb proof surface -> certifications/contact. Technical peer path should be homepage or docs -> architecture/testing/CI/CD evidence -> public repo docs. |
+| Chat Guide alignment | Keep current presets for now. Later Chat Guide entry work should support the new proof path without changing iframe protocol, backend prompt behavior, or visitor-event privacy. |
+| SEO/GEO timing | Wait until visible proof-surface changes land before changing metadata, JSON-LD, `llms.txt`, or sitemap. |
+
 ## Implementation Principles
 
 - Start with audit and proof-path mapping before changing UI.
@@ -149,16 +182,16 @@ Phase 14 should preserve mixed-audience paths:
 
 | Slice | Status | Scope |
 | --- | --- | --- |
-| `14.1 Portfolio Journey Audit And Phase Plan` | `Ready` | Audit homepage, docs, certifications, Chat Guide, CTA flow, metadata, and docs support; update this plan and roadmap without implementing UI |
-| `14.2 PersonalWeb Case Study Surface` | `Backlog` | Turn the existing PersonalWeb proof into a clearer scan-friendly case-study surface, likely in `/docs/` or a linked section, without overstating scale |
-| `14.3 Homepage Proof Path And CTA Flow` | `Backlog` | Improve homepage proof hierarchy and CTA routing so visitors can reach the strongest evidence faster |
-| `14.4 Interactive Architecture / System Map MVP` | `Backlog` | Add a lightweight architecture/system map if the audit confirms it improves comprehension; preserve accessibility, mobile layout, and bundle discipline |
+| `14.1 Portfolio Journey Audit And Phase Plan` | `Done` | Audited homepage, docs, certifications, Chat Guide, CTA flow, metadata, and docs support; confirmed case-study surface should precede homepage CTA changes |
+| `14.2 PersonalWeb Case Study Surface` | `Ready` | Turn the existing PersonalWeb proof into a clearer scan-friendly case-study surface in `/docs/` or a linked docs section, without overstating scale or duplicating maintenance docs |
+| `14.3 Homepage Proof Path And CTA Flow` | `Backlog` | Improve desktop/mobile homepage proof hierarchy and CTA routing after the proof destination is clearer |
+| `14.4 Lightweight Architecture / System Map` | `Backlog` | Add only a lightweight static or low-complexity architecture/proof map if the case-study surface shows it improves comprehension; preserve accessibility, mobile layout, and bundle discipline |
 | `14.5 Chat Guide Entry And Preset Alignment` | `Backlog` | Align Chat Guide entry points and preset wording with the new proof path while preserving public-source and privacy boundaries |
 | `14.6 Browser Mobile Conversion QA And Metadata Alignment` | `Backlog` | Verify proof paths across desktop/mobile and update SEO/GEO, `llms.txt`, sitemap, and structured data only if visible content changed |
 | `14.7 Phase Close Review` | `Backlog` | Close Phase 14 or split one narrow follow-up if QA finds a concrete proof-path, docs, mobile, or metadata defect |
 
-Actual order may change after Slice 14.1. If a candidate becomes mostly content strategy, backend
-behavior, telemetry, dependency work, or operations cleanup, move it out of Phase 14.
+This order reflects the Slice 14.1 audit. If a later candidate becomes mostly content strategy,
+backend behavior, telemetry, dependency work, or operations cleanup, move it out of Phase 14.
 
 ## Validation Expectations
 
@@ -188,16 +221,16 @@ slice explicitly scopes and justifies that work.
 
 ## Open Decisions
 
-Slice 14.1 should answer these before implementation:
+Slice 14.1 closed the initial ordering decisions above. Remaining owner decisions should be scoped
+inside later implementation slices, not reopened as broad Phase 14 questions:
 
-- Should the strongest PersonalWeb proof live primarily on `/docs/`, the homepage, or a new
-  dedicated page?
-- Is an interactive architecture/system map worth the added UI and bundle complexity, or is a
-  static scan-friendly case-study section enough?
-- Which CTA should be the primary proof CTA for recruiters versus technical peers?
-- Should Chat Guide presets be adjusted to route visitors through the proof path, or should they
-  remain mostly question-answer oriented?
-- Should SEO/GEO and `llms.txt` change in Phase 14, or only after visible proof surfaces change?
+- Slice 14.2 should decide the exact case-study placement inside `/docs/` or a linked docs section.
+- Slice 14.3 should decide the final homepage CTA labels and mobile first-screen treatment after
+  the case-study target exists.
+- Slice 14.4 should proceed only if a lightweight architecture/proof map has a concrete
+  comprehension role after Slice 14.2.
+- Slice 14.6 should update SEO/GEO, `llms.txt`, sitemap, and structured data only after visible
+  proof changes are deployed.
 
 ## Related Documents
 
