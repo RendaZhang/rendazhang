@@ -4,6 +4,7 @@
 
 - [Astro 7 Upgrade Precheck](#astro-7-upgrade-precheck)
   - [Decision](#decision)
+  - [Slice 13.6 Implementation Result](#slice-136-implementation-result)
   - [Current Baseline](#current-baseline)
   - [Official Compatibility Notes](#official-compatibility-notes)
   - [Local Compatibility Findings](#local-compatibility-findings)
@@ -20,11 +21,11 @@
 # Astro 7 Upgrade Precheck
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 04, 2026, 22:36 (UTC+08:00)
+- **Last Updated**: July 05, 2026, 10:38 (UTC+08:00)
 - **Decision**: `Go` for a separate controlled Slice 13.6 implementation.
-- **Scope**: frontend precheck only. This document does not change dependencies, lockfiles,
-  workflows, runtime pins, source behavior, backend behavior, Nginx config, telemetry, analytics,
-  cookies, or production services.
+- **Scope**: frontend precheck plus the Slice 13.6 implementation result. This document does not
+  change workflows, runtime pins, backend behavior, Nginx config, telemetry, analytics, cookies, or
+  production services.
 
 Keep this document public-safe. Do not add secrets, private logs, private IP allowlists,
 credentials, private advisory metadata that requires authentication, private customer or employer
@@ -43,6 +44,54 @@ This is not permission to run `npm audit fix --force`. Slice 13.6 must use an ex
 set, inspect the lockfile diff, validate strict Astro compiler behavior, verify Sentry source-map
 upload, verify CSP compatibility before deploy, and run browser smoke for the Chat Widget and
 `/deepseek_chat/`.
+
+## Slice 13.6 Implementation Result
+
+Slice 13.6 implemented the approved target set under the pinned project runtime:
+
+```text
+Node 24.17.0
+npm 11.13.0
+```
+
+Direct package targets:
+
+```text
+astro@7.0.6
+@astrojs/react@6.0.1
+typescript@5.9.3
+```
+
+The resulting lockfile resolved the expected transitive package graph:
+
+| Package | Implementation resolution |
+| --- | --- |
+| `astro` | `7.0.6` |
+| `@astrojs/react` | `6.0.1` |
+| `vite` | `8.1.3` |
+| `@vitejs/plugin-react` | `5.2.0` |
+| `esbuild` | `0.28.1` |
+| `typescript` | `5.9.3` |
+| `@sentry/astro` | `10.58.0` |
+| `@sentry/react` | `10.58.0` |
+
+Implementation notes:
+
+- `@sentry/astro` and `@sentry/react` stayed on `10.58.0`; no same-major Sentry patch was needed.
+- `npm audit --omit=dev --audit-level=low` and full `npm audit --audit-level=low` both returned
+  zero findings after the real install.
+- Vite 8/Rolldown exposed an ineffective dynamic-import warning for `src/utils/highlight.ts`
+  because the generated `src/utils/index.ts` barrel statically exported the same lazy-loaded module.
+  `scripts/generateIndex.ts` now excludes that lazy-only highlighter from generated barrels.
+- `src/pages/deepseek_chat.astro` now loads `/js/deepseek-embed.js` as an external same-origin script
+  for the embedded-page body class. This avoids introducing a new executable inline module hash
+  after Astro 7/Sentry build processing.
+- CSP review found all executable inline scripts covered by the current Nginx hash allowlist after
+  the external script change. Remaining unmatched hashes are `application/ld+json` structured data,
+  which is non-executable and already documented as not the browser-console CSP blocker.
+- `npm run build` still emits the accepted Vite large chunk warning for Mermaid dynamic chunks, now
+  with Vite 8/Rolldown wording. The former `highlight.js` static-barrel warning is not accepted and
+  was fixed.
 
 ## Current Baseline
 

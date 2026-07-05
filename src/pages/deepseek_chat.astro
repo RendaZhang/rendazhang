@@ -36,11 +36,7 @@ const titleEn = DEEPSEEK_CHAT_CONTENT.en.title;
   og={{ url: `${SITE_BASE_URL}${CHAT_PAGE_PATH}/` }}
 >
   <Fragment slot="bodyEnd">
-    <script>
-      if (window.self !== window.top) {
-        document.body.classList.add('is-embedded');
-      }
-    </script>
+    <script is:inline src="/js/deepseek-embed.js"></script>
   </Fragment>
 
   <DeepseekChatContent client:load />

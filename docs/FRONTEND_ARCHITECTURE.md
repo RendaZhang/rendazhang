@@ -25,7 +25,7 @@
 # 前端架构约定
 
 - **作者**: 张人大
-- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
+- **最后更新**: July 05, 2026, 10:38 (UTC+08:00)
 
 ## 文档目的
 
@@ -52,6 +52,10 @@
 - 页面内容 slot 和 `bodyEnd` slot。
 
 `/js/base-layout-init.js` 由 `src/scripts/base-layout-init.ts` 编译生成。该脚本在页面渲染前同步主题 mode、palette、语言、标题和登录状态，避免首屏闪烁，并让 404/500 等静态页面复用同一套初始化逻辑。
+
+`/deepseek_chat/` 的 iframe 嵌入状态由外部脚本 `/js/deepseek-embed.js` 设置。该脚本只负责在同源
+Chat Widget iframe 内给 `<body>` 添加 `is-embedded` class，避免把这段逻辑作为可执行 inline
+script 交给 Nginx CSP hash allowlist 维护。
 
 ### Astro 页面
 
@@ -187,6 +191,9 @@ React 组件不应通过大量内联样式绕过 token 系统。确实需要运�
 生产 CSP 由 Nginx 配置控制。前端代码应避免新增内联可执行脚本，除非已经明确评审 CSP 影响并更新相关文档。
 
 `BaseLayout` 当前保留的初始化路径是外部脚本 `/js/base-layout-init.js`。该脚本是主题、语言、标题和认证状态渲染前初始化的一部分，修改时应同时验证静态错误页、主题首屏状态和语言首屏状态。
+
+`/deepseek_chat/` 还使用外部脚本 `/js/deepseek-embed.js` 标记 iframe 嵌入状态。修改该脚本或把它改回
+inline 执行前，需要重新验证 Chat Widget iframe、`/deepseek_chat/` 直连页面和生产 CSP console。
 
 ### Chat Widget iframe 契约
 

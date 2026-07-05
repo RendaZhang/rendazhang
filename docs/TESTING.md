@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 19:16 (UTC+08:00)
+- **最后更新**: July 05, 2026, 10:38 (UTC+08:00)
 
 ---
 
@@ -116,11 +116,16 @@ console 回归：
 - 旧的最大 chunk 来自全量 `highlight.js` 语言包；代码现在通过
   `src/utils/highlight.ts` 使用 `highlight.js/lib/common`，并补注册站点文档需要的 `nginx`
   语言。
+- `src/utils/highlight.ts` 是 lazy-only 模块，刻意不再由生成的 `src/utils/index.ts` barrel
+  静态导出。`scripts/generateIndex.ts` 保留这个例外，避免 Vite 8/Rolldown 把高亮模块提前拉回
+  主入口并触发 ineffective dynamic import warning。
 - Docs 页面增强逻辑在 `DocsEffects` 挂载后动态加载 `marked`、project highlighter 和
   `mermaid`，首页不应因为 sections barrel 提前加载 Markdown 增强库。
 - 剩余超过 500 kB raw minified 阈值的 chunk 来自 Mermaid 自身的动态模块，例如
-  `mermaid.core` 和 `wardley` parser。gzip 后体积明显低于 raw warning，且只在 docs 或 Chat
-  Markdown 增强路径需要 Mermaid 时加载。
+  `mermaid.core` 和 `wardley` parser。Vite 8/Rolldown 的提示可能建议
+  `build.rolldownOptions.output.codeSplitting`；当前仍按来源和加载路径评估，而不是直接提高
+  warning 阈值。gzip 后体积明显低于 raw warning，且只在 docs 或 Chat Markdown 增强路径需要
+  Mermaid 时加载。
 
 后续如果改动 Markdown、Docs、Chat 消息渲染或 Mermaid 逻辑，应至少重新运行：
 
