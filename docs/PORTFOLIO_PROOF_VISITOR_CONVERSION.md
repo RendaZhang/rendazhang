@@ -10,6 +10,7 @@
   - [Primary Surfaces](#primary-surfaces)
   - [Visitor Proof Paths](#visitor-proof-paths)
   - [Slice 14.1 Audit Result](#slice-141-audit-result)
+  - [Slice 14.2 Implementation Result](#slice-142-implementation-result)
   - [Implementation Principles](#implementation-principles)
   - [Candidate Slice Order](#candidate-slice-order)
   - [Validation Expectations](#validation-expectations)
@@ -20,7 +21,7 @@
 
 # Portfolio Proof And Visitor Conversion
 
-- **Last Updated**: July 05, 2026, 15:48 (UTC+08:00)
+- **Last Updated**: July 05, 2026, 23:21 (UTC+08:00)
 - **Scope**: Phase 14 planning for portfolio proof, visitor proof paths, and conversion-oriented
   presentation across the PersonalWeb frontend.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb portfolio and
@@ -164,6 +165,42 @@ Answered implementation decisions:
 | Chat Guide alignment | Keep current presets for now. Later Chat Guide entry work should support the new proof path without changing iframe protocol, backend prompt behavior, or visitor-event privacy. |
 | SEO/GEO timing | Wait until visible proof-surface changes land before changing metadata, JSON-LD, `llms.txt`, or sitemap. |
 
+## Slice 14.2 Implementation Result
+
+Slice 14.2 added the PersonalWeb case-study proof surface to the top of `/docs/`, before the long
+README-backed Markdown bodies. The implementation keeps the existing docs route as the proof owner,
+adds no new standalone route, and keeps README/docs as the deeper source of truth.
+
+Implemented frontend ownership:
+
+| Area | Owner |
+| --- | --- |
+| Bilingual case-study copy | `src/content/docsCaseStudyContent.ts` |
+| Static visitor-facing section | `src/components/sections/DocsCaseStudySurface.astro` |
+| Route placement | `src/pages/docs.astro`, above the README-backed Markdown containers |
+| Visual treatment | `src/styles/components/docs.css`, using existing docs/theme/palette tokens |
+
+The surface summarizes the project conclusion, six proof pillars, direct evidence links, boundary
+language, and next actions. It routes visitors into existing public evidence instead of duplicating
+maintenance documentation:
+
+- architecture and system-boundary anchors inside `/docs/`;
+- CI/CD and validation anchors inside `/docs/`;
+- `/certifications/` for AWS certification context;
+- `/deepseek_chat/` for the public-source Chat Guide;
+- homepage contact section for direct contact intent.
+
+The boundary language is intentionally explicit: PersonalWeb is a public personal engineering
+artifact and should not be read as proof of a large commercial SaaS, hidden production traffic,
+private customer systems, private server details, visitor messages, or form submissions.
+
+No homepage CTA flow, Chat Guide behavior, preset wording, metadata, JSON-LD, `llms.txt`, sitemap,
+backend code, Nginx config, dependencies, runtime pins, telemetry, analytics, cookies, production
+services, SSH, service restart, or Nginx reload changed in this slice.
+
+Follow-up decision: `14.3 Homepage Proof Path And CTA Flow` is now the next concrete slice because
+the proof destination exists and can be used as the target for desktop/mobile homepage CTA hierarchy.
+
 ## Implementation Principles
 
 - Start with audit and proof-path mapping before changing UI.
@@ -183,8 +220,8 @@ Answered implementation decisions:
 | Slice | Status | Scope |
 | --- | --- | --- |
 | `14.1 Portfolio Journey Audit And Phase Plan` | `Done` | Audited homepage, docs, certifications, Chat Guide, CTA flow, metadata, and docs support; confirmed case-study surface should precede homepage CTA changes |
-| `14.2 PersonalWeb Case Study Surface` | `Ready` | Turn the existing PersonalWeb proof into a clearer scan-friendly case-study surface in `/docs/` or a linked docs section, without overstating scale or duplicating maintenance docs |
-| `14.3 Homepage Proof Path And CTA Flow` | `Backlog` | Improve desktop/mobile homepage proof hierarchy and CTA routing after the proof destination is clearer |
+| `14.2 PersonalWeb Case Study Surface` | `Done` | Added a bilingual scan-friendly case-study proof layer at the top of `/docs/`, with evidence links, next actions, and explicit proof boundaries |
+| `14.3 Homepage Proof Path And CTA Flow` | `Ready` | Improve desktop/mobile homepage proof hierarchy and CTA routing now that the `/docs/` case-study destination exists |
 | `14.4 Lightweight Architecture / System Map` | `Backlog` | Add only a lightweight static or low-complexity architecture/proof map if the case-study surface shows it improves comprehension; preserve accessibility, mobile layout, and bundle discipline |
 | `14.5 Chat Guide Entry And Preset Alignment` | `Backlog` | Align Chat Guide entry points and preset wording with the new proof path while preserving public-source and privacy boundaries |
 | `14.6 Browser Mobile Conversion QA And Metadata Alignment` | `Backlog` | Verify proof paths across desktop/mobile and update SEO/GEO, `llms.txt`, sitemap, and structured data only if visible content changed |
@@ -224,8 +261,8 @@ slice explicitly scopes and justifies that work.
 Slice 14.1 closed the initial ordering decisions above. Remaining owner decisions should be scoped
 inside later implementation slices, not reopened as broad Phase 14 questions:
 
-- Slice 14.2 should decide the exact case-study placement inside `/docs/` or a linked docs section.
-- Slice 14.3 should decide the final homepage CTA labels and mobile first-screen treatment after
+- Slice 14.2 placed the case-study surface at the top of `/docs/`; no standalone route was needed.
+- Slice 14.3 should decide the final homepage CTA labels and mobile first-screen treatment now that
   the case-study target exists.
 - Slice 14.4 should proceed only if a lightweight architecture/proof map has a concrete
   comprehension role after Slice 14.2.

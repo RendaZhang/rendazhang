@@ -4,6 +4,7 @@ export * from './authErrorContent';
 export * from './certificationsContent';
 export * from './chatGuideKnowledge';
 export * from './deepseekChatContent';
+export * from './docsCaseStudyContent';
 export * from './loginContent';
 export * from './navContent';
 export * from './profileContent';

@@ -1,0 +1,82 @@
+---
+import { DOCS_CASE_STUDY_CONTENT } from '../../content/docsCaseStudyContent';
+
+const surfaces = [
+  {
+    lang: 'zh',
+    className: 'is-lang-zh',
+    content: DOCS_CASE_STUDY_CONTENT.zh
+  },
+  {
+    lang: 'en',
+    className: 'is-lang-en',
+    content: DOCS_CASE_STUDY_CONTENT.en
+  }
+] as const;
+---
+
+{
+  surfaces.map(({ lang, className, content }) => (
+    <section
+      class={`c-docs-proof-surface ${className}`}
+      aria-labelledby={`docs-proof-title-${lang}`}
+    >
+      <div class="c-docs-proof-hero">
+        <p class="c-docs-proof-eyebrow">{content.eyebrow}</p>
+        <h1 id={`docs-proof-title-${lang}`}>{content.title}</h1>
+        <p class="c-docs-proof-conclusion">{content.conclusion}</p>
+        <ul class="c-docs-proof-metrics" aria-label={content.pillarsHeading}>
+          {content.metrics.map((metric) => (
+            <li>{metric}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="c-docs-proof-section" aria-labelledby={`docs-proof-pillars-${lang}`}>
+        <h2 id={`docs-proof-pillars-${lang}`}>{content.pillarsHeading}</h2>
+        <div class="c-docs-proof-pillars">
+          {content.pillars.map((pillar) => (
+            <article class="c-docs-proof-pillar">
+              <h3>{pillar.title}</h3>
+              <p>{pillar.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="c-docs-proof-grid">
+        <div class="c-docs-proof-evidence" aria-labelledby={`docs-proof-evidence-${lang}`}>
+          <h2 id={`docs-proof-evidence-${lang}`}>{content.evidenceHeading}</h2>
+          <ul>
+            {content.evidence.map((item) => (
+              <li>
+                <a class="c-docs-proof-evidence-link" href={item.href}>
+                  {item.label}
+                </a>
+                <span>{item.note}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <aside class="c-docs-proof-boundary" aria-labelledby={`docs-proof-boundary-${lang}`}>
+          <h2 id={`docs-proof-boundary-${lang}`}>{content.boundaryHeading}</h2>
+          <p>{content.boundary}</p>
+        </aside>
+      </div>
+
+      <nav class="c-docs-proof-actions" aria-label={content.eyebrow}>
+        {content.nextActions.map((action) => (
+          <a
+            class={`c-docs-proof-action ${
+              action.variant === 'primary' ? 'c-docs-proof-action--primary' : ''
+            }`.trim()}
+            href={action.href}
+          >
+            {action.label}
+          </a>
+        ))}
+      </nav>
+    </section>
+  ))
+}

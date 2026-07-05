@@ -11,6 +11,7 @@ import {
   buildDocsStructuredDataJson
 } from '../constants';
 import { DocsEffects } from '../components/sections';
+import DocsCaseStudySurface from '../components/sections/DocsCaseStudySurface.astro';
 import { getCurrentLang } from '../utils';
 import { marked } from 'marked';
 
@@ -47,6 +48,7 @@ const docsHtmlEn = marked.parse(DOC_CONTENT.README_EN) as string;
   }}
   metaLanguage="en, zh-CN"
 >
+  <DocsCaseStudySurface />
   <div id="content-zh" class="is-lang-zh c-markdown-body" set:html={docsHtmlZh} />
   <div id="content-en" class="is-lang-en c-markdown-body" set:html={docsHtmlEn} />
   <Fragment slot="bodyEnd">
