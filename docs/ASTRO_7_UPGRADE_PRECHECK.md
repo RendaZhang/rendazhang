@@ -5,7 +5,7 @@
 - [Astro 7 Upgrade Precheck](#astro-7-upgrade-precheck)
   - [Decision](#decision)
   - [Slice 13.6 Implementation Result](#slice-136-implementation-result)
-  - [Current Baseline](#current-baseline)
+  - [Precheck Baseline](#precheck-baseline)
   - [Official Compatibility Notes](#official-compatibility-notes)
   - [Local Compatibility Findings](#local-compatibility-findings)
   - [Temporary Lockfile Probe](#temporary-lockfile-probe)
@@ -21,7 +21,7 @@
 # Astro 7 Upgrade Precheck
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 05, 2026, 10:38 (UTC+08:00)
+- **Last Updated**: July 05, 2026, 11:23 (UTC+08:00)
 - **Decision**: `Go` for a separate controlled Slice 13.6 implementation.
 - **Scope**: frontend precheck plus the Slice 13.6 implementation result. This document does not
   change workflows, runtime pins, backend behavior, Nginx config, telemetry, analytics, cookies, or
@@ -33,12 +33,13 @@ details, private server paths, or hidden operational details.
 
 ## Decision
 
-Proceed with a controlled Astro 7 upgrade in a separate implementation slice.
+Proceed with a controlled Astro 7 upgrade in a separate implementation slice. Slice 13.6 later
+implemented that decision successfully; the implementation result is recorded below.
 
-The upgrade is justified because the current low `astro` / `esbuild` audit residual has no safe
-non-major remediation path, the pinned frontend CI runtime already satisfies Astro 7 and Vite 8
-engine requirements, and a temporary lockfile probe resolves the candidate Astro 7 package graph with
-zero npm audit findings.
+At precheck time, the upgrade was justified because the low `astro` / `esbuild` audit residual had
+no safe non-major remediation path, the pinned frontend CI runtime already satisfied Astro 7 and
+Vite 8 engine requirements, and a temporary lockfile probe resolved the candidate Astro 7 package
+graph with zero npm audit findings.
 
 This is not permission to run `npm audit fix --force`. Slice 13.6 must use an explicit package target
 set, inspect the lockfile diff, validate strict Astro compiler behavior, verify Sentry source-map
@@ -93,7 +94,7 @@ Implementation notes:
   with Vite 8/Rolldown wording. The former `highlight.js` static-barrel warning is not accepted and
   was fixed.
 
-## Current Baseline
+## Precheck Baseline
 
 | Area | Current state |
 | --- | --- |
@@ -104,7 +105,7 @@ Implementation notes:
 | Runtime pin | Node `>=24.17 <25`, npm `>=11 <12`; `deploy.yml` uses Node `24.17.0` |
 | Build/runtime shape | Static Astro pages with React islands, Sentry integration, sourcemaps enabled during build, sourcemaps deleted before static deploy |
 | Nginx constraints | Long-cache `/_astro/` assets, same-origin `/deepseek_chat/`, same-origin Chat Widget iframe, CSP hashes for current inline scripts |
-| Audit state | `npm audit --omit=dev --audit-level=low` and full `npm audit --audit-level=low` both report only the known two low `astro` / `esbuild` findings |
+| Audit state | At precheck time, `npm audit --omit=dev --audit-level=low` and full `npm audit --audit-level=low` both reported only the known two low `astro` / `esbuild` findings |
 
 ## Official Compatibility Notes
 

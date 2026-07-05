@@ -57,7 +57,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 04, 2026, 22:36 (UTC+08:00)
+- **最后更新**: July 05, 2026, 11:23 (UTC+08:00)
 
 ---
 
@@ -454,11 +454,11 @@ location /_astro/ {
 
 ### 依赖与安全风险登记
 
-> 当前 dependency audit / Dependabot 残余风险、`npm audit fix --force` 禁止原因、Astro 7 预检触发条件和安全补丁升级阈值见：📄 [Dependency Security Risk Register](https://github.com/RendaZhang/rendazhang/blob/master/docs/DEPENDENCY_SECURITY_RISK_REGISTER.md#dependency-security-risk-register)。
+> 当前 dependency audit / Dependabot 状态、`npm audit fix --force` 禁止原因、Astro 7 实施结果和安全补丁升级阈值见：📄 [Dependency Security Risk Register](https://github.com/RendaZhang/rendazhang/blob/master/docs/DEPENDENCY_SECURITY_RISK_REGISTER.md#dependency-security-risk-register)。
 
 ### Astro 7 升级预检
 
-> Astro 7 的 Go/No-Go 结论、目标包集合、Vite 8/Rolldown 风险、Sentry source-map、CSP、Chat Widget smoke 和回滚计划见：📄 [Astro 7 Upgrade Precheck](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_7_UPGRADE_PRECHECK.md)。
+> Astro 7 的 Go/No-Go 结论、实施结果、目标包集合、Vite 8/Rolldown 风险、Sentry source-map、CSP、Chat Widget smoke 和回滚计划见：📄 [Astro 7 Upgrade Precheck](https://github.com/RendaZhang/rendazhang/blob/master/docs/ASTRO_7_UPGRADE_PRECHECK.md)。
 
 ### Astro 6 迁移预检
 
