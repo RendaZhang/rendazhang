@@ -35,6 +35,7 @@
     - [Interaction Component Standards](#interaction-component-standards)
     - [Content And Credibility Positioning](#content-and-credibility-positioning)
     - [Site Intelligence And Visitor Journey](#site-intelligence-and-visitor-journey)
+    - [Portfolio Proof And Visitor Conversion](#portfolio-proof-and-visitor-conversion)
     - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -54,7 +55,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 04, 2026, 22:36 (UTC+08:00)
+- **Last Updated**: July 05, 2026, 15:29 (UTC+08:00)
 
 ---
 
@@ -486,6 +487,10 @@ location /_astro/ {
 ### Site Intelligence And Visitor Journey
 
 > Phase 11 visitor journey, privacy-safe anonymous events, first-party telemetry boundaries, and Chat Guide public-content scope are documented in: 📄 [Site Intelligence And Visitor Journey](https://github.com/RendaZhang/rendazhang/blob/master/docs/SITE_INTELLIGENCE_VISITOR_JOURNEY.md).
+
+### Portfolio Proof And Visitor Conversion
+
+> Phase 14 planning for portfolio proof, visitor proof paths, the PersonalWeb case-study surface, homepage proof flow, Chat Guide entry points, and browser/mobile conversion QA is documented in: 📄 [Portfolio Proof And Visitor Conversion](https://github.com/RendaZhang/rendazhang/blob/master/docs/PORTFOLIO_PROOF_VISITOR_CONVERSION.md).
 
 ### SEO / GEO Maintenance
 

@@ -35,6 +35,7 @@
     - [交互组件标准](#%E4%BA%A4%E4%BA%92%E7%BB%84%E4%BB%B6%E6%A0%87%E5%87%86)
     - [内容可信度与个人定位](#%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BF%A1%E5%BA%A6%E4%B8%8E%E4%B8%AA%E4%BA%BA%E5%AE%9A%E4%BD%8D)
     - [Site Intelligence 与访客路径](#site-intelligence-%E4%B8%8E%E8%AE%BF%E5%AE%A2%E8%B7%AF%E5%BE%84)
+    - [作品证明与访问转化](#%E4%BD%9C%E5%93%81%E8%AF%81%E6%98%8E%E4%B8%8E%E8%AE%BF%E9%97%AE%E8%BD%AC%E5%8C%96)
     - [Chat Guide 质量架构](#chat-guide-%E8%B4%A8%E9%87%8F%E6%9E%B6%E6%9E%84)
     - [SEO / GEO 维护说明](#seo--geo-%E7%BB%B4%E6%8A%A4%E8%AF%B4%E6%98%8E)
     - [BUG 记录](#bug-%E8%AE%B0%E5%BD%95)
@@ -57,7 +58,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 05, 2026, 11:23 (UTC+08:00)
+- **最后更新**: July 05, 2026, 15:29 (UTC+08:00)
 
 ---
 
@@ -492,6 +493,10 @@ location /_astro/ {
 ### Site Intelligence 与访客路径
 
 > Phase 11 的访客路径、隐私安全匿名事件、first-party telemetry 边界和 Chat Guide 公开内容范围见：📄 [Site Intelligence And Visitor Journey](https://github.com/RendaZhang/rendazhang/blob/master/docs/SITE_INTELLIGENCE_VISITOR_JOURNEY.md)。
+
+### 作品证明与访问转化
+
+> Phase 14 的作品证明、访问路径、PersonalWeb case-study surface、首页 proof path、Chat Guide 入口和浏览器/移动端转化 QA 规划见：📄 [Portfolio Proof And Visitor Conversion](https://github.com/RendaZhang/rendazhang/blob/master/docs/PORTFOLIO_PROOF_VISITOR_CONVERSION.md)。
 
 ### Chat Guide 质量架构
 
