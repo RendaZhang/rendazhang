@@ -8,7 +8,7 @@
   container-type: inline-size;
 }
 
-nav {
+.c-nav-container > nav {
   align-items: center;
   backdrop-filter: blur(var(--space-2));
   background-color: var(--color-nav-bg);
@@ -527,12 +527,6 @@ nav {
   nav .is-lang-en {
     display: none;
   }
-}
-
-.c-nav-container nav a:focus-visible,
-.c-nav-container nav button:not(.c-theme-option):not(:disabled):focus-visible {
-  box-shadow: var(--focus-ring);
-  outline: none;
 }
 
 .c-nav-container nav .c-theme-option:focus-visible,

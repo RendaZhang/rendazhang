@@ -3,6 +3,9 @@ import {
   CONTACT_PHONE_INTL,
   CONTACT_PHONE_LOCAL,
   SITE_DOMAIN,
+  CHAT_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
+  DOCS_PAGE_PATH,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
 } from '../constants';
@@ -17,6 +20,38 @@ export const ABOUT_CONTENT = {
       'PersonalWeb Proof',
       'AWS/GCP/Kubernetes'
     ],
+    proofPath: {
+      eyebrow: 'Proof path',
+      title: 'Choose the evidence that matches your question',
+      summary:
+        'The homepage now points to the strongest public proof first, then lets visitors branch into certification context, a guided Chat question, or contact intent.',
+      actions: [
+        {
+          label: 'PersonalWeb case study',
+          note: 'Start with the scan-friendly project proof surface.',
+          href: DOCS_PAGE_PATH,
+          intent: 'Main proof'
+        },
+        {
+          label: 'AWS certification context',
+          note: 'Use the public credential as architecture support, not standalone scale proof.',
+          href: CERTIFICATIONS_PAGE_PATH,
+          intent: 'Credential proof'
+        },
+        {
+          label: 'Ask the Chat Guide',
+          note: 'Use public-source preset questions to navigate the site evidence.',
+          href: CHAT_PAGE_PATH,
+          intent: 'Guided proof'
+        },
+        {
+          label: 'Contact intent',
+          note: 'Move from public evidence to a direct conversation.',
+          href: '#contact',
+          intent: 'Next step'
+        }
+      ]
+    },
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
@@ -216,6 +251,38 @@ export const ABOUT_CONTENT = {
       'PersonalWeb 证明',
       'AWS/GCP/Kubernetes'
     ],
+    proofPath: {
+      eyebrow: '证明路径',
+      title: '根据你的问题选择公开证据',
+      summary:
+        '首页先把最强的公开证明放在前面，再让访问者进入证书上下文、Chat Guide 导览问题或联系意向。',
+      actions: [
+        {
+          label: 'PersonalWeb 案例证明',
+          note: '先阅读可扫读的项目证明 surface。',
+          href: DOCS_PAGE_PATH,
+          intent: '主证明'
+        },
+        {
+          label: 'AWS 证书上下文',
+          note: '把公开 credential 作为架构支撑，而不是单独包装成规模证明。',
+          href: CERTIFICATIONS_PAGE_PATH,
+          intent: '证书证明'
+        },
+        {
+          label: '询问 Chat Guide',
+          note: '用公开来源 preset 问题快速进入站内证据。',
+          href: CHAT_PAGE_PATH,
+          intent: '导览证明'
+        },
+        {
+          label: '联系意向',
+          note: '从公开证据进入直接沟通。',
+          href: '#contact',
+          intent: '下一步'
+        }
+      ]
+    },
     subTitle: '我是谁？',
     title: '自我介绍',
     greeting: '你好，',

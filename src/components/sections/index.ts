@@ -21,6 +21,8 @@ export * from './ForgotPasswordContent';
 export { default as ForgotPasswordContent } from './ForgotPasswordContent';
 export * from './HeroSection';
 export { default as HeroSection } from './HeroSection';
+export * from './HomepageProofPathSection';
+export { default as HomepageProofPathSection } from './HomepageProofPathSection';
 export * from './LoginContent';
 export { default as LoginContent } from './LoginContent';
 export * from './ProfileContent';

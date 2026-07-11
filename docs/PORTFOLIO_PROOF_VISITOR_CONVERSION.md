@@ -11,6 +11,7 @@
   - [Visitor Proof Paths](#visitor-proof-paths)
   - [Slice 14.1 Audit Result](#slice-141-audit-result)
   - [Slice 14.2 Implementation Result](#slice-142-implementation-result)
+  - [Slice 14.3 Implementation Result](#slice-143-implementation-result)
   - [Implementation Principles](#implementation-principles)
   - [Candidate Slice Order](#candidate-slice-order)
   - [Validation Expectations](#validation-expectations)
@@ -21,7 +22,7 @@
 
 # Portfolio Proof And Visitor Conversion
 
-- **Last Updated**: July 05, 2026, 23:21 (UTC+08:00)
+- **Last Updated**: July 11, 2026, 18:07 (UTC+08:00)
 - **Scope**: Phase 14 planning for portfolio proof, visitor proof paths, and conversion-oriented
   presentation across the PersonalWeb frontend.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb portfolio and
@@ -201,6 +202,46 @@ services, SSH, service restart, or Nginx reload changed in this slice.
 Follow-up decision: `14.3 Homepage Proof Path And CTA Flow` is now the next concrete slice because
 the proof destination exists and can be used as the target for desktop/mobile homepage CTA hierarchy.
 
+## Slice 14.3 Implementation Result
+
+Slice 14.3 aligned the homepage first proof path with the `/docs/` PersonalWeb case-study surface.
+The implementation keeps the homepage as the usable first screen and routes visitors toward existing
+evidence instead of repeating the full case study inline.
+
+Implemented frontend ownership:
+
+| Area | Owner |
+| --- | --- |
+| Homepage proof-path copy | `src/content/aboutContent.ts` |
+| Homepage proof-path section | `src/components/sections/HomepageProofPathSection.tsx` |
+| Hero CTA labels and routes | `src/components/sections/HeroSection.tsx` |
+| Homepage proof-path and mobile CTA styling | `src/styles/components/about.css` |
+| Site navigation style scoping | `src/styles/components/navigation/navigation.css` |
+| Browser smoke coverage | `tests/smoke/browser-hydration.spec.ts` |
+
+The homepage now presents:
+
+- primary hero CTA: `/docs` with `查看 PersonalWeb 案例` / `View PersonalWeb Case Study`;
+- secondary hero CTA: `#proof-path` with `选择证明路径` / `Choose Proof Path`;
+- a compact proof-path section after the hero/social links with routes to `/docs`,
+  `/certifications`, `/deepseek_chat`, and `#contact`;
+- mobile first-screen CTA visibility at `390x844`, with the proof-path section visible below the
+  hero.
+
+During smoke validation, the new proof-path `<nav>` exposed an existing global-style hazard: the
+site navigation stylesheet targeted bare `nav` elements and made every `<nav>` fixed at the top of
+the viewport. Slice 14.3 narrowed that rule to `.c-nav-container > nav`, so proof-path navigation
+and docs/case-study navigation can remain in normal document flow while the real top navigation
+keeps its fixed behavior.
+
+No Chat Guide preset, backend prompt behavior, metadata, JSON-LD, `llms.txt`, sitemap, backend,
+Nginx, dependency, runtime, telemetry, analytics, cookie, visitor-event persistence, production
+service, SSH, service restart, or Nginx reload changed.
+
+Follow-up decision: no architecture-map defect was proven by this slice. Keep `14.4` conditional
+and move the next concrete implementation toward Chat Guide entry / preset alignment, because the
+homepage now includes a public proof path that points visitors to the existing guide experience.
+
 ## Implementation Principles
 
 - Start with audit and proof-path mapping before changing UI.
@@ -221,9 +262,9 @@ the proof destination exists and can be used as the target for desktop/mobile ho
 | --- | --- | --- |
 | `14.1 Portfolio Journey Audit And Phase Plan` | `Done` | Audited homepage, docs, certifications, Chat Guide, CTA flow, metadata, and docs support; confirmed case-study surface should precede homepage CTA changes |
 | `14.2 PersonalWeb Case Study Surface` | `Done` | Added a bilingual scan-friendly case-study proof layer at the top of `/docs/`, with evidence links, next actions, and explicit proof boundaries |
-| `14.3 Homepage Proof Path And CTA Flow` | `Ready` | Improve desktop/mobile homepage proof hierarchy and CTA routing now that the `/docs/` case-study destination exists |
+| `14.3 Homepage Proof Path And CTA Flow` | `Done` | Refined hero CTA labels/routes, added a compact homepage proof-path section, preserved mobile first-screen CTA visibility, and scoped top-nav styling so proof-path nav stays in document flow |
 | `14.4 Lightweight Architecture / System Map` | `Backlog` | Add only a lightweight static or low-complexity architecture/proof map if the case-study surface shows it improves comprehension; preserve accessibility, mobile layout, and bundle discipline |
-| `14.5 Chat Guide Entry And Preset Alignment` | `Backlog` | Align Chat Guide entry points and preset wording with the new proof path while preserving public-source and privacy boundaries |
+| `14.5 Chat Guide Entry And Preset Alignment` | `Ready` | Align Chat Guide entry points and preset wording with the new proof path while preserving public-source and privacy boundaries |
 | `14.6 Browser Mobile Conversion QA And Metadata Alignment` | `Backlog` | Verify proof paths across desktop/mobile and update SEO/GEO, `llms.txt`, sitemap, and structured data only if visible content changed |
 | `14.7 Phase Close Review` | `Backlog` | Close Phase 14 or split one narrow follow-up if QA finds a concrete proof-path, docs, mobile, or metadata defect |
 
@@ -262,10 +303,12 @@ Slice 14.1 closed the initial ordering decisions above. Remaining owner decision
 inside later implementation slices, not reopened as broad Phase 14 questions:
 
 - Slice 14.2 placed the case-study surface at the top of `/docs/`; no standalone route was needed.
-- Slice 14.3 should decide the final homepage CTA labels and mobile first-screen treatment now that
-  the case-study target exists.
+- Slice 14.3 finalized the homepage CTA labels, proof-path routing, and mobile first-screen CTA
+  treatment.
 - Slice 14.4 should proceed only if a lightweight architecture/proof map has a concrete
   comprehension role after Slice 14.2.
+- Slice 14.5 should align Chat Guide entry / preset wording with the public proof path before
+  metadata or structured-data work.
 - Slice 14.6 should update SEO/GEO, `llms.txt`, sitemap, and structured data only after visible
   proof changes are deployed.
 

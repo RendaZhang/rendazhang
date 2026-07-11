@@ -1,6 +1,7 @@
 import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import HeroSection from './HeroSection';
+import HomepageProofPathSection from './HomepageProofPathSection';
 import BioSection from './BioSection';
 import EducationSection from './EducationSection';
 import BlogSection from './BlogSection';
@@ -23,6 +24,10 @@ export default function AboutContent(): ReactElement {
         heroHeadingZh={contentZh.heroHeading}
         heroTaglinesEn={contentEn.heroTaglines}
         heroTaglinesZh={contentZh.heroTaglines}
+      />
+      <HomepageProofPathSection
+        proofPathEn={contentEn.proofPath}
+        proofPathZh={contentZh.proofPath}
       />
       <BioSection contentEn={contentEn} contentZh={contentZh} isZh={isZh} />
       <EducationSection educationEn={contentEn.education} educationZh={contentZh.education} />

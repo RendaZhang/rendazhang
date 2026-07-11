@@ -83,13 +83,15 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-palette', /^(default|aurora|forest)$/);
   await expect(page.locator('main')).toBeVisible();
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
-  await expect(page.locator('.c-about-section')).toBeVisible();
+  await expect(page.locator('.c-home-proof-path')).toBeVisible();
   await expect
     .poll(() =>
       page.evaluate(() => {
-        const aboutTop = document.querySelector('.c-about-section')?.getBoundingClientRect().top;
+        const proofPathTop = document
+          .querySelector('.c-home-proof-path')
+          ?.getBoundingClientRect().top;
         return {
-          nextSectionVisible: typeof aboutTop === 'number' && aboutTop < window.innerHeight,
+          nextSectionVisible: typeof proofPathTop === 'number' && proofPathTop < window.innerHeight,
           overflowX: document.documentElement.scrollWidth > window.innerWidth
         };
       })
@@ -98,6 +100,44 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
+  await audit.assertClean();
+});
+
+test('homepage proof path CTAs route visitors to public proof surfaces', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const audit = attachConsoleAudit(page, 'homepage proof path');
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.c-hero-action-primary')).toHaveAttribute('href', '/docs');
+  await expect(page.locator('.c-hero-action-secondary')).toHaveAttribute('href', '#proof-path');
+  await expect(page.locator('#proof-path')).toBeVisible();
+  await expect(page.locator('#proof-path a[href="/docs"]')).toBeVisible();
+  await expect(page.locator('#proof-path a[href="/certifications"]')).toBeVisible();
+  await expect(page.locator('#proof-path a[href="/deepseek_chat"]')).toBeVisible();
+  await expect(page.locator('#proof-path a[href="#contact"]')).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.c-hero-actions')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const primary = document.querySelector('.c-hero-action-primary')?.getBoundingClientRect();
+        const proofPath = document.querySelector('#proof-path')?.getBoundingClientRect();
+
+        return {
+          primaryInViewport: primary
+            ? primary.top >= 0 && primary.bottom <= window.innerHeight
+            : false,
+          proofPathHintVisible: proofPath ? proofPath.top < window.innerHeight : false,
+          overflowX: document.documentElement.scrollWidth > window.innerWidth
+        };
+      })
+    )
+    .toEqual({ primaryInViewport: true, proofPathHintVisible: true, overflowX: false });
+  await settlePage(page);
+
+  expect(authProbeCount(), 'logged-out homepage proof path should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 

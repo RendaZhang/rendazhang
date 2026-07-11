@@ -50,10 +50,13 @@ export default function HeroSection({
           </div>
           <div className="c-hero-actions" aria-label="Hero actions">
             <a className="c-hero-action c-hero-action-primary" href={DOCS_PAGE_PATH}>
-              <LocalizedSection zhContent="查看技术证明" enContent="View Technical Proof" />
+              <LocalizedSection
+                zhContent="查看 PersonalWeb 案例"
+                enContent="View PersonalWeb Case Study"
+              />
             </a>
-            <a className="c-hero-action c-hero-action-secondary" href="#experience">
-              <LocalizedSection zhContent="查看经历" enContent="View Experience" />
+            <a className="c-hero-action c-hero-action-secondary" href="#proof-path">
+              <LocalizedSection zhContent="选择证明路径" enContent="Choose Proof Path" />
             </a>
           </div>
         </div>
