@@ -37,9 +37,11 @@ if (!fs.existsSync(DATA_DIR)) {
   logger.log(`创建目录: ${DATA_DIR}`);
 }
 
-type Format =
-  | { type: 'webp'; options: sharp.WebpOptions }
-  | { type: 'jpeg'; options: sharp.JpegOptions };
+type SharpInstance = ReturnType<typeof sharp>;
+type WebpOptions = NonNullable<Parameters<SharpInstance['webp']>[0]>;
+type JpegOptions = NonNullable<Parameters<SharpInstance['jpeg']>[0]>;
+
+type Format = { type: 'webp'; options: WebpOptions } | { type: 'jpeg'; options: JpegOptions };
 
 /**
  * 生成响应式图片

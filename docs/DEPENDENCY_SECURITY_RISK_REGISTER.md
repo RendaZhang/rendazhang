@@ -4,6 +4,7 @@
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
   - [Current Evidence](#current-evidence)
+  - [Slice 15.1 Security Patch Result](#slice-151-security-patch-result)
   - [Active Risk Register](#active-risk-register)
   - [Escalation Thresholds](#escalation-thresholds)
   - [Maintenance Cadence](#maintenance-cadence)
@@ -15,44 +16,82 @@
 # Dependency Security Risk Register
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 05, 2026, 10:38 (UTC+08:00)
+- **Last Updated**: August 01, 2026, 13:59 (UTC+08:00)
 - **Scope**: public-safe dependency and security risk decisions for the PersonalWeb frontend.
 
 This register records the current audit evidence, accepted residuals, escalation thresholds, and
-owner actions after the controlled Astro 7 implementation. It is intentionally
-documentation only: it does not change package versions, lockfiles, CI workflows, runtime pins,
-frontend behavior, backend behavior, Nginx configuration, telemetry, analytics, cookies, or
-production services.
+owner actions after the controlled Astro 7 implementation and the Slice 15.1 production dependency
+security patch. It is intentionally public-safe: it records package and validation decisions without
+changing CI workflows, runtime pins, frontend behavior, backend behavior, Nginx configuration,
+telemetry, analytics, cookies, or production services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
 
 ## Current Evidence
 
-Read-only checks captured after the Slice 13.6 controlled Astro 7 upgrade:
+Read-only checks captured before Slice 15.1 reported seven production findings: five high, one
+moderate, and one low. The affected production packages were `astro`, Sentry's transitive
+`brace-expansion` path, `dompurify`, `js-yaml`, `postcss`, `sharp`, and `svgo`. Full audit also
+reported dev-only `fast-uri` and additional dev-only `brace-expansion` instances.
+
+After the Slice 15.1 patch:
 
 | Check | Result | Decision |
 | --- | --- | --- |
 | `npm audit --omit=dev --audit-level=low` | 0 findings | Local production audit is clear |
-| `npm audit --audit-level=low` | 0 findings | Local full audit is clear |
-| Dependabot alerts | Previous low `esbuild` alert should refresh against the new lockfile after push | Recheck after GitHub dependency graph refresh if the alert remains open |
-| Latest deploy runs | Last 3 `deploy.yml` runs on `master` completed successfully | No release blocker |
+| `npm audit --audit-level=low` | 0 findings | Local full audit is clear, including dev-only advisory paths |
+| Direct production targets | `astro@7.1.6`, `@sentry/astro@10.69.0`, `@sentry/react@10.69.0`, `dompurify@3.4.12`, `sharp@0.35.3` | Explicit package targets; no blind audit fix |
+| Direct build target | `postcss@8.5.25` | Explicit target for the direct build dependency |
+| Reviewed leaf updates | `@sentry/vite-plugin@5.4.0`, `@sentry/bundler-plugins@10.69.0`, `minimatch@10.2.6`, `brace-expansion@5.0.9` / `1.1.18`, `fast-uri@3.1.5`, `js-yaml@4.3.1`, `svgo@4.0.2` | Cleared remaining production and full-audit advisory nodes without adding direct dependencies |
+| Sharp compatibility | `sharp@0.35.3` with libvips packages `1.3.2` | Accepted as a deliberate major after Node 24 support and image/build validation |
 | Runtime baseline | Node `>=24.17 <25`, npm `>=11 <12`; CI uses Node `24.17.0` | Keep pinned |
 
 Current relevant package path:
 
 ```text
-astro@7.0.6 -> vite@8.1.3 -> esbuild@0.28.1
+astro@7.1.6 -> vite@8.1.3 -> postcss@8.5.25
+astro@7.1.6 -> js-yaml@4.3.1 / svgo@4.0.2 / sharp@0.35.3
+@sentry/astro@10.69.0 -> @sentry/vite-plugin@5.4.0 -> @sentry/bundler-plugins@10.69.0 -> minimatch@10.2.6 -> brace-expansion@5.0.9
 ```
 
-The prior low Astro/esbuild residual is resolved locally by the controlled Slice 13.6 upgrade. The
-force-fix command remains disallowed because future `npm audit fix --force` output may again mix
-major framework or runtime changes into what should be a focused maintenance decision.
+The prior low Astro/esbuild residual remains resolved by the controlled Slice 13.6 upgrade. The
+August 2026 production findings are resolved by Slice 15.1. The force-fix command remains
+disallowed because future `npm audit fix --force` output may again mix major framework, runtime, or
+unrelated dependency changes into what should be a focused maintenance decision.
+
+## Slice 15.1 Security Patch Result
+
+Slice 15.1 used explicit package targets plus a reviewed lockfile leaf update. It did not run
+`npm audit fix` or `npm audit fix --force`.
+
+| Finding owner | Baseline | Patched resolution | Notes |
+| --- | --- | --- | --- |
+| Astro reflected XSS advisory | `astro@7.0.6` | `astro@7.1.6` | Same major/minor patch line; keeps Astro 7 static build model |
+| DOMPurify custom-element advisory | `dompurify@3.4.11` | `dompurify@3.4.12` | Direct production dependency and Mermaid dedupe path both resolve to the patched version |
+| PostCSS source-map advisory | `postcss@8.5.16` | `postcss@8.5.25` | Direct build dependency; all visible PostCSS paths dedupe to the patched version |
+| Sentry transitive brace-expansion path | `@sentry/astro@10.58.0`, `@sentry/react@10.58.0`, `@sentry/vite-plugin@5.3.0`, `brace-expansion@5.0.6` | `@sentry/astro@10.69.0`, `@sentry/react@10.69.0`, `@sentry/vite-plugin@5.4.0`, `brace-expansion@5.0.9` | Preserves `release.inject: false`; plugin subtree now uses the current Sentry bundler package path |
+| js-yaml CPU advisory | `js-yaml@4.2.0` | `js-yaml@4.3.1` | Resolved through Astro's patched dependency range and lockfile dedupe |
+| SVGO removeScripts advisory | `svgo@4.0.1` | `svgo@4.0.2` | Resolved as an Astro transitive package without adding a direct dependency |
+| Sharp/libvips inherited CVEs | `sharp@0.34.3`, libvips packages `1.2.0` | `sharp@0.35.3`, libvips packages `1.3.2` | Deliberate major package move; Node `>=20.9.0` engine supports the pinned Node 24 runtime |
+| Full-audit dev-only leaf findings | `fast-uri@3.1.2`, dev-only `brace-expansion` `1.1.15` / `5.0.6` | `fast-uri@3.1.5`, `brace-expansion@1.1.18` / `5.0.9` | Cleared the full audit gate without adding direct dependencies or changing frontend runtime behavior |
+
+Validation expectations for this patch class:
+
+- `npm ci` must succeed from `package-lock.json`.
+- Both production and full audit commands must return zero findings.
+- Sharp must be proven by image-generation, static build, generated asset inspection, browser smoke,
+  and desktop/mobile Browser QA.
+- Sentry source-map and CSP behavior must be checked in build/deploy logs and browser console.
+- If executable inline script output stops matching the current Nginx CSP allowlist, stop before
+  deployment and split a coordinated Nginx CSP slice.
 
 ## Active Risk Register
 
 | Risk | Current decision | Reason | Revisit trigger |
 | --- | --- | --- | --- |
+| August 2026 production advisories | Resolved by Slice 15.1 | Explicit targets and reviewed lockfile leaf updates cleared production and full audits without `npm audit fix` or force-fix behavior | New audit finding, Dependabot alert, package path change, severity increase, or deploy/build regression |
+| Sharp 0.35 major compatibility | Accepted for the current frontend | The package supports Node 24, remains allowed by Astro's optional dependency range, and is validated through the image/build/browser gates | Image generation failure, changed Sharp install behavior on CI/Linux, broken hero assets, or Astro image integration change |
 | Low `esbuild` advisory through Astro/Vite | Resolved locally | Slice 13.6 moved the frontend to `astro@7.0.6`, `vite@8.1.3`, and `esbuild@0.28.1`; both local audit commands now return zero findings | New audit finding, Dependabot alert that still maps to the new lockfile, severity increase, or exploitability change |
 | `npm audit fix --force` path | Still disallowed | Force-fixing can mix a major framework upgrade into a security maintenance action; Slice 13.6 used explicit package targets instead | A future urgent patch slice explicitly scopes and justifies the command, which should remain exceptional |
 | Dependabot low `esbuild` alert | Recheck after GitHub refresh | Local lockfile evidence is clear, but hosted alert state can lag until dependency graph processing completes | Alert remains open against the new `esbuild@0.28.1` path, changes severity, or changes dependency path |
@@ -89,10 +128,17 @@ Routine read-only checks:
 
 ```bash
 cd /Users/renda/Documents/PersonalWeb/rendazhang
-npm audit --omit=dev --audit-level=low
-npm audit --audit-level=low
+NODE_ROOT="$(mise where node)"
+"$NODE_ROOT/bin/node" --version
+"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" --version
+"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" audit --omit=dev --audit-level=low
+"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" audit --audit-level=low
 gh run list --workflow deploy.yml --branch master --limit 3
 ```
+
+The explicit absolute `node .../npm-cli.js` form is useful when a non-interactive shell's `npm`
+shebang would otherwise resolve through a system Node version. Dependency evidence should use the
+pinned project runtime, not whichever `node` happens to appear first in the shell `PATH`.
 
 When dependency docs change, run the normal docs validation gate:
 
