@@ -7,6 +7,7 @@
   - [Intended Impression](#intended-impression)
   - [Visitor Language And Maintainer Language](#visitor-language-and-maintainer-language)
   - [Current Phrase Inventory](#current-phrase-inventory)
+  - [Slice 15.4 Homepage Application](#slice-154-homepage-application)
   - [Shared Editorial Contract](#shared-editorial-contract)
     - [Start With The Person Or The Answer](#start-with-the-person-or-the-answer)
     - [Be Specific Without Inventing](#be-specific-without-inventing)
@@ -37,7 +38,7 @@
 
 # Human Voice And Personal Expression
 
-- **Last Updated**: August 01, 2026, 16:48 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 01:48 (UTC+08:00)
 - **Scope**: Phase 15 bilingual editorial and interaction-expression contract for public
   PersonalWeb surfaces.
 - **Audience**: maintainers, reviewers, and future agents writing or designing for PersonalWeb.
@@ -108,8 +109,9 @@ technical sophistication.
 
 ## Current Phrase Inventory
 
-The following inventory records rewrite direction for later slices. Examples are directional, not
-approved final page copy.
+The following inventory records the Phase 15.3 baseline and rewrite direction. Slice 15.4 resolved
+the homepage rows; remaining rows continue to guide later page-specific slices. Examples are
+directional, not approved final page copy.
 
 | Current phrase or pattern | Current surface | Decision | Later rewrite direction |
 | --- | --- | --- | --- |
@@ -129,6 +131,26 @@ approved final page copy.
 | `PersonalWeb Proof` / `PersonalWeb 证明` | Hero taglines and README headings | Defer to homepage/docs slices | Prefer a phrase that names the project or Renda's role in building it; retain `proof` only where it remains natural in context |
 | Dense capability lists and percentage scores | Homepage skills | Defer to Slice 15.4 | Group around work Renda does and decisions he makes; do not imply measured proficiency without a defined measurement |
 | Mixed Chinese with `surface`, `credential`, `source-bounded`, `ownership`, `pin`, or `runbook` | Homepage, `/docs/`, certifications, public README | Translate on visitor surfaces; keep standard terms in technical docs when useful | Use natural Chinese first, with the English technical term only when readers need it |
+
+## Slice 15.4 Homepage Application
+
+Slice 15.4 applied this contract to the homepage without adding new claims or changing routes. The
+current homepage now:
+
+- uses Renda's name as the H1, followed by his verified current role and a first-person PersonalWeb
+  summary;
+- uses `See How I Built PersonalWeb` / `了解我如何构建 PersonalWeb` as the primary `/docs`
+  action and `Explore My Work` / `了解我的工作` for the existing `#proof-path` anchor;
+- presents the project, AWS certification, Chat Guide, and contact destinations in direct visitor
+  language without intent labels or planning terms;
+- groups skills into backend systems, AI and frontend, cloud delivery, and reliability/teamwork
+  instead of displaying unexplained percentage scores;
+- keeps deeper work, education, resume, contact, social, and Chat Widget behavior unchanged; and
+- adjusts only the existing portrait crop and layout density through the current token and
+  responsive-style system.
+
+The `proofPath` content key, `#proof-path` anchor, and related CSS class names remain internal
+implementation identifiers. They are not displayed as visitor copy.
 
 ## Shared Editorial Contract
 

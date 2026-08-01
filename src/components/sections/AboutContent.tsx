@@ -20,10 +20,12 @@ export default function AboutContent(): ReactElement {
   return (
     <div id="content">
       <HeroSection
+        heroKickerEn={contentEn.heroKicker}
+        heroKickerZh={contentZh.heroKicker}
         heroHeadingEn={contentEn.heroHeading}
         heroHeadingZh={contentZh.heroHeading}
-        heroTaglinesEn={contentEn.heroTaglines}
-        heroTaglinesZh={contentZh.heroTaglines}
+        heroSummaryEn={contentEn.heroSummary}
+        heroSummaryZh={contentZh.heroSummary}
       />
       <HomepageProofPathSection
         proofPathEn={contentEn.proofPath}

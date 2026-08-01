@@ -35,25 +35,27 @@
   padding: var(--space-8) var(--space-4) var(--space-7);
 }
 
+.c-hero .c-responsive-hero-placeholder,
+.c-hero .c-responsive-hero-img {
+  object-position: center 40%;
+}
+
 .c-hero-copy {
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: min(48rem, 100%);
+  max-width: min(46rem, 100%);
   text-shadow: 0 var(--space-1) var(--space-3)
     color-mix(in srgb, var(--color-base-black) 55%, transparent);
 }
 
 .c-hero-kicker {
-  border: 1px solid color-mix(in srgb, var(--color-hero-accent) 54%, var(--color-base-white));
-  border-radius: var(--radius-l);
   color: color-mix(in srgb, var(--color-base-white) 90%, var(--color-hero-accent));
   font-size: var(--font-size-1);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0;
   margin: 0;
-  padding: var(--space-1) var(--space-3);
 }
 
 .c-hero h1 {
@@ -61,21 +63,13 @@
   margin: 0;
 }
 
-.c-hero-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: center;
-}
-
-.c-hero-tag {
-  background: color-mix(in srgb, var(--color-base-black) 44%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-hero-accent) 36%, var(--color-base-white));
-  border-radius: var(--radius-l);
+.c-hero-summary {
   color: var(--color-base-white);
-  font-size: var(--font-size-1);
+  font-size: var(--font-size-2);
   font-weight: 600;
-  padding: var(--space-1) var(--space-3);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 42rem;
 }
 
 .c-hero-actions {
@@ -233,7 +227,7 @@
   display: grid;
   gap: var(--space-3);
   grid-template-columns: auto 1fr;
-  min-height: 9rem;
+  min-height: 8rem;
   padding: var(--space-4);
   text-decoration: none;
   transition:
@@ -268,7 +262,7 @@
 
 .c-home-proof-path-link-copy {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-1);
 }
 
 .c-home-proof-path-link-copy strong {
@@ -283,33 +277,39 @@
   line-height: 1.5;
 }
 
-.c-home-proof-path-link-copy em {
-  color: color-mix(in srgb, var(--color-accent) 74%, var(--color-text));
-  font-size: var(--font-size-0);
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
 /* Override global body flex alignment so main content starts below nav */
 body.c-about-page {
   justify-content: flex-start;
 }
 
-.c-skill-bar {
-  align-items: center;
-  display: flex;
-  margin-bottom: var(--space-2);
+.c-skill-groups {
+  border-bottom: var(--border-2);
+  border-top: var(--border-2);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.c-skill-label {
-  flex: 0 0 calc(var(--space-10) * 2.5);
+.c-skill-group {
+  padding: var(--space-4);
+
+  &:nth-child(even) {
+    border-left: var(--border-2);
+  }
+
+  &:nth-child(n + 3) {
+    border-top: var(--border-2);
+  }
 }
 
-.c-skill-bar progress {
-  height: var(--space-4);
-  width: 100%;
+.c-skill-group h3 {
+  margin: 0 0 var(--space-2);
+}
+
+.c-skill-group p {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .c-experience-item,
@@ -364,22 +364,32 @@ body.c-about-page {
 
 @media (max-width: 48rem) {
   .c-hero {
-    height: clamp(24rem, 50svh, 29rem);
-    min-height: 24rem;
+    height: clamp(27rem, 56svh, 30rem);
+    min-height: 27rem;
   }
 
   .c-hero .c-responsive-hero-content {
     gap: var(--space-3);
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-5) var(--space-4) var(--space-6);
+  }
+
+  .c-hero .c-responsive-hero-placeholder,
+  .c-hero .c-responsive-hero-img {
+    object-position: center 78%;
   }
 
   .c-hero-copy {
     gap: var(--space-3);
   }
 
-  .c-hero-kicker,
-  .c-hero-tags {
+  .c-hero-kicker {
     display: none;
+  }
+
+  .c-hero-summary {
+    font-size: var(--font-size-1);
+    line-height: 1.45;
+    max-width: 34ch;
   }
 
   .c-hero-actions {
@@ -407,6 +417,22 @@ body.c-about-page {
 
   .c-home-proof-path-link {
     min-height: auto;
+    padding: var(--space-4) 0;
+
+    &:nth-child(even) {
+      border-left: 0;
+    }
+
+    &:nth-child(n + 2) {
+      border-top: var(--border-2);
+    }
+  }
+
+  .c-skill-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .c-skill-group {
     padding: var(--space-4) 0;
 
     &:nth-child(even) {

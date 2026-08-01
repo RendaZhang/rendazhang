@@ -12,55 +12,45 @@ import {
 
 export const ABOUT_CONTENT = {
   en: {
-    heroHeading: "Hello! I'm<span> Renda Zhang</span>",
-    heroTaglines: [
-      'AI Full-Stack Development',
-      'Cloud-Native Engineering',
-      'Java/Spring Platforms',
-      'PersonalWeb Proof',
-      'AWS/GCP/Kubernetes'
-    ],
+    heroKicker: 'Senior Backend Engineer / Team Lead',
+    heroHeading: 'Renda Zhang',
+    heroSummary:
+      'I lead backend delivery for overseas life insurance at OneConnect and built PersonalWeb end to end across AI chat, frontend, testing, and delivery.',
     proofPath: {
-      eyebrow: 'Proof path',
-      title: 'Choose the evidence that matches your question',
+      eyebrow: 'Where to start',
+      title: 'Choose what you want to explore',
       summary:
-        'The homepage now points to the strongest public proof first, then lets visitors branch into certification context, a guided Chat question, or contact intent.',
+        'Read how I built PersonalWeb, view my AWS certification, ask the Chat Guide, or contact me directly.',
       actions: [
         {
-          label: 'PersonalWeb case study',
-          note: 'Start with the scan-friendly project proof surface.',
-          href: DOCS_PAGE_PATH,
-          intent: 'Main proof'
+          label: 'See how I built PersonalWeb',
+          note: 'Start with a concise project overview, then continue into architecture, testing, and delivery.',
+          href: DOCS_PAGE_PATH
         },
         {
-          label: 'AWS certification context',
-          note: 'Use the public credential as architecture support, not standalone scale proof.',
-          href: CERTIFICATIONS_PAGE_PATH,
-          intent: 'Credential proof'
+          label: 'View my AWS certification',
+          note: 'See what the certification covers and open its public verification page.',
+          href: CERTIFICATIONS_PAGE_PATH
         },
         {
-          label: 'Ask the Chat Guide',
-          note: 'Use public-source preset questions to navigate the site evidence.',
-          href: CHAT_PAGE_PATH,
-          intent: 'Guided proof'
+          label: 'Ask about me or PersonalWeb',
+          note: 'Use the Chat Guide to ask from public information on this site.',
+          href: CHAT_PAGE_PATH
         },
         {
-          label: 'Contact intent',
-          note: 'Move from public evidence to a direct conversation.',
-          href: '#contact',
-          intent: 'Next step'
+          label: 'Contact me',
+          note: 'Send me a message after reviewing the project or my experience.',
+          href: '#contact'
         }
       ]
     },
     subTitle: 'Who am I?',
     title: 'About Me',
     paragraphs: [
-      "Hello! I'm Renda Zhang, a Shenzhen-based engineer building AI-enabled full-stack and cloud-native web systems on a Java/Spring foundation.",
+      "I'm a Shenzhen-based AI full-stack and cloud-native engineer. My work is rooted in Java/Spring backend systems, with frontend and AI features shaped around the same product and reliability decisions.",
       'On July 6, 2026, I joined OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.',
-      'My flagship proof is PersonalWeb: an Astro/React portfolio with a same-origin AI Chat Widget, Flask/OpenAI backend integration, technical docs, browser smoke coverage, SEO/GEO, and CI/CD delivery.',
-      'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, GitHub Actions/Argo CD, and observability guardrails to ship safely.',
-      'I tune high-concurrency paths with Redis, queues, and structured reliability practices, then connect backend decisions to SSR/CSR frontend experiences.',
-      'I hold an AWS Solutions Architect – Associate (Jun 2025) and a B.S. in Computer Science from the University of Minnesota.'
+      'I built PersonalWeb end to end with Astro and React, a same-origin AI Chat Widget, a Flask/OpenAI backend, public technical documentation, browser tests, SEO/GEO, and automated delivery.',
+      'Across my broader work, I design API-first services on AWS and GCP, Kubernetes delivery, Redis and messaging paths, and observability practices. I also hold the AWS Certified Solutions Architect – Associate certification and a B.S. in Computer Science from the University of Minnesota.'
     ],
     info: [
       { label: 'Name:', value: ' Renda Zhang' },
@@ -103,37 +93,36 @@ export const ABOUT_CONTENT = {
     },
     contactLabel: 'Feel free to reach out anytime',
     skills: {
-      title: 'Skills & Knowledge',
+      title: 'What I Work On',
+      summary:
+        'My work spans four connected areas, from backend service design to the frontend and delivery systems around it.',
       categories: [
-        { label: 'AI Full-Stack Development', level: 94 },
-        { label: 'Java & Spring Backend', level: 98 },
-        { label: 'Cloud & Platform Engineering', level: 95 },
-        { label: 'Microservices & API Design', level: 93 },
-        { label: 'Data, Cache & Messaging', level: 92 },
-        { label: 'DevOps & CI/CD Automation', level: 92 },
-        { label: 'Observability & Reliability', level: 88 },
-        { label: 'Communication & Leadership', level: 80 }
-      ],
-      items: [
-        'Java, SQL, TypeScript, JavaScript, Python, HTML/CSS, C/C++, PHP, Clojure',
-        'Spring Boot, Spring Cloud, Spring Security, Spring Data JPA, MyBatis, OpenFeign, Resilience4j',
-        'Astro, React, TypeScript, SSR, CSR, selective hydration, Chat Widget, Sentry, CSP, BFF',
-        'Flask/OpenAI integration, AI chat UI/backend boundaries, Markdown rendering, browser smoke validation',
-        'AWS (EKS, ECS, IAM, ALB, S3, CloudFront), GCP, Kubernetes, Docker, Terraform, CDK',
-        'Microservices, REST, gRPC, API design, Auth/OAuth2/OIDC, idempotency, rate limiting',
-        'MySQL, Aurora, MongoDB, Redis, DynamoDB, ElasticSearch',
-        'Kafka, RabbitMQ, SQS, DLQ, retry and dedupe patterns',
-        'GitHub Actions, Argo CD, Jenkins, GitLab CI/CD, Maven, Git, Linux Shell',
-        'OpenTelemetry, Prometheus, Grafana, SLOs, blue-green and canary releases',
-        'JMeter, JUnit, Mockito, Postman, Swagger, SpringDoc',
-        'Team collaboration, leadership, problem solving, adaptability',
-        'English (Full professional), Chinese (Native: Mandarin & Cantonese)'
+        {
+          label: 'Backend systems',
+          description:
+            'Java/Spring services, REST and gRPC APIs, relational and NoSQL data, Redis, and messaging.'
+        },
+        {
+          label: 'AI and frontend',
+          description:
+            'Astro/React, TypeScript, Flask/OpenAI integration, SSR/CSR, Markdown, CSP, and browser validation.'
+        },
+        {
+          label: 'Cloud delivery',
+          description:
+            'AWS/GCP, Kubernetes, Docker, Terraform, GitHub Actions, Argo CD, and blue-green or canary releases.'
+        },
+        {
+          label: 'Reliability and teamwork',
+          description:
+            'OpenTelemetry, Prometheus, Grafana, load testing, code review, delivery planning, and team leadership.'
+        }
       ]
     },
     experience: {
       title: 'Experience',
       summary:
-        'Work proof in one scan: the story moves from Android product delivery and freelance Java backend projects into Michaels.com e-commerce platforms, cloud-native SaaS delivery at Fanxin, and a July 2026 OneConnect backend TL role for overseas life insurance systems.',
+        'My work has moved from Android product delivery and freelance Java backend projects to Michaels.com e-commerce platforms, cloud-native SaaS at Fanxin, and my current backend team-lead role for overseas life insurance systems at OneConnect.',
       entries: [
         {
           period: 'Jul 2026 - Present',
@@ -223,7 +212,7 @@ export const ABOUT_CONTENT = {
     education: {
       title: 'Education',
       summary:
-        'Education supports the engineering narrative with a Computer Science foundation from the University of Minnesota, U.S. academic experience, and coursework spanning systems, networks, algorithms, software engineering, programming languages, and UI design.',
+        'I studied Computer Science at the University of Minnesota, with coursework across systems, networks, algorithms, software engineering, programming languages, and UI design.',
       entries: [
         {
           period: 'Sep 2014 - Dec 2017',
@@ -243,43 +232,35 @@ export const ABOUT_CONTENT = {
     }
   },
   zh: {
-    heroHeading: '你好，我是<span>张人大</span>',
-    heroTaglines: [
-      'AI 全栈开发',
-      '云原生工程',
-      'Java/Spring 平台',
-      'PersonalWeb 证明',
-      'AWS/GCP/Kubernetes'
-    ],
+    heroKicker: '后端开发高级工程师 / TL',
+    heroHeading: '张人大',
+    heroSummary:
+      '我在金融壹账通负责海外寿险后端交付，也端到端构建了 PersonalWeb，覆盖 AI 聊天、前端、测试与发布。',
     proofPath: {
-      eyebrow: '证明路径',
-      title: '根据你的问题选择公开证据',
+      eyebrow: '从这里开始',
+      title: '选择你想了解的内容',
       summary:
-        '首页先把最强的公开证明放在前面，再让访问者进入证书上下文、Chat Guide 导览问题或联系意向。',
+        '你可以了解我如何构建 PersonalWeb，查看 AWS 认证，向 Chat Guide 提问，或直接联系我。',
       actions: [
         {
-          label: 'PersonalWeb 案例证明',
-          note: '先阅读可扫读的项目证明 surface。',
-          href: DOCS_PAGE_PATH,
-          intent: '主证明'
+          label: '了解我如何构建 PersonalWeb',
+          note: '先看简明项目介绍，再继续阅读架构、测试与发布细节。',
+          href: DOCS_PAGE_PATH
         },
         {
-          label: 'AWS 证书上下文',
-          note: '把公开 credential 作为架构支撑，而不是单独包装成规模证明。',
-          href: CERTIFICATIONS_PAGE_PATH,
-          intent: '证书证明'
+          label: '查看我的 AWS 认证',
+          note: '了解认证覆盖的内容，并打开公开验证页面。',
+          href: CERTIFICATIONS_PAGE_PATH
         },
         {
-          label: '询问 Chat Guide',
-          note: '用公开来源 preset 问题快速进入站内证据。',
-          href: CHAT_PAGE_PATH,
-          intent: '导览证明'
+          label: '询问我或 PersonalWeb',
+          note: 'Chat Guide 会根据本站公开信息回答。',
+          href: CHAT_PAGE_PATH
         },
         {
-          label: '联系意向',
-          note: '从公开证据进入直接沟通。',
-          href: '#contact',
-          intent: '下一步'
+          label: '联系我',
+          note: '了解项目或经历后，可以直接给我留言。',
+          href: '#contact'
         }
       ]
     },
@@ -287,12 +268,10 @@ export const ABOUT_CONTENT = {
     title: '自我介绍',
     greeting: '你好，',
     paragraphs: [
-      '大家好，我是张人大，常驻深圳，基于 Java/Spring 构建 AI 全栈与云原生 Web 系统。',
+      '我常驻深圳，专注 AI 全栈与云原生工程。我的技术基础是 Java/Spring 后端，同时会把前端和 AI 功能放在同一套产品与可靠性决策中考虑。',
       '我于 2026 年 7 月 6 日加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。',
-      'PersonalWeb 是我的旗舰证明：Astro/React 前端、同源 AI Chat Widget、Flask/OpenAI 后端集成、技术文档、浏览器 smoke、SEO/GEO 与 CI/CD 交付闭环。',
-      '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 和可观测性护栏安全交付。',
-      '擅长用 Redis、消息队列与可靠性实践优化高并发链路，并把后端决策连接到 SSR/CSR 前端体验。',
-      '持有 AWS 解决方案架构师（助理，2025 年 6 月）认证，本科毕业于美国明尼苏达大学计算机科学专业。'
+      'PersonalWeb 由我端到端构建，包含 Astro/React 前端、同源 AI Chat Widget、Flask/OpenAI 后端、公开技术文档、浏览器测试、SEO/GEO 与自动化发布。',
+      '在其他项目中，我也长期处理 AWS/GCP 上的 API-first 服务、Kubernetes 交付、Redis、消息队列与可观测性。持有 AWS 认证解决方案架构师 – 助理认证，本科毕业于明尼苏达大学计算机科学专业。'
     ],
     info: [
       { label: '姓名:', value: ' 张人大' },
@@ -335,37 +314,33 @@ export const ABOUT_CONTENT = {
     },
     contactLabel: '欢迎随时联系我',
     skills: {
-      title: '技能与能力',
+      title: '我的工作领域',
+      summary: '我的工作主要贯穿四个相互连接的领域，从后端服务设计延伸到前端体验与交付体系。',
       categories: [
-        { label: 'AI 全栈开发', level: 94 },
-        { label: 'Java 与 Spring 后端', level: 98 },
-        { label: '云原生与平台工程', level: 95 },
-        { label: '微服务与 API 设计', level: 93 },
-        { label: '数据、缓存与消息', level: 92 },
-        { label: 'DevOps 与 CI/CD 自动化', level: 92 },
-        { label: '可观测性与可靠性', level: 88 },
-        { label: '沟通协作与领导力', level: 80 }
-      ],
-      items: [
-        'Java、SQL、TypeScript、JavaScript、Python、HTML/CSS、C/C++、PHP、Clojure',
-        'Spring Boot、Spring Cloud、Spring Security、Spring Data JPA、MyBatis、OpenFeign、Resilience4j',
-        'Astro、React、TypeScript、SSR、CSR、渐进水合、Chat Widget、Sentry、CSP、BFF',
-        'Flask/OpenAI 集成、AI 聊天前后端边界、Markdown 渲染、浏览器 smoke 验证',
-        'AWS（EKS、ECS、IAM、ALB、S3、CloudFront）、GCP、Kubernetes、Docker、Terraform、CDK',
-        '微服务、REST、gRPC、API 设计、Auth/OAuth2/OIDC、幂等、限流',
-        'MySQL、Aurora、MongoDB、Redis、DynamoDB、ElasticSearch',
-        'Kafka、RabbitMQ、SQS，结合去重、重试、死信队列等模式',
-        'GitHub Actions、Argo CD、Jenkins、GitLab CI/CD、Maven、Git、Linux Shell',
-        'OpenTelemetry、Prometheus、Grafana、SLO、蓝绿发布与金丝雀发布',
-        'JMeter、JUnit、Mockito、Postman、Swagger、SpringDoc',
-        '团队协作、领导力、问题解决、适应变化',
-        '中文（普通话/粤语）、英语（专业工作水平）'
+        {
+          label: '后端系统',
+          description: 'Java/Spring 服务、REST 与 gRPC API、关系型与 NoSQL 数据、Redis 和消息队列。'
+        },
+        {
+          label: 'AI 与前端',
+          description:
+            'Astro/React、TypeScript、Flask/OpenAI 集成、SSR/CSR、Markdown、CSP 与浏览器验证。'
+        },
+        {
+          label: '云端交付',
+          description:
+            'AWS/GCP、Kubernetes、Docker、Terraform、GitHub Actions、Argo CD，以及蓝绿与金丝雀发布。'
+        },
+        {
+          label: '可靠性与团队协作',
+          description: 'OpenTelemetry、Prometheus、Grafana、压测、代码审查、交付规划与团队带领。'
+        }
       ]
     },
     experience: {
       title: '经历',
       summary:
-        '工作证明主线：从 Android 产品交付和自由职业 Java 后端项目，进入 Michaels.com 企业电商平台，再到凡新云原生 SaaS 交付，并在 2026 年 7 月进入金融壹账通海外寿险后端 TL 岗位。',
+        '我的经历从 Android 产品交付与自由职业 Java 后端项目，延伸到 Michaels.com 电商平台、凡新的云原生 SaaS，以及目前在金融壹账通负责海外寿险后端团队与交付的工作。',
       entries: [
         {
           period: '2026年7月 - 至今',
@@ -387,7 +362,7 @@ export const ABOUT_CONTENT = {
             '面向 B 端的 API-first SaaS，提供管理控制台、开发者门户与嵌入式组件，曾负责后端与云原生交付。',
           bullets: [
             '主导微服务建模与接口契约，完善鉴权、幂等与限流策略，并结合 OpenAPI 沉淀文档与 SDK。',
-            '建设多环境 CI/CD、蓝绿/金丝雀、特性开关、仪表盘与 Runbook，保障版本可灰度、可回滚、可排障。',
+            '建设多环境 CI/CD、蓝绿/金丝雀、特性开关、仪表盘与运维手册，保障版本可灰度、可回滚、可排障。',
             '在 Kubernetes 上治理弹性与探针机制，保持镜像不可变、配置即代码与最小权限原则。',
             '结合关系型存储、Redis、消息队列、去重/重试/死信模式优化数据链路，并与前端协作 SSR/CSR 策略和 Sentry 事件串联。'
           ]
@@ -453,7 +428,7 @@ export const ABOUT_CONTENT = {
     education: {
       title: '教育',
       summary:
-        '教育经历为工程叙事提供计算机科学基础：明尼苏达大学本科、美国学习经历，以及系统、网络、算法、软件工程、编程语言和 UI 设计等课程支撑。',
+        '我在明尼苏达大学学习计算机科学，课程涵盖系统、网络、算法、软件工程、编程语言与 UI 设计。',
       entries: [
         {
           period: '2014年9月 - 2017年12月',

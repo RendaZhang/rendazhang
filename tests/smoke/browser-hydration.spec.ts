@@ -82,6 +82,8 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-theme', /^(light|dark)$/);
   await expect(page.locator('html')).toHaveAttribute('data-palette', /^(default|aurora|forest)$/);
   await expect(page.locator('main')).toBeVisible();
+  await expect(page.locator('#heroHeading')).toBeVisible();
+  await expect(page.locator('.c-hero-summary')).toBeVisible();
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
   await expect(page.locator('.c-home-proof-path')).toBeVisible();
   await expect
@@ -103,7 +105,7 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await audit.assertClean();
 });
 
-test('homepage proof path CTAs route visitors to public proof surfaces', async ({ page }) => {
+test('homepage work links route visitors to public destinations', async ({ page }) => {
   const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'homepage proof path');
 
@@ -115,6 +117,7 @@ test('homepage proof path CTAs route visitors to public proof surfaces', async (
   await expect(page.locator('#proof-path a[href="/certifications"]')).toBeVisible();
   await expect(page.locator('#proof-path a[href="/deepseek_chat"]')).toBeVisible();
   await expect(page.locator('#proof-path a[href="#contact"]')).toBeVisible();
+  await expect(page.locator('#proof-path .c-home-proof-path-link-copy em')).toHaveCount(0);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'domcontentloaded' });

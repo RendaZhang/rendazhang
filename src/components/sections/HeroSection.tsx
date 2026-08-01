@@ -7,17 +7,21 @@ import type { ReactElement } from 'react';
 const WIDTHS = [3840, 2560, 1920, 1280, 1000, 800, 400];
 
 interface HeroSectionProps {
+  heroKickerZh: string;
+  heroKickerEn: string;
   heroHeadingZh: string;
   heroHeadingEn: string;
-  heroTaglinesZh: ReadonlyArray<string>;
-  heroTaglinesEn: ReadonlyArray<string>;
+  heroSummaryZh: string;
+  heroSummaryEn: string;
 }
 
 export default function HeroSection({
+  heroKickerZh,
+  heroKickerEn,
   heroHeadingZh,
   heroHeadingEn,
-  heroTaglinesZh,
-  heroTaglinesEn
+  heroSummaryZh,
+  heroSummaryEn
 }: HeroSectionProps): ReactElement {
   return (
     <>
@@ -30,42 +34,32 @@ export default function HeroSection({
       >
         <div className="c-hero-copy">
           <p className="c-hero-kicker">
-            <LocalizedSection
-              zhContent="AI 全栈 · 云原生 · 金融科技"
-              enContent="AI Full-Stack · Cloud-Native · FinTech"
-            />
+            <LocalizedSection zhContent={heroKickerZh} enContent={heroKickerEn} />
           </p>
           <h1 id="heroHeading">
-            <LocalizedSection
-              zhContent={<span dangerouslySetInnerHTML={{ __html: heroHeadingZh }} />}
-              enContent={<span dangerouslySetInnerHTML={{ __html: heroHeadingEn }} />}
-            />
+            <LocalizedSection zhContent={heroHeadingZh} enContent={heroHeadingEn} />
           </h1>
-          <div className="c-hero-tags" aria-label="Hero highlights">
-            {heroTaglinesZh.slice(0, 4).map((taglineZh, idx) => (
-              <span className="c-hero-tag" key={taglineZh}>
-                <LocalizedSection zhContent={taglineZh} enContent={heroTaglinesEn[idx]} />
-              </span>
-            ))}
-          </div>
+          <p className="c-hero-summary">
+            <LocalizedSection zhContent={heroSummaryZh} enContent={heroSummaryEn} />
+          </p>
           <div className="c-hero-actions" aria-label="Hero actions">
             <a className="c-hero-action c-hero-action-primary" href={DOCS_PAGE_PATH}>
               <LocalizedSection
-                zhContent="查看 PersonalWeb 案例"
-                enContent="View PersonalWeb Case Study"
+                zhContent="了解我如何构建 PersonalWeb"
+                enContent="See How I Built PersonalWeb"
               />
             </a>
             <a className="c-hero-action c-hero-action-secondary" href="#proof-path">
-              <LocalizedSection zhContent="选择证明路径" enContent="Choose Proof Path" />
+              <LocalizedSection zhContent="了解我的工作" enContent="Explore My Work" />
             </a>
           </div>
         </div>
         <a
           className="c-hero-scroll-cue"
           href="#aboutTitle"
-          aria-label="Scroll to proof-led introduction"
+          aria-label="Jump to Renda's introduction"
         >
-          <LocalizedSection zhContent="了解技术证明" enContent="Explore Proof" />
+          <LocalizedSection zhContent="关于我" enContent="About Me" />
         </a>
       </ResponsiveHero>
       <SocialIcons />

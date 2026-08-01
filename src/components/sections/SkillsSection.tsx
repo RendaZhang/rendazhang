@@ -13,23 +13,24 @@ export default function SkillsSection({ skillsEn, skillsZh }: SkillsSectionProps
       <h2 id="skillsTitle">
         <LocalizedSection zhContent={skillsZh.title} enContent={skillsEn.title} />
       </h2>
-      <div id="skillsBars">
+      <p className="c-section-summary">
+        <LocalizedSection zhContent={skillsZh.summary} enContent={skillsEn.summary} />
+      </p>
+      <div className="c-skill-groups" id="skillsGroups">
         {skillsZh.categories.map((cat, idx) => (
-          <div className="c-skill-bar" key={idx}>
-            <span className="c-skill-label">
+          <article className="c-skill-group" key={cat.label}>
+            <h3>
               <LocalizedSection zhContent={cat.label} enContent={skillsEn.categories[idx].label} />
-            </span>
-            <progress max="100" value={cat.level} />
-          </div>
+            </h3>
+            <p>
+              <LocalizedSection
+                zhContent={cat.description}
+                enContent={skillsEn.categories[idx].description}
+              />
+            </p>
+          </article>
         ))}
       </div>
-      <ul id="skillsList">
-        {skillsZh.items.map((item, idx) => (
-          <li key={idx}>
-            <LocalizedSection zhContent={item} enContent={skillsEn.items[idx]} />
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

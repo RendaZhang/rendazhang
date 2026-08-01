@@ -12,6 +12,7 @@
   - [Slice 14.1 Audit Result](#slice-141-audit-result)
   - [Slice 14.2 Implementation Result](#slice-142-implementation-result)
   - [Slice 14.3 Implementation Result](#slice-143-implementation-result)
+  - [Slice 15.4 Homepage Voice Alignment](#slice-154-homepage-voice-alignment)
   - [Implementation Principles](#implementation-principles)
   - [Candidate Slice Order](#candidate-slice-order)
   - [Validation Expectations](#validation-expectations)
@@ -22,7 +23,7 @@
 
 # Portfolio Proof And Visitor Conversion
 
-- **Last Updated**: August 01, 2026, 16:48 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 01:48 (UTC+08:00)
 - **Scope**: Phase 14 planning for portfolio proof, visitor proof paths, and conversion-oriented
   presentation across the PersonalWeb frontend.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb portfolio and
@@ -242,6 +243,22 @@ service, SSH, service restart, or Nginx reload changed.
 Follow-up decision: no architecture-map defect was proven by this slice. Keep `14.4` conditional
 and move the next concrete implementation toward Chat Guide entry / preset alignment, because the
 homepage now includes a public proof path that points visitors to the existing guide experience.
+
+## Slice 15.4 Homepage Voice Alignment
+
+Slice 15.4 kept the Slice 14.3 routes and anchors while replacing its visitor-facing planning
+language with the Phase 15 personal-voice contract. Current homepage actions are:
+
+- `/docs`: `See How I Built PersonalWeb` / `了解我如何构建 PersonalWeb`;
+- `#proof-path`: `Explore My Work` / `了解我的工作`;
+- `/certifications`: `View my AWS certification` / `查看我的 AWS 认证`;
+- `/deepseek_chat`: `Ask about me or PersonalWeb` / `询问我或 PersonalWeb`; and
+- `#contact`: `Contact me` / `联系我`.
+
+The homepage still routes to the same PersonalWeb, certification, Chat Guide, and contact
+destinations. It now introduces those choices directly, removes redundant intent labels, and uses
+unscored work-area groups in place of percentage-based skill claims. No metadata, Chat Guide,
+backend, Nginx, dependency, runtime, analytics, telemetry, or production-service behavior changed.
 
 ## Implementation Principles
 

@@ -24,7 +24,7 @@ export default function HomepageProofPathSection({
           <LocalizedSection zhContent={proofPathZh.summary} enContent={proofPathEn.summary} />
         </p>
       </div>
-      <nav className="c-home-proof-path-links" aria-label="Homepage proof path">
+      <nav className="c-home-proof-path-links" aria-labelledby="homepageProofPathTitle">
         {proofPathZh.actions.map((actionZh, idx) => {
           const actionEn = proofPathEn.actions[idx] ?? actionZh;
           return (
@@ -41,9 +41,6 @@ export default function HomepageProofPathSection({
                 <span>
                   <LocalizedSection zhContent={actionZh.note} enContent={actionEn.note} />
                 </span>
-                <em>
-                  <LocalizedSection zhContent={actionZh.intent} enContent={actionEn.intent} />
-                </em>
               </span>
             </a>
           );
