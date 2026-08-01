@@ -33,8 +33,10 @@ describe('chat guide knowledge boundary', () => {
     expect(prompt).toContain('根据公开网站信息');
     expect(prompt).toContain('张人大');
     expect(prompt).toContain('PersonalWeb');
+    expect(prompt).toContain('已于 2026 年 7 月 6 日加入金融壹账通');
     expect(prompt).toContain('没有公开信息支持');
     expect(prompt).toContain('问题：Renda Zhang 是谁？');
+    expect(prompt).not.toContain('将在 2026 年 7 月加入');
     expect(prompt).not.toContain('虚构');
   });
 

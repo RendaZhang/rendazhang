@@ -56,7 +56,7 @@ export const ABOUT_CONTENT = {
     title: 'About Me',
     paragraphs: [
       "Hello! I'm Renda Zhang, a Shenzhen-based engineer building AI-enabled full-stack and cloud-native web systems on a Java/Spring foundation.",
-      'In July 2026, I will join OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.',
+      'On July 6, 2026, I joined OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.',
       'My flagship proof is PersonalWeb: an Astro/React portfolio with a same-origin AI Chat Widget, Flask/OpenAI backend integration, technical docs, browser smoke coverage, SEO/GEO, and CI/CD delivery.',
       'I design API-first microservices on AWS and GCP, using Kubernetes, Terraform, GitHub Actions/Argo CD, and observability guardrails to ship safely.',
       'I tune high-concurrency paths with Redis, queues, and structured reliability practices, then connect backend decisions to SSR/CSR frontend experiences.',
@@ -72,7 +72,7 @@ export const ABOUT_CONTENT = {
       {
         label: 'Status:',
         value:
-          ' Leaving Fanxin on Jul 1, 2026; joining OneConnect Financial Technology in the overseas life insurance backend TL role on Jul 6, 2026'
+          ' Left Fanxin on Jul 1, 2026; joined OneConnect Financial Technology in the overseas life insurance backend TL role on Jul 6, 2026'
       },
       {
         label: 'Certifications:',
@@ -136,11 +136,11 @@ export const ABOUT_CONTENT = {
         'Work proof in one scan: the story moves from Android product delivery and freelance Java backend projects into Michaels.com e-commerce platforms, cloud-native SaaS delivery at Fanxin, and a July 2026 OneConnect backend TL role for overseas life insurance systems.',
       entries: [
         {
-          period: 'Starts Jul 2026',
+          period: 'Jul 2026 - Present',
           company: 'OneConnect Financial Technology',
           title: 'Senior Backend Engineer / Team Lead - Overseas Life Insurance',
           summary:
-            'Incoming role with the Insurance Business Unit overseas life insurance team, leading backend engineers and delivery for insurance platform systems.',
+            'Current role with the Insurance Business Unit overseas life insurance team, leading backend engineers and delivery for insurance platform systems.',
           bullets: [
             'Lead engineering goals, delivery feedback, and development planning for backend team members.',
             'Partner with product managers and local/global engineering teams to turn insurance product requirements into technical plans.',
@@ -288,7 +288,7 @@ export const ABOUT_CONTENT = {
     greeting: '你好，',
     paragraphs: [
       '大家好，我是张人大，常驻深圳，基于 Java/Spring 构建 AI 全栈与云原生 Web 系统。',
-      '2026 年 7 月 6 日起，我将加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。',
+      '我于 2026 年 7 月 6 日加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。',
       'PersonalWeb 是我的旗舰证明：Astro/React 前端、同源 AI Chat Widget、Flask/OpenAI 后端集成、技术文档、浏览器 smoke、SEO/GEO 与 CI/CD 交付闭环。',
       '专注在 AWS 与 GCP 上构建 API-first 微服务，结合 Kubernetes、Terraform、GitHub Actions/Argo CD 和可观测性护栏安全交付。',
       '擅长用 Redis、消息队列与可靠性实践优化高并发链路，并把后端决策连接到 SSR/CSR 前端体验。',
@@ -303,7 +303,8 @@ export const ABOUT_CONTENT = {
       { label: '网站:', value: ` ${SITE_DOMAIN}` },
       {
         label: '状态:',
-        value: ' 将于 2026 年 7 月 1 日从凡新离职，7 月 6 日加入金融壹账通，任后端开发高级工程师/TL'
+        value:
+          ' 已于 2026 年 7 月 1 日从凡新离职，并于 7 月 6 日加入金融壹账通，任后端开发高级工程师/TL'
       },
       {
         label: '认证:',
@@ -367,11 +368,11 @@ export const ABOUT_CONTENT = {
         '工作证明主线：从 Android 产品交付和自由职业 Java 后端项目，进入 Michaels.com 企业电商平台，再到凡新云原生 SaaS 交付，并在 2026 年 7 月进入金融壹账通海外寿险后端 TL 岗位。',
       entries: [
         {
-          period: '2026年7月起',
+          period: '2026年7月 - 至今',
           company: '金融壹账通',
           title: '后端开发高级工程师 / TL（保险事业部海外寿险团队）',
           summary:
-            '即将加入保险事业部海外寿险团队，负责后端工程团队协作、技术方案、代码质量与保险平台交付。',
+            '现任保险事业部海外寿险团队后端开发高级工程师/TL，负责团队协作、技术方案、代码质量与保险平台交付。',
           bullets: [
             '带领工程师团队设定目标，跟进交付反馈和发展计划。',
             '与产品经理协作分析保险产品需求，制定技术方案和执行计划。',

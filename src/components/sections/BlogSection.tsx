@@ -5,9 +5,10 @@ import type { ReactElement } from 'react';
 interface BlogSectionProps {
   blogEn: typeof ABOUT_CONTENT.en.blog;
   blogZh: typeof ABOUT_CONTENT.zh.blog;
+  isZh: boolean;
 }
 
-export default function BlogSection({ blogEn, blogZh }: BlogSectionProps): ReactElement {
+export default function BlogSection({ blogEn, blogZh, isZh }: BlogSectionProps): ReactElement {
   return (
     <section className="c-blog-section" id="blog">
       <h2 id="blogTitle">
@@ -28,7 +29,11 @@ export default function BlogSection({ blogEn, blogZh }: BlogSectionProps): React
               </span>
             </div>
             <h3 className="blog-title">
-              <a href={entry.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={isZh ? entry.url : blogEn.entries[idx].url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <LocalizedSection zhContent={entry.title} enContent={blogEn.entries[idx].title} />
               </a>
             </h3>

@@ -9,7 +9,7 @@ export const DOCS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/docs/#webpage`;
 export const CERTIFICATIONS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#webpage`;
 export const AWS_SAA_CREDENTIAL_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#aws-saa-c03`;
 export const SITE_DESCRIPTION_EN =
-  'Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, joining OneConnect Financial Technology as a Senior Backend Engineer / Team Lead in July 2026.';
+  'Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, currently working at OneConnect Financial Technology as a Senior Backend Engineer / Team Lead.';
 
 export const PAGE_TITLES = {
   ABOUT_ZH: '张人大 · AI 全栈与云原生工程师',
@@ -191,11 +191,11 @@ export const PERSON_SCHEMA = {
     addressRegion: 'Guangdong',
     addressCountry: 'CN'
   },
-  affiliation: {
+  worksFor: {
     '@type': 'Organization',
     name: 'OneConnect Financial Technology',
     description:
-      'Incoming employer for a Senior Backend Engineer / Team Lead role starting July 2026.'
+      'Current employer for a Senior Backend Engineer / Team Lead role in the Insurance Business Unit overseas life insurance team.'
   },
   sameAs: SOCIAL_PROFILE_URLS,
   description: SITE_DESCRIPTION_EN

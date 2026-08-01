@@ -102,7 +102,7 @@ export const CHAT_GUIDE_PRESET_BOUNDARIES = {
       'Renda Zhang is also 张人大.',
       'He is publicly positioned as a Shenzhen-based AI full-stack and cloud-native software engineer.',
       'His public foundation includes Java/Spring backend work, financial technology and insurance platform context, AWS SAA certification, and a University of Minnesota Computer Science background.',
-      'The site states he is joining OneConnect Financial Technology in July 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.'
+      'The site states he joined OneConnect Financial Technology on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.'
     ],
     refusalGuidance:
       'If asked for private identity, contact, salary, employer-confidential, or unsupported biographical details, say the public site does not provide that information.'
@@ -240,7 +240,7 @@ const CHAT_GUIDE_PRESET_SOURCE_HINT_CATEGORIES = {
 const SHARED_CONTEXT_LINES = {
   en: [
     'Renda Zhang (张人大) is publicly positioned on PersonalWeb as a Shenzhen-based AI full-stack and cloud-native software engineer with a Java/Spring backend foundation.',
-    'Public site evidence includes financial technology and insurance platform experience, AWS Solutions Architect - Associate, University of Minnesota Computer Science education, and the stated July 2026 OneConnect Financial Technology Senior Backend Engineer / Team Lead transition.',
+    'Public site evidence includes financial technology and insurance platform experience, AWS Solutions Architect - Associate, University of Minnesota Computer Science education, and his July 2026 move to a OneConnect Financial Technology Senior Backend Engineer / Team Lead role.',
     'PersonalWeb is described as the flagship public proof surface: Astro/React frontend, same-origin AI Chat Widget, AI chat page, Flask/OpenAI backend integration, technical docs, browser smoke coverage, SEO/GEO/LLMS work, and CI/CD delivery.',
     'The AWS SAA credential is a public architecture credibility signal, not standalone proof of owning a large AWS production estate.',
     'Stay within public facts. Do not reveal or infer secrets, credentials, private paths, private operational details, private logs, chat transcripts, contact submissions, auth/profile data, salary details, or unsupported claims.'
@@ -260,13 +260,13 @@ const PRESET_CLAIM_LINES = {
       'Renda Zhang is also 张人大.',
       'He is publicly positioned as a Shenzhen-based AI full-stack and cloud-native software engineer.',
       'His public foundation includes Java/Spring backend work, financial technology and insurance platform context, AWS SAA certification, and a University of Minnesota Computer Science background.',
-      'The site says he is joining OneConnect Financial Technology in July 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.'
+      'The site says he joined OneConnect Financial Technology on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.'
     ],
     zh: [
       'Renda Zhang 也就是张人大。',
       '他的公开定位是常驻深圳的 AI 全栈与云原生软件工程师。',
       '公开基础包括 Java/Spring 后端、金融科技与保险平台背景、AWS SAA 认证，以及明尼苏达大学计算机科学背景。',
-      '网站公开说明他将在 2026 年 7 月加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。'
+      '网站公开说明他已于 2026 年 7 月 6 日加入金融壹账通保险事业部海外寿险团队，担任后端开发高级工程师/TL。'
     ]
   },
   personalweb_proof: {

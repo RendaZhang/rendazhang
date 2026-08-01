@@ -50,7 +50,8 @@ describe('structured data builders', () => {
     expect(serialized).toContain('Senior Backend Engineer / Team Lead');
     expect(serialized).toContain('Insurance platforms');
     expect(serialized).toContain('University of Minnesota - Twin Cities');
-    expect(serialized).toContain('Incoming employer');
+    expect(serialized).toContain('Current employer');
+    expect(serialized).not.toContain('Incoming employer');
     expect(serialized).not.toContain('@qq.com');
     expect(serialized).not.toContain('+86-139');
     expect(serialized).not.toContain('139250');
@@ -60,8 +61,8 @@ describe('structured data builders', () => {
 
     const person = findNode(graph, PERSON_SCHEMA_ID);
     expect(person['@type']).toBe('Person');
-    expect(person['worksFor']).toBeUndefined();
-    expect(person['affiliation']).toEqual(
+    expect(person['affiliation']).toBeUndefined();
+    expect(person['worksFor']).toEqual(
       expect.objectContaining({
         '@type': 'Organization',
         name: 'OneConnect Financial Technology'

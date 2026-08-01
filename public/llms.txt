@@ -2,7 +2,7 @@
 
 Canonical site: https://www.rendazhang.com/
 
-Renda Zhang (张人大) is a Shenzhen-based AI Full-Stack and cloud-native software engineer with a Java/Spring backend foundation, financial technology and insurance platform experience, AWS SAA certification, and a University of Minnesota Computer Science background. He is leaving Shenzhen Fanxin Technology on July 1, 2026 and joining OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.
+Renda Zhang (张人大) is a Shenzhen-based AI Full-Stack and cloud-native software engineer with a Java/Spring backend foundation, financial technology and insurance platform experience, AWS SAA certification, and a University of Minnesota Computer Science background. He left Shenzhen Fanxin Technology on July 1, 2026 and joined OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.
 
 The public proof chain centers on PersonalWeb: Astro/React static pages, a same-origin floating Chat Widget, the `/deepseek_chat/` AI chat page, Flask/OpenAI backend integration, technical docs, Vitest coverage, Playwright/browser smoke checks, SEO/GEO maintenance, `llms.txt`, sitemap boundaries, and GitHub Actions delivery. The profile also summarizes work and education evidence from Samsung Android product delivery, freelance Java backend projects, Michaels.com e-commerce and PLM/MakerPlace backend systems, Fanxin cloud-native SaaS delivery, and University of Minnesota CS coursework.
 

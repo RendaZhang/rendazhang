@@ -31,7 +31,7 @@ export default function AboutContent(): ReactElement {
       />
       <BioSection contentEn={contentEn} contentZh={contentZh} isZh={isZh} />
       <EducationSection educationEn={contentEn.education} educationZh={contentZh.education} />
-      <BlogSection blogEn={contentEn.blog} blogZh={contentZh.blog} />
+      <BlogSection blogEn={contentEn.blog} blogZh={contentZh.blog} isZh={isZh} />
       <SkillsSection skillsEn={contentEn.skills} skillsZh={contentZh.skills} />
       <ExperienceSection experienceEn={contentEn.experience} experienceZh={contentZh.experience} />
       <ContactSection />
