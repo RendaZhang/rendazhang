@@ -21,7 +21,7 @@
 # 内容可信度与个人定位
 
 - **作者**: 张人大
-- **最后更新**: July 01, 2026, 12:57 (UTC+08:00)
+- **最后更新**: August 01, 2026, 16:48 (UTC+08:00)
 
 ## 文档目的
 
@@ -195,6 +195,8 @@ Phase 10 前端提交仍走 `master` push 触发 GitHub Actions 静态部署，�
 
 ## 文档关系
 
+- Phase 15 的中英文写作语气、第一人称表达、术语、CTA、证据边界和视觉个性见：
+  [Human Voice And Personal Expression](./HUMAN_VOICE_PERSONAL_EXPRESSION.md)。
 - SEO/GEO 维护见：[SEO / GEO 维护说明](./SEO_GEO.md)。
 - 前端架构与 hydration 边界见：[前端架构约定](./FRONTEND_ARCHITECTURE.md)。
 - 视觉 polish 已关闭，见：[外观与交互 Polish](./VISUAL_INTERACTION_POLISH.md)。

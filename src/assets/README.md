@@ -33,6 +33,7 @@
     - [Chat Widget 协议说明](#chat-widget-%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
     - [前端体验平台 RFC](#%E5%89%8D%E7%AB%AF%E4%BD%93%E9%AA%8C%E5%B9%B3%E5%8F%B0-rfc)
     - [交互组件标准](#%E4%BA%A4%E4%BA%92%E7%BB%84%E4%BB%B6%E6%A0%87%E5%87%86)
+    - [人性化表达与个人风格](#%E4%BA%BA%E6%80%A7%E5%8C%96%E8%A1%A8%E8%BE%BE%E4%B8%8E%E4%B8%AA%E4%BA%BA%E9%A3%8E%E6%A0%BC)
     - [内容可信度与个人定位](#%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BF%A1%E5%BA%A6%E4%B8%8E%E4%B8%AA%E4%BA%BA%E5%AE%9A%E4%BD%8D)
     - [Site Intelligence 与访客路径](#site-intelligence-%E4%B8%8E%E8%AE%BF%E5%AE%A2%E8%B7%AF%E5%BE%84)
     - [作品证明与访问转化](#%E4%BD%9C%E5%93%81%E8%AF%81%E6%98%8E%E4%B8%8E%E8%AE%BF%E9%97%AE%E8%BD%AC%E5%8C%96)
@@ -58,7 +59,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: July 05, 2026, 15:29 (UTC+08:00)
+- **最后更新**: August 01, 2026, 16:48 (UTC+08:00)
 
 ---
 
@@ -484,6 +485,10 @@ location /_astro/ {
 ### 交互组件标准
 
 > modal、popover/menu、toast/status、loading、disabled/empty/error state、键盘行为、focus 管理和 browser smoke 门禁见：📄 [交互组件标准](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md)。
+
+### 人性化表达与个人风格
+
+> Phase 15 的中英文写作语气、第一人称表达、技术术语、CTA、证据边界、视觉个性和 owner 输入规则见：📄 [Human Voice And Personal Expression](https://github.com/RendaZhang/rendazhang/blob/master/docs/HUMAN_VOICE_PERSONAL_EXPRESSION.md)。
 
 ### 内容可信度与个人定位
 

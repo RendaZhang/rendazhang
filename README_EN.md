@@ -33,6 +33,7 @@
     - [Chat Widget Protocol](#chat-widget-protocol)
     - [Frontend Experience Platform RFC](#frontend-experience-platform-rfc)
     - [Interaction Component Standards](#interaction-component-standards)
+    - [Human Voice And Personal Expression](#human-voice-and-personal-expression)
     - [Content And Credibility Positioning](#content-and-credibility-positioning)
     - [Site Intelligence And Visitor Journey](#site-intelligence-and-visitor-journey)
     - [Portfolio Proof And Visitor Conversion](#portfolio-proof-and-visitor-conversion)
@@ -55,7 +56,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 05, 2026, 15:29 (UTC+08:00)
+- **Last Updated**: August 01, 2026, 16:48 (UTC+08:00)
 
 ---
 
@@ -477,6 +478,10 @@ location /_astro/ {
 ### Interaction Component Standards
 
 > Modal, popover/menu, toast/status, loading, disabled/empty/error state, keyboard behavior, focus management, and browser smoke gates are documented in: 📄 [Interaction Component Standards](https://github.com/RendaZhang/rendazhang/blob/master/docs/INTERACTION_COMPONENT_STANDARDS.md).
+
+### Human Voice And Personal Expression
+
+> Phase 15 rules for bilingual voice, first-person writing, technical terminology, CTAs, evidence boundaries, visual expression, and owner input are documented in: 📄 [Human Voice And Personal Expression](https://github.com/RendaZhang/rendazhang/blob/master/docs/HUMAN_VOICE_PERSONAL_EXPRESSION.md).
 
 ### Content And Credibility Positioning
 

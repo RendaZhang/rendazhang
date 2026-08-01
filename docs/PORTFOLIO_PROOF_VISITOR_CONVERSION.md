@@ -22,7 +22,7 @@
 
 # Portfolio Proof And Visitor Conversion
 
-- **Last Updated**: July 11, 2026, 18:07 (UTC+08:00)
+- **Last Updated**: August 01, 2026, 16:48 (UTC+08:00)
 - **Scope**: Phase 14 planning for portfolio proof, visitor proof paths, and conversion-oriented
   presentation across the PersonalWeb frontend.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb portfolio and
@@ -70,6 +70,7 @@ point.
 | Chat Guide quality | `docs/CHAT_GUIDE_QUALITY_ARCHITECTURE.md` and `docs/CHAT_GUIDE_KNOWLEDGE_BOUNDARY.md` define source-bounded guide behavior and refusal boundaries. | Ready |
 | Frontend architecture | `docs/FRONTEND_ARCHITECTURE.md`, `docs/DIRECTORY_OWNERSHIP.md`, and `docs/CHAT_WIDGET_PROTOCOL.md` define Astro, React island, service, CSP, iframe, and Chat Widget boundaries. | Ready |
 | Visual and interaction system | `docs/VISUAL_INTERACTION_POLISH.md`, `docs/STYLE_GUIDE.md`, `docs/INTERACTION_COMPONENT_STANDARDS.md`, and `docs/THEME_PALETTE_TOKEN_MODEL.md` define visual, palette, focus, keyboard, motion, and component-state standards. | Ready |
+| Human voice and personal expression | `docs/HUMAN_VOICE_PERSONAL_EXPRESSION.md` defines the Phase 15 bilingual editorial contract, visitor-versus-maintainer terminology, owner-input gates, and interaction-expression principles for later rewrites. | Ready |
 | Validation and operations | `docs/TESTING.md`, `docs/OPERATIONS.md`, `docs/CI_CD.md`, and `docs/DEPENDENCY_SECURITY_RISK_REGISTER.md` define test gates, deploy checks, log-noise expectations, and dependency-risk boundaries. | Ready |
 | Phase 14 handoff | This document defines the portfolio proof and conversion phase boundaries, surfaces, slices, and validation expectations. | Ready |
 
@@ -314,6 +315,7 @@ inside later implementation slices, not reopened as broad Phase 14 questions:
 
 ## Related Documents
 
+- [Human Voice And Personal Expression](./HUMAN_VOICE_PERSONAL_EXPRESSION.md)
 - [Content And Credibility Positioning](./CONTENT_CREDIBILITY_POSITIONING.md)
 - [Site Intelligence And Visitor Journey](./SITE_INTELLIGENCE_VISITOR_JOURNEY.md)
 - [Chat Guide Quality Architecture](./CHAT_GUIDE_QUALITY_ARCHITECTURE.md)
