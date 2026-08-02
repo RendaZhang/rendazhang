@@ -3,7 +3,6 @@ export const DEEPSEEK_CHAT_CONTENT = {
     title: 'AI Chat',
     description: 'Chat with an AI assistant powered by DeepSeek.',
     loading: 'Loading conversation...',
-    chatReady: 'Conversation ready. Type a message to start.',
     coreLoadFailed: 'Failed to load core resources. Please refresh.',
     enhancementProgress: 'Enhancing readability...',
     enhancementFailed: 'Enhancement failed, basic features unaffected',
@@ -13,20 +12,20 @@ export const DEEPSEEK_CHAT_CONTENT = {
       default: 'Enter message...'
     },
     presets: {
-      heading: 'Start with a public proof question',
-      description: 'Choose a short question; public site context is applied when you send.',
+      heading: 'Ask about Renda and PersonalWeb',
+      description:
+        'Choose a question to send it now, or write your own. Guided answers use only public information.',
       questions: {
         who_is_renda: 'Who is Renda Zhang?',
-        personalweb_proof: 'What does PersonalWeb prove?',
-        cloud_native_evidence:
-          'What public evidence supports cloud-native engineering credibility?',
-        certification_context: 'How does the AWS certification support the site credibility?',
-        recruiter_summary: 'How should a recruiter evaluate this site quickly?'
+        personalweb_proof: 'What did Renda build in PersonalWeb?',
+        cloud_native_evidence: "Where can I see Renda's cloud-native work?",
+        certification_context: "What does Renda's AWS certification cover?",
+        recruiter_summary: 'What should a recruiter look at first?'
       }
     },
     sourceHints: {
-      heading: 'Public sources',
-      ariaLabel: 'Public source hints for this guided answer'
+      heading: 'Where to verify',
+      ariaLabel: 'Public pages that support this guided answer'
     },
     resetConfirm: 'Are you sure you want to reset the conversation? This will clear all history.',
     resetFailedPrefix: 'Reset failed',
@@ -41,7 +40,6 @@ export const DEEPSEEK_CHAT_CONTENT = {
     title: 'AI 对话',
     description: '由 DeepSeek 提供支持的 AI 助手',
     loading: '加载对话中...',
-    chatReady: '会话已准备，请输入消息开始对话',
     coreLoadFailed: '核心资源加载失败，请刷新尝试',
     enhancementProgress: '正在优化阅读体验...',
     enhancementFailed: '优化功能加载失败，基础功能不受影响',
@@ -51,19 +49,19 @@ export const DEEPSEEK_CHAT_CONTENT = {
       default: '输入消息...'
     },
     presets: {
-      heading: '从公开证明问题开始',
-      description: '选择一个短问题，发送时会自动应用公开网站上下文。',
+      heading: '了解 Renda 和 PersonalWeb',
+      description: '点击问题即可发送，也可以直接输入。导览回答只使用公开信息。',
       questions: {
         who_is_renda: 'Renda Zhang 是谁？',
-        personalweb_proof: 'PersonalWeb 证明了什么？',
-        cloud_native_evidence: '哪些公开证据支持云原生工程可信度？',
-        certification_context: 'AWS 认证如何支持这个网站的可信度？',
-        recruiter_summary: '招聘方应该如何快速评估这个网站？'
+        personalweb_proof: 'Renda 在 PersonalWeb 里做了什么？',
+        cloud_native_evidence: '从哪里能看到 Renda 的云原生经验？',
+        certification_context: 'Renda 的 AWS 认证涵盖什么？',
+        recruiter_summary: '招聘方可以先看哪些内容？'
       }
     },
     sourceHints: {
-      heading: '公开来源',
-      ariaLabel: '此导览回答的公开来源提示'
+      heading: '可核对的页面',
+      ariaLabel: '用于支持此导览回答的公开页面'
     },
     resetConfirm: '确定要重置会话吗？将清除所有历史记录。',
     resetFailedPrefix: '重置失败',

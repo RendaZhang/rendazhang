@@ -5,10 +5,10 @@ import { CHAT_PRESET_QUESTION_IDS, type ChatPresetQuestionId } from '../services
 
 const questions = {
   who_is_renda: 'Who is Renda Zhang?',
-  personalweb_proof: 'What does PersonalWeb prove?',
-  cloud_native_evidence: 'What public evidence supports cloud-native engineering credibility?',
-  certification_context: 'How does the AWS certification support the site credibility?',
-  recruiter_summary: 'How should a recruiter evaluate this site quickly?'
+  personalweb_proof: 'What did Renda build in PersonalWeb?',
+  cloud_native_evidence: "Where can I see Renda's cloud-native work?",
+  certification_context: "What does Renda's AWS certification cover?",
+  recruiter_summary: 'What should a recruiter look at first?'
 } satisfies Readonly<Record<ChatPresetQuestionId, string>>;
 
 function renderPresets(overrides: Partial<Parameters<typeof ChatPresetQuestions>[0]> = {}) {
@@ -17,8 +17,8 @@ function renderPresets(overrides: Partial<Parameters<typeof ChatPresetQuestions>
 
   render(
     <ChatPresetQuestions
-      heading="Start with a public proof question"
-      description="Choose a guided prompt."
+      heading="Ask about Renda and PersonalWeb"
+      description="Choose a question to send it now."
       questions={questions}
       onSelect={onSelect}
       trackPresetClick={trackPresetClick}
@@ -38,7 +38,7 @@ describe('ChatPresetQuestions', () => {
     }
   });
 
-  it('tracks only the controlled preset ID and returns the question to the Chat input flow', () => {
+  it('tracks only the controlled preset ID and returns the question to the Chat send flow', () => {
     const { onSelect, trackPresetClick } = renderPresets();
 
     fireEvent.click(screen.getByRole('button', { name: questions.personalweb_proof }));

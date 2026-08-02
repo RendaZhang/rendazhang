@@ -58,23 +58,23 @@ describe('Chat preset question flow', () => {
     });
   });
 
-  it('shows only the short preset question while sending guide mode metadata', async () => {
+  it('sends the short preset question immediately with guide mode metadata', async () => {
     render(<Chat />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
+    expect(sendMessageToAI).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'What did Renda build in PersonalWeb?' }));
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
 
-    expect(input.value).toBe('What does PersonalWeb prove?');
+    expect(input.value).toBe('');
     expect(input.value).not.toContain('Answer using only the public PersonalWeb context below');
-    expect(sendMessageToAI).not.toHaveBeenCalled();
-
-    fireEvent.click(screen.getByRole('button', { name: /send/i }));
 
     await waitFor(() => {
       expect(sendMessageToAI).toHaveBeenCalled();
     });
-    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe('What does PersonalWeb prove?');
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(
+      'What did Renda build in PersonalWeb?'
+    );
     expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[2]).toEqual(
       expect.objectContaining({
         guideMode: 'public_site',
@@ -86,29 +86,31 @@ describe('Chat preset question flow', () => {
     expect(JSON.stringify(vi.mocked(sendMessageToAI).mock.calls)).not.toContain(
       'Answer using only the public PersonalWeb context below'
     );
-    expect(chatHistory.addMessage).toHaveBeenCalledWith(ROLES.USER, 'What does PersonalWeb prove?');
+    expect(chatHistory.addMessage).toHaveBeenCalledWith(
+      ROLES.USER,
+      'What did Renda build in PersonalWeb?'
+    );
   });
 
-  it('renders controlled source hints only for unchanged guide preset answers', async () => {
+  it('renders controlled source hints only for controlled preset answers', async () => {
     render(<Chat />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
-    fireEvent.click(screen.getByRole('button', { name: /send/i }));
+    fireEvent.click(screen.getByRole('button', { name: 'What did Renda build in PersonalWeb?' }));
 
-    const hintRegion = await screen.findByLabelText('Public source hints for this guided answer');
+    const hintRegion = await screen.findByLabelText('Public pages that support this guided answer');
 
     expect(screen.getByText('preset answer')).toBeTruthy();
-    expect(hintRegion.textContent).toContain('Public sources');
-    expect(screen.getByRole('link', { name: '/docs/ project proof' }).getAttribute('href')).toBe(
+    expect(hintRegion.textContent).toContain('Where to verify');
+    expect(
+      screen.getByRole('link', { name: 'How PersonalWeb was built' }).getAttribute('href')
+    ).toBe('/docs/');
+    expect(
+      screen.getByRole('link', { name: 'Frontend architecture and tests' }).getAttribute('href')
+    ).toBe('/docs/');
+    expect(screen.getByRole('link', { name: 'Backend API and tests' }).getAttribute('href')).toBe(
       '/docs/'
     );
-    expect(
-      screen.getByRole('link', { name: 'Frontend architecture/testing docs' }).getAttribute('href')
-    ).toBe('/docs/');
-    expect(
-      screen.getByRole('link', { name: 'Backend API/testing docs' }).getAttribute('href')
-    ).toBe('/docs/');
-    expect(screen.getByRole('link', { name: 'llms.txt public summary' }).getAttribute('href')).toBe(
+    expect(screen.getByRole('link', { name: 'Public site summary' }).getAttribute('href')).toBe(
       '/llms.txt'
     );
     for (const link of hintRegion.querySelectorAll('a')) {
@@ -116,7 +118,7 @@ describe('Chat preset question flow', () => {
       expect(link.getAttribute('rel')).toContain('noopener');
       expect(link.getAttribute('rel')).toContain('noreferrer');
     }
-    expect(hintRegion.textContent).not.toContain('What does PersonalWeb prove?');
+    expect(hintRegion.textContent).not.toContain('What did Renda build in PersonalWeb?');
     expect(hintRegion.textContent).not.toContain('preset answer');
     expect(hintRegion.outerHTML).not.toMatch(/https?:\/\/|www\.|[?&][a-z0-9_-]+=/i);
     expect(hintRegion.outerHTML).not.toMatch(
@@ -124,14 +126,12 @@ describe('Chat preset question flow', () => {
     );
   });
 
-  it('sends edited preset text as normal free-form chat without hidden context', async () => {
+  it('sends a typed preset variation as normal free-form chat without guide metadata', async () => {
     render(<Chat />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'What does PersonalWeb prove?' }));
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
     fireEvent.change(input, {
-      target: { value: 'What does PersonalWeb prove? Please keep it brief.' }
+      target: { value: 'What did Renda build in PersonalWeb? Please keep it brief.' }
     });
     fireEvent.click(screen.getByRole('button', { name: /send/i }));
 
@@ -139,7 +139,7 @@ describe('Chat preset question flow', () => {
       expect(sendMessageToAI).toHaveBeenCalled();
     });
     expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(
-      'What does PersonalWeb prove? Please keep it brief.'
+      'What did Renda build in PersonalWeb? Please keep it brief.'
     );
     expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[2]).not.toEqual(
       expect.objectContaining({
@@ -151,9 +151,67 @@ describe('Chat preset question flow', () => {
     );
     expect(chatHistory.addMessage).toHaveBeenCalledWith(
       ROLES.USER,
-      'What does PersonalWeb prove? Please keep it brief.'
+      'What did Renda build in PersonalWeb? Please keep it brief.'
     );
     await screen.findByText('preset answer');
-    expect(screen.queryByLabelText('Public source hints for this guided answer')).toBeNull();
+    expect(screen.queryByLabelText('Public pages that support this guided answer')).toBeNull();
+  });
+
+  it('keeps the empty preset invitation at the top of its scroll container', async () => {
+    const scrollHeightDescriptor = Object.getOwnPropertyDescriptor(
+      window.HTMLElement.prototype,
+      'scrollHeight'
+    );
+    Object.defineProperty(window.HTMLElement.prototype, 'scrollHeight', {
+      configurable: true,
+      get() {
+        return this.classList?.contains('c-chat-container') ? 600 : 0;
+      }
+    });
+
+    try {
+      render(<Chat />);
+
+      const container = document.querySelector('.c-chat-container') as HTMLDivElement;
+      await waitFor(() => expect(container.scrollTop).toBe(0));
+      expect(screen.getByRole('heading', { name: 'Ask about Renda and PersonalWeb' })).toBeTruthy();
+    } finally {
+      if (scrollHeightDescriptor) {
+        Object.defineProperty(window.HTMLElement.prototype, 'scrollHeight', scrollHeightDescriptor);
+      } else {
+        Reflect.deleteProperty(window.HTMLElement.prototype, 'scrollHeight');
+      }
+    }
+  });
+
+  it('keeps a long existing answer scrolled to the latest content', async () => {
+    const scrollHeightDescriptor = Object.getOwnPropertyDescriptor(
+      window.HTMLElement.prototype,
+      'scrollHeight'
+    );
+    Object.defineProperty(window.HTMLElement.prototype, 'scrollHeight', {
+      configurable: true,
+      get() {
+        return this.classList?.contains('c-chat-container') ? 900 : 0;
+      }
+    });
+    chatHistory.messages = [
+      { role: ROLES.USER, content: 'Tell me about PersonalWeb.' },
+      { role: ROLES.AI, content: 'Public project details. '.repeat(80) }
+    ];
+
+    try {
+      render(<Chat />);
+
+      const container = document.querySelector('.c-chat-container') as HTMLDivElement;
+      await waitFor(() => expect(container.scrollTop).toBe(900));
+      expect(screen.getByRole('textbox')).toBeTruthy();
+    } finally {
+      if (scrollHeightDescriptor) {
+        Object.defineProperty(window.HTMLElement.prototype, 'scrollHeight', scrollHeightDescriptor);
+      } else {
+        Reflect.deleteProperty(window.HTMLElement.prototype, 'scrollHeight');
+      }
+    }
   });
 });

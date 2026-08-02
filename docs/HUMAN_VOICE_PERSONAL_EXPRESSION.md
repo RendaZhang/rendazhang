@@ -9,6 +9,7 @@
   - [Current Phrase Inventory](#current-phrase-inventory)
   - [Slice 15.4 Homepage Application](#slice-154-homepage-application)
   - [Slice 15.5 Project And Certification Application](#slice-155-project-and-certification-application)
+  - [Slice 15.6 Chat Guide Application](#slice-156-chat-guide-application)
   - [Shared Editorial Contract](#shared-editorial-contract)
     - [Start With The Person Or The Answer](#start-with-the-person-or-the-answer)
     - [Be Specific Without Inventing](#be-specific-without-inventing)
@@ -39,7 +40,7 @@
 
 # Human Voice And Personal Expression
 
-- **Last Updated**: August 02, 2026, 11:15 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 13:13 (UTC+08:00)
 - **Scope**: Phase 15 bilingual editorial and interaction-expression contract for public
   PersonalWeb surfaces.
 - **Audience**: maintainers, reviewers, and future agents writing or designing for PersonalWeb.
@@ -126,7 +127,7 @@ directional, not approved final page copy.
 | `Architecture credibility signal` / `架构可信度信号` | Certifications heading | Rewrite | Use `What this certification shows` / `这项认证能说明什么` |
 | `evidence chain` / `证据链` | Certifications, `/docs/`, README | Usually rewrite on visitor surfaces; keep in strategy docs | Name the supporting items directly: project, certification, experience, and documentation |
 | `source-bounded prompt path` | `/docs/` case study | Keep in technical docs; translate in visitor summary | Say that guided answers use public information from this site |
-| `public proof question` / `公开证明问题` | Chat preset heading | Rewrite in Chat UX slice | Invite visitors to ask about Renda's work or PersonalWeb |
+| `public proof question` / `公开证明问题` | Chat preset heading | Rewritten in Slice 15.6 | Invite visitors to ask about Renda's work or PersonalWeb |
 | `public-source preset questions` | Homepage Chat note | Rewrite | Say that the guide answers from public site information |
 | Repeated `not proof of...` paragraphs | Homepage, `/docs/`, certifications, Chat | Keep the rule, compress the display | Place one concise limitation next to the relevant claim instead of repeating legalistic disclaimers |
 | `PersonalWeb Proof` / `PersonalWeb 证明` | Hero taglines and README headings | Defer to homepage/docs slices | Prefer a phrase that names the project or Renda's role in building it; retain `proof` only where it remains natural in context |
@@ -170,6 +171,23 @@ order is now:
 The previous README project-section anchors remain available for existing links. No new system map
 was added because the current reference-architecture material already provides that detail; the
 browser audit identified language density and evidence order as the concrete defects.
+
+## Slice 15.6 Chat Guide Application
+
+Slice 15.6 applies the contract to the frontend-owned Chat Guide invitation and interaction while
+keeping the public-source and privacy boundaries unchanged:
+
+- the empty state invites visitors to ask about Renda and PersonalWeb without `public proof`
+  terminology;
+- the five controlled IDs keep short, authored English and Chinese questions;
+- an explicit preset click sends through the existing controller immediately, while textarea input
+  remains ordinary free-form Chat;
+- controlled source hints use natural page labels derived only from preset IDs; and
+- mobile empty-state scroll and dark answer contrast use the existing component and theme tokens.
+
+The same production audit found maintainer language in generated answers. That wording is owned by
+the backend public knowledge package and prompt builder, so it remains a separate backend follow-up
+with its own validation and deployment gates.
 
 ## Shared Editorial Contract
 

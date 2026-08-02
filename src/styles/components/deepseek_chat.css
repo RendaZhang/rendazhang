@@ -64,6 +64,14 @@
   color: var(--color-text-deep);
 }
 
+html[data-theme='dark'] .c-ai-message.c-markdown-body {
+  --md-color-bg: var(--color-subtle-bg-hover);
+  --md-color-text: var(--color-text);
+
+  background-color: var(--md-color-bg);
+  color: var(--md-color-text);
+}
+
 .c-chat-source-hints {
   border-color: var(--color-border-muted);
   border-top: var(--border-1);
@@ -78,6 +86,10 @@
   font-size: var(--font-size-0);
   font-weight: 700;
   line-height: var(--line-height-tight);
+}
+
+html[data-theme='dark'] .c-chat-source-hints-heading {
+  color: var(--color-text);
 }
 
 .c-chat-source-hint-list {
@@ -127,6 +139,18 @@
 .c-chat-source-hint-link:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
+}
+
+html[data-theme='dark']
+  .c-ai-message.c-markdown-body
+  :is(.c-chat-source-hint-link, .c-chat-source-hint-label) {
+  background: var(--color-palette-surface);
+  color: var(--color-text);
+}
+
+html[data-theme='dark'] .c-ai-message.c-markdown-body .c-chat-source-hint-link:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .c-typing-indicator {
@@ -236,13 +260,6 @@
   pointer-events: none;
 }
 
-.c-info-text {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-1);
-  padding: var(--space-3);
-  text-align: center;
-}
-
 .c-chat-empty-state {
   align-self: center;
   display: grid;
@@ -276,6 +293,11 @@
   font-size: var(--font-size-0);
   line-height: var(--line-height-relaxed);
   margin: 0;
+}
+
+html[data-theme='dark'] .c-chat-presets-title,
+html[data-theme='dark'] .c-chat-presets-description {
+  color: var(--color-text);
 }
 
 .c-chat-preset-list {

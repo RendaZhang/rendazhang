@@ -177,48 +177,48 @@ const CHAT_GUIDE_SOURCE_HINT_DEFINITIONS = {
   docs: {
     href: '/docs/',
     labels: {
-      en: '/docs/ project proof',
-      zh: '/docs/ 项目证明'
+      en: 'How PersonalWeb was built',
+      zh: 'PersonalWeb 构建说明'
     }
   },
   frontend_docs: {
     href: '/docs/',
     labels: {
-      en: 'Frontend architecture/testing docs',
-      zh: '前端架构/测试文档'
+      en: 'Frontend architecture and tests',
+      zh: '前端架构与测试'
     }
   },
   backend_docs: {
     href: '/docs/',
     labels: {
-      en: 'Backend API/testing docs',
-      zh: '后端 API/测试文档'
+      en: 'Backend API and tests',
+      zh: '后端 API 与测试'
     }
   },
   certifications: {
     href: '/certifications/',
     labels: {
-      en: '/certifications/ credentials',
-      zh: '/certifications/ 证书'
+      en: 'AWS certification',
+      zh: 'AWS 认证'
     }
   },
   llms: {
     href: '/llms.txt',
     labels: {
-      en: 'llms.txt public summary',
-      zh: 'llms.txt 公开摘要'
+      en: 'Public site summary',
+      zh: '网站公开摘要'
     }
   },
   metadata: {
     labels: {
-      en: 'Public metadata',
-      zh: '公开 metadata'
+      en: 'Site metadata',
+      zh: '网站公开信息'
     }
   },
   public_github_docs: {
     labels: {
-      en: 'Public GitHub docs',
-      zh: '公开 GitHub 文档'
+      en: 'Public repository docs',
+      zh: '公开仓库文档'
     }
   }
 } as const satisfies Record<

@@ -25,7 +25,7 @@
 
 # Site Intelligence And Visitor Journey
 
-- **Last Updated**: July 03, 2026, 13:30 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 13:13 (UTC+08:00)
 - **Scope**: Phase 11 planning and Phase 12 handoff for first-party site intelligence, visitor
   journey improvement, and Chat Guide boundaries.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb.
@@ -218,9 +218,11 @@ Current behavior:
   `recruiter_summary`.
 - Clicking a preset records only `chat_preset_question_clicked` with `{ presetId }` through
   `trackVisitorEvent`.
-- Clicking a preset fills the existing Chat textarea with only the short localized question and
-  focuses it; the visitor still sends through the normal Chat input/send button and
-  `src/controllers/chatController.ts`.
+- Clicking a preset immediately sends the short localized question through
+  `src/controllers/chatController.ts`; the explicit preset click is the visitor action, and no
+  model-facing context is shown in the textarea.
+- Text typed in the textarea remains the ordinary free-form path, including visitor-written
+  variations of the controlled questions.
 - Preset click telemetry never includes the visible prompt text, visitor-entered text, generated
   answers, chat history, contact/auth/profile data, cookies, tokens, full URLs, or private paths.
 - The Chat Widget iframe remains same-origin `/deepseek_chat/` and the ready `postMessage` protocol
@@ -238,10 +240,10 @@ Current behavior:
 - The preset boundary map covers the five controlled IDs already used by
   `CHAT_PRESET_QUESTION_IDS`: `who_is_renda`, `personalweb_proof`, `cloud_native_evidence`,
   `certification_context`, and `recruiter_summary`.
-- `src/components/chat/Chat.tsx` now shows only the short localized preset question in the textarea.
-- When an unchanged preset question is sent, `Chat.tsx` builds the localized public-context prompt
-  for the model request, while `src/controllers/chatController.ts` stores only the short visible
-  question in chat history.
+- `src/components/chat/Chat.tsx` sends only the short localized preset question as the visible user
+  turn and passes controlled guide metadata through the existing controller/service boundary.
+- The backend builds the localized public-context prompt for the model request, while the frontend
+  and backend chat history keep only the short visible question.
 - The prompt builder falls back to the controlled localized preset label if a caller supplies text
   that does not match the known preset question.
 - Free-form Chat behavior is unchanged.
@@ -287,8 +289,9 @@ The backend-owned precheck and future guardrails are documented in
 Phase 11 is closed. The shipped Chat Guide boundary is intentionally narrow:
 
 - controlled preset clicks record only `presetId` through the frontend-local/no-op event boundary;
-- unchanged preset sends are grounded with backend-owned `public_site` guide mode;
-- visible input and user chat history store only the short preset question;
+- controlled preset clicks are grounded with backend-owned `public_site` guide mode;
+- visible user chat history stores only the short preset question, and the textarea never receives
+  hidden model context;
 - free-form Chat still uses the generic Chat API path;
 - backend telemetry transport remains No-Go.
 

@@ -72,14 +72,14 @@ describe('chat guide knowledge boundary', () => {
 
     expect(hints.presetId).toBe('personalweb_proof');
     expect(hints.hints).toEqual([
-      { id: 'docs', label: '/docs/ project proof', href: '/docs/' },
+      { id: 'docs', label: 'How PersonalWeb was built', href: '/docs/' },
       {
         id: 'frontend_docs',
-        label: 'Frontend architecture/testing docs',
+        label: 'Frontend architecture and tests',
         href: '/docs/'
       },
-      { id: 'backend_docs', label: 'Backend API/testing docs', href: '/docs/' },
-      { id: 'llms', label: 'llms.txt public summary', href: '/llms.txt' }
+      { id: 'backend_docs', label: 'Backend API and tests', href: '/docs/' },
+      { id: 'llms', label: 'Public site summary', href: '/llms.txt' }
     ]);
     expect(renderedHints).not.toMatch(/https?:\/\/|www\./i);
     expect(renderedHints).not.toMatch(/[?&][a-z0-9_-]+=/i);

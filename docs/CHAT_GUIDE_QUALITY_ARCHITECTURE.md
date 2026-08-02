@@ -18,9 +18,9 @@
 
 # Chat Guide Quality Architecture
 
-- **Last Updated**: July 03, 2026, 23:19 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 13:13 (UTC+08:00)
 - **Scope**: Slice 12.1 planning and audit for Chat Guide public-knowledge grounding, updated
-  through Slice 12.5 source-hint UI.
+  through Slice 12.5 source-hint UI and Slice 15.6 frontend guided-flow refinement.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat quality.
 
 This document audits the current Chat Guide stack and records the smallest safe architecture for
@@ -62,18 +62,18 @@ Direct `/deepseek_chat/` path:
 - Preset clicks call `trackPresetClick` with `chat_preset_question_clicked` and `{ presetId }`.
   They do not track prompt text, visitor-entered text, generated answers, chat history, contact
   data, auth/profile data, cookies, tokens, full URLs, query strings, or private paths.
-- Preset clicks fill the textarea with only the short localized question.
-- If the visitor edits that text before sending, `Chat.tsx` clears the selected preset ID and sends
-  the edited text as normal free-form chat.
-- If the selected preset remains active and the textarea still exactly matches the controlled
-  localized question, `Chat.tsx` sends the short question plus `{ guideMode: 'public_site',
-  presetId, locale }` through the Chat controller.
+- Preset clicks immediately send the short localized question through the existing Chat controller.
+  The explicit button click is the visitor action; there is no page-load auto-send or second Send
+  confirmation.
+- Controlled preset clicks send the short question plus `{ guideMode: 'public_site', presetId,
+  locale }`. The textarea remains the normal free-form path, so typed variations send only
+  `{ message }` and do not receive controlled source hints.
 - `src/controllers/chatController.ts` stores the visible `displayInput` in user chat history and
   Sentry breadcrumbs, while passing guide-mode metadata to `src/services/chatService.ts`.
 - `src/services/chatService.ts` posts `{ message }` for default chat and adds `guideMode`,
   `presetId`, and `locale` only for explicit public-site guide sends. It still parses
   newline-delimited JSON chunks with a `text` field.
-- For unchanged controlled preset sends, `src/components/chat/AIMessage.tsx` renders a compact
+- For controlled preset sends, `src/components/chat/AIMessage.tsx` renders a compact
   source-hint row derived from the preset ID. The hints use controlled labels and relative public
   routes from `src/content/chatGuideKnowledge.ts`; they are not parsed from model text and do not
   record clicks or visitor-entered content.
@@ -163,12 +163,14 @@ Current risks:
   generic chat, but public guide mode should avoid letting earlier arbitrary turns contaminate a
   source-bounded answer.
 - A model can still ignore source-bounded instructions or overstate unsupported claims.
-- Source hints now exist for unchanged controlled preset answers, but edited/free-form Chat Guide
+- Source hints exist for controlled preset answers, while visitor-written variations and free-form
   questions still use ordinary chat UI without source-hint metadata.
 - Bilingual behavior depends on prompt wording and model behavior, not a tested backend answer
   contract.
-- Edited preset questions correctly fall back to free-form chat, but that also means edited guide
-  questions lose public grounding.
+- A 2026-08-02 production audit found that generated guide answers can still expose maintainer
+  phrases such as `project proof surface` or `architecture credibility signal`. Those phrases come
+  from the backend knowledge package and prompt framing, so they require a separate backend-owned
+  follow-up rather than a frontend presentation workaround.
 
 ## Architecture Options
 

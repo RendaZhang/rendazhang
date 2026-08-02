@@ -45,7 +45,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('');
-  const [selectedPresetId, setSelectedPresetId] = useState<ChatPresetQuestionId | null>(null);
   const [sourceHintsByMessageIndex, setSourceHintsByMessageIndex] = useState<
     Readonly<Record<number, ChatGuideSourceHintGroup>>
   >({});
@@ -126,7 +125,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
 
   // Scroll to bottom when messages change
   useEffect(() => {
-    if (chatContainerRef.current) {
+    if (messages.length > 0 && chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
@@ -148,10 +147,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   }, [isReady]);
 
   useEffect(() => {
-    setSelectedPresetId(null);
-  }, [langKey]);
-
-  useEffect(() => {
     const inputEl = messageInputRef.current;
     if (!inputEl) return;
 
@@ -169,16 +164,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     };
   }, []);
 
-  const handleSend = async () => {
-    const presetQuestion = selectedPresetId
-      ? activeTexts.presets.questions[selectedPresetId]
-      : null;
-    const shouldSendGroundedPreset =
-      Boolean(selectedPresetId && presetQuestion) && input === presetQuestion;
+  const sendChatMessage = async (message: string, presetId: ChatPresetQuestionId | null = null) => {
+    const shouldSendGroundedPreset = Boolean(presetId);
     const sourceHints =
-      shouldSendGroundedPreset && selectedPresetId
-        ? getChatGuideSourceHints(selectedPresetId, langKey)
-        : null;
+      shouldSendGroundedPreset && presetId ? getChatGuideSourceHints(presetId, langKey) : null;
     const addTrackedMessage: AddChatMessage = (role, content) => {
       const nextMessages = addMessage(role, content);
       if (sourceHints && role === ROLES.USER) {
@@ -191,16 +180,15 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     };
 
     await chatController.sendMessage({
-      input,
-      displayInput: shouldSendGroundedPreset ? input : undefined,
+      input: message,
+      displayInput: shouldSendGroundedPreset ? message : undefined,
       guideMode: shouldSendGroundedPreset ? CHAT_GUIDE_MODE_PUBLIC_SITE : undefined,
-      presetId: shouldSendGroundedPreset && selectedPresetId ? selectedPresetId : undefined,
+      presetId: shouldSendGroundedPreset && presetId ? presetId : undefined,
       locale: shouldSendGroundedPreset ? langKey : undefined,
       addMessage: addTrackedMessage,
       setMessages,
       onAccepted: () => {
         setInput('');
-        setSelectedPresetId(null);
         setIsSending(true);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'block';
@@ -238,22 +226,16 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     });
   };
 
+  const handleSend = async () => {
+    await sendChatMessage(input);
+  };
+
   const handlePresetSelect = (presetId: ChatPresetQuestionId, question: string) => {
-    setSelectedPresetId(presetId);
-    setInput(question);
-    messageInputRef.current?.focus();
+    void sendChatMessage(question, presetId);
   };
 
   const handleInputChange = (nextInput: string) => {
     setInput(nextInput);
-    if (!selectedPresetId) {
-      return;
-    }
-
-    const presetQuestion = activeTexts.presets.questions[selectedPresetId];
-    if (nextInput !== presetQuestion) {
-      setSelectedPresetId(null);
-    }
   };
 
   const handleReset = () => {
@@ -294,9 +276,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
           <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />
         ) : messages.length === 0 ? (
           <div className="c-chat-empty-state">
-            <div className="c-info-text">
-              <LocalizedSection zhContent={textsZh.chatReady} enContent={textsEn.chatReady} />
-            </div>
             <ChatPresetQuestions
               heading={activeTexts.presets.heading}
               description={activeTexts.presets.description}

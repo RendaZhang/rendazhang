@@ -14,18 +14,17 @@
 
 # Chat Guide Knowledge Boundary
 
-- **Last Updated**: July 03, 2026, 23:19 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 13:13 (UTC+08:00)
 - **Scope**: Slice 11.4 frontend public context boundary, updated after Slice 12.3 backend
-  guide-mode transport and Slice 12.5 source-hint UI.
+  guide-mode transport, Slice 12.5 source-hint UI, and Slice 15.6 guided-flow refinement.
 - **Audience**: future AI agents, maintainers, and reviewers working on PersonalWeb Chat Guide
   behavior.
 
 ## Purpose
 
 The Chat Guide preset questions should answer from public PersonalWeb context instead of generic
-model guesses. Preset questions stay short and visible. After Slice 12.3, unchanged preset sends use
-backend opt-in guide mode so the backend-owned prompt builder supplies the model-facing public
-context.
+model guesses. Preset questions stay short and visible. Controlled preset clicks use backend opt-in
+guide mode so the backend-owned prompt builder supplies the model-facing public context.
 
 This boundary does not add backend telemetry, persistence, third-party analytics, cookies,
 fingerprinting, dependencies, runtime changes, or Chat Widget iframe protocol changes.
@@ -73,11 +72,14 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
   prompt boundary. Live preset sends now use the backend prompt builder through guide mode.
 - `src/components/chat/ChatPresetQuestions.tsx` still renders short visible preset buttons and
   records only `chat_preset_question_clicked` with `{ presetId }`.
-- `src/components/chat/Chat.tsx` fills the existing textarea with only the short localized preset
-  question.
-- When the unchanged preset question is sent, `Chat.tsx` sends the short visible question plus
+- An explicit preset-button click sends the short localized question immediately through the
+  existing Chat controller; it does not expose model-facing context in the textarea or add a
+  second confirmation click.
+- For that controlled preset send, `Chat.tsx` sends the short visible question plus
   `{ guideMode: 'public_site', presetId, locale }` through `src/controllers/chatController.ts` and
   `src/services/chatService.ts`.
+- Text entered in the textarea, including a visitor-written variation of a preset question, remains
+  normal free-form Chat and does not receive guide metadata or controlled source hints.
 - `src/controllers/chatController.ts` stores only the short visible question in chat history and
   Sentry breadcrumbs. It does not add preset text, visitor-entered text, generated answers, or
   guide metadata to telemetry.
@@ -87,8 +89,8 @@ The Chat Guide must refuse, redirect, or state uncertainty for:
   Source hints are fixed labels and relative public routes derived from the preset ID; they are not
   parsed from model output, visitor-entered text, generated answers, or URLs in chat content.
 - `src/components/chat/AIMessage.tsx` renders source hints only when `Chat.tsx` marks the assistant
-  answer as the response to an unchanged controlled guide preset. Edited presets and normal
-  free-form chat do not receive source hints.
+  answer as the response to a controlled preset click. Typed variations and normal free-form chat
+  do not receive source hints.
 - Source-hint links open in a new tab so the same UI remains safe inside the same-origin Chat Widget
   iframe without adding parent-to-child messages or changing the ready protocol.
 - The visitor still sends through the existing `src/controllers/chatController.ts` flow. Free-form

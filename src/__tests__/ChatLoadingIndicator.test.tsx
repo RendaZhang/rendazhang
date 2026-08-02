@@ -38,7 +38,8 @@ describe('Chat loading indicator', () => {
     rerender(<Chat />);
 
     expect(document.querySelector('.c-chat-widget-skeleton')).toBeNull();
-    const info = document.querySelector('.c-info-text .is-lang-en');
-    expect(info?.textContent).toBe('Conversation ready. Type a message to start.');
+    expect(document.querySelector('.c-chat-presets-title')?.textContent).toBe(
+      'Ask about Renda and PersonalWeb'
+    );
   });
 });
