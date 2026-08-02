@@ -3,7 +3,7 @@
 
 - [Renda Zhang · Lightweight Website](#renda-zhang-%C2%B7-lightweight-website)
   - [Introduction](#introduction)
-  - [PersonalWeb Proof Surface](#personalweb-proof-surface)
+  - [PersonalWeb Project Overview](#personalweb-project-overview)
   - [Tech Stack](#tech-stack)
     - [Directory Structure](#directory-structure)
     - [Reference Architecture](#reference-architecture)
@@ -56,7 +56,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 01, 2026, 16:48 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 11:15 (UTC+08:00)
 
 ---
 
@@ -64,37 +64,45 @@
 
 **[点击这里查看 Github 上的中文版](https://github.com/RendaZhang/rendazhang/blob/master/README.md)**
 
-This is my personally maintained **lightweight** technical showcase website, serving as an online portfolio of my technical capabilities.
+This is my personal website and an evolving public engineering project. It brings a bilingual
+portfolio, AI Chat, technical documentation, tests, and automated delivery into one inspectable
+repository.
 
 **Live Site**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
-The website is optimized for SEO and GEO.
+The public pages also include SEO/GEO, structured data, and an AI-summary entry point.
 
-## PersonalWeb Proof Surface
+<span id="en-personalweb-proof-surface"></span>
 
-PersonalWeb is my clearest public project proof today. It is not presented as a large commercial platform or production SaaS; it shows how I connect a personal-brand site, AI interaction, frontend experience, backend integration, documentation, tests, deployment, and public discoverability into one maintainable engineering loop.
+## PersonalWeb Project Overview
 
-| Proof Area                       | Public Evidence                                                                                                                                                       |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AI full-stack development        | Same-origin floating Chat Widget, `/deepseek_chat/` chat page, Flask + OpenAI API backend integration, Markdown/code rendering, and clear frontend/backend boundaries |
-| Frontend experience engineering  | Astro static pages, React islands, theme mode and palettes, responsive hero, docs/certifications polish, and browser smoke coverage                                   |
-| Cloud-native delivery discipline | GitHub Actions automated build/deploy, Node 24 runtime pin, Nginx/CSP awareness, static release flow, and read-only production checks                                 |
-| Reliability and maintainability  | Vitest coverage, Playwright smoke, Browser QA, Sentry integration, and architecture/directory/protocol/testing/SEO documentation                                      |
-| Search and AI-summary visibility | SEO/GEO maintenance, structured data, SSR/SSG docs body, `llms.txt`, and sitemap planning boundaries                                                                  |
+I maintain PersonalWeb as both a bilingual portfolio and a working engineering project. Astro
+generates the main pages as static HTML, while React handles navigation, theme and language
+controls, forms, certification details, and Chat.
 
-You can verify that proof chain from these public entry points:
+AI Chat is available as a direct page and as a floating homepage window. Both use a same-origin
+route to the Flask backend. Guided questions use public site and repository information, while
+ordinary Chat keeps its existing request path.
 
-- [Homepage](https://www.rendazhang.com/): the first-screen positioning for AI full-stack, cloud-native engineering, and PersonalWeb proof.
-- [AI Chat](https://www.rendazhang.com/deepseek_chat/): the same-origin Chat page, streaming output, and Markdown enhancement experience.
-- [Chat Widget Protocol](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md): iframe ready behavior, origin/source checks, and refactor constraints.
-- [Frontend Architecture Conventions](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md): Astro pages, React islands, state, service boundaries, CSP, and iframe rules.
-- [Testing Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md): Vitest, coverage, Playwright smoke, and visual/interaction QA rules.
-- [CI/CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md): GitHub Actions static build, deploy, and release flow.
-- [SEO / GEO Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md): public entity alignment, structured data, docs SSR, and AI-summary boundaries.
+Vitest, Playwright browser checks, Astro builds, and GitHub Actions provide a repeatable validation
+and delivery path. The repository also documents the boundaries between the frontend, backend,
+Nginx, CSP, directory ownership, and routine operations.
 
-This proof chain intentionally does not include private credentials, customer-sensitive information, chat contents, form submissions, private server paths, or non-public operations details.
+Continue with:
 
-> If you need a more robust server solution, you can refer to my cloud-native project: 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab). This project provides a complete cloud-native architecture design, suitable for large-scale and high-availability scenarios.
+- [Reference Architecture](#reference-architecture): see how the frontend, backend, Nginx, and deployment fit together.
+- [AI Chat](https://www.rendazhang.com/deepseek_chat/): try streaming responses, Markdown, and code rendering.
+- [Chat Widget Protocol](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md): inspect the same-origin iframe loading and message boundary.
+- [Testing Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md): review Vitest, coverage, Playwright, and browser QA.
+- [CI/CD Pipeline](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md): review the static build, deployment, and release flow.
+- [SEO / GEO Maintenance](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md): see how public content stays aligned for search and AI summaries.
+
+PersonalWeb is a maintained personal project. It does not demonstrate high-traffic scale, private
+customer systems, or a large commercial SaaS. The public repository leaves out secrets, visitor
+messages, form contents, private logs, and server details.
+
+> Another public repository, 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab),
+> focuses on cloud-native server architecture and shows a different project scope from PersonalWeb.
 
 ---
 

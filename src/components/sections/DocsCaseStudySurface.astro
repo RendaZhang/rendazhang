@@ -25,17 +25,12 @@ const surfaces = [
         <p class="c-docs-proof-eyebrow">{content.eyebrow}</p>
         <h1 id={`docs-proof-title-${lang}`}>{content.title}</h1>
         <p class="c-docs-proof-conclusion">{content.conclusion}</p>
-        <ul class="c-docs-proof-metrics" aria-label={content.pillarsHeading}>
-          {content.metrics.map((metric) => (
-            <li>{metric}</li>
-          ))}
-        </ul>
       </div>
 
       <div class="c-docs-proof-section" aria-labelledby={`docs-proof-pillars-${lang}`}>
-        <h2 id={`docs-proof-pillars-${lang}`}>{content.pillarsHeading}</h2>
+        <h2 id={`docs-proof-pillars-${lang}`}>{content.storyHeading}</h2>
         <div class="c-docs-proof-pillars">
-          {content.pillars.map((pillar) => (
+          {content.story.map((pillar) => (
             <article class="c-docs-proof-pillar">
               <h3>{pillar.title}</h3>
               <p>{pillar.body}</p>

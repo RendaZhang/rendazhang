@@ -35,4 +35,6 @@
 ## Container
 
 - `.c-cert-container` centers the page surface.
-- Grid `.c-cert-grid` uses token-defined sizes for cards and badges and collapses to a single column on narrow screens.
+- `.c-cert-grid` keeps the exact credential in one full-width card.
+- `.c-cert-overview` places the record details beside the Credly badge on wider screens and stacks
+  them without horizontal overflow on narrow screens.

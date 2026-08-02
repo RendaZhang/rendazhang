@@ -8,6 +8,7 @@
   - [Visitor Language And Maintainer Language](#visitor-language-and-maintainer-language)
   - [Current Phrase Inventory](#current-phrase-inventory)
   - [Slice 15.4 Homepage Application](#slice-154-homepage-application)
+  - [Slice 15.5 Project And Certification Application](#slice-155-project-and-certification-application)
   - [Shared Editorial Contract](#shared-editorial-contract)
     - [Start With The Person Or The Answer](#start-with-the-person-or-the-answer)
     - [Be Specific Without Inventing](#be-specific-without-inventing)
@@ -38,7 +39,7 @@
 
 # Human Voice And Personal Expression
 
-- **Last Updated**: August 02, 2026, 01:48 (UTC+08:00)
+- **Last Updated**: August 02, 2026, 11:15 (UTC+08:00)
 - **Scope**: Phase 15 bilingual editorial and interaction-expression contract for public
   PersonalWeb surfaces.
 - **Audience**: maintainers, reviewers, and future agents writing or designing for PersonalWeb.
@@ -151,6 +152,24 @@ current homepage now:
 
 The `proofPath` content key, `#proof-path` anchor, and related CSS class names remain internal
 implementation identifiers. They are not displayed as visitor copy.
+
+## Slice 15.5 Project And Certification Application
+
+Slice 15.5 applies the same contract to `/docs/`, the README introductions, and
+`/certifications/` without adding motivations, tradeoffs, outcomes, or anecdotes. The visible
+order is now:
+
+- `/docs/`: a first-person PersonalWeb introduction, three concise project parts, direct links to
+  architecture, delivery, certification, and Chat, one local limitation, then the existing
+  README-backed technical material;
+- README introductions: a project overview before the deeper stack, architecture, protocol,
+  testing, delivery, and operations material; and
+- `/certifications/`: the exact AWS record, issue and expiry dates, Credly badge and official
+  verification actions, what the certification covers, then one concise evidence limit.
+
+The previous README project-section anchors remain available for existing links. No new system map
+was added because the current reference-architecture material already provides that detail; the
+browser audit identified language density and evidence order as the concrete defects.
 
 ## Shared Editorial Contract
 

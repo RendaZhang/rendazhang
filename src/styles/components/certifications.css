@@ -18,13 +18,8 @@
 }
 
 .c-cert-hero {
-  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-palette-surface));
-  border: var(--border-1);
-  border-color: var(--color-palette-border);
-  border-radius: var(--radius-s);
-  box-shadow: var(--shadow-elevation-2);
   margin: 0 0 var(--space-6);
-  padding: var(--space-6);
+  padding: var(--space-4) var(--space-6);
   text-align: center;
 }
 
@@ -58,21 +53,17 @@
 .c-cert-grid {
   display: grid;
   gap: var(--space-6);
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(var(--size-cert-card), 100%), calc(var(--size-cert-card) + var(--space-10)))
-  );
-  justify-content: center;
+  grid-template-columns: minmax(0, 1fr);
   padding: 0;
 }
 
 .c-credly-container {
-  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-bg));
+  background: transparent;
   border: var(--border-1);
-  border-color: var(--color-border-soft);
+  border-color: transparent;
   border-radius: var(--radius-s);
-  box-shadow: var(--shadow-elevation-1);
-  margin: var(--space-4) auto;
+  box-shadow: none;
+  margin: 0 auto;
   max-width: var(--size-credly-badge);
   min-height: var(--size-credly-badge);
   overflow: hidden;
@@ -166,7 +157,7 @@
   overflow: hidden;
   padding: var(--space-6);
   position: relative;
-  text-align: center;
+  text-align: left;
   transition:
     border-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard),
@@ -208,6 +199,7 @@
     font-size: var(--font-size-3);
     line-height: var(--line-height-3);
     margin: 0;
+    text-align: center;
   }
 
   p {
@@ -234,12 +226,19 @@
   }
 }
 
-.c-cert-card-copy {
+.c-cert-overview {
+  align-items: start;
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
+  grid-template-columns: minmax(0, 1fr) minmax(var(--size-credly-badge), 0.95fr);
 }
 
-.c-cert-proof {
+.c-cert-verification {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.c-cert-coverage {
   border-color: var(--color-border-soft);
   border-top: var(--border-1);
   display: grid;
@@ -290,7 +289,7 @@
 .c-cert-meta {
   display: grid;
   gap: var(--space-2);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   margin: 0;
 
   div {
@@ -329,7 +328,7 @@
 
   .c-cert-hero {
     margin-bottom: var(--space-5);
-    padding: var(--space-4);
+    padding: var(--space-3) var(--space-2);
   }
 
   .c-cert-hero h1 {
@@ -340,7 +339,7 @@
     padding: var(--space-4);
   }
 
-  .c-cert-meta {
+  .c-cert-overview {
     grid-template-columns: 1fr;
   }
 

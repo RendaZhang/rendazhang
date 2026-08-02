@@ -1,16 +1,16 @@
 export const CERTIFICATIONS_CONTENT = {
   en: {
-    heading: 'Professional Certifications · Renda Zhang',
+    heading: 'AWS Certification · Renda Zhang',
     summary:
-      'This page uses public credentials as a compact learning and architecture signal. The AWS SAA certification supports my cloud-native positioning alongside PersonalWeb, production engineering experience, and technical documentation.',
-    proofHeading: 'Architecture credibility signal',
-    proofItems: [
-      'Architecture fundamentals across compute, storage, networking, security, and managed services',
-      'Reliability tradeoffs such as availability, fault isolation, cost awareness, and operational boundaries',
-      'A shared cloud vocabulary for platform design, delivery reviews, and cross-functional decisions'
+      'This page records my AWS Certified Solutions Architect - Associate (SAA-C03) certification. Its issue and expiry dates, Credly badge, and official verification links are available below.',
+    coverageHeading: 'What this certification covers',
+    coverageItems: [
+      'Designing AWS solutions across compute, storage, networking, security, and managed services',
+      'Evaluating availability, fault isolation, cost, and operational boundaries',
+      'Using a shared architecture vocabulary in design and delivery reviews'
     ],
     boundary:
-      'It is not presented as proof of owning a large AWS production estate by itself; it is one verifiable credential in a broader evidence chain.',
+      'The certification supports my architecture foundation. It does not by itself demonstrate production scale, traffic, or customer impact.',
     certificates: [
       {
         title: 'AWS Certified Solutions Architect - Associate (SAA-C03)',
@@ -26,17 +26,16 @@ export const CERTIFICATIONS_CONTENT = {
     ]
   },
   zh: {
-    heading: '专业证书 · 张人大',
+    heading: 'AWS 认证 · 张人大',
     summary:
-      '这个页面把公开证书作为学习能力与架构可信度的简洁证明。AWS SAA 证书与 PersonalWeb、生产工程经历和技术文档一起，支撑我的云原生工程定位。',
-    proofHeading: '架构可信度信号',
-    proofItems: [
-      '覆盖计算、存储、网络、安全和托管服务的架构基础',
-      '理解可用性、故障隔离、成本意识和运维边界等可靠性取舍',
-      '为平台设计、交付评审和跨职能协作提供一致的云技术语言'
+      '这里记录了我的 AWS Certified Solutions Architect - Associate (SAA-C03) 认证。证书的颁发与到期日期、Credly 徽章和官方验证入口都列在下方。',
+    coverageHeading: '这项认证覆盖什么',
+    coverageItems: [
+      '围绕计算、存储、网络、安全和托管服务设计 AWS 解决方案',
+      '评估可用性、故障隔离、成本与运维边界',
+      '在方案设计和交付评审中使用一致的云架构语言'
     ],
-    boundary:
-      '它不会被单独包装成拥有大型 AWS 生产体系的证明；它是更完整证据链中的一个可验证 credential。',
+    boundary: '这项认证支撑我的架构基础，但不能单独说明生产规模、流量或客户影响。',
     certificates: [
       {
         title: 'AWS 认证解决方案架构师 - 助理级 (SAA-C03)',

@@ -3,7 +3,7 @@
 
 - [张人大 · 轻量级网站](#%E5%BC%A0%E4%BA%BA%E5%A4%A7-%C2%B7-%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BD%91%E7%AB%99)
   - [简介](#%E7%AE%80%E4%BB%8B)
-  - [PersonalWeb 项目证明](#personalweb-%E9%A1%B9%E7%9B%AE%E8%AF%81%E6%98%8E)
+  - [PersonalWeb 项目概览](#personalweb-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88)
   - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
     - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
     - [参考架构](#%E5%8F%82%E8%80%83%E6%9E%B6%E6%9E%84)
@@ -59,7 +59,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 01, 2026, 16:48 (UTC+08:00)
+- **最后更新**: August 02, 2026, 11:15 (UTC+08:00)
 
 ---
 
@@ -67,37 +67,40 @@
 
 **[Click here to view the English Version in Github](https://github.com/RendaZhang/rendazhang/blob/master/README_EN.md)**
 
-这是我个人维护的 **轻量级** 网站，作为我的技术能力的在线展示平台。
+这是我维护的个人网站，也是一个持续演进的公开工程项目。它把中英双语作品集、AI 对话、
+技术文档、测试和自动部署放在同一个可审查的代码库中。
 
 **网站链接**: 🌐 [www.rendazhang.com](https://www.rendazhang.com)
 
-本网站已进行 SEO / GEO 优化。
+公开页面也包含 SEO / GEO、结构化数据和 AI 摘要入口，方便搜索与阅读。
 
-## PersonalWeb 项目证明
+<span id="zh-personalweb-项目证明"></span>
 
-PersonalWeb 是我当前最直接的公开项目证明。它不是大型商业平台，也不包装成生产级 SaaS；它展示的是我如何把个人品牌站、AI 交互、前端体验、后端集成、文档、测试、部署与公开可发现性放进一个可维护的工程闭环。
+## PersonalWeb 项目概览
 
-| 证明方向 | 公开证据 |
-| --- | --- |
-| AI 全栈开发 | 同源浮动 Chat Widget、`/deepseek_chat/` 聊天页、Flask + OpenAI API 后端集成、Markdown/代码渲染和清晰的前后端边界 |
-| 前端体验工程 | Astro 静态页面、React islands、主题 mode 与 palette、响应式 Hero、docs/certifications polish、浏览器 smoke 覆盖 |
-| 云原生与交付纪律 | GitHub Actions 自动构建部署、Node 24 运行时 pin、Nginx/CSP 约束意识、静态发布、生产只读校验 |
-| 可靠性与可维护性 | Vitest 覆盖率、Playwright smoke、Browser QA、Sentry 集成、架构/目录/协议/测试/SEO 文档 |
-| 搜索与 AI 摘要可见性 | SEO/GEO 维护、结构化数据、SSR/SSG docs 正文、`llms.txt` 和 sitemap 规划边界 |
+我同时把 PersonalWeb 当作中英双语作品集和一个持续维护的工程项目。主要页面由 Astro
+生成静态 HTML，导航、主题、语言、表单、证书信息和 Chat 等交互再由 React 负责。
 
-可以从以下入口验证这条证明链：
+AI Chat 提供独立页面和首页浮动窗口；两者通过同源地址连接 Flask 后端。导览问题只依据网站和
+公开仓库信息回答，普通 Chat 仍保留原有请求方式。
 
-- [主页](https://www.rendazhang.com/)：查看 AI 全栈、云原生和 PersonalWeb 证明的首屏定位。
-- [AI 聊天页面](https://www.rendazhang.com/deepseek_chat/)：查看同源 Chat 页面、流式输出和 Markdown 增强体验。
-- [Chat Widget 协议说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md)：查看 iframe ready、origin/source 校验和后续重构约束。
-- [前端架构约定](https://github.com/RendaZhang/rendazhang/blob/master/docs/FRONTEND_ARCHITECTURE.md)：查看 Astro 页面、React islands、状态、服务层、CSP 与 iframe 边界。
-- [测试指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md)：查看 Vitest、覆盖率、Playwright smoke 与视觉/交互 QA 约定。
-- [CI/CD 工作流](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md)：查看 GitHub Actions 静态构建、部署和 release 流程。
-- [SEO / GEO 维护说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md)：查看公开实体、结构化数据、docs SSR 和 AI 摘要入口边界。
+Vitest、Playwright 浏览器检查、Astro 构建和 GitHub Actions 组成可重复执行的验证与发布流程。
+仓库还记录了前端、后端、Nginx、CSP、目录所有权和运维命令之间的边界。
 
-这条证明链刻意不包含私人凭据、客户敏感信息、聊天内容、表单提交、服务器私有路径或非公开运维细节。
+可以从以下入口继续了解：
 
-> 如果您需要更重量级的服务器解决方案，可以参考我的云原生项目：📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)。该项目提供了基于云原生的完整架构设计，适用于大规模和高可用性场景。
+- [参考架构](#参考架构)：了解前端、后端、Nginx 与部署之间的关系。
+- [AI 聊天页面](https://www.rendazhang.com/deepseek_chat/)：体验流式输出、Markdown 和代码渲染。
+- [Chat Widget 协议说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_WIDGET_PROTOCOL.md)：查看同源 iframe 的加载与消息边界。
+- [测试指南](https://github.com/RendaZhang/rendazhang/blob/master/docs/TESTING.md)：查看 Vitest、覆盖率、Playwright 与浏览器 QA。
+- [CI/CD 工作流](https://github.com/RendaZhang/rendazhang/blob/master/docs/CI_CD.md)：查看静态构建、部署与发布流程。
+- [SEO / GEO 维护说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/SEO_GEO.md)：查看公开内容如何面向搜索与 AI 摘要保持一致。
+
+PersonalWeb 是我持续维护的个人项目，不能说明高流量规模、私人客户系统或大型商业 SaaS。
+公开仓库不会包含密钥、访客消息、表单内容、私人日志或服务器细节。
+
+> 另一个公开仓库 📁 [Renda Cloud LAB](https://github.com/RendaZhang/renda-cloud-lab)
+> 聚焦云原生服务器架构，可用于查看与 PersonalWeb 不同的设计范围。
 
 ---
 

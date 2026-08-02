@@ -25,10 +25,10 @@ export default function CertificationsContent(): ReactElement {
           const certEn = textsEn.certificates[idx];
           return (
             <article className="c-cert-card" key={idx}>
-              <div className="c-cert-card-copy">
-                <h2>
-                  <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
-                </h2>
+              <h2>
+                <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
+              </h2>
+              <div className="c-cert-overview">
                 <dl className="c-cert-meta">
                   <div>
                     <dt>
@@ -61,50 +61,52 @@ export default function CertificationsContent(): ReactElement {
                     </dd>
                   </div>
                 </dl>
-                <section className="c-cert-proof" aria-labelledby={`cert-proof-${idx}`}>
-                  <h3 id={`cert-proof-${idx}`}>
-                    <LocalizedSection
-                      zhContent={textsZh.proofHeading}
-                      enContent={textsEn.proofHeading}
-                    />
-                  </h3>
-                  <ul>
-                    {textsZh.proofItems.map((itemZh, proofIdx) => (
-                      <li key={itemZh}>
-                        <LocalizedSection
-                          zhContent={itemZh}
-                          enContent={textsEn.proofItems[proofIdx]}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="c-cert-boundary">
-                    <LocalizedSection zhContent={textsZh.boundary} enContent={textsEn.boundary} />
+                <div className="c-cert-verification">
+                  <CredlyBadge />
+                  <p className="c-verify-links">
+                    <a
+                      className="c-verify-btn c-btn-primary"
+                      href={VERIFY_URLS.CREDLY}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <LocalizedSection
+                        zhContent={certZh.verifyCredly}
+                        enContent={certEn.verifyCredly}
+                      />
+                    </a>
+                    <a
+                      className="c-verify-btn c-btn-primary"
+                      href={VERIFY_URLS.AWS}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <LocalizedSection zhContent={certZh.verifyAws} enContent={certEn.verifyAws} />
+                    </a>
                   </p>
-                </section>
+                </div>
               </div>
-              <CredlyBadge />
-              <p className="c-verify-links">
-                <a
-                  className="c-verify-btn c-btn-primary"
-                  href={VERIFY_URLS.CREDLY}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              <section className="c-cert-coverage" aria-labelledby={`cert-coverage-${idx}`}>
+                <h3 id={`cert-coverage-${idx}`}>
                   <LocalizedSection
-                    zhContent={certZh.verifyCredly}
-                    enContent={certEn.verifyCredly}
+                    zhContent={textsZh.coverageHeading}
+                    enContent={textsEn.coverageHeading}
                   />
-                </a>
-                <a
-                  className="c-verify-btn c-btn-primary"
-                  href={VERIFY_URLS.AWS}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <LocalizedSection zhContent={certZh.verifyAws} enContent={certEn.verifyAws} />
-                </a>
-              </p>
+                </h3>
+                <ul>
+                  {textsZh.coverageItems.map((itemZh, coverageIdx) => (
+                    <li key={itemZh}>
+                      <LocalizedSection
+                        zhContent={itemZh}
+                        enContent={textsEn.coverageItems[coverageIdx]}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <p className="c-cert-boundary">
+                  <LocalizedSection zhContent={textsZh.boundary} enContent={textsEn.boundary} />
+                </p>
+              </section>
             </article>
           );
         })}

@@ -40,3 +40,7 @@
 ## Container
 
 - Main content area `main.c-docs-main` is constrained by `--measure`, centered, and padded with tokenized desktop/mobile spacing.
+- The PersonalWeb introduction uses one unframed lead band, three scan-friendly project sections,
+  direct implementation links, a concise limitation, and existing destination actions.
+- The three project sections and the implementation/limitation grid collapse to one column without
+  horizontal overflow on narrow screens.

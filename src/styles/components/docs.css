@@ -78,7 +78,7 @@ main.c-main-content.c-docs-main .c-markdown-body a:focus-visible {
 main.c-main-content.c-docs-main .c-docs-proof-surface {
   color: var(--color-text);
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
   margin: 0 0 var(--space-7);
 }
 
@@ -89,14 +89,11 @@ html[lang^='zh'] main.c-main-content.c-docs-main .c-docs-proof-surface.is-lang-e
 
 main.c-main-content.c-docs-main .c-docs-proof-hero {
   background: color-mix(in srgb, var(--color-surface) 88%, var(--color-palette-surface));
-  border: var(--border-1);
-  border-color: var(--color-palette-border);
+  border: 0;
   border-left: var(--space-1) solid var(--color-palette-border);
-  border-radius: var(--radius-s);
-  box-shadow: var(--shadow-elevation-1);
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-7);
+  gap: var(--space-3);
+  padding: var(--space-6);
 }
 
 main.c-main-content.c-docs-main .c-docs-proof-eyebrow {
@@ -123,26 +120,6 @@ main.c-main-content.c-docs-main .c-docs-proof-conclusion {
   max-width: 68ch;
 }
 
-main.c-main-content.c-docs-main .c-docs-proof-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  list-style: none;
-  margin: var(--space-2) 0 0;
-  padding: 0;
-}
-
-main.c-main-content.c-docs-main .c-docs-proof-metrics li {
-  background: color-mix(in srgb, var(--color-palette-surface) 74%, var(--color-surface));
-  border: var(--border-width-hairline) solid var(--color-palette-border);
-  border-radius: var(--radius-xs);
-  color: color-mix(in srgb, var(--color-text) 86%, var(--color-brand-secondary));
-  font-size: var(--font-size-0);
-  font-weight: 700;
-  line-height: 1.35;
-  padding: var(--space-2) var(--space-3);
-}
-
 main.c-main-content.c-docs-main .c-docs-proof-section {
   display: grid;
   gap: var(--space-4);
@@ -160,18 +137,15 @@ main.c-main-content.c-docs-main .c-docs-proof-boundary h2 {
 main.c-main-content.c-docs-main .c-docs-proof-pillars {
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 main.c-main-content.c-docs-main .c-docs-proof-pillar {
-  background: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
-  border: var(--border-1);
-  border-color: var(--color-border-soft);
-  border-radius: var(--radius-s);
-  box-shadow: var(--shadow-elevation-1);
+  border-color: var(--color-palette-border);
+  border-top: var(--border-1);
   display: grid;
   gap: var(--space-2);
-  padding: var(--space-4);
+  padding: var(--space-4) var(--space-2) 0 0;
 }
 
 main.c-main-content.c-docs-main .c-docs-proof-pillar h3 {
@@ -417,12 +391,12 @@ main.c-main-content.c-docs-main .c-markdown-body [class~='mermaid'] {
   }
 
   main.c-main-content.c-docs-main .c-docs-proof-surface {
-    gap: var(--space-5);
+    gap: var(--space-4);
     margin-bottom: var(--space-6);
   }
 
   main.c-main-content.c-docs-main .c-docs-proof-hero {
-    padding: var(--space-5);
+    padding: var(--space-4);
   }
 
   main.c-main-content.c-docs-main .c-docs-proof-hero h1 {
