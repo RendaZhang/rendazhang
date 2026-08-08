@@ -5,6 +5,7 @@
 - [Dependency Security Risk Register](#dependency-security-risk-register)
   - [Current Evidence](#current-evidence)
   - [Slice 15.1 Security Patch Result](#slice-151-security-patch-result)
+  - [Slice 15.6.2 Rendering Security Patch Result](#slice-1562-rendering-security-patch-result)
   - [Active Risk Register](#active-risk-register)
   - [Escalation Thresholds](#escalation-thresholds)
   - [Maintenance Cadence](#maintenance-cadence)
@@ -16,14 +17,15 @@
 # Dependency Security Risk Register
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 01, 2026, 13:59 (UTC+08:00)
+- **Last Updated**: August 08, 2026, 08:30 (UTC+08:00)
 - **Scope**: public-safe dependency and security risk decisions for the PersonalWeb frontend.
 
 This register records the current audit evidence, accepted residuals, escalation thresholds, and
-owner actions after the controlled Astro 7 implementation and the Slice 15.1 production dependency
-security patch. It is intentionally public-safe: it records package and validation decisions without
-changing CI workflows, runtime pins, frontend behavior, backend behavior, Nginx configuration,
-telemetry, analytics, cookies, or production services.
+owner actions after the controlled Astro 7 implementation, the Slice 15.1 production dependency
+security patch, and the Slice 15.6.2 rendering dependency patch. It is intentionally public-safe:
+it records package and validation decisions without changing CI workflows, runtime pins, frontend
+behavior, backend behavior, Nginx configuration, telemetry, analytics, cookies, or production
+services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
@@ -35,15 +37,20 @@ moderate, and one low. The affected production packages were `astro`, Sentry's t
 `brace-expansion` path, `dompurify`, `js-yaml`, `postcss`, `sharp`, and `svgo`. Full audit also
 reported dev-only `fast-uri` and additional dev-only `brace-expansion` instances.
 
-After the Slice 15.1 patch:
+Slice 15.1 reduced both audits to zero. Fresh checks on August 08, 2026 reopened the gate with three
+findings: moderate DOMPurify and Mermaid advisories plus a high-severity `nanoid` advisory through
+the existing `postcss@8.5.25` dependency path.
+
+After the Slice 15.6.2 patch:
 
 | Check | Result | Decision |
 | --- | --- | --- |
 | `npm audit --omit=dev --audit-level=low` | 0 findings | Local production audit is clear |
 | `npm audit --audit-level=low` | 0 findings | Local full audit is clear, including dev-only advisory paths |
-| Direct production targets | `astro@7.1.6`, `@sentry/astro@10.69.0`, `@sentry/react@10.69.0`, `dompurify@3.4.12`, `sharp@0.35.3` | Explicit package targets; no blind audit fix |
+| Direct production targets | `astro@7.1.6`, `@sentry/astro@10.69.0`, `@sentry/react@10.69.0`, `dompurify@3.4.13`, `mermaid@11.16.1`, `sharp@0.35.3` | Explicit package targets; no blind audit fix |
 | Direct build target | `postcss@8.5.25` | Explicit target for the direct build dependency |
-| Reviewed leaf updates | `@sentry/vite-plugin@5.4.0`, `@sentry/bundler-plugins@10.69.0`, `minimatch@10.2.6`, `brace-expansion@5.0.9` / `1.1.18`, `fast-uri@3.1.5`, `js-yaml@4.3.1`, `svgo@4.0.2` | Cleared remaining production and full-audit advisory nodes without adding direct dependencies |
+| Reviewed rendering leaf | `postcss@8.5.25 -> nanoid@3.3.18` | Patched the high-severity transitive leaf without adding `nanoid` as a direct dependency or changing PostCSS |
+| Earlier reviewed leaf updates | `@sentry/vite-plugin@5.4.0`, `@sentry/bundler-plugins@10.69.0`, `minimatch@10.2.6`, `brace-expansion@5.0.9` / `1.1.18`, `fast-uri@3.1.5`, `js-yaml@4.3.1`, `svgo@4.0.2` | Cleared the earlier production and full-audit advisory nodes without adding direct dependencies |
 | Sharp compatibility | `sharp@0.35.3` with libvips packages `1.3.2` | Accepted as a deliberate major after Node 24 support and image/build validation |
 | Runtime baseline | Node `>=24.17 <25`, npm `>=11 <12`; CI uses Node `24.17.0` | Keep pinned |
 
@@ -53,12 +60,15 @@ Current relevant package path:
 astro@7.1.6 -> vite@8.1.3 -> postcss@8.5.25
 astro@7.1.6 -> js-yaml@4.3.1 / svgo@4.0.2 / sharp@0.35.3
 @sentry/astro@10.69.0 -> @sentry/vite-plugin@5.4.0 -> @sentry/bundler-plugins@10.69.0 -> minimatch@10.2.6 -> brace-expansion@5.0.9
+mermaid@11.16.1 -> dompurify@3.4.13 (deduplicated with the direct dependency)
+postcss@8.5.25 -> nanoid@3.3.18
 ```
 
 The prior low Astro/esbuild residual remains resolved by the controlled Slice 13.6 upgrade. The
-August 2026 production findings are resolved by Slice 15.1. The force-fix command remains
-disallowed because future `npm audit fix --force` output may again mix major framework, runtime, or
-unrelated dependency changes into what should be a focused maintenance decision.
+earlier August 2026 production findings are resolved by Slice 15.1, and the August 08 rendering
+findings are resolved by Slice 15.6.2. The force-fix command remains disallowed because future
+`npm audit fix --force` output may again mix major framework, runtime, or unrelated dependency
+changes into what should be a focused maintenance decision.
 
 ## Slice 15.1 Security Patch Result
 
@@ -86,11 +96,29 @@ Validation expectations for this patch class:
 - If executable inline script output stops matching the current Nginx CSP allowlist, stop before
   deployment and split a coordinated Nginx CSP slice.
 
+## Slice 15.6.2 Rendering Security Patch Result
+
+Slice 15.6.2 used reviewed non-major targets and one existing transitive lockfile leaf. It did not
+run `npm audit fix`, `npm audit fix --force`, or change Astro, Sentry, React, PostCSS, runtime pins,
+backend behavior, Nginx configuration, or the Chat Widget protocol.
+
+| Finding owner | Baseline | Patched resolution | Notes |
+| --- | --- | --- | --- |
+| DOMPurify detached-subtree XSS advisory | `dompurify@3.4.12` | `dompurify@3.4.13` | Direct dependency and Mermaid's compatible path deduplicate to the patched version |
+| Mermaid rendering advisories | `mermaid@11.15.0` | `mermaid@11.16.1` | Same-major release covering configuration, CSS isolation, architecture, XY chart, and radar diagram fixes |
+| Nano ID zero-size generator advisory | `postcss@8.5.25 -> nanoid@3.3.16` | `postcss@8.5.25 -> nanoid@3.3.18` | Existing `^3.3.16` transitive range resolves to a patched 3.x leaf; no direct `nanoid` declaration was added |
+
+Validation for this rendering patch includes clean production and full audits, a deduplicated
+DOMPurify/Mermaid tree, Markdown sanitization tests, valid and malformed Mermaid rendering tests,
+the full frontend coverage and browser smoke suites, a production build, executable CSP hash review,
+and desktop/mobile checks for docs diagrams plus direct and embedded Chat readiness.
+
 ## Active Risk Register
 
 | Risk | Current decision | Reason | Revisit trigger |
 | --- | --- | --- | --- |
-| August 2026 production advisories | Resolved by Slice 15.1 | Explicit targets and reviewed lockfile leaf updates cleared production and full audits without `npm audit fix` or force-fix behavior | New audit finding, Dependabot alert, package path change, severity increase, or deploy/build regression |
+| Earlier August 2026 production advisories | Resolved by Slice 15.1 | Explicit targets and reviewed lockfile leaf updates cleared the earlier production and full audits without `npm audit fix` or force-fix behavior | New audit finding, Dependabot alert, package path change, severity increase, or deploy/build regression |
+| August 08 rendering advisories | Resolved by Slice 15.6.2 | Explicit DOMPurify/Mermaid targets plus the existing patched Nano ID leaf clear the production and full audits without a direct Nano ID or PostCSS change | New DOMPurify, Mermaid, Nano ID, Markdown rendering, or diagram isolation finding |
 | Sharp 0.35 major compatibility | Accepted for the current frontend | The package supports Node 24, remains allowed by Astro's optional dependency range, and is validated through the image/build/browser gates | Image generation failure, changed Sharp install behavior on CI/Linux, broken hero assets, or Astro image integration change |
 | Low `esbuild` advisory through Astro/Vite | Resolved locally | Slice 13.6 moved the frontend to `astro@7.0.6`, `vite@8.1.3`, and `esbuild@0.28.1`; both local audit commands now return zero findings | New audit finding, Dependabot alert that still maps to the new lockfile, severity increase, or exploitability change |
 | `npm audit fix --force` path | Still disallowed | Force-fixing can mix a major framework upgrade into a security maintenance action; Slice 13.6 used explicit package targets instead | A future urgent patch slice explicitly scopes and justifies the command, which should remain exceptional |
