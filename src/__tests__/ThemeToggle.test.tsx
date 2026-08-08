@@ -49,6 +49,7 @@ describe('ThemeToggle', () => {
     fireEvent.click(lightOption);
     expect(providerState.setTheme).toHaveBeenCalledWith(false);
     expect(screen.queryByRole('button', { name: 'Switch to Light Mode' })).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Theme' }));
   });
 
   it('uses the UI preference store snapshot for the active palette option', () => {
@@ -83,5 +84,34 @@ describe('ThemeToggle', () => {
     expect(
       screen.getByRole('button', { name: 'Switch to Aurora Palette' }).getAttribute('aria-pressed')
     ).toBe('true');
+  });
+
+  it('closes on Escape and restores focus to the disclosure trigger', () => {
+    render(<ThemeToggle />);
+    const trigger = screen.getByRole('button', { name: 'Theme' });
+    fireEvent.click(trigger);
+
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Switch to Dark Mode' }), {
+      key: 'Escape'
+    });
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByRole('button', { name: 'Switch to Dark Mode' })).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it('closes when focus leaves the disclosure', () => {
+    render(<ThemeToggle />);
+    const outside = document.createElement('button');
+    document.body.append(outside);
+    const trigger = screen.getByRole('button', { name: 'Theme' });
+    fireEvent.click(trigger);
+
+    const option = screen.getByRole('button', { name: 'Switch to Dark Mode' });
+    option.focus();
+    fireEvent.blur(option, { relatedTarget: outside });
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    outside.remove();
   });
 });

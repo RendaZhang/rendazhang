@@ -1,4 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  type FocusEvent as ReactFocusEvent,
+  type KeyboardEvent as ReactKeyboardEvent
+} from 'react';
 import { useTheme } from '../../providers';
 import { NAV_CONTENT } from '../../../content';
 import { useUiPreferences } from '../../../hooks';
@@ -41,18 +47,37 @@ export default function ThemeToggle() {
   const handleSelect = (isDark: boolean) => {
     setTheme(isDark);
     setOpen(false);
+    buttonRef.current?.focus();
   };
 
   const handlePaletteSelect = (palette: ThemePalette) => {
     setPalette(palette);
     setOpen(false);
+    buttonRef.current?.focus();
+  };
+
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (open && event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      setOpen(false);
+      buttonRef.current?.focus();
+    }
+  };
+
+  const handleBlur = (event: ReactFocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setOpen(false);
+    }
   };
 
   return (
-    <div className="c-theme-toggle-wrapper">
+    <div className="c-theme-toggle-wrapper" onBlur={handleBlur} onKeyDown={handleKeyDown}>
       <button
         ref={buttonRef}
+        type="button"
         className="c-theme-toggle-main"
+        aria-controls="theme-options"
         aria-expanded={open}
         aria-label={lang === 'en' ? textsEn.button : textsZh.button}
         onClick={() => setOpen((prev) => !prev)}
@@ -61,13 +86,14 @@ export default function ThemeToggle() {
         <ThemeIcon />
       </button>
       {open && (
-        <div ref={optionsRef} className="c-theme-options">
+        <div ref={optionsRef} id="theme-options" className="c-theme-options">
           <div
             className="c-theme-mode-options"
             role="group"
             aria-label={texts.button || textsZh.button}
           >
             <button
+              type="button"
               className={`c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
               aria-label={texts.light || '切换到浅色模式'}
               aria-pressed={lightSelected}
@@ -77,6 +103,7 @@ export default function ThemeToggle() {
               <SunIcon size={20} />
             </button>
             <button
+              type="button"
               className={`c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
               aria-label={texts.dark || '切换到深色模式'}
               aria-pressed={darkSelected}
@@ -97,6 +124,7 @@ export default function ThemeToggle() {
 
               return (
                 <button
+                  type="button"
                   key={palette}
                   className={`c-theme-option c-theme-palette-option is-palette-${palette} ${
                     selected ? 'is-active' : ''

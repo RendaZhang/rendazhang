@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, type ReactElement } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  type FocusEvent as ReactFocusEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactElement
+} from 'react';
 import { useLanguage } from '../../providers';
 import { LocalizedSection } from '..';
 
@@ -48,14 +55,31 @@ export default function LanguageSelector(): ReactElement {
   const handleSelect = (code: string): void => {
     updateLang(code);
     setOpen(false);
+    buttonRef.current?.focus();
+  };
+
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>): void => {
+    if (open && event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      setOpen(false);
+      buttonRef.current?.focus();
+    }
+  };
+
+  const handleBlur = (event: ReactFocusEvent<HTMLDivElement>): void => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setOpen(false);
+    }
   };
 
   return (
-    <div className="c-language-selector-wrapper">
+    <div className="c-language-selector-wrapper" onBlur={handleBlur} onKeyDown={handleKeyDown}>
       <button
         ref={buttonRef}
+        type="button"
         className="c-language-selector-main"
-        aria-haspopup="listbox"
+        aria-controls="language-options"
         aria-expanded={open}
         aria-label={lang === 'en' ? 'Change language' : '切换语言'}
         onClick={() => setOpen((prev) => !prev)}
@@ -64,19 +88,25 @@ export default function LanguageSelector(): ReactElement {
         <LanguageIcon />
       </button>
       {open && (
-        <div ref={optionsRef} className="c-language-options" role="listbox">
+        <div
+          ref={optionsRef}
+          id="language-options"
+          className="c-language-options"
+          role="group"
+          aria-label={lang === 'en' ? 'Language' : '语言'}
+        >
           <button
+            type="button"
             className={`c-language-option ${lang === 'zh-CN' ? 'is-active' : ''}`}
-            role="option"
-            aria-selected={lang === 'zh-CN'}
+            aria-pressed={lang === 'zh-CN'}
             onClick={() => handleSelect('zh-CN')}
           >
             中文
           </button>
           <button
+            type="button"
             className={`c-language-option ${lang === 'en' ? 'is-active' : ''}`}
-            role="option"
-            aria-selected={lang === 'en'}
+            aria-pressed={lang === 'en'}
             onClick={() => handleSelect('en')}
           >
             English

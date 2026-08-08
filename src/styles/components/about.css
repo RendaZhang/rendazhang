@@ -444,3 +444,9 @@ body.c-about-page {
     }
   }
 }
+
+@media (max-width: 30rem) {
+  .c-home-proof-path-summary {
+    inline-size: calc(100% - var(--space-9) - var(--space-3));
+  }
+}

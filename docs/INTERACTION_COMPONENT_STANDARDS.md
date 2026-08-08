@@ -23,7 +23,7 @@
 # 交互组件标准
 
 - **作者**: 张人大
-- **最后更新**: June 30, 2026, 12:26 (UTC+08:00)
+- **最后更新**: August 08, 2026, 10:47 (UTC+08:00)
 
 ## 文档目的
 
@@ -94,9 +94,15 @@ toast、loading、empty/error state、键盘行为和 focus 管理前统一评�
 
 当前已有三类轻量 disclosure：
 
-- `HamburgerMenu`：按钮 `aria-expanded`，portal 渲染侧边菜单，outside click 关闭。
-- `LanguageSelector`：按钮 `aria-expanded`，选项容器使用 `role="listbox"`。
-- `ThemeToggle`：按钮 `aria-expanded`，mode/palette 分组按钮使用 `aria-pressed`。
+- `HamburgerMenu`：宽屏由 logo 保留首页入口并直接显示其余共享导航项目；移动/平板按钮使用稳定的
+  `aria-controls` / `aria-expanded`，portal 抽屉提供可见关闭按钮、初始 focus、Tab 边界、
+  Escape/backdrop/目的地关闭、背景滚动锁、focus 返回和跨桌面断点清理。关闭时抽屉链接不在 DOM
+  或 Tab 顺序中。
+- `LanguageSelector`：按钮使用 `aria-controls` / `aria-expanded`，语言选项是带标签的两按钮
+  selection group，通过 `aria-pressed` 表达当前语言；Escape、选择或 focus 离开会关闭面板，
+  Escape/选择后 focus 返回触发器。
+- `ThemeToggle`：按钮使用 `aria-controls` / `aria-expanded`，mode/palette 分组按钮使用
+  `aria-pressed`；Escape、选择或 focus 离开会关闭面板，Escape/选择后 focus 返回触发器。
 
 后续新增 disclosure/popover/menu 时：
 

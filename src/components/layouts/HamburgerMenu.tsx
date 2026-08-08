@@ -1,89 +1,174 @@
-import { useState, useEffect, useRef, type ReactElement } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
-import {
-  HOME_PAGE_PATH,
-  CHAT_PAGE_PATH,
-  CERTIFICATIONS_PAGE_PATH,
-  DOCS_PAGE_PATH,
-  PROFILE_PAGE_PATH
-} from '../../constants';
-import { NAV_CONTENT } from '../../content';
+import { NAV_CONTENT, getNavigationItems } from '../../content';
 import { useLanguage, useAuth } from '../providers';
 import { LocalizedSection } from '../ui';
 
+const DRAWER_ID = 'site-navigation-drawer';
+const DESKTOP_NAVIGATION_QUERY = '(min-width: 64.0625rem)';
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function getFocusableElements(container: HTMLElement): HTMLElement[] {
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true'
+  );
+}
+
 export default function HamburgerMenu(): ReactElement {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { lang } = useLanguage();
   const { isLoggedIn } = useAuth();
 
-  const textsEn = NAV_CONTENT.en.drawer;
-  const textsZh = NAV_CONTENT.zh.drawer;
+  const textsEn = NAV_CONTENT.en;
+  const textsZh = NAV_CONTENT.zh;
+  const items = getNavigationItems(isLoggedIn);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (!mounted) {
+    if (typeof window.matchMedia !== 'function') {
       return;
     }
-    function handleClickOutside(e: MouseEvent) {
-      if (
-        open &&
-        menuRef.current &&
-        !menuRef.current.contains(e.target as Node) &&
-        !(e.target as Element).closest('.c-hamburger-btn')
-      ) {
+
+    const desktopNavigation = window.matchMedia(DESKTOP_NAVIGATION_QUERY);
+    const handleBreakpointChange = (event: MediaQueryListEvent): void => {
+      if (event.matches) {
         setOpen(false);
       }
+    };
+
+    desktopNavigation.addEventListener('change', handleBreakpointChange);
+    if (desktopNavigation.matches) {
+      setOpen(false);
     }
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [open, mounted]);
 
-  const baseItems: { href: string; key: keyof typeof textsEn }[] = [
-    { href: HOME_PAGE_PATH, key: 'home' },
-    { href: CHAT_PAGE_PATH, key: 'chat' },
-    { href: CERTIFICATIONS_PAGE_PATH, key: 'certs' },
-    { href: DOCS_PAGE_PATH, key: 'docs' }
-  ];
+    return () => desktopNavigation.removeEventListener('change', handleBreakpointChange);
+  }, []);
 
-  const items = isLoggedIn
-    ? [...baseItems, { href: PROFILE_PAGE_PATH, key: 'profile' as keyof typeof textsEn }]
-    : baseItems;
+  const closeMenu = useCallback((restoreFocus: boolean) => {
+    setOpen(false);
+    if (restoreFocus) {
+      triggerRef.current?.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu(true);
+        return;
+      }
+
+      if (event.key !== 'Tab' || !menuRef.current) {
+        return;
+      }
+
+      const focusableElements = getFocusableElements(menuRef.current);
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements.at(-1);
+      if (!firstElement || !lastElement) {
+        return;
+      }
+
+      const activeElement = document.activeElement;
+      if (!activeElement || !menuRef.current.contains(activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? lastElement : firstElement).focus();
+      } else if (event.shiftKey && activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousDocumentOverflow;
+    };
+  }, [closeMenu, open]);
 
   return (
     <>
       <button
+        ref={triggerRef}
+        type="button"
         className={`c-hamburger-btn${open ? ' is-open' : ''}`}
-        aria-label={NAV_CONTENT[lang as keyof typeof NAV_CONTENT]?.menu || 'Menu'}
+        aria-label={lang === 'en' ? textsEn.menu : textsZh.menu}
+        aria-controls={DRAWER_ID}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen((value) => !value)}
       >
         <span />
         <span />
         <span />
       </button>
       {mounted &&
+        open &&
         createPortal(
           <>
             <div
-              className={`c-side-menu-overlay${open ? ' is-open' : ''}`}
-              onClick={() => setOpen(false)}
+              className="c-side-menu-overlay is-open"
+              aria-hidden="true"
+              onClick={() => closeMenu(true)}
             />
-            <div ref={menuRef} className={`c-side-menu${open ? ' is-open' : ''}`}>
-              {items.map((item) => (
-                <a
-                  key={item.key}
-                  href={item.href}
-                  className="c-side-menu-link"
-                  onClick={() => setOpen(false)}
-                >
-                  <LocalizedSection zhContent={textsZh[item.key]} enContent={textsEn[item.key]} />
-                </a>
-              ))}
+            <div
+              ref={menuRef}
+              id={DRAWER_ID}
+              className="c-side-menu is-open"
+              role="dialog"
+              aria-modal="true"
+              aria-label={lang === 'en' ? textsEn.menu : textsZh.menu}
+            >
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="c-side-menu-close"
+                onClick={() => closeMenu(true)}
+              >
+                <LocalizedSection zhContent={textsZh.closeMenu} enContent={textsEn.closeMenu} />
+                <span className="c-side-menu-close-icon" aria-hidden="true">
+                  ×
+                </span>
+              </button>
+              <nav
+                className="c-side-menu-links"
+                aria-label={lang === 'en' ? textsEn.menu : textsZh.menu}
+              >
+                {items.map((item) => (
+                  <a
+                    key={item.key}
+                    href={item.href}
+                    className="c-side-menu-link"
+                    onClick={() => closeMenu(false)}
+                  >
+                    <LocalizedSection
+                      zhContent={textsZh.drawer[item.key]}
+                      enContent={textsEn.drawer[item.key]}
+                    />
+                  </a>
+                ))}
+              </nav>
             </div>
           </>,
           document.body

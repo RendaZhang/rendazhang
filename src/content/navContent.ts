@@ -1,3 +1,11 @@
+import {
+  HOME_PAGE_PATH,
+  CHAT_PAGE_PATH,
+  CERTIFICATIONS_PAGE_PATH,
+  DOCS_PAGE_PATH,
+  PROFILE_PAGE_PATH
+} from '../constants';
+
 export const NAV_CONTENT = {
   en: {
     home: 'Home',
@@ -8,6 +16,7 @@ export const NAV_CONTENT = {
     cancel: 'Cancel',
     register: 'Register',
     menu: 'Menu',
+    closeMenu: 'Close navigation',
     profile: 'Account Profile',
     drawer: {
       home: 'Home',
@@ -37,6 +46,7 @@ export const NAV_CONTENT = {
     cancel: '取消',
     register: '注册',
     menu: '菜单',
+    closeMenu: '关闭导航',
     profile: '账号信息',
     drawer: {
       home: '首页',
@@ -58,3 +68,19 @@ export const NAV_CONTENT = {
     }
   }
 } as const;
+
+export const NAVIGATION_ITEMS = [
+  { href: HOME_PAGE_PATH, key: 'home', authenticatedOnly: false },
+  { href: CHAT_PAGE_PATH, key: 'chat', authenticatedOnly: false },
+  { href: CERTIFICATIONS_PAGE_PATH, key: 'certs', authenticatedOnly: false },
+  { href: DOCS_PAGE_PATH, key: 'docs', authenticatedOnly: false },
+  { href: PROFILE_PAGE_PATH, key: 'profile', authenticatedOnly: true }
+] as const;
+
+export function getNavigationItems(isLoggedIn: boolean) {
+  return NAVIGATION_ITEMS.filter((item) => !item.authenticatedOnly || isLoggedIn);
+}
+
+export function getPrimaryNavigationItems(isLoggedIn: boolean) {
+  return getNavigationItems(isLoggedIn).filter((item) => item.key !== 'home');
+}

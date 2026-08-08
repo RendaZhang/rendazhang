@@ -13,7 +13,7 @@ import {
   IMAGE_PATHS,
   LOGIN_IDENTIFIER_KEY
 } from '../../constants';
-import { NAV_CONTENT } from '../../content';
+import { NAV_CONTENT, getPrimaryNavigationItems } from '../../content';
 import { useLanguage, useAuth } from '../providers';
 import { storage } from '../../utils';
 import { useState, type ReactElement, type CSSProperties } from 'react';
@@ -27,6 +27,8 @@ export default function NavBar(): ReactElement {
   const { logout } = useAuth();
   const textsEn = NAV_CONTENT.en;
   const textsZh = NAV_CONTENT.zh;
+  // Keep SSR and hydrated desktop markup stable; auth visibility is gated by data-logged-in CSS.
+  const navigationItems = getPrimaryNavigationItems(true);
   const [showConfirm, setShowConfirm] = useState(false); // controls visibility of logout confirmation
   const [isLoggingOut, setIsLoggingOut] = useState(false); // disables logout button and shows spinner
 
@@ -70,6 +72,22 @@ export default function NavBar(): ReactElement {
               <LocalizedSection zhContent={textsZh.loggedIn} enContent={textsEn.loggedIn} />
             </span>
           </a>
+          <div className="c-nav-primary-links">
+            {navigationItems.map((item) => (
+              <a
+                key={item.key}
+                href={item.href}
+                className={`c-nav-primary-link${
+                  item.authenticatedOnly ? ' c-nav-primary-link-authenticated' : ''
+                }`}
+              >
+                <LocalizedSection
+                  zhContent={textsZh.drawer[item.key]}
+                  enContent={textsEn.drawer[item.key]}
+                />
+              </a>
+            ))}
+          </div>
         </div>
         <div className="c-nav-right">
           <LanguageSelector />

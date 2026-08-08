@@ -60,6 +60,53 @@ async function settlePage(page: Page): Promise<void> {
   await page.waitForTimeout(250);
 }
 
+async function expectDesktopNavigationFits(page: Page, expectedLinkCount: number): Promise<void> {
+  await expect(page.locator('.c-nav-primary-links a')).toHaveCount(4);
+  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(expectedLinkCount);
+  await expect(page.locator('.c-nav-primary-links a[href="/"]')).toHaveCount(0);
+  await expect(page.locator('.c-nav-primary-links')).toBeVisible();
+  await expect(page.locator('.c-hamburger-btn')).toBeHidden();
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const nav = document.querySelector('.c-nav-container > nav');
+        const left = document.querySelector('.c-nav-left');
+        const primary = document.querySelector('.c-nav-primary-links');
+        const right = document.querySelector('.c-nav-right');
+        if (!nav || !left || !primary || !right) return null;
+
+        const navRect = nav.getBoundingClientRect();
+        const leftRect = left.getBoundingClientRect();
+        const primaryRect = primary.getBoundingClientRect();
+        const rightRect = right.getBoundingClientRect();
+
+        return {
+          desktopMediaMatches: window.matchMedia('(min-width: 64.0625rem)').matches,
+          drawerExists: Boolean(document.querySelector('.c-side-menu')),
+          duplicateHome: primary.querySelectorAll('a[href="/"]').length > 0,
+          leftRightOverlap: leftRect.right > rightRect.left,
+          primaryRightOverlap: primaryRect.right > rightRect.left,
+          clipped:
+            leftRect.left < navRect.left ||
+            rightRect.right > navRect.right ||
+            leftRect.top < navRect.top ||
+            rightRect.bottom > navRect.bottom,
+          overflowX: document.documentElement.scrollWidth > window.innerWidth
+        };
+      })
+    )
+    .toEqual({
+      desktopMediaMatches: true,
+      drawerExists: false,
+      duplicateHome: false,
+      leftRightOverlap: false,
+      primaryRightOverlap: false,
+      clipped: false,
+      overflowX: false
+    });
+}
+
 async function routeLoggedOutAuthProbe(page: Page): Promise<() => number> {
   let authProbeRequests = 0;
 
@@ -145,6 +192,241 @@ test('homepage work links route visitors to public destinations', async ({ page 
   await audit.assertClean();
 });
 
+test('navigation and compact disclosures preserve keyboard, scroll, and stacking boundaries', async ({
+  page
+}) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const audit = attachConsoleAudit(page, 'navigation interactions');
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.c-nav-primary-links a')).toHaveCount(4);
+  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(3);
+  await expect(page.locator('.c-nav-primary-links a[href="/"]')).toHaveCount(0);
+  await expect(page.locator('.c-nav-primary-links a[href="/deepseek_chat"]')).toBeVisible();
+  await expect(page.locator('.c-nav-primary-links a[href="/certifications"]')).toBeVisible();
+  await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeVisible();
+  await expect(page.locator('.c-hamburger-btn')).toBeHidden();
+
+  const desktopThemeButton = page.getByRole('button', { name: '切换主题' });
+  await desktopThemeButton.click();
+  await expect(page.getByRole('button', { name: '切换到深色模式' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(desktopThemeButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(desktopThemeButton).toBeFocused();
+
+  const desktopLanguageButton = page.getByRole('button', { name: '切换语言' });
+  await desktopLanguageButton.click();
+  await expect(page.getByRole('group', { name: '语言' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '中文' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(desktopLanguageButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(desktopLanguageButton).toBeFocused();
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.c-nav-primary-links')).toBeHidden();
+  const hamburger = page.locator('.c-hamburger-btn');
+  await expect(hamburger).toBeVisible();
+  await expect(page.locator('.c-side-menu-link')).toHaveCount(0);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await hamburger.click();
+  const drawer = page.getByRole('dialog', { name: '菜单' });
+  const closeButton = page.getByRole('button', { name: '关闭导航' });
+  await expect(drawer).toBeVisible();
+  await expect(closeButton).toBeFocused();
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+  await expect(page.locator('html')).toHaveCSS('overflow', 'hidden');
+  expect(
+    await drawer.evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).transitionDuration)
+    )
+  ).toBeLessThanOrEqual(0.001);
+
+  await page.mouse.wheel(0, 500);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+
+  const drawerLinks = page.locator('.c-side-menu-link');
+  await page.keyboard.press('Shift+Tab');
+  await expect(drawerLinks.last()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(closeButton).toBeFocused();
+
+  await page.locator('.c-nav-logo').evaluate((element) => (element as HTMLElement).focus());
+  await expect(page.locator('.c-nav-logo')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(closeButton).toBeFocused();
+
+  const mobileGeometry = await page.evaluate(() => {
+    const drawerElement = document.querySelector('.c-side-menu');
+    const overlay = document.querySelector('.c-side-menu-overlay');
+    const launcher = document.querySelector('.c-chat-widget-toggle');
+    const summary = document.querySelector('.c-home-proof-path-summary');
+    if (!drawerElement || !overlay || !launcher || !summary) return null;
+
+    const launcherRect = launcher.getBoundingClientRect();
+    const summaryRect = summary.getBoundingClientRect();
+    const hitTarget = document.elementFromPoint(
+      launcherRect.left + launcherRect.width / 2,
+      launcherRect.top + launcherRect.height / 2
+    );
+
+    return {
+      drawerZ: Number.parseInt(getComputedStyle(drawerElement).zIndex, 10),
+      overlayZ: Number.parseInt(getComputedStyle(overlay).zIndex, 10),
+      chatZ: Number.parseInt(getComputedStyle(launcher).zIndex, 10),
+      hitTargetClass: hitTarget?.className,
+      intersects: !(
+        launcherRect.right <= summaryRect.left ||
+        launcherRect.left >= summaryRect.right ||
+        launcherRect.bottom <= summaryRect.top ||
+        launcherRect.top >= summaryRect.bottom
+      ),
+      overflowX: document.documentElement.scrollWidth > window.innerWidth
+    };
+  });
+
+  expect(mobileGeometry).not.toBeNull();
+  expect(mobileGeometry?.drawerZ).toBeGreaterThan(mobileGeometry?.chatZ ?? 0);
+  expect(mobileGeometry?.overlayZ).toBeGreaterThan(mobileGeometry?.chatZ ?? 0);
+  expect(String(mobileGeometry?.hitTargetClass)).toContain('c-side-menu-overlay');
+  expect(mobileGeometry?.intersects).toBe(false);
+  expect(mobileGeometry?.overflowX).toBe(false);
+
+  await page.keyboard.press('Escape');
+  await expect(drawer).toHaveCount(0);
+  await expect(hamburger).toHaveAttribute('aria-expanded', 'false');
+  await expect(hamburger).toBeFocused();
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
+
+  await hamburger.click();
+  await page.locator('.c-side-menu-overlay').click({ position: { x: 380, y: 600 } });
+  await expect(hamburger).toHaveAttribute('aria-expanded', 'false');
+  await expect(hamburger).toBeFocused();
+
+  await hamburger.click();
+  await page.getByRole('button', { name: '关闭导航' }).click();
+  await expect(hamburger).toHaveAttribute('aria-expanded', 'false');
+
+  const chatToggle = page.getByRole('button', { name: /Open Assistant/i });
+  await chatToggle.click();
+  await expect(page.locator('.c-chat-widget-frame-wrapper')).toHaveAttribute('aria-busy', 'false', {
+    timeout: 30_000
+  });
+  await hamburger.evaluate((element) => (element as HTMLElement).click());
+  await expect(drawer).toBeVisible();
+
+  const panelStacking = await page.evaluate(() => {
+    const drawerElement = document.querySelector('.c-side-menu');
+    const overlay = document.querySelector('.c-side-menu-overlay');
+    const launcher = document.querySelector('.c-chat-widget-toggle');
+    const panel = document.querySelector('.c-chat-widget-panel');
+    if (!drawerElement || !overlay || !launcher || !panel) return null;
+
+    const launcherRect = launcher.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+    const hitClassAt = (rect: DOMRect) =>
+      document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)?.className;
+
+    return {
+      drawerZ: Number.parseInt(getComputedStyle(drawerElement).zIndex, 10),
+      overlayZ: Number.parseInt(getComputedStyle(overlay).zIndex, 10),
+      launcherZ: Number.parseInt(getComputedStyle(launcher).zIndex, 10),
+      panelZ: Number.parseInt(getComputedStyle(panel).zIndex, 10),
+      launcherHitClass: hitClassAt(launcherRect),
+      panelHitClass: document.elementFromPoint(
+        panelRect.right - 8,
+        panelRect.top + panelRect.height / 2
+      )?.className
+    };
+  });
+
+  expect(panelStacking).not.toBeNull();
+  expect(panelStacking?.drawerZ).toBeGreaterThan(panelStacking?.launcherZ ?? 0);
+  expect(panelStacking?.drawerZ).toBeGreaterThan(panelStacking?.panelZ ?? 0);
+  expect(panelStacking?.overlayZ).toBeGreaterThan(panelStacking?.launcherZ ?? 0);
+  expect(panelStacking?.overlayZ).toBeGreaterThan(panelStacking?.panelZ ?? 0);
+  expect(String(panelStacking?.launcherHitClass)).toContain('c-side-menu-overlay');
+  expect(String(panelStacking?.panelHitClass)).toContain('c-side-menu-overlay');
+
+  await page.keyboard.press('Escape');
+  await expect(drawer).toHaveCount(0);
+  await expect(page.locator('.c-chat-widget-panel')).toBeVisible();
+  await page.getByRole('button', { name: /Close Assistant/i }).click();
+  await expect(page.locator('.c-chat-widget-panel')).toHaveCount(0);
+
+  await hamburger.click();
+  await expect(drawer).toBeVisible();
+  await page.setViewportSize({ width: 1025, height: 900 });
+  await expect(drawer).toHaveCount(0);
+  await expectDesktopNavigationFits(page, 3);
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.c-side-menu-link')).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(hamburger).toBeVisible();
+  await expect(page.locator('.c-nav-primary-links')).toBeHidden();
+
+  const mobileLanguageButton = page.getByRole('button', { name: '切换语言' });
+  await mobileLanguageButton.click();
+  await page.getByRole('button', { name: 'English' }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  const englishLanguageButton = page.getByRole('button', { name: 'Change language' });
+  await expect(englishLanguageButton).toBeFocused();
+  await englishLanguageButton.click();
+  await page.keyboard.press('Escape');
+  await expect(englishLanguageButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(englishLanguageButton).toBeFocused();
+
+  const mobileThemeButton = page.getByRole('button', { name: 'Theme' });
+  await mobileThemeButton.click();
+  await page.keyboard.press('Escape');
+  await expect(mobileThemeButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(mobileThemeButton).toBeFocused();
+
+  await page.setViewportSize({ width: 1025, height: 900 });
+  await expect(page.locator('.c-nav-logo')).toHaveAttribute('aria-label', 'Home');
+  await expectDesktopNavigationFits(page, 3);
+  await page.setViewportSize({ width: 1100, height: 900 });
+  await expectDesktopNavigationFits(page, 3);
+
+  await page.unroute(`**${AUTH_ME_PATH}`);
+  await page.route(`**${AUTH_ME_PATH}`, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ok: true,
+        user: {
+          id: 7,
+          uid: 'smoke-user-7',
+          email: null,
+          phone: null,
+          display_name: 'Smoke User',
+          is_active: true
+        }
+      })
+    });
+  });
+  await page.evaluate(() => window.localStorage.setItem('logged_in', JSON.stringify(true)));
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(page.locator('html')).toHaveAttribute('data-logged-in', 'true');
+  await expect(page.locator('.c-nav-home-logged-in')).toBeVisible();
+  await expectDesktopNavigationFits(page, 4);
+  await expect(page.locator('.c-nav-primary-links a[href="/profile"]')).toBeVisible();
+  await page.setViewportSize({ width: 1025, height: 900 });
+  await expectDesktopNavigationFits(page, 4);
+  await settlePage(page);
+
+  expect(authProbeCount(), 'logged-out navigation paths should not probe auth/me').toBe(0);
+  await audit.assertClean();
+});
+
 test('/docs/ renders Mermaid diagrams after live language changes', async ({ page }) => {
   const authProbeCount = await routeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'docs language switch');
@@ -157,7 +439,7 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
   ).toHaveCount(2, { timeout: 30_000 });
 
   await page.getByRole('button', { name: '切换语言' }).click();
-  await page.getByRole('option', { name: 'English' }).click();
+  await page.getByRole('button', { name: 'English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('#content-en')).toBeVisible();
   await expect(
@@ -165,7 +447,7 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
   ).toHaveCount(2, { timeout: 30_000 });
 
   await page.getByRole('button', { name: 'Change language' }).click();
-  await page.getByRole('option', { name: '中文' }).click();
+  await page.getByRole('button', { name: '中文' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.locator('#content-zh')).toBeVisible();
   await expect(
