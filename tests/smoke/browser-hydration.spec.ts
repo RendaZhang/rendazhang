@@ -2,6 +2,7 @@ import { expect, test, type ConsoleMessage, type Page } from '@playwright/test';
 
 const AUTH_ME_PATH = '/cloudchat/auth/me';
 const CHAT_PAGE_PATH = '/deepseek_chat/';
+const DOCS_PAGE_PATH = '/docs/';
 const THEME_STORAGE_KEY = 'preferred_theme';
 const THEME_PALETTE_STORAGE_KEY = 'preferred_palette';
 
@@ -141,6 +142,38 @@ test('homepage work links route visitors to public destinations', async ({ page 
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out homepage proof path should not probe auth/me').toBe(0);
+  await audit.assertClean();
+});
+
+test('/docs/ renders Mermaid diagrams after live language changes', async ({ page }) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const audit = attachConsoleAudit(page, 'docs language switch');
+
+  await page.goto(DOCS_PAGE_PATH, { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+  await expect(page.locator('#content-zh')).toBeVisible();
+  await expect(
+    page.locator('#content-zh .language-mermaid[data-processed="true"] svg')
+  ).toHaveCount(2, { timeout: 30_000 });
+
+  await page.getByRole('button', { name: '切换语言' }).click();
+  await page.getByRole('option', { name: 'English' }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.locator('#content-en')).toBeVisible();
+  await expect(
+    page.locator('#content-en .language-mermaid[data-processed="true"] svg')
+  ).toHaveCount(2, { timeout: 30_000 });
+
+  await page.getByRole('button', { name: 'Change language' }).click();
+  await page.getByRole('option', { name: '中文' }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+  await expect(page.locator('#content-zh')).toBeVisible();
+  await expect(
+    page.locator('#content-zh .language-mermaid[data-processed="true"] svg')
+  ).toHaveCount(2);
+  await settlePage(page);
+
+  expect(authProbeCount(), 'logged-out docs path should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 

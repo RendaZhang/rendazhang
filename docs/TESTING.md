@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 05, 2026, 10:38 (UTC+08:00)
+- **最后更新**: August 08, 2026, 09:21 (UTC+08:00)
 
 ---
 
@@ -76,6 +76,7 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   - 未登录且没有本地登录信号时，公共页面不会主动请求 `/cloudchat/auth/me`。
   - `/deepseek_chat/` 页面加载时无 hydration mismatch 信号，且不会挂载全局 Chat Widget。
   - Chat Widget 打开后加载同源 `/deepseek_chat/` iframe，等待 `chat-enhancement-ready` 后隐藏 skeleton。
+  - `/docs/` 首次加载会渲染当前可见语言的 Mermaid 图表；中文与英文页面内双向切换后，新可见语言的当前两张图表会在无需刷新时完成渲染。
   - 主题 mode 切换后 `html[data-theme]`、选中态 `aria-pressed` 和 `preferred_theme` storage 保持一致。
   - theme palette 切换后 `html[data-palette]`、swatch 选中态 `aria-pressed` 和 `preferred_palette` storage 保持一致。
 

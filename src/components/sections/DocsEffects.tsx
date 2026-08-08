@@ -2,9 +2,61 @@ import { useEffect } from 'react';
 import { DOC_CONTENT } from '../../constants';
 import logger from '../../utils/logger';
 
+type DocsLanguage = 'zh' | 'en';
+type MermaidApi = (typeof import('mermaid'))['default'];
+
+function getCurrentDocsLanguage(): DocsLanguage {
+  return document.documentElement.lang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+}
+
+function getMermaidSelector(language: DocsLanguage): string {
+  return language === 'zh' ? '#content-zh .language-mermaid' : '#content-en .language-mermaid';
+}
+
 export default function DocsEffects(): null {
   useEffect(() => {
     let cancelled = false;
+    let enhancementsReady = false;
+    let mermaidApi: MermaidApi | null = null;
+    let renderedLanguage: DocsLanguage | null = null;
+    let requestedLanguage: DocsLanguage | null = null;
+    let renderPromise: Promise<void> | null = null;
+
+    const drainMermaidRenders = async (): Promise<void> => {
+      while (!cancelled && mermaidApi && requestedLanguage) {
+        const language = requestedLanguage;
+        requestedLanguage = null;
+
+        if (language === renderedLanguage) continue;
+
+        try {
+          await mermaidApi.run({ querySelector: getMermaidSelector(language) });
+          if (!cancelled) renderedLanguage = language;
+        } catch (error) {
+          logger.error('Docs Mermaid render error:', error);
+        }
+      }
+    };
+
+    const requestVisibleMermaidRender = (): void => {
+      requestedLanguage = getCurrentDocsLanguage();
+      if (cancelled || !enhancementsReady || !mermaidApi || renderPromise) return;
+
+      renderPromise = drainMermaidRenders()
+        .catch((error) => {
+          logger.error('Docs Mermaid render queue error:', error);
+        })
+        .finally(() => {
+          renderPromise = null;
+          if (!cancelled && requestedLanguage) requestVisibleMermaidRender();
+        });
+    };
+
+    const handleLanguageChange = (): void => {
+      requestVisibleMermaidRender();
+    };
+
+    window.addEventListener('langChanged', handleLanguageChange);
 
     const applyEnhancements = async () => {
       const [{ marked }, { default: getProjectHighlighter }, { default: mermaid }] =
@@ -58,12 +110,9 @@ export default function DocsEffects(): null {
         hljs.highlightElement(block as HTMLElement);
       });
       mermaid.initialize({ startOnLoad: false });
-      const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
-      const mermaidSelector =
-        lang.indexOf('zh') === 0
-          ? '#content-zh .language-mermaid'
-          : '#content-en .language-mermaid';
-      void mermaid.run({ querySelector: mermaidSelector });
+      mermaidApi = mermaid;
+      enhancementsReady = true;
+      requestVisibleMermaidRender();
       logger.log('All enhancements applied');
     };
 
@@ -76,6 +125,8 @@ export default function DocsEffects(): null {
 
     return () => {
       cancelled = true;
+      requestedLanguage = null;
+      window.removeEventListener('langChanged', handleLanguageChange);
     };
   }, []);
 
