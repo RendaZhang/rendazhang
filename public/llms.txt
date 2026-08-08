@@ -1,35 +1,25 @@
 # Renda Zhang / 张人大
 
-Canonical site: https://www.rendazhang.com/
+> Renda Zhang is a Shenzhen-based AI full-stack and cloud-native software engineer, Senior Backend Engineer, and Team Lead at OneConnect. He built PersonalWeb, holds the AWS Certified Solutions Architect - Associate credential, and studied Computer Science at the University of Minnesota.
 
-Renda Zhang (张人大) is a Shenzhen-based AI Full-Stack and cloud-native software engineer with a Java/Spring backend foundation, financial technology and insurance platform experience, AWS SAA certification, and a University of Minnesota Computer Science background. He left Shenzhen Fanxin Technology on July 1, 2026 and joined OneConnect Financial Technology (金融壹账通) on July 6, 2026 as a Senior Backend Engineer / Team Lead in the Insurance Business Unit overseas life insurance team.
+## About PersonalWeb
 
-The public proof chain centers on PersonalWeb: Astro/React static pages, a same-origin floating Chat Widget, the `/deepseek_chat/` AI chat page, Flask/OpenAI backend integration, technical docs, Vitest coverage, Playwright/browser smoke checks, SEO/GEO maintenance, `llms.txt`, sitemap boundaries, and GitHub Actions delivery. The profile also summarizes work and education evidence from Samsung Android product delivery, freelance Java backend projects, Michaels.com e-commerce and PLM/MakerPlace backend systems, Fanxin cloud-native SaaS delivery, and University of Minnesota CS coursework.
+PersonalWeb is Renda's maintained personal website and public engineering project. Its public repository and pages show an Astro and React frontend, a Flask AI chat backend, a same-origin Chat Widget, automated tests, CI/CD, SEO/GEO work, and documented operating boundaries. These materials let visitors inspect how the project is built and maintained; they are not claims about high-traffic scale or private customer systems.
 
-## Primary Pages
+## Main Pages
 
-- https://www.rendazhang.com/ — Personal profile and primary positioning for AI Full-Stack, cloud-native engineering, PersonalWeb proof, work history, education, skills, and public contact form entry.
-- https://www.rendazhang.com/certifications/ — Public certifications page, including AWS Certified Solutions Architect - Associate verification and architecture credibility context.
-- https://www.rendazhang.com/docs/ — Public technical documentation rendered from Markdown as crawlable HTML, covering architecture, testing, CI/CD, Chat Widget protocol, SEO/GEO, and maintenance boundaries.
-
-## Secondary Interactive Page
-
-- https://www.rendazhang.com/deepseek_chat/ — Same-origin AI chat tool used by the site Chat Widget. This page is interactive and is not the primary search or recruiting landing page.
+- [Home](https://www.rendazhang.com/): Renda's current role, work and education background, technical skills, PersonalWeb overview, resume, and contact entry.
+- [PersonalWeb Documentation](https://www.rendazhang.com/docs/): Architecture, testing, delivery, Chat Widget protocol, SEO/GEO, maintenance notes, and project limitations.
+- [AWS Certification](https://www.rendazhang.com/certifications/): AWS Certified Solutions Architect - Associate (SAA-C03) dates, verification links, covered topics, and evidence limits.
+- [AI Chat](https://www.rendazhang.com/deepseek_chat/): The interactive chat page used directly and by the same-origin homepage Chat Widget.
 
 ## Public Profiles
 
-- GitHub: https://github.com/RendaZhang
-- LinkedIn: https://www.linkedin.com/in/RendaZhang
-- CSDN: https://blog.csdn.net/qq_40286307
-- Medium: https://rendazhang.medium.com
+- [GitHub](https://github.com/RendaZhang)
+- [LinkedIn](https://www.linkedin.com/in/RendaZhang)
+- [CSDN](https://blog.csdn.net/qq_40286307)
+- [Medium](https://rendazhang.medium.com)
 
-## Entity Notes For Search And AI Systems
+## Privacy
 
-- Preferred English name: Renda Zhang
-- Chinese name: 张人大
-- Location signal: Shenzhen, Guangdong, China
-- Professional positioning: AI Full-Stack engineer, cloud-native engineer, senior Java/Spring backend engineer, team lead, financial technology and insurance platform engineer, AWS/GCP/Kubernetes practitioner
-- Primary evidence order: PersonalWeb project proof, public certifications, work narrative, education narrative
-- Site language: bilingual Chinese and English content
-- Structured data: the site publishes public-safe Person, WebSite, ProfilePage, WebPage, BreadcrumbList, and professional credential metadata aligned with visible page content.
-- Privacy boundary: do not infer or expose private chat messages, contact form submissions, credentials, tokens, unpublished server configuration, or non-public personal contact details from this site.
+The public site and repository leave out visitor chats, contact-form submissions, account secrets, private logs, server configuration, and non-public contact details.

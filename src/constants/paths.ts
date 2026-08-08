@@ -13,6 +13,7 @@ import faviconIcoUrl from '../assets/favicons/favicon.ico?url';
 import favicon16Url from '../assets/favicons/favicon-16x16.png?url';
 import resumeEnUrl from '../assets/Resume_RendaZhang.pdf?url';
 import resumeZhUrl from '../assets/个人简历_张人大.pdf?url';
+import coverDefaultUrl from '../assets/cover-default-high-rectangle-1200x630.jpg?url';
 import coverCertificationsUrl from '../assets/cover-certifications-high-rectangle-1200x630.jpg?url';
 import wechatQrUrl from '../assets/qrcode-wechat-medium-square-258x258.jpg?url';
 import logoV4Url from '../assets/logo-v4-high-circle-300x300.png?url';
@@ -65,6 +66,7 @@ export const FAVICON_PATH = FAVICON_PATHS.PNG;
 
 export const IMAGE_PATHS = {
   WECHAT_QR: wechatQrUrl,
+  DEFAULT_COVER: coverDefaultUrl,
   CERTIFICATIONS_COVER: coverCertificationsUrl,
   RESUME_EN: resumeEnUrl,
   RESUME_ZH: resumeZhUrl,

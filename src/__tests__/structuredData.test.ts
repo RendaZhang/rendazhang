@@ -6,11 +6,14 @@ import {
   DOCS_PAGE_SCHEMA_ID,
   HOME_PROFILE_PAGE_SCHEMA_ID,
   PERSON_SCHEMA_ID,
+  PROFILE_IMAGE_ALT,
+  SITE_BASE_URL,
   WEBSITE_SCHEMA_ID,
   buildCertificationsStructuredDataJson,
   buildDocsStructuredDataJson,
   buildHomeStructuredDataJson
 } from '../constants/meta';
+import { IMAGE_PATHS } from '../constants/paths';
 
 type StructuredDataGraph = {
   '@context': string;
@@ -83,6 +86,11 @@ describe('structured data builders', () => {
     expect(profilePage['@type']).toBe('ProfilePage');
     expect(profilePage['name']).toBe('Renda Zhang · AI Full-Stack & Cloud-Native Engineer');
     expect(profilePage['mainEntity']).toEqual({ '@id': PERSON_SCHEMA_ID });
+    expect(profilePage['primaryImageOfPage']).toEqual({
+      '@type': 'ImageObject',
+      url: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
+      caption: PROFILE_IMAGE_ALT
+    });
   });
 
   it('builds a docs WebPage graph with bilingual documentation signals', () => {
@@ -92,7 +100,8 @@ describe('structured data builders', () => {
     expect(docsPage['@type']).toBe('WebPage');
     expect(docsPage['name']).toBe('Technical Documentation · Renda Zhang');
     expect(docsPage['alternateName']).toBe('技术文档 · 张人大');
-    expect(JSON.stringify(docsPage)).toContain('PersonalWeb project proof surface');
+    expect(JSON.stringify(docsPage)).toContain('PersonalWeb architecture and maintenance');
+    expect(JSON.stringify(docsPage)).not.toContain('proof surface');
     expect(JSON.stringify(docsPage)).toContain('AI Chat Widget');
     expect(JSON.stringify(docsPage)).toContain('SEO');
     expect(JSON.stringify(docsPage)).toContain('Java');
@@ -109,7 +118,8 @@ describe('structured data builders', () => {
       '@id': 'https://www.rendazhang.com/certifications/#credential-list'
     });
     expect(credential['name']).toBe('AWS Certified Solutions Architect - Associate (SAA-C03)');
-    expect(credential['dateIssued']).toBe('2025-06-16');
+    expect(credential['datePublished']).toBe('2025-06-16');
+    expect(credential['dateIssued']).toBeUndefined();
     expect(credential['expires']).toBe('2028-06-16');
     expect(JSON.stringify(graph)).toContain('Amazon Web Services');
   });

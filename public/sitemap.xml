@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Main Homepage -->
   <url>
     <loc>https://www.rendazhang.com/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-08</lastmod>
   </url>
-
-  <!-- Documentation Page -->
   <url>
     <loc>https://www.rendazhang.com/docs/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-08-08</lastmod>
   </url>
-
-  <!-- Certifications -->
   <url>
     <loc>https://www.rendazhang.com/certifications/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-08-08</lastmod>
   </url>
-
 </urlset>

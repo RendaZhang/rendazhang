@@ -9,7 +9,7 @@ export const DOCS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/docs/#webpage`;
 export const CERTIFICATIONS_PAGE_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#webpage`;
 export const AWS_SAA_CREDENTIAL_SCHEMA_ID = `${SITE_BASE_URL}/certifications/#aws-saa-c03`;
 export const SITE_DESCRIPTION_EN =
-  'Renda Zhang is a Shenzhen-based AI Full-Stack and cloud-native software engineer with Java/Spring insurance platform experience, PersonalWeb project proof, AWS SAA certification, and a University of Minnesota CS background, currently working at OneConnect Financial Technology as a Senior Backend Engineer / Team Lead.';
+  'Meet Renda Zhang, a Shenzhen-based AI full-stack and cloud-native software engineer who built PersonalWeb and works as a Senior Backend Engineer and Team Lead at OneConnect.';
 
 export const PAGE_TITLES = {
   ABOUT_ZH: '张人大 · AI 全栈与云原生工程师',
@@ -33,9 +33,9 @@ export const LOGIN_DESCRIPTION = 'The Login Page of Renda Zhang';
 export const REGISTER_DESCRIPTION = 'The Register Page of Renda Zhang';
 export const AI_CHAT_WIDGET_TITLE = 'AI Chat';
 export const DOCS_DESCRIPTION =
-  "Technical documentation for Renda Zhang's PersonalWeb proof surface, covering Astro/React, AI Chat Widget boundaries, Java/Spring backend context, cloud-native delivery, CI/CD, testing, SEO/GEO, and operations notes.";
+  'Explore how Renda Zhang built PersonalWeb across Astro, React, Flask AI chat, testing, CI/CD, SEO/GEO, and documented operating boundaries.';
 export const CERTIFICATIONS_DESCRIPTION =
-  'Public certification proof for Renda Zhang, including AWS Certified Solutions Architect - Associate (SAA-C03), issue date, expiration date, verification links, and cloud-native architecture credibility context.';
+  "Verify Renda Zhang's AWS Certified Solutions Architect - Associate (SAA-C03) credential and review its dates, covered topics, and evidence limits.";
 export const CERTIFICATIONS_IMAGE_ALT = 'Renda Zhang Certifications';
 export const LOADING_TEXT = {
   ZH: '加载中...',
@@ -47,9 +47,9 @@ export const OG_IMAGE_DIMENSIONS = {
   HEIGHT: '630'
 } as const;
 
-export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.CERTIFICATIONS_COVER;
-export const DEFAULT_SOCIAL_IMAGE_ALT =
-  'Renda Zhang AI Full-Stack and cloud-native engineer profile with PersonalWeb proof and AWS certification preview';
+export const DEFAULT_SOCIAL_IMAGE = IMAGE_PATHS.DEFAULT_COVER;
+export const DEFAULT_SOCIAL_IMAGE_ALT = 'Renda Zhang branded social cover with the RZ monogram';
+export const PROFILE_IMAGE_ALT = 'Portrait of Renda Zhang';
 
 export const GEO_REGION = 'CN-GD';
 export const GEO_POSITION = '22.543096;114.057865';
@@ -130,7 +130,7 @@ export const AWS_SAA_CREDENTIAL_SCHEMA = {
   identifier: '9860ad4d665a44d4b0c93dfbaf824ee2',
   url: 'https://www.credly.com/badges/8a7e15fc-374b-4335-a86e-e30e5255836d/public_url',
   validFor: 'P3Y',
-  dateIssued: '2025-06-16',
+  datePublished: '2025-06-16',
   expires: '2028-06-16',
   recognizedBy: {
     '@type': 'Organization',
@@ -234,7 +234,7 @@ export function buildHomeStructuredDataJson(): string {
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: `${SITE_BASE_URL}${IMAGE_PATHS.LOGO_V4}`,
-      caption: DEFAULT_SOCIAL_IMAGE_ALT
+      caption: PROFILE_IMAGE_ALT
     },
     breadcrumb: { '@id': breadcrumb['@id'] }
   } as const;
@@ -267,7 +267,7 @@ export function buildDocsStructuredDataJson(): string {
     author: PERSON_REFERENCE,
     publisher: PERSON_REFERENCE,
     about: [
-      'PersonalWeb project proof surface',
+      'PersonalWeb architecture and maintenance',
       'Astro and React frontend architecture',
       'AI Chat Widget protocol and backend integration boundaries',
       'Java and Spring backend portfolio context',

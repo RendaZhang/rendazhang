@@ -37,6 +37,7 @@
     - [Content And Credibility Positioning](#content-and-credibility-positioning)
     - [Site Intelligence And Visitor Journey](#site-intelligence-and-visitor-journey)
     - [Portfolio Proof And Visitor Conversion](#portfolio-proof-and-visitor-conversion)
+    - [Chat Guide Quality Architecture](#chat-guide-quality-architecture)
     - [SEO / GEO Maintenance](#seo--geo-maintenance)
     - [BUG Tracking](#bug-tracking)
     - [Development Requirements](#development-requirements)
@@ -56,7 +57,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 02, 2026, 11:15 (UTC+08:00)
+- **Last Updated**: August 08, 2026, 11:40 (UTC+08:00)
 
 ---
 
@@ -504,6 +505,10 @@ location /_astro/ {
 ### Portfolio Proof And Visitor Conversion
 
 > Phase 14 planning for portfolio proof, visitor proof paths, the PersonalWeb case-study surface, homepage proof flow, Chat Guide entry points, and browser/mobile conversion QA is documented in: 📄 [Portfolio Proof And Visitor Conversion](https://github.com/RendaZhang/rendazhang/blob/master/docs/PORTFOLIO_PROOF_VISITOR_CONVERSION.md).
+
+### Chat Guide Quality Architecture
+
+> Phase 12 documents the Chat Guide public knowledge boundary, answer-quality architecture, backend-owned public knowledge package, and delivery sequence: 📄 [Chat Guide Quality Architecture](https://github.com/RendaZhang/rendazhang/blob/master/docs/CHAT_GUIDE_QUALITY_ARCHITECTURE.md).
 
 ### SEO / GEO Maintenance
 
