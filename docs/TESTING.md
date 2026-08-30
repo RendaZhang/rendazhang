@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 08, 2026, 10:47 (UTC+08:00)
+- **最后更新**: August 30, 2026, 22:50 (UTC+08:00)
 
 ---
 
@@ -83,7 +83,11 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   - 主题 mode 切换后 `html[data-theme]`、选中态 `aria-pressed` 和 `preferred_theme` storage 保持一致。
   - theme palette 切换后 `html[data-palette]`、swatch 选中态 `aria-pressed` 和 `preferred_palette` storage 保持一致。
 
-  该 smoke 会拦截 `/cloudchat/auth/me` 并以 logged-out 响应兜底，同时断言 logged-out 公共页面不会发起该探测请求。它不发送真实用户信息，也不覆盖 Chat streaming、auth 表单提交或后端 API 行为。
+  该 smoke 以非拦截式 request listener 断言 logged-out 公共页面不会发起
+  `/cloudchat/auth/me` 探测请求，避免因 Playwright routing 关闭浏览器缓存并扭曲生产资源加载时序。
+  对 `client:load` 交互区，测试会等待对应 Astro island 移除 `ssr` 标记后再执行点击，从而验证已
+  水合的交互行为，而不是把网络相关的水合时序误报为功能失败。它不发送真实用户信息，也不覆盖
+  Chat streaming、auth 表单提交或后端 API 行为。
 
 ## 视觉与交互 QA
 

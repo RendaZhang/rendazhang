@@ -60,6 +60,17 @@ async function settlePage(page: Page): Promise<void> {
   await page.waitForTimeout(250);
 }
 
+async function expectIslandHydrated(page: Page, componentExport: string): Promise<void> {
+  const island = page.locator(`astro-island[component-export="${componentExport}"]`);
+
+  await expect(island).toHaveCount(1);
+  await expect
+    .poll(() => island.evaluate((element) => !element.hasAttribute('ssr')), {
+      message: `${componentExport} should hydrate before browser interaction`
+    })
+    .toBe(true);
+}
+
 async function expectDesktopNavigationFits(page: Page, expectedLinkCount: number): Promise<void> {
   await expect(page.locator('.c-nav-primary-links a')).toHaveCount(4);
   await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(expectedLinkCount);
@@ -107,23 +118,20 @@ async function expectDesktopNavigationFits(page: Page, expectedLinkCount: number
     });
 }
 
-async function routeLoggedOutAuthProbe(page: Page): Promise<() => number> {
+function observeLoggedOutAuthProbe(page: Page): () => number {
   let authProbeRequests = 0;
 
-  await page.route(`**${AUTH_ME_PATH}`, async (route) => {
-    authProbeRequests += 1;
-    await route.fulfill({
-      status: 401,
-      contentType: 'application/json',
-      body: JSON.stringify({ error: 'Unauthorized' })
-    });
+  page.on('request', (request) => {
+    if (new URL(request.url()).pathname === AUTH_ME_PATH) {
+      authProbeRequests += 1;
+    }
   });
 
   return () => authProbeRequests;
 }
 
 test('homepage loads without blocking browser console errors', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'homepage');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -154,7 +162,7 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
 });
 
 test('homepage work links route visitors to public destinations', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'homepage proof path');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -195,7 +203,7 @@ test('homepage work links route visitors to public destinations', async ({ page 
 test('navigation and compact disclosures preserve keyboard, scroll, and stacking boundaries', async ({
   page
 }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'navigation interactions');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -206,6 +214,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(page.locator('.c-nav-primary-links a[href="/certifications"]')).toBeVisible();
   await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeVisible();
   await expect(page.locator('.c-hamburger-btn')).toBeHidden();
+  await expectIslandHydrated(page, 'NavBarWrapper');
 
   const desktopThemeButton = page.getByRole('button', { name: '切换主题' });
   await desktopThemeButton.click();
@@ -395,7 +404,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.setViewportSize({ width: 1100, height: 900 });
   await expectDesktopNavigationFits(page, 3);
 
-  await page.unroute(`**${AUTH_ME_PATH}`);
+  expect(authProbeCount(), 'logged-out navigation paths should not probe auth/me').toBe(0);
   await page.route(`**${AUTH_ME_PATH}`, async (route) => {
     await route.fulfill({
       status: 200,
@@ -423,12 +432,11 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expectDesktopNavigationFits(page, 4);
   await settlePage(page);
 
-  expect(authProbeCount(), 'logged-out navigation paths should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 
 test('/docs/ renders Mermaid diagrams after live language changes', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'docs language switch');
 
   await page.goto(DOCS_PAGE_PATH, { waitUntil: 'domcontentloaded' });
@@ -460,7 +468,7 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
 });
 
 test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'deepseek_chat');
 
   await page.goto(CHAT_PAGE_PATH, { waitUntil: 'domcontentloaded' });
@@ -476,7 +484,7 @@ test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }
 test('/reset_password consumes fragment tokens without sending or retaining them', async ({
   page
 }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'reset password token hygiene');
   const fakeToken = 'browser-smoke-reset-token';
   const requestedUrls: string[] = [];
@@ -500,7 +508,7 @@ test('/reset_password consumes fragment tokens without sending or retaining them
 test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers readable', async ({
   page
 }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'deepseek_chat preset');
   let requestBody: Record<string, unknown> | null = null;
 
@@ -591,7 +599,7 @@ test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers r
 });
 
 test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'chat widget');
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -630,7 +638,7 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
 });
 
 test('theme controls keep DOM state, selected state, and storage coherent', async ({ page }) => {
-  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'theme toggle');
 
   await page.addInitScript(
@@ -647,6 +655,7 @@ test('theme controls keep DOM state, selected state, and storage coherent', asyn
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(page.locator('html')).toHaveAttribute('data-palette', 'default');
+  await expectIslandHydrated(page, 'NavBarWrapper');
 
   const themeButton = page.getByRole('button', { name: /^(Theme|切换主题)$/ });
   await themeButton.click();
