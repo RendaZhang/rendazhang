@@ -10,7 +10,7 @@
     - [速率限制（后端内置）](#%E9%80%9F%E7%8E%87%E9%99%90%E5%88%B6%E5%90%8E%E7%AB%AF%E5%86%85%E7%BD%AE)
   - [密码重置业务流](#%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E4%B8%9A%E5%8A%A1%E6%B5%81)
     - [忘记密码（入口在登录页/独立页面）](#%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%85%A5%E5%8F%A3%E5%9C%A8%E7%99%BB%E5%BD%95%E9%A1%B5%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2)
-    - [重置密码页 `/reset_password?token=...`](#%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E9%A1%B5-reset_passwordtoken)
+    - [重置密码页 `/reset_password#token=...`](#%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E9%A1%B5-reset_passwordtoken)
   - [密码策略](#%E5%AF%86%E7%A0%81%E7%AD%96%E7%95%A5)
   - [API 契约（请求/响应与错误）](#api-%E5%A5%91%E7%BA%A6%E8%AF%B7%E6%B1%82%E5%93%8D%E5%BA%94%E4%B8%8E%E9%94%99%E8%AF%AF)
     - [发起重置（忘记密码）](#%E5%8F%91%E8%B5%B7%E9%87%8D%E7%BD%AE%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81)
@@ -37,13 +37,13 @@
 # 用户鉴权规范
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 29, 2026, 12:28 (UTC+08:00)
+- **最后更新**: August 30, 2026, 20:49 (UTC+08:00)
 
 ---
 
 ## 鉴权接口一览
 
-- 前端页面路由：`/reset_password?token=<URL_SAFE_TOKEN>`
+- 前端页面路由：`/reset_password#token=<URL_SAFE_TOKEN>`（兼容旧查询参数链接）
 - 后端接口（均加前缀 `/cloudchat`）：
   - 注册：`POST /auth/register`
   - 登录：`POST /auth/login`
@@ -101,11 +101,14 @@
 2. 后端**始终返回 200**（即便邮箱不存在也不暴露），文案统一：
    “如果该邮箱存在，我们已发送一封重置邮件，请在 15 分钟内完成重置。”
 3. 用户去邮箱点击链接：
-   `https://www.rendazhang.com/reset_password?token=<TOKEN>`
+   `https://www.rendazhang.com/reset_password#token=<TOKEN>`。URL fragment 不会随 HTTP 请求
+   发送到服务器。
 
-### 重置密码页 `/reset_password?token=...`
+### 重置密码页 `/reset_password#token=...`
 
-1. 解析 `token`；若缺失 → 展示“链接无效或已过期”，并提供“重新发送邮件”按钮（跳转忘记密码页）。
+1. 优先从 fragment 解析 `token`，同时兼容旧的查询参数形式；读取后立即使用
+   `history.replaceState` 从地址栏移除 token。若缺失或超过客户端上限 → 展示“链接无效或已过期”，
+   并提供“重新发送邮件”按钮（跳转忘记密码页）。
 2. 用户输入**新密码**与**确认密码**（前端本地校验，规则见 §2）。
 3. 点击“重置密码” → 调用
    `POST /cloudchat/auth/password/reset`，Body: `{"token":"...","password":"..."}`
@@ -162,7 +165,7 @@
   触发节流仍返回 200（防枚举）。
 
 > 邮件内容：包含 15 分钟有效的重置链接
-> `https://www.rendazhang.com/reset_password?token=<TOKEN>`
+> `https://www.rendazhang.com/reset_password#token=<TOKEN>`
 
 ### 完成重置
 
@@ -228,7 +231,7 @@ curl -i -X POST https://www.rendazhang.com/cloudchat/auth/password/reset \
 curl -s -X POST https://www.rendazhang.com/cloudchat/auth/password/forgot \
   -H 'Content-Type: application/json' \
   -d '{"identifier":"alice@example.com"}'
-# 邮件链接示例： https://www.rendazhang.com/reset_password?token=...
+# 邮件链接示例： https://www.rendazhang.com/reset_password#token=...
 
 # 手动把邮件中的 token 粘到命令里：
 TOKEN='<PASTE_FROM_EMAIL>'
@@ -377,10 +380,11 @@ function passwordOk(p: string): boolean {
 
 ## 开发/测试清单
 
-- [ ] `/reset_password?token=...` 无 token → 提示正确
+- [ ] `/reset_password#token=...` 无 token → 提示正确
+- [ ] fragment 与旧查询参数 token 均可读取，且水合后地址栏不再包含 token
 - [ ] 弱密码 → 按前端规则禁用提交，伪造请求也能被后端 400 拒绝
 - [ ] 有效 token + 合规密码 → 200，显示“重置成功”
 - [ ] 二次使用同 token → 400 “链接无效或已过期”
 - [ ] 所有请求 `fetch` 均设置 `credentials: 'include'`（保持同源）
-- [ ] 页面不引入第三方脚本读取 URL，避免 token 泄露；设置 `<meta name="referrer" content="same-origin">`
+- [ ] 页面不引入第三方脚本读取 URL；新链接使用 fragment，并在读取后立即清理地址栏
 - [ ] 按《接口测试脚本》验证 Debug 与生产模式的 A5/A6 流程

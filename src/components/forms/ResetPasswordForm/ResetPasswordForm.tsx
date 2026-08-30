@@ -20,6 +20,36 @@ interface ResetFormValues {
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
+const MAX_RESET_TOKEN_LENGTH = 256;
+
+export interface ResetTokenUrlState {
+  token: string;
+  sanitizedPath: string;
+  hadTokenParameter: boolean;
+}
+
+export function readResetTokenFromUrl(href: string): ResetTokenUrlState {
+  const url = new URL(href);
+  const fragmentParams = new URLSearchParams(url.hash.slice(1));
+  const hadQueryToken = url.searchParams.has('token');
+  const hadFragmentToken = fragmentParams.has('token');
+  const rawToken = fragmentParams.get('token') ?? url.searchParams.get('token') ?? '';
+  const normalizedToken = rawToken.trim();
+
+  url.searchParams.delete('token');
+  if (hadFragmentToken) {
+    fragmentParams.delete('token');
+    const remainingFragment = fragmentParams.toString();
+    url.hash = remainingFragment ? `#${remainingFragment}` : '';
+  }
+
+  return {
+    token: normalizedToken.length <= MAX_RESET_TOKEN_LENGTH ? normalizedToken : '',
+    sanitizedPath: `${url.pathname}${url.search}${url.hash}`,
+    hadTokenParameter: hadQueryToken || hadFragmentToken
+  };
+}
+
 const TEXTS = {
   zh: {
     title: '重置密码',
@@ -99,15 +129,17 @@ export default function ResetPasswordForm() {
   // 保存从 URL 中解析出的 token；undefined 表示尚未解析，空字符串表示无效
   const [token, setToken] = useState<string | undefined>(undefined);
 
-  // 初始化时清理登录标记并从地址栏读取 token
+  // 初始化时读取一次 token，并立即从地址栏移除 bearer credential。
   useEffect(() => {
     storage.remove(LOGIN_STATE_KEY);
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.loggedIn = 'false';
     }
-    const params = new URLSearchParams(window.location.search);
-    const t = params.get('token');
-    setToken(t || '');
+    const tokenUrlState = readResetTokenFromUrl(window.location.href);
+    if (tokenUrlState.hadTokenParameter) {
+      window.history.replaceState(window.history.state, '', tokenUrlState.sanitizedPath);
+    }
+    setToken(tokenUrlState.token);
   }, []);
 
   // 表单验证：校验密码复杂度以及确认密码是否一致

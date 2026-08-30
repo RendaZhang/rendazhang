@@ -93,6 +93,9 @@ npm run preview
   - `frame-src 'self' https://www.credly.com`
   - `frame-ancestors 'self'`
   - `X-Frame-Options: SAMEORIGIN`
+- Password-reset links use `/reset_password#token=...` so the token is not sent in the HTTP request.
+  The reset island must keep accepting legacy query links and immediately remove either token form
+  from the address bar after capture. Never log, persist, report, or render the token.
 
 ## Deployment
 

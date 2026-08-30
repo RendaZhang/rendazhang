@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 vi.mock('../components/providers', () => ({
   useLanguage: () => ({ lang: 'en' })
@@ -13,13 +13,14 @@ vi.mock('../services', () => ({
   }
 }));
 
-import ResetPasswordForm from '../components/forms/ResetPasswordForm/ResetPasswordForm';
+import ResetPasswordForm, {
+  readResetTokenFromUrl
+} from '../components/forms/ResetPasswordForm/ResetPasswordForm';
 import { apiClient } from '../services';
 
-function setToken(token?: string) {
-  const url = token
-    ? `http://localhost/reset_password?token=${token}`
-    : 'http://localhost/reset_password';
+function setToken(token?: string, placement: 'fragment' | 'query' = 'fragment') {
+  const tokenPart = token ? `${placement === 'fragment' ? '#' : '?'}token=${token}` : '';
+  const url = `http://localhost/reset_password${tokenPart}`;
   // jsdom does not allow navigation, so redefine location instead
   Object.defineProperty(window, 'location', {
     value: new URL(url),
@@ -29,6 +30,37 @@ function setToken(token?: string) {
 
 beforeEach(() => {
   vi.mocked(apiClient.auth.passwordReset).mockReset();
+  vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe('readResetTokenFromUrl', () => {
+  it('prefers a fragment token and removes token values from the sanitized path', () => {
+    expect(
+      readResetTokenFromUrl(
+        'https://www.rendazhang.com/reset_password?token=legacy&source=email#token=current&lang=en'
+      )
+    ).toEqual({
+      token: 'current',
+      sanitizedPath: '/reset_password?source=email#lang=en',
+      hadTokenParameter: true
+    });
+  });
+
+  it('rejects an oversized token while still removing it from the URL', () => {
+    const result = readResetTokenFromUrl(
+      `https://www.rendazhang.com/reset_password#token=${'a'.repeat(257)}`
+    );
+
+    expect(result).toEqual({
+      token: '',
+      sanitizedPath: '/reset_password',
+      hadTokenParameter: true
+    });
+  });
 });
 
 describe('ResetPasswordForm', () => {
@@ -37,6 +69,31 @@ describe('ResetPasswordForm', () => {
     render(<ResetPasswordForm />);
     const msg = await screen.findByText('Invalid or expired link');
     expect(msg).toBeTruthy();
+    expect(window.history.replaceState).not.toHaveBeenCalled();
+  });
+
+  it('accepts a fragment token and removes it from the address bar', async () => {
+    setToken('fragment-token');
+    render(<ResetPasswordForm />);
+
+    expect(await screen.findByLabelText(/New Password/)).toBeTruthy();
+    expect(window.history.replaceState).toHaveBeenCalledWith(
+      window.history.state,
+      '',
+      '/reset_password'
+    );
+  });
+
+  it('keeps legacy query-token links compatible and clears the query', async () => {
+    setToken('legacy-token', 'query');
+    render(<ResetPasswordForm />);
+
+    expect(await screen.findByLabelText(/New Password/)).toBeTruthy();
+    expect(window.history.replaceState).toHaveBeenCalledWith(
+      window.history.state,
+      '',
+      '/reset_password'
+    );
   });
 
   it('prevents submission for weak password', async () => {

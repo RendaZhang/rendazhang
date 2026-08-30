@@ -473,6 +473,30 @@ test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }
   await audit.assertClean();
 });
 
+test('/reset_password consumes fragment tokens without sending or retaining them', async ({
+  page
+}) => {
+  const authProbeCount = await routeLoggedOutAuthProbe(page);
+  const audit = attachConsoleAudit(page, 'reset password token hygiene');
+  const fakeToken = 'browser-smoke-reset-token';
+  const requestedUrls: string[] = [];
+
+  page.on('request', (request) => requestedUrls.push(request.url()));
+  await page.goto(`/reset_password/#token=${fakeToken}`, { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#password')).toBeVisible();
+  await expect
+    .poll(() => {
+      const url = new URL(page.url());
+      return { hash: url.hash, tokenQuery: url.searchParams.has('token') };
+    })
+    .toEqual({ hash: '', tokenQuery: false });
+  expect(requestedUrls.some((url) => url.includes(fakeToken))).toBe(false);
+  await settlePage(page);
+
+  expect(authProbeCount(), 'logged-out reset path should not probe auth/me').toBe(0);
+  await audit.assertClean();
+});
+
 test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers readable', async ({
   page
 }) => {
