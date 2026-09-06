@@ -581,10 +581,30 @@ class Engine:
                 if self._metadata(refreshed).exists():
                     self._verify(refreshed)
                 else:
-                    require(
-                        not self._path(refreshed).exists(),
-                        "incomplete explicit rollback view",
-                    )
+                    intent_path = self.private / (refreshed + ".intent.json")
+                    intent = {
+                        "view": refreshed,
+                        "from": state["accepted"],
+                        "target": target,
+                    }
+                    if intent_path.exists():
+                        require(
+                            load_json(intent_path) == intent,
+                            "explicit staging intent changed",
+                        )
+                        if self._path(refreshed).exists():
+                            require(
+                                not self._path(refreshed).is_symlink(),
+                                "linked explicit staging",
+                            )
+                            shutil.rmtree(self._path(refreshed))
+                    else:
+                        require(
+                            not self._path(refreshed).exists(),
+                            "unowned explicit staging",
+                        )
+                        durable_json(intent_path, intent)
+                    self.checkpoint("before_explicit_copy")
                     self._path(refreshed).mkdir(mode=0o755)
                     union = {p: e for p, e in current["files"].items() if is_hashed(p)}
                     for path, entry in original["base_files"].items():
@@ -613,6 +633,7 @@ class Engine:
                         destination.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copyfile(source, destination)
                         os.chmod(destination, 0o644)
+                        self.checkpoint("during_explicit_copy")
                     dependencies = {
                         p: refs
                         for p, refs in {
@@ -632,6 +653,8 @@ class Engine:
                         original["base_files"],
                         dependencies,
                     )
+                    self.checkpoint("after_explicit_copy")
+                (self.private / (refreshed + ".intent.json")).unlink(missing_ok=True)
                 self._budget()
                 pending = {
                     "id": generation,
@@ -639,11 +662,14 @@ class Engine:
                     "rollback": refreshed,
                     "prior": target,
                     "phase": "recovering",
-                    "deadline": None,
+                    "deadline": self.clock() + 30,
+                    "recover_by": self.clock() + 60,
+                    "explicit": True,
                     "retired": state["retired"],
                 }
                 state["pending"] = pending
                 state["previous"] = state["accepted"]
+                self._save(state, "explicit_prepared")
             require(pending["id"] == generation, "stale recovery generation")
             actual = self._actual()
             require(
@@ -651,6 +677,8 @@ class Engine:
                 "unrecognized serving state; no blind recovery",
             )
             self._verify(pending["rollback"])
+            if pending.get("explicit") and cancel_guard:
+                self.guard.arm(self.root, generation)
             pending["phase"] = "recovering"
             self._save(state, "recovery_journal")
             if self.html.is_symlink():
@@ -760,7 +788,11 @@ class Engine:
                 if state["pending"] is None or state["pending"]["id"] != generation:
                     return
                 time.sleep(0.1)
-            recovery_deadline = deadline + 60
+            recovery_deadline = (
+                time.monotonic() + max(0, pending["recover_by"] - self.clock())
+                if pending.get("explicit")
+                else deadline + 60
+            )
             self.guard.kill_worker(self.root, generation)
             while True:
                 try:

@@ -82,6 +82,13 @@ because the old version serves again. Repeated acceptance is idempotent, but lat
 cannot accept recovered or newer runs. Explicit rollback requires the retained previous target
 and constructs a view retaining resources exposed by later failed runs too.
 
+Explicit rollback staging has a durable ownership intent, so an interrupted copy can be rebuilt
+without deleting an unowned path. Once its pending journal exists, a fresh transient guard must
+report ready before the recovery journal/pointer switch. Its worker has 30 seconds to finish;
+guard reconciliation shares a total 60-second deadline from explicit preparation. Death during
+preparation before guard readiness leaves the accepted pointer unchanged and requires a retry;
+death after the recovery journal is independently recoverable.
+
 Before a pointer switch, an independent transient guard must report readiness. Acceptance is due
 within 180 seconds; recovery shares the lock with a total 60-second budget, including contention.
 The worker is hard-bounded to 30 seconds, each lock wait to 15 seconds, and the guard unit to

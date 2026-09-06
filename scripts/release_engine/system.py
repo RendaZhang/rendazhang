@@ -166,6 +166,13 @@ class SystemdGuard:
 
     def arm(self, root: Path, generation: str) -> None:
         name = unit_name(root, generation, "guard")
+        ready = root / ".release-state" / f"{generation}.ready"
+        active = subprocess.run(
+            ["systemctl", "is-active", name], capture_output=True, timeout=5
+        )
+        if active.returncode == 0 and ready.exists():
+            return
+        ready.unlink(missing_ok=True)
         command(
             [
                 "systemd-run",
@@ -190,7 +197,6 @@ class SystemdGuard:
         require(
             command(["systemctl", "is-active", name]) == "active", "guard did not arm"
         )
-        ready = root / ".release-state" / f"{generation}.ready"
         deadline = time.monotonic() + 5
         while not ready.exists():
             require(time.monotonic() < deadline, "guard readiness timed out")

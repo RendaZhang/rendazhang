@@ -18,12 +18,18 @@ def checkpoint(name):
         os._exit(77)
     if label == "hang" and name == "after_pointer":
         os.kill(os.getpid(), signal.SIGSTOP)
+    if label == "explicit_death" and name == "after_recovery_journal":
+        os.kill(os.getpid(), signal.SIGKILL)
 
 
 engine = Engine(
     Path(root),
-    capacity_provider=capacity if label in ("hang", "death") else ROOM,
-    guard=SystemdGuard() if label in ("hang", "death") else FakeGuard(),
+    capacity_provider=(
+        capacity if label in ("hang", "death", "explicit_death") else ROOM
+    ),
+    guard=(
+        SystemdGuard() if label in ("hang", "death", "explicit_death") else FakeGuard()
+    ),
     checkpoint=checkpoint,
 )
 try:
@@ -48,6 +54,9 @@ try:
         )
         if label == "death":
             os.kill(os.getpid(), signal.SIGKILL)
+    elif action == "explicit":
+        state = engine.status()
+        engine.recover(state["last"]["id"], target=state["previous"])
     elif action == "accept":
         identity = engine._view(pending["candidate"])["identity"]
         engine.accept(

@@ -158,6 +158,42 @@ class EngineTests(unittest.TestCase):
             )
         self.assertFalse((self.engine.html / "feature.js").exists())
 
+    def test_interrupted_explicit_staging_is_owned_reconcilable_and_idempotent(self):
+        for label in (
+            "before_explicit_copy",
+            "during_explicit_copy",
+            "after_explicit_copy",
+        ):
+            with self.subTest(label=label), tempfile.TemporaryDirectory(
+                prefix="release-explicit-"
+            ) as tmp:
+                engine = fixture(Path(tmp))
+                prepare(engine, self.archive, self.envelope)
+                activate(engine, self.identity)
+                accept(engine, self.identity)
+                target = engine.status()["previous"]
+                result = subprocess.run(
+                    [
+                        sys.executable,
+                        "-B",
+                        str(CRASH),
+                        str(engine.root),
+                        label,
+                        "explicit",
+                    ],
+                    capture_output=True,
+                    timeout=40,
+                )
+                self.assertEqual(result.returncode, 77, result.stderr.decode())
+                self.assertIsNone(engine.status()["pending"])
+                self.assertIn(b"two", (engine.html / "index.html").read_bytes())
+                engine.recover(self.identity["build_id"], target=target)
+                pointer = engine.status()["serving"]
+                engine.recover(self.identity["build_id"], target=target)
+                self.assertEqual(engine.status()["serving"], pointer)
+                self.assertIn(b"one", (engine.html / "index.html").read_bytes())
+                self.assertTrue((engine.html / "_astro/main.two12345678.js").exists())
+
     def test_bootstrap_copy_interruption_retries_without_touching_serving_bytes(self):
         original = inventory(self.engine.html)
         result = subprocess.run(

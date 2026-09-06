@@ -10,7 +10,16 @@ import time
 import unittest
 from pathlib import Path
 
-from support import CSP, SOURCE, artifact, fixture, prepare, representative_tree
+from support import (
+    CSP,
+    SOURCE,
+    accept,
+    activate,
+    artifact,
+    fixture,
+    prepare,
+    representative_tree,
+)
 from resource_monitor import ProcessMemory
 from release_engine.artifact import pack, load_json, MIB
 from release_engine.engine import Engine
@@ -100,7 +109,7 @@ class RealSystemdTests(unittest.TestCase):
             )
             self.assertLessEqual(allocated, 832 * MIB)
             print(
-                f"RESOURCE phase={action} combined_sampled_peak_bytes={peak} samples={len(monitor.samples)} allocated_after_bytes={allocated}",
+                f"RESOURCE phase={action} explicit_target={'--target' in arguments} combined_sampled_peak_bytes={peak} samples={len(monitor.samples)} allocated_after_bytes={allocated}",
                 flush=True,
             )
             return json.loads(result.stdout)
@@ -159,8 +168,78 @@ class RealSystemdTests(unittest.TestCase):
                 recovered = cli("recover", "--generation", generation, expected_code=2)
                 self.assertEqual(recovered["last"]["phase"], "recovered")
             cli("cleanup", expected_code=0 if outcome == "accept" else 2)
+            if outcome == "accept":
+                cli(
+                    "recover",
+                    "--generation",
+                    generation,
+                    "--target",
+                    self.engine.status()["previous"],
+                    expected_code=2,
+                )
+                cli("cleanup", expected_code=2)
         print(
             f"RESOURCE lifecycle_combined_sampled_peak_bytes={max(peaks)} hard_worker_memorymax_bytes={32 * MIB} hard_guard_memorymax_bytes={32 * MIB} aggregate_sampling_not_hard_limit=true",
+            flush=True,
+        )
+
+    def test_real_explicit_rollback_guard_survives_journal_caller_death(self):
+        prepare(self.engine, self.archive, self.envelope)
+        activate(self.engine, self.identity)
+        accept(self.engine, self.identity)
+        script = Path(__file__).with_name("crash_worker.py").resolve()
+        started = time.monotonic()
+        subprocess.run(
+            [
+                "systemd-run",
+                "--quiet",
+                "--collect",
+                f"--unit={unit_name(self.engine.root, self.generation, 'worker')}",
+                "--service-type=exec",
+                "--property=RuntimeMaxSec=30",
+                "--property=TimeoutStopSec=2",
+                "--property=MemoryMax=32M",
+                "--property=KillMode=control-group",
+                sys.executable,
+                "-B",
+                str(script),
+                str(self.engine.root),
+                "explicit_death",
+                "explicit",
+            ],
+            check=True,
+            timeout=10,
+        )
+        saw_guard = False
+        saw_journal = False
+        while time.monotonic() - started < 60:
+            state = self.engine.status()
+            if state["pending"]:
+                saw_journal |= state["pending"]["phase"] == "recovering" and state[
+                    "pending"
+                ].get("explicit", False)
+                active = subprocess.run(
+                    [
+                        "systemctl",
+                        "is-active",
+                        unit_name(self.engine.root, self.generation, "guard"),
+                    ],
+                    capture_output=True,
+                    timeout=5,
+                )
+                saw_guard |= active.stdout.strip() == b"active"
+            elif state["last"]["outcome"] == "failed":
+                break
+            time.sleep(0.1)
+        else:
+            self.fail("explicit rollback did not recover within 60 seconds")
+        self.assertTrue(saw_guard and saw_journal)
+        self.assertIn(b"one", (self.engine.html / "index.html").read_bytes())
+        self.assertTrue((self.engine.html / "_astro/main.two12345678.js").exists())
+        elapsed = time.monotonic() - started
+        self.assertGreaterEqual(elapsed, 25)
+        print(
+            f"RECOVERY fault=explicit_journal_caller_death elapsed_seconds={elapsed:.3f} guard_survived=true exposed_assets=retained",
             flush=True,
         )
 
