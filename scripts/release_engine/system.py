@@ -13,7 +13,7 @@ import sys
 import time
 from pathlib import Path
 
-from .artifact import MIB, ReleaseError, canonical, digest, require
+from .protocol import MIB, ReleaseError, canonical, digest, load_json, require
 
 PEAK_DISK = 832 * MIB
 DISK_RESERVE = 5 * 1024 * MIB
@@ -167,11 +167,19 @@ class SystemdGuard:
     def arm(self, root: Path, generation: str) -> None:
         name = unit_name(root, generation, "guard")
         ready = root / ".release-state" / f"{generation}.ready"
+        pending = load_json(root / ".release-state" / "state.json")["pending"]
+        require(
+            pending is not None and pending["id"] == generation,
+            "guard transaction changed",
+        )
+        receipt = guard_receipt(pending)
         active = subprocess.run(
             ["systemctl", "is-active", name], capture_output=True, timeout=5
         )
-        if active.returncode == 0 and ready.exists():
-            return
+        if active.returncode == 0:
+            if ready.exists() and load_json(ready) == receipt:
+                return
+            command(["systemctl", "stop", name])
         ready.unlink(missing_ok=True)
         command(
             [
@@ -201,6 +209,10 @@ class SystemdGuard:
         while not ready.exists():
             require(time.monotonic() < deadline, "guard readiness timed out")
             time.sleep(0.025)
+        require(
+            load_json(ready) == receipt,
+            "guard readiness belongs to another transaction",
+        )
 
     def cancel(self, root: Path, generation: str) -> None:
         name = unit_name(root, generation, "guard")
@@ -209,14 +221,18 @@ class SystemdGuard:
         )
         (root / ".release-state" / f"{generation}.ready").unlink(missing_ok=True)
 
-    def kill_worker(self, root: Path, generation: str) -> None:
+    def kill_worker(self, root: Path, generation: str, worker_key: str) -> None:
         # The name is derived from this root/generation, never from a PID supplied by a caller.
+        require(
+            worker_key == generation or worker_key.startswith(generation + "-"),
+            "worker ownership mismatch",
+        )
         subprocess.run(
             [
                 "systemctl",
                 "kill",
                 "--signal=KILL",
-                unit_name(root, generation, "worker"),
+                unit_name(root, worker_key, "worker"),
             ],
             capture_output=True,
             timeout=5,
@@ -226,7 +242,8 @@ class SystemdGuard:
 
 def run_worker(root: Path, generation: str, arguments: list[str]) -> dict:
     """CLI mutations cannot leave a SIGSTOP'ed caller holding a lock indefinitely."""
-    name = unit_name(root, generation, "worker")
+    worker_key = generation + "-" + os.urandom(8).hex()
+    name = unit_name(root, worker_key, "worker")
     result = subprocess.run(
         [
             "systemd-run",
@@ -235,6 +252,7 @@ def run_worker(root: Path, generation: str, arguments: list[str]) -> dict:
             "--collect",
             "--pipe",
             f"--unit={name}",
+            f"--setenv=RELEASE_WORKER_KEY={worker_key}",
             "--service-type=exec",
             "--property=MemoryMax=32M",
             "--property=RuntimeMaxSec=30",
@@ -255,6 +273,19 @@ def run_worker(root: Path, generation: str, arguments: list[str]) -> dict:
         result.returncode in (0, 2) and len(result.stdout) <= 2 * MIB,
         "bounded local worker failed",
     )
+    if result.returncode == 2 and not result.stdout and len(result.stderr) <= 1024:
+        try:
+            error = json.loads(result.stderr)
+        except ValueError:
+            error = None
+        if (
+            isinstance(error, dict)
+            and set(error) == {"ok", "error"}
+            and error["ok"] is False
+            and isinstance(error["error"], str)
+            and len(error["error"]) <= 256
+        ):
+            raise ReleaseError(error["error"])
     try:
         state = json.loads(result.stdout)
     except ValueError as exc:
@@ -267,3 +298,13 @@ def run_worker(root: Path, generation: str, arguments: list[str]) -> dict:
         "worker failure has no recorded outcome",
     )
     return state
+
+
+def guard_receipt(pending: dict) -> dict:
+    return {
+        "id": pending["id"],
+        "token": pending["guard_token"],
+        "worker_key": pending["worker_key"],
+        "deadline": pending["deadline"],
+        "recover_by": pending.get("recover_by"),
+    }

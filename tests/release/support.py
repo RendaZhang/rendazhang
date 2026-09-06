@@ -28,7 +28,7 @@ class FakeGuard:
     def cancel(self, root, generation):
         self.cancelled.append(generation)
 
-    def kill_worker(self, root, generation):
+    def kill_worker(self, root, generation, worker_key):
         pass
 
 

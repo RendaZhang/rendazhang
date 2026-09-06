@@ -21,6 +21,9 @@ approval are complete.
 ## Ownership
 
 - `scripts/release_engine/artifact.py`: bounded artifact, manifest, resource and inline-CSP checks.
+- `scripts/release_engine/protocol.py`: lightweight shared identity and JSON primitives. The outer
+  CLI does not import the full engine/scanner or create state directories; worker validation stays
+  authoritative.
 - `scripts/release_engine/system.py`: filesystem durability, Linux exchange, capacity and transient
   systemd boundaries.
 - `scripts/release_engine/engine.py`: private transaction journal, release views and reconciliation.
@@ -88,6 +91,12 @@ report ready before the recovery journal/pointer switch. Its worker has 30 secon
 guard reconciliation shares a total 60-second deadline from explicit preparation. Death during
 preparation before guard readiness leaves the accepted pointer unchanged and requires a retry;
 death after the recovery journal is independently recoverable.
+
+A delayed retry may refresh a pre-arm explicit transaction only while its accepted candidate is
+still serving and its journal is still `explicit_prepared`. Once armed/switching, deadlines are
+not renewed. Readiness binds a unique transaction token, deadlines and a unique CLI worker key,
+not merely a reused accepted build ID. Stale guards cannot terminate a later retry's worker or
+accept/recover a different receipt.
 
 Before a pointer switch, an independent transient guard must report readiness. Acceptance is due
 within 180 seconds; recovery shares the lock with a total 60-second budget, including contention.

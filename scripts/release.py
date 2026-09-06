@@ -7,8 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from release_engine.artifact import ReleaseError, load_json, pack, public_identity
-from release_engine.engine import Engine
+from release_engine.protocol import ReleaseError, load_json
 from release_engine.system import run_worker
 
 
@@ -46,6 +45,8 @@ def main():
     args = parser.parse_args()
     try:
         if args.action == "pack":
+            from release_engine.artifact import pack
+
             result = pack(
                 args.root,
                 args.archive,
@@ -54,17 +55,24 @@ def main():
                 args.run,
                 args.attempt,
             )
+        elif args.action not in ("worker", "status", "guard"):
+            arguments = sys.argv[2:] + ["--operation", args.action]
+            result = run_worker(
+                args.root.resolve(strict=True),
+                args.generation or "maintenance",
+                arguments,
+            )
         else:
+            from release_engine.artifact import public_identity
+            from release_engine.engine import Engine
+
             engine = Engine(args.root)
             action = args.operation if args.action == "worker" else args.action
             envelope = load_json(args.manifest) if args.manifest else None
             generation = args.generation or (
                 public_identity(envelope)["build_id"] if envelope else "maintenance"
             )
-            if args.action not in ("worker", "status", "guard"):
-                arguments = sys.argv[2:] + ["--operation", args.action]
-                result = run_worker(engine.root, generation, arguments)
-            elif action == "prepare":
+            if action == "prepare":
                 policy = load_json(args.csp)
                 if set(policy) != {"script_hashes"} or not isinstance(
                     policy["script_hashes"], list

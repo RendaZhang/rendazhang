@@ -194,6 +194,56 @@ class EngineTests(unittest.TestCase):
                 self.assertIn(b"one", (engine.html / "index.html").read_bytes())
                 self.assertTrue((engine.html / "_astro/main.two12345678.js").exists())
 
+    def test_late_explicit_prearm_retry_renews_only_unexposed_transaction(self):
+        from release_engine.system import guard_receipt
+
+        for label in ("after_explicit_prepared", "after_recovery_pointer"):
+            with self.subTest(label=label), tempfile.TemporaryDirectory(
+                prefix="release-explicit-late-"
+            ) as tmp:
+                engine = fixture(Path(tmp))
+                prepare(engine, self.archive, self.envelope)
+                activate(engine, self.identity)
+                accept(engine, self.identity)
+                target = engine.status()["previous"]
+                result = subprocess.run(
+                    [
+                        sys.executable,
+                        "-B",
+                        str(CRASH),
+                        str(engine.root),
+                        label,
+                        "explicit",
+                    ],
+                    capture_output=True,
+                    timeout=40,
+                )
+                self.assertEqual(result.returncode, 77, result.stderr.decode())
+                old = guard_receipt(engine.status()["pending"])
+                later = old["recover_by"] + 100
+                engine.clock = lambda: later
+                seen = []
+                with patch.object(
+                    engine.guard,
+                    "arm",
+                    side_effect=lambda *_: seen.append(
+                        guard_receipt(engine.status()["pending"])
+                    ),
+                ):
+                    engine.recover(self.identity["build_id"], target=target)
+                self.assertEqual(len(seen), 1)
+                if label == "after_explicit_prepared":
+                    self.assertNotEqual(seen[0]["token"], old["token"])
+                    self.assertEqual(seen[0]["deadline"], later + 30)
+                    self.assertEqual(seen[0]["recover_by"], later + 60)
+                else:
+                    self.assertEqual(
+                        seen[0], old, "exposed rollback window was extended"
+                    )
+                self.assertIsNone(engine.status()["pending"])
+                self.assertIn(b"one", (engine.html / "index.html").read_bytes())
+                self.assertTrue((engine.html / "_astro/main.two12345678.js").exists())
+
     def test_bootstrap_copy_interruption_retries_without_touching_serving_bytes(self):
         original = inventory(self.engine.html)
         result = subprocess.run(
@@ -380,6 +430,22 @@ class EngineTests(unittest.TestCase):
         with self.assertRaises(ReleaseError):
             self.engine.recover(identity["build_id"], target="arbitrary")
         self.assertEqual(self.engine.status()["accepted"], identity["build_id"])
+
+    def test_stale_receipt_cannot_recover_same_build_new_transaction(self):
+        from release_engine.system import guard_receipt
+
+        prepare(self.engine, self.archive, self.envelope)
+        activate(self.engine, self.identity)
+        state = self.engine._load()
+        old = guard_receipt(state["pending"])
+        state["pending"]["guard_token"] = "fresh-transaction"
+        durable_json(self.engine.state_path, state)
+        before = self.engine.status()
+        self.engine.recover(
+            self.identity["build_id"], cancel_guard=False, expected_receipt=old
+        )
+        self.assertEqual(self.engine.status(), before)
+        self.engine.recover(self.identity["build_id"])
 
     def test_cleanup_protects_pending_previous_and_failed_staging(self):
         prepare(self.engine, self.archive, self.envelope)

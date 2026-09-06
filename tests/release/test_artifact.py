@@ -2,6 +2,7 @@ import gzip
 import io
 import json
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -66,6 +67,84 @@ class ArtifactTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "monitor failed"):
                 with monitor:
                     monitor.thread.join(timeout=5)
+
+    def test_outer_cli_supervision_does_not_import_or_construct_engine(self):
+        script = Path(__file__).resolve().parents[2] / "scripts/release.py"
+        code = """
+import runpy, sys
+from pathlib import Path
+script, root = sys.argv[1:]
+sys.path.insert(0, str(Path(script).parent))
+module = runpy.run_path(script)
+def worker(*args):
+    assert 'release_engine.engine' not in sys.modules
+    assert 'release_engine.artifact' not in sys.modules
+    assert not (Path(root) / '.release-state').exists()
+    assert '--manifest' in args[2]
+    return {'schema': 1, 'last': None}
+module['main'].__globals__['run_worker'] = worker
+sys.argv = [script, 'prepare', '--root', root, '--manifest', 'worker-validates-this']
+assert module['main']() == 0
+"""
+        result = subprocess.run(
+            [sys.executable, "-B", "-c", code, str(script), str(self.base)],
+            capture_output=True,
+            timeout=10,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+
+    def test_guard_ready_reuse_requires_transaction_and_deadline_match(self):
+        from release_engine.system import SystemdGuard, durable_json, guard_receipt
+
+        root = self.base / "guard-root"
+        private = root / ".release-state"
+        private.mkdir(parents=True)
+        pending = {
+            "id": "fixture",
+            "guard_token": "new-token",
+            "worker_key": "fixture-new",
+            "deadline": 100,
+            "recover_by": 160,
+        }
+        durable_json(private / "state.json", {"pending": pending})
+        ready = private / "fixture.ready"
+        old = dict(guard_receipt(pending), token="old-token", deadline=1)
+        durable_json(ready, old)
+
+        def command(args):
+            if args[0] == "systemd-run":
+                durable_json(ready, guard_receipt(pending))
+            return "active"
+
+        with patch(
+            "release_engine.system.subprocess.run",
+            return_value=subprocess.CompletedProcess([], 0),
+        ), patch("release_engine.system.command", side_effect=command) as execute:
+            SystemdGuard().arm(root, "fixture")
+            self.assertTrue(
+                any(
+                    call.args[0][:2] == ["systemctl", "stop"]
+                    for call in execute.call_args_list
+                )
+            )
+            execute.reset_mock()
+            SystemdGuard().arm(root, "fixture")
+            execute.assert_not_called()
+
+    def test_supervisor_preserves_controlled_worker_rejection(self):
+        from release_engine.system import run_worker
+
+        result = subprocess.CompletedProcess(
+            [],
+            2,
+            "",
+            json.dumps({"ok": False, "error": "incompatible unversioned resource set"}),
+        )
+        with patch("release_engine.system.subprocess.run", return_value=result):
+            with self.assertRaisesRegex(
+                ReleaseError, "incompatible unversioned resource set"
+            ):
+                run_worker(self.base, "fixture", [])
 
     def test_rebuild_has_distinct_identity(self):
         _, _, second = artifact(self.base, attempt=2)

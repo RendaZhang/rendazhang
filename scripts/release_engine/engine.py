@@ -37,6 +37,7 @@ from .system import (
     durable_json,
     exchange,
     fsync_dir,
+    guard_receipt,
     locked,
     point,
     sync_tree,
@@ -246,6 +247,20 @@ class Engine:
             if record["at"] + RETENTION > self.clock()
         }
 
+    def _guard_window(self, pending, seconds, recover_seconds):
+        key = os.environ.get("RELEASE_WORKER_KEY", pending["id"])
+        require(
+            NAME.fullmatch(key)
+            and (key == pending["id"] or key.startswith(pending["id"] + "-")),
+            "invalid worker ownership key",
+        )
+        pending.update(
+            guard_token=os.urandom(16).hex(),
+            worker_key=key,
+            deadline=self.clock() + seconds,
+            recover_by=self.clock() + recover_seconds,
+        )
+
     def prepare(
         self,
         archive: Path,
@@ -450,7 +465,7 @@ class Engine:
             )
             self._verify(pending["rollback"])
             self._budget()
-            pending["deadline"] = self.clock() + ACCEPT_SECONDS
+            self._guard_window(pending, ACCEPT_SECONDS, ACCEPT_SECONDS + 60)
             pending["phase"] = "armed"
             self._save(state, "armed")
             self.guard.arm(self.root, generation)
@@ -529,7 +544,7 @@ class Engine:
             }
             state["pending"] = None
             self._save(state, "accepted")
-        self.guard.cancel(self.root, generation)
+            self.guard.cancel(self.root, generation)
         return self.status()
 
     def recover(
@@ -539,10 +554,15 @@ class Engine:
         target: str | None = None,
         cancel_guard=True,
         recovery_deadline=None,
+        expected_receipt=None,
     ):
         with locked(self.lock_path, deadline=recovery_deadline):
             state = self._load()
             pending = state["pending"]
+            if expected_receipt is not None and (
+                pending is None or guard_receipt(pending) != expected_receipt
+            ):
+                return self.status()
             if pending is None:
                 if (
                     state["last"]
@@ -661,12 +681,11 @@ class Engine:
                     "candidate": state["accepted"],
                     "rollback": refreshed,
                     "prior": target,
-                    "phase": "recovering",
-                    "deadline": self.clock() + 30,
-                    "recover_by": self.clock() + 60,
+                    "phase": "explicit_prepared",
                     "explicit": True,
                     "retired": state["retired"],
                 }
+                self._guard_window(pending, 30, 60)
                 state["pending"] = pending
                 state["previous"] = state["accepted"]
                 self._save(state, "explicit_prepared")
@@ -678,7 +697,16 @@ class Engine:
             )
             self._verify(pending["rollback"])
             if pending.get("explicit") and cancel_guard:
+                if pending["phase"] == "explicit_prepared":
+                    require(
+                        actual == pending["candidate"],
+                        "pre-arm rollback pointer already changed",
+                    )
+                    self._guard_window(pending, 30, 60)
+                    self._save(state, "explicit_prepared")
                 self.guard.arm(self.root, generation)
+                pending["phase"] = "explicit_armed"
+                self._save(state, "explicit_armed")
             pending["phase"] = "recovering"
             self._save(state, "recovery_journal")
             if self.html.is_symlink():
@@ -709,8 +737,8 @@ class Engine:
             }
             state["pending"] = None
             self._save(state, "recovered")
-        if cancel_guard:
-            self.guard.cancel(self.root, generation)
+            if cancel_guard:
+                self.guard.cancel(self.root, generation)
         return self.status()
 
     def cleanup(self):
@@ -781,11 +809,15 @@ class Engine:
         )
         deadline = time.monotonic() + max(0, pending["deadline"] - self.clock())
         ready = self.private / f"{generation}.ready"
-        durable_json(ready, {"id": generation})
+        receipt = guard_receipt(pending)
+        durable_json(ready, receipt)
         try:
             while time.monotonic() < deadline:
                 state = self._load()
-                if state["pending"] is None or state["pending"]["id"] != generation:
+                if (
+                    state["pending"] is None
+                    or guard_receipt(state["pending"]) != receipt
+                ):
                     return
                 time.sleep(0.1)
             recovery_deadline = (
@@ -793,13 +825,17 @@ class Engine:
                 if pending.get("explicit")
                 else deadline + 60
             )
-            self.guard.kill_worker(self.root, generation)
+            current = self._load()["pending"]
+            if current is None or guard_receipt(current) != receipt:
+                return
+            self.guard.kill_worker(self.root, generation, pending["worker_key"])
             while True:
                 try:
                     self.recover(
                         generation,
                         cancel_guard=False,
                         recovery_deadline=recovery_deadline,
+                        expected_receipt=receipt,
                     )
                     break
                 except ReleaseError as exc:
@@ -809,4 +845,5 @@ class Engine:
                     ):
                         raise
         finally:
-            ready.unlink(missing_ok=True)
+            if ready.exists() and load_json(ready) == receipt:
+                ready.unlink(missing_ok=True)
