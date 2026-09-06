@@ -23,7 +23,7 @@ from support import (
 from resource_monitor import ProcessMemory
 from release_engine.artifact import pack, load_json, MIB
 from release_engine.engine import Engine
-from release_engine.system import ENTRY, unit_name
+from release_engine.system import ENTRY, PROCESS_MEMORY_BUDGET, unit_name
 
 
 @unittest.skipUnless(
@@ -96,7 +96,9 @@ class RealSystemdTests(unittest.TestCase):
             peak = max(monitor.samples)
             self.assertGreater(peak, 0, "monitor did not observe release processes")
             self.assertLess(
-                peak, 64 * MIB, f"{action} aggregate RSS exceeds budget: {peak}"
+                peak,
+                PROCESS_MEMORY_BUDGET,
+                f"{action} aggregate RSS exceeds budget: {peak}",
             )
             peaks.append(peak)
             allocated = (
@@ -130,8 +132,9 @@ class RealSystemdTests(unittest.TestCase):
             )
             generation = identity["build_id"]
             self.generations.add(generation)
-            expected = self.engine.status()["serving"]
-            cli(
+            before = self.engine.status()
+            expected = before["serving"]
+            prepared = cli(
                 "prepare",
                 "--archive",
                 archive,
@@ -144,7 +147,9 @@ class RealSystemdTests(unittest.TestCase):
                 "--csp",
                 policy,
             )
-            cli(
+            self.assertEqual(prepared["pending"]["id"], generation)
+            self.assertEqual(prepared["last"], before["last"])
+            activated = cli(
                 "activate",
                 "--generation",
                 generation,
@@ -153,6 +158,8 @@ class RealSystemdTests(unittest.TestCase):
                 "--fresh-master",
                 SOURCE,
             )
+            self.assertEqual(activated["pending"]["id"], generation)
+            self.assertEqual(activated["last"], before["last"])
             if outcome == "accept":
                 evidence = self.base / "acceptance.json"
                 evidence.write_text(

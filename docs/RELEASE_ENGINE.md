@@ -85,6 +85,10 @@ because the old version serves again. Repeated acceptance is idempotent, but lat
 cannot accept recovered or newer runs. Explicit rollback requires the retained previous target
 and constructs a view retaining resources exposed by later failed runs too.
 
+A successful new `prepare` or `activate` returns zero even when `last` still records an older
+recovered failure. That historical outcome remains intact; recovery and status still report the
+failed deployment rather than rewriting it as a success.
+
 Explicit rollback staging has a durable ownership intent, so an interrupted copy can be rebuilt
 without deleting an unowned path. Once its pending journal exists, a fresh transient guard must
 report ready before the recovery journal/pointer switch. Its worker has 30 seconds to finish;
@@ -119,9 +123,15 @@ failed staging must be at least 24 hours old. Cleanup failures stay visible.
 | Retired manifests | At most 20; seven days plus pinned dependencies |
 | Total allocation envelope | 832 MiB, including reserved archive/workspace overhead |
 | Remaining disk / inodes | 5 GiB / 100,000 after a 30,000-inode envelope |
-| Admission MemAvailable | At least 192 MiB |
-| Temporary processes | Combined sampled RSS must remain below 64 MiB |
+| Admission MemAvailable | At least 224 MiB = 96 MiB process budget + 128 MiB physical reserve |
+| Temporary processes | Combined sampled RSS must remain below 96 MiB |
 | Per-service hard memory cap | Worker 32 MiB; guard 32 MiB |
+
+The initial 64 MiB combined estimate failed in three isolated Linux runs. It covered the two
+service caps without allowance for the outer CLI, systemd clients or process variation. The
+reviewed 96 MiB budget adds 32 MiB for that overhead; admission increases from 192 to 224 MiB to
+preserve the same 128 MiB physical reserve. The prior failures remain failures, not retroactive
+passes. Any further excess requires review, not an automatic budget increase.
 
 These are design/admission limits, not measurements of production peaks. The two `MemoryMax`
 limits alone do not enforce a hard aggregate bound on the outer CLI and systemd clients. Linux
@@ -130,6 +140,9 @@ errors, missing observations or exceeded budget. They report per-phase samples f
 prepare/activate/accept/recover/cleanup using a 166-file, roughly 7.2 MiB synthetic public payload
 (larger than the audited current site's logical bytes). Samples can miss short spikes; deployment
 resource acceptance and any stricter aggregate enforcement remain explicit integration gates.
+Integration must also bound concurrent callers and account for upload/SSH wrappers and kernel/cache
+overhead. Passing fixture samples does not replace fresh admission immediately before allocation
+and activation or establish a hard aggregate cgroup limit.
 
 ## Validation And Remaining Integration
 

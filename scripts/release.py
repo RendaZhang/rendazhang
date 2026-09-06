@@ -101,7 +101,12 @@ def main():
             else:
                 result = engine.status()
         print(json.dumps(result, sort_keys=True))
-        if (result.get("last") or {}).get("outcome") == "failed":
+        operation = args.operation if args.action == "worker" else args.action
+        # Successful new preparation/activation does not inherit an older failed release.
+        if (
+            operation not in ("prepare", "activate")
+            and (result.get("last") or {}).get("outcome") == "failed"
+        ):
             return 2
         return 0
     except (ReleaseError, OSError, ValueError, TypeError, KeyError) as exc:

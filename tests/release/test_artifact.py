@@ -7,7 +7,7 @@ import tarfile
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from resource_monitor import ProcessMemory
 
 from support import CSP, artifact
@@ -27,7 +27,16 @@ from release_engine.artifact import (
     validate_envelope,
     validate_site,
 )
-from release_engine.system import admit, fsync_dir, DISK_RESERVE, PEAK_DISK, MEMORY_GATE
+from release_engine.system import (
+    admit,
+    fsync_dir,
+    DISK_RESERVE,
+    PEAK_DISK,
+    MEMORY_GATE,
+    PROCESS_MEMORY_BUDGET,
+    PHYSICAL_MEMORY_RESERVE,
+)
+from release_engine.protocol import MIB
 
 
 class ArtifactTests(unittest.TestCase):
@@ -130,6 +139,92 @@ assert module['main']() == 0
             execute.reset_mock()
             SystemdGuard().arm(root, "fixture")
             execute.assert_not_called()
+
+    def test_cli_new_operation_does_not_inherit_previous_failed_outcome(self):
+        import contextlib
+        import runpy
+
+        script = Path(__file__).resolve().parents[2] / "scripts/release.py"
+        main = runpy.run_path(str(script))["main"]
+        failed = {"id": "older", "outcome": "failed", "phase": "recovered"}
+        for action, phase in (("prepare", "prepared"), ("activate", "active")):
+            for internal in (False, True):
+                state = {
+                    "schema": 1,
+                    "pending": {"id": "new", "phase": phase},
+                    "last": failed,
+                }
+                argv = [
+                    str(script),
+                    "worker" if internal else action,
+                    "--root",
+                    str(self.base),
+                ]
+                if internal:
+                    argv.extend(["--operation", action])
+                with self.subTest(action=action, internal=internal), patch.object(
+                    sys, "argv", argv
+                ), patch.dict(main.__globals__, run_worker=lambda *_: state), patch(
+                    "release_engine.engine.Engine"
+                ) as engine, patch.dict(
+                    main.__globals__, load_json=lambda *_: {"script_hashes": []}
+                ), contextlib.redirect_stdout(
+                    io.StringIO()
+                ):
+                    getattr(engine.return_value, action).return_value = state
+                    self.assertEqual(main(), 0)
+                    self.assertEqual(state["last"], failed)
+
+        for action in ("recover", "cleanup", "status", "guard"):
+            for internal in (
+                (False, True) if action in ("recover", "cleanup") else (False,)
+            ):
+                state = {"schema": 1, "pending": None, "last": failed}
+                argv = [
+                    str(script),
+                    "worker" if internal else action,
+                    "--root",
+                    str(self.base),
+                ]
+                if internal:
+                    argv.extend(["--operation", action])
+                with self.subTest(action=action, internal=internal), patch.object(
+                    sys, "argv", argv
+                ), patch.dict(main.__globals__, run_worker=lambda *_: state), patch(
+                    "release_engine.engine.Engine"
+                ) as engine, contextlib.redirect_stdout(
+                    io.StringIO()
+                ):
+                    getattr(engine.return_value, action).return_value = state
+                    engine.return_value.status.return_value = state
+                    self.assertEqual(main(), 2)
+
+        for action in ("prepare", "activate"):
+            for internal in (False, True):
+                argv = [
+                    str(script),
+                    "worker" if internal else action,
+                    "--root",
+                    str(self.base),
+                ]
+                if internal:
+                    argv.extend(["--operation", action])
+                with self.subTest(rejected=action, internal=internal), patch.object(
+                    sys, "argv", argv
+                ), patch.dict(
+                    main.__globals__, load_json=lambda *_: {"script_hashes": []}
+                ), patch(
+                    "release_engine.engine.Engine"
+                ) as engine, patch.dict(
+                    main.__globals__,
+                    run_worker=Mock(side_effect=ReleaseError("rejected")),
+                ), contextlib.redirect_stderr(
+                    io.StringIO()
+                ):
+                    getattr(engine.return_value, action).side_effect = ReleaseError(
+                        "rejected"
+                    )
+                    self.assertEqual(main(), 2)
 
     def test_supervisor_preserves_controlled_worker_rejection(self):
         from release_engine.system import run_worker
@@ -405,8 +500,16 @@ assert module['main']() == 0
         validate_site(source, inventory(source), CSP, dependencies)
 
     def test_capacity_boundaries(self):
+        self.assertEqual(PROCESS_MEMORY_BUDGET, 96 * MIB)
+        self.assertEqual(PHYSICAL_MEMORY_RESERVE, 128 * MIB)
+        self.assertEqual(MEMORY_GATE, 224 * MIB)
         passing = (DISK_RESERVE + PEAK_DISK, 130000, MEMORY_GATE)
         admit(passing)
+        for memory in (192 * MIB, 224 * MIB - 1):
+            with self.subTest(memory=memory), self.assertRaisesRegex(
+                ReleaseError, "insufficient physical memory"
+            ):
+                admit((passing[0], passing[1], memory))
         for index in range(3):
             values = list(passing)
             values[index] -= 1
