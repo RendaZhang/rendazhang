@@ -1,0 +1,50 @@
+name: Frontend Release Engine Validation
+
+on:
+  push:
+    branches: [codex/phase-18-frontend-atomic-release]
+  pull_request:
+    paths:
+      - scripts/release.py
+      - scripts/release-dependencies.mjs
+      - scripts/release_engine/**
+      - tests/release/**
+      - .github/workflows/release-engine-validation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  linux-fixtures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+          cache: npm
+      - name: Show runner runtimes and systemd capability
+        run: |
+          node --version
+          node "$(dirname "$(dirname "$(command -v node)")")/lib/node_modules/npm/bin/npm-cli.js" --version
+          /usr/bin/python3 --version
+          systemctl --version
+          test "$(ps -p 1 -o comm=)" = systemd
+      - name: Install locked runner parser dependencies
+        run: node "$(dirname "$(dirname "$(command -v node)")")/lib/node_modules/npm/bin/npm-cli.js" ci
+      - name: Compile stdlib helper and run portable plus real Linux failure tests
+        run: |
+          /usr/bin/python3 -m compileall -q scripts/release.py scripts/release_engine tests/release
+          timeout --signal=KILL 240 /usr/bin/python3 -B -m unittest discover -s tests/release -p 'test_artifact.py' -v
+          timeout --signal=KILL 240 /usr/bin/python3 -B -m unittest discover -s tests/release -p 'test_engine.py' -v
+      - name: Prove real transient guard and aggregate process memory
+        run: |
+          sudo env PATH="$PATH" RELEASE_SYSTEMD_TESTS=1 \
+            timeout --signal=TERM --kill-after=15s 600 \
+            /usr/bin/python3 -B -m unittest discover -s tests/release -p 'test_systemd.py' -v
+      - name: Remove only fixture-owned transient units and files
+        if: ${{ always() }}
+        run: sudo /usr/bin/python3 -B tests/release/cleanup_systemd.py

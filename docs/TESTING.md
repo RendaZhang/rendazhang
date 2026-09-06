@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 30, 2026, 22:50 (UTC+08:00)
+- **最后更新**: September 06, 2026, 21:26 (UTC+08:00)
 
 ---
 
@@ -66,6 +66,9 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   该目录通过 `npm run smoke:browser` 单独运行。
 
 ## 运行测试
+
+独立的发布引擎 fixture、Linux 原子切换与临时 systemd 恢复验证见
+[尚未启用的发布引擎](./RELEASE_ENGINE.md)。该验证不属于 Vitest，也不接入当前生产部署。
 
 - `npm test`：以一次性模式运行所有测试。
 - `npm run test:watch`：在监听模式下运行测试，适合开发时使用。
