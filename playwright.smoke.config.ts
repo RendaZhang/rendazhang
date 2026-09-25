@@ -3,6 +3,15 @@ import { defineConfig, devices } from '@playwright/test';
 const host = process.env.SMOKE_HOST || '127.0.0.1';
 const port = process.env.SMOKE_PORT || '4321';
 const baseURL = process.env.SMOKE_BASE_URL || `http://${host}:${port}`;
+if (
+  process.env.SMOKE_MODE === 'external' ||
+  process.env.SMOKE_BASE_URL ||
+  process.env.RELEASE_ORIGIN
+) {
+  throw new Error(
+    'External acceptance must use playwright.acceptance.config.ts without a webServer'
+  );
+}
 
 export default defineConfig({
   testDir: './tests/smoke',

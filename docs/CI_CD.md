@@ -14,11 +14,17 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 04, 2026, 13:05 (UTC+08:00)
+- **最后更新**: September 25, 2026, 08:46 (UTC+08:00)
 
 ---
 
 > 本仓库使用 GitHub Actions + Nginx 部署。主要工作流定义于 `.github/workflows/deploy.yml`。
+
+> 本功能分支准备原子发布工作流，尚未启用生产迁移。新流程串行执行 master/manual-master 发布，
+> 保留一次构建和 Sentry 上传，在不可变产物预览及来源站验收后才发布固定版本镜像。
+> Checkpoint A 只运行无生产密钥、环境或 SSH 的分支 CI；完整约束和重试命令见
+> [发布引擎](./RELEASE_ENGINE.md)。当前缺少已审阅的 `SSH_KNOWN_HOSTS`，不得自动信任扫描结果。
+> 下列旧步骤概览描述迁移前的已部署基线，不是候选工作流的执行顺序；迁移后禁止重跑历史破坏式上传。
 
 ## 1. Workflow 触发条件
 
@@ -87,14 +93,18 @@ Routine deploy inspection commands and accepted log-noise classifications live i
 Dependency audit decisions, accepted residuals, and escalation thresholds live in
 [Dependency Security Risk Register](./DEPENDENCY_SECURITY_RISK_REGISTER.md).
 
-Current accepted recurring lines:
+Recurring lines that still need their final step outcome checked:
 
 * Vite may report large Mermaid dynamic chunks after minification.
 * Storage/auth tests intentionally exercise failure paths and can print controlled stderr.
-* GitHub release publishing may retry while a recreated tag becomes discoverable.
 * `gh run view --log` may label recent logs as `UNKNOWN STEP`; verify the run conclusion and job
   steps before treating this as a workflow defect.
 * Sentry source-map upload can print an early "no matching sources" warning before a later upload
   report and success line.
-* The CDN purge shell body contains an `::warning::` branch; it is only a real warning if the purge
-  request fails and that branch executes.
+
+Historical, pre-migration logs may also contain release-tag propagation retries from
+`softprops/action-gh-release`, `peaceiris/actions-gh-pages` cleanup messages, or the old CDN
+purge warning branch. Those actions are not part of the candidate atomic publication path.
+In that path a failed artifact publication or CDN purge fails the run, reports distribution
+incomplete, and leaves an already accepted origin serving. Do not classify those failures as
+accepted noise or rerun the old destructive workflow to repair them.

@@ -39,6 +39,9 @@ def main():
     parser.add_argument("--generation")
     parser.add_argument("--evidence", type=Path)
     parser.add_argument("--target")
+    parser.add_argument("--lease-token")
+    parser.add_argument("--helper")
+    parser.add_argument("--reconcile", action="store_true")
     parser.add_argument(
         "--operation", choices=["prepare", "activate", "accept", "recover", "cleanup"]
     )
@@ -66,7 +69,17 @@ def main():
             from release_engine.artifact import public_identity
             from release_engine.engine import Engine
 
-            engine = Engine(args.root)
+            ownership = (
+                {
+                    "id": args.generation,
+                    "token": args.lease_token,
+                    "helper": args.helper,
+                    "reconcile": args.reconcile,
+                }
+                if args.lease_token
+                else None
+            )
+            engine = Engine(args.root, ownership=ownership)
             action = args.operation if args.action == "worker" else args.action
             envelope = load_json(args.manifest) if args.manifest else None
             generation = args.generation or (

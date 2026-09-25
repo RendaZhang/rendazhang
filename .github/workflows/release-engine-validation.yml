@@ -8,6 +8,12 @@ on:
       - scripts/release.py
       - scripts/release-dependencies.mjs
       - scripts/release_engine/**
+      - scripts/release_*.py
+      - scripts/release-*.mjs
+      - scripts/release-policy.json
+      - .github/workflows/deploy.yml
+      - playwright.acceptance.config.ts
+      - tests/acceptance/**
       - tests/release/**
       - .github/workflows/release-engine-validation.yml
 
@@ -45,6 +51,62 @@ jobs:
           sudo env PATH="$PATH" RELEASE_SYSTEMD_TESTS=1 \
             timeout --signal=TERM --kill-after=15s 600 \
             /usr/bin/python3 -B -m unittest discover -s tests/release -p 'test_systemd.py' -v
+      - name: Remove only fixture-owned transient units and files
+        if: ${{ always() }}
+        run: sudo /usr/bin/python3 -B tests/release/cleanup_systemd.py
+
+  integration-fixtures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+          cache: npm
+      - name: Verify runtime and install only locked runner dependencies
+        run: |
+          npm_cli="$(dirname "$(dirname "$(command -v node)")")/lib/node_modules/npm/bin/npm-cli.js"
+          test "$(node --version)" = v24.17.0
+          test "$(node "$npm_cli" --version)" = 11.13.0
+          echo "NPM_CLI=$npm_cli" >> "$GITHUB_ENV"
+          node "$npm_cli" ci
+          node node_modules/@playwright/test/cli.js install --with-deps chromium
+      - name: Structured workflow and focused integration checks
+        run: |
+          node scripts/release-workflow-check.mjs
+          /usr/bin/python3 -m compileall -q scripts/release_*.py scripts/release_engine tests/release
+          for suite in origin host transport runner distribution bootstrap; do
+            timeout --signal=KILL 90 /usr/bin/python3 -B -m unittest discover -s tests/release -p "test_$suite.py" -v
+          done
+      - name: Full frontend gates with unchanged dependency graph
+        run: |
+          node "$NPM_CLI" run sync
+          node "$NPM_CLI" run lint
+          node "$NPM_CLI" run typecheck
+          node "$NPM_CLI" run check
+          node "$NPM_CLI" run test:coverage
+          node "$NPM_CLI" run smoke:browser
+      - name: Package and check exact fixture artifact without rebuilding it
+        run: |
+          find dist -type f -name '*.map' -delete
+          /usr/bin/python3 -B scripts/release_bundle.py create --dist dist --bundle "$RUNNER_TEMP/release-bundle" --source "$GITHUB_SHA" --run "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT"
+          /usr/bin/python3 -B scripts/release_bundle.py verify --bundle "$RUNNER_TEMP/release-bundle" --preview "$RUNNER_TEMP/release-preview"
+          /usr/bin/python3 -B scripts/release_preview_check.py --bundle "$RUNNER_TEMP/release-bundle" --preview "$RUNNER_TEMP/release-preview"
+      - name: Real hard-bounded wrappers HTTP recovery and continuous resource observations
+        run: |
+          sudo env PATH="$PATH" RELEASE_SYSTEMD_TESTS=1 \
+            timeout --signal=TERM --kill-after=15s 900 \
+            /usr/bin/python3 -B -m unittest discover -s tests/release -p 'test_integration_systemd.py' -v
+      - name: Retain isolated browser evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: branch-acceptance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/personalweb-acceptance
+          if-no-files-found: ignore
       - name: Remove only fixture-owned transient units and files
         if: ${{ always() }}
         run: sudo /usr/bin/python3 -B tests/release/cleanup_systemd.py

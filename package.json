@@ -36,7 +36,8 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:ui-contrast": "node scripts/contrast-check.mjs",
-    "smoke:browser": "env -u NO_COLOR SKIP_SENTRY=true npm run build && env -u NO_COLOR playwright test --config=playwright.smoke.config.ts",
+    "smoke:browser": "env -u NO_COLOR node scripts/browser-smoke.mjs",
+    "smoke:acceptance": "env -u NO_COLOR node node_modules/@playwright/test/cli.js test --config=playwright.acceptance.config.ts",
     "css:stats": "cssstats src/styles/theme.css"
   },
   "dependencies": {

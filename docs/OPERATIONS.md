@@ -14,8 +14,13 @@
 
 # Operations Maintenance Guide
 
+The atomic frontend workflow on this feature branch is prepared, not production-active.
+[Release engine operations](./RELEASE_ENGINE.md) define Checkpoint A/B authority, exact immutable
+mirror retries, host-key pin prerequisite, bounded recovery and no-rerun-legacy-deploy rules.
+The existing deployed baseline below remains historical context until migration is approved.
+
 - **Author**: Renda Zhang
-- **Last Updated**: July 05, 2026, 11:23 (UTC+08:00)
+- **Last Updated**: September 25, 2026, 08:46 (UTC+08:00)
 - **Scope**: public-safe command index for routine PersonalWeb maintenance across the frontend,
   backend, Nginx config mirror, local roadmap, and read-only production checks.
 
@@ -125,21 +130,22 @@ gh run view "$run_id" --log > /tmp/personalweb-deploy-"$run_id".log
 rg -n -i "warning|error|failed|deprecated|UNKNOWN STEP" /tmp/personalweb-deploy-"$run_id".log
 ```
 
-Current accepted deploy-log noise:
+Recurring deploy-log lines requiring outcome review:
 
 - Vite may emit `Some chunks are larger than 500 kB after minification` for Mermaid dynamic chunks.
   This is documented in [Testing](./TESTING.md#%E6%9E%84%E5%BB%BA%E4%BD%93%E7%A7%AF%E4%B8%8E-chunk-warning).
 - Storage and auth tests intentionally exercise failure paths, so Vitest output may include
   messages such as `getWebStorage failed`, `Unauthorized`, or `Reset failed`.
-- `softprops/action-gh-release` may retry because a newly created tag is not immediately
-  discoverable, then continue with the created release.
-- `peaceiris/actions-gh-pages` may print cleanup noise such as `No such remote: 'origin'`.
 - `gh run view --log` may label recent logs as `UNKNOWN STEP`; confirm the run conclusion and
   workflow step names before treating this as a workflow defect.
 - Sentry source-map upload can print an early "no matching sources" warning before the later source
   map upload report and success line.
-- The CDN purge script contains an `::warning::` branch in the printed shell body. Treat it as a
-  warning only when the branch actually executes and the purge response is not successful.
+
+Older, pre-migration runs may show `softprops/action-gh-release` tag propagation retries,
+`peaceiris/actions-gh-pages` cleanup messages, or an `::warning::` branch for CDN purge. These
+are historical workflow details, not exceptions for the prepared atomic release path. That
+path treats required publication/purge failures as failures while preserving the accepted origin;
+use its exact-artifact mirror retry, not a historical destructive deploy rerun.
 
 Unexpected log lines, failed conclusions, missing release artifacts, failed CDN purge, or new
 dependency/runtime warnings should be triaged in a focused follow-up slice.

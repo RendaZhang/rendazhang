@@ -7,6 +7,7 @@ import re
 import shutil
 import time
 from pathlib import Path
+from .ownership import check_lease
 
 from .artifact import (
     ASSET_COUNT,
@@ -56,6 +57,7 @@ class Engine:
         clock=time.time,
         guard=None,
         checkpoint=lambda _name: None,
+        ownership=None,
     ):
         self.root = root.resolve(strict=True)
         require(self.root.is_dir(), "release root missing")
@@ -76,6 +78,7 @@ class Engine:
         self.capacity_provider, self.clock = capacity_provider, clock
         self.guard = guard if guard is not None else SystemdGuard()
         self.checkpoint = checkpoint
+        self.ownership = ownership
         self.html = self.root / "html"
         self.state_path = self.private / "state.json"
         self.lock_path = self.private / "lock"
@@ -101,6 +104,11 @@ class Engine:
         self.checkpoint("before_" + label)
         durable_json(self.state_path, state)
         self.checkpoint("after_" + label)
+
+    def _owned(self, generation, action):
+        return check_lease(
+            self.private, self.ownership, generation, action, self.clock()
+        )
 
     def _path(self, name):
         require(isinstance(name, str) and NAME.fullmatch(name), "invalid view identity")
@@ -274,6 +282,7 @@ class Engine:
         generation = identity["build_id"]
         rank = [identity["run_id"], identity["attempt"]]
         with locked(self.lock_path):
+            lease = self._owned(generation, "prepare")
             state = self._load()
             require(
                 identity["source_sha"] == fresh_master, "source is not fresh master"
@@ -438,12 +447,20 @@ class Engine:
                 "deadline": None,
                 "retired": retired,
             }
+            if lease:
+                contract = load_json(self.private / (generation + ".http.json"))
+                require(
+                    contract["helper"] == lease["helper"],
+                    "recovery helper pin mismatch",
+                )
+                state["pending"]["http"] = contract
             state["highwater"] = rank
             self._save(state, "prepared")
             return self.status()
 
     def activate(self, generation: str, *, expected: str, fresh_master: str):
         with locked(self.lock_path):
+            self._owned(generation, "activate")
             state = self._load()
             pending = state["pending"]
             require(
@@ -509,6 +526,7 @@ class Engine:
 
     def accept(self, generation: str, evidence: dict):
         with locked(self.lock_path):
+            self._owned(generation, "accept")
             state = self._load()
             if state["pending"] is None:
                 require(
@@ -563,6 +581,20 @@ class Engine:
                 pending is None or guard_receipt(pending) != expected_receipt
             ):
                 return self.status()
+            if expected_receipt is None:
+                lease = self._owned(
+                    generation,
+                    (
+                        "reconcile"
+                        if (self.ownership or {}).get("reconcile")
+                        else "recover"
+                    ),
+                )
+                if lease and lease["expires"] <= self.clock():
+                    require(
+                        pending is not None and pending["id"] == generation,
+                        "expired lease may only reconcile its pending generation",
+                    )
             if pending is None:
                 if (
                     state["last"]
@@ -690,6 +722,44 @@ class Engine:
                 state["previous"] = state["accepted"]
                 self._save(state, "explicit_prepared")
             require(pending["id"] == generation, "stale recovery generation")
+            if (
+                pending.get("http")
+                and pending.get("http_deadline", float("inf")) <= self.clock()
+                and (self.ownership or {}).get("reconcile")
+            ):
+                require(
+                    lease is not None and lease["expires"] <= self.clock(),
+                    "active verification attempt cannot be extended",
+                )
+                require(
+                    pending["phase"] == "verifying_recovery",
+                    "only an already-restored view can be reverified",
+                )
+                require(
+                    self._actual()
+                    == (
+                        pending["rollback"]
+                        if self.html.is_symlink()
+                        else pending["prior"]
+                    ),
+                    "restored pointer changed before reverification",
+                )
+                pending.setdefault("http_first_deadline", pending["http_deadline"])
+                pending["http_attempt"] = pending.get("http_attempt", 1) + 1
+                pending["http_deadline"] = self.clock() + 60
+                self._guard_window(pending, 30, 60)
+                self._save(state, "http_reverification_armed")
+                self.guard.arm(self.root, generation)
+            if pending.get("http") and "http_deadline" not in pending:
+                pending["http_deadline"] = self.clock() + 60
+                if pending.get("deadline") is None:
+                    self._guard_window(pending, 30, 60)
+                    self._save(state, "http_recovery_armed")
+                    self.guard.arm(self.root, generation)
+                else:
+                    # The existing guard observes the earlier recovery deadline without
+                    # replacing its receipt or opening a cancel/rearm gap.
+                    self._save(state, "http_recovery_requested")
             actual = self._actual()
             require(
                 actual in {pending["prior"], pending["candidate"], pending["rollback"]},
@@ -733,16 +803,68 @@ class Engine:
             state["last"] = {
                 "id": generation,
                 "outcome": "failed",
-                "phase": "recovered",
+                "phase": "verifying_recovery" if pending.get("http") else "recovered",
             }
-            state["pending"] = None
-            self._save(state, "recovered")
-            if cancel_guard:
+            if pending.get("http"):
+                pending["phase"] = "verifying_recovery"
+            else:
+                state["pending"] = None
+            self._save(
+                state, "recovery_http_pending" if pending.get("http") else "recovered"
+            )
+            if cancel_guard and not pending.get("http"):
                 self.guard.cancel(self.root, generation)
+        if pending.get("http"):
+            from .origin import check_origin
+
+            contract = pending["http"]
+            deadline = min(
+                recovery_deadline or float("inf"),
+                time.monotonic() + max(0, pending["http_deadline"] - self.clock()),
+            )
+            record = self._view(
+                pending["rollback"] if self.html.is_symlink() else pending["prior"]
+            )
+            check_origin(
+                contract["origin"],
+                record["identity"],
+                record["files"],
+                contract["policy"],
+                deadline,
+                loopback=True,
+                identity_required=self.html.is_symlink(),
+            )
+            with locked(self.lock_path, deadline=deadline):
+                current = self._load()
+                require(
+                    current["pending"] is not None
+                    and current["pending"]["id"] == generation
+                    and current["pending"]["phase"] == "verifying_recovery"
+                    and current["pending"]["http_deadline"] == pending["http_deadline"],
+                    "HTTP recovery ownership changed",
+                )
+                require(
+                    self._actual() in (pending["rollback"], pending["prior"]),
+                    "HTTP recovery pointer changed",
+                )
+                current["pending"] = None
+                current["last"] = {
+                    "id": generation,
+                    "outcome": "failed",
+                    "phase": "recovered",
+                    "origin_verified": True,
+                }
+                self._save(current, "recovered")
+                if cancel_guard:
+                    self.guard.cancel(self.root, generation)
         return self.status()
 
     def cleanup(self):
         with locked(self.lock_path):
+            if self.ownership:
+                self._owned(self.ownership["id"], "cleanup")
+            else:
+                self._owned("maintenance", "cleanup")
             state = self._load()
             require(
                 state["pending"] is None and state["accepted"] is not None,
@@ -819,6 +941,12 @@ class Engine:
                     or guard_receipt(state["pending"]) != receipt
                 ):
                     return
+                if state["pending"].get("http_deadline"):
+                    deadline = min(
+                        deadline,
+                        time.monotonic()
+                        + max(0, state["pending"]["http_deadline"] - self.clock() - 30),
+                    )
                 time.sleep(0.1)
             recovery_deadline = (
                 time.monotonic() + max(0, pending["recover_by"] - self.clock())
@@ -828,6 +956,11 @@ class Engine:
             current = self._load()["pending"]
             if current is None or guard_receipt(current) != receipt:
                 return
+            if current.get("http_deadline"):
+                recovery_deadline = min(
+                    recovery_deadline,
+                    time.monotonic() + max(0, current["http_deadline"] - self.clock()),
+                )
             self.guard.kill_worker(self.root, generation, pending["worker_key"])
             while True:
                 try:

@@ -31,6 +31,9 @@ class FakeGuard:
     def kill_worker(self, root, generation, worker_key):
         pass
 
+    def assert_collected(self, root, generation):
+        pass
+
 
 def tree(path, version="one"):
     path.mkdir(parents=True)

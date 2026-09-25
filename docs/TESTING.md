@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: September 06, 2026, 21:26 (UTC+08:00)
+- **最后更新**: September 25, 2026, 08:46 (UTC+08:00)
 
 ---
 
@@ -68,7 +68,13 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
 ## 运行测试
 
 独立的发布引擎 fixture、Linux 原子切换与临时 systemd 恢复验证见
-[尚未启用的发布引擎](./RELEASE_ENGINE.md)。该验证不属于 Vitest，也不接入当前生产部署。
+[尚未启用的发布引擎](./RELEASE_ENGINE.md)。该验证不属于 Vitest；候选工作流仍须独立迁移批准。
+`tests/acceptance/**` 也从 Vitest 排除，使用独立 Playwright 配置。显式外部模式必须提供
+`SMOKE_MODE=external`、`RELEASE_ORIGIN` 和 `RELEASE_BUNDLE`，不得启动本地服务或重新构建。
+`release_preview_check.py` 则在激活前启动并清理自身的临时服务，检查同一份已验证产物。
+验收不发送付费 Chat 请求；HTTP 字节、MIME/CSP、双向文档图表、导航、直接及嵌入 Chat 和 Credly
+在统一期限内检查。Linux 集成测试还覆盖真实读取权限、停止进程的硬超时、恢复后的 HTTP 校验及
+持续采样的磁盘/inode/RSS 峰值；本地跳过 Linux 测试不能替代这些证据。
 
 - `npm test`：以一次性模式运行所有测试。
 - `npm run test:watch`：在监听模式下运行测试，适合开发时使用。

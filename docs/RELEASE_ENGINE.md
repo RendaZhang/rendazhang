@@ -7,16 +7,20 @@
   - [Artifact And Resource Contract](#artifact-and-resource-contract)
   - [Transaction And Failure Behavior](#transaction-and-failure-behavior)
   - [Budgets And Evidence](#budgets-and-evidence)
+  - [Prepared Workflow Integration](#prepared-workflow-integration)
+  - [Recovery Operations After Migration Approval](#recovery-operations-after-migration-approval)
+    - [Intentional Previous-Version Rollback](#intentional-previous-version-rollback)
   - [Validation And Remaining Integration](#validation-and-remaining-integration)
+  - [Checkpoint B Prerequisites](#checkpoint-b-prerequisites)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Frontend Release Engine (Inactive)
 
-This branch implements a local atomic-release engine and isolated Linux tests. It is **not active
-in production**. The existing `deploy.yml` and current delivery instructions are unchanged. Do not
-use this helper against a production directory until workflow integration and first-migration
-approval are complete.
+This branch prepares the atomic engine and workflow integration. It is **not active in production**.
+Checkpoint A permits feature-branch CI only. Do not merge/push master, dispatch production delivery
+or access a production directory before separate Checkpoint B approval. Never rerun a historical
+destructive upload workflow after migration: it does not understand retained views or the symlink.
 
 ## Ownership
 
@@ -32,6 +36,12 @@ approval are complete.
 - `scripts/release-dependencies.mjs`: runner-only extraction using the existing TypeScript parser.
   The target host does not install Node, npm or additional Python packages for this helper.
 - `tests/release/`: disposable fixture tests, including opt-in real systemd cases.
+- `release_bundle.py` / `release_bootstrap.py`: immutable artifact/helper packaging and installation.
+- `release_host.py` / `release_transport.py` / `release_runner.py`: transfer ownership, bounded host
+  workers, exact leases and runner transaction ordering.
+- `release_engine/origin.py` / `release_acceptance.py` / `tests/acceptance/`: actual HTTP bytes,
+  identity/security headers and explicitly external, no-paid-call browser acceptance.
+- `release_distribution.py`: publication only for the still-accepted origin.
 
 The stdlib code targets Python 3.12 or newer. The isolated Ubuntu 24.04 job uses its OS
 `/usr/bin/python3`, not the backend virtual environment. Actual target OS Python and libc/systemd
@@ -108,7 +118,7 @@ The worker is hard-bounded to 30 seconds, each lock wait to 15 seconds, and the 
 245 seconds. The guard can terminate only its exact generation's worker, not unrelated services.
 No browser/network wait occurs while holding the release lock. No permanent daemon/timer is added.
 
-`accept` requires exact identity and successful origin/browser evidence from future integration.
+`accept` requires exact identity and successful origin/browser evidence from runner integration.
 It does not publish mirrors or purge a CDN. Those later operations cannot implicitly roll back an
 already accepted origin. Cleanup preserves current/previous/pending state and retained assets;
 superseded full HTML views may expire separately from their seven-day asset promise. Unreferenced
@@ -144,6 +154,140 @@ Integration must also bound concurrent callers and account for upload/SSH wrappe
 overhead. Passing fixture samples does not replace fresh admission immediately before allocation
 and activation or establish a hard aggregate cgroup limit.
 
+## Prepared Workflow Integration
+
+The candidate workflow serializes master push/manual-master transactions without cancelling active
+runs. Sentry configuration is unchanged. Maps are deleted before canonical packaging; preview and
+activation use the same archive, never a rebuild. Immutable bundles are retained as
+`frontend-release-<run>-<attempt>` for seven days. The lexical deployment parent is derived without
+traversing `html/..`; incoming files and content-addressed helpers stay outside the served tree.
+
+There are at most three incoming directories and a 4 MiB/40-entry helper installation cap, all
+within the existing allocation envelope. Resolved owned transfers may be removed immediately.
+Unreferenced failed inputs and partial helpers require 24 hours plus matching ownership records.
+Current/previous, pending, lease and guard helper references are protected. Stale HTTP contracts
+expire after those references end. Unknown files are not cleanup authority.
+
+Bootstrap/upload/host operations run as transient 32 MiB workers with hard 20/110/30-second
+runtime limits and two-second stop grace, including stopped lock owners. Runner subprocess groups
+are also bounded. The 600-second transaction lease is checked again under the mutation lock.
+An abandoned prepared generation must be reconciled with its exact original helper/identity before
+another deployment starts; its failed outcome is not erased.
+
+Restored pointer and HTTP verification happen outside the lock under one 60-second deadline.
+Failed verification remains unresolved. After both that deadline and the lease expire, only the
+exact owner may start a fresh bounded verification of the already-restored known pointer. This
+cannot re-expose the candidate or extend an active attempt; old receipts cannot finalize it.
+
+HTTP checks bind actual core HTML/resource bytes, not just a marker. They reject duplicate security
+headers, wrong MIME/encoding, inexact identity types and false `no-cache` extensions. Absolute
+deadlines include slow headers and bodies. External Playwright acceptance has no `webServer` or
+build step and makes no paid Chat calls. It covers homepage hydration/theme/mobile navigation,
+same-origin Widget readiness, direct Chat, bidirectional Docs diagrams and Credly framing.
+Activation through acknowledgement is bounded below 165 seconds, leaving the 180-second guard margin.
+
+Publication only follows origin acceptance. The fixed release branch advances by fast-forward;
+the fixed tag is replaced in that namespace, then release assets and CDN purge are required.
+Every external write rechecks the lease and accepted origin. Publication has an absolute group
+deadline. A failed mirror reports `origin_accepted=true, distribution_complete=false` without
+origin rollback. Mirror-only retry verifies and reuses the original master workflow artifact,
+does not build/upload/prepare/activate origin, and cannot overwrite a newer distribution.
+
+The exact retry command, **only after migration approval**, is:
+
+```bash
+gh workflow run deploy.yml --ref master -f mirror_run_id=<original-run-id> -f mirror_attempt=<original-attempt>
+```
+
+Missing/expired immutable artifacts fail closed; do not rebuild different bytes under an old ID.
+
+## Recovery Operations After Migration Approval
+
+These are operator templates, not Checkpoint A permission. Use the reviewed runner checkout,
+the original immutable bundle and private runner key/known-host files. Keep shell tracing off;
+never print the returned lease, its token, or private connection variables. Do not install a
+new helper merely to inspect an old transaction. Its original digest must still be installed.
+
+With `RELEASE_BUNDLE` pointing to that verified bundle and the same private `DEPLOY_*` environment
+used by the workflow, inspect only redacted generation state from the runner:
+
+```bash
+PYTHONPATH=scripts python3 -B - <<'PY'
+import json, os
+from pathlib import Path
+from release_engine.protocol import load_json
+from release_transport import HostClient
+
+bundle = Path(os.environ['RELEASE_BUNDLE'])
+client = HostClient(os.environ['DEPLOY_HOST'], os.environ['DEPLOY_USER'],
+                    os.environ['DEPLOY_KEY_FILE'], os.environ['DEPLOY_KNOWN_HOSTS_FILE'],
+                    os.environ['DEPLOY_PATH'], load_json(bundle / 'helpers.json'))
+snapshot = client.call('status')
+state = snapshot['state']
+print(json.dumps({key: state[key] for key in ('serving', 'accepted', 'previous', 'last')}))
+print(json.dumps({'pending_id': (state['pending'] or {}).get('id'),
+                  'lease_expired': bool(snapshot['lease'] and
+                    snapshot['lease']['expires'] < snapshot['server_time'])}))
+PY
+```
+
+Compare pending ID, original source/run/attempt/build identity, and helper digest with the failed
+run's bundle before allowing recovery. For a lost connection, obtain a fresh snapshot with the
+same template. If the lease is unexpired, postpone; do not clear it or start a conflicting run.
+For an expired exact pending generation, replace only the two redacted print statements above
+with the following reconciliation body. It passes the original lease in memory and selects its
+immutable helper; it does not rebuild, upload, activate or publish:
+
+```python
+from release_engine.protocol import ReleaseError, require
+from release_runner import reconcile
+identity = load_json(bundle / 'identity.json')
+lease = snapshot['lease']
+require(lease is not None and lease['id'] == identity['build_id'] and
+        lease['helper'] == client.helper, 'stop: original transaction mismatch')
+try:
+    reconcile(client, snapshot)
+except ReleaseError:
+    print('Recovery attempt ended; inspect redacted state before further action.')
+    raise SystemExit(2)
+```
+
+Exit 2 remains expected for the original failed deployment, including a successfully restored
+origin. It is not enough by itself: inspect fresh state for no pending transaction, the known
+restored serving identity, `last.outcome=failed` and `last.origin_verified=true`. Unconfirmed
+HTTP or guard collection remains a failure. Reconciliation includes actual restored HTTP checks;
+afterward run the bounded browser check below against the retained original artifact, without
+publishing or changing the journal. A pre-migration bootstrap has no runner bundle: stop for a
+reviewed original-inventory check rather than inventing an identity/artifact.
+
+### Intentional Previous-Version Rollback
+
+This differs from recovery of a failed pending deployment. Require separate operator approval,
+no running/queued deployment, no pending transaction or lease, a verified pinned installed helper,
+and the exact retained `previous` target from fresh status. The existing low-level command below
+is executed only in the authorized host session with all placeholders replaced after review:
+
+```bash
+/usr/bin/python3 -B <release-parent>/.release-state/tools/<verified-helper-digest>/release.py recover --root <release-parent> --generation <accepted-build-id> --target <retained-previous-view>
+```
+
+The command uses the bounded worker/independent guard and preserves later exposed hashed assets.
+It records a failed/recovered outcome (exit 2), **not** a new successful deployment. This raw CLI
+rollback proves filesystem/journal recovery only; it does not create the integration HTTP contract
+or claim browser verification. Inspect the resulting pointer/identity and guard collection, then
+on the runner verify the restored origin using the exact previous bundle:
+
+```bash
+python3 -B scripts/release_acceptance.py --origin <reviewed-https-origin> --bundle <verified-previous-bundle>
+```
+
+That command has one 120-second HTTP/browser budget and never builds or changes origin state.
+Record its result separately from the failed deployment outcome. Missing previous artifact,
+unexpected identity, unresolved guard, or failed HTTP/browser verification is a stop condition,
+not permission to delete journals, reset pointers, relax CSP, or deploy unrelated revisions.
+Intentional rollback does not silently republish mirrors; distribution reconciliation needs its
+own reviewed identity decision.
+
 ## Validation And Remaining Integration
 
 `release-engine-validation.yml` is validation-only, on the scoped feature branch and relevant PRs,
@@ -161,7 +305,30 @@ python3 -B -m unittest discover -s tests/release -p 'test_engine.py' -v
 
 Linux-only skips on macOS are not passing Linux evidence. Real systemd tests require the isolated
 job and `RELEASE_SYSTEMD_TESTS=1`; missing runner capabilities fail that gate rather than being
-silently mocked. Existing application coverage/browser/build gates may be deferred for this
-engine-only branch, but must run during integration alongside source/CSP/identity binding,
-same-filesystem migration capability, runner acceptance, old-tab resource use, actual HTTP
-permissions, Certbot compatibility, publication ordering and production resource observation.
+silently mocked. The original 51 engine/systemd cases remain. Integration adds real unprivileged
+HTTP permissions, retained-resource recovery, stopped wrapper owners, stale leases, publication
+failures and exact retries. Continuous 20 ms disk/inode samples supplement combined RSS; samples
+are not mathematical peak proof. Hard caps and fresh admission still apply. The HTTP fixture
+represents already-resident Nginx and is excluded from incremental process RSS. Actual SSH/host
+overhead still requires approved observation, not a budget increase. Full frontend checks,
+coverage, browser smoke and same-artifact preview are mandatory integration gates.
+
+## Checkpoint B Prerequisites
+
+- No production access, master push or dispatch is authorized by this branch documentation.
+- The reviewed `SSH_KNOWN_HOSTS` pin is currently missing. Resolve it explicitly before master
+  push; never silently keyscan/trust a replacement or change SSH/firewall policy.
+- Confirm no historical destructive deploy or overlapping Nginx/Certbot operation is active.
+- Approved bounded preflight must verify lexical parent, modes, OS Python/systemd, old inventory,
+  capacity, CSP and disposable same-filesystem exchange capability outside the served tree.
+  Unsupported capability or incompatible unversioned resources is No-Go.
+- No target Node/browser install, backend/Nginx service action or permanent timer is included.
+  The 2026-09-25 locked-install audits report 8 production findings (1 critical, 5 high,
+  2 moderate) and 16 full findings (1 critical, 6 high, 8 moderate, 1 low). These remain a
+  prioritized, separately scoped dependency follow-up. Reviewed exposure is build/config/dev
+  tooling: no current public-runtime trigger was found, not a claim that the packages are safe
+  or patched. Do not process untrusted image/config inputs or expose development servers.
+  No package change or claim of a clean audit is made here.
+- Only after review may normal master integration trigger migration. Confirm identity, HTTP,
+  browsers, guard collection, retained assets and actual resource headroom; then update this
+  prepared/not-active status with independently verified production evidence.

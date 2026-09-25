@@ -241,6 +241,19 @@ class SystemdGuard:
             check=False,
         )
 
+    def assert_collected(self, root: Path, generation: str) -> None:
+        result = subprocess.run(
+            ["systemctl", "is-active", unit_name(root, generation, "guard")],
+            capture_output=True,
+            timeout=5,
+            check=False,
+        )
+        require(
+            result.returncode != 0
+            and result.stdout.strip() in (b"inactive", b"failed", b"unknown"),
+            "guard still owns its helper; retain transaction lease",
+        )
+
 
 def run_worker(root: Path, generation: str, arguments: list[str]) -> dict:
     """CLI mutations cannot leave a SIGSTOP'ed caller holding a lock indefinitely."""

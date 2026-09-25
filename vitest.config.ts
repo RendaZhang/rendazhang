@@ -8,6 +8,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    exclude: ['node_modules/**', 'dist/**', '.astro/**', 'tests/smoke/**']
+    exclude: ['node_modules/**', 'dist/**', '.astro/**', 'tests/smoke/**', 'tests/acceptance/**']
   }
 });

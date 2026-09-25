@@ -99,6 +99,13 @@ npm run preview
 
 ## Deployment
 
+- This feature branch prepares the atomic workflow in `docs/RELEASE_ENGINE.md`; it is not active
+  in production. Checkpoint A permits branch CI only. Master push, production dispatch and host
+  access require separate first-migration approval and prerequisites.
+- Candidate delivery builds once and verifies origin/browser identity before mirror publication.
+  Never rerun a historical destructive upload after migration. Distribution-only failure must
+  not roll back an accepted origin.
+
 - Pushing to `master` triggers `.github/workflows/deploy.yml`.
 - The workflow runs checks, builds `dist/`, deploys static files to the server,
   publishes the release branch/tag, and purges CDN cache.

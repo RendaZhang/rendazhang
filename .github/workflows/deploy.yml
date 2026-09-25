@@ -1,61 +1,79 @@
-name: Build & Deploy Astro Site with fixed version Release # 固定版本号（手动管理）
+name: Build & Deploy Astro Site with fixed version Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   workflow_dispatch:
+    inputs:
+      mirror_run_id:
+        description: 'Original deploy run for mirror-only retry; empty means a new build'
+        type: string
+        default: ''
+      mirror_attempt:
+        description: 'Original immutable artifact attempt for mirror-only retry'
+        type: string
+        default: '1'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: frontend-production-transaction
+  cancel-in-progress: false
 
 env:
   TAG_NAME: ${{ vars.PUBLIC_TAG_NAME }}
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     environment: production
     steps:
-      - name: Checkout Astro Project code
-        id: checkout-code
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
-      - name: Set up Node.js
-        id: setup-node
-        uses: actions/setup-node@v6
+          persist-credentials: false
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.17.0'
-          cache: 'npm'
-
-      - name: Install NPM dependencies
-        id: install-dependencies
-        run: npm ci
-
-      - name: Run checks and tests
-        id: run-checks-tests
+          cache: npm
+      - name: Verify pinned runner runtime
         run: |
-          npm run sync
-          npm run lint
-          npm run typecheck
-          npm run check
-          npm run test:coverage
-
+          node_bin="$(command -v node)"
+          export PATH="$(dirname "$node_bin"):$PATH"
+          npm_cli="$(dirname "$(dirname "$node_bin")")/lib/node_modules/npm/bin/npm-cli.js"
+          test "$("$node_bin" --version)" = v24.17.0
+          test "$("$node_bin" "$npm_cli" --version)" = 11.13.0
+          echo "NPM_CLI=$npm_cli" >> "$GITHUB_ENV"
+          /usr/bin/python3 --version
+      - name: Install locked runner dependencies and browser before activation
+        run: |
+          node "$NPM_CLI" ci
+          node node_modules/@playwright/test/cli.js install --with-deps chromium
+      - name: Run checks and tests
+        if: ${{ inputs.mirror_run_id == '' }}
+        run: |
+          node "$NPM_CLI" run sync
+          node "$NPM_CLI" run lint
+          node "$NPM_CLI" run typecheck
+          node "$NPM_CLI" run check
+          node "$NPM_CLI" run test:coverage
       - name: Upload coverage report
-        if: success()
+        if: ${{ inputs.mirror_run_id == '' && success() }}
         uses: actions/upload-artifact@v6
         with:
-          name: coverage
+          name: coverage-${{ github.run_id }}-${{ github.run_attempt }}
           path: coverage
-
-      - name: Build Astro Project with Sentry config
-        id: build-project
+      - name: Build exactly once with existing Sentry configuration
+        if: ${{ inputs.mirror_run_id == '' }}
         run: |
-          npm run build
-          # 在 production 环境中删除所有 source map 文件
-          if [ "${{ vars.PUBLIC_NODE_ENV }}" = "production" ]; then
-            find dist -type f -name '*.map' -delete
-            echo "Source map files removed"
-          fi
+          node "$NPM_CLI" run build
+          find dist -type f -name '*.map' -delete
+          echo 'Source map files removed before immutable packaging'
+          /usr/bin/python3 -B scripts/release_bundle.py create --dist dist --bundle "$RUNNER_TEMP/release-bundle" --source "$GITHUB_SHA" --run "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT"
         env:
           PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
           PUBLIC_CDN_BASE: ${{ vars.PUBLIC_CDN_BASE }}
@@ -70,150 +88,73 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           SKIP_SENTRY: ${{ secrets.SKIP_SENTRY }}
           SKIP_ESLINT: ${{ secrets.SKIP_ESLINT }}
-
-      - name: Deploy to Ubuntu server
-        id: deploy-to-server
-        uses: appleboy/scp-action@v0.1.7
+      - name: Retain immutable exact-attempt retry artifact
+        if: ${{ inputs.mirror_run_id == '' }}
+        uses: actions/upload-artifact@v6
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'dist/*'
-          target: ${{ secrets.DEPLOY_PATH }}
-          strip_components: 1
-          rm: true
-
-      - name: Delete existing release, tag, and release branch (if any)
-        id: delete-release-tag-branch
-        uses: actions/github-script@v8
+          name: frontend-release-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-bundle
+          if-no-files-found: error
+          retention-days: 7
+      - name: Download and bind mirror-only retry to original master workflow
+        if: ${{ inputs.mirror_run_id != '' }}
         env:
-          TAG_NAME: ${{ env.TAG_NAME }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const tag = process.env.TAG_NAME;
-            const branch = `release/${tag}`;
-            // Delete release
-            try {
-              const release = await github.rest.repos.getReleaseByTag({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag,
-              });
-              await github.rest.repos.deleteRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: release.data.id,
-              });
-              console.log(`Deleted release: ${tag}`);
-            } catch (error) {
-              console.log(`Release for tag ${tag} does not exist`);
-            }
-            // Delete tag
-            try {
-              await github.rest.git.deleteRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `tags/${tag}`,
-              });
-              console.log(`Deleted tag: ${tag}`);
-            } catch (error) {
-              console.log(`Tag ${tag} does not exist`);
-            }
-            // Delete branch
-            try {
-              await github.rest.git.deleteRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `heads/${branch}`,
-              });
-              console.log(`Deleted branch: ${branch}`);
-            } catch (error) {
-              console.log(`Branch ${branch} does not exist`);
-            }
-
-      - name: Publish dist/ directory to release branch
-        id: publish-release-branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: release/${{ env.TAG_NAME }}
-          force_orphan: true
-          commit_message: Release ${{ env.TAG_NAME }}
-
-      - name: Get release branch commit SHA
-        id: get-release-branch-sha
+          GH_TOKEN: ${{ github.token }}
+          MIRROR_RUN_ID: ${{ inputs.mirror_run_id }}
+          MIRROR_ATTEMPT: ${{ inputs.mirror_attempt }}
         run: |
-          # 获取 release 分支的最新提交 SHA
-          SHA=$(git ls-remote origin refs/heads/release/$TAG_NAME | awk '{print $1}')
-          echo "SHA=$SHA" >> $GITHUB_ENV
-          echo "Commit SHA: $SHA"
+          /usr/bin/python3 -B - <<'PY'
+          import os, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from release_distribution import download_retry
+          download_retry(os.environ['GITHUB_REPOSITORY'], int(os.environ['MIRROR_RUN_ID']), int(os.environ['MIRROR_ATTEMPT']), Path(os.environ['RUNNER_TEMP']) / 'release-bundle')
+          PY
+      - name: Verify artifact and complete preview before any activation
+        run: |
+          /usr/bin/python3 -B scripts/release_bundle.py verify --bundle "$RUNNER_TEMP/release-bundle" --preview "$RUNNER_TEMP/release-preview"
+          /usr/bin/python3 -B scripts/release_preview_check.py --bundle "$RUNNER_TEMP/release-bundle" --preview "$RUNNER_TEMP/release-preview"
+      - name: Prepare private runner SSH files with reviewed host-key pin
         env:
-          TAG_NAME: ${{ env.TAG_NAME }}
-
-      - name: Create and push tag
-        id: create-tag
+          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ vars.SSH_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ secrets.SERVER_IP }}
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          # 基于 release 分支的提交创建标签
-          git fetch origin release/$TAG_NAME
-          git tag -f $TAG_NAME $SHA
-          git push origin $TAG_NAME --force
+          umask 077
+          directory="$RUNNER_TEMP/release-ssh-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir "$directory"
+          test -n "$DEPLOY_KEY"
+          test -n "$DEPLOY_KNOWN_HOSTS"
+          printf '%s\n' "$DEPLOY_KEY" > "$directory/key"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$directory/known_hosts"
+          ssh-keygen -F "$DEPLOY_HOST" -f "$directory/known_hosts" > /dev/null
+          echo "DEPLOY_KEY_FILE=$directory/key" >> "$GITHUB_ENV"
+          echo "DEPLOY_KNOWN_HOSTS_FILE=$directory/known_hosts" >> "$GITHUB_ENV"
+      - name: Guarded origin acceptance then fixed-ref artifact and CDN publication
         env:
-          TAG_NAME: ${{ env.TAG_NAME }}
-          SHA: ${{ env.SHA }}
-
-      - name: Create release artifacts
-        id: create-release-artifacts
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_HOST: ${{ secrets.SERVER_IP }}
+          DEPLOY_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          RELEASE_ORIGIN: ${{ vars.PUBLIC_SITE_BASE_URL }}
+          MIRROR_RUN_ID: ${{ inputs.mirror_run_id }}
         run: |
-          mkdir -p release
-          tar -czvf release/build.tar.gz -C dist .
-          # 添加校验和
-          sha256sum release/build.tar.gz > release/build.tar.gz.sha256
-          echo "Build date: $(date -u)" > release/build-info.txt
-          echo "Commit: $GITHUB_SHA" >> release/build-info.txt
-          echo "Tag: ${{ env.TAG_NAME }}" >> release/build-info.txt
-          # 准备发布说明
-          cat <<EOF > release/notes.md
-          ## Production Release ($(date -u))
-
-          **Details**:
-          - **Build date**: $(date -u)
-          - **Commit**: [$GITHUB_SHA](https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA)
-          - **Tag**: ${{ env.TAG_NAME }}
-          - **Artifact**: [build.tar.gz](https://github.com/$GITHUB_REPOSITORY/releases/download/${{ env.TAG_NAME }}/build.tar.gz)
-
-          **Changes since last release**:
-          \`\`\`
-          $(git log --pretty=format:"%h - %s (%an)" -n 10)
-          \`\`\`
-          EOF
-
-      - name: Create GitHub release and upload release artifacts
-        id: create-release
-        uses: softprops/action-gh-release@v3
+          mode=deploy
+          if [ -n "$MIRROR_RUN_ID" ]; then mode=publish; fi
+          /usr/bin/python3 -B scripts/release_runner.py --bundle "$RUNNER_TEMP/release-bundle" --preview "$RUNNER_TEMP/release-preview" --mode "$mode"
+      - name: Retain runner acceptance evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          name: ${{ env.TAG_NAME }}
-          body_path: release/notes.md
-          files: |
-            release/build.tar.gz
-            release/build.tar.gz.sha256
-            release/build-info.txt
-          draft: false
-          prerelease: false
-
-      - name: Purge jsdelivr CDN cache
-        id: purge-cdn-cache
+          name: acceptance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/personalweb-acceptance
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Remove only this run's private SSH files
+        if: ${{ always() }}
         run: |
-          url="https://purge.jsdelivr.net/gh/${{ github.repository }}@${{ env.TAG_NAME }}"
-          response=$(curl -sS -o purge-response.json -w "%{http_code}" "$url")
-          if [ "$response" -eq 200 ]; then
-            echo "CDN version cache purge requested successfully"
-            cat purge-response.json
-          else
-            echo "::warning::CDN purge failed with status $response for $url"
-            cat purge-response.json || true
+          directory="$RUNNER_TEMP/release-ssh-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          if [ -d "$directory" ]; then
+            rm -f "$directory/key" "$directory/known_hosts"
+            rmdir "$directory"
           fi
