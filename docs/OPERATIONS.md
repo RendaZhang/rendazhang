@@ -15,7 +15,7 @@
 # Operations Maintenance Guide
 
 - **Author**: Renda Zhang
-- **Last Updated**: July 05, 2026, 11:23 (UTC+08:00)
+- **Last Updated**: October 01, 2026, 11:03 (UTC+08:00)
 - **Scope**: public-safe command index for routine PersonalWeb maintenance across the frontend,
   backend, Nginx config mirror, local roadmap, and read-only production checks.
 
@@ -162,19 +162,20 @@ python -m unittest discover -s tests
 pre-commit run --all-files
 ```
 
-For docs-only backend changes, no service restart is needed after the repo is pushed and the
-production worktree is fast-forwarded. For code or dependency changes, restart only
-`cloudchat.service` after the authorized production sync and environment validation.
-
-Backend production worktree sync rule:
+Normal backend releases are automatic: push `master`, then inspect the matching
+`backend-ci.yml` run. After quality checks, the workflow synchronizes the exact source SHA,
+updates the environment only when requirements change, and restarts only `cloudchat.service`
+when runtime code, dependencies, the canonical unit, or an explicit restart request require it.
+Documentation-only changes synchronize without a restart. Pull requests never deploy.
 
 ```bash
-cd /opt/cloudchat
-git pull --ff-only origin master
+gh run list --repo RendaZhang/python-cloud-chat --workflow backend-ci.yml --branch master --limit 3
+gh run view <matching-run-id> --repo RendaZhang/python-cloud-chat --log
 ```
 
-Do not run this command unless the current slice explicitly scopes backend production sync. Do not
-restart Nginx, Redis, PostgreSQL, PgBouncer, or unrelated services for backend-only work.
+Routine deployment does not need a manual server pull or restart. If the workflow fails, keep its
+diagnostics and repair that specific failure through a normal commit; do not manually deploy to
+hide it. Do not restart Nginx, Redis, PostgreSQL, PgBouncer, or unrelated services for backend work.
 
 Public health check:
 
@@ -202,17 +203,19 @@ Docs-only validation:
 pre-commit run --all-files
 ```
 
-For Nginx config changes, validate on the authorized server before reload:
+Normal Nginx releases also start with a `master` push. `nginx-ci.yml` validates the repository,
+synchronizes the exact source SHA, and runs production `nginx -t` plus a reload only when
+configuration changes (or an explicit reload is requested). Documentation-only updates synchronize
+without a syntax test or reload. Pull requests never deploy.
 
 ```bash
-cd /etc/nginx
-git pull --ff-only origin master
-nginx -t
-systemctl reload nginx
+gh run list --repo RendaZhang/nginx-conf --workflow nginx-ci.yml --branch master --limit 3
+gh run view <matching-run-id> --repo RendaZhang/nginx-conf --log
 ```
 
-Do not run `nginx -t` or reload Nginx for docs-only changes. Do not copy a local directory over
-`/etc/nginx`; use `git pull --ff-only` so server-local ignored files remain untouched.
+Do not copy a local directory over `/etc/nginx`, or manually pull/reload to hide a failed run.
+The workflow preserves ignored server-local state. For cross-repository changes, deliver one repo
+at a time and wait for its exact-SHA run and health checks before pushing the next.
 
 Server-local state:
 

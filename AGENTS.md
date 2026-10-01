@@ -104,6 +104,10 @@ npm run preview
   publishes the release branch/tag, and purges CDN cache.
 - The frontend static directory on the server is not a Git worktree. Do not try
   to deploy the frontend with `git pull` on `/var/www/html`.
+- Routine releases need no manual server login or frontend service restart.
+  Verify the run for the pushed source SHA, not just the latest green run.
+  For changes spanning repositories, finish one deployment and health check before
+  pushing the next; backend and Nginx have their own automatic master-push workflows.
 - After pushing to `master`, verify the GitHub Actions run and then perform
   read-only production checks, for example:
 
