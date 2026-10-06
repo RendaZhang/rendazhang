@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 SVG Tooling Patch](#october-2026-svg-tooling-patch)
   - [October 2026 Build Queries And Target Data Patch](#october-2026-build-queries-and-target-data-patch)
   - [October 2026 Build Data And Source Map Patch](#october-2026-build-data-and-source-map-patch)
   - [October 2026 Browser Sanitizer Patch](#october-2026-browser-sanitizer-patch)
@@ -37,6 +38,87 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 SVG Tooling Patch
+
+Slice 19.2.3.3 starts from accepted source `5c01d2799764dad8fd36d86f935fe991ef4b9d87`.
+October 06, 2026 evidence uses Node `24.17.0` and npm `11.13.0`, including script
+children. A package-scoped `npm update svgo --package-lock-only` changes exactly
+four existing nodes, with no additions, removals, hoisting or incidental patches.
+The manifest, overrides, Astro `7.2.8`, runtime pins and all prior fixes stay fixed.
+
+| Node | Locked movement | Consumer and required range |
+| --- | --- | --- |
+| `svgo` | `4.0.2 -> 4.1.0` | Astro's optional SVG optimizer, existing `^4.0.1` |
+| `css-select` | `5.2.2 -> 6.0.0` | SVGO now requires `^6.0.0`; explicitly reviewed internal major |
+| `css-what` | `6.2.2 -> 7.0.0` | SVGO and css-select share `^7.0.0`; explicitly reviewed internal major |
+| `sax` | `1.6.0 -> 1.6.1` | SVGO now requires exactly `1.6.1` |
+
+css-select's floors change to domhandler `^5.0.3`, domutils `^3.2.2` and
+nth-check `^2.1.1`. Installed `5.0.3`, `3.2.2` and `2.1.1` already satisfy them.
+boolbase `1.0.0`, nested dom-serializer `2.0.0` / entities `4.5.0`, domelementtype
+`2.3.0`, commander `11.1.0`, css-tree `3.1.0`, csso `5.0.5`, picocolors `1.1.1`,
+patched source-map-js `1.2.2` and unrelated root DOM libraries remain unchanged.
+
+[SVGO 4.1.0](https://github.com/svg/svgo/releases/tag/v4.1.0) adapts its XAST
+selector integration for [css-select 6](https://github.com/fb55/css-select/releases/tag/v6.0.0)
+and [css-what 7](https://github.com/fb55/css-what/releases/tag/v7.0.0), and intentionally
+rejects illegal XML numeric references through SAX. It fixes
+[GHSA-4vpr-x523-8j87](https://github.com/svg/svgo/security/advisories/GHSA-4vpr-x523-8j87)
+(active HTML inside foreignObject) and
+[GHSA-w27v-7q3p-w38r](https://github.com/svg/svgo/security/advisories/GHSA-w27v-7q3p-w38r)
+(prefixed anchors and control-obfuscated URL schemes) in opt-in `removeScripts`.
+
+| Evidence at accepted source / installed patch | Before | After |
+| --- | --- | --- |
+| Production npm audit | 4 entries: 2 high, 2 low; 4 GHSA IDs | 3 entries: 1 high, 2 low; 2 IDs |
+| Full npm audit | 25 entries: 16 high, 7 moderate, 2 low; 16 GHSA IDs | 24 entries: 15 high, 7 moderate, 2 low; 14 IDs |
+
+Neither snapshot has critical findings. Baseline hosted Dependabot evidence is
+14 alerts / 13 IDs, not an npm package count. Both target IDs disappear from both
+installed audits. Every remaining vulnerability entry, path and ID matches the
+baseline exactly; no new ID appears. Both audit exits remain 1 for unfinished work,
+not a zero-audit pass, exploitability claim or risk waiver.
+
+The site imports repository-owned SVG social logos. No visitor SVG upload or public
+optimizer endpoint was found. `experimental.svgOptimizer` and `removeScripts` remain
+unconfigured: the isolated tests do not enable them for the site. Before patching,
+a small control-reference input was accepted and a prefixed, tab-obfuscated anchor
+survived the opt-in plugin. The patched tests require controlled parser rejection
+and removal respectively. This demonstrates library behavior, not a present public
+exploit. **SVGO is an optimizer, not a complete sanitizer**, and does not replace
+DOMPurify or the Markdown boundary; custom namespace semantics are not generalized.
+
+Eight bounded Node tests use real Astro/SVGO resolution and wrapper output, a small
+repository logo, valid viewBox/geometry/text, ESM/CommonJS selector entrypoints and
+the XAST adapter through inlineStyles. Class/attribute, child/sibling, pseudo-class
+and nonmatching cases preserve selection. Text and attribute invalid XML references
+fail without partial success; valid Unicode boundaries survive. Isolated opt-in
+plugin cases inspect structured XML for HTML event/srcdoc/URL removal, prefixed links,
+executable data URLs and preservation of safe text, shapes, links and PNG data.
+No fixture content executes or makes network requests. Each child has a five-second
+hard deadline and an after-checks marker. Existing native/font, real Chromium
+sanitizer, parser/map and query/data coverage remains unchanged.
+
+Local clean install/tree, sync/lint/typecheck, 203-file Astro check, 46 focused tests,
+196 tests across 45 coverage files, 13 Chromium smoke cases and the 11-page build
+passed. All four executable inline hashes match the existing allowlist. Desktop
+`1366x900` and mobile `390x844` checks passed for all five SVG social logos, navigation
+icons/theme persistence, images/system fonts, Docs zh/en/zh `2/2/2`, Credly and
+direct/embedded Chat readiness, without app console errors or horizontal overflow.
+An initial extra local browser pass overlapped smoke's rebuild and saw a transient
+404; its evidence was retained, then the complete pass succeeded after the build.
+No assertion or application behavior was changed to bypass that check.
+
+Release gates include the full existing local checks, unchanged executable CSP
+hashes, exact-SHA Linux tests/build, Sentry map upload/deletion, transfer/CDN and
+read-only desktop/mobile production checks including SVG logos/icons. Local browser
+QA is not claimed as a CI browser job. HTTP-cache semantics, KaTeX/inherited Mermaid
+and dev-tool findings remain queued. Magicast's inlined old map copy remains open;
+external map-node audits do not close it. The mapping data-age warning observed in
+the preceding CI run remains a separate freshness review, not a reason to update
+data or suppress warnings here. New IDs, actual consumer incompatibility, unrelated
+lock churn or a new executable CSP allowance stop acceptance for review.
 
 ## October 2026 Build Queries And Target Data Patch
 

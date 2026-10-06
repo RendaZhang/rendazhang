@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 15:51 (UTC+08:00)
+- **最后更新**: October 06, 2026, 16:23 (UTC+08:00)
 
 ---
 
@@ -117,6 +117,15 @@ typescript-estree 消费路径，覆盖两条 minimatch/brace-expansion 主版�
 500 项结果缓存淘汰及重复查询正确性，不做资源压力测试。parse cache 上限另以源码审查确认。
 mapping 两个 API 的非法选项必须抛出可捕获错误，子进程还必须输出 after-checks 标记，不能仅
 凭退出码 0 判定成功。测试不修改全局原型、不访问外部网络，也不运行真实 Sentry 上传。
+
+`src/__tests__/SvgToolingCompatibility.test.ts` 通过现有 Vitest 启动
+`fixtures/svg-tooling-bounded.mjs`，以五秒硬超时检查真实 Astro/SVGO 包解析、优化 wrapper、
+XAST 选择器与 inlineStyles、严格 XML 异常及合法 Unicode 边界。ESM/CommonJS 入口和现有
+SVG logo 都有覆盖。`removeScripts` 仅在隔离用例中启用，检查 foreignObject、命名空间前缀、
+控制字符混淆 URL 和可执行 data URL，同时保留安全文本、几何与链接。输出只用结构化 XML
+解析器检查，不执行脚本、不加载资源、不发出外部请求；每个子进程必须返回 after-checks 标记。
+站点配置仍不启用 SVG optimizer 或该插件。SVGO 不是完整净化器，这些测试不替代 DOMPurify
+及真实 Chromium 的 Markdown 安全门禁，也不证明站点当前存在这些 opt-in 漏洞的公开输入路径。
 
 ## 视觉与交互 QA
 
