@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: August 30, 2026, 22:50 (UTC+08:00)
+- **最后更新**: October 06, 2026, 14:47 (UTC+08:00)
 
 ---
 
@@ -87,7 +87,19 @@ npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
   `/cloudchat/auth/me` 探测请求，避免因 Playwright routing 关闭浏览器缓存并扭曲生产资源加载时序。
   对 `client:load` 交互区，测试会等待对应 Astro island 移除 `ssr` 标记后再执行点击，从而验证已
   水合的交互行为，而不是把网络相关的水合时序误报为功能失败。它不发送真实用户信息，也不覆盖
-  Chat streaming、auth 表单提交或后端 API 行为。
+  真实 Chat streaming、auth 表单提交或后端 API 行为。
+
+`src/__tests__/MarkdownRenderingSecurity.test.tsx` 使用真实 DOMPurify 验证字符串/Markdown
+净化，覆盖 script、事件属性、编码后的不安全 URL，以及安全文本、代码和链接。Mermaid 的单元
+用例使用 mock 检查失败回退，不能替代真实浏览器证据。
+
+`tests/smoke/markdown-security.spec.ts` 仅允许 loopback 地址，在隔离的 Chromium 上下文中
+拦截本地合成 Chat 响应，禁止请求其他 Chat API；不调用付费模型，也不向生产发送测试内容。
+桌面和移动端用例通过实际应用管线及打包后的 DOMPurify/Mermaid，检查最终 DOM 中不存在
+script、事件属性或不安全 URL，并检查无害执行标记。正向事件对照确认不能仅凭 CSP 阻止执行
+就误判净化成功。真实图表、良性数学标签和畸形图表代码回退均有覆盖。每个用例结束后销毁
+浏览器上下文；这不是 IN_PLACE 漏洞复现、KaTeX 修复证明或后端流式协议测试。
+现有部署工作流运行 Vitest coverage 和构建；Playwright 是本地发布前门禁，不宣称已在 CI 运行。
 
 ## 视觉与交互 QA
 

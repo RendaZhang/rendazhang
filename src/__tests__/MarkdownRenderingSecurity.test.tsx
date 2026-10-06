@@ -39,9 +39,13 @@ describe('Markdown rendering security boundary', () => {
   it('sanitizes executable HTML before placing Markdown output in the DOM', async () => {
     const { getByTestId } = renderReact(
       <MarkdownHarness
-        markdown={
-          '<p>Safe text</p><img src="x" onerror="alert(1)"><a href="javascript:alert(2)">Unsafe link</a><script>alert(3)</script>'
-        }
+        markdown={[
+          '**Safe text** and [Safe link](/docs/).',
+          '`<script>literal code</script>`',
+          '<img src="x" onerror="window.__sanitizerExecuted=true">',
+          '<a href="javascript:window.__sanitizerExecuted=true" onclick="window.__sanitizerExecuted=true">Unsafe link</a>',
+          '<script>window.__sanitizerExecuted=true</script>'
+        ].join('\n\n')}
       />
     );
 
@@ -50,8 +54,24 @@ describe('Markdown rendering security boundary', () => {
 
     expect(output.querySelector('script')).toBeNull();
     expect(output.querySelector('img')?.hasAttribute('onerror')).toBe(false);
-    expect(output.querySelector('a')?.hasAttribute('href')).toBe(false);
+    expect(output.querySelector('a:not([href])')?.textContent).toBe('Unsafe link');
+    expect(output.querySelector('[onclick]')).toBeNull();
+    expect(output.querySelector('strong')?.textContent).toBe('Safe text');
+    expect(output.querySelector('code')?.textContent).toBe('<script>literal code</script>');
+    expect(output.querySelector('a[href="/docs/"]')?.textContent).toBe('Safe link');
   });
+
+  it.each(['javascript:', 'java&#x73;cript:', 'jav&#x09;ascript:'])(
+    'removes unsafe %s URLs without discarding link text',
+    async (protocol) => {
+      const { getByTestId } = renderReact(
+        <MarkdownHarness markdown={`<a href="${protocol}void(0)">Link text</a>`} />
+      );
+      const output = getByTestId('markdown-output');
+      await waitFor(() => expect(output.querySelector('a')?.textContent).toBe('Link text'));
+      expect(output.querySelector('a')?.hasAttribute('href')).toBe(false);
+    }
+  );
 
   it('renders a validated Mermaid block and keeps non-Mermaid highlighting separate', async () => {
     mermaidMock.parse.mockResolvedValueOnce(true);

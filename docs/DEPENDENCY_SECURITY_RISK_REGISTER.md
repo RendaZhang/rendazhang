@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Browser Sanitizer Patch](#october-2026-browser-sanitizer-patch)
   - [October 2026 Astro And Sharp Patch](#october-2026-astro-and-sharp-patch)
     - [Target Advisories And Exposure](#target-advisories-and-exposure)
     - [Complete Lockfile Closure](#complete-lockfile-closure)
@@ -34,6 +35,72 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Browser Sanitizer Patch
+
+Slice 19.2.2 starts from accepted source `f5f32f0101450fbb13c8336b0cfd8237c92309b1`.
+Evidence refreshed on October 06, 2026 uses Node `24.17.0` and npm `11.13.0`,
+including script children. The only package-node change is `dompurify 3.4.13 -> 3.4.16`;
+the direct caret declaration and lockfile root agree. Mermaid `11.16.1` accepts
+`dompurify ^3.3.3` and deduplicates to the same patched instance. Its KaTeX `0.16.47`,
+the existing optional `@types/trusted-types 2.0.7`, Astro `7.2.8`, Sharp `0.35.4`,
+ohash `2.0.12`, runtime pins and all other package nodes remain unchanged.
+No incidental dependency exception, override or Mermaid downgrade is used.
+
+The [3.4.16 release](https://github.com/cure53/DOMPurify/releases/tag/3.4.16) fixes
+[GHSA-p98j-92pf-mc4p](https://github.com/cure53/DOMPurify/security/advisories/GHSA-p98j-92pf-mc4p)
+(IN_PLACE with node-removing afterSanitize hooks) and
+[GHSA-6688-9rhm-gjv2](https://github.com/cure53/DOMPurify/security/advisories/GHSA-6688-9rhm-gjv2)
+(a removed IN_PLACE raw-text root surviving serialization/reparse). The application
+sanitizes the string returned by marked before assigning HTML; it neither uses
+IN_PLACE nor registers removal hooks. This is a real browser trust boundary for
+Chat/model text, but the advisory-specific exploit preconditions are not demonstrated
+at the application call site. The release also adjusts module declarations and
+upstream bundling, so import/type/build checks remain necessary.
+
+| Evidence | Accepted source baseline | Installed patch | Decision |
+| --- | --- | --- | --- |
+| Production npm audit | 12 package entries: 0 critical, 8 high, 1 moderate, 3 low; 23 GHSA IDs | 11 entries: 0 critical, 8 high, 1 moderate, 2 low; 21 GHSA IDs | Only the two DOMPurify IDs removed |
+| Full npm audit | 33 entries: 0 critical, 22 high, 8 moderate, 3 low; 35 GHSA IDs | 32 entries: 0 critical, 22 high, 8 moderate, 2 low; 33 GHSA IDs | No added advisory IDs; not a zero-audit pass |
+
+Both installed audits return exit 1 for remaining known findings. Package entries,
+unique advisory IDs and hosted Dependabot alert counts are different measurements.
+All remaining advisory IDs match the accepted baseline; the earlier Astro/Sharp
+targets remain absent. Historical August and earlier October evidence below is
+preserved rather than rewritten as today's state.
+
+Regression coverage uses real DOMPurify string/Markdown sanitization for scripts,
+event attributes and encoded unsafe URLs while preserving text, code and safe links.
+The loopback-only Chromium smoke tests intercept synthetic Chat responses and exercise
+the actual bundled DOMPurify and Mermaid at desktop and mobile sizes. They inspect
+the resulting DOM and a harmless execution marker, with an inline-handler positive
+control so CSP blocking alone cannot produce a false pass. Real safe diagrams,
+benign math labels and malformed-diagram fallback are checked. These same browser
+cases also passed before the patch; they are compatibility/security-boundary regression
+tests, not a reproduced IN_PLACE exploit or a KaTeX security fix. No fixture is sent
+to production or a paid API. See [Testing](./TESTING.md) for the test boundary.
+
+Release gates retain the complete frontend validation/build/hook sequence, current
+executable CSP allowlist, Docs zh/en/zh diagrams, same-origin Widget readiness and
+Credly framing. Browser smoke runs locally; the unchanged deployment workflow runs
+the unit/coverage and build gates, not Playwright. Only the exact successful source-SHA
+push run plus production checks establishes deployment acceptance.
+
+Local gates passed with 18 focused tests, 163 tests across 42 coverage files, 13
+Chromium smoke cases and an 11-page build. Astro check reported no errors, warnings
+or hints; all four generated executable inline hashes match the existing allowlist.
+Desktop `1366x900` and mobile `390x844` checks passed for Docs zh/en/zh `2/2/2`,
+navigation/theme persistence, images/system fonts, Credly and direct/embedded Chat
+readiness, with no application console errors or horizontal overflow. Credly's
+statistics request was cancelled when navigating away; badge content was verified.
+
+Remaining production packages are `baseline-browser-mapping`, `brace-expansion`,
+`browserslist`, `devalue`, `http-cache-semantics`, `js-yaml`, `katex`, inherited
+`mermaid`, `smol-toml`, `source-map-js` and `svgo`. Dev-only chains listed in the
+earlier October section remain open. KaTeX's fixed line is outside the current
+Mermaid range; braces and HTTP-cache findings still require separate decisions.
+None is waived here. New advisory IDs, changed input reachability, sanitizer/diagram
+regressions or a new executable CSP hash stop the patch for a separate decision.
 
 ## October 2026 Astro And Sharp Patch
 
