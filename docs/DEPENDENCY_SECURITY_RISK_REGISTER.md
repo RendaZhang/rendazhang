@@ -3,7 +3,12 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
-  - [Current Evidence](#current-evidence)
+  - [October 2026 Astro And Sharp Patch](#october-2026-astro-and-sharp-patch)
+    - [Target Advisories And Exposure](#target-advisories-and-exposure)
+    - [Complete Lockfile Closure](#complete-lockfile-closure)
+    - [ohash Exception And Font Boundary](#ohash-exception-and-font-boundary)
+    - [Validation And Open Decisions](#validation-and-open-decisions)
+  - [Historical August Evidence](#historical-august-evidence)
   - [Slice 15.1 Security Patch Result](#slice-151-security-patch-result)
   - [Slice 15.6.2 Rendering Security Patch Result](#slice-1562-rendering-security-patch-result)
   - [Active Risk Register](#active-risk-register)
@@ -17,7 +22,7 @@
 # Dependency Security Risk Register
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 08, 2026, 08:30 (UTC+08:00)
+- **Last Updated**: October 06, 2026 (UTC+08:00)
 - **Scope**: public-safe dependency and security risk decisions for the PersonalWeb frontend.
 
 This register records the current audit evidence, accepted residuals, escalation thresholds, and
@@ -30,7 +35,133 @@ services.
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
 
-## Current Evidence
+## October 2026 Astro And Sharp Patch
+
+Slice 19.2.1 starts from source `ae3b8c7a41bd78a8b58d98929435b742ed8966ef`.
+Evidence refreshed on October 06, 2026 uses Node `24.17.0` and npm `11.13.0`,
+with that Node binary also first on the script-child `PATH`. The August zero-audit
+results below are historical snapshots, not the current security baseline.
+
+| Evidence | Before patch | Installed candidate | Meaning |
+| --- | --- | --- | --- |
+| Production npm audit | 14 package entries: 1 critical, 9 high, 1 moderate, 3 low; 26 distinct GHSA IDs | 12 entries: 0 critical, 8 high, 1 moderate, 3 low; 23 GHSA IDs | Three target advisories removed; other findings remain open |
+| Full npm audit | 35 package entries: 1 critical, 23 high, 8 moderate, 3 low; 38 distinct GHSA IDs | 33 entries: 0 critical, 22 high, 8 moderate, 3 low; 35 GHSA IDs | Not a zero-audit pass or risk waiver |
+| Dependabot at source baseline | 21 alerts, 20 GHSA IDs | Hosted refresh is separate from npm evidence | Alert, package and advisory counts overlap and must not be added |
+
+Both audit commands return exit 1 because known findings remain. No new advisory
+ID appeared in the installed candidate relative to the reviewed baseline.
+
+### Target Advisories And Exposure
+
+- [Astro AVIF image optimization](https://github.com/withastro/astro/security/advisories/GHSA-26w7-cxv4-gfx2):
+  `astro@7.1.6` moves to `7.2.8`, which requires the fixed Sharp line.
+- [Astro base-path authorization](https://github.com/withastro/astro/security/advisories/GHSA-376h-93r7-7g6f):
+  fixed in `7.2.4`, also covered by `7.2.8`. This site has no non-root Astro base
+  or Astro authorization middleware; the public site is static output.
+- [Sharp/libheif](https://github.com/lovell/sharp/security/advisories/GHSA-rgj7-g3m4-5g8c):
+  `sharp@0.35.3` moves to `0.35.4`, with prebuilt libvips packages `1.3.3` and
+  libheif `1.23.2`. Image tooling processes repository/operator inputs, not a
+  public image-upload endpoint. Static hosting does not exempt build-time native
+  parsers from hostile input risk. No exploit fixtures or production failure
+  probes are used.
+
+### Complete Lockfile Closure
+
+Only the direct Astro and Sharp caret declarations change. The 77 changed
+package-node paths are grouped below, including removals and layout-only changes.
+No direct dependency or override was added to force a transitive resolution.
+
+| Nodes | Movement and reason |
+| --- | --- |
+| `astro`, `sharp` | `7.1.6 -> 7.2.8`, `0.35.3 -> 0.35.4`; reviewed security targets |
+| `@astrojs/compiler-rs`, `compiler-binding` and bindings | `0.3.2 -> 0.4.1`; Astro requires `^0.4.0`. Darwin arm64/x64, Linux arm64/x64 GNU/musl, WASM, Windows arm64/x64 follow the binding; Android arm64 is newly required optional metadata |
+| Astro-owned `@astrojs/internal-helpers` | Two nested copies `0.10.2 -> 0.10.4`; shared root `0.10.1` stays unchanged |
+| `@astrojs/markdown-satteri`, `satteri` and `@bruits/satteri-*` | `0.3.5 -> 0.3.8`, requiring `satteri ^0.10.3`, resolved `0.9.5 -> 0.10.5`; Darwin arm64/x64, Linux arm64/x64 GNU/musl, WASM and Windows arm64/x64 follow the same version |
+| `@types/hast` | `3.0.4 -> 3.0.5`, required by Satteri; other consumers accept the same 3.x node |
+| `diff`, `find-proc` | `8.0.4 -> 9.0.0` and new `0.1.0`, explicitly required by Astro; no app-level imports added |
+| `unifont`, `undici` | `0.7.4 -> 0.7.5`; new Undici `8.11.2` satisfies Unifont's `^8.0.0` proxy-aware fetch dependency. Its Node `>=22.19.0` engine fits the unchanged pin |
+| `ohash` | `2.0.11 -> 2.0.12`, a separately reviewed in-range exception under Unifont, not a security fix; details below |
+| `@napi-rs/wasm-runtime` | `1.2.2 -> 1.2.5`; compiler WASM now requires `^1.2.4`, Satteri `^1.2.3`; existing Rolldown accepts `^1.1.6`. The compatible v1 EMNAPI peer range remains valid |
+| `@emnapi/core`, `@emnapi/runtime` | Root `1.11.2 -> 1.11.1`, with four redundant nested `1.11.1` copies removed under Satteri/Rolldown WASM. This hoists their existing exact requirements, satisfying the WASM runtime peer ranges; it is not a new downgraded Satteri/Rolldown binary. Sharp WASM gets a separate `@emnapi/runtime@1.11.3` required by its `^1.11.3` edge |
+| `@img/sharp-*` | All native binaries `0.35.3 -> 0.35.4`: Darwin arm64/x64; Linux arm/arm64/ppc64/riscv64/s390x/x64 and musl arm64/x64; Windows arm64/ia32/x64; WASM, FreeBSD-WASM and WebContainers-WASM |
+| `@img/sharp-libvips-*` | `1.3.2 -> 1.3.3`: Darwin arm64/x64; Linux arm/arm64/ppc64/riscv64/s390x/x64 and musl arm64/x64 |
+| Removed unused nodes | Astro dropped `@rollup/pluginutils@5.4.0` and its nested `estree-walker@2.0.2`. The new Satteri tree no longer needs `hast-util-from-html@2.0.3`, `hast-util-from-parse5@8.0.3`, `hast-util-parse-selector@4.0.0`, `hastscript@9.0.1`, `vfile-location@5.0.3`, or `web-namespaces@2.0.1` |
+| Classification only | `entities@6.0.1` and `parse5@7.3.0` become dev-only after the old Satteri production edge disappears; versions do not change |
+
+Upstream review includes the [compiler 0.4.1 fixes](https://github.com/withastro/compiler-rs/releases/tag/%40astrojs%2Fcompiler-rs%400.4.1)
+for whitespace, quoted-prop escapes and CSS selectors, and the
+[Satteri 0.10.5 release](https://github.com/bruits/satteri/releases/tag/satteri-v0.10.5)
+following its 0.10.3 footnote-prefix support. The required range excludes old Satteri.
+[Unifont 0.7.5](https://github.com/unjs/unifont/releases/tag/v0.7.5) changes provider
+fallback/stretch handling and proxy-aware fetching; [Undici 8.11.2](https://github.com/nodejs/undici/releases/tag/v8.11.2)
+fixes aborted-request reconnect and rejected HTTP/2 WebSocket cleanup. These are
+build/font paths, not additions to public Chat transport.
+
+The incidental WASM runtime patch was reviewed against its
+[upstream changes](https://github.com/napi-rs/napi-rs/compare/7e3f293e2d6a3032eabfe51ff38bcaa82d342a2f...023a9f067af5d44c9a06c9a30b48fdd50ab18ac0):
+browser `node:url` shimming and packaging/tests changed; no EMNAPI 2 prerelease is
+selected. Native macOS/Linux builds are the deployment gates, not a claim that
+every optional WASM, Android or Windows binary was executed.
+
+React, Vite, Sentry, PostCSS, DOMPurify, Mermaid and dev-tool versions are unchanged.
+The optional `@astrojs/markdown-remark` peer was not installed. Remaining YAML,
+TOML, SVG, serialization and browser-rendering findings are deliberately not
+silently bundled into this image patch.
+
+### ohash Exception And Font Boundary
+
+Both Unifont versions permit `ohash ^2.0.11`; `2.0.12` is an approved incidental
+patch, not required to fix Astro or Sharp. Its [release](https://github.com/unjs/ohash/releases/tag/v2.0.12)
+changes serialization, diff traversal and packaging. The
+[locale-independent comparator](https://github.com/unjs/ohash/commit/1d9402e)
+preserves printable ASCII collation but places non-ASCII keys after ASCII by code
+unit. Some old non-ASCII-key hashes can change; cross-version cache identity is
+not promised.
+
+The application has no direct ohash import or Astro font-provider configuration.
+Its CSS uses system-font stacks. Installed Unifont uses ohash for provider/options
+cache namespaces and font deduplication, with versioned cache entries. Focused
+offline tests cover equivalent option/key ordering, Unicode keys and family names,
+cache reuse across provider instances, unchanged resolved font descriptors and
+separation of distinct font families. This neither fetches remote fonts nor adds
+font features. Browser checks still verify real text rendering and font requests.
+
+### Validation And Open Decisions
+
+The existing coverage command discovers `SharpNativeImages.test.ts` on both local
+macOS and Linux CI before deployment. It reports actual native versions, decodes
+and resizes tiny benign JPEG/WebP/AVIF images, checks output pixels/dimensions,
+and rejects bounded non-image input. This is regression coverage, not fuzzing or
+proof that every native-parser vulnerability is absent. No hero asset is regenerated.
+
+Release gates include clean lockfile installation and a valid dependency tree,
+sync/lint/typecheck/Astro check, focused and full tests, browser smoke, static build,
+pre-commit, executable CSP hash comparison, and desktop/mobile images, navigation,
+theme persistence, bilingual Docs diagrams, Credly and direct/embedded Chat readiness.
+Local validation passed: 17 focused tests, 160 tests across 42 coverage files,
+9 browser smoke tests, and an 11-page static build. Astro check reported no
+errors, warnings or hints. Actual macOS x64 native evidence is Sharp `0.35.4`,
+libvips `8.18.6` and libheif `1.23.2`; all four generated executable inline-script
+hashes match the existing CSP allowlist. Desktop `1366x900` and mobile `390x844`
+checks passed with no application console errors or horizontal overflow, system-font
+rendering and no font downloads. Credly's own statistics request was cancelled on
+navigation away; its badge content and iframe load were verified.
+The exact master-push Linux run must pass native tests, build/Sentry upload, transfer
+and CDN purge before production checks establish deployment acceptance.
+
+Remaining production entries are `brace-expansion`, `browserslist`,
+`baseline-browser-mapping`, `devalue`, `dompurify`, `http-cache-semantics`, `js-yaml`,
+`smol-toml`, `source-map-js`, `svgo`, `katex` and inherited `mermaid`.
+Full-audit-only chains also include HumanFS, Vitest/mocker/UI/coverage, braces and
+its inherited tool entries, colord, fast-uri and postcss-selector-parser.
+They remain unfinished maintenance batches, not accepted residuals. KaTeX's fixed
+line is outside Mermaid's supported range; braces and http-cache-semantics need
+further upstream/owner decisions. Do not downgrade Mermaid or label disputed
+advisories fixed without evidence. New advisories, changed input exposure, native
+bundle failures, font-cache regressions or changed executable CSP hashes reopen
+the gate. No blind audit fix or force fix is permitted.
+
+## Historical August Evidence
 
 Read-only checks captured before Slice 15.1 reported seven production findings: five high, one
 moderate, and one low. The affected production packages were `astro`, Sentry's transitive
