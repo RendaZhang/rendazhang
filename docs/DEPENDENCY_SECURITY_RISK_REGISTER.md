@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Lint Tool Patch](#october-2026-lint-tool-patch)
   - [October 2026 SVG Tooling Patch](#october-2026-svg-tooling-patch)
   - [October 2026 Build Queries And Target Data Patch](#october-2026-build-queries-and-target-data-patch)
   - [October 2026 Build Data And Source Map Patch](#october-2026-build-data-and-source-map-patch)
@@ -38,6 +39,100 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Lint Tool Patch
+
+Slice 19.2.4.1 starts from accepted source `b744712445f141bc3ee4191d66dd263e4c511676`.
+October 06, 2026 installed evidence uses Node `24.17.0` and npm `11.13.0`, with
+the same Node first in script-child PATH. Package-scoped npm resolution changes
+five existing versions, adds one required types node and removes one unused retry
+copy. No other lock entry changes. The manifest, overrides, lint parents, Vitest,
+runtime pins, application/configuration and all earlier fixes remain unchanged.
+
+| Node | Locked movement | Consumer and reviewed closure |
+| --- | --- | --- |
+| `@humanfs/node` | `0.16.6 -> 0.16.8` | ESLint `9.39.4`, unchanged `^0.16.6` |
+| `@humanfs/core` | `0.19.1 -> 0.19.2` | HumanFS now requires `^0.19.2` |
+| `@humanfs/types` | added `0.15.0` | Both node/core require `^0.15.0` at runtime; no application import |
+| nested `@humanwhocodes/retry` | removed `0.3.1` | HumanFS changes to `^0.4.0`, reusing unchanged root `0.4.3`; ESLint's `^0.4.2` also resolves there |
+| `fast-uri` | `3.1.5 -> 3.1.8` | Both Ajv `8.20.0` copies, under table and yaml-language-server, share the `^3.0.1` resolver |
+| `colord` | `2.9.3 -> 2.9.4` | Stylelint `16.23.1`, unchanged `^2.9.3`; no children |
+| `postcss-selector-parser` | `7.1.0 -> 7.1.6` | Stylelint `^7.1.0`, Astro ESLint plugin `^7.0.0` and selector-specificity peer share one copy |
+
+Selector children cssesc `3.0.0` and util-deprecate `1.0.2` stay fixed. Published
+versions, integrity and closure were refreshed before installation. A command-local
+publication cutoff (`2026-08-19T23:59:59Z`) selects reviewed colord `2.9.4`, not its
+newer compatible releases; no direct pin, override or persistent setting was added.
+
+[HumanFS's source comparison](https://github.com/humanwhocodes/humanfs/compare/node-v0.16.6...node-v0.16.8)
+adds lstat/readlink/symlink handling. The
+[global advisory](https://github.com/advisories/GHSA-p498-v437-472g) identifies
+`0.16.8` as patched, while the repository advisory still leaves its patched-version
+field empty. This metadata discrepancy is retained, not resolved by a disappearing
+alert. Acceptance requires the installed symlink tests on macOS and Linux CI.
+The intended behavior preserves links rather than copying target bytes. A preserved
+link is **not a sandbox** and is not safe to dereference merely because copying passed.
+
+[fast-uri's comparison](https://github.com/fastify/fast-uri/compare/v3.1.5...v3.1.8)
+covers IDN, IP-literal, percent, scheme, authority and decoded-host normalization.
+[colord's advisory](https://github.com/omgovich/colord/security/advisories/GHSA-2wm5-q62r-hmrv)
+changes ambiguous numeric matching; [selector 7.1.6](https://github.com/postcss/postcss-selector-parser/releases/tag/7.1.6)
+adds linear flat parsing on top of bounded nesting/serialization. These are tooling
+consumers of repository files, CSS and local schemas, not a new public endpoint or
+an application SSRF fix. Small bounded tests are regression evidence, not a general
+complexity proof or complete input sanitizer.
+
+Ten scoped IDs disappear from both installed audits:
+
+- HumanFS: `GHSA-p498-v437-472g`.
+- fast-uri: `GHSA-5jgf-p345-68v8`, `GHSA-f65p-4m7j-42xc`, `GHSA-fph4-wmhf-6fwf`,
+  `GHSA-jqff-g426-hqxp`, `GHSA-qw65-cvwx-89v3`, `GHSA-hrr3-gc8f-f4qj`.
+- colord: `GHSA-2wm5-q62r-hmrv`.
+- selector parser: `GHSA-w9m9-85wc-3x92`, `GHSA-rj75-hqrm-r3gf`.
+
+| Installed npm evidence | Accepted source | Patched lock |
+| --- | --- | --- |
+| Production audit | 3 entries: 1 high, 2 low; 2 GHSA IDs | unchanged |
+| Full audit | 24 entries: 15 high, 7 moderate, 2 low; 14 IDs | 20 entries: 14 high, 4 moderate, 2 low; 4 IDs |
+
+Neither snapshot has critical findings. Hosted baseline is separately 12 alerts /
+11 IDs (6 high, 4 medium, 2 low), not an npm package count. No new ID appears and
+all previously removed advisory IDs remain absent. Both audit exits remain 1 for unfinished work.
+The four remaining IDs are HTTP-cache `GHSA-ch52-4w7c-c8xp`, KaTeX
+`GHSA-238p-pmpm-9mq7`, Vitest/mocker `GHSA-82fw-gwwq-j7x9`, and braces
+`GHSA-vfj7-8cjw-p6xm`, including their inherited entries. Removal of direct lint
+findings does not clear Stylelint/Astro ESLint chains still inheriting braces.
+
+The focused Node cases resolve the real consumers, walk/lint an owned directory,
+and copy regular files plus file/directory links with recursive coverage. All link
+targets are synthetic siblings in one owned temporary root; assertions inspect
+lstat/readlink and unchanged source sentinels. The parent cleans that root even
+after timeout. Both Ajv copies compile local references without network access.
+URI cases cover the six named issues, safe canonicalization and case-sensitive
+components. Port injection is rejected during serialization; numeric port bounds
+are checked during parsing. Invalid selector syntax must fail; error subclasses
+are not generalized, since an incomplete pseudo can still produce a caught TypeError.
+Color core/plugins and real Stylelint rules preserve benign diagnostics. Selector
+AST, flat input, tightened nesting/serialization guards and Astro's unused-CSS rule
+are exercised without changing site rules. Each isolated child has a five-second
+hard deadline and an after-checks marker; no stress input, prototype mutation or
+external fixture request is used. See [Testing](./TESTING.md).
+
+Local clean install/tree, sync/lint/typecheck and the 204-file Astro check passed
+without diagnostics. The 18 new cases, 64 focused regression cases, 214 tests across
+46 coverage files and all 13 real Chromium smoke cases passed. The static build
+produces 11 pages with the same four allowlisted executable inline hashes.
+These local results do not substitute for the Linux symlink/consumer tests or the
+exact-commit deployment gate.
+
+Release gates remain the existing full checks, native/font and real Chromium
+sanitizer regressions, unchanged executable CSP hashes, exact-SHA Linux tests/build,
+Sentry map upload/deletion, transfer/CDN and read-only desktop/mobile production QA.
+Magicast's inlined source-map-js `1.2.1` remains an audit blind spot assigned to a
+separate review. Vitest, KaTeX/braces/HTTP-cache decisions, browser-data freshness
+and the announced Ubuntu runner migration remain open. No risk waiver or Phase 19
+completion is implied. New advisories, consumer incompatibility, unrelated lock
+churn or a new CSP allowance stop this patch for review.
 
 ## October 2026 SVG Tooling Patch
 

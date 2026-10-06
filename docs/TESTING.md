@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 16:23 (UTC+08:00)
+- **最后更新**: October 06, 2026, 19:06 (UTC+08:00)
 
 ---
 
@@ -126,6 +126,17 @@ SVG logo 都有覆盖。`removeScripts` 仅在隔离用例中启用，检查 for
 解析器检查，不执行脚本、不加载资源、不发出外部请求；每个子进程必须返回 after-checks 标记。
 站点配置仍不启用 SVG optimizer 或该插件。SVGO 不是完整净化器，这些测试不替代 DOMPurify
 及真实 Chromium 的 Markdown 安全门禁，也不证明站点当前存在这些 opt-in 漏洞的公开输入路径。
+
+`src/__tests__/LintDependencyCompatibility.test.ts` 在现有 Vitest 中启动
+`fixtures/lint-dependency-bounded.mjs`，验证 ESLint/HumanFS、两条 Ajv 8 路径、Stylelint
+颜色规则和 Astro 未使用 CSS 选择器规则的真实依赖解析。每个子进程有五秒硬超时和
+after-checks 标记；临时目录由父进程创建并在 finally 清理，超时也不能遗留测试文件。
+HumanFS copy/copyAll 覆盖普通文件、递归目录及指向同一临时根内合成文件/目录的符号链接，
+通过 lstat/readlink 检查链接本身，不把保留链接误解为安全沙箱，也不读取真实私人文件。
+macOS 与 Linux CI 均须执行这些用例，不能只凭告警消失判定修复。
+URI、颜色插件和选择器测试只用小型离线数据；Ajv 不获取外部 schema，异常解析必须可捕获，
+选择器深度测试采用较低显式限制，不使用压力输入、原型修改或脆弱的耗时阈值。
+测试日志记录实际平台和 Node 版本，`test:coverage` 自动包含该文件，无需新增 harness。
 
 ## 视觉与交互 QA
 
