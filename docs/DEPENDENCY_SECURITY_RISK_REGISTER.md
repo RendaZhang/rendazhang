@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Sharp librsvg Patch](#october-2026-sharp-librsvg-patch)
   - [October 2026 Vitest Family Patch](#october-2026-vitest-family-patch)
   - [October 2026 Lint Tool Patch](#october-2026-lint-tool-patch)
   - [October 2026 SVG Tooling Patch](#october-2026-svg-tooling-patch)
@@ -40,6 +41,77 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Sharp librsvg Patch
+
+Slice 19.2.6 starts from accepted source `00544027727969630f18e9df89d6d97abd26a38b`.
+The [maintainer advisory](https://github.com/lovell/sharp/security/advisories/GHSA-wq5f-xc86-pv6w)
+identifies Sharp `<0.35.5` as affected by a librsvg memory-safety issue, with possible
+RCE under specific glibc-Linux runtime conditions. Its maintainer publication is
+September 30, 2026; the global GitHub advisory was published October 06 at 13:43:57 UTC.
+The repository alert appeared at 14:46:33 UTC and was discovered after the preceding
+Vitest deployment. Sharp had not changed in that patch. npm subsequently incorporated
+the same ID; that feed convergence is not a newly introduced dependency regression.
+
+Only the direct Sharp caret range changes from `^0.35.4` to `^0.35.5`. Scoped npm
+resolution and clean installation update exactly 27 existing lock nodes, without
+added/removed nodes or unrelated changes:
+
+| Nodes | Locked movement | Scope |
+| --- | --- | --- |
+| sharp | `0.35.4 -> 0.35.5` | Root and Astro `7.2.8` share the same package |
+| 16 @img/sharp bindings/wrappers | `0.35.4 -> 0.35.5` | Existing Darwin, Linux/glibc/musl, Windows and WASM paths |
+| 10 @img/sharp-libvips platform packages | `1.3.3 -> 1.3.4` | Required upstream native bundle |
+
+The shared wasm32 dependency and FreeBSD/WebContainers wrappers stay in the lock.
+Helper nodes @img/colour, detect-libc, semver, @emnapi/runtime and tslib are unchanged,
+as are Astro, Vitest and its four approved minor leaves, Magicast and all prior fixes.
+No global library installation, override, runtime or workflow change is used.
+The [Sharp release](https://github.com/lovell/sharp/releases/tag/v0.35.5) and
+[native bundle](https://github.com/lovell/sharp-libvips/releases/tag/v1.3.4) include
+other native-library updates as one reviewed prebuilt artifact, not independent OS upgrades.
+
+The current site emits static files with no adapter or public image-processing
+endpoint. Repository imports include local raster images and SVG social logos;
+the hero component uses pre-generated JPEG/WebP files. The operator-only
+`scripts/generate-hero.ts` reads a fixed local JPEG and is not invoked by CI.
+Astro's installed Sharp service passes SVG through or rejects rasterization unless
+explicitly enabled; this site does not set `image.dangerouslyProcessSVG`.
+No malicious SVG path or exploit was demonstrated. Build/operator inputs still
+form a trust boundary, and static hosting alone is not a reason to waive this risk.
+No hero output, application image policy or production input was changed to test it.
+
+| Installed npm evidence, October 06, 2026 | Accepted source | Patched lock |
+| --- | --- | --- |
+| Production audit | 4 entries: 2 high, 2 low; 3 GHSA IDs | 3 entries: 1 high, 2 low; 2 IDs |
+| Full audit | 17 entries: 15 high, 2 low; 4 IDs | 16 entries: 14 high, 2 low; 3 IDs |
+
+`GHSA-wq5f-xc86-pv6w` and its Sharp entry disappear from both installed audits.
+All remaining vulnerability entries, paths and IDs match the baseline exactly;
+no new ID appears. Both audits still exit 1. The separate hosted baseline is
+3 alerts, not a package count. Hosted closure must be checked after the exact
+deployment; a refresh delay is recorded, not manually dismissed or redeployed away.
+Earlier October and August snapshots below remain historical evidence.
+
+The existing native suite retains JPEG/WebP/AVIF decode, resize and pixel checks
+and invalid-input rejection. It now checks root/Astro package and native-version
+coherence, a self-contained 16x12 SVG rasterized/resized to 8x6 with exact solid
+pixels, and malformed XML rejection in a five-second hard-timeout child.
+Inputs contain no scripts, external resources, fonts or entities. These are bounded
+compatibility tests, not an exploit reproduction or proof of arbitrary SVG safety.
+Local macOS evidence is Sharp `0.35.5`, libvips `8.18.7`, librsvg `2.63.2` and
+libheif `1.23.5`; the same exact versions are asserted in existing Linux CI before
+deployment. Native evidence logs platform, architecture, Node and the full bundle.
+All 227 previous tests remain, with three additional cases; see [Testing](./TESTING.md).
+
+Acceptance requires complete local gates, unchanged executable CSP hashes, exact-SHA
+Linux native/coverage evidence, Sentry upload/map removal, transfer/release/CDN and
+read-only desktop/mobile production QA. HTTP-cache `GHSA-ch52-4w7c-c8xp`, KaTeX
+`GHSA-238p-pmpm-9mq7` (including Mermaid inheritance), braces
+`GHSA-vfj7-8cjw-p6xm`, Magicast's inlined map copy, browser-data freshness and runner
+migration remain unresolved. This patch neither waives them nor closes Phase 19.
+New advisory IDs, native incompatibility, wider lock churn or a required CSP change
+stop the slice for review. A revert would restore affected Sharp, not resolve security.
 
 ## October 2026 Vitest Family Patch
 

@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 22:37 (UTC+08:00)
+- **最后更新**: October 06, 2026, 23:25 (UTC+08:00)
 
 ---
 
@@ -106,6 +106,14 @@ script、事件属性或不安全 URL，并检查无害执行标记。正向事�
 就误判净化成功。真实图表、良性数学标签和畸形图表代码回退均有覆盖。每个用例结束后销毁
 浏览器上下文；这不是 IN_PLACE 漏洞复现、KaTeX 修复证明或后端流式协议测试。
 现有部署工作流运行 Vitest coverage 和构建；Playwright 是本地发布前门禁，不宣称已在 CI 运行。
+
+`src/__tests__/SharpNativeImages.test.ts` 使用真实原生库，检查根依赖与 Astro 共用 Sharp，
+并记录平台、架构、Node 和完整 `sharp.versions`。当前要求 Sharp `0.35.5`、libvips
+`8.18.7`、librsvg `2.63.2`、libheif `1.23.5`，本机 macOS 与部署前 Linux CI 都必须通过。
+JPEG/WebP/AVIF 的小图解码、缩放、像素及非法输入测试保留；新增自包含 16x12 SVG 的
+栅格化、8x6 缩放和像素检查。畸形 SVG 由五秒硬超时子进程检查 metadata/resize 拒绝，
+没有脚本、外部资源、字体或实体，不生成 hero 资源、不访问生产、不使用攻击或压力样本。
+良性回归不是 RCE 复现或完整 SVG 安全证明；修复证据还必须包括实际固定原生版本和告警 ID。
 
 `src/__tests__/BuildDataCompatibility.test.ts` 在 Node 环境使用真实 devalue、Astro
 frontmatter helper、TOML 和 PostCSS/source-map-js，检查共享依赖解析、数据往返、内容保留/移除、
