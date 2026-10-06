@@ -3,6 +3,10 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 07 Residual Closeout](#october-07-residual-closeout)
+    - [Conditional Owner Decision](#conditional-owner-decision)
+    - [Input Boundaries And Limits](#input-boundaries-and-limits)
+    - [Dated Maintenance Follow-Ups](#dated-maintenance-follow-ups)
   - [October 2026 Sharp librsvg Patch](#october-2026-sharp-librsvg-patch)
   - [October 2026 Vitest Family Patch](#october-2026-vitest-family-patch)
   - [October 2026 Lint Tool Patch](#october-2026-lint-tool-patch)
@@ -29,18 +33,157 @@
 # Dependency Security Risk Register
 
 - **Author**: Renda Zhang
-- **Last Updated**: October 06, 2026 (UTC+08:00)
+- **Last Updated**: October 07, 2026 (UTC+08:00)
 - **Scope**: public-safe dependency and security risk decisions for the PersonalWeb frontend.
 
-This register records the current audit evidence, accepted residuals, escalation thresholds, and
-owner actions after the controlled Astro 7 implementation, the Slice 15.1 production dependency
-security patch, and the Slice 15.6.2 rendering dependency patch. It is intentionally public-safe:
+This register records dated audit evidence, conditional residual decisions, escalation thresholds,
+and owner actions. The October 07 closeout below is the current decision; earlier patch and
+zero-audit snapshots remain historical evidence, not today's baseline. It is intentionally public-safe:
 it records package and validation decisions without changing CI workflows, runtime pins, frontend
 behavior, backend behavior, Nginx configuration, telemetry, analytics, cookies, or production
 services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 07 Residual Closeout
+
+Slice 19.2.5 reviewed source `c6617d144f7448a96839d0bd75a5f379bf23bb83` on
+**2026-10-07, 00:46-00:49 UTC+08:00**, using Node `24.17.0` / npm `11.13.0`.
+Installed target paths agree with the lockfile. No dependency, configuration, application,
+workflow or runtime changes are part of this documentation closeout.
+
+| Fresh evidence | Result | Interpretation |
+| --- | --- | --- |
+| `npm audit --omit=dev --audit-level=low --json` | 3 package entries: 1 high, 2 low; 2 unique GHSA IDs; exit 1 | HTTP-cache, KaTeX and inherited Mermaid entry |
+| `npm audit --audit-level=low --json` | 16 package entries: 14 high, 2 low; 3 unique GHSA IDs; exit 1 | Adds braces and its inherited development-tool entries |
+| Open Dependabot alerts | 2: HTTP-cache high, KaTeX low | Hosted alerts are not npm package or unique-advisory counts; both remain open |
+| Magicast embedded map implementation | Separately confirmed, unresolved | Not an additional npm audit entry; external source-map-js `1.2.2` does not replace it |
+
+The npm IDs remain `GHSA-ch52-4w7c-c8xp`, `GHSA-238p-pmpm-9mq7` and, in the full
+audit, `GHSA-vfj7-8cjw-p6xm`. No new ID appeared. Previous October fixes remain absent
+from these audits. Nonzero audit exits are known findings, not a zero-audit pass.
+
+### Conditional Owner Decision
+
+On **2026-10-07**, the owner approved time-bounded retention of the four named risks below,
+conditional on final review finding no new currently exploitable high-severity entry. Source-path
+review and the accepted bounded Magicast/rendering evidence found no such new entry. That is a
+limited exposure assessment, not proof that exploitation is impossible. All four remain **unfixed**.
+
+The maintainer must recheck **no later than 2026-10-14 (UTC+08:00)**. Recheck sooner on a verified
+upstream fix, advisory/severity change, changed dependency or input/configuration path, newly
+demonstrated untrusted input, or a relevant security/rendering/map/CI failure. A new high/critical
+entry is outside this decision and requires an urgent separate decision. There is no automatic
+extension, permanent waiver, alert dismissal or scheduled reminder. Unrelated feature work may
+resume after closeout delivery acceptance under these conditions; Phase 19 is not declared complete.
+
+| Unfixed residual | Installed consumer and exposure | Approved disposition and next decision |
+| --- | --- | --- |
+| HTTP-cache, high; GHSA published 2026-09-18 | Astro `7.2.8` (`^4.2.0`) -> root `http-cache-semantics@4.2.0`; build-time remote-image cache, not shared visitor-response caching | Retain conditionally through the October 14 recheck. No verified advisory fix; review relevant upstream behavior before proposing `4.3.0` |
+| KaTeX, low; maintainer advisory 2026-09-21, global GHSA 2026-10-05 | Mermaid `11.16.1` (`^0.16.45`) -> root `katex@0.16.47`; browser diagram math can originate in Chat output | Retain conditionally through October 14. Seek a supported Mermaid/KaTeX patch route; no untested override or Mermaid downgrade |
+| braces, high; GHSA published 2026-09-18 | One root `braces@3.0.3` via `micromatch@4.0.8` (`^3.0.3`); lint/test/tool patterns | Retain conditionally through October 14. No verified published patch; reassess pattern origins or a bounded parent replacement separately |
+| Magicast bundled source-map-js, high underlying GHSA published 2026-09-18 | Shared `magicast@0.5.3` via Astro and coverage-v8 (`^0.5.2`); optional map composition in Node tooling | Retain conditionally through October 14. `0.5.5` is not a verified fix; require actual bundled guard evidence or a separately reviewed replacement/rebuild |
+
+### Input Boundaries And Limits
+
+**HTTP-cache.** The [advisory](https://github.com/advisories/GHSA-ch52-4w7c-c8xp)
+still names no patched version. The [maintainer disputes its interpretation](https://github.com/kornelski/http-cache-semantics/issues/56),
+distinguishing shared-cache permissions from freshness. This disagreement is recorded, not treated
+as closure. Registry latest `4.3.0` is outside the reported affected range, but the source at its
+[published gitHead](https://github.com/kornelski/http-cache-semantics/commit/b1d4bd682fbab0252985de45219f4e7497c0067c)
+changes status/Vary handling, not the reviewed max-stale branch. An npm `fixAvailable` flag is
+therefore insufficient security-fix evidence.
+
+Astro's `dist/assets/build/remote.js` creates its own image requests and calls `storable()` and
+`timeToLive()` (lines 14-16, 25-57); `generate.js` compares stored expiry before revalidation.
+It does not pass incoming visitor cache directives or call `satisfiesWithoutRevalidation` to serve
+shared authenticated responses. Current site inputs are repository-owned image references;
+there is no deployed Astro adapter/image-processing endpoint or application import of this package.
+Build-time remote responses remain an input boundary, and static output is not a universal exemption.
+Adding server rendering, shared response caching, arbitrary remote images or visitor-supplied headers
+invalidates this assessment. A patch/replacement needs cache-expiry and revalidation compatibility
+tests; changing caching behavior merely to clear a scanner is not approved here.
+
+**KaTeX.** The [maintainer advisory](https://github.com/KaTeX/KaTeX/security/advisories/GHSA-238p-pmpm-9mq7)
+requires pre-existing prototype/options pollution, attacker-influenced math and unsafe use of the
+result. KaTeX is a read-side gadget, not the source of that pollution. Its documented fix is
+`0.18.2`; latest registry `0.19.0` is not a compatible substitution within the installed range.
+Latest Mermaid 11 (`11.17.2`) and latest overall (`12.1.0`) still require KaTeX `^0.16.47`.
+Neither is an established compatible fix; npm's suggested Mermaid `10.8.0` downgrade is rejected.
+
+Docs diagrams come from reviewed bilingual README content. Chat assistant Markdown is untrusted
+model output influenced by visitor questions; `AIMessage` uses `useMarkdownPipeline`, which
+sanitizes parsed HTML with DOMPurify `3.4.16` before enhancement. Mermaid is initialized with
+`startOnLoad: false`, retaining its default `securityLevel: strict`; its returned SVG is sanitized
+inside `mermaid.core.mjs:1346` before the application inserts it. The installed math helper calls
+KaTeX with controlled display/output options, not visitor-provided option objects. No current
+pollution path was demonstrated. Initial Markdown sanitization alone would not protect later
+generated math; Mermaid's separate output sanitization matters, and renderer side effects/options
+remain a limitation. Accepted real Chromium tests cover safe math, sanitized DOM, diagrams and
+malformed fallback; mocked unit tests alone do not establish browser safety or repair KaTeX.
+Recheck before loosening Mermaid security, accepting option objects or changing render order.
+
+**braces.** The [advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) reports
+recursive compile/expand exhaustion; no patched release is named and registry latest remains
+`3.0.3`. The [maintainer disputes the report](https://github.com/micromatch/braces/issues/70)
+and points to existing input-length limits and the hazards of accepting arbitrary glob patterns.
+The installed parser caps length at 10,000 unless lowered; this is not an application-wide
+recursion guarantee or a reason to disregard development inputs.
+
+The single physical copy is shared through micromatch by fast-glob `3.3.3` (Astro ESLint parser,
+Stylelint/globby), lint-staged `16.1.4`, Stylelint `16.23.1`, and jest-message-util through
+expect/@types/jest. Patterns originate in repository lint/file configuration, local CLI arguments,
+tool-generated project patterns and test settings, not public Chat/contact/API input. Project glob
+resolution in `astro-eslint-parser/lib/index.mjs:254-282` is conditional on glob-valued project
+options; import alone does not execute it. lint-staged's manifest patterns are not a CI command;
+normal pre-commit uses its documented direct checks. Contributor-controlled configuration remains
+a local/CI trust boundary. No arbitrary visitor-pattern service was found. A future replacement
+must retain real lint/glob behavior, not downgrade Stylelint or other parents based on audit output.
+
+**Magicast.** The accepted October 07 review compared official `0.5.3` and `0.5.5` tarball bytes,
+verified registry SHA512/SHA1 integrity, and matched all 11 installed `0.5.3` files. Both bundles
+lack the relevant [source-map-js fix](https://github.com/7rulnik/source-map-js/commit/cf7658058ceeaa8619d5ae0ec90be6905209d016)
+for [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q): indexed-offset bounds,
+nested-source caching, bounded line-gap serialization and source exhaustion handling. This is
+actual bundled-code evidence, not just `inlinedDependencies` metadata. External `1.2.2` and an
+external override cannot replace the embedded implementation. Registry/release refresh still finds
+[0.5.5](https://github.com/unjs/magicast/releases/tag/v0.5.5), with no verified bundled fix.
+
+Astro CLI `add` loads operator-owned configuration and generates code with formatting options;
+the repository scripts/CI do not invoke it. coverage-v8 imports Magicast, but config rewriting
+requires `thresholds.autoUpdate`, a complete test run and a config file; autoUpdate is not enabled.
+Neither reviewed consumer supplies `inputSourceMap`/`sourceMapName`. Coverage conversion and
+Sentry build maps use separate paths. The accepted 19 small, parent-time-limited supported-API
+probes establish missing guards and benign composition, not an application DoS or public exploit.
+No new tarballs or probes were needed here. Future map input or consumer changes require re-review;
+an unverified upgrade adds churn, while replacement/rebuilding adds a separate compatibility burden.
+
+### Dated Maintenance Follow-Ups
+
+- **Browser-data cutoff, recheck by 2026-10-14:** baseline-browser-mapping `2.11.0` contains a
+  freshness timestamp of `2026-07-08T11:55:17.172Z`. Successful baseline CI run
+  [37491034875](https://github.com/RendaZhang/rendazhang/actions/runs/37491034875) attributes its
+  `2026-12-31` warning to `BuildQueryCompatibility.test.ts`. The caller at line 163 uses
+  `getAllVersions({ outputFormat: 'array' })`; the library internally iterates through the current
+  year and constructs December 31 cutoffs. This is not an explicit site target or the fixed
+  historical 2023/2024 assertions, and future-year completeness is not proven. Keep the warning
+  visible. Recommend a focused fixture change using a fixed historical clock for the all-version
+  shape assertion, with cleanup, rather than presenting it as current/future target accuracy.
+  Review data freshness separately before any real recent-target query; do not blindly refresh
+  data or suppress warnings in this docs slice. No incorrect production target or CI failure was
+  demonstrated by this warning.
+- **Runner image, review before 2026-10-19:** the [official migration notice](https://github.com/actions/runner-images/issues/14748)
+  schedules `ubuntu-latest` migration to Ubuntu 26.04 from October 19 through November 19, 2026.
+  Review native tooling and workflow compatibility by October 14, before rollout. Any necessary
+  workflow change is a separate slice, not authorization to change runtime pins or deployment here.
+
+Local closeout validation is docs-scoped: sync, lint, typecheck, Astro check, diff checks and normal
+changed-file hooks. Local coverage/build/browser smoke are not repeated because executable files
+are unchanged, as allowed by [Testing](./TESTING.md). Existing automatic CI still runs its full
+checks, 230 tests and build; delivery requires exact-source push success plus read-only route,
+health and frame-policy checks. Accepted prior browser/native/security evidence is retained,
+not represented as a new local run. No risk has been fixed merely by publishing this decision.
 
 ## October 2026 Sharp librsvg Patch
 
@@ -800,7 +943,7 @@ Slice 15.1 used explicit package targets plus a reviewed lockfile leaf update. I
 | Sharp/libvips inherited CVEs | `sharp@0.34.3`, libvips packages `1.2.0` | `sharp@0.35.3`, libvips packages `1.3.2` | Deliberate major package move; Node `>=20.9.0` engine supports the pinned Node 24 runtime |
 | Full-audit dev-only leaf findings | `fast-uri@3.1.2`, dev-only `brace-expansion` `1.1.15` / `5.0.6` | `fast-uri@3.1.5`, `brace-expansion@1.1.18` / `5.0.9` | Cleared the full audit gate without adding direct dependencies or changing frontend runtime behavior |
 
-Validation expectations for this patch class:
+Historical acceptance gates for Slice 15.1 (not the current retained-risk decision):
 
 - `npm ci` must succeed from `package-lock.json`.
 - Both production and full audit commands must return zero findings.
@@ -832,20 +975,22 @@ and desktop/mobile checks for docs diagrams plus direct and embedded Chat readin
 | Risk | Current decision | Reason | Revisit trigger |
 | --- | --- | --- | --- |
 | Earlier August 2026 production advisories | Resolved by Slice 15.1 | Explicit targets and reviewed lockfile leaf updates cleared the earlier production and full audits without `npm audit fix` or force-fix behavior | New audit finding, Dependabot alert, package path change, severity increase, or deploy/build regression |
-| August 08 rendering advisories | Resolved by Slice 15.6.2 | Explicit DOMPurify/Mermaid targets plus the existing patched Nano ID leaf clear the production and full audits without a direct Nano ID or PostCSS change | New DOMPurify, Mermaid, Nano ID, Markdown rendering, or diagram isolation finding |
+| August 08 rendering advisories | Resolved by Slice 15.6.2 | Explicit DOMPurify/Mermaid targets plus the patched Nano ID leaf cleared that dated audit baseline; later advisories are assessed separately | New DOMPurify, Mermaid, Nano ID, Markdown rendering, or diagram isolation finding |
 | Sharp 0.35 major compatibility | Accepted for the current frontend | The package supports Node 24, remains allowed by Astro's optional dependency range, and is validated through the image/build/browser gates | Image generation failure, changed Sharp install behavior on CI/Linux, broken hero assets, or Astro image integration change |
-| Low `esbuild` advisory through Astro/Vite | Resolved locally | Slice 13.6 moved the frontend to `astro@7.0.6`, `vite@8.1.3`, and `esbuild@0.28.1`; both local audit commands now return zero findings | New audit finding, Dependabot alert that still maps to the new lockfile, severity increase, or exploitability change |
+| Low `esbuild` advisory through Astro/Vite | Historical finding resolved | Slice 13.6 cleared that advisory with the controlled Astro 7 graph. Current October audits are nonzero for different IDs, as recorded above | New audit finding, changed dependency path, severity increase, or exploitability change |
 | `npm audit fix --force` path | Still disallowed | Force-fixing can mix a major framework upgrade into a security maintenance action; Slice 13.6 used explicit package targets instead | A future urgent patch slice explicitly scopes and justifies the command, which should remain exceptional |
-| Dependabot low `esbuild` alert | Recheck after GitHub refresh | Local lockfile evidence is clear, but hosted alert state can lag until dependency graph processing completes | Alert remains open against the new `esbuild@0.28.1` path, changes severity, or changes dependency path |
-| CI/runtime dependency deprecation | Monitor | Current deploys pass on pinned Node 24.17.0 and current workflow actions | Deploy logs show runtime deprecation, install warnings, or action compatibility failures |
-| Production dependency high/critical finding | Not accepted | Higher-severity production dependency issues need an urgent patch decision | Any high/critical production audit or Dependabot alert |
+| Current hosted alerts | 2 open; no dismissal | October 07 refresh shows HTTP-cache and KaTeX, not the historical esbuild alert. Scanner visibility does not include the bundled Magicast finding | Alert refresh, severity/path change, new ID, or October 14 deadline |
+| HTTP-cache, KaTeX, braces and bundled Magicast | Conditionally retained, unfixed | Only these four are covered by the October 07 owner decision and input-boundary evidence above | Recheck no later than October 14; earlier on verified fix, changed input/config, new exposure or relevant failure |
+| Browser-data freshness and CI runner migration | Separate dated follow-ups | Current tests pass; the mapping test's implicit current-year cutoff and October 19 runner rollout still require review | October 14 review; actual target error, native/tool failure or revised runner guidance |
+| New production dependency high/critical finding | Not covered by retention | Higher-severity new findings or newly demonstrated exploitation require an urgent decision; the named time-limited exceptions are not a general waiver | New high/critical ID, exposure or severity change |
 | Dev-only audit finding | Case-by-case | Dev-only findings can still affect CI, docs builds, or local tooling, but should not be mixed into unrelated runtime changes | Full audit reports new moderate or higher dev-only findings |
 
 ## Escalation Thresholds
 
 Split a focused urgent security patch slice when any of these happen:
 
-- A production dependency reports a high or critical finding.
+- A production dependency reports a new high or critical finding, or an existing retained finding
+  gains a demonstrated high-severity entry. The four dated exceptions above do not extend to it.
 - A low or moderate finding gains a clear production exploit path for this static frontend.
 - A public official patch path exists without a major framework upgrade or runtime pin change.
 - Dependabot changes the open alert severity or the affected dependency path.
@@ -869,12 +1014,14 @@ or telemetry changes.
 Routine read-only checks:
 
 ```bash
-cd /Users/renda/Documents/PersonalWeb/rendazhang
-NODE_ROOT="$(mise where node)"
-"$NODE_ROOT/bin/node" --version
-"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" --version
-"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" audit --omit=dev --audit-level=low
-"$NODE_ROOT/bin/node" "$NODE_ROOT/lib/node_modules/npm/bin/npm-cli.js" audit --audit-level=low
+# Run from the frontend checkout.
+node_bin="$(mise which node)"
+npm_cli="$(mise where node)/lib/node_modules/npm/bin/npm-cli.js"
+export PATH="$(dirname "$node_bin"):$PATH"
+"$node_bin" --version
+"$node_bin" "$npm_cli" --version
+"$node_bin" "$npm_cli" audit --omit=dev --audit-level=low
+"$node_bin" "$npm_cli" audit --audit-level=low
 gh run list --workflow deploy.yml --branch master --limit 3
 ```
 
@@ -885,18 +1032,18 @@ pinned project runtime, not whichever `node` happens to appear first in the shel
 When dependency docs change, run the normal docs validation gate:
 
 ```bash
-npm run sync
-npm run lint
-npm run typecheck
-npm run check
-pre-commit run --all-files
+"$node_bin" "$npm_cli" run sync
+"$node_bin" "$npm_cli" run lint
+"$node_bin" "$npm_cli" run typecheck
+"$node_bin" "$npm_cli" run check
+pre-commit run --files docs/DEPENDENCY_SECURITY_RISK_REGISTER.md
 ```
 
 When a dependency or lockfile actually changes in a future slice, also run the broader frontend gate:
 
 ```bash
-npm run test:coverage
-npm run smoke:browser
+"$node_bin" "$npm_cli" run test:coverage
+"$node_bin" "$npm_cli" run smoke:browser
 ```
 
 Production read-only checks after a frontend docs deploy:
@@ -904,20 +1051,23 @@ Production read-only checks after a frontend docs deploy:
 ```bash
 curl -I https://www.rendazhang.com/
 curl -I https://www.rendazhang.com/docs/
+curl -I https://www.rendazhang.com/certifications/
 curl -I https://www.rendazhang.com/deepseek_chat/
 curl -sS -i https://www.rendazhang.com/cloudchat/auth/healthz
 ```
 
 ## Owner Action Rules
 
+- The October 07 retention is limited to the four named risks and expires at the October 14
+  recheck unless the owner makes a fresh decision. Keep alerts open and report counts/IDs separately.
 - If both npm audit commands return zero findings, keep routine monitoring and update this document
-  only when evidence changes.
+  only when evidence changes; scanner silence still does not clear embedded dependencies.
 - If a non-major official patch path appears, split a focused dependency patch slice and validate it
   before pushing.
 - If a future audit path requires another major framework or runtime move, start with a precheck and
   Go/No-Go decision instead of using a force-fix command.
-- If a high or critical production finding appears, prioritize an urgent patch slice before routine
-  CI hygiene, docs polish, or feature work.
+- If a new high or critical production finding appears, or a retained risk gains a demonstrated
+  high-severity input path, prioritize an urgent decision before routine feature work.
 - Never run `npm audit fix --force` as a routine action in this project.
 - Never mix dependency upgrades with Chat Guide, Chat Widget protocol, telemetry, auth/profile,
   contact, backend, Nginx, or production service behavior changes unless the slice explicitly scopes
