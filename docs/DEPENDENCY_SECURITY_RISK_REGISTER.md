@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Build Data And Source Map Patch](#october-2026-build-data-and-source-map-patch)
   - [October 2026 Browser Sanitizer Patch](#october-2026-browser-sanitizer-patch)
   - [October 2026 Astro And Sharp Patch](#october-2026-astro-and-sharp-patch)
     - [Target Advisories And Exposure](#target-advisories-and-exposure)
@@ -35,6 +36,98 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Build Data And Source Map Patch
+
+Slice 19.2.3.1 starts from accepted source `3dcc8f1304aa25e7bfb70cc81da9d5ba5a7cd9af`.
+Evidence refreshed on October 06, 2026 uses Node `24.17.0` and npm `11.13.0`,
+including script children. Structured, package-name-scoped npm resolution changes
+exactly four lockfile nodes; package.json, root declarations, overrides and all
+other nodes remain unchanged. No direct package or override is added. A one-command
+publication cutoff selects the reviewed devalue `5.9.3` rather than the newer
+`5.9.4`; it is not a repository setting or a general dependency freeze.
+
+| Node | Locked movement | Consumers and unchanged ranges |
+| --- | --- | --- |
+| `devalue` | `5.8.1 -> 5.9.3` | Astro `7.2.8` and React integration `6.0.1`, `^5.8.1`; no children |
+| `js-yaml` | `4.3.1 -> 4.3.2` | Astro/helper `^4.3.0` or `^4.1.1`, ESLint/config tooling's compatible 4.x ranges; `argparse ^2.0.1` unchanged |
+| `smol-toml` | `1.7.0 -> 1.9.0` | Astro/helpers `^1.6.0`; no children; Node `>=18` fits the pin |
+| `source-map-js` | `1.2.1 -> 1.2.2` | PostCSS `8.5.25` and declared Magicast edge `^1.2.1`, CSS-tree `^1.0.1`; no children; vendored-copy limitation below |
+
+[devalue 5.9.3](https://github.com/sveltejs/devalue/releases/tag/v5.9.3) includes
+malformed-data validation, sparse/repeated-value handling, async rejection and
+Buffer-view fixes. [js-yaml's advisory](https://github.com/nodeca/js-yaml/security/advisories/GHSA-2883-xcg3-v3hh)
+requires empty merge sources to consume budget. [smol-toml 1.9.0](https://github.com/squirrelchat/smol-toml/releases/tag/v1.9.0)
+rewrites parsing and returns null-prototype records: this is an explicitly tested
+minor compatibility change, not a leaf patch assumed safe from semver alone.
+Default legacy dates and namespace imports are retained; no Temporal or unsafe-key
+policy is enabled. [source-map-js 1.2.2](https://github.com/7rulnik/source-map-js/releases/tag/v1.2.2)
+validates indexed offsets, bounds nested offsets and avoids unbounded work past
+generated code; it also removes a CSP-sensitive dynamic-function path.
+
+The 11 named IDs removed from both installed npm audits are:
+
+- devalue: `GHSA-9rgm-9g3h-6x36`, `GHSA-j22f-vq7h-c4qm`, `GHSA-hx4r-w6wj-j8fg`,
+  `GHSA-mcm9-63f2-9j32`, `GHSA-wf3x-273g-mvxv`, `GHSA-x5rw-q4pp-hg5g`,
+  `GHSA-4q55-j62x-fr9h`.
+- js-yaml: `GHSA-2883-xcg3-v3hh`.
+- smol-toml: `GHSA-7w5x-hrqm-74c2`, `GHSA-r4xh-jqrq-34v2`.
+- source-map-js: `GHSA-68fv-2mgg-jv7q` (installed dependency node, not every vendored copy).
+
+| Evidence | Accepted source baseline | Installed patch |
+| --- | --- | --- |
+| Production npm audit | 11 package entries: 0 critical, 8 high, 1 moderate, 2 low; 21 GHSA IDs | 7 entries: 0 critical, 4 high, 1 moderate, 2 low; 10 GHSA IDs |
+| Full npm audit | 32 entries: 0 critical, 22 high, 8 moderate, 2 low; 33 GHSA IDs | 28 entries: 0 critical, 18 high, 8 moderate, 2 low; 22 GHSA IDs |
+
+Both audit commands return exit 1 for known unfinished work, not an installation
+failure or a zero-audit pass. Every remaining vulnerability entry, including its
+paths and IDs, matches the baseline. No added ID appears; previous Astro, Sharp and
+DOMPurify advisory IDs remain absent. Audit package entries are not hosted alert counts or
+proof of exploitability. All earlier dated snapshots below remain historical evidence.
+
+These consumers process build/developer content, frontmatter, config and maps.
+The current static site exposes no Astro Actions, session or public parser endpoint.
+React integration uses devalue `uneval` for options; Astro uses it for build data.
+Static hosting does not remove build-input risk. Tests use real installed consumer
+resolution and small offline inputs, not public requests, fuzzing or stress workloads.
+
+`BuildDataCompatibility.test.ts` checks dates, Maps/Sets, escaped text, repeated
+references, small sparse arrays, null-prototype records and Buffer view boundaries;
+Astro YAML/TOML frontmatter with all four content modes; TOML own-property, spread,
+JSON and legacy-date handling; real source-map round trips and PostCSS previous-map
+consumption. The bounded fixture has a five-second child-process hard deadline and
+strict unhandled-rejection handling for async devalue, YAML merge budgets, malformed
+frontmatter and invalid indexed maps. No generated JavaScript is evaluated and no
+prototype is mutated. Existing native-image and real Chromium sanitizer tests remain
+unchanged. See [Testing](./TESTING.md) for the execution boundary.
+
+Local gates passed: clean installation, valid installed tree, sync/lint/typecheck,
+Astro check with no errors/warnings/hints, 14 focused tests, 177 tests across 43
+coverage files, 13 Chromium smoke cases and an 11-page static build. All four
+executable inline hashes match the existing CSP allowlist. Desktop `1366x900` and
+mobile `390x844` checks passed for navigation/theme persistence, images/system fonts,
+Docs zh/en/zh `2/2/2`, Credly and direct/embedded Chat readiness, with no application
+console errors or horizontal overflow. Fixtures stay local. Deployment acceptance
+still requires the exact source-SHA push run, Linux tests, Sentry source-map upload
+and deletion, transfer/CDN completion and read-only production checks.
+
+An audit blind spot remains: `magicast@0.5.3` declares the patched external edge but
+also identifies an **inlined source-map-js 1.2.1** in its published package. Its
+Recast code uses that internal copy for map composition. Updating the external node
+does not rewrite the bundle. The inspected Vitest coverage consumer parses its local
+config only for threshold auto-update, which this repository does not enable; it
+supplies no input map. No application import or public-input path was found. This
+is not a claim that the vendored copy is fixed or a risk waiver: review it with the
+separate dev-tool batch, and reopen immediately if map input or that consumer changes.
+No Magicast/Vitest upgrade is hidden in this patch.
+
+Remaining production packages are `baseline-browser-mapping`, `brace-expansion`,
+`browserslist`, `http-cache-semantics`, `katex`, inherited `mermaid` and `svgo`.
+The known full-audit-only tooling chains also remain open. Build matching/target
+data, SVG optimization and dev-tool patches require their own scopes; KaTeX,
+braces and HTTP-cache decisions are not waived. New advisory IDs, consumer
+incompatibility, expanded input reachability or a new executable CSP hash stop
+acceptance for review. No broad update, Mermaid downgrade or audit fix was used.
 
 ## October 2026 Browser Sanitizer Patch
 

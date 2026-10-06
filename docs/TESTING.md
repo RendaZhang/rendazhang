@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 14:47 (UTC+08:00)
+- **最后更新**: October 06, 2026, 15:23 (UTC+08:00)
 
 ---
 
@@ -100,6 +100,14 @@ script、事件属性或不安全 URL，并检查无害执行标记。正向事�
 就误判净化成功。真实图表、良性数学标签和畸形图表代码回退均有覆盖。每个用例结束后销毁
 浏览器上下文；这不是 IN_PLACE 漏洞复现、KaTeX 修复证明或后端流式协议测试。
 现有部署工作流运行 Vitest coverage 和构建；Playwright 是本地发布前门禁，不宣称已在 CI 运行。
+
+`src/__tests__/BuildDataCompatibility.test.ts` 在 Node 环境使用真实 devalue、Astro
+frontmatter helper、TOML 和 PostCSS/source-map-js，检查共享依赖解析、数据往返、内容保留/移除、
+null-prototype 对象、默认日期语义和源映射兼容性。`fixtures/build-data-bounded.mjs` 只由这些
+Vitest 用例启动，以五秒硬超时和严格未处理拒绝策略隔离小型异常输入；不使用巨大数组、资源
+压力循环、动态求值、原型修改或外部流量。现有 `test:coverage` 会在本机及部署前 Linux CI
+发现该测试，无需新 harness。它不证明所有内嵌依赖均已修复；Magicast 的内嵌副本限制见
+[依赖风险登记](./DEPENDENCY_SECURITY_RISK_REGISTER.md)。
 
 ## 视觉与交互 QA
 
