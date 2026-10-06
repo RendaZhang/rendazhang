@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 19:06 (UTC+08:00)
+- **最后更新**: October 06, 2026, 22:37 (UTC+08:00)
 
 ---
 
@@ -37,18 +37,24 @@
 
 Phase 8 的浏览器和 hydration smoke 规划见：[前端体验平台 RFC](./FRONTEND_EXPERIENCE_PLATFORM.md)。Phase 9 的视觉与交互 polish 验证边界见：[外观与交互 Polish](./VISUAL_INTERACTION_POLISH.md)。交互组件的键盘、focus、ARIA、状态和 browser smoke 门禁见：[交互组件标准](./INTERACTION_COMPONENT_STANDARDS.md)。当前最小 smoke harness 已落地为 `npm run smoke:browser`，用于在后续主题、导航、Chat Widget、iframe 或 hydration-sensitive 改动前后提供可重复浏览器验证。
 
-如需手动安装，可执行：
+已有仓库应使用提交的锁文件安装，不要用未指定版本的命令重新选择测试工具版本：
 
 ```bash
-npm install -D vitest @testing-library/react @vitest/coverage-v8 jsdom
+node_bin="$(mise which node)"
+npm_cli="$(mise where node)/lib/node_modules/npm/bin/npm-cli.js"
+export PATH="$(dirname "$node_bin"):$PATH"
+"$node_bin" --version
+"$node_bin" "$npm_cli" --version
+"$node_bin" "$npm_cli" ci
 ```
 
 ## 先决条件
 
-- 已安装 [Node.js](https://nodejs.org/)（推荐与 `.nvmrc` 中一致的版本）。当前项目基线使用
-  Node.js 24 LTS；Astro 6 / Vite 7 的最低要求仍低于该版本。
-- 在仓库根目录执行 `npm install` 安装依赖。
-- 部分测试（例如 `src/__tests__/env.test.ts`）会通过 `node --import tsx` 在子进程中运行 TypeScript 文件，请确保 Node.js 版本支持该标志（建议 Node.js 20 及以上）。
+- Node/npm 以 `.mise.toml`、`.nvmrc` 和 `package.json` 为准；当前是 Node `24.17.0` /
+  npm `11.13.0`，构建基线是 Astro 7 / Vite 8。上面的 PATH 设置也约束测试脚本的子进程，
+  避免桌面 shell 的 npm shebang 使用另一个 Node。以下 npm 命令均应通过上述显式 CLI 调用。
+- 在仓库根目录执行上述 `npm ci`，保留锁文件及 Vitest 家族版本一致性。
+- 部分测试（例如 `src/__tests__/env.test.ts`）通过 `node --import tsx` 运行 TypeScript 子进程，也必须使用项目固定的 Node。
 - 测试默认在 [jsdom](https://github.com/jsdom/jsdom) 环境中运行，部分用例（如 `src/__tests__/storage.test.ts`）依赖它提供的 `window.localStorage`、`document.cookie` 等浏览器 API。
 - 若需编写 React 组件或 Hook 测试，请确保已安装 `@testing-library/react`（见上文）。
 - 首次运行浏览器 smoke 前，需要安装本机 Playwright Chromium 缓存：
@@ -137,6 +143,23 @@ macOS 与 Linux CI 均须执行这些用例，不能只凭告警消失判定修�
 URI、颜色插件和选择器测试只用小型离线数据；Ajv 不获取外部 schema，异常解析必须可捕获，
 选择器深度测试采用较低显式限制，不使用压力输入、原型修改或脆弱的耗时阈值。
 测试日志记录实际平台和 Node 版本，`test:coverage` 自动包含该文件，无需新增 harness。
+
+`src/__tests__/VitestDependencyCompatibility.test.ts` 与
+`fixtures/vitest-dependency-bounded.mjs` 验证十个 Vitest 家族节点和实际消费者解析。
+真实 Vite/interceptorPlugin 仅监听 `127.0.0.1` 的临时端口，不加载项目配置或环境文件。
+允许的普通模块与 redirect 正常读取；不透明 scheme 的越界路径和 `fs.deny` 文件不能注册
+或返回合成标记。关闭原始 WebSocket 注册后，受控预填 registry 仍可使用；不 mock 文件访问
+检查，也不将该测试描述为未安装 browser provider 的认证证明或生产网站漏洞复现。
+每个子进程有十五秒硬超时，请求/socket 另有限时，server/socket 在 finally 关闭；父进程负责
+临时根目录清理。所有文件都是测试创建的，不读取私人文件、不访问外部服务。
+
+同一测试覆盖 Chai 去重 keys、deep include oneOf、可调用 iterator 和有意失败的断言；
+`expectTypeOf` 正/负关系与 overload thisParameter 同时由 `npm run typecheck` 检查，运行时
+通过不等于类型验证。隔离的本地/GitHub Actions 合成环境检查 std-env；颜色测试检查禁用/强制、
+嵌套、RGB/hex 输出。tinyrainbow 强制着色时直接传入 Symbol 会抛 TypeError，禁用时仍能
+字符串化；这不是任意输入兼容承诺。一个隔离、预期退出 1 的真实 Vitest 子运行验证 Symbol
+断言失败可以正常生成诊断，不将报告器崩溃当作预期失败。现有 jsdom/React mocks 保留。
+Vitest UI 只做短暂 loopback 检查后关闭，不安装 browser mode，不留下 watch 服务。
 
 ## 视觉与交互 QA
 

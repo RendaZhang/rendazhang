@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Vitest Family Patch](#october-2026-vitest-family-patch)
   - [October 2026 Lint Tool Patch](#october-2026-lint-tool-patch)
   - [October 2026 SVG Tooling Patch](#october-2026-svg-tooling-patch)
   - [October 2026 Build Queries And Target Data Patch](#october-2026-build-queries-and-target-data-patch)
@@ -39,6 +40,87 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Vitest Family Patch
+
+Slice 19.2.4.2 starts from accepted source `46b56b146ce02be8ff759ea1b8818daa20653f00`.
+October 06, 2026 installed evidence uses Node `24.17.0` and npm `11.13.0`, including
+script children. Only three direct devDependency ranges change to `^4.1.11`:
+vitest, @vitest/ui and @vitest/coverage-v8. Scoped npm resolution changes fourteen
+existing package nodes, with no additions, removals, new direct pins or overrides.
+
+| Nodes | Locked movement | Reviewed scope |
+| --- | --- | --- |
+| vitest, @vitest/ui, @vitest/coverage-v8 | `4.1.9 -> 4.1.11` | Existing runner/UI/coverage; exact peers agree |
+| @vitest/expect, mocker, pretty-format, runner, snapshot, spy, utils | `4.1.9 -> 4.1.11` | Seven existing exact-version siblings |
+| chai | `6.2.2 -> 6.3.0` | @vitest/expect's unchanged `^6.2.2` |
+| expect-type | `1.3.0 -> 1.4.0` | vitest's unchanged `^1.3.0` |
+| std-env | `4.1.0 -> 4.3.0` | vitest/coverage-v8's unchanged `^4.0.0-rc.1` |
+| tinyrainbow | `3.1.0 -> 3.2.0` | Six family consumers' unchanged `^3.1.0` |
+
+The four minor updates are an explicit, reviewed scope extension, not required
+minimums or blanket approval for incidental minor upgrades. They are dev-only
+leaves with no new dependencies and compatible engines. Their upstream changes
+cover [Chai assertion correctness](https://github.com/chaijs/chai/releases/tag/v6.3.0),
+[expect-type overload types](https://github.com/mmkal/expect-type/releases/tag/v1.4.0),
+[std-env detection](https://github.com/unjs/std-env/compare/v4.1.0...v4.3.0) and
+[tinyrainbow formatting](https://github.com/tinylibs/tinyrainbow/compare/v3.1.0...v3.2.0).
+Vite `8.1.3`, Magicast `0.5.3`, jsdom `26.1.0`, Playwright `1.61.1`, all other
+coverage children and all earlier security patches remain unchanged. Optional
+browser/istanbul peer declarations move with Vitest but no provider is installed.
+
+[GHSA-82fw-gwwq-j7x9](https://github.com/vitest-dev/vitest/security/advisories/GHSA-82fw-gwwq-j7x9)
+concerns redirect mocks bypassing a development server's file-serving policy.
+The [upstream fix](https://github.com/vitest-dev/vitest/commit/fe5a11d3c) checks the
+resolved target before registration and permits raw socket registration to be
+disabled. This site uses jsdom tests and separate Playwright smoke, not an exposed
+mocker server or Vitest browser mode. The tests establish the library boundary,
+not a reproduced public-site file-read endpoint.
+
+| npm evidence, October 06, 2026 | Accepted source | Installed candidate |
+| --- | --- | --- |
+| Production audit | 3 entries: 1 high, 2 low; 2 GHSA IDs | unchanged |
+| Full audit | 20 entries: 14 high, 4 moderate, 2 low; 4 IDs | 16 entries: 14 high, 2 low; 3 IDs |
+
+The target disappears together with inherited UI/coverage entries; no new ID
+appears. Both audits still exit 1. The remaining IDs are braces
+`GHSA-vfj7-8cjw-p6xm`, HTTP-cache `GHSA-ch52-4w7c-c8xp` and KaTeX
+`GHSA-238p-pmpm-9mq7`, including inherited paths. Hosted baseline is separately
+4 alerts against accepted master, not an installed package count. Magicast's
+inlined source-map-js `1.2.1` remains a scanner blind spot for separate review.
+
+Focused tests use real Vite/interceptorPlugin, an owned temporary root, synthetic
+sentinels and loopback-only HTTP/WebSocket. They verify allowed source/redirect
+loading, rejection before registry insertion for opaque traversal and fs.deny,
+and controlled registry compatibility when raw registration is disabled. No
+project config/env loading, private files, external traffic or mocked guard is
+used. Hard-timeout children and parent cleanup bound the tests. See [Testing](./TESTING.md).
+
+Compatibility cases cover Chai assertions, compiler-checked expectTypeOf overloads,
+isolated local/CI detection and enabled/disabled color output. Enabled tinyrainbow
+formatters coerce with `input + ''`; direct Symbol input throws, unlike disabled
+String conversion. This limitation is explicitly tested. A real Vitest failure
+report must still render a symbolic assertion value without crashing; arbitrary
+formatter-input parity is not claimed.
+
+Local clean install/tree, sync/lint/typecheck, the 205-file Astro check, 77 focused
+dependency cases and 227 tests across 47 files pass, retaining all previous 214
+tests. The 13 new cases need no configuration or coverage exclusion changes.
+Coverage collection totals stay 1821 statements, 1120 branches, 427 functions and
+1703 lines: 74.79% statements, 70.02% functions and 77.21% lines. Two local runs
+cover 725/726 branches (64.73/64.82%); the difference is the existing highlighter's
+conditional language registration, not a reduced denominator or threshold.
+The loopback UI reports all 13 selected tests passing and is stopped afterward.
+All 13 Chromium smoke cases, desktop/mobile product checks and the 11-page build
+pass. Four executable inline hashes remain in the existing CSP allowlist.
+The first smoke launcher exited after Astro started its background preview;
+reusing that owned loopback preview completes the suite without script changes.
+
+Acceptance still requires exact-SHA Linux tests/coverage, Sentry upload/map
+deletion, deployment and read-only production QA. Braces,
+KaTeX/HTTP-cache decisions, Magicast, browser-data freshness and the announced
+Ubuntu runner migration remain open. No zero-audit claim, waiver or Phase 19
+completion is implied.
 
 ## October 2026 Lint Tool Patch
 
