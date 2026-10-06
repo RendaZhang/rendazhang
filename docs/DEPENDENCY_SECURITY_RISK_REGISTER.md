@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Dependency Security Risk Register](#dependency-security-risk-register)
+  - [October 2026 Build Queries And Target Data Patch](#october-2026-build-queries-and-target-data-patch)
   - [October 2026 Build Data And Source Map Patch](#october-2026-build-data-and-source-map-patch)
   - [October 2026 Browser Sanitizer Patch](#october-2026-browser-sanitizer-patch)
   - [October 2026 Astro And Sharp Patch](#october-2026-astro-and-sharp-patch)
@@ -36,6 +37,97 @@ services.
 
 Do not add secrets, private advisory notes, credentials, private logs, private IP allowlists, or
 server-only operational details to this document.
+
+## October 2026 Build Queries And Target Data Patch
+
+Slice 19.2.3.2 starts from accepted source `e32da48cefb4dc67bf337fa52cacd6e35432c0de`.
+October 06, 2026 evidence uses Node `24.17.0` and npm `11.13.0`, including child
+processes. Package-name-scoped npm resolution changes exactly eight existing lock
+nodes. The manifest, overrides, parent packages and all other nodes are unchanged.
+One-command publication cutoffs select the reviewed query/data versions rather than
+latest data; these are not committed settings, overrides or artificial direct pins.
+
+| Locked node | Movement | Consumer / closure |
+| --- | --- | --- |
+| Root `brace-expansion` | `1.1.18 -> 1.1.21` | ESLint/config and React lint consumers via unchanged minimatch `3.1.5`, `^1.1.7` |
+| `glob/node_modules/brace-expansion` | `5.0.9 -> 5.0.12` | Sentry bundler plugins via glob `13.0.6` and minimatch `10.2.6`, `^5.0.8` |
+| `@typescript-eslint/typescript-estree/node_modules/brace-expansion` | `5.0.9 -> 5.0.12` | Existing estree `8.61.0` and minimatch `10.2.6`, `^5.0.8` |
+| `browserslist` | `4.28.2 -> 4.28.7` | Babel helper-compilation-targets `7.29.7`, `^4.24.0`; five required children below |
+| `baseline-browser-mapping` | `2.10.37 -> 2.11.0` | Browserslist now requires `^2.10.44`; no new dependencies |
+| `caniuse-lite` | `1.0.30001799 -> 1.0.30001806` | Exact reviewed floor of new `^1.0.30001806` range |
+| `electron-to-chromium` | `1.5.373 -> 1.5.393` | Exact reviewed floor of new `^1.5.393` range |
+| `node-releases` | `2.0.47 -> 2.0.51` | Exact reviewed floor of new `^2.0.51` range; Node `>=18` fits the pin |
+
+Balanced-match on both major lines, concat-map, update-browserslist-db `1.2.3`,
+escalade and picocolors stay fixed. There are no added/removed/hoisted nodes or
+incidental patches. Existing Astro/Sharp/ohash/DOMPurify and parser/map fixes remain.
+
+The six target IDs removed from both installed audits are:
+
+- brace-expansion: [GHSA-q2hr-2g5m-vwhr](https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-q2hr-2g5m-vwhr),
+  [GHSA-qhr7-859c-m2p7](https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-qhr7-859c-m2p7),
+  [GHSA-6j4f-fj2g-mc7p](https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-6j4f-fj2g-mc7p).
+  Fixes bound rewrite/depth work and remove recursive comma parsing.
+- Browserslist: [GHSA-c83g-rgw3-j3cx](https://github.com/browserslist/browserslist/security/advisories/GHSA-c83g-rgw3-j3cx)
+  and [GHSA-73wf-gq98-2v4g](https://github.com/browserslist/browserslist/security/advisories/GHSA-73wf-gq98-2v4g).
+  [4.28.7](https://github.com/browserslist/browserslist/releases/tag/4.28.7) adds bounded
+  query/parse caching and safer stats normalization.
+- Mapping: [GHSA-w5vr-8v7q-w6rv](https://github.com/advisories/GHSA-w5vr-8v7q-w6rv).
+  [2.11.0](https://github.com/web-platform-dx/baseline-browser-mapping/releases/tag/v2.11.0)
+  replaces invalid-option process exits with errors and refactors compressed data.
+
+| Evidence at source baseline / installed patch | Before | After |
+| --- | --- | --- |
+| Production npm audit | 7 entries: 0 critical, 4 high, 1 moderate, 2 low; 10 GHSA IDs | 4 entries: 0 critical, 2 high, 0 moderate, 2 low; 4 IDs |
+| Full npm audit | 28 entries: 0 critical, 18 high, 8 moderate, 2 low; 22 GHSA IDs | 25 entries: 0 critical, 16 high, 7 moderate, 2 low; 16 IDs |
+
+Fresh baseline Dependabot evidence is 21 alerts / 19 distinct IDs, not an npm package
+count. Both installed audits exit 1 for unfinished batches. Each remaining entry,
+path and ID matches the baseline; no new ID appears. These are not zero-audit passes,
+risk waivers or proof of a publicly exploitable input path. Earlier snapshots remain
+historical evidence rather than being overwritten with current counts.
+
+The inspected inputs are repository/tool patterns, build source-map selection and
+Babel target configuration. No public visitor pattern/query or custom-stats API was
+found. Future hostile build inputs still matter despite static hosting.
+`BuildQueryCompatibility.test.ts` uses real consumer resolution for all three
+minimatch paths, tiny finite glob selection/ignores, fixed Babel targets and normalized
+Baseline output. Its bounded child fixture checks literal fallback with lowered brace
+guards, malformed/prototype-shaped stats without prototype mutation, repeated queries,
+and both mapping APIs continuing after caught invalid-option errors.
+
+Source review confirms query and parse Maps each evict at 500 entries. A finite
+501-query, five-second-isolated test verifies result-cache eviction by identity and
+correctness, not memory pressure; parse-cache bounding is source-review evidence,
+not a separately instrumented memory assertion. Invalid stats can still throw a
+catchable TypeError; the test preserves that upstream behavior rather than weakening
+validation or claiming every malformed record is normalized.
+
+Before/after historical Chrome 120, Firefox 121, Safari 17 and Node 20 target results
+are identical. Baseline 2023 minimum browser versions also remain identical; the
+Chrome/Chrome Android 120 release date changes from December 7 to December 5, 2023.
+The broader Browserslist Baseline result changes Android Chrome/Firefox from 149/151
+to 150/152 and adds desktop Chrome/Edge 150 and Firefox 152. These are reviewed data
+changes, not a site build-target configuration change. Tests avoid wall-clock defaults.
+
+Existing native/font, real Chromium sanitizer and parser/map regression tests remain
+in place. Local gates passed: clean install/tree, sync/lint/typecheck, 202-file Astro
+check with no diagnostics, 11 new query tests (38 focused regressions in total),
+188 tests across 44 coverage files, 13 Chromium smoke cases and an 11-page build.
+All four executable inline hashes remain allowlisted. Desktop `1366x900` and mobile
+`390x844` checks passed for navigation/theme persistence, images/system fonts,
+Docs zh/en/zh `2/2/2`, Credly and direct/embedded Chat readiness, without app console
+errors or horizontal overflow. Credly statistics requests aborted on navigation
+away; the badge itself loaded and was inspected. Exact-SHA deployment acceptance requires Linux tests, Sentry source-map
+upload/deletion, transfer/CDN success, unchanged executable CSP hashes and read-only
+desktop/mobile production checks; local Playwright is not claimed as a CI job.
+
+Production findings still include HTTP-cache semantics, KaTeX/inherited Mermaid and
+SVGO; dev-only chains remain queued. Magicast's inlined source-map-js `1.2.1` is still
+unresolved as described below: patching the external node does not replace that copy.
+SVGO and dev-tool/Magicast work, plus KaTeX/braces/HTTP-cache decisions, need separate
+scopes. New IDs, real consumer incompatibility or an additional executable CSP hash
+stop this patch for review. No audit fix, Mermaid downgrade or broad update was used.
 
 ## October 2026 Build Data And Source Map Patch
 

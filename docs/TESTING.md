@@ -22,7 +22,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 15:23 (UTC+08:00)
+- **最后更新**: October 06, 2026, 15:51 (UTC+08:00)
 
 ---
 
@@ -108,6 +108,15 @@ Vitest 用例启动，以五秒硬超时和严格未处理拒绝策略隔离小�
 压力循环、动态求值、原型修改或外部流量。现有 `test:coverage` 会在本机及部署前 Linux CI
 发现该测试，无需新 harness。它不证明所有内嵌依赖均已修复；Magicast 的内嵌副本限制见
 [依赖风险登记](./DEPENDENCY_SECURITY_RISK_REGISTER.md)。
+
+`src/__tests__/BuildQueryCompatibility.test.ts` 使用真实 ESLint、Sentry/glob 和
+typescript-estree 消费路径，覆盖两条 minimatch/brace-expansion 主版本、有限文件匹配与忽略规则，
+以及 Babel/Browserslist 固定目标、Baseline 结果形状和中间数据兼容性。
+`fixtures/build-query-bounded.mjs` 由现有 Vitest 启动，以五秒硬超时隔离小型异常输入：降低 brace
+深度/重写限制来检查字面量回退，检查 stats 与原型完整性，并以 501 个小查询验证已审查的
+500 项结果缓存淘汰及重复查询正确性，不做资源压力测试。parse cache 上限另以源码审查确认。
+mapping 两个 API 的非法选项必须抛出可捕获错误，子进程还必须输出 after-checks 标记，不能仅
+凭退出码 0 判定成功。测试不修改全局原型、不访问外部网络，也不运行真实 Sentry 上传。
 
 ## 视觉与交互 QA
 
