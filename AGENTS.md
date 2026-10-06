@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Last updated: 2026-06-22
+Last updated: 2026-10-06
 
 This file gives AI coding agents the project context needed to work safely in the
 `rendazhang` frontend repository. The repository is public, so do not add
@@ -29,6 +29,32 @@ tokens to this file or to any committed document.
 3. Keep changes scoped. Do not change backend or Nginx config from this repo.
 4. Do not use `--no-verify` unless the reason is explicit and documented.
 5. Do not force push.
+
+## Git Workflow And Slice Cleanup
+
+- Use one development trunk: `master`. Small documentation/copy changes and narrow
+  fixes may use clean, synchronized master directly. Dependency upgrades,
+  architecture changes and larger behavior changes use a short-lived
+  `codex/<description>` branch. PRs are optional for owner-operated slices;
+  there is no permanent develop branch or mandatory multi-stage Git Flow.
+- At slice start, check status, refresh remote refs, read the current docs and
+  confirm task ownership and `git worktree list`. One writer per checkout;
+  switching branches does not isolate concurrent tasks. Preserve others' changes.
+- Validate the scoped change with the pinned runtime and normal hooks. Integrate
+  a completed branch into clean master with `git merge --ff-only`; if master
+  moved, reconcile and revalidate rather than force-pushing. Push master only
+  when deployment is authorized; it triggers production delivery.
+- At slice finish, verify the exact source SHA's workflow and production checks,
+  then remove the owned branch only after checking merged ancestry, worktree
+  usage and open PR dependencies. Delete the remote branch if one was published.
+  GitHub auto-deletes merged PR heads, not local or manually integrated branches.
+- Stop owned temporary processes and report clean status or explain leftovers.
+  Never discard failed/in-progress work just to clean up. Unmerged branches or
+  stashes may be deleted only after explicit owner abandonment; no archive is
+  required for an explicitly cancelled experiment.
+- Preserve master, release branches/tags and other tasks' worktrees/stashes.
+  Close superseded Dependabot PRs with the current fix/version evidence before
+  deleting their branches; keep unresolved alerts and future updates enabled.
 
 ## Local Development
 

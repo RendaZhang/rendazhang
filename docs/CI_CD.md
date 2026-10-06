@@ -14,7 +14,7 @@
 # CI / CD Pipeline
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: July 04, 2026, 13:05 (UTC+08:00)
+- **最后更新**: October 06, 2026, 23:50 (UTC+08:00)
 
 ---
 
@@ -31,7 +31,9 @@ on:
 
 * 代码推送或 PR 合并到 `master` 时自动触发部署。
 * 维护者也可以通过 GitHub Actions 的 `workflow_dispatch` 手动触发同一部署流程。
-* 如需测试环境，可新增 `staging` 分支与相应 workflow。
+* 不要求 `develop`、`staging` 或逐次 PR；按 [Git Workflow](GIT_WORKFLOW.md) 选择主干小改或短分支。
+* 当前前端没有 PR 触发的质量工作流；合入前仍需本地验证，推送后核对本次 source SHA 的部署。
+* `release/<tag>` 是 CI 管理的构建产物分支，开发分支清理时必须保留。
 
 ## 2. 环境与密钥
 

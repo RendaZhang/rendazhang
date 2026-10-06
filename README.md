@@ -59,7 +59,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: August 02, 2026, 11:15 (UTC+08:00)
+- **最后更新**: October 06, 2026, 23:50 (UTC+08:00)
 
 ---
 
@@ -447,7 +447,7 @@ location /_astro/ {
 
 ### Git 分支与发布流程
 
-> 项目采用 `master`/`develop` 双主线，并约定 `feature`、`hotfix`、`experiment` 等分支的命名规范与合并策略，详见：📄 [Git Workflow](https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow)。
+> 项目采用轻量主干流程：文档和小修复可直接在干净的 `master` 上完成；依赖升级和较大行为变更使用短分支，验证发布后清理。每个 Slice 都有开工检查和收尾清理，不要求常驻 `develop` 或每次创建 PR。详见：[Git Workflow](https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow)。
 
 ### CI/CD 工作流
 
@@ -589,7 +589,7 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
   - 自动生成模块 `index.ts` 文件
   - 执行代码格式化和静态检查
 
-> ✅ 所有提交必须通过 pre-commit 检查；CI 会阻止不符合规范的 PR
+> 所有提交必须通过 pre-commit 检查；当前前端 CI 在 `master` push 后验证并部署，不提供 PR 自动门禁。合入前请完成本地验证。
 
 ---
 

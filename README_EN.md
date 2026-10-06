@@ -57,7 +57,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: August 08, 2026, 11:40 (UTC+08:00)
+- **Last Updated**: October 06, 2026, 23:50 (UTC+08:00)
 
 ---
 
@@ -446,7 +446,7 @@ location /_astro/ {
 
 ### Git Branching & Release Workflow
 
-> The project follows a `master`/`develop` dual-branch model with conventions for `feature`, `hotfix`, and `experiment` branches. Details: 📄 [Git Workflow](https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow).
+> The project uses a lightweight trunk workflow: documentation and small fixes may use clean `master`; dependency upgrades and larger behavior changes use short-lived branches, removed after validation and deployment. Every slice has start and finish checks. No permanent `develop` branch or mandatory PR per slice is required. Details: [Git Workflow](https://github.com/RendaZhang/rendazhang/blob/master/docs/GIT_WORKFLOW.md#git-workflow).
 
 ### CI/CD Workflow
 
@@ -579,7 +579,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
   - Automatically generate module `index.ts` files
   - Perform code formatting and static checks
 
-> ✅ All commits must pass the pre-commit checks; CI will block PRs that do not meet the standards.
+> All commits must pass pre-commit checks. Frontend CI currently validates and deploys after a `master` push, not on PRs; complete local validation before integration.
 
 ---
 
