@@ -22,12 +22,12 @@ main.c-main-content {
   width: 100%;
 }
 /* Plain prose links follow the active palette; explicit component links keep ownership. */
-html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]) {
+html:root a:not([class]) {
   color: var(--color-brand);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]):hover {
+html:root a:not([class]):hover {
   color: var(--color-primary-hover);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]):focus-visible {
+html:root a:not([class]):focus-visible {
   box-shadow: var(--focus-ring);
 }

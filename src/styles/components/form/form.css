@@ -40,10 +40,10 @@
   }
 
   &:disabled {
-    background-color: var(--color-subtle-bg);
-    color: var(--color-text-muted);
+    background-color: var(--color-disabled-bg);
+    color: var(--color-disabled-text);
     cursor: not-allowed;
-    opacity: 0.72;
+    opacity: 1;
   }
 
   &:not(:disabled):hover {
@@ -324,12 +324,7 @@
 .u-text-warning {
   color: var(--color-warning);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-form-control::placeholder {
+html:root .c-form-control::placeholder {
   color: var(--color-placeholder);
-  opacity: 1;
-}
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-form-control:disabled {
-  background: var(--color-disabled-bg);
-  color: var(--color-disabled-text);
   opacity: 1;
 }

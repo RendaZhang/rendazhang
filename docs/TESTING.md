@@ -16,7 +16,7 @@
     - [`src/__tests__/useFormValidation.test.tsx`](#src__tests__useformvalidationtesttsx)
   - [编写测试](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95)
     - [示例](#%E7%A4%BA%E4%BE%8B)
-  - [Ink Palette Regression](#ink-palette-regression)
+  - [Theme Palette Regression](#theme-palette-regression)
     - [Docs Diagram Geometry](#docs-diagram-geometry)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -24,7 +24,7 @@
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 07, 2026, 12:10 (UTC+08:00)
+- **最后更新**: October 07, 2026, 12:51 (UTC+08:00)
 
 ---
 
@@ -318,18 +318,20 @@ describe('sum', () => {
 ```
 
 编写好测试后，执行 `npm test` 即可验证结果。
-## Ink Palette Regression
+## Theme Palette Regression
 
 `themePaletteTokens.test.ts` invokes the existing contrast checker against parsed CSS, not a
-duplicated documentation color table. The checker covers 146 Ink light/dark and legacy on-primary
-pairs, including status backgrounds, placeholders, focus/control edges, code/comments, disabled
-text, 72% composites and the hero scrim. `ThemeToggle` tests keep bilingual default naming and
-the unchanged stored IDs separate from the alternative names.
+duplicated documentation color table. The checker covers 414 pairs across all three light/dark families,
+including status backgrounds, placeholders, focus/control edges, code/comments, disabled
+text, 72% composites and the hero scrim. Compound/comma root selectors, specificity, source order
+and direct declarations are covered; smoke compares resolved tokens with the browser cascade.
+`ThemeToggle` tests keep bilingual names separate from unchanged stored IDs.
 
 Browser smoke reads real computed colors through the rendered homepage, Docs highlighter,
 intercepted local Chat answer and isolated form-state fixture. It checks solid keyboard focus,
 the white Mermaid paper, first-open/reopen Widget preferences, raw/JSON/invalid pre-paint storage,
-unavailable-storage fallback, and legacy palette gradients. No real Chat or account write is used.
+unavailable-storage fallback, flat action fills and all three swatches in both languages/modes.
+No real Chat or account write is used.
 Existing sanitizer, malformed-diagram, navigation and iframe assertions remain in place.
 
 Use an isolated production preview for visual acceptance at 1366x900 and 390x844 in both languages.

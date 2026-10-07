@@ -136,24 +136,20 @@
   padding: var(--space-2) var(--space-3);
   text-decoration: none;
 }
-/* Ink actions use measured state fills, not brightness or group opacity. */
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  .c-btn-primary:not(:disabled):not([aria-disabled='true']):hover {
+/* Palette actions use measured state fills, not brightness or group opacity. */
+html:root .c-btn-primary:not(:disabled):not([aria-disabled='true']):hover {
   background: var(--color-primary-hover);
   filter: none;
 }
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  .c-btn-primary:not(:disabled):not([aria-disabled='true']):active {
+html:root .c-btn-primary:not(:disabled):not([aria-disabled='true']):active {
   background: var(--color-primary-active);
 }
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  :is(.c-btn-primary, .c-btn-secondary):is(:disabled, [aria-disabled='true']) {
+html:root :is(.c-btn-primary, .c-btn-secondary):is(:disabled, [aria-disabled='true']) {
   background: var(--color-disabled-bg);
   color: var(--color-disabled-text);
   filter: none;
   opacity: 1;
 }
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  .c-btn-secondary:not(:disabled):active {
+html:root .c-btn-secondary:not(:disabled):active {
   background: var(--color-pressed-surface);
 }

@@ -37,7 +37,7 @@ main.c-main-content.c-docs-main .c-markdown-body h2 {
 }
 
 main.c-main-content.c-docs-main .c-markdown-body h3 {
-  color: var(--color-brand-secondary);
+  color: var(--color-text);
 }
 
 main.c-main-content.c-docs-main .c-markdown-body p,

@@ -98,9 +98,9 @@ npm run preview
   separate. Reuse `uiPreferencesStore`, `useUiPreferences`, `ThemeProvider` and
   the external `base-layout-init` pre-paint path; do not duplicate cross-island
   preference state. `preferred_theme` and `preferred_palette` remain the storage keys.
-- Default now uses Ink And Vermilion in both modes. Aurora/Forest retain their
-  previous colors/names; Cobalt/Pine remain planned. Follow the shipped/pending
-  boundaries and compatibility contract in `docs/PERSONAL_THEME_PALETTES.md`.
+- All three families are implemented in both modes: Ink And Vermilion, Silver And
+  Cobalt and Graphite And Pine. Stored IDs remain default/aurora/forest. Follow
+  the semantic roles and compatibility contract in `docs/PERSONAL_THEME_PALETTES.md`.
 - Chat Widget behavior is production-critical:
   - The homepage toggle loads the same-origin iframe `/deepseek_chat/`.
   - `postMessage` communication must remain same-origin.

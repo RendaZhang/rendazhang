@@ -8,8 +8,8 @@
 - `--gradient-primary`：品牌主色渐变，常用于按钮或强调背景。
 - `--gradient-dark`：深色主题下的主渐变。
 
-墨与朱在语义层把主渐变解析为同色双端点，以兼容现有 background 消费者；hover/active
-采用明确实色，不做 brightness 放大。旧 Aurora/Forest 的渐变保持不变。
+三套主题在语义层把主渐变解析为同色双端点，以兼容现有 background 消费者；hover/active
+采用明确实色，不做 brightness 放大。Hero 使用共享中性遮罩，保留原图与布局。
 
 ## 404 页面
 

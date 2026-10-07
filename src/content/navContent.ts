@@ -32,8 +32,8 @@ export const NAV_CONTENT = {
       paletteGroup: 'Theme color palette',
       palettes: {
         default: 'Ink And Vermilion',
-        aurora: 'Switch to Aurora Palette',
-        forest: 'Switch to Forest Palette'
+        aurora: 'Silver And Cobalt',
+        forest: 'Graphite And Pine'
       }
     }
   },
@@ -62,8 +62,8 @@ export const NAV_CONTENT = {
       paletteGroup: '主题调色板',
       palettes: {
         default: '墨与朱',
-        aurora: '切换到极光调色板',
-        forest: '切换到森林调色板'
+        aurora: '银与钴蓝',
+        forest: '石墨与松绿'
       }
     }
   }

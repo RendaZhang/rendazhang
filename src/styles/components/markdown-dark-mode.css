@@ -884,8 +884,8 @@ html[data-theme='dark']
 html[data-theme='dark'] .c-markdown-body ::-webkit-calendar-picker-indicator {
   filter: invert(50%);
 }
-/* Ink resolves the page-local Markdown aliases after legacy dark definitions. */
-html:not([data-palette='aurora']):not([data-palette='forest']) {
+/* Shared semantics resolve the page-local Markdown aliases after legacy dark definitions. */
+html:root {
   --md-color-bg: var(--color-surface);
   --md-color-text: var(--color-text);
   --md-color-link: var(--color-brand);
@@ -894,32 +894,27 @@ html:not([data-palette='aurora']):not([data-palette='forest']) {
   --md-color-pre-bg: var(--color-subtle-bg);
   --md-color-mark-bg: var(--color-warning-bg);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-markdown-body :is(code, kbd, tt) {
+html:root .c-markdown-body :is(code, kbd, tt) {
   background-color: var(--color-subtle-bg);
   color: var(--color-text);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-markdown-body pre > code {
+html:root .c-markdown-body pre > code {
   background-color: transparent;
 }
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  .c-markdown-body
-  :is(h1, h2, h3, h4, h5, h6, strong) {
+html:root .c-markdown-body :is(h1, h2, h3, h4, h5, h6, strong) {
   color: var(--color-text);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-markdown-body blockquote {
+html:root .c-markdown-body blockquote {
   background: var(--color-palette-surface);
   border-color: var(--color-accent);
   color: var(--color-text);
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-markdown-body a {
+html:root .c-markdown-body a {
   text-decoration-line: underline;
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-markdown-body a:focus-visible {
+html:root .c-markdown-body a:focus-visible {
   box-shadow: var(--focus-ring);
 }
-html:not([data-palette='aurora']):not([data-palette='forest'])
-  .c-markdown-body
-  .language-mermaid
-  svg {
+html:root .c-markdown-body .language-mermaid svg {
   background: var(--color-diagram-paper);
 }

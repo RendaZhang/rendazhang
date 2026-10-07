@@ -11,10 +11,11 @@
 
 ## 约定
 
-- `default`（含缺失/非法 palette 的 CSS 回退）使用 Ink 明暗映射；Aurora/Forest 不匹配该选择器。
+- `default`（含缺失/非法 palette 的 CSS 回退）使用 Ink；`aurora`/`forest` 分别映射完整 Cobalt/Pine 明暗色。
 - `--color-on-primary`、`--color-primary-hover/active`、`--color-secondary-text`、
-  `--color-focus`、`--color-placeholder`、`--color-disabled-*` 和状态背景都有旧主题兼容值。
-- Ink dark 的主按钮前景是深墨色；不要用绝对白字替代 on-primary。双层 focus 使用实色分隔。
+  `--color-focus`、`--color-placeholder`、`--color-disabled-*` 和状态背景在六组中均有明确值。
+- 三套 dark 的主按钮前景均为深色；不要用绝对白字替代 on-primary。双层 focus 使用实色分隔。
+- `--color-accent-decoration` 只用于装饰；正文使用通过对比度检查的 `--color-accent`。
 - Markdown 三组别名仍属于既有边界，页面级 `--md-color-*` 与高亮角色在对应样式文件解析。
   Mermaid 白色纸面仅作用于 SVG，渲染/安全配置不变。
 

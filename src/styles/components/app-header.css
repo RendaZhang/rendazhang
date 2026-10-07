@@ -8,7 +8,7 @@
   position: relative;
   text-align: center;
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-app-header {
+html:root .c-app-header {
   background: var(--color-surface);
   color: var(--color-text);
 }

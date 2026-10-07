@@ -74,6 +74,102 @@
     --palette-ink-shadow-low: #0000000d;
     --palette-ink-shadow-medium: #00000014;
     --palette-ink-shadow-high: #0000001f;
+    /* cobalt canvas in light and dark mode. */
+    --palette-cobalt-light-canvas: #f3f5f7;
+    --palette-cobalt-dark-canvas: #181b20;
+    /* cobalt surface in light and dark mode. */
+    --palette-cobalt-light-surface: #ffffff;
+    --palette-cobalt-dark-surface: #232830;
+    /* cobalt subtle in light and dark mode. */
+    --palette-cobalt-light-subtle: #e8edf2;
+    --palette-cobalt-dark-subtle: #2e3540;
+    /* cobalt text in light and dark mode. */
+    --palette-cobalt-light-text: #20262e;
+    --palette-cobalt-dark-text: #f1f4f8;
+    /* cobalt muted in light and dark mode. */
+    --palette-cobalt-light-muted: #525f6b;
+    --palette-cobalt-dark-muted: #b1bdcc;
+    /* cobalt separator in light and dark mode. */
+    --palette-cobalt-light-separator: #ccd4dd;
+    --palette-cobalt-dark-separator: #465364;
+    /* cobalt control in light and dark mode. */
+    --palette-cobalt-light-control: #727f8c;
+    --palette-cobalt-dark-control: #8999ac;
+    /* cobalt primary in light and dark mode. */
+    --palette-cobalt-light-primary: #234bc7;
+    --palette-cobalt-dark-primary: #8eabff;
+    /* cobalt primary-hover in light and dark mode. */
+    --palette-cobalt-light-primary-hover: #193ca6;
+    --palette-cobalt-dark-primary-hover: #aec2ff;
+    /* cobalt primary-active in light and dark mode. */
+    --palette-cobalt-light-primary-active: #14318a;
+    --palette-cobalt-dark-primary-active: #7899f2;
+    /* cobalt on-primary in light and dark mode. */
+    --palette-cobalt-light-on-primary: #ffffff;
+    --palette-cobalt-dark-on-primary: #181b20;
+    /* cobalt accent in light and dark mode. */
+    --palette-cobalt-light-accent: #944426;
+    --palette-cobalt-dark-accent: #e5a88a;
+    /* cobalt decoration in light and dark mode. */
+    --palette-cobalt-light-decoration: #b95a36;
+    --palette-cobalt-dark-decoration: #e5a88a;
+    /* cobalt hover in light and dark mode. */
+    --palette-cobalt-light-hover: #f2f4fc;
+    --palette-cobalt-dark-hover: #2c3241;
+    /* cobalt selected in light and dark mode. */
+    --palette-cobalt-light-selected: #e9edf9;
+    --palette-cobalt-dark-selected: #303849;
+    /* cobalt pressed in light and dark mode. */
+    --palette-cobalt-light-pressed: #e0e6f7;
+    --palette-cobalt-dark-pressed: #323a4d;
+    /* pine canvas in light and dark mode. */
+    --palette-pine-light-canvas: #f4f6f3;
+    --palette-pine-dark-canvas: #18211e;
+    /* pine surface in light and dark mode. */
+    --palette-pine-light-surface: #ffffff;
+    --palette-pine-dark-surface: #232e28;
+    /* pine subtle in light and dark mode. */
+    --palette-pine-light-subtle: #e9eee9;
+    --palette-pine-dark-subtle: #303c34;
+    /* pine text in light and dark mode. */
+    --palette-pine-light-text: #212722;
+    --palette-pine-dark-text: #f0f4ef;
+    /* pine muted in light and dark mode. */
+    --palette-pine-light-muted: #536156;
+    --palette-pine-dark-muted: #b1c0b4;
+    /* pine separator in light and dark mode. */
+    --palette-pine-light-separator: #cdd7cf;
+    --palette-pine-dark-separator: #4a594e;
+    /* pine control in light and dark mode. */
+    --palette-pine-light-control: #748277;
+    --palette-pine-dark-control: #8c9f91;
+    /* pine primary in light and dark mode. */
+    --palette-pine-light-primary: #245a49;
+    --palette-pine-dark-primary: #89b89c;
+    /* pine primary-hover in light and dark mode. */
+    --palette-pine-light-primary-hover: #1c483a;
+    --palette-pine-dark-primary-hover: #a4cab3;
+    /* pine primary-active in light and dark mode. */
+    --palette-pine-light-primary-active: #16392e;
+    --palette-pine-dark-primary-active: #75a88a;
+    /* pine on-primary in light and dark mode. */
+    --palette-pine-light-on-primary: #ffffff;
+    --palette-pine-dark-on-primary: #18211e;
+    /* pine accent in light and dark mode. */
+    --palette-pine-light-accent: #766016;
+    --palette-pine-dark-accent: #e2c75b;
+    /* pine decoration in light and dark mode. */
+    --palette-pine-light-decoration: #e2c75b;
+    --palette-pine-dark-decoration: #e2c75b;
+    /* pine hover in light and dark mode. */
+    --palette-pine-light-hover: #f2f5f4;
+    --palette-pine-dark-hover: #2b3931;
+    /* pine selected in light and dark mode. */
+    --palette-pine-light-selected: #e9efed;
+    --palette-pine-dark-selected: #2f3f36;
+    /* pine pressed in light and dark mode. */
+    --palette-pine-light-pressed: #e0e8e6;
+    --palette-pine-dark-pressed: #314138;
     /*! ==== Brand colors ==== */
     /* Default palette primary brand color */
     --palette-default-brand: var(--palette-ink-light-primary);
@@ -84,21 +180,21 @@
     /* Default palette tertiary brand shade */
     --palette-default-tertiary: var(--palette-ink-light-primary-active);
     /* Aurora palette primary brand color */
-    --palette-aurora-brand: color-mix(in srgb, oklch(46% 0.22 328), transparent);
+    --palette-aurora-brand: var(--palette-cobalt-light-primary);
     /* Aurora palette accent color */
-    --palette-aurora-accent: color-mix(in srgb, oklch(54% 0.18 250), transparent);
+    --palette-aurora-accent: var(--palette-cobalt-light-accent);
     /* Aurora palette secondary brand shade */
-    --palette-aurora-secondary: color-mix(in srgb, oklch(50% 0.2 300), transparent);
+    --palette-aurora-secondary: var(--palette-cobalt-light-primary-hover);
     /* Aurora palette tertiary brand shade */
-    --palette-aurora-tertiary: color-mix(in srgb, oklch(62% 0.13 285), transparent);
+    --palette-aurora-tertiary: var(--palette-cobalt-light-primary-active);
     /* Forest palette primary brand color */
-    --palette-forest-brand: color-mix(in srgb, oklch(42% 0.13 160), transparent);
+    --palette-forest-brand: var(--palette-pine-light-primary);
     /* Forest palette accent color */
-    --palette-forest-accent: color-mix(in srgb, oklch(52% 0.12 195), transparent);
+    --palette-forest-accent: var(--palette-pine-light-accent);
     /* Forest palette secondary brand shade */
-    --palette-forest-secondary: color-mix(in srgb, oklch(48% 0.12 180), transparent);
+    --palette-forest-secondary: var(--palette-pine-light-primary-hover);
     /* Forest palette tertiary brand shade */
-    --palette-forest-tertiary: color-mix(in srgb, oklch(62% 0.1 150), transparent);
+    --palette-forest-tertiary: var(--palette-pine-light-primary-active);
     /* Primary brand color for links and primary actions */
     --color-brand: var(--palette-default-brand);
     /* Accent color for highlights and focus states */
@@ -453,14 +549,14 @@
       --palette-default-accent: var(--palette-ink-light-accent);
       --palette-default-secondary: var(--palette-ink-light-primary-hover);
       --palette-default-tertiary: var(--palette-ink-light-primary-active);
-      --palette-aurora-brand: oklch(46% 0.22 328);
-      --palette-aurora-accent: oklch(54% 0.18 250);
-      --palette-aurora-secondary: oklch(50% 0.2 300);
-      --palette-aurora-tertiary: oklch(62% 0.13 285);
-      --palette-forest-brand: oklch(42% 0.13 160);
-      --palette-forest-accent: oklch(52% 0.12 195);
-      --palette-forest-secondary: oklch(48% 0.12 180);
-      --palette-forest-tertiary: oklch(62% 0.1 150);
+      --palette-aurora-brand: var(--palette-cobalt-light-primary);
+      --palette-aurora-accent: var(--palette-cobalt-light-accent);
+      --palette-aurora-secondary: var(--palette-cobalt-light-primary-hover);
+      --palette-aurora-tertiary: var(--palette-cobalt-light-primary-active);
+      --palette-forest-brand: var(--palette-pine-light-primary);
+      --palette-forest-accent: var(--palette-pine-light-accent);
+      --palette-forest-secondary: var(--palette-pine-light-primary-hover);
+      --palette-forest-tertiary: var(--palette-pine-light-primary-active);
       --color-brand: var(--palette-default-brand);
       --color-accent: var(--palette-default-accent);
       --color-brand-secondary: var(--palette-default-secondary);

@@ -21,7 +21,7 @@
 
 - **Author**: Renda Zhang
 - **Last updated**: 2026-10-07
-- **Status**: Ink And Vermilion is implemented in Slice 19.4. Cobalt and Pine remain planned for 19.5.
+- **Status**: All three families are implemented in light/dark modes through Slice 19.5.
 - **Preview source**: `831f36c1e1dec1679d580268ee4ffa73d9bcad65`.
 
 ## Direction And Names
@@ -30,7 +30,7 @@ Keep the real portrait, content, typography, layout, routes and interaction beha
 reading surfaces with small, repeated action colors; do not wash every section in the brand hue.
 These are visual names, not claims about the owner's personality, culture or motivations.
 
-| Internal ID | Planned English name | Planned Chinese name | Delivery |
+| Internal ID | English name | Chinese name | Delivery |
 | --- | --- | --- | --- |
 | `default` | Ink And Vermilion | 墨与朱 | Default family, Slice 19.4 |
 | `aurora` | Silver And Cobalt | 银与钴蓝 | Slice 19.5 |
@@ -41,12 +41,11 @@ localized group name, `Theme color palette` / `主题调色板`, and `aria-press
 Do not put the full names into new wide buttons. Selected swatches need a shape/border cue as well
 as color; keyboard focus must remain distinguishable from selection.
 
-**Existing implementation:** `default` is Ink And Vermilion / 墨与朱 in both modes. Aurora and
-Forest keep their previous colors and names. Independent mode, store, provider, pre-paint
-initialization, storage keys and compact swatches are unchanged.
-**Pending implementation:** Cobalt and Pine replace the two alternatives in 19.5. There are still
-three choices, not six old/new choices or prematurely renamed options. Shared status values below
-are implemented for Ink; legacy alternatives retain compatible status defaults until that slice.
+**Existing implementation:** `default` is Ink And Vermilion / 墨与朱, `aurora` is Silver And
+Cobalt / 银与钴蓝, and `forest` is Graphite And Pine / 石墨与松绿, each in both modes.
+Independent mode, store, provider, pre-paint initialization, storage keys and compact swatches
+are unchanged. There are three choices, not six old/new choices. Shared status values below
+apply to every family. No palette migration or live iframe synchronization was introduced.
 
 ## Six Semantic Sets
 
@@ -204,7 +203,11 @@ Slice 19.4 extends `scripts/contrast-check.mjs` to read the actual CSS root casc
 on-colors, status pairs, disabled text, code/comments, 72% composites and the worst-case hero
 scrim, plus legacy on-primary checks in both modes. Browser smoke additionally reads rendered
 Markdown/highlight, Chat, form, placeholder, focus and state colors. This is bounded regression
-evidence, not full-site WCAG conformance. Cobalt/Pine need their six-set expansion in 19.5.
+evidence, not full-site WCAG conformance. Slice 19.5 expands this to 414 pairs across all six sets.
+The checker matches compound/comma-separated root selectors and resolves specificity/source order;
+browser smoke cross-checks its resolved semantic values against the real root cascade, then measures
+rendered Markdown/highlight, Chat, form and focus colors. Dark fills use each family's dark
+on-primary. Decorative copper/yellow are separate from accessible accent text.
 
 ## Preview Method And Findings
 
@@ -320,11 +323,17 @@ CSP review and production QA for the real implementation, not just this temporar
 
 ### 19.5 Alternative Families
 
-Fill the Aurora/Cobalt and Forest/Pine combination selectors with their complete role sets; then
-rename those two swatches in the same release. Reuse the shared roles and component fixes from
-19.4. Expand the same tests to all six combinations, desktop/mobile and both languages, including
-persisted old IDs, hover/selected/error/disabled/focus, reduced motion, actual transparent layers,
-navigation, Markdown/code/diagrams, direct/embedded Chat and third-party framing.
+Implemented complete Cobalt/Pine role sets and localized names on the existing Aurora/Forest IDs.
+The shared color-only consumer rules now apply to all three families without duplicating component
+CSS. Ink values, image scrim, geometry, content, motion and interaction ownership remain unchanged.
+Raw reference values live in `--palette-cobalt-*` and `--palette-pine-*`; shared status/shadow
+references introduced with Ink keep their existing names. Swatches use light primary fills in
+both modes, with distinct selection and keyboard focus rings.
+
+The same tests cover all six combinations, persisted old IDs, hover/selected/error/disabled/focus,
+transparent layers, navigation, Markdown/code/diagrams, direct/embedded Chat and third-party framing.
+Keep the approved Docs staging/queue/cleanup and white paper unchanged; test diagram dimensions and
+labels in both motion preferences and during an early language switch, not only SVG counts.
 
 Update architecture/style/testing/ownership docs only for changed shipped facts. No content rewrite,
 new layout, image work, dependency/runtime/workflow, analytics, backend or Nginx change is implied.

@@ -1,4 +1,12 @@
 import { expect, test, type ConsoleMessage, type Page } from '@playwright/test';
+import { execFileSync } from 'node:child_process';
+
+const themeRoles = JSON.parse(
+  execFileSync(process.execPath, ['scripts/contrast-check.mjs'], {
+    encoding: 'utf8',
+    timeout: 5000
+  })
+).resolvedSets as Record<string, Record<string, string>>;
 
 const AUTH_ME_PATH = '/cloudchat/auth/me';
 const CHAT_PAGE_PATH = '/deepseek_chat/';
@@ -562,22 +570,27 @@ for (const width of [1366, 390]) {
     test(`Docs geometry stays readable at ${width}px with motion ${reducedMotion}`, async ({
       page
     }) => {
+      test.setTimeout(120_000);
       const audit = attachConsoleAudit(page, 'Docs measured geometry');
       await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
       await page.emulateMedia({ reducedMotion });
-      for (const mode of ['light', 'dark']) {
-        await page.goto('/docs/');
-        await expectIslandHydrated(page, 'NavBarWrapper');
-        await page.locator('.c-theme-toggle-main').click();
-        await page.locator(`.c-theme-option.is-${mode}`).click();
-        const initial = (await page.locator('html').getAttribute('lang')) === 'en' ? 'en' : 'zh';
-        await expectReadableDocsDiagrams(page, initial);
-        for (const language of ['zh', 'en', 'zh'] as const) {
-          await page.locator('.c-language-selector-main').click();
-          await page
-            .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
-            .click();
-          await expectReadableDocsDiagrams(page, language);
+      for (const palette of ['default', 'aurora', 'forest']) {
+        for (const mode of ['light', 'dark']) {
+          await page.goto('/docs/');
+          await expectIslandHydrated(page, 'NavBarWrapper');
+          await page.locator('.c-theme-toggle-main').click();
+          await page.locator(`.c-theme-option.is-${mode}`).click();
+          await page.locator('.c-theme-toggle-main').click();
+          await page.locator(`.c-theme-option.is-palette-${palette}`).click();
+          const initial = (await page.locator('html').getAttribute('lang')) === 'en' ? 'en' : 'zh';
+          await expectReadableDocsDiagrams(page, initial);
+          for (const language of ['zh', 'en', 'zh'] as const) {
+            await page.locator('.c-language-selector-main').click();
+            await page
+              .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
+              .click();
+            await expectReadableDocsDiagrams(page, language);
+          }
         }
       }
       await audit.assertClean();
@@ -820,7 +833,7 @@ test('theme controls keep DOM state, selected state, and storage coherent', asyn
     .toBe('dark');
 
   await themeButton.click();
-  await page.getByRole('button', { name: /^(Switch to Forest Palette|切换到森林调色板)$/ }).click();
+  await page.getByRole('button', { name: /^(Graphite And Pine|石墨与松绿)$/ }).click();
   await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
   await expect
     .poll(async () =>
@@ -839,115 +852,144 @@ test('theme controls keep DOM state, selected state, and storage coherent', asyn
     page.getByRole('button', { name: /^(Switch to Light Mode|切换到浅色模式)$/ })
   ).toHaveAttribute('aria-pressed', 'false');
   await expect(
-    page.getByRole('button', { name: /^(Switch to Forest Palette|切换到森林调色板)$/ })
+    page.getByRole('button', { name: /^(Graphite And Pine|石墨与松绿)$/ })
   ).toHaveAttribute('aria-pressed', 'true');
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out theme control path should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
-for (const mode of ['light', 'dark']) {
-  test(`Ink ${mode} uses readable rendered roles and stored Widget preferences`, async ({
-    page,
-    baseURL
-  }) => {
-    test.setTimeout(90_000);
-    expect(new URL(baseURL ?? '').hostname).toBe('127.0.0.1');
-    const audit = attachConsoleAudit(page, `Ink ${mode}`);
-    await page.addInitScript((mode) => {
-      if (!localStorage.getItem('preferred_theme')) {
-        localStorage.setItem('preferred_theme', JSON.stringify(mode));
-        localStorage.setItem('preferred_palette', JSON.stringify('default'));
+for (const palette of ['default', 'aurora', 'forest']) {
+  for (const mode of ['light', 'dark']) {
+    test(`${palette} ${mode} uses readable rendered roles and stored Widget preferences`, async ({
+      page,
+      baseURL
+    }) => {
+      test.setTimeout(90_000);
+      expect(new URL(baseURL ?? '').hostname).toBe('127.0.0.1');
+      const audit = attachConsoleAudit(page, `${palette} ${mode}`);
+      await page.addInitScript(
+        ({ mode, palette }) => {
+          if (!localStorage.getItem('preferred_theme')) {
+            localStorage.setItem('preferred_theme', JSON.stringify(mode));
+            localStorage.setItem('preferred_palette', JSON.stringify(palette));
+          }
+        },
+        { mode, palette }
+      );
+      await page.goto('/');
+      await expectIslandHydrated(page, 'NavBarWrapper');
+      await expect(page.locator('body')).toHaveCSS(
+        'background-color',
+        themeRoles[`${palette}-${mode}`]['--color-bg'].replace(
+          /^#(..)(..)(..)$/,
+          (_, r, g, b) => `rgb(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)})`
+        )
+      );
+      const actual = await page.locator('html').evaluate(
+        (el, roles) =>
+          Object.fromEntries(
+            Object.keys(roles).map((key) => [
+              key,
+              getComputedStyle(el)
+                .getPropertyValue(key)
+                .trim()
+                .replace(/^#([a-f0-9])([a-f0-9])([a-f0-9])$/i, '#$1$1$2$2$3$3')
+            ])
+          ),
+        themeRoles[`${palette}-${mode}`]
+      );
+      expect(actual).toEqual(themeRoles[`${palette}-${mode}`]);
+      await expectTextContrast(page, '.c-section-summary');
+      await expectTextContrast(page, '.c-hero-action-primary', '--color-brand');
+      await page.locator('.c-theme-toggle-main').click();
+      const option = page.locator(`.c-theme-option.is-palette-${palette}`);
+      await expect(option).toHaveAttribute('aria-pressed', 'true');
+      await page.keyboard.press('Tab');
+      await option.focus();
+      await expect(option).toBeFocused();
+      await expect
+        .poll(() => option.evaluate((el) => getComputedStyle(el).boxShadow))
+        .toContain('5px');
+      await option.press('Escape');
+      await expect(page.locator('.c-theme-toggle-main')).toBeFocused();
+      for (let opening = 0; opening < 2; opening++) {
+        await page.locator('.c-chat-widget-toggle').click();
+        await expect(page.locator('.c-chat-widget-iframe')).toHaveClass(/is-loaded/);
+        const frame = page.frameLocator('.c-chat-widget-iframe');
+        await expect(frame.locator('html')).toHaveAttribute('data-theme', mode);
+        await expect(frame.locator('html')).toHaveAttribute('data-palette', palette);
+        await page.locator('.c-chat-widget-toggle').click();
       }
-    }, mode);
-    await page.goto('/');
-    await expectIslandHydrated(page, 'NavBarWrapper');
-    await expect(page.locator('body')).toHaveCSS(
-      'background-color',
-      mode === 'light' ? 'rgb(248, 248, 246)' : 'rgb(24, 27, 26)'
-    );
-    await expectTextContrast(page, '.c-section-summary');
-    await expectTextContrast(page, '.c-hero-action-primary', '--color-brand');
-    await page.locator('.c-theme-toggle-main').click();
-    const option = page.getByRole('button', { name: /^(Ink And Vermilion|墨与朱)$/ });
-    await expect(option).toHaveAttribute('aria-pressed', 'true');
-    await page.keyboard.press('Tab');
-    await option.focus();
-    await expect(option).toBeFocused();
-    await expect
-      .poll(() => option.evaluate((el) => getComputedStyle(el).boxShadow))
-      .toContain('5px');
-    await option.press('Escape');
-    await expect(page.locator('.c-theme-toggle-main')).toBeFocused();
-    for (let opening = 0; opening < 2; opening++) {
-      await page.locator('.c-chat-widget-toggle').click();
-      await expect(page.locator('.c-chat-widget-iframe')).toHaveClass(/is-loaded/);
-      const frame = page.frameLocator('.c-chat-widget-iframe');
-      await expect(frame.locator('html')).toHaveAttribute('data-theme', mode);
-      await expect(frame.locator('html')).toHaveAttribute('data-palette', 'default');
-      await page.locator('.c-chat-widget-toggle').click();
-    }
-    await page.reload();
-    await expect(page.locator('html')).toHaveAttribute('data-theme', mode);
-    await page.goto('/docs/');
-    await expect(page.locator('#content-zh .language-mermaid svg')).toHaveCount(2);
-    await expectTextContrast(page, '#content-zh .hljs-comment');
-    await expectTextContrast(page, '#content-zh .hljs span[class]');
-    await expect(page.locator('#content-zh .language-mermaid svg').first()).toHaveCSS(
-      'background-color',
-      'oklch(1 0 0)'
-    );
-    await page.goto('/deepseek_chat/');
-    await expect(page.locator('.c-chat-preset-button')).toHaveCount(5);
-    await expect(page.locator('.c-send-btn')).toBeEnabled();
-    await expectTextContrast(page, '.c-chat-presets-description');
-    await expectTextContrast(page, '.c-message-input', undefined, '::placeholder');
-    await expectTextContrast(page, '.c-send-btn', '--color-brand');
-    await page.locator('.c-send-btn').hover();
-    await expect(page.locator('.c-send-btn')).toHaveCSS('filter', 'none');
-    await expectTextContrast(page, '.c-send-btn');
-    await page.mouse.move(0, 0);
-    await page.locator('.c-chat-preset-button').first().hover();
-    await expectTextContrast(page, '.c-chat-preset-button');
-    await page.route('**/cloudchat/deepseek_chat', (route) =>
-      route.fulfill({
-        contentType: 'application/x-ndjson',
-        body:
-          JSON.stringify({
-            text: 'Local color check.\n\n[Public docs](/docs/)\n\n```js\n// Readable comment\nconst value = 1;\n```'
-          }) + '\n'
-      })
-    );
-    await page.locator('.c-message-input').fill('Local color check');
-    await page.locator('.c-send-btn').click();
-    await expect(page.locator('.c-ai-message .hljs-comment')).toBeVisible();
-    await expectTextContrast(page, '.c-user-message', '--color-brand');
-    await expectTextContrast(page, '.c-ai-message');
-    await expectTextContrast(page, '.c-ai-message .hljs-comment');
-    await expectTextContrast(page, '.c-ai-message .hljs-keyword');
-    await expectTextContrast(page, '.c-ai-message a');
-    await page.goto('/login/');
-    await expectTextContrast(page, '.c-form-control', undefined, '::placeholder');
-    // Isolated CSS state fixture uses the real form classes without an auth request.
-    await page
-      .locator('.c-form-control')
-      .first()
-      .evaluate((el) => {
-        el.setAttribute('aria-invalid', 'true');
-        const feedback = document.createElement('p');
-        feedback.className = 'c-invalid-feedback';
-        feedback.textContent = 'Local validation state';
-        el.after(feedback);
-      });
-    await expectTextContrast(page, '.c-invalid-feedback');
-    await page
-      .locator('.c-form-control')
-      .first()
-      .evaluate((el) => el.setAttribute('disabled', ''));
-    await expect(page.locator('.c-form-control').first()).toHaveCSS('opacity', '1');
-    await expectTextContrast(page, '.c-form-control');
-    await audit.assertClean();
-  });
+      await page.reload();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', mode);
+      await page.goto('/docs/');
+      await expect(page.locator('#content-zh .language-mermaid svg')).toHaveCount(2);
+      await expectTextContrast(page, '#content-zh .hljs-comment');
+      await expectTextContrast(page, '#content-zh .hljs span[class]');
+      await expect(page.locator('#content-zh h3').first()).toHaveCSS(
+        'color',
+        themeRoles[`${palette}-${mode}`]['--color-text'].replace(
+          /^#(..)(..)(..)$/,
+          (_, r, g, b) => `rgb(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)})`
+        )
+      );
+      await expect(page.locator('#content-zh .language-mermaid svg').first()).toHaveCSS(
+        'background-color',
+        'oklch(1 0 0)'
+      );
+      await page.goto('/deepseek_chat/');
+      await expect(page.locator('.c-chat-preset-button')).toHaveCount(5);
+      await expect(page.locator('.c-send-btn')).toBeEnabled();
+      await expectTextContrast(page, '.c-chat-presets-description');
+      await expectTextContrast(page, '.c-message-input', undefined, '::placeholder');
+      await expectTextContrast(page, '.c-send-btn', '--color-brand');
+      await page.locator('.c-send-btn').hover();
+      await expect(page.locator('.c-send-btn')).toHaveCSS('filter', 'none');
+      await expectTextContrast(page, '.c-send-btn');
+      await page.mouse.move(0, 0);
+      await page.locator('.c-chat-preset-button').first().hover();
+      await expectTextContrast(page, '.c-chat-preset-button');
+      await page.route('**/cloudchat/deepseek_chat', (route) =>
+        route.fulfill({
+          contentType: 'application/x-ndjson',
+          body:
+            JSON.stringify({
+              text: 'Local color check.\n\n[Public docs](/docs/)\n\n```js\n// Readable comment\nconst value = 1;\n```'
+            }) + '\n'
+        })
+      );
+      await page.locator('.c-message-input').fill('Local color check');
+      await page.locator('.c-send-btn').click();
+      await expect(page.locator('.c-ai-message .hljs-comment')).toBeVisible();
+      await expectTextContrast(page, '.c-user-message', '--color-brand');
+      await expectTextContrast(page, '.c-ai-message');
+      await expectTextContrast(page, '.c-ai-message .hljs-comment');
+      await expectTextContrast(page, '.c-ai-message .hljs-keyword');
+      await expectTextContrast(page, '.c-ai-message a');
+      await page.goto('/login/');
+      await expectTextContrast(page, '.c-form-control', undefined, '::placeholder');
+      // Isolated CSS state fixture uses the real form classes without an auth request.
+      await page
+        .locator('.c-form-control')
+        .first()
+        .evaluate((el) => {
+          el.setAttribute('aria-invalid', 'true');
+          const feedback = document.createElement('p');
+          feedback.className = 'c-invalid-feedback';
+          feedback.textContent = 'Local validation state';
+          el.after(feedback);
+        });
+      await expectTextContrast(page, '.c-invalid-feedback');
+      await page
+        .locator('.c-form-control')
+        .first()
+        .evaluate((el) => el.setAttribute('disabled', ''));
+      await expect(page.locator('.c-form-control').first()).toHaveCSS('opacity', '1');
+      await expectTextContrast(page, '.c-form-control');
+      await audit.assertClean();
+    });
+  }
 }
 
 test('pre-paint preferences retain raw, JSON, invalid and unavailable-storage behavior', async ({
@@ -994,29 +1036,36 @@ test('pre-paint preferences retain raw, JSON, invalid and unavailable-storage be
   await expect(page.locator('html')).toHaveAttribute('data-palette', 'default');
   await context.close();
 });
-test('legacy Aurora and Forest retain their names, gradients and on-primary in both modes', async ({
+test('all three swatches keep bilingual names, stable IDs and fixed light fills', async ({
   page
 }) => {
   await page.goto('/deepseek_chat/');
   await expectIslandHydrated(page, 'NavBarWrapper');
-  for (const palette of ['aurora', 'forest']) {
+  const families = [
+    ['default', 'Ink And Vermilion', '墨与朱', 'rgb(184, 60, 53)'],
+    ['aurora', 'Silver And Cobalt', '银与钴蓝', 'rgb(35, 75, 199)'],
+    ['forest', 'Graphite And Pine', '石墨与松绿', 'rgb(36, 90, 73)']
+  ];
+  for (const language of ['en', 'zh']) {
+    await page.locator('.c-language-selector-main').click();
+    await page
+      .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
+      .click();
     for (const mode of ['light', 'dark']) {
       await page.locator('.c-theme-toggle-main').click();
       await page.locator(`.c-theme-option.is-${mode}`).click();
-      await page.locator('.c-theme-toggle-main').click();
-      await page.locator(`.is-palette-${palette}`).click();
-      await expect(page.locator('html')).toHaveAttribute('data-palette', palette);
-      await expect(page.locator('.c-send-btn')).toHaveCSS('color', 'oklch(1 0 0)');
-      const state = await page.locator('.c-send-btn').evaluate((el) => ({
-        brand: getComputedStyle(el).getPropertyValue('--color-brand').trim(),
-        expected: getComputedStyle(el)
-          .getPropertyValue(`--palette-${document.documentElement.dataset.palette}-brand`)
-          .trim(),
-        gradient: getComputedStyle(el).backgroundImage
-      }));
-      expect(state.brand).toBe(state.expected);
-      expect(state.gradient).toContain('linear-gradient');
-      expect(state.gradient).toContain('oklch');
+      for (const [id, en, zh, fill] of families) {
+        await page.locator('.c-theme-toggle-main').click();
+        const swatch = page.getByRole('button', { name: language === 'en' ? en : zh, exact: true });
+        await expect(swatch).toHaveClass(new RegExp('is-palette-' + id));
+        await expect(swatch).toHaveCSS(
+          'background-image',
+          `linear-gradient(135deg, ${fill}, ${fill})`
+        );
+        await swatch.click();
+        await expect(page.locator('html')).toHaveAttribute('data-palette', id);
+        await expectTextContrast(page, '.c-send-btn', '--color-brand');
+      }
     }
   }
 });

@@ -1,17 +1,17 @@
 @layer tokens {
   :root {
-    /* Legacy palettes retain white on their existing dark brand fills. */
+    /* Defaults before the complete family mappings below. */
     --color-on-primary: var(--color-base-white);
-    /* Legacy neutral action foreground, overridden with Ink text. */
+    /* Neutral action foreground follows the active text role below. */
     --color-secondary-text: var(--color-text-muted);
-    /* Semantic state roles for consumers shared with future palettes. */
+    /* Shared semantic state roles. */
     --color-primary-hover: var(--color-brand-secondary);
     --color-primary-active: var(--color-brand);
     --color-focus: var(--color-brand);
     --color-placeholder: var(--color-text-muted);
     --color-disabled-text: var(--color-text-muted);
     --color-disabled-bg: var(--color-subtle-bg);
-    /* Legacy status tints; Ink supplies measured foreground/background pairs. */
+    /* Base tints are replaced by shared measured mode-specific status pairs below. */
     --color-success-bg: color-mix(in srgb, var(--color-success) 15%, var(--color-surface));
     --color-warning-bg: color-mix(in srgb, var(--color-warning) 15%, var(--color-surface));
     --color-error-bg: color-mix(in srgb, var(--color-error) 15%, var(--color-surface));
@@ -100,7 +100,11 @@
     /* Palette-aware border for grouped controls and section markers */
     --color-palette-border: color-mix(in srgb, var(--color-brand) 38%, var(--color-border-soft));
     /* Hero overlay tint driven by the active palette */
-    --color-hero-accent: color-mix(in srgb, var(--color-accent) 72%, var(--color-base-white));
+    --color-hero-accent: color-mix(
+      in srgb,
+      var(--color-accent-decoration) 72%,
+      var(--color-base-white)
+    );
     /* Hero text scrim that preserves image contrast while exposing palette color */
     --color-hero-scrim: color-mix(in srgb, var(--color-base-black) 52%, var(--color-brand));
     /* Stronger hero edge scrim for desktop first-viewport readability */
@@ -159,14 +163,18 @@
       var(--color-surface)
     );
     --color-palette-border: color-mix(in srgb, var(--color-brand) 52%, var(--color-border-soft));
-    --color-hero-accent: color-mix(in srgb, var(--color-accent) 78%, var(--color-base-white));
+    --color-hero-accent: color-mix(
+      in srgb,
+      var(--color-accent-decoration) 78%,
+      var(--color-base-white)
+    );
     --color-hero-scrim: color-mix(in srgb, var(--color-base-black) 60%, var(--color-brand));
     --color-hero-scrim-strong: color-mix(in srgb, var(--color-base-black) 80%, var(--color-brand));
     color-scheme: dark;
   }
 
-  /* Default also covers missing/invalid palette before preference normalization. */
-  html:not([data-palette='aurora']):not([data-palette='forest']) {
+  /* Shared semantics default to Ink for missing/invalid palette values. */
+  html:root {
     /* bg role. */
     --color-bg: var(--palette-ink-light-canvas);
     /* surface role. */
@@ -213,6 +221,8 @@
     --color-info: var(--palette-ink-light-info);
     /* info-bg role. */
     --color-info-bg: var(--palette-ink-light-info-bg);
+    /* Decoration is distinct from accessible accent text. */
+    --color-accent-decoration: var(--color-accent);
     /* Compatibility alias: color-nav-bg. */
     --color-nav-bg: var(--color-surface);
     /* Compatibility alias: color-nav-text. */
@@ -328,7 +338,7 @@
     --focus-ring-hero: 0 0 0 2px var(--palette-ink-hero), 0 0 0 5px var(--color-base-white);
   }
 
-  html:not([data-palette='aurora']):not([data-palette='forest'])[data-theme='dark'] {
+  html:root[data-theme='dark'] {
     /* bg role. */
     --color-bg: var(--palette-ink-dark-canvas);
     /* surface role. */
@@ -377,31 +387,83 @@
     --color-info-bg: var(--palette-ink-dark-info-bg);
   }
 
-  html[data-palette='aurora'] {
-    /*! ==== Aurora palette semantic overrides ==== */
-    --color-brand: var(--palette-aurora-brand);
-    --color-accent: var(--palette-aurora-accent);
-    --color-brand-secondary: var(--palette-aurora-secondary);
-    --color-brand-tertiary: var(--palette-aurora-tertiary);
-    --color-brand-blue: var(--palette-aurora-accent);
-    --gradient-dark: linear-gradient(
-      135deg,
-      var(--palette-aurora-brand) 0%,
-      var(--palette-aurora-secondary) 100%
-    );
+  html:root[data-palette='aurora'] {
+    /* cobalt light: complete surface and action roles; shared status aliases remain above. */
+    --color-bg: var(--palette-cobalt-light-canvas);
+    --color-surface: var(--palette-cobalt-light-surface);
+    --color-subtle-bg: var(--palette-cobalt-light-subtle);
+    --color-text: var(--palette-cobalt-light-text);
+    --color-text-muted: var(--palette-cobalt-light-muted);
+    --color-border-soft: var(--palette-cobalt-light-separator);
+    --color-border-neutral: var(--palette-cobalt-light-control);
+    --color-brand: var(--palette-cobalt-light-primary);
+    --color-primary-hover: var(--palette-cobalt-light-primary-hover);
+    --color-primary-active: var(--palette-cobalt-light-primary-active);
+    --color-on-primary: var(--palette-cobalt-light-on-primary);
+    --color-accent: var(--palette-cobalt-light-accent);
+    --color-accent-decoration: var(--palette-cobalt-light-decoration);
+    --color-palette-surface: var(--palette-cobalt-light-hover);
+    --color-palette-surface-strong: var(--palette-cobalt-light-selected);
+    --color-pressed-surface: var(--palette-cobalt-light-pressed);
   }
 
-  html[data-palette='forest'] {
-    /*! ==== Forest palette semantic overrides ==== */
-    --color-brand: var(--palette-forest-brand);
-    --color-accent: var(--palette-forest-accent);
-    --color-brand-secondary: var(--palette-forest-secondary);
-    --color-brand-tertiary: var(--palette-forest-tertiary);
-    --color-brand-blue: var(--palette-forest-accent);
-    --gradient-dark: linear-gradient(
-      135deg,
-      var(--palette-forest-brand) 0%,
-      var(--palette-forest-secondary) 100%
-    );
+  html:root[data-palette='aurora'][data-theme='dark'] {
+    /* cobalt dark: complete surface and action roles; shared status aliases remain above. */
+    --color-bg: var(--palette-cobalt-dark-canvas);
+    --color-surface: var(--palette-cobalt-dark-surface);
+    --color-subtle-bg: var(--palette-cobalt-dark-subtle);
+    --color-text: var(--palette-cobalt-dark-text);
+    --color-text-muted: var(--palette-cobalt-dark-muted);
+    --color-border-soft: var(--palette-cobalt-dark-separator);
+    --color-border-neutral: var(--palette-cobalt-dark-control);
+    --color-brand: var(--palette-cobalt-dark-primary);
+    --color-primary-hover: var(--palette-cobalt-dark-primary-hover);
+    --color-primary-active: var(--palette-cobalt-dark-primary-active);
+    --color-on-primary: var(--palette-cobalt-dark-on-primary);
+    --color-accent: var(--palette-cobalt-dark-accent);
+    --color-accent-decoration: var(--palette-cobalt-dark-decoration);
+    --color-palette-surface: var(--palette-cobalt-dark-hover);
+    --color-palette-surface-strong: var(--palette-cobalt-dark-selected);
+    --color-pressed-surface: var(--palette-cobalt-dark-pressed);
+  }
+
+  html:root[data-palette='forest'] {
+    /* pine light: complete surface and action roles; shared status aliases remain above. */
+    --color-bg: var(--palette-pine-light-canvas);
+    --color-surface: var(--palette-pine-light-surface);
+    --color-subtle-bg: var(--palette-pine-light-subtle);
+    --color-text: var(--palette-pine-light-text);
+    --color-text-muted: var(--palette-pine-light-muted);
+    --color-border-soft: var(--palette-pine-light-separator);
+    --color-border-neutral: var(--palette-pine-light-control);
+    --color-brand: var(--palette-pine-light-primary);
+    --color-primary-hover: var(--palette-pine-light-primary-hover);
+    --color-primary-active: var(--palette-pine-light-primary-active);
+    --color-on-primary: var(--palette-pine-light-on-primary);
+    --color-accent: var(--palette-pine-light-accent);
+    --color-accent-decoration: var(--palette-pine-light-decoration);
+    --color-palette-surface: var(--palette-pine-light-hover);
+    --color-palette-surface-strong: var(--palette-pine-light-selected);
+    --color-pressed-surface: var(--palette-pine-light-pressed);
+  }
+
+  html:root[data-palette='forest'][data-theme='dark'] {
+    /* pine dark: complete surface and action roles; shared status aliases remain above. */
+    --color-bg: var(--palette-pine-dark-canvas);
+    --color-surface: var(--palette-pine-dark-surface);
+    --color-subtle-bg: var(--palette-pine-dark-subtle);
+    --color-text: var(--palette-pine-dark-text);
+    --color-text-muted: var(--palette-pine-dark-muted);
+    --color-border-soft: var(--palette-pine-dark-separator);
+    --color-border-neutral: var(--palette-pine-dark-control);
+    --color-brand: var(--palette-pine-dark-primary);
+    --color-primary-hover: var(--palette-pine-dark-primary-hover);
+    --color-primary-active: var(--palette-pine-dark-primary-active);
+    --color-on-primary: var(--palette-pine-dark-on-primary);
+    --color-accent: var(--palette-pine-dark-accent);
+    --color-accent-decoration: var(--palette-pine-dark-decoration);
+    --color-palette-surface: var(--palette-pine-dark-hover);
+    --color-palette-surface-strong: var(--palette-pine-dark-selected);
+    --color-pressed-surface: var(--palette-pine-dark-pressed);
   }
 }

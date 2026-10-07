@@ -221,10 +221,10 @@ html[data-theme='dark'] .c-ai-message.c-markdown-body .c-chat-source-hint-link:h
 }
 
 .c-message-input:disabled {
-  background: var(--color-subtle-bg);
-  color: var(--color-text-muted);
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
   cursor: not-allowed;
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .c-message-input:not(:disabled):hover {
@@ -415,7 +415,7 @@ html[data-theme='dark'] .c-chat-presets-description {
 /* copy button uses .rounded-4 utility */
 
 .c-copy-btn {
-  background: var(--color-border-muted);
+  background: var(--color-subtle-bg);
   border: var(--border-2);
   bottom: var(--space-2);
   color: var(--color-text-deep);
@@ -433,7 +433,7 @@ html[data-theme='dark'] .c-chat-presets-description {
   z-index: 1;
 }
 .c-copy-btn:hover {
-  background: var(--color-palette-surface);
+  background: var(--color-subtle-bg);
   box-shadow: var(--shadow-elevation-1);
   color: var(--color-text);
 }
@@ -538,21 +538,17 @@ body.is-embedded nav {
 body.is-embedded .c-chat-wrapper {
   height: 100dvh;
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-message-input::placeholder {
+html:root .c-message-input::placeholder {
   color: var(--color-placeholder);
   opacity: 1;
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-message-input:disabled,
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-preset-button:disabled {
+html:root .c-chat-preset-button:disabled {
   background: var(--color-disabled-bg);
   color: var(--color-disabled-text);
   opacity: 1;
 }
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-ai-message.c-markdown-body {
+html:root .c-ai-message.c-markdown-body {
   --md-color-bg: var(--color-palette-surface);
   background: var(--color-palette-surface);
   color: var(--color-text);
-}
-html:not([data-palette='aurora']):not([data-palette='forest']) .c-copy-btn {
-  background: var(--color-subtle-bg);
 }
