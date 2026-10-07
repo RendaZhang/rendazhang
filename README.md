@@ -59,7 +59,7 @@
 # 张人大 · 轻量级网站
 
 - **作者**: 张人大
-- **最后更新**: October 06, 2026, 23:50 (UTC+08:00)
+- **最后更新**: October 07, 2026, 13:43 (UTC+08:00)
 
 ---
 
@@ -412,7 +412,9 @@ flowchart TD
 
 #### 配色方案
 
-项目的核心色彩使用 OKLCH 设计令牌并通过 `color-mix` 提供 sRGB 回退，以保证明暗模式下的感知一致性。
+当前提供墨与朱、银与钴蓝、石墨与松绿三套主题，各含浅色与深色。六组 sRGB 参考色通过语义 Token
+映射到页面和交互状态；既有 OKLCH 基础值仍保留，但不覆盖当前主题契约。
+完整颜色、状态与偏好兼容规则见 [个人主题配色契约](https://github.com/RendaZhang/rendazhang/blob/master/docs/PERSONAL_THEME_PALETTES.md)。
 
 详情参考文档内容：📄 [配色方案](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88)
 
@@ -564,7 +566,7 @@ Sentry 用于收集运行时异常与网络错误。配置步骤请见 📄 [错
 
 ### 样式体系说明
 
-> 介绍项目的 CSS 架构、基于 OKLCH 的设计 Token 体系与构建流程，展示 `postcss-import` 如何在编译阶段内联 `theme.css` 引用的核心与工具样式以减少运行时请求，详见：📄 [样式说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E)。
+> 介绍项目的 CSS 架构、语义 Token 体系与构建流程，展示 `postcss-import` 如何在编译阶段内联 `theme.css` 引用的核心与工具样式以减少运行时请求，详见：📄 [样式说明](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E)。
 
 ---
 

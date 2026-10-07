@@ -57,7 +57,7 @@
 # Renda Zhang · Lightweight Website
 
 - **Author**: Renda Zhang
-- **Last Updated**: October 06, 2026, 23:50 (UTC+08:00)
+- **Last Updated**: October 07, 2026, 13:43 (UTC+08:00)
 
 ---
 
@@ -411,7 +411,11 @@ flowchart TD
 
 #### Color Scheme
 
-The core colors of the project are designed using OKLCH design tokens and provide sRGB fallback through `color-mix` to ensure perceptual consistency across light and dark modes.
+The site offers Ink And Vermilion, Silver And Cobalt, and Graphite And Pine, each in light and dark
+modes. Six sRGB reference sets map to page and interaction roles through semantic tokens. Existing
+OKLCH base values remain available but do not override the current palette contract.
+See [Personal Theme Palettes](https://github.com/RendaZhang/rendazhang/blob/master/docs/PERSONAL_THEME_PALETTES.md)
+for colors, states, and preference compatibility.
 
 For detailed information, refer to the documentation: 📄 [Color Scheme](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88).
 
@@ -554,7 +558,7 @@ For a detailed explanation of the pre-commit hooks, refer to the [Comprehensive 
 
 ### Style System Description
 
-> Introduce the project's CSS architecture, the OKLCH-based design token system, and the build process. Demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
+> Introduce the project's CSS architecture, semantic token system, and build process. Demonstrate how `postcss-import` inlines the core and utility styles referenced by `theme.css` during the compilation phase to reduce runtime requests. For details, see: 📄 [Style Guide](https://github.com/RendaZhang/rendazhang/blob/master/docs/STYLE_GUIDE.md#%E6%A0%B7%E5%BC%8F%E8%AF%B4%E6%98%8E).
 
 ---
 

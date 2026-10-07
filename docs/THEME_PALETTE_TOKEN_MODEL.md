@@ -25,7 +25,7 @@
 # 主题调色板 Token 模型
 
 - **作者**: 张人大
-- **最后更新**: October 07, 2026, 12:51 (UTC+08:00)
+- **最后更新**: October 07, 2026, 13:43 (UTC+08:00)
 
 ## 文档目的
 
@@ -66,7 +66,7 @@ Phase 19 的三套个人主题、六组明暗语义色、实页预览及存储�
 | --- | --- | --- |
 | `theme mode` | 已存在，值为 `light` 或 `dark`。无存储值时预绘制脚本可跟随系统偏好解析为有效 light/dark。 | 继续由 `data-theme` 表达，不塞入 palette 名称。 |
 | `palette` | 已实现 `default`（墨与朱）、`aurora`（银与钴蓝）和 `forest`（石墨与松绿）；存储 ID 不变。 | 表达一组品牌色、强调色、语义映射和渐变约束；独立于 light/dark。 |
-| `accent` | 尚未实现。当前 `--color-accent` 是基础色 token，不是用户可选 accent 状态。 | 只在后续确实需要局部强调色选择时加入；不提前扩大 DOM/storage/UI 面。 |
+| `accent` | 用户可选 accent 状态尚未实现。当前 `--color-accent` 是主题语义色，不是独立偏好。 | 只在后续确实需要局部强调色选择时加入；不提前扩大 DOM/storage/UI 面。 |
 
 基本原则：
 
@@ -215,8 +215,9 @@ Chat Widget 或导航样式中重复写 `linear-gradient(...)`。
 
 ## 颜色格式与 fallback
 
-当前颜色 token 使用 OKLCH 为主，并通过 `color-mix(in srgb, ...)` 和
-`@supports (color: oklch(...))` 维护现代浏览器表现。后续 palette 需要遵循同一原则：
+当前六组主题使用个人主题契约的 sRGB 参考色和语义映射；透明组合仍使用
+`color-mix(in srgb, ...)`。旧 OKLCH 基础值及 `@supports` 保留，不覆盖当前参考色。
+后续 palette 继续遵循以下原则：
 
 - 每个新增颜色 token 必须有用途注释。
 - 同一 palette 的色相、明度和彩度应成组设计，不只替换一个品牌色。
@@ -248,12 +249,12 @@ npm run smoke:browser
 
 ## MVP 影响范围
 
-第一个用户可见 palette MVP 应优先控制影响面。当前最小关注范围：
+以下表格保留首次 palette MVP 的影响面，供后续回归定位；三套主题现已实现，不是待执行的新 MVP：
 
 | 区域 | 文件或组件 | 风险 |
 | --- | --- | --- |
 | 导航与主题控制 | `ThemeToggle.tsx`、`navigation.css` | 控制 UI、按钮状态、移动端宽度、focus ring。 |
-| 全局按钮 | `button.css` | `--gradient-primary`、hover、disabled、白字对比度。 |
+| 全局按钮 | `button.css` | `--gradient-primary`、hover、disabled、on-primary 对比度；不能统一假定白字。 |
 | 表单 | `form.css` 和认证表单组件 | focus ring、错误/成功状态、输入背景。 |
 | Chat Widget | `ChatWidget.tsx`、`chat_widget.css` | 同源 iframe ready、浮动按钮渐变、skeleton 可读性。 |
 | Chat 页面 | `deepseek_chat.css`、Markdown 样式 | 消息气泡、输入框、代码块、Mermaid/Highlight 增强。 |

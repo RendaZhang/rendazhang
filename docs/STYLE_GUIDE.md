@@ -29,7 +29,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 07, 2026, 12:51 (UTC+08:00)
+- **最后更新**: October 07, 2026, 13:43 (UTC+08:00)
 
 ---
 
@@ -127,7 +127,10 @@ src/styles/components/
 
 ## 配色方案
 
-本项目的核心色彩以 OKLCH 设计令牌形式维护，并通过 `color-mix(in srgb, …)` 生成向下兼容的 sRGB 回退；在支持 OKLCH 的浏览器中，通过 `@supports (color: oklch(0% 0 0))` 覆盖为原生 OKLCH 值，以确保不同渲染环境下感知一致。基础色值位于 `src/styles/core/tokens.css`；面向当前主题的语义别名和 `html[data-theme='dark']` 覆盖位于 `src/styles/core/theme-tokens.css`。
+当前三套主题以 [个人主题配色契约](./PERSONAL_THEME_PALETTES.md) 的六组 sRGB 参考色为准，
+通过语义 Token 与 `color-mix(in srgb, …)` 组合呈现页面和状态。既有 OKLCH 基础值及
+`@supports` 回退仍保留，但不替代这些已验证的主题值。基础色值位于
+`src/styles/core/tokens.css`；主题语义及 mode/palette 覆盖位于 `src/styles/core/theme-tokens.css`。
 
 **统一管理**：
 - 浏览器控件适配主题（`color-scheme`）
@@ -135,7 +138,7 @@ src/styles/components/
 - Markdown 深色模式拥有独立的基础颜色 Token，可在 `src/styles/core/tokens.css` 中维护；旧版 `--md-*` 语义别名由 `src/styles/core/theme-tokens.css` 统一映射。
 - 叠加层和阴影相关的颜色通过 `--color-base-black` 与 `--color-base-white` Token 设置，便于调整透明度并适配主题切换。
 - 颜色、主题语义和渐变 Token 分别集中在 `src/styles/core/tokens.css`、`theme-tokens.css` 与 `_gradients.css`，并在同目录的 `tokens.md`、`theme-tokens.md`、`_gradients.md` 文件说明用途；所有 Token 必须附带用途注释，禁止在组件中硬编码颜色。
-- 当前 palette MVP 支持 `default`、`aurora` 和 `forest`，通过 `html[data-palette]`、
+- 当前三套主题保留 `default`、`aurora` 和 `forest` ID，通过 `html[data-palette]`、
   `preferred_palette` 和 `src/styles/core/theme-tokens.css` 的语义映射实现。后续
   palette/accent token 必须继续遵循 [主题调色板 Token 模型](./THEME_PALETTE_TOKEN_MODEL.md)
   中的命名、fallback、对比度和 DOM 表达。
@@ -161,7 +164,11 @@ graph TD
 - `_gradients.css`：基于基础色和主题覆盖的渐变 Token。
 - 组件局部 Token：保留在对应组件样式文件中。
 
-**色彩情感评估**：
+**历史紫蓝方案（Phase 19 前）**：以下情感描述、示例色值、对比度表和主次关系图仅记录旧设计，
+不再指导当前配色；尤其不能把“主色配白字”套用到深色模式的浅色填充上。
+当前实色动作、on-primary 和实测对比度以个人主题契约为准。
+
+**旧方案色彩情感评估**：
 - 深紫色：传达专业、创新
 - 活力蓝：象征科技、信任
 - 组合效果：专业中不失活力，适合技术型产品
@@ -213,14 +220,13 @@ graph LR
 
 ### 色彩阶梯与彩度限制
 
-- 核心色彩使用 OKLCH 定义，并通过 `color-mix(in srgb, …)` 生成 sRGB 回退，示例：`--color-brand: oklch(45.89% 0.2417 295.61)`。
-- 对比度以明度 `L` 为基准，暗背景建议 ≥40%，亮背景建议 ≤90%，确保暗/亮模式下视觉一致。
-- 彩度 `C` 控制在 `0.25` 以下，以避免高饱和度导致的设备差异。
-- 标准色阶示例：品牌色 45%、强调色 60%、辅助色 70%，可在此基础上按需扩展。
+- 旧 OKLCH 阶梯是历史设计参考，不是当前六组主题的替代色表。
+- 对比度按实际 sRGB 前景、背景及透明合成色计算，不能仅凭 OKLCH 的 `L` 或彩度判定。
+- 如将来新增 OKLCH 表达，必须保留已批准的 sRGB 结果并重新验证；本次主题交付不要求转换。
 
 ### Phase 9 外观与交互 Polish 约束
 
-Phase 9 可以让站点更鲜明、更有记忆点，但仍应保持 token 驱动、可访问和专业可信：
+以下是 Phase 9 留下的通用约束；当前六组配色由 Phase 19 契约取代旧视觉方案：
 
 - Palette 的视觉影响应优先通过 `html[data-palette]` 和语义 token 扩展，禁止在组件里散落硬编码
   品牌色。
@@ -230,7 +236,7 @@ Phase 9 可以让站点更鲜明、更有记忆点，但仍应保持 token 驱�
   `--palette-*` 原始值。
 - 更明显的 palette 差异可以落在导航选中态、主行动入口、section marker、focus ring、Chat
   Widget 外壳、docs 链接和卡片边界等关键位置。
-- 新增色彩必须继续满足正文文本 ≥ 4.5:1、UI 文本与图标 ≥ 3:1 的对比度要求。
+- 新增色彩必须满足正文和普通 UI 文本 ≥ 4.5:1；符合大号文字定义的文本及必要非文字图标/边界 ≥ 3:1。
 - 动效必须使用现有 `--duration-*` 与 `--easing-*` token，并遵守
   `prefers-reduced-motion`；避免长时间、无明确状态含义的装饰动画。
 - 首屏 polish 应优先改善层级、信息密度和下一段内容提示，不应通过大面积无关装饰或单一色相堆叠
@@ -349,7 +355,7 @@ PR 需使用 `.github/pull_request_template.md` 填写概要与测试，确保�
 
 ## 扩展与约定
 
-当前样式体系已经覆盖基础变量、工具类与组件样式。后续可以根据需要加入设计令牌、响应式策略或多主题支持等内容，不断完善本指南。
+当前样式体系已经覆盖基础变量、工具类、组件样式与三套明暗主题。后续扩展需继续遵循现有语义和兼容边界。
 
 - 新增样式文件应按上述目录分类放置，并使用 `@layer` 与 `@import ... layer(name)` 将其引入，遵循 `reset → tokens → base → components → utilities` 的层级顺序。
 - 所有 `@import` 语句需置于文件顶部（除 `@layer` 声明外），以避免 PostCSS 报 `@import must precede all other statements` 警告。

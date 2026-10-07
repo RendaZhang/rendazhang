@@ -211,6 +211,10 @@ on-primary. Decorative copper/yellow are separate from accessible accent text.
 
 ## Preview Method And Findings
 
+This section records the historical Slice 19.3 temporary-style preview, not the shipped-CSS
+acceptance or a request to repeat the preview. Slices 19.4/19.5 below supersede its implementation
+watchpoints; current regression requirements are in [Testing](./TESTING.md#theme-palette-regression).
+
 On 2026-10-07, used the current source with Node 24.17.0/npm 11.13.0 and the existing development
 server on loopback. In-app Browser control worked, but final inspection found a screenshot
 crop/scale mismatch with the emulated viewport; its raw capture also failed. The authorized
@@ -276,13 +280,20 @@ production hydration or full accessibility.
 
 ## Implementation Packets
 
+These completed delivery records preserve the order and scope of implementation. They are not
+new execution instructions. All three families are now shipped; theme completion does not resolve
+the four time-bounded dependency risks in the [risk register](./DEPENDENCY_SECURITY_RISK_REGISTER.md).
+
 ### 19.4 Default Family And Shared Roles
+
+**Historical scope, superseded by 19.5 for the alternative families.**
 
 Implemented without changing layout, image crop, type scale, radii, public copy beyond the default
 swatch name, or interaction state ownership. `--palette-ink-light-*` / `--palette-ink-dark-*` hold
 the reference colors; missing/invalid/default palette selectors map semantic aliases without
-changing absolute white/black or the raw gray scale. On-primary remains white for legacy
-alternatives and becomes dark ink on Ink's dark-mode pastel fill. Ink actions use explicit hover
+changing absolute white/black or the raw gray scale. At this checkpoint, on-primary remained white
+for the old alternatives and became dark ink on Ink's dark-mode pastel fill. Slice 19.5 replaced
+those alternative sets; all three dark-mode pastel fills now use dark on-primary. Ink actions use explicit hover
 and pressed fills, disabled controls retain opacity 1, and the hero drops inherited text shadows.
 Mermaid's SVG paper remains opaque white with unchanged renderer/security settings.
 
@@ -307,11 +318,11 @@ deepseek_chat.css,docs.css,github-markdown-light.css,markdown-dark-mode.css}` pl
 such as certifications/profile/error pages before declaring a global token replacement complete.
 Only actual color-consumer corrections belong in the diff; these paths are not a refactor checklist.
 
-Add on-primary, explicit hover/pressed, focus and disabled roles where required; neutralize
-oversized palette decoration without changing layout. Update only Default's names in
-`src/content/navContent.ts`. Keep Aurora/Forest working with their **existing** semantic
-values; do not apply Ink dark on-color rules to their old dark fills. No store/provider/initializer
-redesign is needed. If a behavior defect requires one, return it for separate scope review.
+The 19.4 boundary added on-primary, explicit hover/pressed, focus and disabled roles and reduced
+palette decoration without changing layout. It updated only Default's names in
+`src/content/navContent.ts`, retaining old Aurora/Forest names and values until 19.5. That temporary
+restriction no longer describes the shipped alternatives. No store/provider/initializer redesign
+was needed; any future behavior change still requires separate scope review.
 
 Use existing `scripts/contrast-check.mjs`, `src/__tests__/ThemeToggle.test.tsx`,
 `uiPreferencesStore.test.ts`, `storage.test.ts` and `tests/smoke/browser-hydration.spec.ts` for focused
