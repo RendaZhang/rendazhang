@@ -31,7 +31,7 @@ export const NAV_CONTENT = {
       dark: 'Switch to Dark Mode',
       paletteGroup: 'Theme color palette',
       palettes: {
-        default: 'Switch to Default Palette',
+        default: 'Ink And Vermilion',
         aurora: 'Switch to Aurora Palette',
         forest: 'Switch to Forest Palette'
       }
@@ -61,7 +61,7 @@ export const NAV_CONTENT = {
       dark: '切换到深色模式',
       paletteGroup: '主题调色板',
       palettes: {
-        default: '切换到默认调色板',
+        default: '墨与朱',
         aurora: '切换到极光调色板',
         forest: '切换到森林调色板'
       }

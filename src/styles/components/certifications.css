@@ -351,3 +351,6 @@
     width: 100%;
   }
 }
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-cert-page {
+  background: var(--color-bg);
+}

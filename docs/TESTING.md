@@ -16,13 +16,15 @@
     - [`src/__tests__/useFormValidation.test.tsx`](#src__tests__useformvalidationtesttsx)
   - [编写测试](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95)
     - [示例](#%E7%A4%BA%E4%BE%8B)
+  - [Ink Palette Regression](#ink-palette-regression)
+    - [Docs Diagram Geometry](#docs-diagram-geometry)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 测试指南
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: October 06, 2026, 23:25 (UTC+08:00)
+- **最后更新**: October 07, 2026, 12:10 (UTC+08:00)
 
 ---
 
@@ -316,3 +318,38 @@ describe('sum', () => {
 ```
 
 编写好测试后，执行 `npm test` 即可验证结果。
+## Ink Palette Regression
+
+`themePaletteTokens.test.ts` invokes the existing contrast checker against parsed CSS, not a
+duplicated documentation color table. The checker covers 146 Ink light/dark and legacy on-primary
+pairs, including status backgrounds, placeholders, focus/control edges, code/comments, disabled
+text, 72% composites and the hero scrim. `ThemeToggle` tests keep bilingual default naming and
+the unchanged stored IDs separate from the alternative names.
+
+Browser smoke reads real computed colors through the rendered homepage, Docs highlighter,
+intercepted local Chat answer and isolated form-state fixture. It checks solid keyboard focus,
+the white Mermaid paper, first-open/reopen Widget preferences, raw/JSON/invalid pre-paint storage,
+unavailable-storage fallback, and legacy palette gradients. No real Chat or account write is used.
+Existing sanitizer, malformed-diagram, navigation and iframe assertions remain in place.
+
+Use an isolated production preview for visual acceptance at 1366x900 and 390x844 in both languages.
+Development-only SocialIcons metadata warnings do not establish a production hydration defect:
+check a fresh `SKIP_SENTRY=true` build before changing dimension ownership. Keep third-party Credly
+frame diagnostics separate from first-party console errors. If Astro preview is already running
+on a dedicated loopback port, set `SMOKE_PORT` to that port; the smoke workflow can reuse it.
+
+### Docs Diagram Geometry
+
+Count SVGs and inspect their geometry, not just console output. A very short global transition
+can still change Mermaid's intermediate measurements when reduced motion is enabled. Docs uses
+an inert, aria-hidden, fixed-position staging area with transitions disabled for measurement;
+the existing Mermaid API and security settings are unchanged. The staging area stays measurable
+when a live language switch hides the original locale. Successful nodes are moved back once;
+failures retain source code, and the temporary area is removed after success, rejection or
+completion after unmount. No hidden locale is rendered proactively.
+
+The browser tests cover both motion preferences at 1366x900 and 390x844, light/dark modes, and
+zh/en/zh switching with bounded viewBox dimensions and non-collapsed labels. A local delayed
+diagram-module response exercises a real language switch during rendering. Unit tests also cover
+cleanup, rejection, one-time Markdown/highlighting, deduplication and remounts. Keep the real
+sanitizer and malformed-diagram tests; mocked Mermaid alone cannot validate layout or safety.

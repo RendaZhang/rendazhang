@@ -6,6 +6,70 @@ const DOCS_PAGE_PATH = '/docs/';
 const THEME_STORAGE_KEY = 'preferred_theme';
 const THEME_PALETTE_STORAGE_KEY = 'preferred_palette';
 
+async function expectTextContrast(
+  page: Page,
+  selector: string,
+  backgroundToken?: string,
+  pseudo?: string
+) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.effect?.getTiming().iterations !== Infinity)
+        .map((animation) => animation.finished.catch(() => {}))
+    )
+  );
+  const ratios = await page.locator(selector).evaluateAll(
+    (elements, options) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext('2d')!;
+      function rgba(value: string) {
+        ctx.clearRect(0, 0, 1, 1);
+        ctx.fillStyle = value;
+        ctx.fillRect(0, 0, 1, 1);
+        return Array.from(ctx.getImageData(0, 0, 1, 1).data);
+      }
+      function light(color: number[]) {
+        return color.slice(0, 3).reduce((sum, c, i) => {
+          const v = c / 255;
+          return (
+            sum +
+            [0.2126, 0.7152, 0.0722][i] * (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+          );
+        }, 0);
+      }
+      return elements
+        .filter((e) => e.getBoundingClientRect().width > 0)
+        .map((element) => {
+          const style = getComputedStyle(element, options.pseudo);
+          let bg = [255, 255, 255, 255];
+          if (options.backgroundToken) {
+            bg = rgba(style.getPropertyValue(options.backgroundToken));
+          } else {
+            const ancestors: Element[] = [];
+            for (let node: Element | null = element; node; node = node.parentElement)
+              ancestors.unshift(node);
+            for (const node of ancestors) {
+              const color = rgba(getComputedStyle(node).backgroundColor);
+              const alpha = color[3] / 255;
+              bg = bg.map((c, i) => (i === 3 ? 255 : color[i] * alpha + c * (1 - alpha)));
+            }
+          }
+          const foreground = light(rgba(style.color));
+          const background = light(bg);
+          return (
+            (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05)
+          );
+        });
+    },
+    { backgroundToken, pseudo }
+  );
+  expect(ratios.length, selector).toBeGreaterThan(0);
+  for (const ratio of ratios) expect(ratio, selector).toBeGreaterThanOrEqual(4.5);
+}
+
 const blockingWarningPatterns = [
   /hydration/i,
   /mismatch/i,
@@ -467,6 +531,90 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
   await audit.assertClean();
 });
 
+async function expectReadableDocsDiagrams(page: Page, language: 'zh' | 'en') {
+  const diagrams = page.locator(
+    `#content-${language} .language-mermaid[data-processed="true"] svg`
+  );
+  await expect(diagrams).toHaveCount(2, { timeout: 30_000 });
+  await expect(page.locator('.c-docs-mermaid-render')).toHaveCount(0);
+  const geometry = await diagrams.evaluateAll((elements) =>
+    elements.map((svg) => ({
+      viewBox: svg.getAttribute('viewBox')!.split(/\s+/).map(Number),
+      labels: Array.from(svg.querySelectorAll('.nodeLabel')).map(
+        (label) => label.getBoundingClientRect().height
+      )
+    }))
+  );
+  for (const diagram of geometry) {
+    expect(diagram.viewBox.every(Number.isFinite)).toBe(true);
+    expect(diagram.viewBox[2]).toBeGreaterThan(100);
+    expect(diagram.viewBox[2]).toBeLessThan(2000);
+    expect(diagram.viewBox[3]).toBeGreaterThan(100);
+    expect(diagram.viewBox[3]).toBeLessThan(2000);
+    expect(diagram.labels.length).toBeGreaterThan(0);
+    // Mobile scales these existing diagrams; catch the former 1px geometry collapse.
+    for (const height of diagram.labels) expect(height).toBeGreaterThan(4);
+  }
+}
+
+for (const width of [1366, 390]) {
+  for (const reducedMotion of ['reduce', 'no-preference'] as const) {
+    test(`Docs geometry stays readable at ${width}px with motion ${reducedMotion}`, async ({
+      page
+    }) => {
+      const audit = attachConsoleAudit(page, 'Docs measured geometry');
+      await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
+      await page.emulateMedia({ reducedMotion });
+      for (const mode of ['light', 'dark']) {
+        await page.goto('/docs/');
+        await expectIslandHydrated(page, 'NavBarWrapper');
+        await page.locator('.c-theme-toggle-main').click();
+        await page.locator(`.c-theme-option.is-${mode}`).click();
+        const initial = (await page.locator('html').getAttribute('lang')) === 'en' ? 'en' : 'zh';
+        await expectReadableDocsDiagrams(page, initial);
+        for (const language of ['zh', 'en', 'zh'] as const) {
+          await page.locator('.c-language-selector-main').click();
+          await page
+            .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
+            .click();
+          await expectReadableDocsDiagrams(page, language);
+        }
+      }
+      await audit.assertClean();
+    });
+  }
+}
+
+test('Docs language switch during real Mermaid loading preserves measurable rendering', async ({
+  page
+}) => {
+  const audit = attachConsoleAudit(page, 'Docs early language switch');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  let release!: () => void;
+  const hold = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/_astro/flowDiagram-*.js', async (route) => {
+    await hold;
+    await route.continue();
+  });
+  try {
+    await page.goto('/docs/', { waitUntil: 'domcontentloaded' });
+    await expectIslandHydrated(page, 'NavBarWrapper');
+    await expect(page.locator('.c-docs-mermaid-render')).toHaveCount(1);
+    await page.locator('.c-language-selector-main').click();
+    await page.getByRole('button', { name: 'English', exact: true }).click();
+    release();
+    await expectReadableDocsDiagrams(page, 'en');
+    await page.locator('.c-language-selector-main').click();
+    await page.getByRole('button', { name: '中文', exact: true }).click();
+    await expectReadableDocsDiagrams(page, 'zh');
+    await audit.assertClean();
+  } finally {
+    release();
+  }
+});
+
 test('/deepseek_chat/ loads without hydration mismatch signals', async ({ page }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'deepseek_chat');
@@ -697,4 +845,178 @@ test('theme controls keep DOM state, selected state, and storage coherent', asyn
 
   expect(authProbeCount(), 'logged-out theme control path should not probe auth/me').toBe(0);
   await audit.assertClean();
+});
+for (const mode of ['light', 'dark']) {
+  test(`Ink ${mode} uses readable rendered roles and stored Widget preferences`, async ({
+    page,
+    baseURL
+  }) => {
+    test.setTimeout(90_000);
+    expect(new URL(baseURL ?? '').hostname).toBe('127.0.0.1');
+    const audit = attachConsoleAudit(page, `Ink ${mode}`);
+    await page.addInitScript((mode) => {
+      if (!localStorage.getItem('preferred_theme')) {
+        localStorage.setItem('preferred_theme', JSON.stringify(mode));
+        localStorage.setItem('preferred_palette', JSON.stringify('default'));
+      }
+    }, mode);
+    await page.goto('/');
+    await expectIslandHydrated(page, 'NavBarWrapper');
+    await expect(page.locator('body')).toHaveCSS(
+      'background-color',
+      mode === 'light' ? 'rgb(248, 248, 246)' : 'rgb(24, 27, 26)'
+    );
+    await expectTextContrast(page, '.c-section-summary');
+    await expectTextContrast(page, '.c-hero-action-primary', '--color-brand');
+    await page.locator('.c-theme-toggle-main').click();
+    const option = page.getByRole('button', { name: /^(Ink And Vermilion|墨与朱)$/ });
+    await expect(option).toHaveAttribute('aria-pressed', 'true');
+    await page.keyboard.press('Tab');
+    await option.focus();
+    await expect(option).toBeFocused();
+    await expect
+      .poll(() => option.evaluate((el) => getComputedStyle(el).boxShadow))
+      .toContain('5px');
+    await option.press('Escape');
+    await expect(page.locator('.c-theme-toggle-main')).toBeFocused();
+    for (let opening = 0; opening < 2; opening++) {
+      await page.locator('.c-chat-widget-toggle').click();
+      await expect(page.locator('.c-chat-widget-iframe')).toHaveClass(/is-loaded/);
+      const frame = page.frameLocator('.c-chat-widget-iframe');
+      await expect(frame.locator('html')).toHaveAttribute('data-theme', mode);
+      await expect(frame.locator('html')).toHaveAttribute('data-palette', 'default');
+      await page.locator('.c-chat-widget-toggle').click();
+    }
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', mode);
+    await page.goto('/docs/');
+    await expect(page.locator('#content-zh .language-mermaid svg')).toHaveCount(2);
+    await expectTextContrast(page, '#content-zh .hljs-comment');
+    await expectTextContrast(page, '#content-zh .hljs span[class]');
+    await expect(page.locator('#content-zh .language-mermaid svg').first()).toHaveCSS(
+      'background-color',
+      'oklch(1 0 0)'
+    );
+    await page.goto('/deepseek_chat/');
+    await expect(page.locator('.c-chat-preset-button')).toHaveCount(5);
+    await expect(page.locator('.c-send-btn')).toBeEnabled();
+    await expectTextContrast(page, '.c-chat-presets-description');
+    await expectTextContrast(page, '.c-message-input', undefined, '::placeholder');
+    await expectTextContrast(page, '.c-send-btn', '--color-brand');
+    await page.locator('.c-send-btn').hover();
+    await expect(page.locator('.c-send-btn')).toHaveCSS('filter', 'none');
+    await expectTextContrast(page, '.c-send-btn');
+    await page.mouse.move(0, 0);
+    await page.locator('.c-chat-preset-button').first().hover();
+    await expectTextContrast(page, '.c-chat-preset-button');
+    await page.route('**/cloudchat/deepseek_chat', (route) =>
+      route.fulfill({
+        contentType: 'application/x-ndjson',
+        body:
+          JSON.stringify({
+            text: 'Local color check.\n\n[Public docs](/docs/)\n\n```js\n// Readable comment\nconst value = 1;\n```'
+          }) + '\n'
+      })
+    );
+    await page.locator('.c-message-input').fill('Local color check');
+    await page.locator('.c-send-btn').click();
+    await expect(page.locator('.c-ai-message .hljs-comment')).toBeVisible();
+    await expectTextContrast(page, '.c-user-message', '--color-brand');
+    await expectTextContrast(page, '.c-ai-message');
+    await expectTextContrast(page, '.c-ai-message .hljs-comment');
+    await expectTextContrast(page, '.c-ai-message .hljs-keyword');
+    await expectTextContrast(page, '.c-ai-message a');
+    await page.goto('/login/');
+    await expectTextContrast(page, '.c-form-control', undefined, '::placeholder');
+    // Isolated CSS state fixture uses the real form classes without an auth request.
+    await page
+      .locator('.c-form-control')
+      .first()
+      .evaluate((el) => {
+        el.setAttribute('aria-invalid', 'true');
+        const feedback = document.createElement('p');
+        feedback.className = 'c-invalid-feedback';
+        feedback.textContent = 'Local validation state';
+        el.after(feedback);
+      });
+    await expectTextContrast(page, '.c-invalid-feedback');
+    await page
+      .locator('.c-form-control')
+      .first()
+      .evaluate((el) => el.setAttribute('disabled', ''));
+    await expect(page.locator('.c-form-control').first()).toHaveCSS('opacity', '1');
+    await expectTextContrast(page, '.c-form-control');
+    await audit.assertClean();
+  });
+}
+
+test('pre-paint preferences retain raw, JSON, invalid and unavailable-storage behavior', async ({
+  browser,
+  baseURL
+}) => {
+  test.setTimeout(90_000);
+  for (const setting of [
+    { mode: 'dark', palette: 'forest', expected: 'forest' },
+    { mode: '"light"', palette: '"aurora"', expected: 'aurora' },
+    { mode: '"dark"', palette: 'invalid', expected: 'default' },
+    { mode: '', palette: '', expected: 'default' }
+  ]) {
+    const context = await browser.newContext({ javaScriptEnabled: true });
+    await context.addInitScript((setting) => {
+      if (setting.mode) localStorage.setItem('preferred_theme', setting.mode);
+      if (setting.palette) localStorage.setItem('preferred_palette', setting.palette);
+    }, setting);
+    const page = await context.newPage();
+    // Block hydration only: the existing external pre-paint initializer still runs.
+    await page.route('**/_astro/*.js', (route) => route.abort());
+    await page.goto(baseURL + '/');
+    await expect(page.locator('html')).toHaveAttribute('data-palette', setting.expected);
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-theme',
+      setting.mode.includes('dark') ? 'dark' : 'light'
+    );
+    await context.close();
+  }
+  const context = await browser.newContext();
+  await context.addInitScript(() => {
+    Object.defineProperty(window, 'localStorage', {
+      get() {
+        throw new Error('Storage unavailable fixture');
+      }
+    });
+  });
+  const page = await context.newPage();
+  await page.goto(baseURL + '/');
+  await expectIslandHydrated(page, 'NavBarWrapper');
+  await page.locator('.c-theme-toggle-main').click();
+  await page.locator('.is-dark').click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('html')).toHaveAttribute('data-palette', 'default');
+  await context.close();
+});
+test('legacy Aurora and Forest retain their names, gradients and on-primary in both modes', async ({
+  page
+}) => {
+  await page.goto('/deepseek_chat/');
+  await expectIslandHydrated(page, 'NavBarWrapper');
+  for (const palette of ['aurora', 'forest']) {
+    for (const mode of ['light', 'dark']) {
+      await page.locator('.c-theme-toggle-main').click();
+      await page.locator(`.c-theme-option.is-${mode}`).click();
+      await page.locator('.c-theme-toggle-main').click();
+      await page.locator(`.is-palette-${palette}`).click();
+      await expect(page.locator('html')).toHaveAttribute('data-palette', palette);
+      await expect(page.locator('.c-send-btn')).toHaveCSS('color', 'oklch(1 0 0)');
+      const state = await page.locator('.c-send-btn').evaluate((el) => ({
+        brand: getComputedStyle(el).getPropertyValue('--color-brand').trim(),
+        expected: getComputedStyle(el)
+          .getPropertyValue(`--palette-${document.documentElement.dataset.palette}-brand`)
+          .trim(),
+        gradient: getComputedStyle(el).backgroundImage
+      }));
+      expect(state.brand).toBe(state.expected);
+      expect(state.gradient).toContain('linear-gradient');
+      expect(state.gradient).toContain('oklch');
+    }
+  }
 });

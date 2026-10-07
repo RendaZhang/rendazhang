@@ -53,7 +53,7 @@
   align-self: flex-end;
   background: var(--gradient-primary);
   border-bottom-right-radius: var(--radius-xs);
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .c-ai-message {
@@ -537,4 +537,22 @@ body.is-embedded nav {
 
 body.is-embedded .c-chat-wrapper {
   height: 100dvh;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-message-input::placeholder {
+  color: var(--color-placeholder);
+  opacity: 1;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-message-input:disabled,
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-preset-button:disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  opacity: 1;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-ai-message.c-markdown-body {
+  --md-color-bg: var(--color-palette-surface);
+  background: var(--color-palette-surface);
+  color: var(--color-text);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-copy-btn {
+  background: var(--color-subtle-bg);
 }

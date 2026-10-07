@@ -21,3 +21,13 @@ main.c-main-content {
   text-align: left;
   width: 100%;
 }
+/* Plain prose links follow the active palette; explicit component links keep ownership. */
+html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]) {
+  color: var(--color-brand);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]):hover {
+  color: var(--color-primary-hover);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) a:not([class]):focus-visible {
+  box-shadow: var(--focus-ring);
+}

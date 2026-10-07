@@ -270,12 +270,12 @@ main.c-main-content.c-docs-main .c-docs-proof-action:focus-visible {
 main.c-main-content.c-docs-main .c-docs-proof-action--primary {
   background: var(--color-brand);
   border-color: color-mix(in srgb, var(--color-brand) 74%, var(--color-base-black));
-  color: var(--color-base-white);
+  color: var(--color-on-primary);
 }
 
 main.c-main-content.c-docs-main .c-docs-proof-action--primary:hover {
   background: var(--color-brand-secondary);
-  color: var(--color-base-white);
+  color: var(--color-on-primary);
 }
 
 main.c-main-content.c-docs-main .c-markdown-body > ul:first-of-type {
@@ -439,3 +439,17 @@ main.c-main-content.c-docs-main .c-markdown-body [class~='mermaid'] {
 }
 
 /* Loading animation for docs page is styled globally in theme.css */
+/* Mermaid measures static geometry here, independent of locale visibility. */
+.c-docs-mermaid-render {
+  inset: 0 auto auto 0;
+  pointer-events: none;
+  position: fixed;
+  visibility: hidden;
+}
+
+.c-docs-mermaid-render,
+.c-docs-mermaid-render *,
+.c-docs-mermaid-render *::before,
+.c-docs-mermaid-render *::after {
+  transition: none;
+}

@@ -118,3 +118,10 @@ code.hljs {
   background-color: var(--color-hljs-deletion-bg);
   color: var(--color-hljs-deletion);
 }
+/* Ink syntax colors retain distinct roles on the neutral code surface. */
+html:not([data-palette='aurora']):not([data-palette='forest']) {
+  --color-hljs-bg: var(--color-subtle-bg);
+  --color-hljs-title: var(--color-accent);
+  --color-hljs-addition-bg: var(--color-success-bg);
+  --color-hljs-deletion-bg: var(--color-error-bg);
+}

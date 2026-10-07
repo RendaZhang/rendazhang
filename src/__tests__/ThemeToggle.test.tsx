@@ -58,7 +58,7 @@ describe('ThemeToggle', () => {
     render(<ThemeToggle />);
     fireEvent.click(screen.getByRole('button', { name: 'Theme' }));
 
-    const defaultOption = screen.getByRole('button', { name: 'Switch to Default Palette' });
+    const defaultOption = screen.getByRole('button', { name: 'Ink And Vermilion' });
     const forestOption = screen.getByRole('button', { name: 'Switch to Forest Palette' });
 
     expect(defaultOption.getAttribute('aria-pressed')).toBe('false');
@@ -67,7 +67,7 @@ describe('ThemeToggle', () => {
 
     fireEvent.click(defaultOption);
     expect(providerState.setPalette).toHaveBeenCalledWith('default');
-    expect(screen.queryByRole('button', { name: 'Switch to Default Palette' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Ink And Vermilion' })).toBeNull();
   });
 
   it('falls back to provider state until preferences are ready', () => {
@@ -84,6 +84,16 @@ describe('ThemeToggle', () => {
     expect(
       screen.getByRole('button', { name: 'Switch to Aurora Palette' }).getAttribute('aria-pressed')
     ).toBe('true');
+  });
+
+  it('renames only default in Chinese without changing the stored palette ID', () => {
+    providerState.lang = 'zh';
+    render(<ThemeToggle />);
+    fireEvent.click(screen.getByRole('button', { name: '切换主题' }));
+    expect(screen.getByRole('button', { name: '切换到极光调色板' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '切换到森林调色板' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '墨与朱' }));
+    expect(providerState.setPalette).toHaveBeenCalledWith('default');
   });
 
   it('closes on Escape and restores focus to the disclosure trigger', () => {

@@ -1,12 +1,11 @@
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 
 const tokensCss = readFileSync('src/styles/core/tokens.css', 'utf8');
 const themeTokensCss = readFileSync('src/styles/core/theme-tokens.css', 'utf8');
 
 const paletteContrastTokens = [
-  '--palette-default-brand',
-  '--palette-default-secondary',
   '--palette-aurora-brand',
   '--palette-aurora-secondary',
   '--palette-forest-brand',
@@ -93,11 +92,27 @@ function extractOklchToken(token: string): string {
 }
 
 describe('theme palette tokens', () => {
-  it('keeps primary palette colors readable with white text', () => {
+  it('keeps legacy palette colors readable with their white on-primary', () => {
     for (const token of paletteContrastTokens) {
       const color = oklchToRgb(extractOklchToken(token));
       expect(contrastWithWhite(color), token).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it('checks actual Ink CSS roles, composites and both legacy modes', () => {
+    const result = JSON.parse(
+      execFileSync(process.execPath, ['scripts/contrast-check.mjs'], {
+        encoding: 'utf8',
+        timeout: 5000
+      })
+    ) as { checks: number; minimumText: number };
+    expect(result.checks).toBe(146);
+    expect(result.minimumText).toBeGreaterThanOrEqual(4.5);
+    expect(themeTokensCss).toContain('--color-on-primary: var(--palette-ink-dark-on-primary)');
+    expect(themeTokensCss).toContain(
+      "html:not([data-palette='aurora']):not([data-palette='forest'])"
+    );
+    expect(themeTokensCss).not.toMatch(/--color-gray-900:\s*var\(--palette-ink/);
   });
 
   it('maps non-default palette DOM attributes to semantic theme tokens', () => {

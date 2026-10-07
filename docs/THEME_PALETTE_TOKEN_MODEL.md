@@ -25,7 +25,7 @@
 # 主题调色板 Token 模型
 
 - **作者**: 张人大
-- **最后更新**: October 07, 2026, 11:08 (UTC+08:00)
+- **最后更新**: October 07, 2026, 12:10 (UTC+08:00)
 
 ## 文档目的
 
@@ -37,8 +37,8 @@
 本文记录当前已经落地的 palette MVP 边界，不记录私有部署状态。
 
 Phase 19 的三套个人主题、六组明暗语义色、实页预览及存储兼容约定见
-[Personal Theme Palettes](./PERSONAL_THEME_PALETTES.md)。该文档是待 19.4/19.5 实现的颜色契约，
-不是已上线配色；本文的现有 mode/store/provider 所有权继续有效。
+[Personal Theme Palettes](./PERSONAL_THEME_PALETTES.md)。19.4 已实现默认墨与朱的明暗配色；
+Cobalt/Pine 仍待 19.5，现有 Aurora/Forest 保持原样。本文的 mode/store/provider 所有权继续有效。
 
 ## 当前事实
 
@@ -65,7 +65,7 @@ Phase 19 的三套个人主题、六组明暗语义色、实页预览及存储�
 | 概念 | 当前状态 | 后续边界 |
 | --- | --- | --- |
 | `theme mode` | 已存在，值为 `light` 或 `dark`。无存储值时预绘制脚本可跟随系统偏好解析为有效 light/dark。 | 继续由 `data-theme` 表达，不塞入 palette 名称。 |
-| `palette` | 已实现 `default`、`aurora` 和 `forest`。当前品牌紫、蓝、渐变和语义色是 `default` palette 基线。 | 表达一组品牌色、强调色、语义映射和渐变约束；独立于 light/dark。 |
+| `palette` | 已实现 `default`（墨与朱）、`aurora` 和 `forest`。后两者保留旧配色和名称。 | 表达一组品牌色、强调色、语义映射和渐变约束；独立于 light/dark。 |
 | `accent` | 尚未实现。当前 `--color-accent` 是基础色 token，不是用户可选 accent 状态。 | 只在后续确实需要局部强调色选择时加入；不提前扩大 DOM/storage/UI 面。 |
 
 基本原则：

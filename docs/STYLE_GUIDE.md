@@ -29,7 +29,7 @@
 # 样式说明
 
 - **作者**: 张人大 (Renda Zhang)
-- **最后更新**: June 30, 2026, 11:46 (UTC+08:00)
+- **最后更新**: October 07, 2026, 12:10 (UTC+08:00)
 
 ---
 
@@ -329,7 +329,10 @@ class 约定。
 | `:focus-visible` | `box-shadow: var(--focus-ring)` 高亮焦点 |
 | `:disabled`   | `opacity: 0.6; cursor: not-allowed;`，并抑制 hover/active 位移 |
 
-- 对比度要求：正文文本≥4.5:1，UI 文本与图标≥3:1，确保视觉可达性。
+- 对比度要求：正文和普通大小 UI 文字（含按钮、占位文字）≥4.5:1；符合大号文字定义的文字及必要非文字图标/状态边界≥3:1。
+- 默认墨与朱使用语义 on-primary、实色 hover/active、双层 focus 和 opacity 1 的禁用态，
+  不对绝对白/黑或原始灰阶做反转。Aurora/Forest 保留原有取值；完整规则见
+  [个人主题配色契约](./PERSONAL_THEME_PALETTES.md)。上表的提亮/透明禁用态只描述旧组件默认行为。
 - 导航、主题/语言菜单、按钮、表单、聊天、docs 链接和 certification 卡片已统一采用
   `--radius-*`、`--shadow-elevation-*`、`--focus-ring`、palette surface/border 和 motion token，确保交互态一致且可访问。
 - 动画默认使用 `--easing-standard`、`--easing-entrance`、`--easing-exit` 统一缓动曲线，并在 `@media (prefers-reduced-motion: reduce)` 环境下将 `--duration-*` 变量降至 `0.01ms`，禁用多余动画。

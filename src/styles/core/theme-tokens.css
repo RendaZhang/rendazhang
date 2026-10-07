@@ -1,5 +1,25 @@
 @layer tokens {
   :root {
+    /* Legacy palettes retain white on their existing dark brand fills. */
+    --color-on-primary: var(--color-base-white);
+    /* Legacy neutral action foreground, overridden with Ink text. */
+    --color-secondary-text: var(--color-text-muted);
+    /* Semantic state roles for consumers shared with future palettes. */
+    --color-primary-hover: var(--color-brand-secondary);
+    --color-primary-active: var(--color-brand);
+    --color-focus: var(--color-brand);
+    --color-placeholder: var(--color-text-muted);
+    --color-disabled-text: var(--color-text-muted);
+    --color-disabled-bg: var(--color-subtle-bg);
+    /* Legacy status tints; Ink supplies measured foreground/background pairs. */
+    --color-success-bg: color-mix(in srgb, var(--color-success) 15%, var(--color-surface));
+    --color-warning-bg: color-mix(in srgb, var(--color-warning) 15%, var(--color-surface));
+    --color-error-bg: color-mix(in srgb, var(--color-error) 15%, var(--color-surface));
+    --color-info: var(--color-brand-blue);
+    --color-info-bg: color-mix(in srgb, var(--color-info) 15%, var(--color-surface));
+    --color-pressed-surface: var(--color-palette-surface-strong);
+    /* Mermaid keeps its existing light renderer on opaque paper. */
+    --color-diagram-paper: var(--color-base-white);
     /*! ==== Theme semantic aliases ==== */
     /* Page background color for the active theme */
     --color-bg: var(--color-gray-50);
@@ -143,6 +163,218 @@
     --color-hero-scrim: color-mix(in srgb, var(--color-base-black) 60%, var(--color-brand));
     --color-hero-scrim-strong: color-mix(in srgb, var(--color-base-black) 80%, var(--color-brand));
     color-scheme: dark;
+  }
+
+  /* Default also covers missing/invalid palette before preference normalization. */
+  html:not([data-palette='aurora']):not([data-palette='forest']) {
+    /* bg role. */
+    --color-bg: var(--palette-ink-light-canvas);
+    /* surface role. */
+    --color-surface: var(--palette-ink-light-surface);
+    /* subtle-bg role. */
+    --color-subtle-bg: var(--palette-ink-light-subtle);
+    /* text role. */
+    --color-text: var(--palette-ink-light-text);
+    /* text-muted role. */
+    --color-text-muted: var(--palette-ink-light-muted);
+    /* border-soft role. */
+    --color-border-soft: var(--palette-ink-light-separator);
+    /* border-neutral role. */
+    --color-border-neutral: var(--palette-ink-light-control);
+    /* brand role. */
+    --color-brand: var(--palette-ink-light-primary);
+    /* primary-hover role. */
+    --color-primary-hover: var(--palette-ink-light-primary-hover);
+    /* primary-active role. */
+    --color-primary-active: var(--palette-ink-light-primary-active);
+    /* on-primary role. */
+    --color-on-primary: var(--palette-ink-light-on-primary);
+    /* accent role. */
+    --color-accent: var(--palette-ink-light-accent);
+    /* palette-surface role. */
+    --color-palette-surface: var(--palette-ink-light-hover);
+    /* palette-surface-strong role. */
+    --color-palette-surface-strong: var(--palette-ink-light-selected);
+    /* pressed-surface role. */
+    --color-pressed-surface: var(--palette-ink-light-pressed);
+    /* success role. */
+    --color-success: var(--palette-ink-light-success);
+    /* success-bg role. */
+    --color-success-bg: var(--palette-ink-light-success-bg);
+    /* warning role. */
+    --color-warning: var(--palette-ink-light-warning);
+    /* warning-bg role. */
+    --color-warning-bg: var(--palette-ink-light-warning-bg);
+    /* error role. */
+    --color-error: var(--palette-ink-light-error);
+    /* error-bg role. */
+    --color-error-bg: var(--palette-ink-light-error-bg);
+    /* info role. */
+    --color-info: var(--palette-ink-light-info);
+    /* info-bg role. */
+    --color-info-bg: var(--palette-ink-light-info-bg);
+    /* Compatibility alias: color-nav-bg. */
+    --color-nav-bg: var(--color-surface);
+    /* Compatibility alias: color-nav-text. */
+    --color-nav-text: var(--color-text);
+    /* Neutral filled actions use the full text role. */
+    --color-secondary-text: var(--color-text);
+    /* Compatibility alias: overlay-surface. */
+    --overlay-surface: var(--color-surface);
+    /* Compatibility alias: color-subtle-bg-alt. */
+    --color-subtle-bg-alt: var(--color-bg);
+    /* Compatibility alias: color-subtle-bg-hover. */
+    --color-subtle-bg-hover: var(--color-palette-surface);
+    /* Compatibility alias: color-text-deep. */
+    --color-text-deep: var(--color-text);
+    /* Compatibility alias: color-text-darker. */
+    --color-text-darker: var(--color-text);
+    /* Compatibility alias: color-text-heading. */
+    --color-text-heading: var(--color-text);
+    /* Compatibility alias: color-muted. */
+    --color-muted: var(--color-text-muted);
+    /* Compatibility alias: color-gray-medium. */
+    --color-gray-medium: var(--color-text-muted);
+    /* Compatibility alias: color-border-light. */
+    --color-border-light: var(--color-border-neutral);
+    /* Compatibility alias: color-border-muted. */
+    --color-border-muted: var(--color-border-soft);
+    /* Compatibility alias: color-palette-border. */
+    --color-palette-border: var(--color-border-neutral);
+    /* Compatibility alias: color-brand-secondary. */
+    --color-brand-secondary: var(--color-primary-hover);
+    /* Compatibility alias: color-brand-tertiary. */
+    --color-brand-tertiary: var(--color-brand);
+    /* Compatibility alias: color-brand-blue. */
+    --color-brand-blue: var(--color-brand);
+    /* Compatibility alias: color-focus. */
+    --color-focus: var(--color-brand);
+    /* Compatibility alias: color-placeholder. */
+    --color-placeholder: var(--color-text-muted);
+    /* Compatibility alias: color-disabled-text. */
+    --color-disabled-text: var(--color-text-muted);
+    /* Compatibility alias: color-disabled-bg. */
+    --color-disabled-bg: var(--color-subtle-bg);
+    /* Compatibility alias: color-spinner. */
+    --color-spinner: var(--color-brand);
+    /* Compatibility alias: color-spinner-track. */
+    --color-spinner-track: var(--color-subtle-bg);
+    /* Compatibility alias: color-warning-accent. */
+    --color-warning-accent: var(--color-warning);
+    /* Compatibility alias: color-md-bg. */
+    --color-md-bg: var(--color-surface);
+    /* Compatibility alias: color-md-text. */
+    --color-md-text: var(--color-text);
+    /* Compatibility alias: color-md-heading-border. */
+    --color-md-heading-border: var(--color-border-soft);
+    /* Compatibility alias: color-md-h1. */
+    --color-md-h1: var(--color-text);
+    /* Compatibility alias: color-md-h2. */
+    --color-md-h2: var(--color-text);
+    /* Compatibility alias: color-md-h2-border. */
+    --color-md-h2-border: var(--color-border-soft);
+    /* Compatibility alias: color-md-h3. */
+    --color-md-h3: var(--color-text);
+    /* Compatibility alias: color-md-h4. */
+    --color-md-h4: var(--color-text);
+    /* Compatibility alias: color-md-strong. */
+    --color-md-strong: var(--color-text);
+    /* Compatibility alias: color-md-table-bg. */
+    --color-md-table-bg: var(--color-surface);
+    /* Compatibility alias: color-md-th-bg. */
+    --color-md-th-bg: var(--color-subtle-bg);
+    /* Compatibility alias: color-md-th-color. */
+    --color-md-th-color: var(--color-text);
+    /* Compatibility alias: color-md-td-color. */
+    --color-md-td-color: var(--color-text);
+    /* Compatibility alias: color-md-td-bg. */
+    --color-md-td-bg: var(--color-surface);
+    /* Compatibility alias: color-md-table-border. */
+    --color-md-table-border: var(--color-border-soft);
+    /* Compatibility alias: color-md-zebra-bg. */
+    --color-md-zebra-bg: var(--color-subtle-bg);
+    /* Compatibility alias: color-md-pre-bg. */
+    --color-md-pre-bg: var(--color-subtle-bg);
+    /* Compatibility alias: color-md-code-bg. */
+    --color-md-code-bg: var(--color-subtle-bg);
+    /* Compatibility alias: color-md-code-color. */
+    --color-md-code-color: var(--color-text);
+    /* Compatibility alias: color-md-link. */
+    --color-md-link: var(--color-brand);
+    /* Compatibility alias: color-md-link-hover. */
+    --color-md-link-hover: var(--color-primary-hover);
+    /* Compatibility alias: color-md-blockquote. */
+    --color-md-blockquote: var(--color-text);
+    /* Compatibility alias: color-md-blockquote-border. */
+    --color-md-blockquote-border: var(--color-accent);
+    /* Compatibility alias: color-md-blockquote-bg. */
+    --color-md-blockquote-bg: var(--color-palette-surface);
+    /* Compatibility alias: color-md-hr. */
+    --color-md-hr: var(--color-border-soft);
+    /* Solid focus separated from the adjacent control. */
+    --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 5px var(--color-focus);
+    /* Existing elevation consumers keep their geometry. */
+    --shadow-elevation-1: 0 1px 2px var(--palette-ink-shadow-low);
+    --shadow-elevation-2: 0 2px 6px var(--palette-ink-shadow-medium);
+    --shadow-elevation-3: 0 4px 12px var(--palette-ink-shadow-high);
+    --shadow-login: var(--shadow-elevation-3);
+    --shadow-cert-card: var(--shadow-elevation-2);
+    --shadow-cert-card-hover: var(--shadow-elevation-3);
+    /* Primary fills remain flat while retaining the existing gradient API. */
+    --gradient-primary: linear-gradient(var(--color-brand), var(--color-brand));
+    --gradient-dark: var(--gradient-primary);
+    /* Hero text is independent of mode, and always on an image scrim. */
+    --color-hero-scrim: color-mix(in srgb, var(--palette-ink-hero) 62%, transparent);
+    --focus-ring-hero: 0 0 0 2px var(--palette-ink-hero), 0 0 0 5px var(--color-base-white);
+  }
+
+  html:not([data-palette='aurora']):not([data-palette='forest'])[data-theme='dark'] {
+    /* bg role. */
+    --color-bg: var(--palette-ink-dark-canvas);
+    /* surface role. */
+    --color-surface: var(--palette-ink-dark-surface);
+    /* subtle-bg role. */
+    --color-subtle-bg: var(--palette-ink-dark-subtle);
+    /* text role. */
+    --color-text: var(--palette-ink-dark-text);
+    /* text-muted role. */
+    --color-text-muted: var(--palette-ink-dark-muted);
+    /* border-soft role. */
+    --color-border-soft: var(--palette-ink-dark-separator);
+    /* border-neutral role. */
+    --color-border-neutral: var(--palette-ink-dark-control);
+    /* brand role. */
+    --color-brand: var(--palette-ink-dark-primary);
+    /* primary-hover role. */
+    --color-primary-hover: var(--palette-ink-dark-primary-hover);
+    /* primary-active role. */
+    --color-primary-active: var(--palette-ink-dark-primary-active);
+    /* on-primary role. */
+    --color-on-primary: var(--palette-ink-dark-on-primary);
+    /* accent role. */
+    --color-accent: var(--palette-ink-dark-accent);
+    /* palette-surface role. */
+    --color-palette-surface: var(--palette-ink-dark-hover);
+    /* palette-surface-strong role. */
+    --color-palette-surface-strong: var(--palette-ink-dark-selected);
+    /* pressed-surface role. */
+    --color-pressed-surface: var(--palette-ink-dark-pressed);
+    /* success role. */
+    --color-success: var(--palette-ink-dark-success);
+    /* success-bg role. */
+    --color-success-bg: var(--palette-ink-dark-success-bg);
+    /* warning role. */
+    --color-warning: var(--palette-ink-dark-warning);
+    /* warning-bg role. */
+    --color-warning-bg: var(--palette-ink-dark-warning-bg);
+    /* error role. */
+    --color-error: var(--palette-ink-dark-error);
+    /* error-bg role. */
+    --color-error-bg: var(--palette-ink-dark-error-bg);
+    /* info role. */
+    --color-info: var(--palette-ink-dark-info);
+    /* info-bg role. */
+    --color-info-bg: var(--palette-ink-dark-info-bg);
   }
 
   html[data-palette='aurora'] {

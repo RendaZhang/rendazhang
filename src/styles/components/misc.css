@@ -40,7 +40,7 @@
   border-radius: 50%;
   bottom: calc(var(--space-10) + var(--space-2));
   box-shadow: var(--shadow-elevation-2);
-  color: var(--color-white);
+  color: var(--color-on-primary);
   cursor: pointer;
   height: calc(var(--space-8) - var(--space-2));
   position: fixed;
@@ -76,4 +76,11 @@
   .c-back-to-top {
     transition: none;
   }
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-back-to-top:hover {
+  background: var(--color-primary-hover);
+  filter: none;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-back-to-top:active {
+  background: var(--color-primary-active);
 }

@@ -11,6 +11,13 @@
 
 ## 约定
 
+- `default`（含缺失/非法 palette 的 CSS 回退）使用 Ink 明暗映射；Aurora/Forest 不匹配该选择器。
+- `--color-on-primary`、`--color-primary-hover/active`、`--color-secondary-text`、
+  `--color-focus`、`--color-placeholder`、`--color-disabled-*` 和状态背景都有旧主题兼容值。
+- Ink dark 的主按钮前景是深墨色；不要用绝对白字替代 on-primary。双层 focus 使用实色分隔。
+- Markdown 三组别名仍属于既有边界，页面级 `--md-color-*` 与高亮角色在对应样式文件解析。
+  Mermaid 白色纸面仅作用于 SVG，渲染/安全配置不变。
+
 - 新增全站语义主题变量时，优先放在 `theme-tokens.css`，并同时提供浅色默认值和必要的 `html[data-theme='dark']` 覆盖。
 - 不在 `theme.css` 中直接维护变量映射；`theme.css` 只负责入口、导入顺序、reset、base 和保留的 overrides layer。
 - 不在组件样式中重新定义全站语义变量；组件只消费这些变量，或定义自己的组件局部变量。

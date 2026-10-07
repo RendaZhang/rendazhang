@@ -29,11 +29,43 @@ export default function DocsEffects(): null {
 
         if (language === renderedLanguage) continue;
 
+        const sourceBlocks = Array.from(
+          document.querySelectorAll<HTMLElement>(getMermaidSelector(language))
+        ).filter((block) => !block.hasAttribute('data-processed'));
+        if (!sourceBlocks.length) {
+          renderedLanguage = language;
+          continue;
+        }
+
+        // Keep layout measurable even if a language switch hides the source mid-render.
+        const staging = document.createElement('div');
+        staging.className = 'c-docs-mermaid-render';
+        staging.setAttribute('aria-hidden', 'true');
+        staging.inert = true;
+        staging.style.width = `${sourceBlocks[0].parentElement!.getBoundingClientRect().width}px`;
+        const nodes = sourceBlocks.map((block) => {
+          const clone = block.cloneNode(true) as HTMLElement;
+          const pre = document.createElement('pre');
+          pre.append(clone);
+          staging.append(pre);
+          return clone;
+        });
+        document.body.append(staging);
+
         try {
-          await mermaidApi.run({ querySelector: getMermaidSelector(language) });
-          if (!cancelled) renderedLanguage = language;
+          await mermaidApi.run({ nodes });
+          if (!cancelled) {
+            sourceBlocks.forEach((block, index) => {
+              if (!block.isConnected) return;
+              block.replaceChildren(...nodes[index].childNodes);
+              block.setAttribute('data-processed', 'true');
+            });
+            renderedLanguage = language;
+          }
         } catch (error) {
           logger.error('Docs Mermaid render error:', error);
+        } finally {
+          staging.remove();
         }
       }
     };

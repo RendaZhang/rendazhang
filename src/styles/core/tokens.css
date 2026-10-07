@@ -1,14 +1,88 @@
 @layer tokens {
   :root {
+    /* Ink canvas in light and dark mode. */
+    --palette-ink-light-canvas: #f8f8f6;
+    --palette-ink-dark-canvas: #181b1a;
+    /* Ink surface in light and dark mode. */
+    --palette-ink-light-surface: #ffffff;
+    --palette-ink-dark-surface: #222725;
+    /* Ink subtle in light and dark mode. */
+    --palette-ink-light-subtle: #edefec;
+    --palette-ink-dark-subtle: #2d3430;
+    /* Ink text in light and dark mode. */
+    --palette-ink-light-text: #202321;
+    --palette-ink-dark-text: #f2f4f1;
+    /* Ink muted in light and dark mode. */
+    --palette-ink-light-muted: #535c56;
+    --palette-ink-dark-muted: #b0bbb3;
+    /* Ink separator in light and dark mode. */
+    --palette-ink-light-separator: #d0d6d1;
+    --palette-ink-dark-separator: #46514b;
+    /* Ink control in light and dark mode. */
+    --palette-ink-light-control: #747e77;
+    --palette-ink-dark-control: #87968c;
+    /* Ink primary in light and dark mode. */
+    --palette-ink-light-primary: #b83c35;
+    --palette-ink-dark-primary: #f08072;
+    /* Ink primary-hover in light and dark mode. */
+    --palette-ink-light-primary-hover: #9e302a;
+    --palette-ink-dark-primary-hover: #f59a8e;
+    /* Ink primary-active in light and dark mode. */
+    --palette-ink-light-primary-active: #862820;
+    --palette-ink-dark-primary-active: #e56e60;
+    /* Ink on-primary in light and dark mode. */
+    --palette-ink-light-on-primary: #ffffff;
+    --palette-ink-dark-on-primary: #181b1a;
+    /* Ink accent in light and dark mode. */
+    --palette-ink-light-accent: #2a6763;
+    --palette-ink-dark-accent: #8ac5be;
+    /* Ink hover in light and dark mode. */
+    --palette-ink-light-hover: #fbf3f3;
+    --palette-ink-dark-hover: #322e2b;
+    /* Ink selected in light and dark mode. */
+    --palette-ink-light-selected: #f8eceb;
+    --palette-ink-dark-selected: #3b322e;
+    /* Ink pressed in light and dark mode. */
+    --palette-ink-light-pressed: #f5e4e3;
+    --palette-ink-dark-pressed: #3f3330;
+    /* Ink success in light and dark mode. */
+    --palette-ink-light-success: #23613f;
+    --palette-ink-dark-success: #9bd4ac;
+    /* Ink success-bg in light and dark mode. */
+    --palette-ink-light-success-bg: #e6f2ea;
+    --palette-ink-dark-success-bg: #253d2e;
+    /* Ink warning in light and dark mode. */
+    --palette-ink-light-warning: #79550d;
+    --palette-ink-dark-warning: #efd07d;
+    /* Ink warning-bg in light and dark mode. */
+    --palette-ink-light-warning-bg: #fff2cd;
+    --palette-ink-dark-warning-bg: #403720;
+    /* Ink error in light and dark mode. */
+    --palette-ink-light-error: #a32e35;
+    --palette-ink-dark-error: #ffafb3;
+    /* Ink error-bg in light and dark mode. */
+    --palette-ink-light-error-bg: #fcebeb;
+    --palette-ink-dark-error-bg: #47282d;
+    /* Ink info in light and dark mode. */
+    --palette-ink-light-info: #245696;
+    --palette-ink-dark-info: #a4c5ff;
+    /* Ink info-bg in light and dark mode. */
+    --palette-ink-light-info-bg: #e9f0fc;
+    --palette-ink-dark-info-bg: #283750;
+    /* Opaque hero contrast and subdued Ink elevation. */
+    --palette-ink-hero: #101413;
+    --palette-ink-shadow-low: #0000000d;
+    --palette-ink-shadow-medium: #00000014;
+    --palette-ink-shadow-high: #0000001f;
     /*! ==== Brand colors ==== */
     /* Default palette primary brand color */
-    --palette-default-brand: color-mix(in srgb, oklch(45.89% 0.2417 295.61), transparent);
+    --palette-default-brand: var(--palette-ink-light-primary);
     /* Default palette accent color */
-    --palette-default-accent: color-mix(in srgb, oklch(59.5% 0.2157 260.53), transparent);
+    --palette-default-accent: var(--palette-ink-light-accent);
     /* Default palette secondary brand shade */
-    --palette-default-secondary: color-mix(in srgb, oklch(50.81% 0.1773 275.87), transparent);
+    --palette-default-secondary: var(--palette-ink-light-primary-hover);
     /* Default palette tertiary brand shade */
-    --palette-default-tertiary: color-mix(in srgb, oklch(70.69% 0.1492 279.75), transparent);
+    --palette-default-tertiary: var(--palette-ink-light-primary-active);
     /* Aurora palette primary brand color */
     --palette-aurora-brand: color-mix(in srgb, oklch(46% 0.22 328), transparent);
     /* Aurora palette accent color */
@@ -375,10 +449,10 @@
 
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --palette-default-brand: oklch(45.89% 0.2417 295.61);
-      --palette-default-accent: oklch(59.5% 0.2157 260.53);
-      --palette-default-secondary: oklch(50.81% 0.1773 275.87);
-      --palette-default-tertiary: oklch(70.69% 0.1492 279.75);
+      --palette-default-brand: var(--palette-ink-light-primary);
+      --palette-default-accent: var(--palette-ink-light-accent);
+      --palette-default-secondary: var(--palette-ink-light-primary-hover);
+      --palette-default-tertiary: var(--palette-ink-light-primary-active);
       --palette-aurora-brand: oklch(46% 0.22 328);
       --palette-aurora-accent: oklch(54% 0.18 250);
       --palette-aurora-secondary: oklch(50% 0.2 300);

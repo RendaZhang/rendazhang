@@ -12,7 +12,7 @@
     var(--shadow-elevation-2),
     0 0 0 1px var(--color-palette-border),
     0 0 var(--space-4) color-mix(in srgb, var(--color-brand) 24%, transparent);
-  color: var(--color-white);
+  color: var(--color-on-primary);
   cursor: pointer;
   font-size: 0;
   height: calc(var(--space-9) - var(--space-1));
@@ -208,4 +208,32 @@
   .c-chat-widget-frame-wrapper {
     block-size: min(72dvh, calc(100dvh - var(--space-10) - var(--space-7)));
   }
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-toggle,
+html:not([data-palette='aurora']):not([data-palette='forest'])
+  .c-chat-widget-toggle[aria-expanded='true'] {
+  box-shadow: var(--shadow-elevation-2);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-toggle::before {
+  background: transparent;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-toggle:hover {
+  background: var(--color-primary-hover);
+  filter: none;
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-toggle:active {
+  background: var(--color-primary-active);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-toggle:focus-visible {
+  box-shadow: var(--shadow-elevation-2), var(--focus-ring);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-panel,
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-frame-wrapper,
+html:not([data-palette='aurora']):not([data-palette='forest'])
+  .c-chat-widget-frame-wrapper
+  .c-chat-widget-skeleton {
+  background: var(--color-surface);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-chat-widget-panel {
+  box-shadow: var(--shadow-elevation-3);
 }

@@ -306,8 +306,8 @@
     }
 
     &.is-palette-default {
-      --palette-swatch-start: var(--palette-default-brand);
-      --palette-swatch-end: var(--palette-default-secondary);
+      --palette-swatch-start: var(--palette-ink-light-primary);
+      --palette-swatch-end: var(--palette-ink-light-primary);
     }
 
     &.is-palette-aurora {
@@ -708,4 +708,30 @@
   .c-side-menu {
     transition: none;
   }
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-theme-option.is-active {
+  border-color: var(--color-focus);
+  box-shadow:
+    inset 0 0 0 2px var(--color-base-white),
+    0 0 0 2px var(--color-focus);
+}
+html:not([data-palette='aurora']):not([data-palette='forest']) .c-theme-option:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+html:not([data-palette='aurora']):not([data-palette='forest'])
+  .c-theme-option.is-active:focus-visible {
+  box-shadow:
+    inset 0 0 0 2px var(--color-base-white),
+    var(--focus-ring);
+}
+html:not([data-palette='aurora']):not([data-palette='forest'])
+  :is(
+    .c-theme-toggle-main,
+    .c-language-selector-main,
+    .c-language-option,
+    .c-nav-primary-link,
+    .c-hamburger-btn,
+    .c-side-menu-link
+  ):active {
+  background-color: var(--color-pressed-surface);
 }

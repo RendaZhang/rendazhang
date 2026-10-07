@@ -21,7 +21,7 @@
 
 - **Author**: Renda Zhang
 - **Last updated**: 2026-10-07
-- **Status**: Planned contract, not shipped UI. Slice 19.3 publishes documentation only.
+- **Status**: Ink And Vermilion is implemented in Slice 19.4. Cobalt and Pine remain planned for 19.5.
 - **Preview source**: `831f36c1e1dec1679d580268ee4ffa73d9bcad65`.
 
 ## Direction And Names
@@ -41,11 +41,12 @@ localized group name, `Theme color palette` / `主题调色板`, and `aria-press
 Do not put the full names into new wide buttons. Selected swatches need a shape/border cue as well
 as color; keyboard focus must remain distinguishable from selection.
 
-**Existing implementation:** purple/blue Default, Aurora and Forest palettes already exist, with
-independent light/dark mode, store, provider, pre-paint initialization and compact swatches.
-**Pending implementation:** none of the colors or names below ships with this document. In 19.4,
-replace only Default's colors/name; keep old Aurora/Forest colors/names usable until 19.5 replaces
-both. There must still be three choices, not six old/new choices or prematurely renamed options.
+**Existing implementation:** `default` is Ink And Vermilion / 墨与朱 in both modes. Aurora and
+Forest keep their previous colors and names. Independent mode, store, provider, pre-paint
+initialization, storage keys and compact swatches are unchanged.
+**Pending implementation:** Cobalt and Pine replace the two alternatives in 19.5. There are still
+three choices, not six old/new choices or prematurely renamed options. Shared status values below
+are implemented for Ink; legacy alternatives retain compatible status defaults until that slice.
 
 ## Six Semantic Sets
 
@@ -198,10 +199,12 @@ The hero's worst-case white source pixel under the 62% scrim is also included, n
 sample of the photograph. Brand swatch selection uses white against the light primary fills,
 whose minimum contrast is the 5.62:1 light filled-action minimum.
 
-The existing `scripts/contrast-check.mjs` checks only gray-900 against gray-50. Its pass is a
-baseline signal, **not** evidence for these six sets, transparency, syntax tokens, focus visibility,
-disabled behavior or WCAG conformance of the website. 19.4/19.5 must extend role/state and rendered
-browser coverage, including real inputs, code blocks, forms, errors and overlays.
+Slice 19.4 extends `scripts/contrast-check.mjs` to read the actual CSS root cascade and evaluate
+146 role/state pairs: Ink text, placeholders, links, accent, control edges, focus, filled-action
+on-colors, status pairs, disabled text, code/comments, 72% composites and the worst-case hero
+scrim, plus legacy on-primary checks in both modes. Browser smoke additionally reads rendered
+Markdown/highlight, Chat, form, placeholder, focus and state colors. This is bounded regression
+evidence, not full-site WCAG conformance. Cobalt/Pine need their six-set expansion in 19.5.
 
 ## Preview Method And Findings
 
@@ -272,7 +275,29 @@ production hydration or full accessibility.
 
 ### 19.4 Default Family And Shared Roles
 
-Candidate files: `src/styles/core/{tokens.css,theme-tokens.css,_gradients.css}` and their token
+Implemented without changing layout, image crop, type scale, radii, public copy beyond the default
+swatch name, or interaction state ownership. `--palette-ink-light-*` / `--palette-ink-dark-*` hold
+the reference colors; missing/invalid/default palette selectors map semantic aliases without
+changing absolute white/black or the raw gray scale. On-primary remains white for legacy
+alternatives and becomes dark ink on Ink's dark-mode pastel fill. Ink actions use explicit hover
+and pressed fills, disabled controls retain opacity 1, and the hero drops inherited text shadows.
+Mermaid's SVG paper remains opaque white with unchanged renderer/security settings.
+
+The approved compatibility follow-up keeps Docs measurement in an inert, hidden staging area
+with no transitions. This prevents reduced-motion measurement distortion and a locale switch
+hiding an in-progress diagram. It does not change the global motion preference, Mermaid
+configuration, source content or sanitization. Geometry is tested as well as SVG counts.
+
+The pre-edit production build was checked at desktop/mobile on initial home load, Docs navigation,
+return and reload. Social icons loaded without hydration warnings; SVG width/height attributes
+were consistently absent in that production output. The earlier development-only observation is
+not suppressed or "fixed" by this palette change. `SocialIcons.tsx` remains unchanged.
+
+Preference and Widget coverage includes JSON/legacy raw preferences, invalid palette fallback,
+blocked storage, pre-paint initialization, reload, and first-open/reopen iframe preference reads.
+No live cross-document theme subscription or new message protocol was added.
+
+Implementation boundary: `src/styles/core/{tokens.css,theme-tokens.css,_gradients.css}` and their token
 documentation; narrowly affected `components/{about.css,social-icons.css,chat_widget.css,
 deepseek_chat.css,docs.css,github-markdown-light.css,markdown-dark-mode.css}` plus
 `components/{button/button.css,navigation/navigation.css,form/form.css}`. Audit other role consumers

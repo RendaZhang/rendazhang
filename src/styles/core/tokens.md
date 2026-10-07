@@ -4,6 +4,12 @@
 
 ## 品牌色 (Brand)
 
+`--palette-ink-light-*` / `--palette-ink-dark-*` 是默认墨与朱的完整 sRGB 参考值，包含
+canvas、surface、subtle、text、muted、边界、primary/on-primary、状态及其背景。
+`--palette-ink-hero` 与三个 shadow 值约束遮罩/阴影。它们通过语义层消费，不能覆盖绝对
+白/黑或原始灰阶；Aurora/Forest 原始值保留。完整色表见
+[Personal Theme Palettes](../../../docs/PERSONAL_THEME_PALETTES.md)。
+
 | 变量                      | 说明                                 | 作用范围 |
 | ------------------------- | ------------------------------------ | -------- |
 | `--color-brand`           | 主品牌色，用于链接和主按钮等主要操作 | 全局     |
