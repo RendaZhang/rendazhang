@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Last updated: 2026-10-06
+Last updated: 2026-10-07
 
 This file gives AI coding agents the project context needed to work safely in the
 `rendazhang` frontend repository. The repository is public, so do not add
@@ -94,13 +94,13 @@ npm run preview
   interactive UI is needed.
 - `src/layouts/BaseLayout.astro` owns global document structure, metadata,
   styles, and top-level islands.
-- The current global interactive state is split across React providers,
-  `document.documentElement.dataset`, storage, and DOM events. If adding
-  features such as multi-palette theme switching or complex cross-island
-  interactions, first design a small shared client-state boundary rather than
-  duplicating state in each island.
-- The current theme model is light/dark. A future theme-color feature should
-  separate theme mode from palette/accent tokens.
+- Theme mode (`light`/`dark`) and palette (`default`/`aurora`/`forest`) are already
+  separate. Reuse `uiPreferencesStore`, `useUiPreferences`, `ThemeProvider` and
+  the external `base-layout-init` pre-paint path; do not duplicate cross-island
+  preference state. `preferred_theme` and `preferred_palette` remain the storage keys.
+- The current palettes are implemented. The planned replacement colors/names and
+  compatibility contract are in `docs/PERSONAL_THEME_PALETTES.md`; that document
+  does not mean the new families have shipped.
 - Chat Widget behavior is production-critical:
   - The homepage toggle loads the same-origin iframe `/deepseek_chat/`.
   - `postMessage` communication must remain same-origin.
