@@ -13,15 +13,15 @@ import {
 import { DocsEffects } from '../components/sections';
 import DocsCaseStudySurface from '../components/sections/DocsCaseStudySurface.astro';
 import { getCurrentLang } from '../utils';
-import { marked } from 'marked';
+import { renderDocsMarkdown } from '../utils/renderDocsMarkdown';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const titleZh = PAGE_TITLES.DOCS_ZH;
 const titleEn = PAGE_TITLES.DOCS_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
-const docsHtmlZh = marked.parse(DOC_CONTENT.README_ZH) as string;
-const docsHtmlEn = marked.parse(DOC_CONTENT.README_EN) as string;
+const docsHtmlZh = renderDocsMarkdown(DOC_CONTENT.README_ZH, 'zh');
+const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en');
 ---
 
 <BaseLayout

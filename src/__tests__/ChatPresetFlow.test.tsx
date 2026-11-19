@@ -126,6 +126,23 @@ describe('Chat preset question flow', () => {
     );
   });
 
+  it('lets the IME confirm and Shift+Enter insert a newline before Enter sends once', async () => {
+    render(<Chat />);
+    const input = screen.getByRole('textbox') as HTMLTextAreaElement;
+    fireEvent.change(input, { target: { value: '你好' } });
+
+    expect(fireEvent.keyDown(input, { key: 'Enter', isComposing: true })).toBe(true);
+    expect(fireEvent.keyDown(input, { key: 'Enter', keyCode: 229 })).toBe(true);
+    expect(fireEvent.keyDown(input, { key: 'Enter', shiftKey: true })).toBe(true);
+    expect(input.value).toBe('你好');
+    expect(sendMessageToAI).not.toHaveBeenCalled();
+
+    expect(fireEvent.keyDown(input, { key: 'Enter' })).toBe(false);
+    await screen.findByText('preset answer');
+    expect(sendMessageToAI).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(sendMessageToAI).mock.calls[0][0]).toBe('你好');
+  });
+
   it('sends a typed preset variation as normal free-form chat without guide metadata', async () => {
     render(<Chat />);
 

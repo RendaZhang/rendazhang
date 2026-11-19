@@ -259,6 +259,8 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      // Safari can finish composition before dispatching the Enter that confirmed the candidate.
+      if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
       e.preventDefault();
       void handleSend();
     }

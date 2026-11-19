@@ -5,25 +5,14 @@ const docsEffectsMocks = vi.hoisted(() => ({
   highlightElement: vi.fn(),
   initialize: vi.fn(),
   loggerError: vi.fn(),
-  loggerLog: vi.fn(),
-  parse: vi.fn(),
   inputs: vi.fn(),
   run: vi.fn()
 }));
 
-vi.mock('marked', () => ({
-  marked: { parse: docsEffectsMocks.parse }
-}));
 vi.mock('mermaid', () => ({
   default: {
     initialize: docsEffectsMocks.initialize,
     run: docsEffectsMocks.run
-  }
-}));
-vi.mock('../constants', () => ({
-  DOC_CONTENT: {
-    README_ZH: 'Chinese docs',
-    README_EN: 'English docs'
   }
 }));
 vi.mock('../utils/highlight', () => ({
@@ -31,7 +20,7 @@ vi.mock('../utils/highlight', () => ({
 }));
 vi.mock('../utils/logger', () => ({
   default: {
-    log: docsEffectsMocks.loggerLog,
+    log: vi.fn(),
     info: vi.fn(),
     debug: vi.fn(),
     warn: vi.fn(),
@@ -41,19 +30,34 @@ vi.mock('../utils/logger', () => ({
 
 import DocsEffects from '../components/sections/DocsEffects';
 
-function markdownHtml(source: string): string {
-  return [
-    `<h1>${source}</h1>`,
-    '<pre><code class="language-typescript">const value = 1;</code></pre>',
-    `<pre><code class="language-mermaid">graph TD; ${source}--&gt;Done</code></pre>`
-  ].join('');
+import { renderDocsMarkdown } from '../utils/renderDocsMarkdown';
+
+function docsHtml(language: 'zh' | 'en', title: string): string {
+  const markdown = [
+    '<!-- START doctoc -->',
+    '',
+    '- [Overview](#overview)',
+    '',
+    '<!-- END doctoc -->',
+    '',
+    `# ${title}`,
+    '',
+    '```typescript',
+    'const value = 1;',
+    '```',
+    '',
+    '```mermaid',
+    `graph TD; ${title}-->Done`,
+    '```'
+  ].join('\n');
+  return renderDocsMarkdown(markdown, language);
 }
 
 function renderDocsEffects() {
   return render(
     <>
-      <div id="content-zh" />
-      <div id="content-en" />
+      <div id="content-zh" dangerouslySetInnerHTML={{ __html: docsHtml('zh', 'Chinese docs') }} />
+      <div id="content-en" dangerouslySetInnerHTML={{ __html: docsHtml('en', 'English docs') }} />
       <DocsEffects />
     </>
   );
@@ -65,7 +69,7 @@ function dispatchLanguageChange(language: 'zh-CN' | 'en'): void {
 }
 
 function completeRender({ nodes }: { nodes: HTMLElement[] }): Promise<void> {
-  docsEffectsMocks.inputs(nodes.map((node) => node.textContent));
+  docsEffectsMocks.inputs(nodes.map((node) => node.textContent?.trim()));
   nodes.forEach((node) => {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     node.replaceChildren(svg);
@@ -79,8 +83,6 @@ describe('DocsEffects Mermaid language lifecycle', () => {
     docsEffectsMocks.highlightElement.mockReset();
     docsEffectsMocks.initialize.mockReset();
     docsEffectsMocks.loggerError.mockReset();
-    docsEffectsMocks.loggerLog.mockReset();
-    docsEffectsMocks.parse.mockReset().mockImplementation(markdownHtml);
     docsEffectsMocks.inputs.mockReset();
     docsEffectsMocks.run.mockReset().mockImplementation(completeRender);
   });
@@ -103,7 +105,6 @@ describe('DocsEffects Mermaid language lifecycle', () => {
         expect(docsEffectsMocks.inputs).toHaveBeenCalledWith([`graph TD; ${source}-->Done`]);
       });
 
-      expect(docsEffectsMocks.parse).toHaveBeenCalledTimes(2);
       expect(docsEffectsMocks.highlightElement).toHaveBeenCalledTimes(2);
       expect(docsEffectsMocks.initialize).toHaveBeenCalledOnce();
       expect(docsEffectsMocks.run).toHaveBeenCalledTimes(1);
@@ -126,22 +127,13 @@ describe('DocsEffects Mermaid language lifecycle', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    expect(docsEffectsMocks.parse).toHaveBeenCalledTimes(2);
     expect(docsEffectsMocks.highlightElement).toHaveBeenCalledTimes(2);
     expect(docsEffectsMocks.run).toHaveBeenCalledTimes(2);
   });
 
   it('uses the latest document language when a switch happens before setup is ready', async () => {
-    let switched = false;
-    docsEffectsMocks.parse.mockImplementation((source: string) => {
-      if (!switched) {
-        switched = true;
-        dispatchLanguageChange('en');
-      }
-      return markdownHtml(source);
-    });
-
     renderDocsEffects();
+    act(() => dispatchLanguageChange('en'));
 
     await waitFor(() => expect(docsEffectsMocks.run).toHaveBeenCalledTimes(1));
     expect(docsEffectsMocks.inputs).toHaveBeenCalledWith(['graph TD; English docs-->Done']);
@@ -182,11 +174,37 @@ describe('DocsEffects Mermaid language lifecycle', () => {
     expect(document.querySelector('.c-docs-mermaid-render')).toBeNull();
   });
 
+  it('preserves both documents, links, and diagram source when Mermaid cannot start', async () => {
+    const setupError = new Error('Mermaid unavailable');
+    docsEffectsMocks.initialize.mockImplementationOnce(() => {
+      throw setupError;
+    });
+    renderDocsEffects();
+
+    await waitFor(() =>
+      expect(docsEffectsMocks.loggerError).toHaveBeenCalledWith(
+        'Docs Mermaid setup error:',
+        setupError
+      )
+    );
+    for (const language of ['zh', 'en']) {
+      const doc = document.getElementById(`content-${language}`)!;
+      const href = doc.querySelector('a')!.getAttribute('href');
+      expect(href).toBe(`#${language}-overview`);
+      expect(doc.querySelector(href!)).toBe(doc.querySelector('h1'));
+      expect(doc.querySelector('code.language-mermaid')?.textContent).toContain('graph TD;');
+    }
+    expect(docsEffectsMocks.highlightElement).toHaveBeenCalledTimes(2);
+    expect(docsEffectsMocks.run).not.toHaveBeenCalled();
+  });
+
   it('contains Mermaid rejections and remains ready for the next language change', async () => {
     const renderError = new Error('Diagram render failed');
     docsEffectsMocks.run.mockRejectedValueOnce(renderError).mockImplementationOnce(completeRender);
 
     renderDocsEffects();
+    const source = document.querySelector('#content-zh pre:last-child')!;
+    source.after(source.cloneNode(true));
 
     await waitFor(() => {
       expect(docsEffectsMocks.loggerError).toHaveBeenCalledWith(
@@ -198,10 +216,10 @@ describe('DocsEffects Mermaid language lifecycle', () => {
     expect(document.querySelector('#content-zh code.language-mermaid')?.textContent).toContain(
       'Chinese docs'
     );
-    expect(document.querySelector('#content-zh [data-processed]')).toBeNull();
+    await waitFor(() => expect(document.querySelectorAll('#content-zh svg')).toHaveLength(1));
 
     act(() => dispatchLanguageChange('en'));
-    await waitFor(() => expect(docsEffectsMocks.run).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(docsEffectsMocks.run).toHaveBeenCalledTimes(3));
     expect(docsEffectsMocks.inputs).toHaveBeenLastCalledWith(['graph TD; English docs-->Done']);
   });
 
@@ -254,7 +272,6 @@ describe('DocsEffects Mermaid language lifecycle', () => {
     expect(docsEffectsMocks.loggerError.mock.calls).toEqual([]);
     expect(document.querySelectorAll('#content-zh svg')).toHaveLength(1);
     expect(docsEffectsMocks.run).toHaveBeenCalledTimes(3);
-    expect(docsEffectsMocks.parse).toHaveBeenCalledTimes(4);
     expect(document.querySelector('.c-docs-mermaid-render')).toBeNull();
   });
 });
