@@ -4,6 +4,27 @@
 /* Refactored with native CSS nesting for clarity and maintenance.     */
 /* ------------------------------------------------------------------ */
 /* Navigation spacing and sizing values mapped to design tokens */
+.c-skip-link {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-s);
+  color: var(--color-text);
+  font-weight: 700;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  position: fixed;
+  z-index: 1001;
+
+  &:not(:focus) {
+    clip-path: inset(50%);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
 .c-nav-container {
   container-type: inline-size;
 }

@@ -21,6 +21,10 @@ main.c-main-content {
   text-align: left;
   width: 100%;
 }
+#main-content {
+  scroll-margin-block-start: var(--space-9);
+}
+
 /* Plain prose links follow the active palette; explicit component links keep ownership. */
 html:root a:not([class]) {
   color: var(--color-brand);

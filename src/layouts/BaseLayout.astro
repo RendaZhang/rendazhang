@@ -114,6 +114,7 @@ if (showChatWidget) {
   extraStyles.push(STYLE_PATHS.CHAT_WIDGET);
 }
 
+const mainTarget = showNav ? { id: 'main-content', tabindex: -1 } : {};
 const lang = langProp || 'zh-CN';
 const initialLang = lang;
 const effectiveTitleZh = titleZh || title;
@@ -221,8 +222,18 @@ const twitterProps = { ...twitterDefaults, ...twitter };
     <slot name="head" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    {showNav && <NavBarWrapper initialLang={initialLang} showNav={showNav} client:load />}
-    <main class={mainClass} {...mainAttrs}>
+    {
+      showNav && (
+        <>
+          <a class="c-skip-link" href="#main-content">
+            <span class="is-lang-zh">跳到正文</span>
+            <span class="is-lang-en">Skip to main content</span>
+          </a>
+          <NavBarWrapper initialLang={initialLang} showNav={showNav} client:load />
+        </>
+      )
+    }
+    <main class={mainClass} {...mainAttrs} {...mainTarget}>
       <slot />
     </main>
     {showChatWidget && <ChatWidget client:visible />}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useId, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { submitContactForm, type ContactFormSubmission } from '../../../services/contactService';
 import { addSentryBreadcrumb } from '../../../utils/sentryContext';
@@ -7,7 +7,7 @@ import { LocalizedSection } from '../../ui';
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
-interface PlaceholderTexts {
+interface FieldLabels {
   name?: string;
   contact?: string;
   subject?: string;
@@ -15,13 +15,13 @@ interface PlaceholderTexts {
 }
 
 interface LangTexts {
-  placeholders?: PlaceholderTexts;
+  labels?: FieldLabels;
   errorEmpty?: string;
   failed?: string;
   sending?: string;
   button?: string;
   success?: string;
-  [key: string]: string | PlaceholderTexts | undefined;
+  [key: string]: string | FieldLabels | undefined;
 }
 
 interface ContactFormTexts {
@@ -49,17 +49,7 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
   const [form, setForm] = useState<ContactFormSubmission>(initialForm);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [error, setError] = useState<string>('');
-  const [placeholders, setPlaceholders] = useState<PlaceholderTexts>({
-    name: '',
-    contact: '',
-    subject: '',
-    message: ''
-  });
-
-  useEffect(() => {
-    const ph: PlaceholderTexts = texts[langKey]?.placeholders ?? {};
-    setPlaceholders(ph);
-  }, [langKey, texts]);
+  const formId = useId();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
@@ -97,44 +87,65 @@ export default function ContactForm({ texts = {} }: ContactFormProps) {
   return (
     <form onSubmit={handleSubmit} className="contact-form">
       <div className="c-form-group">
+        <label className="c-form-label" htmlFor={`${formId}-name`}>
+          <LocalizedSection zhContent={textsZh.labels?.name} enContent={textsEn.labels?.name} />
+        </label>
         <input
+          id={`${formId}-name`}
           type="text"
           name="name"
           className="c-form-control"
-          placeholder={placeholders.name || ''}
           value={form.name}
           onChange={handleChange}
           required
         />
       </div>
       <div className="c-form-group">
+        <label className="c-form-label" htmlFor={`${formId}-contact`}>
+          <LocalizedSection
+            zhContent={textsZh.labels?.contact}
+            enContent={textsEn.labels?.contact}
+          />
+        </label>
         <input
+          id={`${formId}-contact`}
           type="text"
           name="contact"
           className="c-form-control"
-          placeholder={placeholders.contact || ''}
           value={form.contact}
           onChange={handleChange}
           required
         />
       </div>
       <div className="c-form-group">
+        <label className="c-form-label" htmlFor={`${formId}-subject`}>
+          <LocalizedSection
+            zhContent={textsZh.labels?.subject}
+            enContent={textsEn.labels?.subject}
+          />
+        </label>
         <input
+          id={`${formId}-subject`}
           type="text"
           name="_subject"
           className="c-form-control"
-          placeholder={placeholders.subject || ''}
           value={form._subject}
           onChange={handleChange}
           required
         />
       </div>
       <div className="c-form-group">
+        <label className="c-form-label" htmlFor={`${formId}-message`}>
+          <LocalizedSection
+            zhContent={textsZh.labels?.message}
+            enContent={textsEn.labels?.message}
+          />
+        </label>
         <textarea
+          id={`${formId}-message`}
           name="message"
           className="c-form-control"
           rows={5}
-          placeholder={placeholders.message || ''}
           value={form.message}
           onChange={handleChange}
           required

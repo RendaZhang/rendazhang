@@ -531,7 +531,7 @@ body.is-embedded {
   padding: 0;
 }
 
-body.is-embedded nav {
+body.is-embedded :is(nav, .c-skip-link) {
   display: none;
 }
 

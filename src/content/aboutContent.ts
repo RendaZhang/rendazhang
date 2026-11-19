@@ -78,7 +78,7 @@ export const ABOUT_CONTENT = {
         { label: 'Address', value: ' Shenzhen, Guangdong, China' }
       ],
       form: {
-        placeholders: {
+        labels: {
           name: 'Your Name',
           contact: 'Email or Phone',
           subject: 'Subject',
@@ -299,7 +299,7 @@ export const ABOUT_CONTENT = {
         { label: '地址', value: ' 广东省深圳市' }
       ],
       form: {
-        placeholders: {
+        labels: {
           name: '你的名字',
           contact: '你的联系方式',
           subject: '主题',
