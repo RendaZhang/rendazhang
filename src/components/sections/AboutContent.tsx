@@ -2,6 +2,7 @@ import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import HeroSection from './HeroSection';
 import HomepageProofPathSection from './HomepageProofPathSection';
+import RequestJourney from './showcase/RequestJourney';
 import BioSection from './BioSection';
 import EducationSection from './EducationSection';
 import BlogSection from './BlogSection';
@@ -31,6 +32,7 @@ export default function AboutContent(): ReactElement {
         proofPathEn={contentEn.proofPath}
         proofPathZh={contentZh.proofPath}
       />
+      <RequestJourney />
       <BioSection contentEn={contentEn} contentZh={contentZh} isZh={isZh} />
       <EducationSection educationEn={contentEn.education} educationZh={contentZh.education} />
       <BlogSection blogEn={contentEn.blog} blogZh={contentZh.blog} isZh={isZh} />

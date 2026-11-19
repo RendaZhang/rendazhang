@@ -23,6 +23,10 @@ export default function HomepageProofPathSection({
         <p className="c-home-proof-path-summary">
           <LocalizedSection zhContent={proofPathZh.summary} enContent={proofPathEn.summary} />
         </p>
+        <a className="c-showcase-discovery" href="#showcase">
+          <LocalizedSection zhContent="探索 PersonalWeb" enContent="Explore PersonalWeb" />
+          <span aria-hidden="true">↓</span>
+        </a>
       </div>
       <nav className="c-home-proof-path-links" aria-labelledby="homepageProofPathTitle">
         {proofPathZh.actions.map((actionZh, idx) => {

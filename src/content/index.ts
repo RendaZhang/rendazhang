@@ -9,3 +9,4 @@ export * from './loginContent';
 export * from './navContent';
 export * from './profileContent';
 export * from './registerContent';
+export * from './showcaseContent';
