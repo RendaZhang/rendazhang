@@ -1,6 +1,7 @@
 import { ABOUT_CONTENT } from '../../content';
 import { useLanguage } from '../providers';
 import HeroSection from './HeroSection';
+import SitePerspective from './SitePerspective';
 import HomepageProofPathSection from './HomepageProofPathSection';
 import RequestJourney from './showcase/RequestJourney';
 import BioSection from './BioSection';
@@ -28,6 +29,7 @@ export default function AboutContent(): ReactElement {
         heroSummaryEn={contentEn.heroSummary}
         heroSummaryZh={contentZh.heroSummary}
       />
+      <SitePerspective language={langKey} />
       <HomepageProofPathSection
         proofPathEn={contentEn.proofPath}
         proofPathZh={contentZh.proofPath}

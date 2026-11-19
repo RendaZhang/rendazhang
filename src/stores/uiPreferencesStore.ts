@@ -1,5 +1,6 @@
 import { THEME_PALETTE_STORAGE_KEY, THEME_STORAGE_KEY } from '../constants/settings';
 
+export type ChatWidgetStatus = 'closed' | 'loading' | 'ready';
 export type ThemeMode = 'light' | 'dark';
 export const THEME_PALETTES = ['default', 'aurora', 'forest'] as const;
 export type ThemePalette = (typeof THEME_PALETTES)[number];
@@ -8,6 +9,7 @@ export interface UiPreferencesState {
   themeMode: ThemeMode;
   themePalette: ThemePalette;
   chatWidgetOpen: boolean;
+  chatWidgetStatus: ChatWidgetStatus;
   preferencesReady: boolean;
 }
 
@@ -22,6 +24,7 @@ export const DEFAULT_UI_PREFERENCES: Readonly<UiPreferencesState> = Object.freez
   themeMode: 'light',
   themePalette: 'default',
   chatWidgetOpen: false,
+  chatWidgetStatus: 'closed',
   preferencesReady: false
 });
 
@@ -56,7 +59,13 @@ export function setThemePalette(themePalette: ThemePalette): Readonly<UiPreferen
 }
 
 export function setChatWidgetOpen(chatWidgetOpen: boolean): Readonly<UiPreferencesState> {
-  return updateUiPreferences({ chatWidgetOpen });
+  return setChatWidgetStatus(chatWidgetOpen ? 'loading' : 'closed');
+}
+
+export function setChatWidgetStatus(
+  chatWidgetStatus: ChatWidgetStatus
+): Readonly<UiPreferencesState> {
+  return updateUiPreferences({ chatWidgetOpen: chatWidgetStatus !== 'closed', chatWidgetStatus });
 }
 
 export function setPreferencesReady(preferencesReady: boolean): Readonly<UiPreferencesState> {
@@ -78,6 +87,7 @@ export function initializeUiPreferences(
 
   if (typeof nextState.chatWidgetOpen === 'boolean') {
     next.chatWidgetOpen = nextState.chatWidgetOpen;
+    next.chatWidgetStatus = nextState.chatWidgetOpen ? 'loading' : 'closed';
   }
 
   if (typeof nextState.preferencesReady === 'boolean') {
@@ -134,7 +144,7 @@ function updateUiPreferences(nextState: Partial<UiPreferencesState>): Readonly<U
   if (
     next.themeMode === state.themeMode &&
     next.themePalette === state.themePalette &&
-    next.chatWidgetOpen === state.chatWidgetOpen &&
+    next.chatWidgetStatus === state.chatWidgetStatus &&
     next.preferencesReady === state.preferencesReady
   ) {
     return state;

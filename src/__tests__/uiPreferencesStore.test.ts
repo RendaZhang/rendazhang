@@ -49,6 +49,7 @@ describe('uiPreferencesStore', () => {
       themeMode: 'light',
       themePalette: 'default',
       chatWidgetOpen: false,
+      chatWidgetStatus: 'closed',
       preferencesReady: false
     });
   });
@@ -63,6 +64,7 @@ describe('uiPreferencesStore', () => {
       themeMode: 'dark',
       themePalette: 'aurora',
       chatWidgetOpen: true,
+      chatWidgetStatus: 'loading',
       preferencesReady: true
     });
   });
@@ -97,6 +99,7 @@ describe('uiPreferencesStore', () => {
       themeMode: 'dark',
       themePalette: 'forest',
       chatWidgetOpen: true,
+      chatWidgetStatus: 'loading',
       preferencesReady: true
     });
   });

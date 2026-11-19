@@ -1,5 +1,6 @@
 import {
   useState,
+  useId,
   useRef,
   useEffect,
   type FocusEvent as ReactFocusEvent,
@@ -12,11 +13,13 @@ import { useLanguage } from '../../providers';
 import { LocalizedSection, ThemeIcon, SunIcon, MoonIcon } from '..';
 import { THEME_PALETTES, type ThemePalette } from '../../../stores/uiPreferencesStore';
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ language }: { language?: string } = {}) {
   const { darkMode, themePalette: providerThemePalette, setTheme, setPalette } = useTheme();
-  const { lang } = useLanguage();
+  const { lang: currentLanguage } = useLanguage();
+  const lang = language ?? currentLanguage;
   const { themeMode, themePalette, preferencesReady } = useUiPreferences();
   const [open, setOpen] = useState(false);
+  const optionsId = useId();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const selectedThemeMode = preferencesReady ? themeMode : darkMode ? 'dark' : 'light';
@@ -77,7 +80,7 @@ export default function ThemeToggle() {
         ref={buttonRef}
         type="button"
         className="c-theme-toggle-main"
-        aria-controls="theme-options"
+        aria-controls={optionsId}
         aria-expanded={open}
         aria-label={lang === 'en' ? textsEn.button : textsZh.button}
         onClick={() => setOpen((prev) => !prev)}
@@ -86,7 +89,7 @@ export default function ThemeToggle() {
         <ThemeIcon />
       </button>
       {open && (
-        <div ref={optionsRef} id="theme-options" className="c-theme-options">
+        <div ref={optionsRef} id={optionsId} className="c-theme-options">
           <div
             className="c-theme-mode-options"
             role="group"

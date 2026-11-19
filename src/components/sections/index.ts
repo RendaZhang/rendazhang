@@ -32,6 +32,8 @@ export * from './RegisterContent';
 export { default as RegisterContent } from './RegisterContent';
 export * from './ResetPasswordContent';
 export { default as ResetPasswordContent } from './ResetPasswordContent';
+export * from './SitePerspective';
+export { default as SitePerspective } from './SitePerspective';
 export * from './SkillsSection';
 export { default as SkillsSection } from './SkillsSection';
 export * from './SocialIconsEffects';

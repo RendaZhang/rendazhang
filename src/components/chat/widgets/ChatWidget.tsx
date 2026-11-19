@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../constants';
-import { setChatWidgetOpen } from '../../../stores/uiPreferencesStore';
+import { setChatWidgetStatus, type ChatWidgetStatus } from '../../../stores/uiPreferencesStore';
 
 const loadedStyles = new Set<string>();
 
@@ -63,9 +63,9 @@ interface ChatWidgetProps {
 }
 
 export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
-  const [open, setOpen] = useState(defaultOpen);
-  const [shouldLoad, setShouldLoad] = useState(defaultOpen);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [status, setStatus] = useState<ChatWidgetStatus>(defaultOpen ? 'loading' : 'closed');
+  const open = status !== 'closed';
+  const iframeLoaded = status === 'ready';
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -74,16 +74,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     loadStyle(STYLE_PATHS.CHAT_WIDGET);
   }, []);
 
-  const toggle = () => setOpen((o) => !o);
-
-  useEffect(() => {
-    if (open && !shouldLoad) {
-      setShouldLoad(true);
-    }
-    if (!open) {
-      setIframeLoaded(false);
-    }
-  }, [open, shouldLoad]);
+  const toggle = () => setStatus((current) => (current === 'closed' ? 'loading' : 'closed'));
 
   useEffect(() => {
     if (!open) {
@@ -91,14 +82,16 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
     }
 
     const handleClick = (event: MouseEvent) => {
-      const target = event.target as Node;
+      const target = event.target;
       if (
+        target instanceof Element &&
+        !target.closest('[data-site-perspective]') &&
         panelRef.current &&
         !panelRef.current.contains(target) &&
         buttonRef.current &&
         !buttonRef.current.contains(target)
       ) {
-        setOpen(false);
+        setStatus('closed');
       }
     };
 
@@ -115,7 +108,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
         event.source === iframeRef.current?.contentWindow &&
         event.data?.type === 'chat-enhancement-ready'
       ) {
-        setIframeLoaded(true);
+        setStatus((current) => (current === 'loading' ? 'ready' : current));
       }
     };
     window.addEventListener('message', handleMessage);
@@ -125,12 +118,12 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
   }, []);
 
   useEffect(() => {
-    setChatWidgetOpen(open);
-  }, [open]);
+    setChatWidgetStatus(status);
+  }, [status]);
 
   useEffect(
     () => () => {
-      setChatWidgetOpen(false);
+      setChatWidgetStatus('closed');
     },
     []
   );
@@ -143,24 +136,23 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
           id="chat-widget-panel"
           className="c-chat-widget-panel bg-surface rounded-8 shadow-medium"
         >
-          {shouldLoad && (
-            <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
-              <iframe
-                ref={iframeRef}
-                src={`${CHAT_PAGE_PATH}/`}
-                title={AI_CHAT_WIDGET_TITLE}
-                className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
-                loading="lazy"
-              />
-              {!iframeLoaded && (
-                <div className="c-chat-widget-skeleton c-skeleton-shimmer" aria-hidden="true" />
-              )}
-            </div>
-          )}
+          <div className="c-chat-widget-frame-wrapper" aria-busy={!iframeLoaded}>
+            <iframe
+              ref={iframeRef}
+              src={`${CHAT_PAGE_PATH}/`}
+              title={AI_CHAT_WIDGET_TITLE}
+              className={`c-chat-widget-iframe ${iframeLoaded ? 'is-loaded' : ''}`}
+              loading="lazy"
+            />
+            {!iframeLoaded && (
+              <div className="c-chat-widget-skeleton c-skeleton-shimmer" aria-hidden="true" />
+            )}
+          </div>
         </div>
       )}
       <button
         ref={buttonRef}
+        id="chat-widget-toggle"
         className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
         onClick={toggle}
         type="button"
