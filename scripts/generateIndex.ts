@@ -17,7 +17,7 @@ const BARREL_EXCLUDED_MODULES = new Set([
   // Keep build-only helpers and lazy modules out of the shared client barrels.
   'src/utils/renderDocsMarkdown.ts',
   'src/utils/highlight.ts',
-  'src/components/sections/showcase/ShowcasePlayer.tsx'
+  'src/components/sections/showcase/journeyStart.ts'
 ]);
 
 function pathForLog(absPath: string): string {

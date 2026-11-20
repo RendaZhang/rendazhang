@@ -10,7 +10,15 @@ const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tab
 
 function getFocusableElements(container: HTMLElement): HTMLElement[] {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-    (element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true'
+    (element) => {
+      const style = window.getComputedStyle(element);
+      return (
+        !element.hasAttribute('disabled') &&
+        element.getAttribute('aria-hidden') !== 'true' &&
+        style.display !== 'none' &&
+        style.visibility !== 'hidden'
+      );
+    }
   );
 }
 
@@ -159,6 +167,7 @@ export default function HamburgerMenu(): ReactElement {
                   <a
                     key={item.key}
                     href={item.href}
+                    data-nav-route={item.key}
                     className="c-side-menu-link"
                     onClick={() => closeMenu(false)}
                   >

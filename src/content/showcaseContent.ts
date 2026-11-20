@@ -82,11 +82,14 @@ export const SHOWCASE_STEPS = [
 ] as const;
 
 export const SHOWCASE_SAMPLE = {
-  question: { zh: '请用一句话介绍 PersonalWeb。', en: 'Describe PersonalWeb in one sentence.' },
-  first: { zh: 'PersonalWeb 是 Renda 的个人网站，', en: 'PersonalWeb is Renda’s personal site,' },
+  question: { zh: '网页怎么收到流式回答？', en: 'How does a streamed answer reach the page?' },
+  first: {
+    zh: '模型边生成，Flask 边转发。',
+    en: 'Flask relays each piece as the model generates it.'
+  },
   second: {
-    zh: '首页和文档以静态文件发布，聊天由独立后端处理。',
-    en: ' with a statically published home page and docs, and a separate backend for chat.'
+    zh: 'Nginx 逐段转发，浏览器把片段接成完整回答。',
+    en: ' Nginx passes it on and the browser joins the pieces into a complete answer.'
   }
 };
 
@@ -98,11 +101,6 @@ export const SHOWCASE_COVER = {
   simulation: { zh: '模拟', en: 'Simulation' },
   outbound: { zh: '去程', en: 'Outbound' },
   returning: { zh: '回程', en: 'Return' },
-  pending: { zh: '正在接上播放器…', en: 'Loading playback controls…' },
-  unavailable: { zh: '再次按起点可重试。', en: 'Press the start again to retry.' },
-  reference: { zh: '读图与示例', en: 'Read the diagram and sample' },
-  question: { zh: '问题', en: 'Question' },
-  answer: { zh: '示例回答', en: 'Sample reply' },
   source: { zh: '查看源码', en: 'View source' },
   links: {
     architecture: { zh: '架构笔记', en: 'Architecture notes' },

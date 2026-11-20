@@ -12,6 +12,9 @@ import {
   PAGE_TITLES,
   SITE_DESCRIPTION_EN,
   HOME_PAGE_PATH,
+  IMAGE_PATHS,
+  RESUME_EN_DOWNLOAD,
+  RESUME_ZH_DOWNLOAD,
   STYLE_PATHS,
   buildHomeStructuredDataJson
 } from '../constants';
@@ -27,6 +30,10 @@ const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const titleZh = PAGE_TITLES.ABOUT_ZH;
 const titleEn = PAGE_TITLES.ABOUT_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
+const resumes = [
+  { href: IMAGE_PATHS.RESUME_ZH, filename: RESUME_ZH_DOWNLOAD, label: '中文简历', lang: 'zh-CN' },
+  { href: IMAGE_PATHS.RESUME_EN, filename: RESUME_EN_DOWNLOAD, label: 'English CV', lang: 'en' }
+] as const;
 ---
 
 <BaseLayout
@@ -51,6 +58,18 @@ const title = langKey === 'zh' ? titleZh : titleEn;
           <span class="is-lang-zh">{ABOUT_CONTENT.zh.signature.line}</span>
           <span class="is-lang-en">{ABOUT_CONTENT.en.signature.line}</span>
         </p>
+        <div class="c-home-resumes">
+          {
+            resumes.map(({ href, filename, label, lang }) => (
+              <a href={href} download={filename} lang={lang}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4" />
+                </svg>
+                {label}
+              </a>
+            ))
+          }
+        </div>
       </header>
       <RequestJourney>
         <SitePerspective slot="perspective" client:load />

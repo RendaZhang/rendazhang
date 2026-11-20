@@ -1,0 +1,104 @@
+---
+import { SHOWCASE_COVER, SHOWCASE_STEPS } from '../../../content/showcaseContent';
+import LocalizedSection from '../../ui/data-display/LocalizedSection';
+
+interface Props {
+  region: 'actions' | 'progress';
+}
+
+const { region } = Astro.props;
+---
+
+{
+  region === 'actions' ? (
+    <div class="c-showcase-controls" data-journey-controls role="group" aria-label="播放控制">
+      <span class="c-showcase-control c-control-hint" data-journey-hint-anchor>
+        <button
+          class="c-showcase-button c-showcase-play c-showcase-explore"
+          type="button"
+          data-journey-primary
+          aria-label={SHOWCASE_COVER.start.zh}
+          disabled
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+            <path data-journey-icon d="M9 5l11 7-11 7Z" />
+          </svg>
+          <span class="c-showcase-visually-hidden" data-journey-primary-label>
+            <LocalizedSection
+              zhContent={SHOWCASE_COVER.start.zh}
+              enContent={SHOWCASE_COVER.start.en}
+            />
+          </span>
+        </button>
+        <span class="c-control-hint-bubble" data-journey-primary-hint aria-hidden="true">
+          <LocalizedSection
+            zhContent="从起点播放模拟请求"
+            enContent="Play the simulation from the start"
+          />
+        </span>
+      </span>
+      <span class="c-showcase-control c-control-hint" data-journey-hint-anchor>
+        <button
+          class="c-showcase-button c-showcase-next"
+          type="button"
+          data-journey-next
+          aria-label="单步"
+          disabled
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+            <path d="M8 5l9 7-9 7ZM19 6v12" />
+          </svg>
+          <span class="c-showcase-visually-hidden">
+            <LocalizedSection zhContent="单步" enContent="Step" />
+          </span>
+        </button>
+        <span class="c-control-hint-bubble" aria-hidden="true">
+          <LocalizedSection zhContent="前进一步并暂停" enContent="Advance one stop and pause" />
+        </span>
+      </span>
+    </div>
+  ) : (
+    <div class="c-showcase-scrubber" data-journey-scrubber data-value="0">
+      <label class="c-showcase-scrub-label" for="showcase-scrubber">
+        <LocalizedSection zhContent="旅程轨道" enContent="Journey track" />
+      </label>
+      <div class="c-showcase-scrub-rail">
+        <span class="c-showcase-zero-stop" aria-hidden="true">
+          0
+        </span>
+        <input
+          class="c-showcase-range"
+          id="showcase-scrubber"
+          type="range"
+          min="0"
+          max={SHOWCASE_STEPS.length}
+          step="1"
+          value="0"
+          aria-valuetext={`0/${SHOWCASE_STEPS.length} · 起点`}
+          disabled
+        />
+        <span class="c-showcase-range-thumb" aria-hidden="true" />
+      </div>
+      <ol class="c-showcase-ticks">
+        {SHOWCASE_STEPS.map((stage, index) => {
+          const step = index + 1;
+          const label = `第 ${step} 步：${stage.zh}`;
+          return (
+            <li>
+              <button
+                class="c-showcase-tick"
+                type="button"
+                data-tick={step}
+                aria-label={label}
+                title={label}
+                disabled
+              >
+                {step}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  )
+}

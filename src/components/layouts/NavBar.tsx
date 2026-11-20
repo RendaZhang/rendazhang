@@ -77,6 +77,7 @@ export default function NavBar(): ReactElement {
               <a
                 key={item.key}
                 href={item.href}
+                data-nav-route={item.key}
                 className={`c-nav-primary-link${
                   item.authenticatedOnly ? ' c-nav-primary-link-authenticated' : ''
                 }`}

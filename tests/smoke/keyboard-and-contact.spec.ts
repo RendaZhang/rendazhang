@@ -4,7 +4,7 @@ test.describe('skip to main content without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
   for (const [path, firstControl] of [
-    ['/', '.c-showcase-explore'],
+    ['/', '.c-home-resumes a'],
     ['/docs/', '.c-docs-route-switch input:checked']
   ]) {
     test(`starts in the main content on ${path}`, async ({ page }) => {

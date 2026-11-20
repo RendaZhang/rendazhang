@@ -228,15 +228,40 @@ test('homepage work links route visitors to public destinations', async ({ page 
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect(page.getByRole('heading', { name: '请求旅程' })).toBeInViewport();
+  await expect(page.getByRole('heading', { name: '请求旅程' })).toHaveCSS(
+    'clip-path',
+    'inset(50%)'
+  );
+  await expect(page.getByRole('heading', { name: '张人大', exact: true })).toBeInViewport();
   await expect(page.locator('.c-showcase-explore')).toBeInViewport({ ratio: 1 });
-  const destinations = page.locator('#proof-path');
-  await expect(destinations.locator('a[href="/docs/"]')).toBeVisible();
-  await expect(destinations.locator('a[href="/certifications/"]')).toBeVisible();
-  await expect(destinations.locator('a[href="/deepseek_chat/"]')).toBeVisible();
-  await expect(destinations.locator('a[href="#contact"]')).toBeVisible();
+  const caption = page.locator('#proof-path');
+  const desktop = page.locator('.c-nav-primary-links');
+  const visibleRoutes = page.locator('#proof-path a:visible, .c-nav-primary-links a:visible');
+  const paths = () =>
+    visibleRoutes.evaluateAll((links) =>
+      links
+        .map((link) => {
+          const url = new URL((link as HTMLAnchorElement).href);
+          return url.pathname.replace(/\/$/, '') + url.hash;
+        })
+        .sort()
+    );
+  const destinations = ['#contact', '/certifications', '/deepseek_chat', '/docs'];
+  await expect(caption.locator('a[href="/docs/"]')).toBeVisible();
+  await expect(caption.locator('a[href="/certifications/"]')).toBeVisible();
+  await expect(caption.locator('a[href="/deepseek_chat/"]')).toBeVisible();
+  await expect(caption.locator('a[href="#contact"]')).toBeVisible();
+  await expect(desktop).toBeHidden();
+  await expect.poll(paths).toEqual(destinations);
   await expect(page.getByText('了解我如何构建 PersonalWeb', { exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(desktop.locator('a[data-nav-route="certs"]')).toBeVisible();
+  await expect(desktop.locator('a[data-nav-route="chat"]')).toBeVisible();
+  await expect(desktop.locator('a[data-nav-route="docs"]')).toBeHidden();
+  await expect(caption.locator('.c-home-mobile-destinations')).toBeHidden();
+  await expect.poll(paths).toEqual(destinations);
 
   await settlePage(page);
   expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
@@ -251,11 +276,11 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.c-nav-primary-links a')).toHaveCount(4);
-  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(3);
+  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(2);
   await expect(page.locator('.c-nav-primary-links a[href="/"]')).toHaveCount(0);
   await expect(page.locator('.c-nav-primary-links a[href="/deepseek_chat"]')).toBeVisible();
   await expect(page.locator('.c-nav-primary-links a[href="/certifications"]')).toBeVisible();
-  await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeVisible();
+  await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeHidden();
   await expect(page.locator('.c-hamburger-btn')).toBeHidden();
   await expectIslandHydrated(page, 'NavBarWrapper');
 
@@ -300,7 +325,8 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.mouse.wheel(0, 500);
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
-  const drawerLinks = page.locator('.c-side-menu-link');
+  const drawerLinks = drawer.locator('.c-side-menu-link:visible');
+  await expect(drawer.locator('a[data-nav-route="docs"]')).toBeHidden();
   await page.keyboard.press('Shift+Tab');
   await expect(drawerLinks.last()).toBeFocused();
   await page.keyboard.press('Tab');
@@ -416,7 +442,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(drawer).toBeVisible();
   await page.setViewportSize({ width: 1025, height: 900 });
   await expect(drawer).toHaveCount(0);
-  await expectDesktopNavigationFits(page, 3);
+  await expectDesktopNavigationFits(page, 2);
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
   await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
   await page.keyboard.press('Tab');
@@ -445,9 +471,9 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
 
   await page.setViewportSize({ width: 1025, height: 900 });
   await expect(page.locator('.c-nav-logo')).toHaveAttribute('aria-label', 'Home');
-  await expectDesktopNavigationFits(page, 3);
+  await expectDesktopNavigationFits(page, 2);
   await page.setViewportSize({ width: 1100, height: 900 });
-  await expectDesktopNavigationFits(page, 3);
+  await expectDesktopNavigationFits(page, 2);
 
   expect(authProbeCount(), 'logged-out navigation paths should not probe auth/me').toBe(0);
   await page.route(`**${AUTH_ME_PATH}`, async (route) => {
@@ -471,10 +497,10 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('data-logged-in', 'true');
   await expect(page.locator('.c-nav-home-logged-in')).toBeVisible();
-  await expectDesktopNavigationFits(page, 4);
+  await expectDesktopNavigationFits(page, 3);
   await expect(page.locator('.c-nav-primary-links a[href="/profile"]')).toBeVisible();
   await page.setViewportSize({ width: 1025, height: 900 });
-  await expectDesktopNavigationFits(page, 4);
+  await expectDesktopNavigationFits(page, 3);
   await settlePage(page);
 
   await audit.assertClean();

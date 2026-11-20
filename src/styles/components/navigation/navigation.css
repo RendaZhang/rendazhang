@@ -234,6 +234,10 @@
     position: relative;
   }
 
+  .c-language-pair {
+    display: none;
+  }
+
   .c-language-selector-main {
     align-items: center;
     background: none;
@@ -600,6 +604,87 @@
     var(--shadow-elevation-1),
     0 0 0 2px var(--color-palette-surface-strong),
     var(--focus-ring);
+}
+
+.c-about-page .c-nav-container > nav {
+  :is(
+    .c-hamburger-btn,
+    .c-nav-logo,
+    .c-nav-primary-link,
+    .c-language-selector-main,
+    .c-language-option,
+    .c-theme-toggle-main,
+    .c-avatar-link
+  ) {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  .c-hamburger-btn {
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .c-nav-primary-links {
+    display: none;
+  }
+
+  .c-language-selector-main {
+    border: var(--border-width-hairline) solid var(--color-palette-border);
+    justify-content: center;
+    padding-inline: var(--space-2);
+
+    > :is(.is-lang-zh, .is-lang-en, svg) {
+      display: none;
+    }
+
+    .c-language-pair {
+      display: inline-block;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  }
+}
+
+.c-about-page .c-home-mobile-destinations {
+  display: contents;
+}
+
+.c-about-page :is(.c-nav-primary-link, .c-side-menu-link)[data-nav-route='docs'] {
+  display: none;
+}
+
+/* Match the drawer's desktop breakpoint when moving destinations into the header. */
+@media (min-width: 64.0625rem) {
+  .c-about-page .c-nav-container > nav {
+    .c-hamburger-btn {
+      display: none;
+    }
+
+    .c-nav-primary-links {
+      display: flex;
+    }
+  }
+
+  .c-about-page .c-home-mobile-destinations {
+    display: none;
+  }
+}
+
+html[lang^='zh'] .c-about-page .c-language-pair [lang='zh-CN'],
+html[lang^='en'] .c-about-page .c-language-pair [lang='en'] {
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+@media (forced-colors: active) {
+  .c-about-page
+    .c-nav-container
+    > nav
+    :is(.c-language-selector-main, .c-language-option):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
 }
 
 /* Theme toggle icons */

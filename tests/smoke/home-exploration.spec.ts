@@ -122,7 +122,7 @@ test.describe('home exploration at 390 px', () => {
     await expect(article.locator('time')).toHaveAttribute('datetime', '2025-06-09');
     await expectResumeDownload(
       page,
-      page.locator('#resumeLink a:visible'),
+      page.getByRole('link', { name: '中文简历', exact: true }),
       '个人简历_张人大_20250922.pdf'
     );
 
@@ -142,7 +142,7 @@ test.describe('home exploration at 390 px', () => {
     await expect(article.locator('time')).toHaveAttribute('datetime', '2024-03-15');
     await expectResumeDownload(
       page,
-      page.locator('#resumeLink a:visible'),
+      page.getByRole('link', { name: 'English CV', exact: true }),
       'Resume_RendaZhang_20250922.pdf'
     );
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(

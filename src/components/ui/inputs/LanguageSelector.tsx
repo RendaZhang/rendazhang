@@ -86,6 +86,9 @@ export default function LanguageSelector(): ReactElement {
       >
         <LocalizedSection zhContent="中文" enContent="English" />
         <LanguageIcon />
+        <span className="c-language-pair" aria-hidden="true">
+          <span lang="zh-CN">中</span>／<span lang="en">EN</span>
+        </span>
       </button>
       {open && (
         <div
