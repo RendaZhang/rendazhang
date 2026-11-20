@@ -151,3 +151,82 @@ test.describe('home exploration at 390 px', () => {
     expect(chat).toEqual([]);
   });
 });
+
+const sharedArticles = [
+  {
+    preference: 'English',
+    locale: /^en(?:-|$)/,
+    articleId: 'article-java-21-lock',
+    originalTitle: 'Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到那把“失踪的锁”',
+    source: articleLinks.zh,
+    preferredArticleId: 'article-quant-trading-ai-bot'
+  },
+  {
+    preference: '中文',
+    locale: /^zh(?:-|$)/,
+    articleId: 'article-quant-trading-ai-bot',
+    originalTitle: 'Quantitative Trading 101: Building Your AI Trading Bot from Scratch',
+    source: articleLinks.en,
+    preferredArticleId: 'article-java-21-lock'
+  }
+] as const;
+
+for (const {
+  preference,
+  locale,
+  articleId,
+  originalTitle,
+  source,
+  preferredArticleId
+} of sharedArticles) {
+  test(`shared article shows its original title before interaction with site language ${preference}`, async ({
+    page,
+    context
+  }) => {
+    test.setTimeout(120_000);
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
+    await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
+    await page.getByRole('button', { name: '切换语言' }).click();
+    await page.getByRole('button', { name: preference, exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    const savedPreference = await page.evaluate(() => localStorage.getItem('preferred_lang'));
+    expect(savedPreference).not.toBeNull();
+
+    const requestedSources: string[] = [];
+    await context.route(source, async (route) => {
+      requestedSources.push(route.request().url());
+      await route.fulfill({ contentType: 'text/html', body: '<title>Article source</title>' });
+    });
+
+    const shared = await context.newPage();
+    await shared.goto(`/#${articleId}`, { waitUntil: 'domcontentloaded' });
+    const sharedNavbar = shared.locator('astro-island[component-export="NavBarWrapper"]');
+    await expect(sharedNavbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
+    const html = shared.locator('html');
+    await expect(html).toHaveAttribute('lang', locale);
+
+    const article = shared.locator(`#${articleId}:target`);
+    const title = article.getByRole('heading', { name: originalTitle, exact: true });
+    await expect(title).toBeVisible();
+    await expect(title).toBeInViewport({ ratio: 1 });
+
+    const original = article.getByRole('link', { name: originalTitle, exact: true });
+    const [popup] = await Promise.all([shared.waitForEvent('popup'), original.click()]);
+    try {
+      await expect(popup).toHaveURL(source);
+      expect(requestedSources).toEqual([source]);
+    } finally {
+      await popup.close();
+    }
+    await expect(html).toHaveAttribute('lang', locale);
+
+    await shared.goto('/#blog', { waitUntil: 'domcontentloaded' });
+    await expect(shared.locator(`#${articleId}`)).toBeHidden();
+    await expect(shared.locator(`#${preferredArticleId}`)).toBeVisible();
+    await expect(html).toHaveAttribute('lang', locale);
+    expect(await shared.evaluate(() => localStorage.getItem('preferred_lang'))).toBe(
+      savedPreference
+    );
+  });
+}

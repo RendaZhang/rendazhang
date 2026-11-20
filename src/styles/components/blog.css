@@ -8,6 +8,11 @@
   scroll-margin-block-start: var(--space-10);
 }
 
+/* A shared fragment can target an article outside the active language. */
+.c-blog-article:target {
+  display: block;
+}
+
 .c-blog-article-link {
   background: var(--color-surface);
   border: 1px solid var(--home-line);
