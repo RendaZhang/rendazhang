@@ -13,6 +13,7 @@ import { validatePasswordComplexity } from '../../../utils/password';
 import { apiClient } from '../../../services';
 import { storage } from '../../../utils';
 import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountForm from '../AccountForm';
 import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface ResetFormValues {
@@ -185,7 +186,6 @@ export default function ResetPasswordForm() {
 
   /** 提交表单并调用重置密码 API */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
     if (status === 'loading') return;
     if (!validateAll()) {
       focusFirstAccountError(e.currentTarget);
@@ -273,7 +273,7 @@ export default function ResetPasswordForm() {
   return (
     <>
       <AccountPanel titleZh={textsZh.title} titleEn={textsEn.title} busy={status === 'loading'}>
-        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+        <AccountForm onSubmit={handleSubmit}>
           {globalError && (
             <div className="c-global-error" role="alert">
               {globalError}
@@ -386,7 +386,7 @@ export default function ResetPasswordForm() {
               <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
             </a>
           </div>
-        </form>
+        </AccountForm>
       </AccountPanel>
       {/* Overlay prevents interaction while the reset request is in flight */}
       <AuthOverlay active={status === 'loading'} />

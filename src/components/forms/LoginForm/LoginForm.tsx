@@ -17,6 +17,7 @@ import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
 import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountForm from '../AccountForm';
 import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface LoginFormValues {
@@ -88,7 +89,6 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
   const strength = usePasswordStrength(password);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
     if (status === 'loading' || status === 'success') return;
     if (!validateAll()) {
       focusFirstAccountError(e.currentTarget);
@@ -148,7 +148,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
         busy={status === 'loading'}
         statusText={status === 'success' ? { zh: textsZh.success, en: textsEn.success } : undefined}
       >
-        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+        <AccountForm onSubmit={handleSubmit}>
           {globalError && (
             <div className="c-global-error" role="alert">
               {globalError}
@@ -267,7 +267,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />
             </a>
           </div>
-        </form>
+        </AccountForm>
       </AccountPanel>
       {/* Show full-screen overlay while logging in or before redirect */}
       <AuthOverlay active={status === 'loading' || status === 'success'} />

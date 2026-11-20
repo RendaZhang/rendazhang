@@ -6,6 +6,7 @@ import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { apiClient } from '../../../services';
 import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountForm from '../AccountForm';
 
 interface ForgotFormValues {
   email: string;
@@ -69,7 +70,6 @@ export default function ForgotPasswordForm() {
   const [globalError, setGlobalError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
     if (status === 'loading') return;
     if (!validateAll()) {
       focusFirstAccountError(e.currentTarget);
@@ -110,7 +110,7 @@ export default function ForgotPasswordForm() {
   return (
     <>
       <AccountPanel titleZh={textsZh.title} titleEn={textsEn.title} busy={status === 'loading'}>
-        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+        <AccountForm onSubmit={handleSubmit}>
           {globalError && (
             <div className="c-global-error" role="alert">
               {globalError}
@@ -154,7 +154,7 @@ export default function ForgotPasswordForm() {
               <LocalizedSection zhContent={textsZh.back} enContent={textsEn.back} />
             </a>
           </div>
-        </form>
+        </AccountForm>
       </AccountPanel>
       {/* Overlay covers the page while the email request is processing */}
       <AuthOverlay active={status === 'loading'} />

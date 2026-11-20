@@ -6,6 +6,7 @@
   border: var(--border-width-hairline) solid var(--account-line);
   border-block-start: var(--space-1) solid var(--color-brand);
   border-radius: var(--radius-xs);
+  box-sizing: border-box;
   container-type: inline-size;
   inline-size: min(calc(100% - var(--space-4) * 2), 35rem);
   margin: clamp(var(--space-5), 5vw, var(--space-8)) auto;
@@ -50,8 +51,16 @@
 }
 
 .c-account-panel .c-form-control {
+  box-sizing: border-box;
   font-size: max(1rem, var(--font-size-2));
   min-block-size: 48px;
+}
+
+.c-account-form > fieldset {
+  border: 0;
+  margin: 0;
+  min-inline-size: 0;
+  padding: 0;
 }
 
 .c-account-panel .c-password-field .c-form-control {

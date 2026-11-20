@@ -14,6 +14,7 @@ import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
 import { apiClient } from '../../../services';
 import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountForm from '../AccountForm';
 import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface RegisterFormValues {
@@ -118,7 +119,6 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     !errors.username;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
     if (status === 'loading' || status === 'success') return;
     if (!validateAll()) {
       focusFirstAccountError(e.currentTarget);
@@ -204,7 +204,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
         busy={status === 'loading'}
         statusText={status === 'success' ? { zh: textsZh.success, en: textsEn.success } : undefined}
       >
-        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+        <AccountForm onSubmit={handleSubmit}>
           {globalError && (
             <div className="c-global-error" role="alert">
               {globalError}
@@ -403,7 +403,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
             </a>
           </div>
-        </form>
+        </AccountForm>
       </AccountPanel>
       {/* Overlay masks the screen during registration or before redirect */}
       <AuthOverlay active={status === 'loading' || status === 'success'} />

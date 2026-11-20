@@ -32,7 +32,8 @@ async function visit(page: Page, url: string) {
 
 async function waitForIsland(locator: Locator) {
   const island = locator.locator('xpath=ancestor::astro-island[1]');
-  if (await island.count()) await expect(island).not.toHaveAttribute('ssr', '');
+  await expect(island).toBeAttached();
+  await expect(island).not.toHaveAttribute('ssr', '');
 }
 
 async function expectNarrowPage(page: Page) {
@@ -47,6 +48,17 @@ async function stubAccount(context: BrowserContext) {
   const posts: Array<{ path: string; data: Record<string, string> }> = [];
   const unexpected: string[] = [];
   let signedIn = false;
+  await context.route(
+    (url) => /^\/(login|register|forgot_password|reset_password)\/?$/.test(url.pathname),
+    async (route) => {
+      if (route.request().method() !== 'POST') {
+        await route.fallback();
+        return;
+      }
+      unexpected.push('native submit ' + new URL(route.request().url()).pathname);
+      await route.fulfill({ status: 405 });
+    }
+  );
   await context.route('**/cloudchat/**', async (route) => {
     const request = route.request();
     const path = new URL(request.url()).pathname.replace(/^\/cloudchat\//, '');
@@ -166,6 +178,26 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
     })
   );
   expect(fieldsFit).toBe(true);
+});
+
+test.describe('account first paint', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('the static recovery form waits for its submit handler', async ({ page }) => {
+    test.setTimeout(135_000);
+    await visit(page, '/forgot_password/');
+    const form = page.getByRole('main').locator('form');
+    const submit = form.locator('button[type="submit"]');
+    await expect(form.getByRole('textbox', { name: '邮箱', exact: true })).toBeDisabled();
+    await expect(submit).toBeDisabled();
+    await submit.evaluate((button: HTMLButtonElement) => button.click());
+    await expect(page).toHaveURL(/\/forgot_password\/?$/);
+    await page
+      .getByRole('main')
+      .getByRole('link', { name: '返回登录', exact: true })
+      .press('Enter');
+    await expect(page).toHaveURL(/\/login\/?$/);
+  });
 });
 
 test.describe('390 px account forms', () => {

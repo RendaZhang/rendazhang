@@ -4,6 +4,8 @@ export * from './ForgotPasswordForm';
 export * from './LoginForm';
 export * from './RegisterForm';
 export * from './ResetPasswordForm';
+export * from './AccountForm';
+export { default as AccountForm } from './AccountForm';
 export * from './AccountPanel';
 export { default as AccountPanel } from './AccountPanel';
 export * from './AccountPasswordIcon';
