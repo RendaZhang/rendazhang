@@ -4,8 +4,11 @@ import logger from '../../utils/logger';
 type DocsLanguage = 'zh' | 'en';
 type MermaidApi = (typeof import('mermaid'))['default'];
 
-function getCurrentDocsLanguage(): DocsLanguage {
-  return document.documentElement.lang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+function getVisibleDocsLanguages(): DocsLanguage[] {
+  const preferred = document.documentElement.lang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+  const other = preferred === 'zh' ? 'en' : 'zh';
+  const target = document.querySelector(':target');
+  return target?.closest(`#content-${other}`) ? [preferred, other] : [preferred];
 }
 
 function getMermaidSelector(language: DocsLanguage): string {
@@ -16,13 +19,13 @@ export default function DocsEffects(): null {
   useEffect(() => {
     let cancelled = false;
     let mermaidApi: MermaidApi | null = null;
-    let requestedLanguage: DocsLanguage | null = null;
+    let requestedLanguages: DocsLanguage[] = [];
     let renderPromise: Promise<void> | null = null;
 
     const drainMermaidRenders = async (): Promise<void> => {
-      while (!cancelled && mermaidApi && requestedLanguage) {
-        const language = requestedLanguage;
-        requestedLanguage = null;
+      while (!cancelled && mermaidApi && requestedLanguages.length) {
+        const [language, ...remaining] = requestedLanguages;
+        requestedLanguages = remaining;
 
         const sourceBlocks = Array.from(
           document.querySelectorAll<HTMLElement>(getMermaidSelector(language))
@@ -66,7 +69,7 @@ export default function DocsEffects(): null {
     };
 
     const requestVisibleMermaidRender = (): void => {
-      requestedLanguage = getCurrentDocsLanguage();
+      requestedLanguages = getVisibleDocsLanguages();
       if (cancelled || !mermaidApi || renderPromise) return;
 
       renderPromise = drainMermaidRenders()
@@ -75,11 +78,12 @@ export default function DocsEffects(): null {
         })
         .finally(() => {
           renderPromise = null;
-          if (!cancelled && requestedLanguage) requestVisibleMermaidRender();
+          if (!cancelled && requestedLanguages.length) requestVisibleMermaidRender();
         });
     };
 
     window.addEventListener('langChanged', requestVisibleMermaidRender);
+    window.addEventListener('hashchange', requestVisibleMermaidRender);
 
     void import('../../utils/highlight')
       .then(({ default: getProjectHighlighter }) => {
@@ -104,8 +108,9 @@ export default function DocsEffects(): null {
 
     return () => {
       cancelled = true;
-      requestedLanguage = null;
+      requestedLanguages = [];
       window.removeEventListener('langChanged', requestVisibleMermaidRender);
+      window.removeEventListener('hashchange', requestVisibleMermaidRender);
     };
   }, []);
 

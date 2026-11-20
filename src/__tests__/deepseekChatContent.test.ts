@@ -10,6 +10,12 @@ describe('DeepSeek Chat visitor content', () => {
     expect(Object.keys(DEEPSEEK_CHAT_CONTENT.zh.presets.questions)).toEqual([
       ...CHAT_PRESET_QUESTION_IDS
     ]);
+    expect(Object.keys(DEEPSEEK_CHAT_CONTENT.en.presets.topics)).toEqual([
+      ...CHAT_PRESET_QUESTION_IDS
+    ]);
+    expect(Object.keys(DEEPSEEK_CHAT_CONTENT.zh.presets.topics)).toEqual([
+      ...CHAT_PRESET_QUESTION_IDS
+    ]);
 
     for (const presetId of CHAT_PRESET_QUESTION_IDS) {
       expect(DEEPSEEK_CHAT_CONTENT.en.presets.questions[presetId].length).toBeGreaterThan(0);
@@ -23,8 +29,8 @@ describe('DeepSeek Chat visitor content', () => {
     expect(renderedContent).not.toMatch(
       /public proof question|公开证明问题|public-source preset|proof surface|项目证明面|architecture credibility signal|架构可信度信号/i
     );
-    expect(DEEPSEEK_CHAT_CONTENT.en.presets.description).toContain('send it now');
-    expect(DEEPSEEK_CHAT_CONTENT.zh.presets.description).toContain('点击问题即可发送');
+    expect(DEEPSEEK_CHAT_CONTENT.en.presets.description).toContain('preview');
+    expect(DEEPSEEK_CHAT_CONTENT.zh.presets.description).toContain('预览');
     expect(DEEPSEEK_CHAT_CONTENT.en.presets.description).toContain('public information');
     expect(DEEPSEEK_CHAT_CONTENT.zh.presets.description).toContain('公开信息');
   });

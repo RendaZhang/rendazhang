@@ -1,132 +1,102 @@
-import { CERTIFICATIONS_PAGE_PATH, CHAT_PAGE_PATH } from '../constants';
-
 export const DOCS_CASE_STUDY_CONTENT = {
   en: {
-    eyebrow: 'PersonalWeb',
-    title: 'How I built PersonalWeb',
-    conclusion:
-      'I maintain PersonalWeb as both my bilingual portfolio and a working engineering project. Astro serves the public pages, React handles focused interactions, Flask powers Chat, and Nginx keeps the site and API on one origin. The repository also shows how I test, deploy, and document each part.',
-    storyHeading: 'Inside the project',
-    story: [
-      {
-        title: 'Static pages with focused interactivity',
-        body: 'Astro renders the main pages as static HTML. React is reserved for navigation, theme and language controls, forms, certification details, and Chat, so public content remains readable before hydration.'
+    title: 'Architecture notes',
+    intro: 'Pages are prebuilt. The chat window loads when you open it.',
+    routeLegend: 'Trace a route',
+    routes: { page: 'Open a page', chat: 'Send a question' },
+    nodes: {
+      browser: {
+        title: 'Browser',
+        notes: {
+          page: 'The browser can read the page from HTML while interactive components load.',
+          chat: 'The browser submits a question on the same origin as the page.'
+        },
+        section: { href: '#en-baselayout-component-design-notes', label: 'Page layout' }
       },
-      {
-        title: 'Chat with a clear boundary',
-        body: 'The direct Chat page and floating widget share the same-origin route. Guided questions use public information from this site and its repositories, while the iframe-ready protocol stays separate from model requests.'
+      nginx: {
+        title: 'Nginx',
+        notes: {
+          page: 'Nginx serves the built files directly.',
+          chat: 'A dedicated proxy route forwards the question to Flask and streams the reply.'
+        },
+        section: { href: '#en-nginx-server', label: 'Nginx configuration' }
       },
-      {
-        title: 'Repeatable checks and delivery',
-        body: 'Vitest, Playwright browser checks, Astro builds, GitHub Actions, and documented Nginx and CSP constraints make changes inspectable and repeatable.'
+      static: {
+        title: 'Static HTML',
+        notes: {
+          page: 'Astro builds the public pages ahead of time, so opening one needs no application server.'
+        },
+        section: { href: '#en-reference-architecture', label: 'Reference architecture' }
+      },
+      flask: {
+        title: 'Flask',
+        notes: {
+          chat: 'Flask validates the message and streams each piece as it arrives, so the browser can show a partial answer.'
+        },
+        section: { href: '#en-backend', label: 'Backend implementation' }
+      },
+      model: {
+        title: 'Model API',
+        notes: { chat: 'The model returns text in pieces for Flask to relay.' },
+        section: { href: '#en-backend', label: 'Backend repository' }
       }
-    ],
-    evidenceHeading: 'Inspect the implementation',
-    evidence: [
-      {
-        label: 'Read the reference architecture',
-        href: '#en-reference-architecture',
-        note: 'See the frontend, backend, Nginx, and deployment boundaries.'
-      },
-      {
-        label: 'Review CI/CD and validation',
-        href: '#en-cicd-workflow',
-        note: 'See how the site is built, tested, and released.'
-      },
-      {
-        label: 'Verify my AWS certification',
-        href: CERTIFICATIONS_PAGE_PATH,
-        note: 'Open the credential dates, badge, and verification links.'
-      },
-      {
-        label: 'Ask about PersonalWeb',
-        href: CHAT_PAGE_PATH,
-        note: 'Use guided questions backed by public site and repository information.'
-      }
-    ],
-    boundaryHeading: 'What this project does not show',
-    boundary:
-      'PersonalWeb is a maintained personal project. It does not demonstrate high-traffic scale, private customer systems, or a large commercial SaaS, and its public documentation leaves out secrets, visitor messages, private logs, and server details.',
-    nextActions: [
-      {
-        label: 'Read the technical documentation',
-        href: '#en-tech-stack',
-        variant: 'primary'
-      },
-      {
-        label: 'Verify my AWS certification',
-        href: CERTIFICATIONS_PAGE_PATH,
-        variant: 'secondary'
-      },
-      {
-        label: 'Contact me',
-        href: '/#contact',
-        variant: 'secondary'
-      }
-    ]
+    },
+    related: {
+      certificate: 'Architecture topics in my AWS certification',
+      chat: 'Preview a question about PersonalWeb'
+    },
+    links: {
+      docs: { href: '#content-en', label: 'Full documentation and contents' },
+      delivery: { href: '#en-cicd-workflow', label: 'CI/CD and validation' },
+      contact: 'Contact'
+    }
   },
   zh: {
-    eyebrow: 'PersonalWeb',
-    title: '我如何构建 PersonalWeb',
-    conclusion:
-      '我同时把 PersonalWeb 当作中英双语作品集和一个持续维护的工程项目。公开页面由 Astro 生成，交互部分使用 React，AI Chat 由 Flask 后端提供，Nginx 让网站与 API 保持同源。仓库还记录了各部分如何测试、部署和维护。',
-    storyHeading: '项目由哪些部分组成',
-    story: [
-      {
-        title: '静态页面，按需交互',
-        body: '主要页面由 Astro 生成静态 HTML；导航、主题与语言切换、表单、证书信息和 Chat 等交互再由 React 负责，因此公开内容不依赖浏览器完成加载后才能阅读。'
+    title: '架构笔记',
+    intro: '页面预先生成。打开聊天时，才加载聊天窗口。',
+    routeLegend: '查看一条路线',
+    routes: { page: '打开页面', chat: '发送问题' },
+    nodes: {
+      browser: {
+        title: '浏览器',
+        notes: {
+          page: '交互组件加载期间，浏览器已经可以从 HTML 读取页面。',
+          chat: '浏览器向和页面同源的地址提交问题。'
+        },
+        section: { href: '#zh-baselayout-组件设计说明', label: '页面布局' }
       },
-      {
-        title: '边界清楚的 AI Chat',
-        body: '独立 Chat 页面和首页浮动窗口使用同一个站内地址。导览问题只依据网站和公开仓库信息回答，浮动窗口的加载协议与模型请求分别维护。'
+      nginx: {
+        title: 'Nginx',
+        notes: {
+          page: 'Nginx 直接提供构建好的文件。',
+          chat: '专用代理路径把问题转给 Flask，并逐段转发回答。'
+        },
+        section: { href: '#zh-nginx-服务器', label: 'Nginx 配置' }
       },
-      {
-        title: '可以重复执行的测试与交付',
-        body: 'Vitest、Playwright 浏览器检查、Astro 构建、GitHub Actions，以及公开记录的 Nginx 与 CSP 约束，让每次变更都能被检查和重复执行。'
+      static: {
+        title: '静态 HTML',
+        notes: { page: 'Astro 提前生成公开页面，访客打开时无需等待应用服务器。' },
+        section: { href: '#zh-参考架构', label: '参考架构' }
+      },
+      flask: {
+        title: 'Flask',
+        notes: { chat: 'Flask 校验消息，再把回答分段返回，浏览器可以边收边显示。' },
+        section: { href: '#zh-后端', label: '后端实现' }
+      },
+      model: {
+        title: '模型 API',
+        notes: { chat: '模型逐段返回文字，由 Flask 转发。' },
+        section: { href: '#zh-后端', label: '后端仓库' }
       }
-    ],
-    evidenceHeading: '查看具体实现',
-    evidence: [
-      {
-        label: '阅读参考架构',
-        href: '#zh-参考架构',
-        note: '了解前端、后端、Nginx 与部署之间的边界。'
-      },
-      {
-        label: '查看 CI/CD 与验证流程',
-        href: '#zh-cicd-工作流',
-        note: '了解网站如何构建、测试与发布。'
-      },
-      {
-        label: '验证我的 AWS 认证',
-        href: CERTIFICATIONS_PAGE_PATH,
-        note: '查看证书日期、Credly 徽章与验证入口。'
-      },
-      {
-        label: '询问 PersonalWeb',
-        href: CHAT_PAGE_PATH,
-        note: '通过基于网站和公开仓库信息的导览问题了解项目。'
-      }
-    ],
-    boundaryHeading: '这个项目不能说明什么',
-    boundary:
-      'PersonalWeb 是我持续维护的个人项目。它不能说明高流量规模、私人客户系统或大型商业 SaaS；公开文档也不会包含密钥、访客消息、私人日志和服务器细节。',
-    nextActions: [
-      {
-        label: '阅读技术文档',
-        href: '#zh-技术栈',
-        variant: 'primary'
-      },
-      {
-        label: '验证我的 AWS 认证',
-        href: CERTIFICATIONS_PAGE_PATH,
-        variant: 'secondary'
-      },
-      {
-        label: '联系我',
-        href: '/#contact',
-        variant: 'secondary'
-      }
-    ]
+    },
+    related: {
+      certificate: '我的 AWS 认证覆盖哪些架构主题',
+      chat: '预览关于 PersonalWeb 的问题'
+    },
+    links: {
+      docs: { href: '#content-zh', label: '完整正文与目录' },
+      delivery: { href: '#zh-cicd-工作流', label: 'CI/CD 与验证' },
+      contact: '联系'
+    }
   }
 } as const;

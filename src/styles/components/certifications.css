@@ -1,356 +1,319 @@
 @import './skeleton.css';
 
 .c-cert-page {
-  background: linear-gradient(
-    180deg,
-    var(--color-palette-surface) 0,
-    var(--color-bg) calc(var(--space-10) * 4)
-  );
-  container-type: inline-size;
-  min-height: 100vh;
-  padding: var(--space-6) 0 var(--space-8);
+  --cert-paper: color-mix(in srgb, var(--color-surface) 82%, #f3dfbd);
+  --cert-ink: var(--color-text);
+  --cert-accent: var(--color-brand);
+  --cert-rule: color-mix(in srgb, var(--cert-ink) 28%, transparent);
+  --cert-serif: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
+
+  background-color: var(--color-bg);
+  color: var(--cert-ink);
+  min-block-size: calc(100svh - var(--space-9));
+  padding: clamp(1rem, 4.3vw, 4rem) var(--space-4);
+}
+
+html[data-theme='dark'] .c-cert-page {
+  --cert-paper: color-mix(in srgb, var(--color-bg) 75%, var(--color-surface));
 }
 
 .c-cert-container {
-  margin: 0 auto;
-  max-width: calc(var(--size-cert-card) * 2 + var(--space-10));
-  width: min(calc(100% - var(--space-6)), calc(var(--size-cert-card) * 2 + var(--space-10)));
+  align-items: start;
+  display: grid;
+  gap: clamp(1rem, 3vw, 2.75rem);
+  margin-inline: auto;
+  max-inline-size: 71rem;
+}
+
+.c-cert-card {
+  background-color: var(--cert-paper);
+  border: 1px solid var(--cert-rule);
+  border-block-start: 3px solid var(--cert-accent);
+  min-inline-size: 0;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  position: relative;
+  scroll-margin-block-start: 5rem;
+}
+
+.c-cert-card::before {
+  border: 1px solid var(--cert-rule);
+  content: '';
+  inset: var(--space-2);
+  pointer-events: none;
+  position: absolute;
 }
 
 .c-cert-hero {
-  margin: 0 0 var(--space-6);
-  padding: var(--space-4) var(--space-6);
-  text-align: center;
-}
-
-.c-cert-hero::after {
-  background: var(--gradient-primary);
-  border-radius: var(--radius-xs);
-  content: '';
-  display: block;
-  height: var(--space-1);
-  margin: var(--space-4) auto 0;
-  width: var(--space-10);
+  border-block-end: 1px solid var(--cert-rule);
+  margin-block-end: var(--space-5);
+  padding-block-end: var(--space-4);
 }
 
 .c-cert-hero h1 {
-  color: var(--color-text);
-  font-size: var(--font-size-5);
-  letter-spacing: 0;
-  line-height: var(--line-height-1);
+  font-family: var(--cert-serif);
+  font-size: clamp(1.95rem, 4.4vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.13;
   margin: 0;
-}
-
-.c-cert-hero-summary {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-2);
-  line-height: var(--line-height-4);
-  margin: var(--space-4) auto 0;
-  max-width: 64ch;
-}
-
-/* Spacing and type values mapped to design tokens */
-.c-cert-grid {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: minmax(0, 1fr);
-  padding: 0;
-}
-
-.c-credly-container {
-  background: transparent;
-  border: var(--border-1);
-  border-color: transparent;
-  border-radius: var(--radius-s);
-  box-shadow: none;
-  margin: 0 auto;
-  max-width: var(--size-credly-badge);
-  min-height: var(--size-credly-badge);
-  overflow: hidden;
-  padding: var(--space-2);
-  position: relative;
-
-  iframe {
-    border: 0;
-    border-radius: calc(var(--radius-s) - var(--space-1));
-    display: block;
-    max-width: 100%;
-    opacity: 0;
-    transition: opacity var(--duration-normal) var(--easing-standard);
-  }
-
-  &.is-loaded iframe {
-    opacity: 1;
-  }
-
-  &:focus-within {
-    border-color: var(--color-palette-border);
-    box-shadow: var(--shadow-elevation-1), var(--focus-ring);
-  }
-
-  .c-credly-skeleton,
-  .c-credly-error {
-    align-items: center;
-    display: flex;
-    inset: 0;
-    justify-content: center;
-    position: absolute;
-    z-index: 10;
-  }
-
-  .c-credly-skeleton {
-    background: var(--color-palette-surface);
-    overflow: hidden;
-  }
-
-  &.is-loaded .c-credly-skeleton {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--duration-normal) var(--easing-standard);
-  }
-
-  .c-credly-error {
-    background: var(--color-surface);
-    color: var(--color-text);
-    flex-direction: column;
-    font-size: var(--font-size-1);
-    gap: var(--space-2);
-    padding: var(--space-2);
-    text-align: center;
-  }
-
-  .c-credly-error button {
-    background: var(--color-palette-surface);
-    border: var(--border-1);
-    border-color: var(--color-palette-border);
-    border-radius: var(--radius-xs);
-    color: var(--color-text);
-    cursor: pointer;
-    min-height: var(--space-7);
-    padding: var(--space-1) var(--space-3);
-    transition:
-      background-color var(--duration-fast) var(--easing-standard),
-      box-shadow var(--duration-fast) var(--easing-standard);
-  }
-
-  .c-credly-error button:hover {
-    background: var(--color-palette-surface-strong);
-  }
-
-  .c-credly-error button:focus-visible {
-    box-shadow: var(--focus-ring);
-    outline: var(--border-width-hairline) solid var(--color-palette-border);
-    outline-offset: var(--space-1);
-  }
-}
-
-/* Certification card */
-.c-cert-card {
-  background: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
-  border: var(--border-1);
-  border-color: var(--color-palette-border);
-  border-radius: var(--radius-s);
-  box-shadow: var(--shadow-cert-card);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  overflow: hidden;
-  padding: var(--space-6);
-  position: relative;
-  text-align: left;
-  transition:
-    border-color var(--duration-fast) var(--easing-standard),
-    box-shadow var(--duration-fast) var(--easing-standard),
-    transform var(--duration-fast) var(--easing-standard);
-
-  &::before {
-    background: var(--gradient-primary);
-    content: '';
-    height: var(--space-1);
-    inset: 0 0 auto;
-    position: absolute;
-  }
-
-  @media (hover: hover) {
-    &:hover {
-      box-shadow: var(--shadow-cert-card-hover);
-      transform: translateY(calc(var(--space-1) * -0.5));
-    }
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:focus-within {
-    border-color: var(--color-palette-border);
-    box-shadow:
-      var(--shadow-cert-card-hover),
-      0 0 0 2px var(--color-palette-surface);
-  }
-
-  &:focus-visible {
-    box-shadow: var(--shadow-cert-card-hover), var(--focus-ring);
-    outline: none;
-  }
-
-  h2 {
-    color: var(--color-text);
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
-    margin: 0;
-    text-align: center;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .c-verify-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    justify-content: center;
-    margin-top: var(--space-1);
-
-    /* Verification buttons share gradient via .c-btn-primary; only layout here */
-    .c-verify-btn {
-      flex: 1 1 auto;
-      min-width: calc(var(--space-10) * 1.5);
-
-      &:focus-visible {
-        outline: var(--border-width-hairline) solid var(--color-palette-border);
-        outline-offset: var(--space-1);
-      }
-    }
-  }
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .c-cert-overview {
-  align-items: start;
+  align-items: center;
   display: grid;
-  gap: var(--space-6);
-  grid-template-columns: minmax(0, 1fr) minmax(var(--size-credly-badge), 0.95fr);
-}
-
-.c-cert-verification {
-  display: grid;
-  gap: var(--space-3);
-}
-
-.c-cert-coverage {
-  border-color: var(--color-border-soft);
-  border-top: var(--border-1);
-  display: grid;
-  gap: var(--space-3);
-  padding-top: var(--space-4);
-  text-align: left;
-
-  h3 {
-    color: var(--color-text);
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-3);
-    margin: 0;
-  }
-
-  ul {
-    display: grid;
-    gap: var(--space-2);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    color: var(--color-text);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-4);
-    padding-left: var(--space-4);
-    position: relative;
-  }
-
-  li::before {
-    background: var(--color-palette-border);
-    border-radius: 50%;
-    content: '';
-    height: var(--space-2);
-    inset: calc(var(--space-2) * 0.85) auto auto 0;
-    position: absolute;
-    width: var(--space-2);
-  }
-}
-
-.c-cert-boundary {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-1);
-  line-height: var(--line-height-4);
+  gap: clamp(0.75rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 150px);
 }
 
 .c-cert-meta {
   display: grid;
-  gap: var(--space-2);
-  grid-template-columns: 1fr;
+  gap: var(--space-3);
   margin: 0;
-
-  div {
-    background: color-mix(in srgb, var(--color-palette-surface) 68%, var(--color-surface));
-    border: var(--border-1);
-    border-color: var(--color-border-soft);
-    border-radius: var(--radius-xs);
-    padding: var(--space-3);
-    text-align: left;
-  }
-
-  dt {
-    color: var(--color-text-muted);
-    font-size: var(--font-size-0);
-    font-weight: 700;
-    line-height: var(--line-height-2);
-  }
-
-  dd {
-    color: var(--color-text);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-4);
-    margin: var(--space-1) 0 0;
-  }
 }
 
-@media (max-width: 36rem) {
-  .c-cert-page {
-    background: var(--color-bg);
-    padding: var(--space-4) 0 var(--space-7);
-  }
+.c-cert-meta dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-1);
+  font-weight: 650;
+}
 
+.c-cert-meta dd {
+  font-family: var(--cert-serif);
+  font-size: var(--font-size-2);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.c-cert-meta time {
+  font-variant-numeric: tabular-nums;
+}
+
+.c-verify-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.c-cert-page a {
+  align-items: center;
+  color: var(--cert-ink);
+  display: inline-flex;
+  font-weight: 650;
+  gap: var(--space-1);
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  text-decoration-color: var(--cert-accent);
+  text-underline-offset: 0.24em;
+}
+
+.c-cert-coverage-body a {
+  display: flex;
+  inline-size: fit-content;
+}
+
+.c-cert-page a:hover {
+  color: var(--cert-accent);
+}
+
+.c-cert-page :is(a, summary, button):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.c-verify-btn {
+  border-block-end: 1px solid var(--cert-accent);
+  text-decoration: none;
+}
+
+.c-verify-btn > [aria-hidden] {
+  color: var(--cert-accent);
+}
+
+.c-cert-verification {
+  inline-size: 150px;
+  justify-self: center;
+  max-inline-size: 100%;
+}
+
+.c-credly-container {
+  background-color: var(--color-surface);
+  min-block-size: var(--size-credly-badge);
+  overflow: hidden;
+  position: relative;
+}
+
+.c-credly-container iframe {
+  border: 0;
+  display: block;
+  max-inline-size: 100%;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--easing-standard);
+}
+
+.c-credly-container.is-loaded iframe {
+  opacity: 1;
+}
+
+.c-credly-container:focus-within {
+  box-shadow: var(--focus-ring);
+}
+
+.c-credly-skeleton,
+.c-credly-error {
+  align-items: center;
+  background-color: var(--color-surface);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+.c-credly-container:has(iframe:not([src])) .c-credly-skeleton::before {
+  animation: none;
+}
+
+.c-credly-error {
+  flex-direction: column;
+  font-size: var(--font-size-1);
+  gap: var(--space-2);
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.c-credly-error button {
+  background-color: var(--color-palette-surface);
+  border: 1px solid var(--cert-rule);
+  color: var(--cert-ink);
+  cursor: pointer;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  padding: var(--space-1) var(--space-3);
+}
+
+.c-cert-notes {
+  min-inline-size: 0;
+}
+
+.c-cert-coverage {
+  background-color: var(--color-surface);
+  border: 1px solid var(--cert-rule);
+  position: relative;
+  scroll-margin-block-start: 5rem;
+}
+
+.c-cert-coverage::before {
+  background-color: var(--cert-accent);
+  block-size: 1px;
+  content: '';
+  inline-size: var(--space-8);
+  inset-block-start: -1px;
+  inset-inline-start: var(--space-3);
+  position: absolute;
+}
+
+.c-cert-coverage > summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--cert-serif);
+  font-size: var(--font-size-2);
+  font-weight: 650;
+  gap: var(--space-2);
+  justify-content: space-between;
+  list-style: none;
+  min-block-size: 44px;
+  padding: var(--space-3);
+}
+
+.c-cert-coverage > summary::-webkit-details-marker {
+  display: none;
+}
+
+.c-cert-coverage > summary:hover {
+  background-color: var(--cert-paper);
+}
+
+.c-cert-coverage > summary svg {
+  color: var(--cert-accent);
+  fill: none;
+  flex: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.c-cert-coverage[open] > summary svg {
+  transform: rotate(45deg);
+}
+
+.c-cert-coverage-body {
+  font-size: var(--font-size-1);
+  line-height: 1.55;
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+.c-cert-coverage-body p {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.c-cert-coverage-body dl {
+  margin: 0;
+}
+
+.c-cert-coverage-body dl > div {
+  border-block-start: 1px solid var(--cert-rule);
+  padding-block-start: var(--space-2);
+}
+
+.c-cert-coverage-body dt {
+  font-weight: 750;
+}
+
+.c-cert-coverage-body dd {
+  margin: 0;
+}
+
+.c-cert-related {
+  margin-block-start: var(--space-5);
+}
+
+.c-cert-related h2 {
+  border-block-end: 1px solid var(--cert-rule);
+  font-family: var(--cert-serif);
+  font-size: var(--font-size-2);
+  font-weight: 600;
+  margin: 0;
+  padding-block-end: var(--space-1);
+}
+
+.c-cert-related ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 55rem) {
   .c-cert-container {
-    width: calc(100% - var(--space-4));
-  }
-
-  .c-cert-hero {
-    margin-bottom: var(--space-5);
-    padding: var(--space-3) var(--space-2);
-  }
-
-  .c-cert-hero h1 {
-    font-size: var(--font-size-4);
-  }
-
-  .c-cert-card {
-    padding: var(--space-4);
-  }
-
-  .c-cert-overview {
-    grid-template-columns: 1fr;
-  }
-
-  .c-cert-card .c-verify-links {
-    flex-direction: column;
-  }
-
-  .c-cert-card .c-verify-links .c-verify-btn {
-    width: 100%;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 }
-html:root .c-cert-page {
-  background: var(--color-bg);
+
+@media (max-width: 23rem) {
+  .c-cert-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c-cert-verification {
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-credly-container iframe {
+    transition: none;
+  }
 }

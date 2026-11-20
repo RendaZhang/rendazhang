@@ -639,7 +639,7 @@ test('/reset_password consumes fragment tokens without sending or retaining them
   await audit.assertClean();
 });
 
-test('/deepseek_chat/ preset click sends guide metadata and supports copying dark answers', async ({
+test('/deepseek_chat/ explicit sending of a preset adds guide metadata and supports copying dark answers', async ({
   page
 }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
@@ -665,9 +665,12 @@ test('/deepseek_chat/ preset click sends guide metadata and supports copying dar
   });
 
   await page.goto(CHAT_PAGE_PATH, { waitUntil: 'domcontentloaded' });
-  const preset = page.getByRole('button', { name: 'Renda 在 PersonalWeb 里做了什么？' });
+  const preset = page.locator('[data-preset-id="personalweb_proof"]');
   await expect(preset).toBeVisible();
   await preset.click();
+  await expect(page.locator('.c-message-input')).toHaveValue('Renda 在 PersonalWeb 里做了什么？');
+  expect(requestBody).toBeNull();
+  await page.locator('#send-btn').click();
 
   await expect(page.locator('.c-user-message')).toHaveText('Renda 在 PersonalWeb 里做了什么？');
   await expect(page.locator('.c-ai-message')).toContainText(

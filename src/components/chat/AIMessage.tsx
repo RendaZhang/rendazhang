@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
 import { UI_DURATIONS } from '../../constants';
-import { useLanguage } from '../providers/I18nProvider';
 import ControlHint from '../ui/data-display/ControlHint';
 import { logger } from '../../utils';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
@@ -13,8 +12,7 @@ interface AIMessageProps {
   text: string;
   enhance: boolean;
   onRendered?: ChatCallback;
-  textsZh: CopyTexts;
-  textsEn: CopyTexts;
+  texts: CopyTexts;
   sourceHints?: ChatGuideSourceHintGroup;
   sourceHintsHeading: string;
   sourceHintsAriaLabel: string;
@@ -24,14 +22,11 @@ export default function AIMessage({
   text,
   enhance,
   onRendered,
-  textsZh,
-  textsEn,
+  texts,
   sourceHints,
   sourceHintsHeading,
   sourceHintsAriaLabel
 }: AIMessageProps) {
-  const { lang } = useLanguage();
-  const texts = lang.startsWith('zh') ? textsZh : textsEn;
   const [isCopied, setIsCopied] = useState(false);
   const feedbackTimer = useRef<number | undefined>(undefined);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);

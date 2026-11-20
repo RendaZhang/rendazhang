@@ -8,8 +8,6 @@ export * from './BlogSection';
 export { default as BlogSection } from './BlogSection';
 export * from './CertificationsContent';
 export { default as CertificationsContent } from './CertificationsContent';
-export * from './CertificationsEffects';
-export { default as CertificationsEffects } from './CertificationsEffects';
 export * from './ContactSection';
 export { default as ContactSection } from './ContactSection';
 export * from './DocsEffects';

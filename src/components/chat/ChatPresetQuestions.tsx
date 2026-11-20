@@ -4,7 +4,7 @@ import {
   type ChatPresetQuestionId
 } from '../../services/visitorEvents';
 
-type ChatPresetQuestionTexts = Readonly<Record<ChatPresetQuestionId, string>>;
+type ChatPresetTopicTexts = Readonly<Record<ChatPresetQuestionId, string>>;
 type TrackPresetClick = (
   name: 'chat_preset_question_clicked',
   payload: { presetId: ChatPresetQuestionId }
@@ -13,23 +13,25 @@ type TrackPresetClick = (
 export interface ChatPresetQuestionsProps {
   heading: string;
   description: string;
-  questions: ChatPresetQuestionTexts;
+  topics: ChatPresetTopicTexts;
+  selectedPresetId: ChatPresetQuestionId | null;
   disabled?: boolean;
-  onSelect: (presetId: ChatPresetQuestionId, question: string) => void;
+  onSelect: (presetId: ChatPresetQuestionId) => void;
   trackPresetClick?: TrackPresetClick;
 }
 
 export default function ChatPresetQuestions({
   heading,
   description,
-  questions,
+  topics,
+  selectedPresetId,
   disabled = false,
   onSelect,
   trackPresetClick = trackVisitorEvent
 }: ChatPresetQuestionsProps) {
   const handleSelect = (presetId: ChatPresetQuestionId) => {
     trackPresetClick('chat_preset_question_clicked', { presetId });
-    onSelect(presetId, questions[presetId]);
+    onSelect(presetId);
   };
 
   return (
@@ -40,19 +42,22 @@ export default function ChatPresetQuestions({
         </h2>
         <p className="c-chat-presets-description">{description}</p>
       </div>
-      <div className="c-chat-preset-list" role="list" aria-label={heading}>
+      <ul className="c-chat-preset-list">
         {CHAT_PRESET_QUESTION_IDS.map((presetId) => (
-          <button
-            className="c-chat-preset-button"
-            disabled={disabled}
-            key={presetId}
-            onClick={() => handleSelect(presetId)}
-            type="button"
-          >
-            {questions[presetId]}
-          </button>
+          <li key={presetId}>
+            <button
+              aria-pressed={selectedPresetId === presetId}
+              className="c-chat-preset-button"
+              data-preset-id={presetId}
+              disabled={disabled}
+              onClick={() => handleSelect(presetId)}
+              type="button"
+            >
+              {topics[presetId]}
+            </button>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

@@ -5,7 +5,7 @@ test.describe('skip to main content without JavaScript', () => {
 
   for (const [path, firstControl] of [
     ['/', '.c-showcase-explore'],
-    ['/docs/', '.c-docs-proof-evidence-link:visible']
+    ['/docs/', '.c-docs-route-switch input:checked']
   ]) {
     test(`starts in the main content on ${path}`, async ({ page }) => {
       await page.goto(path, { waitUntil: 'domcontentloaded' });

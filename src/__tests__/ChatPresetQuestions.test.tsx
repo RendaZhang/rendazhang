@@ -3,12 +3,12 @@ import { describe, expect, it, vi } from 'vitest';
 import ChatPresetQuestions from '../components/chat/ChatPresetQuestions';
 import { CHAT_PRESET_QUESTION_IDS, type ChatPresetQuestionId } from '../services/visitorEvents';
 
-const questions = {
-  who_is_renda: 'Who is Renda Zhang?',
-  personalweb_proof: 'What did Renda build in PersonalWeb?',
-  cloud_native_evidence: "Where can I see Renda's cloud-native work?",
-  certification_context: "What does Renda's AWS certification cover?",
-  recruiter_summary: 'What should a recruiter look at first?'
+const topics = {
+  who_is_renda: 'Renda Zhang',
+  personalweb_proof: 'PersonalWeb',
+  cloud_native_evidence: 'Cloud-native work',
+  certification_context: 'AWS certification',
+  recruiter_summary: 'For recruiters'
 } satisfies Readonly<Record<ChatPresetQuestionId, string>>;
 
 function renderPresets(overrides: Partial<Parameters<typeof ChatPresetQuestions>[0]> = {}) {
@@ -18,8 +18,9 @@ function renderPresets(overrides: Partial<Parameters<typeof ChatPresetQuestions>
   render(
     <ChatPresetQuestions
       heading="Ask about Renda and PersonalWeb"
-      description="Choose a question to send it now."
-      questions={questions}
+      description="Pick a topic to preview its question."
+      topics={topics}
+      selectedPresetId="personalweb_proof"
       onSelect={onSelect}
       trackPresetClick={trackPresetClick}
       {...overrides}
@@ -34,26 +35,26 @@ describe('ChatPresetQuestions', () => {
     renderPresets();
 
     for (const presetId of CHAT_PRESET_QUESTION_IDS) {
-      expect(screen.getByRole('button', { name: questions[presetId] })).toBeTruthy();
+      expect(screen.getByRole('button', { name: topics[presetId] })).toBeTruthy();
     }
   });
 
-  it('tracks only the controlled preset ID and returns the question to the Chat send flow', () => {
+  it('marks the selected topic and forwards only a controlled preset ID', () => {
     const { onSelect, trackPresetClick } = renderPresets();
 
-    fireEvent.click(screen.getByRole('button', { name: questions.personalweb_proof }));
+    const button = screen.getByRole('button', { name: topics.personalweb_proof, pressed: true });
+    fireEvent.click(button);
 
     expect(trackPresetClick).toHaveBeenCalledWith('chat_preset_question_clicked', {
       presetId: 'personalweb_proof'
     });
-    expect(onSelect).toHaveBeenCalledWith('personalweb_proof', questions.personalweb_proof);
-    expect(JSON.stringify(trackPresetClick.mock.calls)).not.toContain(questions.personalweb_proof);
+    expect(onSelect).toHaveBeenCalledWith('personalweb_proof');
   });
 
   it('does not call telemetry or selection handlers while disabled', () => {
     const { onSelect, trackPresetClick } = renderPresets({ disabled: true });
 
-    const button = screen.getByRole('button', { name: questions.recruiter_summary });
+    const button = screen.getByRole('button', { name: topics.recruiter_summary });
     expect(button.hasAttribute('disabled')).toBe(true);
     fireEvent.click(button);
 

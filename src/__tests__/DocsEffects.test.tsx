@@ -131,6 +131,25 @@ describe('DocsEffects Mermaid language lifecycle', () => {
     expect(docsEffectsMocks.run).toHaveBeenCalledTimes(2);
   });
 
+  it('renders a shared heading’s other-language diagram without changing the site language', async () => {
+    const originalUrl = window.location.href;
+    try {
+      renderDocsEffects();
+      await waitFor(() => expect(docsEffectsMocks.run).toHaveBeenCalledOnce());
+
+      act(() => {
+        window.location.hash = 'en-overview';
+      });
+      await waitFor(() => expect(document.querySelector('#content-en svg')).not.toBeNull());
+
+      expect(docsEffectsMocks.inputs).toHaveBeenNthCalledWith(2, ['graph TD; English docs-->Done']);
+      expect(document.documentElement.lang).toBe('zh-CN');
+      expect(document.querySelector('#content-zh svg')).not.toBeNull();
+    } finally {
+      window.history.replaceState(null, '', originalUrl);
+    }
+  });
+
   it('uses the latest document language when a switch happens before setup is ready', async () => {
     renderDocsEffects();
     act(() => dispatchLanguageChange('en'));

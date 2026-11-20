@@ -1,77 +1,152 @@
 ---
+import { CERTIFICATIONS_PAGE_PATH, CHAT_PAGE_PATH } from '../../constants/paths';
 import { DOCS_CASE_STUDY_CONTENT } from '../../content/docsCaseStudyContent';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
 
-const surfaces = [
+const { zh, en } = DOCS_CASE_STUDY_CONTENT;
+const routes = ['page', 'chat'] as const;
+type RouteNotes = Partial<Record<(typeof routes)[number], string>>;
+const diagram = [
   {
-    lang: 'zh',
-    className: 'is-lang-zh',
-    content: DOCS_CASE_STUDY_CONTENT.zh
+    id: 'browser',
+    route: 'shared',
+    entry: 'none',
+    drawing: 'M4 5h24v17H4zM4 9h24M9 27h14m-9-5v5m4-5v5m-8-14 3 2-3 2m6-2h5'
   },
   {
-    lang: 'en',
-    className: 'is-lang-en',
-    content: DOCS_CASE_STUDY_CONTENT.en
+    id: 'nginx',
+    route: 'shared',
+    entry: 'incoming',
+    drawing: 'M7 9v14l9 5 9-5V9l-9-5-9 5Zm0 0 9 5 9-5m-9 5v14m-4-16v7l8 4v-7'
+  },
+  {
+    id: 'static',
+    route: 'page',
+    entry: 'branch',
+    drawing: 'M8 8h14l4 4v15H8zM5 23V4h15m2 4v4h4M12 17h10m-10 4h10'
+  },
+  {
+    id: 'flask',
+    route: 'chat',
+    entry: 'branch',
+    drawing: 'M12 4h8m-7 0v8L6 22a3 3 0 0 0 2 5h16a3 3 0 0 0 2-5l-7-10V4m-8 13h10m-11 6h3m4 0h5'
+  },
+  {
+    id: 'model',
+    route: 'chat',
+    entry: 'return',
+    drawing: 'm16 5 11 6-11 6-11-6 11-6ZM5 16l11 6 11-6M5 21l11 6 11-6m-14-10h6m-3-3v6'
   }
 ] as const;
+
+const branchPaths = {
+  incoming: { wide: '→', narrow: '→' },
+  branch: { wide: '→', narrow: '↓' },
+  return: { wide: '→', narrow: '↓' }
+} as const;
 ---
 
-{
-  surfaces.map(({ lang, className, content }) => (
-    <section
-      class={`c-docs-proof-surface ${className}`}
-      aria-labelledby={`docs-proof-title-${lang}`}
-    >
-      <div class="c-docs-proof-hero">
-        <p class="c-docs-proof-eyebrow">{content.eyebrow}</p>
-        <h1 id={`docs-proof-title-${lang}`}>{content.title}</h1>
-        <p class="c-docs-proof-conclusion">{content.conclusion}</p>
-      </div>
+<section class="c-docs-plate" aria-labelledby="docs-route-title">
+  <header class="c-docs-plate-heading">
+    <h1 id="docs-route-title">
+      <LocalizedSection zhContent={zh.title} enContent={en.title} />
+    </h1>
+    <p><LocalizedSection zhContent={zh.intro} enContent={en.intro} /></p>
+  </header>
 
-      <div class="c-docs-proof-section" aria-labelledby={`docs-proof-pillars-${lang}`}>
-        <h2 id={`docs-proof-pillars-${lang}`}>{content.storyHeading}</h2>
-        <div class="c-docs-proof-pillars">
-          {content.story.map((pillar) => (
-            <article class="c-docs-proof-pillar">
-              <h3>{pillar.title}</h3>
-              <p>{pillar.body}</p>
-            </article>
-          ))}
-        </div>
-      </div>
+  <fieldset class="c-docs-route-switch">
+    <legend><LocalizedSection zhContent={zh.routeLegend} enContent={en.routeLegend} /></legend>
+    {
+      routes.map((route) => (
+        <label for={`docs-route-${route}`}>
+          <input
+            id={`docs-route-${route}`}
+            type="radio"
+            name="docs-route"
+            value={route}
+            checked={route === 'page'}
+          />
+          <LocalizedSection zhContent={zh.routes[route]} enContent={en.routes[route]} />
+        </label>
+      ))
+    }
+  </fieldset>
 
-      <div class="c-docs-proof-grid">
-        <div class="c-docs-proof-evidence" aria-labelledby={`docs-proof-evidence-${lang}`}>
-          <h2 id={`docs-proof-evidence-${lang}`}>{content.evidenceHeading}</h2>
-          <ul>
-            {content.evidence.map((item) => (
-              <li>
-                <a class="c-docs-proof-evidence-link" href={item.href}>
-                  {item.label}
+  <ol class="c-docs-route-diagram">
+    {
+      diagram.map(({ id, route, entry, drawing }) => (
+        <li class="c-docs-route-node" data-docs-position={id} data-docs-path={route}>
+          {entry !== 'none' && (
+            <span class="c-docs-node-connector" aria-hidden="true">
+              <span class="c-docs-connector-wide">{branchPaths[entry].wide}</span>
+              <span class="c-docs-connector-narrow">
+                {id === 'static' ? '↙' : branchPaths[entry].narrow}
+              </span>
+            </span>
+          )}
+
+          <details class="c-docs-node-fold" data-docs-node={id}>
+            <summary>
+              <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <path d={drawing} />
+              </svg>
+              <LocalizedSection zhContent={zh.nodes[id].title} enContent={en.nodes[id].title} />
+              <span class="c-docs-node-caret" aria-hidden="true" />
+            </summary>
+            <div class="c-docs-node-note">
+              {routes.map((mode) => {
+                const notesZh: RouteNotes = zh.nodes[id].notes;
+                const notesEn: RouteNotes = en.nodes[id].notes;
+                const noteZh = notesZh[mode];
+                const noteEn = notesEn[mode];
+                return (
+                  noteZh &&
+                  noteEn && (
+                    <p data-docs-note={mode}>
+                      <LocalizedSection zhContent={noteZh} enContent={noteEn} />
+                    </p>
+                  )
+                );
+              })}
+              <span class="is-lang-zh">
+                <a href={zh.nodes[id].section.href}>{zh.nodes[id].section.label}</a>
+              </span>
+              <span class="is-lang-en">
+                <a href={en.nodes[id].section.href}>{en.nodes[id].section.label}</a>
+              </span>
+              {id === 'nginx' && (
+                <a href={CERTIFICATIONS_PAGE_PATH + '/'}>
+                  <LocalizedSection
+                    zhContent={zh.related.certificate}
+                    enContent={en.related.certificate}
+                  />
                 </a>
-                <span>{item.note}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+              )}
+              {id === 'flask' && (
+                <a href={CHAT_PAGE_PATH + '/?preset=personalweb_proof'}>
+                  <LocalizedSection zhContent={zh.related.chat} enContent={en.related.chat} />
+                </a>
+              )}
+            </div>
+          </details>
+        </li>
+      ))
+    }
+  </ol>
 
-        <aside class="c-docs-proof-boundary" aria-labelledby={`docs-proof-boundary-${lang}`}>
-          <h2 id={`docs-proof-boundary-${lang}`}>{content.boundaryHeading}</h2>
-          <p>{content.boundary}</p>
-        </aside>
-      </div>
-
-      <nav class="c-docs-proof-actions" aria-label={content.eyebrow}>
-        {content.nextActions.map((action) => (
-          <a
-            class={`c-docs-proof-action ${
-              action.variant === 'primary' ? 'c-docs-proof-action--primary' : ''
-            }`.trim()}
-            href={action.href}
-          >
-            {action.label}
-          </a>
-        ))}
-      </nav>
-    </section>
-  ))
-}
+  <ul class="c-docs-plate-links">
+    <li>
+      <span class="is-lang-zh"><a href={zh.links.docs.href}>{zh.links.docs.label}</a></span>
+      <span class="is-lang-en"><a href={en.links.docs.href}>{en.links.docs.label}</a></span>
+    </li>
+    <li>
+      <span class="is-lang-zh"><a href={zh.links.delivery.href}>{zh.links.delivery.label}</a></span>
+      <span class="is-lang-en"><a href={en.links.delivery.href}>{en.links.delivery.label}</a></span>
+    </li>
+    <li>
+      <a href="/#contact">
+        <LocalizedSection zhContent={zh.links.contact} enContent={en.links.contact} />
+      </a>
+    </li>
+  </ul>
+</section>

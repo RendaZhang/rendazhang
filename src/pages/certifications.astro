@@ -1,6 +1,7 @@
 ---
 import { BaseLayout } from '../layouts';
-import { CertificationsContent } from '../components/sections';
+import CertificationsContent from '../components/sections/CertificationsContent';
+import CredlyBadge from '../components/ui/data-display/CredlyBadge';
 import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
@@ -11,7 +12,6 @@ import {
   buildCertificationsStructuredDataJson
 } from '../constants';
 import { CERTIFICATIONS_CONTENT } from '../content';
-import { CertificationsEffects } from '../components/sections';
 import { getCurrentLang } from '../utils';
 import '../styles/components/certifications.css';
 
@@ -48,7 +48,8 @@ const titleEn = CERTIFICATIONS_CONTENT.en.heading;
   }}
 >
   <div class="c-cert-page">
-    <CertificationsContent client:load />
-    <CertificationsEffects client:load />
+    <CertificationsContent>
+      <CredlyBadge client:visible />
+    </CertificationsContent>
   </div>
 </BaseLayout>

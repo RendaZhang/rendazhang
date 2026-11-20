@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react';
 import type { KeyboardEvent } from 'react';
 import {
   createChatController,
@@ -6,8 +6,7 @@ import {
   type ChatController
 } from '../../controllers/chatController';
 import { useChatHistory } from '../../hooks';
-import { useLanguage } from '../providers';
-import { DEEPSEEK_CHAT_CONTENT } from '../../content';
+import { DEEPSEEK_CHAT_CONTENT } from '../../content/deepseekChatContent';
 import {
   getChatGuideSourceHints,
   type ChatGuideSourceHintGroup
@@ -19,16 +18,49 @@ import TypingIndicator from './TypingIndicator';
 import LoadingIndicator from './LoadingIndicator';
 import ChatPresetQuestions from './ChatPresetQuestions';
 import { ROLES } from '../../constants';
-import type { ChatPresetQuestionId } from '../../services/visitorEvents';
+import { isChatPresetQuestionId, type ChatPresetQuestionId } from '../../services/visitorEvents';
 import { CHAT_GUIDE_MODE_PUBLIC_SITE } from '../../services/chatService';
 
 interface ChatProps {
   texts?: typeof DEEPSEEK_CHAT_CONTENT;
 }
 
+type ChatDraft = { text: string } | { presetId: ChatPresetQuestionId };
+const EMPTY_DRAFT: ChatDraft = { text: '' };
+
+function subscribeToChatLanguage(onChange: () => void) {
+  window.addEventListener('langChanged', onChange);
+  return () => window.removeEventListener('langChanged', onChange);
+}
+
+function readChatLanguage(): 'zh' | 'en' {
+  return document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
+}
+
+function previewFromUrl(): ChatDraft {
+  const presets = new URLSearchParams(window.location.search).getAll('preset');
+  return presets.length === 1 && isChatPresetQuestionId(presets[0])
+    ? { presetId: presets[0] }
+    : EMPTY_DRAFT;
+}
+
+function updatePresetUrl(presetId: ChatPresetQuestionId | null) {
+  const url = new URL(window.location.href);
+  if (presetId) {
+    url.searchParams.set('preset', presetId);
+    if (url.href !== window.location.href) window.history.pushState(window.history.state, '', url);
+  } else if (url.searchParams.has('preset')) {
+    url.searchParams.delete('preset');
+    window.history.replaceState(window.history.state, '', url);
+  }
+}
+
 export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
-  const { lang } = useLanguage();
-  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
+  const langKey = useSyncExternalStore<'zh' | 'en'>(
+    subscribeToChatLanguage,
+    readChatLanguage,
+    () => 'zh'
+  );
   const textsZh = texts.zh;
   const textsEn = texts.en;
   const activeTexts = langKey === 'zh' ? textsZh : textsEn;
@@ -39,12 +71,13 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     clearHistory,
     isLoaded: historyLoaded
   } = useChatHistory();
-  const [input, setInput] = useState('');
+  const [draft, setDraft] = useState<ChatDraft>(EMPTY_DRAFT);
+  const selectedPresetId = 'presetId' in draft ? draft.presetId : null;
+  const input = 'presetId' in draft ? activeTexts.presets.questions[draft.presetId] : draft.text;
   const [isSending, setIsSending] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
-  const [placeholder, setPlaceholder] = useState('');
   const [sourceHintsByMessageIndex, setSourceHintsByMessageIndex] = useState<
     Readonly<Record<number, ChatGuideSourceHintGroup>>
   >({});
@@ -59,6 +92,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const pageReadyRef = useRef(false);
   const enhancementReadyRef = useRef(false);
   const isReady = historyLoaded;
+  const controlsDisabled = !isReady || isSending || isResetting;
+  const placeholder = isReady
+    ? activeTexts.placeholders.default
+    : loadError
+      ? activeTexts.placeholders.error
+      : activeTexts.placeholders.loading;
   if (!chatControllerRef.current) {
     chatControllerRef.current = createChatController();
   }
@@ -83,6 +122,22 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       enhancementReadyRef.current = true;
     }
   }, [librariesLoaded, notifyParent]);
+
+  useEffect(() => {
+    const syncPreview = () => setDraft(previewFromUrl());
+    const restorePreview = (event: PageTransitionEvent) => {
+      if (!event.persisted) return;
+      const restoredDraft = previewFromUrl();
+      if ('presetId' in restoredDraft) setDraft(restoredDraft);
+    };
+    syncPreview();
+    window.addEventListener('popstate', syncPreview);
+    window.addEventListener('pageshow', restorePreview);
+    return () => {
+      window.removeEventListener('popstate', syncPreview);
+      window.removeEventListener('pageshow', restorePreview);
+    };
+  }, []);
 
   useEffect(() => {
     const loadLibraries = async () => {
@@ -130,19 +185,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     }
   }, [messages]);
 
-  // Update placeholder after language or readiness changes
+  // Return focus to the composer when the embedded window finishes loading.
   useEffect(() => {
-    if (!isReady) {
-      setPlaceholder(loadError ? activeTexts.placeholders.error : activeTexts.placeholders.loading);
-    } else {
-      setPlaceholder(activeTexts.placeholders.default);
-    }
-  }, [langKey, activeTexts, isReady, loadError]);
-
-  // Focus textarea when ready
-  useEffect(() => {
-    if (isReady && messageInputRef.current) {
-      messageInputRef.current.focus();
+    if (isReady && window.parent !== window) {
+      messageInputRef.current?.focus({ preventScroll: true });
     }
   }, [isReady]);
 
@@ -188,7 +234,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       addMessage: addTrackedMessage,
       setMessages,
       onAccepted: () => {
-        setInput('');
+        setDraft(EMPTY_DRAFT);
         setIsSending(true);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'block';
@@ -227,15 +273,17 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   };
 
   const handleSend = async () => {
-    await sendChatMessage(input);
+    if (controlsDisabled || showResetModal || chatController.hasActiveRequest()) return;
+    await sendChatMessage(input, selectedPresetId);
   };
 
-  const handlePresetSelect = (presetId: ChatPresetQuestionId, question: string) => {
-    void sendChatMessage(question, presetId);
+  const handlePresetSelect = (presetId: ChatPresetQuestionId) => {
+    updatePresetUrl(presetId);
+    setDraft({ presetId });
   };
 
   const handleInputChange = (nextInput: string) => {
-    setInput(nextInput);
+    setDraft({ text: nextInput });
   };
 
   const handleReset = () => {
@@ -249,6 +297,8 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       clearHistory,
       errorPrefix: activeTexts.resetFailedPrefix,
       onSuccess: () => {
+        updatePresetUrl(null);
+        setDraft(EMPTY_DRAFT);
         setSourceHintsByMessageIndex({});
         setShowResetModal(false);
       },
@@ -262,56 +312,50 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       // Safari can finish composition before dispatching the Enter that confirmed the candidate.
       if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
       e.preventDefault();
-      void handleSend();
+      e.currentTarget.form?.requestSubmit();
     }
   };
 
   return (
-    <div className="c-chat-wrapper">
-      <header className="c-app-header">
-        <h1>
-          <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-        </h1>
-      </header>
-      <div className="c-chat-container" id="chat-container" ref={chatContainerRef}>
-        {!isReady ? (
-          <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />
-        ) : messages.length === 0 ? (
-          <div className="c-chat-empty-state">
-            <ChatPresetQuestions
-              heading={activeTexts.presets.heading}
-              description={activeTexts.presets.description}
-              questions={activeTexts.presets.questions}
-              disabled={isSending || isResetting}
-              onSelect={handlePresetSelect}
-            />
-          </div>
-        ) : (
-          <ChatMessageList
-            messages={messages}
-            isSending={isSending}
-            librariesLoaded={librariesLoaded}
-            textsZh={textsZh}
-            textsEn={textsEn}
-            sourceHintsByMessageIndex={sourceHintsByMessageIndex}
-            sourceHintsHeading={activeTexts.sourceHints.heading}
-            sourceHintsAriaLabel={activeTexts.sourceHints.ariaLabel}
-            onRendered={handleRendered}
-          />
-        )}
-      </div>
-      <TypingIndicator innerRef={typingIndicatorRef} />
-      <ChatInput
-        value={input}
-        onChange={handleInputChange}
-        onSend={handleSend}
-        onReset={handleReset}
-        onKeyDown={handleKeyDown}
-        disabled={!isReady || isSending || isResetting}
-        placeholder={placeholder}
-        inputRef={messageInputRef}
-        textsEn={textsEn}
+    <div className="c-chat-tool">
+      <ChatPresetQuestions
+        heading={activeTexts.presets.heading}
+        description={activeTexts.presets.description}
+        topics={activeTexts.presets.topics}
+        selectedPresetId={selectedPresetId}
+        disabled={controlsDisabled}
+        onSelect={handlePresetSelect}
       />
+      <div className={`c-chat-desk${isReady && messages.length === 0 ? ' is-empty' : ''}`}>
+        <div className="c-chat-container" id="chat-container" ref={chatContainerRef}>
+          {!isReady && <LoadingIndicator isError={loadError} textsZh={textsZh} textsEn={textsEn} />}
+          {isReady && messages.length > 0 && (
+            <ChatMessageList
+              messages={messages}
+              isSending={isSending}
+              librariesLoaded={librariesLoaded}
+              copyTexts={activeTexts}
+              sourceHintsByMessageIndex={sourceHintsByMessageIndex}
+              sourceHintsHeading={activeTexts.sourceHints.heading}
+              sourceHintsAriaLabel={activeTexts.sourceHints.ariaLabel}
+              onRendered={handleRendered}
+            />
+          )}
+        </div>
+        <TypingIndicator innerRef={typingIndicatorRef} />
+        <ChatInput
+          value={input}
+          onChange={handleInputChange}
+          onSend={handleSend}
+          onReset={handleReset}
+          onKeyDown={handleKeyDown}
+          disabled={controlsDisabled}
+          placeholder={placeholder}
+          inputRef={messageInputRef}
+          previewStatus={selectedPresetId ? activeTexts.presets.previewStatus : ''}
+          texts={activeTexts}
+        />
+      </div>
       <Modal isOpen={showResetModal} onClose={() => !isResetting && setShowResetModal(false)}>
         {resetError ? (
           <>

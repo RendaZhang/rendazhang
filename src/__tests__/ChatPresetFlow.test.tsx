@@ -1,8 +1,8 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import Chat from '../components/chat/Chat';
 import { ROLES } from '../constants';
-import { sendMessageToAI } from '../services';
+import { resetChat, sendMessageToAI } from '../services';
 import type { ChatMessage, ChatRole } from '../types/chat';
 import type { ChatMessageUpdater } from '../controllers/chatController';
 
@@ -27,11 +27,8 @@ vi.mock('../hooks', async (importOriginal) => {
   };
 });
 
-vi.mock('../components/providers', () => ({
-  useLanguage: () => ({ lang: 'en' })
-}));
-
 beforeAll(() => {
+  document.documentElement.lang = 'en';
   window.scrollTo = vi.fn();
   window.HTMLElement.prototype.scrollIntoView = vi.fn();
 });
@@ -39,6 +36,7 @@ beforeAll(() => {
 describe('Chat preset question flow', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    window.history.replaceState({}, '', '/deepseek_chat/');
     chatHistory.messages = [];
     chatHistory.addMessage.mockImplementation((role: ChatRole, content: string) => {
       chatHistory.messages = [...chatHistory.messages, { role, content }];
@@ -58,16 +56,21 @@ describe('Chat preset question flow', () => {
     });
   });
 
-  it('sends the short preset question immediately with guide mode metadata', async () => {
+  it('previews the preset and sends guide metadata only after explicit submission', async () => {
     render(<Chat />);
 
     expect(sendMessageToAI).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole('button', { name: 'What did Renda build in PersonalWeb?' }));
+    const topic = screen.getByRole('button', { name: 'PersonalWeb' });
+    fireEvent.click(topic);
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
 
-    expect(input.value).toBe('');
+    expect(input.value).toBe('What did Renda build in PersonalWeb?');
+    expect(topic.getAttribute('aria-pressed')).toBe('true');
+    expect(window.location.search).toBe('?preset=personalweb_proof');
+    expect(sendMessageToAI).not.toHaveBeenCalled();
     expect(input.value).not.toContain('Answer using only the public PersonalWeb context below');
+    fireEvent.click(screen.getByRole('button', { name: 'Send' }));
 
     await waitFor(() => {
       expect(sendMessageToAI).toHaveBeenCalled();
@@ -92,10 +95,35 @@ describe('Chat preset question flow', () => {
     );
   });
 
+  it('restores allowlisted URL previews without sending, and ignores unknown or duplicate IDs', () => {
+    window.history.replaceState({}, '', '?preset=certification_context');
+    render(<Chat />);
+
+    const input = screen.getByRole('textbox', { name: 'Your question' }) as HTMLTextAreaElement;
+    expect(input.value).toBe("What does Renda's AWS certification cover?");
+    expect(screen.getByRole('button', { name: 'AWS certification', pressed: true })).toBeTruthy();
+
+    function restore(search: string) {
+      act(() => {
+        window.history.replaceState({}, '', `/deepseek_chat/${search}`);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      });
+    }
+
+    restore('?preset=personalweb_proof');
+    expect(input.value).toBe('What did Renda build in PersonalWeb?');
+    restore('?preset=personalweb_proof&preset=certification_context');
+    expect(input.value).toBe('');
+    restore('?preset=invalid');
+    expect(input.value).toBe('');
+    expect(sendMessageToAI).not.toHaveBeenCalled();
+  });
+
   it('renders controlled source hints only for controlled preset answers', async () => {
     render(<Chat />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'What did Renda build in PersonalWeb?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'PersonalWeb' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Send' }));
 
     const hintRegion = await screen.findByLabelText('Public pages that support this guided answer');
 
@@ -143,10 +171,36 @@ describe('Chat preset question flow', () => {
     expect(vi.mocked(sendMessageToAI).mock.calls[0][0]).toBe('你好');
   });
 
+  it('blocks additional submissions while a preview question is awaiting its answer', async () => {
+    let releaseResponse!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      releaseResponse = resolve;
+    });
+    vi.mocked(sendMessageToAI).mockImplementationOnce(async (_message, onChunk) => {
+      await pending;
+      onChunk?.('preset answer');
+      return 'preset answer';
+    });
+
+    render(<Chat />);
+    fireEvent.click(screen.getByRole('button', { name: 'PersonalWeb' }));
+    const input = screen.getByRole('textbox') as HTMLTextAreaElement;
+    const send = screen.getByRole('button', { name: 'Send' }) as HTMLButtonElement;
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(send.disabled).toBe(true);
+    fireEvent.click(send);
+    fireEvent.submit(input.form!);
+    expect(sendMessageToAI).toHaveBeenCalledTimes(1);
+
+    releaseResponse();
+    await screen.findByText('preset answer');
+  });
+
   it('sends a typed preset variation as normal free-form chat without guide metadata', async () => {
     render(<Chat />);
 
     const input = screen.getByRole('textbox') as HTMLTextAreaElement;
+    fireEvent.click(screen.getByRole('button', { name: 'PersonalWeb' }));
     fireEvent.change(input, {
       target: { value: 'What did Renda build in PersonalWeb? Please keep it brief.' }
     });
@@ -172,6 +226,41 @@ describe('Chat preset question flow', () => {
     );
     await screen.findByText('preset answer');
     expect(screen.queryByLabelText('Public pages that support this guided answer')).toBeNull();
+  });
+
+  it('does not restore guide metadata if an edited draft is typed back to its original text', async () => {
+    render(<Chat />);
+    const input = screen.getByRole('textbox') as HTMLTextAreaElement;
+    const topic = screen.getByRole('button', { name: 'AWS certification' });
+    fireEvent.click(topic);
+    const originalText = input.value;
+    fireEvent.change(input, { target: { value: 'My own question' } });
+    fireEvent.change(input, { target: { value: originalText } });
+    expect(topic.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(screen.getByRole('button', { name: 'Send' }));
+
+    await screen.findByText('preset answer');
+    expect(sendMessageToAI).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[0]).toBe(originalText);
+    expect(vi.mocked(sendMessageToAI).mock.calls[0]?.[2]).not.toHaveProperty('presetId');
+  });
+
+  it('keeps the preview on reset cancellation and clears it only on successful confirmation', async () => {
+    window.history.replaceState({}, '', '?preset=certification_context');
+    render(<Chat />);
+    const input = screen.getByRole('textbox') as HTMLTextAreaElement;
+    const resetButton = screen.getByRole('button', { name: /^Reset$/ });
+    fireEvent.click(resetButton);
+    fireEvent.click(screen.getByText('Cancel'));
+    expect(input.value).toBe("What does Renda's AWS certification cover?");
+    expect(resetChat).not.toHaveBeenCalled();
+    fireEvent.click(resetButton);
+    fireEvent.click(screen.getByText('Reset', { selector: '.c-modal span.is-lang-en' }));
+
+    await waitFor(() => expect(input.value).toBe(''));
+    expect(window.location.search).toBe('');
+    expect(resetChat).toHaveBeenCalledTimes(1);
+    expect(sendMessageToAI).not.toHaveBeenCalled();
   });
 
   it('keeps the empty preset invitation at the top of its scroll container', async () => {

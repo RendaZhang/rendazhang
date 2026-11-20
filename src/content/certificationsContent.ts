@@ -1,53 +1,84 @@
+import { AWS_SAA_CREDENTIAL_SCHEMA, PERSON_SCHEMA } from '../constants/meta';
+
+const EXAM_GUIDE =
+  'https://docs.aws.amazon.com/aws-certification/latest/solutions-architect-associate-03';
+
+function chineseDate(isoDate: string): string {
+  const [year, month, day] = isoDate.split('-');
+  return `${year} 年 ${Number(month)} 月 ${Number(day)} 日`;
+}
+
+export const CERTIFICATION_DATES = {
+  issued: AWS_SAA_CREDENTIAL_SCHEMA.datePublished,
+  expires: AWS_SAA_CREDENTIAL_SCHEMA.expires
+} as const;
+
+export const CERTIFICATION_TOPICS = [
+  {
+    title: { zh: '可用性', en: 'Availability' },
+    description: {
+      zh: '比较跨可用区部署、负载均衡和故障转移，判断一个可用区中断后如何继续接住流量。',
+      en: 'Compare deployment across Availability Zones, load balancing, and failover to keep serving traffic when a zone goes down.'
+    },
+    source: `${EXAM_GUIDE}/solutions-architect-associate-03-domain2.html`
+  },
+  {
+    title: { zh: '故障隔离', en: 'Fault isolation' },
+    description: {
+      zh: '用队列和松耦合划分组件边界，尽量把单个组件的故障限制在局部。',
+      en: 'Use queues and loosely coupled components to limit how far a failure can spread.'
+    },
+    source: `${EXAM_GUIDE}/solutions-architect-associate-03-domain2.html`
+  },
+  {
+    title: { zh: '成本', en: 'Cost' },
+    description: {
+      zh: '按负载定计算资源的规格和伸缩方式，按访问频率和保留期选择存储层级。',
+      en: 'Size compute for the workload and choose storage tiers according to access frequency and retention needs.'
+    },
+    source: `${EXAM_GUIDE}/solutions-architect-associate-03-domain4.html`
+  }
+] as const;
+
 export const CERTIFICATIONS_CONTENT = {
   en: {
     heading: 'AWS Certification · Renda Zhang',
-    summary:
-      'This page records my AWS Certified Solutions Architect - Associate (SAA-C03) certification. Its issue and expiry dates, Credly badge, and official verification links are available below.',
     coverageHeading: 'What this certification covers',
-    coverageItems: [
-      'Designing AWS solutions across compute, storage, networking, security, and managed services',
-      'Evaluating availability, fault isolation, cost, and operational boundaries',
-      'Using a shared architecture vocabulary in design and delivery reviews'
-    ],
-    boundary:
-      'The certification supports my architecture foundation. It does not by itself demonstrate production scale, traffic, or customer impact.',
-    certificates: [
-      {
-        title: 'AWS Certified Solutions Architect - Associate (SAA-C03)',
-        nameLabel: 'Name:',
-        name: 'Renda Zhang',
-        issuedLabel: 'Issued:',
-        issued: '2025-06-16',
-        expiresLabel: 'Expires:',
-        expires: '2028-06-16',
-        verifyCredly: 'Verify on Credly',
-        verifyAws: 'Verify on AWS'
-      }
-    ]
+    coverageBasis: 'Three design questions from the AWS SAA-C03 exam guide.',
+    guideLink: 'AWS exam guide',
+    relatedHeading: 'Explore related work',
+    architecture: 'See how this site is built',
+    chat: 'Ask about this certificate',
+    certificate: {
+      title: AWS_SAA_CREDENTIAL_SCHEMA.name,
+      nameLabel: 'Holder',
+      name: PERSON_SCHEMA.name,
+      issuedLabel: 'Issued',
+      issued: CERTIFICATION_DATES.issued,
+      expiresLabel: 'Expires',
+      expires: CERTIFICATION_DATES.expires,
+      verifyCredly: 'Verify on Credly',
+      verifyAws: 'Verify on AWS'
+    }
   },
   zh: {
     heading: 'AWS 认证 · 张人大',
-    summary:
-      '这里记录了我的 AWS Certified Solutions Architect - Associate (SAA-C03) 认证。证书的颁发与到期日期、Credly 徽章和官方验证入口都列在下方。',
     coverageHeading: '这项认证覆盖什么',
-    coverageItems: [
-      '围绕计算、存储、网络、安全和托管服务设计 AWS 解决方案',
-      '评估可用性、故障隔离、成本与运维边界',
-      '在方案设计和交付评审中使用一致的云架构语言'
-    ],
-    boundary: '这项认证支撑我的架构基础，但不能单独说明生产规模、流量或客户影响。',
-    certificates: [
-      {
-        title: 'AWS 认证解决方案架构师 - 助理级 (SAA-C03)',
-        nameLabel: '姓名:',
-        name: '张人大',
-        issuedLabel: '颁发:',
-        issued: '2025 年 6 月 16 日',
-        expiresLabel: '到期:',
-        expires: '2028 年 6 月 16 日',
-        verifyCredly: 'Credly 验证',
-        verifyAws: 'AWS 验证'
-      }
-    ]
+    coverageBasis: 'AWS SAA-C03 考试指南中的三项设计取舍。',
+    guideLink: 'AWS 考试指南',
+    relatedHeading: '接着探索',
+    architecture: '看本站架构',
+    chat: '问这张证书',
+    certificate: {
+      title: 'AWS 认证解决方案架构师 - 助理级 (SAA-C03)',
+      nameLabel: '持有人',
+      name: '张人大',
+      issuedLabel: '颁发',
+      issued: chineseDate(CERTIFICATION_DATES.issued),
+      expiresLabel: '到期',
+      expires: chineseDate(CERTIFICATION_DATES.expires),
+      verifyCredly: 'Credly 验证',
+      verifyAws: 'AWS 验证'
+    }
   }
 } as const;

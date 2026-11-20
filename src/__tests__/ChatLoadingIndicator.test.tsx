@@ -20,11 +20,8 @@ vi.mock('../hooks', () => ({
   useChatHistory: () => chatHistory
 }));
 
-vi.mock('../components/providers', () => ({
-  useLanguage: () => ({ lang: 'en' })
-}));
-
 beforeAll(() => {
+  document.documentElement.lang = 'en';
   // jsdom does not implement scrollTo
   window.scrollTo = vi.fn();
 });

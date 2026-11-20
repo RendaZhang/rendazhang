@@ -7,8 +7,7 @@ interface ChatMessageListProps {
   messages: ChatMessage[];
   isSending: boolean;
   librariesLoaded: boolean;
-  textsZh: CopyTexts;
-  textsEn: CopyTexts;
+  copyTexts: CopyTexts;
   sourceHintsByMessageIndex?: Readonly<Record<number, ChatGuideSourceHintGroup>>;
   sourceHintsHeading: string;
   sourceHintsAriaLabel: string;
@@ -19,8 +18,7 @@ export default function ChatMessageList({
   messages,
   isSending,
   librariesLoaded,
-  textsZh,
-  textsEn,
+  copyTexts,
   sourceHintsByMessageIndex = {},
   sourceHintsHeading,
   sourceHintsAriaLabel,
@@ -35,8 +33,7 @@ export default function ChatMessageList({
           text={msg.content}
           enhance={librariesLoaded && !streaming}
           onRendered={onRendered}
-          textsZh={textsZh}
-          textsEn={textsEn}
+          texts={copyTexts}
           sourceHints={sourceHintsByMessageIndex[idx]}
           sourceHintsHeading={sourceHintsHeading}
           sourceHintsAriaLabel={sourceHintsAriaLabel}

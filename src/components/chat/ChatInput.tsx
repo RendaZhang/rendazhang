@@ -12,7 +12,8 @@ interface ChatInputProps {
   disabled: boolean;
   placeholder: string;
   inputRef: RefObject<HTMLTextAreaElement | null>;
-  textsEn: InputTexts;
+  previewStatus: string;
+  texts: InputTexts & { inputLabel: string };
 }
 
 export default function ChatInput({
@@ -24,29 +25,43 @@ export default function ChatInput({
   disabled,
   placeholder,
   inputRef,
-  textsEn
+  previewStatus,
+  texts
 }: ChatInputProps) {
   return (
-    <div className="c-input-area">
-      <textarea
-        className="c-message-input"
-        ref={inputRef}
-        value={value}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
-        onKeyDown={onKeyDown}
-        disabled={disabled}
-        placeholder={placeholder}
-        rows={1}
-      ></textarea>
+    <form
+      className="c-input-area"
+      method="post"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (!disabled) void onSend();
+      }}
+    >
+      <div className="c-chat-input-field">
+        <label htmlFor="chat-question">{texts.inputLabel}</label>
+        <textarea
+          aria-describedby={previewStatus ? 'chat-preview-status' : undefined}
+          className="c-message-input"
+          id="chat-question"
+          name="message"
+          ref={inputRef}
+          value={value}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+          onKeyDown={onKeyDown}
+          disabled={disabled}
+          placeholder={placeholder}
+          rows={2}
+        />
+        <p className="c-chat-preview-status" id="chat-preview-status" role="status">
+          {previewStatus}
+        </p>
+      </div>
       <div className="c-btn-container">
         <button
           id="send-btn"
           className="c-btn-primary c-btn-chat c-send-btn"
-          onClick={() => {
-            void onSend();
-          }}
+          type="submit"
           disabled={disabled}
-          aria-label={textsEn.sendButton}
         >
           <svg
             viewBox="0 0 24 24"
@@ -62,13 +77,15 @@ export default function ChatInput({
             <line x1="22" y1="2" x2="11" y2="13" />
             <polygon points="22 2 15 22 11 13 2 9 22 2" />
           </svg>
+          {texts.sendButton}
         </button>
         <button
           id="reset-btn"
           className="c-btn-secondary c-btn-chat c-reset-btn"
           onClick={onReset}
+          type="button"
           disabled={disabled}
-          aria-label={textsEn.resetButton}
+          aria-label={texts.resetButton}
         >
           <svg
             viewBox="0 0 24 24"
@@ -89,6 +106,6 @@ export default function ChatInput({
           </svg>
         </button>
       </div>
-    </div>
+    </form>
   );
 }

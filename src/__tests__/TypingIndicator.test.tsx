@@ -27,16 +27,12 @@ vi.mock('../hooks', () => ({
   useChatHistory: () => chatHistory
 }));
 
-vi.mock('../components/providers', () => ({
-  useLanguage: () => ({ lang: 'en' })
-}));
-
 describe('Typing indicator', () => {
   it('hides after streaming starts', async () => {
     const { getByRole } = render(<Chat />);
     const textarea = getByRole('textbox');
     fireEvent.change(textarea, { target: { value: 'hello' } });
-    const sendButton = getByRole('button', { name: /send/i });
+    const sendButton = getByRole('button', { name: '发送' });
     fireEvent.click(sendButton);
 
     const indicator = document.getElementById('typing-indicator')!;

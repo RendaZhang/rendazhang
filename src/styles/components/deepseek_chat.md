@@ -13,10 +13,15 @@
 
 - `.c-message-input` uses `:focus-visible` with `--focus-ring`.
 - Buttons rely on shared chat button states defined in button styles.
-- Icon buttons `.c-send-btn` and `.c-reset-btn` maintain a square aspect ratio and resize on small screens.
+- The composer uses a visible question label and a text-and-icon Send button. Both send and reset
+  retain 44px targets when the actions wrap below the question field.
 - `.c-chat-source-hints` renders controlled Chat Guide source labels inside assistant messages; links
   use tokenized chip styling and must remain relative public routes.
 
 ## Container
 
-- `.c-chat-wrapper` uses container queries and tokenized spacing to layout chat interface.
+- `.c-chat-wrapper` is a paper-toned desk with a static header, using palette tokens for text, borders
+  and focus. Container queries stack the topic cards above the composer in narrow pages and the iframe.
+- Topic buttons fill an editable preview and mark the active topic with `aria-pressed`. Previewing
+  a topic does not send the message. The explicit submit button and IME-safe Enter handler share
+  the same submission path.

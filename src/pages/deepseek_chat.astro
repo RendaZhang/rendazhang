@@ -1,7 +1,7 @@
 ---
 import { BaseLayout } from '../layouts';
-import { DeepseekChatContent } from '../components/chat';
-import { DEEPSEEK_CHAT_CONTENT } from '../content';
+import DeepseekChatContent from '../components/chat/DeepseekChat/DeepseekChatContent';
+import { DEEPSEEK_CHAT_CONTENT } from '../content/deepseekChatContent';
 import { getCurrentLang } from '../utils';
 import { CHAT_PAGE_PATH, SITE_BASE_URL, STYLE_PATHS, VIEWPORT_ZOOM_ALLOWED } from '../constants';
 import '../styles/components/deepseek_chat.css';
@@ -19,7 +19,7 @@ const titleEn = DEEPSEEK_CHAT_CONTENT.en.title;
   titleZh={titleZh}
   titleEn={titleEn}
   title={pageTexts.title}
-  description={`${pageTexts.description} Conversations are saved locally and support Markdown rendering.`}
+  description={`${pageTexts.description} ${pageTexts.historyNote}`}
   viewport={VIEWPORT_ZOOM_ALLOWED}
   canonical={`${SITE_BASE_URL}${CHAT_PAGE_PATH}/`}
   showChatWidget={false}
@@ -39,5 +39,37 @@ const titleEn = DEEPSEEK_CHAT_CONTENT.en.title;
     <script is:inline src="/js/deepseek-embed.js"></script>
   </Fragment>
 
-  <DeepseekChatContent client:load />
+  <div class="c-chat-wrapper">
+    <header class="c-chat-desk-heading">
+      <div>
+        <h1>
+          <span class="is-lang-zh">{DEEPSEEK_CHAT_CONTENT.zh.title}</span>
+          <span class="is-lang-en">{DEEPSEEK_CHAT_CONTENT.en.title}</span>
+        </h1>
+        <p>
+          <span class="is-lang-zh">
+            {DEEPSEEK_CHAT_CONTENT.zh.description}。{DEEPSEEK_CHAT_CONTENT.zh.historyNote}
+          </span>
+          <span class="is-lang-en">
+            {`${DEEPSEEK_CHAT_CONTENT.en.description}. ${DEEPSEEK_CHAT_CONTENT.en.historyNote}`}
+          </span>
+        </p>
+      </div>
+      <svg viewBox="0 0 64 48" width="64" height="48" fill="none" aria-hidden="true">
+        <path
+          d="M13 11h27v22H13zM18 18h17M18 24h12M16 33l-5 5v-7M45 11l8 8-13 13-10 2 2-10z"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"></path>
+      </svg>
+    </header>
+    <noscript>
+      <p class="c-chat-script-note">
+        <span class="is-lang-zh">{DEEPSEEK_CHAT_CONTENT.zh.scriptNote}</span>
+        <span class="is-lang-en">{DEEPSEEK_CHAT_CONTENT.en.scriptNote}</span>
+      </p>
+    </noscript>
+    <DeepseekChatContent client:load />
+  </div>
 </BaseLayout>

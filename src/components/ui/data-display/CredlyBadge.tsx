@@ -63,7 +63,9 @@ export default function CredlyBadge(): ReactElement {
 
   return (
     <div className={`c-credly-container${status === 'loaded' ? ' is-loaded' : ''}`}>
-      {status === 'loading' && <div className="c-credly-skeleton c-skeleton-shimmer" />}
+      {status === 'loading' && (
+        <div className="c-credly-skeleton c-skeleton-shimmer" aria-hidden="true" />
+      )}
       {status === 'error' && (
         <div className="c-credly-error">
           <LocalizedSection zhContent="加载失败，请重试" enContent="Load failed, please retry" />
@@ -78,6 +80,7 @@ export default function CredlyBadge(): ReactElement {
         name="acclaim-badge"
         id={`embedded-badge-${CREDLY_BADGE_ID}`}
         title="View my verified achievement on Credly."
+        referrerPolicy="no-referrer"
         style={{
           width: `${CREDLY_EMBED_IFRAME.WIDTH}px`,
           height: `${CREDLY_EMBED_IFRAME.HEIGHT}px`

@@ -55,7 +55,7 @@ for (const viewport of [
         })
       ).toBe('yes');
       await page.locator('.c-message-input').fill('Local rendering fixture');
-      await page.getByRole('button', { name: 'Send', exact: true }).click();
+      await page.getByRole('button', { name: '发送', exact: true }).click();
       const answer = page.locator('.c-ai-message-content');
       await expect(answer.locator('strong')).toHaveText('Safe text');
       await expect(answer.locator('a[href="/docs/"]')).toHaveText('Safe link');
@@ -107,14 +107,14 @@ for (const viewport of [
       );
       await page.goto('/deepseek_chat/');
       await page.locator('.c-message-input').fill('Local malformed diagram fixture');
-      await page.getByRole('button', { name: 'Send', exact: true }).click();
+      await page.getByRole('button', { name: '发送', exact: true }).click();
       await expect(page.locator('.c-ai-message-content pre code.language-mermaid')).toHaveText(
         'not a diagram\n'
       );
       await expect
         .poll(() => errors.filter((text) => text.includes('Mermaid render error:')).length)
         .toBeGreaterThan(0);
-      await expect(page.getByRole('button', { name: 'Send', exact: true })).toBeEnabled();
+      await expect(page.getByRole('button', { name: '发送', exact: true })).toBeEnabled();
       await expect(page.locator('.c-ai-message-content svg')).toHaveCount(0);
       expect(errors.filter((text) => !text.includes('Mermaid render error:'))).toEqual([]);
       expect(pageErrors).toEqual([]);
