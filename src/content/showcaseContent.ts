@@ -91,3 +91,23 @@ export const SHOWCASE_SAMPLE = {
 };
 
 export const SHOWCASE_STATIC_SOURCE = FRONTEND + '/.github/workflows/deploy.yml#L50-L85';
+
+export const SHOWCASE_COVER = {
+  title: { zh: '请求旅程', en: 'Request Journey' },
+  start: { zh: '发出请求', en: 'Send request' },
+  simulation: { zh: '模拟', en: 'Simulation' },
+  outbound: { zh: '去程', en: 'Outbound' },
+  returning: { zh: '回程', en: 'Return' },
+  pending: { zh: '正在接上播放器…', en: 'Loading playback controls…' },
+  unavailable: { zh: '再次按起点可重试。', en: 'Press the start again to retry.' },
+  reference: { zh: '读图与示例', en: 'Read the diagram and sample' },
+  question: { zh: '问题', en: 'Question' },
+  answer: { zh: '示例回答', en: 'Sample reply' },
+  source: { zh: '查看源码', en: 'View source' },
+  links: {
+    architecture: { zh: '架构笔记', en: 'Architecture notes' },
+    certification: { zh: 'AWS 认证', en: 'AWS certification' },
+    chat: { zh: 'AI 聊天', en: 'AI chat' },
+    contact: { zh: '联系', en: 'Contact' }
+  }
+} as const;

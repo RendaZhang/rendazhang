@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { CHAT_PAGE_PATH, CERTIFICATIONS_PAGE_PATH, DOCS_PAGE_PATH } from '../constants';
 import { ABOUT_CONTENT } from '../content';
 
 describe('time-sensitive public profile content', () => {
@@ -18,29 +17,18 @@ describe('time-sensitive public profile content', () => {
 });
 
 describe('homepage personal narrative', () => {
-  it('keeps bilingual structure and public destinations aligned', () => {
-    expect(ABOUT_CONTENT.en.heroHeading).toBe('Renda Zhang');
-    expect(ABOUT_CONTENT.zh.heroHeading).toBe('张人大');
+  it('keeps the author signature and remaining profile structure bilingual', () => {
+    expect(ABOUT_CONTENT.en.signature).toEqual({
+      name: 'Renda Zhang',
+      line: 'Backend engineer in Shenzhen.'
+    });
+    expect(ABOUT_CONTENT.zh.signature).toEqual({
+      name: '张人大',
+      line: '在深圳写后端。'
+    });
     expect(ABOUT_CONTENT.en.paragraphs).toHaveLength(ABOUT_CONTENT.zh.paragraphs.length);
-    expect(ABOUT_CONTENT.en.proofPath.actions).toHaveLength(
-      ABOUT_CONTENT.zh.proofPath.actions.length
-    );
     expect(ABOUT_CONTENT.en.skills.categories).toHaveLength(
       ABOUT_CONTENT.zh.skills.categories.length
-    );
-
-    const expectedDestinations = [
-      DOCS_PAGE_PATH,
-      CERTIFICATIONS_PAGE_PATH,
-      CHAT_PAGE_PATH,
-      '#contact'
-    ];
-
-    expect(ABOUT_CONTENT.en.proofPath.actions.map(({ href }) => href)).toEqual(
-      expectedDestinations
-    );
-    expect(ABOUT_CONTENT.zh.proofPath.actions.map(({ href }) => href)).toEqual(
-      expectedDestinations
     );
   });
 

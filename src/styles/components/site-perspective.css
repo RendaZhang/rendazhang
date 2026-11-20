@@ -117,7 +117,7 @@
 }
 
 body:has(.c-site-perspective[data-show-brand])
-  :is(.c-hero-action-primary, .c-showcase-explore, .c-showcase-play, .c-chat-widget-toggle):not(
+  :is(.c-showcase-architecture, .c-showcase-explore, .c-showcase-play, .c-chat-widget-toggle):not(
     :focus-visible
   ) {
   outline: 2px solid var(--color-focus);

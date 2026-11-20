@@ -1,146 +1,249 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
-test('homepage request journey loads on demand and completes without a dynamic request', async ({
+const playerChunk = /\/RequestJourney\.[^/.]+\.js(?:\?.*)?$/;
+
+async function guardRealChat(page: Page) {
+  const requests: string[] = [];
+  await page.route(
+    (url) => url.pathname.startsWith('/cloudchat/') || /^\/deepseek_chat\/?$/.test(url.pathname),
+    (route) => {
+      requests.push(new URL(route.request().url()).pathname);
+      return route.abort();
+    }
+  );
+  return requests;
+}
+
+async function expectFirstWireInViewport(showcase: Locator) {
+  const wire = showcase.locator('.c-showcase-wire[data-wire="1"] .c-showcase-signal');
+  expect(
+    await wire.evaluate((element) => {
+      const path = element as SVGPathElement;
+      const matrix = path.getScreenCTM();
+      if (!matrix) return false;
+      const point = path.getPointAtLength(path.getTotalLength() / 2).matrixTransform(matrix);
+      return point.x >= 0 && point.x <= innerWidth && point.y >= 0 && point.y <= innerHeight;
+    })
+  ).toBe(true);
+}
+
+test('a cold keyboard activation sends the request before the player code arrives', async ({
   page
 }) => {
-  const playerScripts: string[] = [];
-  const dynamicRequests: string[] = [];
-  const sockets: string[] = [];
+  test.setTimeout(120_000);
+  const realChat = await guardRealChat(page);
+  const playerRequests: string[] = [];
   const errors: string[] = [];
-  page.on('request', (request) => {
-    if (request.url().includes('ShowcasePlayer.')) playerScripts.push(request.url());
-    if (['fetch', 'xhr', 'eventsource', 'ping'].includes(request.resourceType())) {
-      dynamicRequests.push(request.url());
-    }
-  });
-  page.on('websocket', (socket) => sockets.push(socket.url()));
   page.on('pageerror', (error) => errors.push(error.message));
+  let releaseBootstrap!: () => void;
+  const bootstrapGate = new Promise<void>((resolve) => {
+    releaseBootstrap = resolve;
+  });
+  await page.route(/\/RequestJourney\.astro_astro_type_script[^/]+\.js$/, async (route) => {
+    await bootstrapGate;
+    await route.continue();
+  });
 
-  await page.goto('/');
-  await page.locator('.c-hero-action-secondary').click();
-  await expect(page).toHaveURL(/#proof-path$/);
-  await page.getByRole('link', { name: '探索 PersonalWeb' }).click();
+  let releasePlayer!: () => void;
+  const playerGate = new Promise<void>((resolve) => {
+    releasePlayer = resolve;
+  });
+  await page.route(playerChunk, async (route) => {
+    playerRequests.push(route.request().url());
+    await playerGate;
+    await route.continue();
+  });
+
+  await page.goto('/', { waitUntil: 'commit' });
   const showcase = page.locator('#showcase');
-  const first = showcase.locator('details').first();
-  await first.locator('summary').press('Space');
-  await expect(first).toHaveAttribute('open', '');
-  await expect(first.getByRole('link')).toHaveAttribute(
-    'href',
-    /\/src\/services\/chatService.ts#L48-L83$/
-  );
-  expect(playerScripts).toEqual([]);
+  const start = showcase.getByRole('link', { name: '发出请求' });
+  const progress = showcase.locator('.c-showcase-progress');
+  await expect(page.locator('.c-home-signature')).toBeInViewport();
+  await expect(showcase.getByRole('heading', { name: '请求旅程' })).toBeInViewport();
+  await expect(start).toBeInViewport({ ratio: 1 });
+  expect(playerRequests).toEqual([]);
 
-  await showcase.getByRole('link', { name: '探索这个作品' }).press('Enter');
-  const group = showcase.getByRole('group', { name: '模拟演示' });
-  const start = group.getByRole('button', { name: '开始' });
-  await expect(start).toBeEnabled();
-  expect(playerScripts).toHaveLength(1);
-  const status = showcase.getByRole('status');
-  await expect(status).toContainText('就绪');
-  await start.press('Enter');
-  await group.getByRole('button', { name: '暂停' }).click();
-  const paused = await status.innerText();
-  await page.waitForTimeout(1200);
-  await expect(status).toHaveText(paused, { useInnerText: true });
-  await group.getByRole('button', { name: '单步' }).click();
-  await expect(status).toContainText('2/6');
-  await group.getByRole('button', { name: '继续' }).click();
-  await expect(status).toContainText('完成 · 回答补全', { timeout: 8500 });
-  await expect(showcase.locator('.c-showcase-reply')).toContainText('聊天由独立后端处理');
-  await expect(showcase.locator('[aria-current="step"]')).toHaveCount(1);
-  await expect(first).toHaveAttribute('open', '');
-  await group.getByRole('button', { name: '重置' }).click();
-  await expect(status).toContainText('就绪');
-  await expect(showcase.locator('.c-showcase-reply')).toContainText('等待回程');
-  await start.click();
-  await expect(status).toContainText('1/6');
-  await group.getByRole('button', { name: '重置' }).click();
-  await expect(showcase.getByRole('link', { name: '打开真实 Chat' })).toHaveAttribute(
-    'href',
-    '/deepseek_chat'
-  );
-  expect(dynamicRequests).toEqual([]);
-  expect(sockets).toEqual([]);
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: '跳到正文' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('main')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(start).toBeFocused();
+
+  try {
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/#showcase-start$/);
+    await expect(showcase.locator('.c-showcase-wire[data-wire="1"]')).toHaveCSS('opacity', '1');
+    await expect(progress).toBeVisible();
+    expect(playerRequests).toEqual([]);
+    releaseBootstrap();
+    await expect(showcase).toHaveAttribute('data-step', '1');
+    await expect(progress).toBeVisible();
+    await expect(progress).toHaveText(/1\s*\/\s*6/);
+    await expect(progress.locator('[data-stage="1"]')).toBeVisible();
+    await expectFirstWireInViewport(showcase);
+    await expect.poll(() => playerRequests.length).toBe(1);
+    await expect(showcase.locator('.c-showcase-play')).toHaveCount(0);
+  } finally {
+    releaseBootstrap();
+    releasePlayer();
+  }
+
+  const play = showcase.locator('.c-showcase-play');
+  const step = showcase.locator('.c-showcase-next');
+  await expect(play).toHaveAccessibleName('暂停');
+  await play.press('Enter');
+  await expect(play).toHaveAccessibleName('继续');
+  await expect(showcase).toHaveAttribute('data-step', '1');
+  for (const expected of ['2', '3', '4', '5']) {
+    await step.press('Enter');
+    await expect(showcase).toHaveAttribute('data-step', expected);
+  }
+  await expect(showcase.locator('[data-reply-piece="1"]')).toBeVisible();
+  await expect(showcase.locator('[data-reply-piece="2"]')).toBeHidden();
+  await play.press('Enter');
+  await expect(showcase).toHaveAttribute('data-step', '6');
+  await expect(showcase.locator('[data-reply-piece="2"]')).toBeVisible();
+
+  await showcase.getByRole('button', { name: '重玩' }).press('Enter');
+  await expect(showcase).toHaveAttribute('data-step', '1');
+  await expect(showcase.locator('[data-reply-piece="1"]')).toBeHidden();
+  const architecture = showcase.getByRole('link', { name: '架构笔记' });
+  await expect(architecture).toHaveAttribute('href', '/docs/');
+  await architecture.press('Enter');
+  await expect(page).toHaveURL(/\/docs\/$/);
+  expect(realChat).toEqual([]);
   expect(errors).toEqual([]);
 });
 
-test('narrow reduced-motion journey keeps progress across language and theme changes', async ({
-  page
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-  await page.getByRole('link', { name: '探索 PersonalWeb' }).click();
-  const showcase = page.locator('#showcase');
-  await showcase.getByRole('link', { name: '探索这个作品' }).click();
-  await showcase.getByRole('button', { name: '单步' }).click();
-  await showcase.getByRole('button', { name: '单步' }).click();
-  await expect(showcase.getByRole('status')).toContainText('2/6');
-  await page.locator('.c-language-selector-main').click();
-  await page.getByRole('button', { name: 'English', exact: true }).click();
-  await expect(showcase.getByRole('status')).toHaveText('2/6 · Nginx forwards it to Flask', {
-    useInnerText: true
+test.describe('request journey on a touch screen', () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+    contextOptions: { reducedMotion: 'reduce' }
   });
-  await page.locator('.c-theme-toggle-main').click();
-  await page.locator('.c-theme-option.is-dark').click();
-  await page.locator('.c-theme-toggle-main').click();
-  await page.locator('.c-theme-option.is-palette-forest').click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
-  await page.setViewportSize({ width: 320, height: 844 });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const step = showcase.getByRole('button', { name: 'Step', exact: true });
-  for (let i = 0; i < 3; i++) await step.click();
-  await expect(showcase.locator('.c-showcase-reply')).toHaveText(
-    'PersonalWeb is Renda’s personal site,',
-    { useInnerText: true }
-  );
-  await step.click();
-  await expect(showcase.getByRole('status')).toContainText('Complete');
-  await expect(showcase.locator('.c-showcase-reply')).toContainText('a separate backend for chat');
-  await showcase.getByRole('link', { name: 'View the reply' }).click();
-  await expect(page).toHaveURL(/#showcase-response$/);
+
+  test('first tap sets off the request and keeps progress across language and theme changes', async ({
+    page
+  }) => {
+    test.setTimeout(120_000);
+    const realChat = await guardRealChat(page);
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const showcase = page.locator('#showcase');
+    const start = showcase.getByRole('link', { name: '发出请求' });
+    await expect(page.locator('.c-home-signature')).toBeInViewport();
+    await expect(showcase.getByRole('heading', { name: '请求旅程' })).toBeInViewport();
+    await expect(start).toBeInViewport({ ratio: 1 });
+    await expectFirstWireInViewport(showcase);
+    await start.tap();
+    await expect(showcase).toHaveAttribute('data-step', '1');
+    await expect(showcase.locator('[data-wire="1"] .c-showcase-signal')).toHaveCSS(
+      'animation-name',
+      'none'
+    );
+
+    const play = showcase.locator('.c-showcase-play');
+    await expect(play).toHaveAccessibleName('暂停');
+    await play.tap();
+    await expect(play).toHaveAccessibleName('继续');
+    const pausedStep = await showcase.getAttribute('data-step');
+
+    const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
+    await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
+    await page.locator('.c-language-selector-main').tap();
+    await page.getByRole('button', { name: 'English', exact: true }).tap();
+    await expect(showcase.getByRole('heading', { name: 'Request Journey' })).toBeVisible();
+    await expect(showcase).toHaveAttribute('data-step', pausedStep!);
+
+    const theme = page.locator('.c-nav-container .c-theme-toggle-main');
+    await theme.tap();
+    await page.locator('.c-theme-option.is-dark').tap();
+    await theme.tap();
+    await page.locator('.c-theme-option.is-palette-forest').tap();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
+    await expect(showcase).toHaveAttribute('data-step', pausedStep!);
+
+    const next = showcase.getByRole('button', { name: 'Step', exact: true });
+    for (let index = Number(pausedStep); index < 6; index += 1) {
+      await next.tap();
+      await expect(showcase).toHaveAttribute('data-step', String(index + 1));
+    }
+    await expect(showcase.locator('[data-reply-piece="2"]')).toBeVisible();
+    await expect(showcase.getByRole('link', { name: 'Architecture notes' })).toHaveAttribute(
+      'href',
+      '/docs/'
+    );
+    await showcase.getByRole('button', { name: 'Replay' }).tap();
+    await expect(showcase).toHaveAttribute('data-step', '1');
+    expect(realChat).toEqual([]);
+  });
 });
 
-test('mobile showcase links have touch targets of at least 44 by 44 CSS pixels', async ({
-  page
-}) => {
-  await page.setViewportSize({ width: 320, height: 844 });
-  await page.goto('/#showcase-route');
+test('mobile journey controls retain 44 by 44 CSS pixel targets', async ({ page }) => {
+  await page.goto('/#showcase-route', { waitUntil: 'domcontentloaded' });
   const showcase = page.locator('#showcase');
-  for (const summary of await showcase.locator('summary').all()) await summary.click();
-  const step = showcase.getByRole('button', { name: '单步' });
-  for (let index = 0; index < 6; index++) await step.click();
-  await expect(showcase.getByRole('link', { name: '查看回答' })).toBeVisible();
+  await expect(page.locator('#showcase-route:target')).toBeVisible();
+  await expect(showcase).not.toHaveAttribute('data-step', /^[1-6]$/);
+
+  await showcase.getByRole('link', { name: '发出请求' }).click();
+  await expect(showcase.locator('.c-showcase-controls')).toBeVisible();
+  await showcase.locator('.c-showcase-reference > summary').click();
+  for (const summary of await showcase.locator('.c-showcase-node > summary').all()) {
+    await summary.click();
+  }
 
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 });
-    const sizes = await showcase.getByRole('link').evaluateAll((links) =>
-      links.map((link) => {
-        const { width, height } = link.getBoundingClientRect();
-        return { label: link.textContent?.trim(), width, height };
-      })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true
     );
-    expect(sizes.filter((link) => link.width < 44 || link.height < 44)).toEqual([]);
+    const sizes = await showcase
+      .locator('a:visible, summary:visible, button:visible')
+      .evaluateAll((controls) =>
+        controls.map((control) => {
+          const { width, height } = control.getBoundingClientRect();
+          return { label: control.textContent?.trim(), width, height };
+        })
+      );
+    expect(sizes.length).toBeGreaterThanOrEqual(12);
+    expect(sizes.filter((control) => control.width < 44 || control.height < 44)).toEqual([]);
   }
 });
 
 test.describe('static showcase', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('nodes, sample and sources remain readable without JavaScript', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('link', { name: '探索 PersonalWeb' }).click();
-    const showcase = page.locator('#showcase');
-    await expect(showcase.locator('details')).toHaveCount(4);
-    for (const node of await showcase.locator('details').all()) {
+  test('cover, old anchors, nodes and sources remain usable without JavaScript', async ({
+    page
+  }) => {
+    await page.goto('/#showcase', { waitUntil: 'domcontentloaded' });
+    const showcase = page.locator('#showcase:target');
+    await expect(showcase.getByRole('heading', { name: '请求旅程' })).toBeVisible();
+    await showcase.getByRole('link', { name: '发出请求' }).press('Enter');
+    await expect(page.locator('#showcase-start:target')).toBeAttached();
+    await expect(page.locator('#showcase-route')).toBeVisible();
+    await expect(page.locator('.c-showcase-controls')).toHaveCount(0);
+
+    await page.goto('/#proof-path');
+    await expect(page.locator('#proof-path:target')).toBeInViewport();
+    await expect(page.locator('#proof-path a[href="/docs/"]')).toBeVisible();
+    await expect(page.locator('#proof-path a[href="/certifications/"]')).toBeVisible();
+    await expect(page.locator('#proof-path a[href="/deepseek_chat/"]')).toBeVisible();
+    await expect(page.locator('#proof-path a[href="#contact"]')).toBeVisible();
+
+    const reference = page.locator('#showcase-response');
+    await reference.locator('summary').first().click();
+    const details = reference.locator('.c-showcase-node');
+    await expect(details).toHaveCount(4);
+    for (const node of await details.all()) {
       await node.locator('summary').click();
       await expect(node.getByRole('link')).toHaveAttribute(
         'href',
         /github\.com\/RendaZhang\/.*\/blob\/[a-f\d]{40}\//
       );
     }
-    await expect(showcase.locator('.c-showcase-reply')).toContainText('聊天由独立后端处理');
-    await expect(showcase.locator('.c-showcase-controls')).toHaveCount(0);
+    await expect(page.locator('#showcase-response')).toContainText('聊天由独立后端处理');
   });
 });

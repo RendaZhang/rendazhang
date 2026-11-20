@@ -1,6 +1,12 @@
 ---
 import { BaseLayout } from '../layouts';
-import { AboutContent } from '../components/sections';
+import AboutContent from '../components/sections/AboutContent';
+import ContactSection from '../components/sections/ContactSection';
+import SitePerspective from '../components/sections/SitePerspective';
+import SocialIconsEffects from '../components/sections/SocialIconsEffects';
+import RequestJourney from '../components/sections/showcase/RequestJourney.astro';
+import SocialIcons from '../components/ui/data-display/SocialIcons';
+import { ABOUT_CONTENT } from '../content';
 import {
   SITE_BASE_URL,
   PAGE_TITLES,
@@ -28,8 +34,27 @@ const title = langKey === 'zh' ? titleZh : titleEn;
   description={SITE_DESCRIPTION_EN}
   canonical={`${SITE_BASE_URL}${HOME_PAGE_PATH}`}
   structuredDataJson={buildHomeStructuredDataJson()}
-  extraStyles={[STYLE_PATHS.ABOUT, STYLE_PATHS.SOCIAL_ICON, STYLE_PATHS.RESPONSIVE_HERO]}
+  extraStyles={[STYLE_PATHS.ABOUT, STYLE_PATHS.SOCIAL_ICON]}
   bodyClass="c-about-page"
 >
-  <AboutContent client:load />
+  <div id="content">
+    <div class="c-home-cover">
+      <header class="c-home-signature">
+        <h1 id="heroHeading" class="c-home-signature-name">
+          <span class="is-lang-zh">{ABOUT_CONTENT.zh.signature.name}</span>
+          <span class="is-lang-en">{ABOUT_CONTENT.en.signature.name}</span>
+        </h1>
+        <p class="c-home-signature-line">
+          <span class="is-lang-zh">{ABOUT_CONTENT.zh.signature.line}</span>
+          <span class="is-lang-en">{ABOUT_CONTENT.en.signature.line}</span>
+        </p>
+      </header>
+      <RequestJourney />
+    </div>
+    <SitePerspective client:load />
+    <AboutContent />
+    <SocialIcons client:visible />
+    <SocialIconsEffects client:load />
+    <ContactSection client:visible />
+  </div>
 </BaseLayout>

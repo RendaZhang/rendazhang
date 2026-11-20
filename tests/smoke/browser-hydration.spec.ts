@@ -211,22 +211,11 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-palette', /^(default|aurora|forest)$/);
   await expect(page.locator('main')).toBeVisible();
   await expect(page.locator('#heroHeading')).toBeVisible();
-  await expect(page.locator('.c-hero-summary')).toBeVisible();
+  await expect(page.locator('.c-home-signature-line')).toBeVisible();
   await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
-  await expect(page.locator('.c-home-proof-path')).toBeVisible();
-  await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const proofPathTop = document
-          .querySelector('.c-home-proof-path')
-          ?.getBoundingClientRect().top;
-        return {
-          nextSectionVisible: typeof proofPathTop === 'number' && proofPathTop < window.innerHeight,
-          overflowX: document.documentElement.scrollWidth > window.innerWidth
-        };
-      })
-    )
-    .toEqual({ nextSectionVisible: true, overflowX: false });
+  await expect(page.locator('#showcase')).toBeInViewport();
+  await expect(page.locator('.c-showcase-explore')).toBeInViewport({ ratio: 1 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await settlePage(page);
 
   expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
@@ -235,40 +224,22 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
 
 test('homepage work links route visitors to public destinations', async ({ page }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
-  const audit = attachConsoleAudit(page, 'homepage proof path');
-
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.c-hero-action-primary')).toHaveAttribute('href', '/docs');
-  await expect(page.locator('.c-hero-action-secondary')).toHaveAttribute('href', '#proof-path');
-  await expect(page.locator('#proof-path')).toBeVisible();
-  await expect(page.locator('#proof-path a[href="/docs"]')).toBeVisible();
-  await expect(page.locator('#proof-path a[href="/certifications"]')).toBeVisible();
-  await expect(page.locator('#proof-path a[href="/deepseek_chat"]')).toBeVisible();
-  await expect(page.locator('#proof-path a[href="#contact"]')).toBeVisible();
-  await expect(page.locator('#proof-path .c-home-proof-path-link-copy em')).toHaveCount(0);
+  const audit = attachConsoleAudit(page, 'homepage work links');
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.c-hero-actions')).toBeVisible();
-  await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const primary = document.querySelector('.c-hero-action-primary')?.getBoundingClientRect();
-        const proofPath = document.querySelector('#proof-path')?.getBoundingClientRect();
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.getByRole('heading', { name: '请求旅程' })).toBeInViewport();
+  await expect(page.locator('.c-showcase-explore')).toBeInViewport({ ratio: 1 });
+  const destinations = page.locator('#proof-path');
+  await expect(destinations.locator('a[href="/docs/"]')).toBeVisible();
+  await expect(destinations.locator('a[href="/certifications/"]')).toBeVisible();
+  await expect(destinations.locator('a[href="/deepseek_chat/"]')).toBeVisible();
+  await expect(destinations.locator('a[href="#contact"]')).toBeVisible();
+  await expect(page.getByText('了解我如何构建 PersonalWeb', { exact: true })).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
-        return {
-          primaryInViewport: primary
-            ? primary.top >= 0 && primary.bottom <= window.innerHeight
-            : false,
-          proofPathHintVisible: proofPath ? proofPath.top < window.innerHeight : false,
-          overflowX: document.documentElement.scrollWidth > window.innerWidth
-        };
-      })
-    )
-    .toEqual({ primaryInViewport: true, proofPathHintVisible: true, overflowX: false });
   await settlePage(page);
-
-  expect(authProbeCount(), 'logged-out homepage proof path should not probe auth/me').toBe(0);
+  expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 
@@ -344,11 +315,11 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
     const drawerElement = document.querySelector('.c-side-menu');
     const overlay = document.querySelector('.c-side-menu-overlay');
     const launcher = document.querySelector('.c-chat-widget-toggle');
-    const summary = document.querySelector('.c-home-proof-path-summary');
-    if (!drawerElement || !overlay || !launcher || !summary) return null;
+    const start = document.querySelector('.c-showcase-explore');
+    if (!drawerElement || !overlay || !launcher || !start) return null;
 
     const launcherRect = launcher.getBoundingClientRect();
-    const summaryRect = summary.getBoundingClientRect();
+    const startRect = start.getBoundingClientRect();
     const hitTarget = document.elementFromPoint(
       launcherRect.left + launcherRect.width / 2,
       launcherRect.top + launcherRect.height / 2
@@ -360,10 +331,10 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
       chatZ: Number.parseInt(getComputedStyle(launcher).zIndex, 10),
       hitTargetClass: hitTarget?.className,
       intersects: !(
-        launcherRect.right <= summaryRect.left ||
-        launcherRect.left >= summaryRect.right ||
-        launcherRect.bottom <= summaryRect.top ||
-        launcherRect.top >= summaryRect.bottom
+        launcherRect.right <= startRect.left ||
+        launcherRect.left >= startRect.right ||
+        launcherRect.bottom <= startRect.top ||
+        launcherRect.top >= startRect.bottom
       ),
       overflowX: document.documentElement.scrollWidth > window.innerWidth
     };
@@ -901,7 +872,7 @@ for (const palette of ['default', 'aurora', 'forest']) {
       );
       expect(actual).toEqual(themeRoles[`${palette}-${mode}`]);
       await expectTextContrast(page, '.c-section-summary');
-      await expectTextContrast(page, '.c-hero-action-primary', '--color-brand');
+      await expectTextContrast(page, '.c-showcase-explore');
       await page.locator('.c-theme-toggle-main').click();
       const option = page.locator(`.c-theme-option.is-palette-${palette}`);
       await expect(option).toHaveAttribute('aria-pressed', 'true');

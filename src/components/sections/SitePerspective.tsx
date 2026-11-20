@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import useUiPreferences from '../../hooks/useUiPreferences';
 import LocalizedSection from '../ui/data-display/LocalizedSection';
 import ThemeToggle from '../ui/inputs/ThemeToggle';
+import { useLanguage } from '../providers/I18nProvider';
 
 const paletteSource =
   'https://github.com/RendaZhang/rendazhang/blob/926afd23c8d7e50dcbb9ff780882eb26bd7e848d/src/styles/core/theme-tokens.css#L390-L469';
@@ -12,7 +13,9 @@ const chatStatusText = {
   ready: { zh: '已就绪', en: 'Ready' }
 };
 
-export default function SitePerspective({ language }: { language: string }) {
+export default function SitePerspective() {
+  const { lang } = useLanguage();
+  const language = lang.startsWith('zh') ? 'zh' : 'en';
   const [open, setOpen] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -64,7 +67,7 @@ export default function SitePerspective({ language }: { language: string }) {
           aria-controls="site-perspective-notes"
           onClick={() => (open ? close() : setOpen(true))}
         >
-          <LocalizedSection zhContent="拆开这一页" enContent="Look inside this page" />
+          <LocalizedSection zhContent="拆开这一页" enContent="Look inside" />
           <span aria-hidden="true">{open ? '−' : '+'}</span>
         </button>
       </h2>
@@ -89,8 +92,8 @@ export default function SitePerspective({ language }: { language: string }) {
           >
             <p>
               <LocalizedSection
-                zhContent="换个色板，看看描边标出的首页入口、演示按钮和聊天气泡怎样一起换色。"
-                enContent="Switch palettes to see the outlined homepage links, demo buttons, and chat launcher change color together."
+                zhContent="描边标出共用品牌色的控件。"
+                enContent="The outlined controls share the active brand color."
               />
             </p>
             {showBrand && <ThemeToggle language={language} />}

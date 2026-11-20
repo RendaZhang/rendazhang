@@ -1,0 +1,231 @@
+---
+import { DOCS_PAGE_PATH, CERTIFICATIONS_PAGE_PATH, CHAT_PAGE_PATH } from '../../../constants/paths';
+import {
+  SHOWCASE_COVER as copy,
+  SHOWCASE_NODES,
+  SHOWCASE_SAMPLE,
+  SHOWCASE_STATIC_SOURCE,
+  SHOWCASE_STEPS
+} from '../../../content/showcaseContent';
+import LocalizedSection from '../../ui/data-display/LocalizedSection';
+
+const wires = [
+  { step: 1, d: 'M 100 22 H 300' },
+  { step: 2, d: 'M 300 22 H 500' },
+  { step: 3, d: 'M 500 22 H 700' },
+  { step: 4, d: 'M 700 22 H 721 Q 748 22 748 45 V 47 Q 748 70 721 70 H 700' },
+  { step: 5, d: 'M 700 70 H 100' },
+  { step: 6, d: 'M 700 70 H 100' }
+];
+---
+
+<section id="showcase" class="c-showcase" aria-labelledby="showcase-title">
+  <header class="c-showcase-header">
+    <h2 id="showcase-title">
+      <LocalizedSection zhContent={copy.title.zh} enContent={copy.title.en} />
+    </h2>
+    <span class="c-showcase-seal">
+      <LocalizedSection zhContent={copy.simulation.zh} enContent={copy.simulation.en} />
+    </span>
+  </header>
+
+  <div class="c-showcase-print">
+    <div id="showcase-route" class="c-showcase-track">
+      <span id="showcase-start" class="c-showcase-start-target" aria-hidden="true"></span>
+      <ol class="c-showcase-stations">
+        {
+          SHOWCASE_NODES.map((node) => (
+            <li class="c-showcase-station" data-station={node.id}>
+              {node.id === 'browser' ? (
+                <a class="c-showcase-explore" href="#showcase-start">
+                  <svg viewBox="0 0 96 70" aria-hidden="true">
+                    <path
+                      class="c-showcase-engraving"
+                      d="M12 12h72v47H12zM12 23h72M18 17h2m4 0h2m4 0h2M30 64h36M41 59v5m14-5v5M19 54l10-10m-6 10 10-10m33 10 10-10m-6 10 6-6"
+                    />
+                    <path class="c-showcase-icon-accent" d="m37 33 10 8-10 8m16 0h12" />
+                  </svg>
+                  <span class="c-showcase-send">
+                    <LocalizedSection zhContent={copy.start.zh} enContent={copy.start.en} />
+                    <span aria-hidden="true">→</span>
+                  </span>
+                </a>
+              ) : node.id === 'nginx' ? (
+                <svg viewBox="0 0 96 70" aria-hidden="true">
+                  <path
+                    class="c-showcase-engraving"
+                    d="M25 10h46v49H25zM31 16h34v37H31zM18 59h60m-50 5h40M11 32h27m20 0h27M35 17l-4 4m12-4L31 29m20-12-9 9m22 12-15 15m15-7-7 7"
+                  />
+                  <path
+                    class="c-showcase-icon-accent"
+                    d="M38 32h18m-6-6 6 6-6 6m8 3H40m6-6-6 6 6 6"
+                  />
+                </svg>
+              ) : node.id === 'flask' ? (
+                <svg viewBox="0 0 96 70" aria-hidden="true">
+                  <path
+                    class="c-showcase-engraving"
+                    d="M40 9h16m-13 0v20L26 52a8 8 0 0 0 7 11h30a8 8 0 0 0 7-11L53 29V9M34 42h28M31 55l7-7m1 11 11-11m-3 11 10-10m-2 10 7-7M40 17h16"
+                  />
+                  <path class="c-showcase-icon-accent" d="M44 35h7m-2 13h3m5 7h3" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 96 70" aria-hidden="true">
+                  <path
+                    class="c-showcase-engraving"
+                    d="m48 8 31 16-31 16-31-16 31-16ZM17 35l31 16 31-16M17 46l31 16 31-16M26 24l22-11 22 11-22 11-22-11Zm10 0 18-8m-11 12 18-8m-11 12 15-7"
+                  />
+                  <path class="c-showcase-icon-accent" d="M48 15v18m-7-9h14m-11-4 8 8m0-8-8 8" />
+                </svg>
+              )}
+              <span class="c-showcase-station-name">
+                <LocalizedSection zhContent={node.label.zh} enContent={node.label.en} />
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+      <svg
+        class="c-showcase-rails"
+        viewBox="0 0 800 91"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path class="c-showcase-ties" d="M100 0v83M300 0v83M500 0v83M700 0v83"></path>
+        <path
+          class="c-showcase-rail-out"
+          d="M100 22H700M190 16l12 6-12 6m200-12 12 6-12 6m200-12 12 6-12 6"></path>
+        <path class="c-showcase-rail-back" d="M700 22h21q27 0 27 23v2q0 23-27 23H100"></path>
+        <path
+          class="c-showcase-return-arrows"
+          d="m211 64-12 6 12 6m200-12-12 6 12 6m200-12-12 6 12 6"></path>
+        {
+          wires.map(({ step, d }) => (
+            <g class="c-showcase-wire" data-wire={step}>
+              {step < 6 && <path class="c-showcase-trace" d={d} />}
+              <path class="c-showcase-signal" d={d} pathLength="100" />
+            </g>
+          ))
+        }
+      </svg>
+      <div class="c-showcase-legend">
+        <span class="c-showcase-legend-out">
+          <LocalizedSection zhContent={copy.outbound.zh} enContent={copy.outbound.en} />
+        </span>
+        <span class="c-showcase-legend-back">
+          <LocalizedSection zhContent={copy.returning.zh} enContent={copy.returning.en} />
+        </span>
+      </div>
+    </div>
+
+    <div class="c-showcase-run">
+      <p class="c-showcase-question">
+        <LocalizedSection
+          zhContent={SHOWCASE_SAMPLE.question.zh}
+          enContent={SHOWCASE_SAMPLE.question.en}
+        />
+      </p>
+      <p class="c-showcase-progress" role="status" hidden>
+        <span class="c-showcase-meter"
+          ><span data-journey-count>1</span> / {SHOWCASE_STEPS.length}</span
+        >
+        {
+          SHOWCASE_STEPS.map((stage, index) => (
+            <span data-stage={index + 1} hidden={index !== 0}>
+              <LocalizedSection zhContent={stage.zh} enContent={stage.en} />
+            </span>
+          ))
+        }
+      </p>
+      <p class="c-showcase-live-reply" hidden>
+        <span data-reply-piece="1" hidden>
+          <LocalizedSection
+            zhContent={SHOWCASE_SAMPLE.first.zh}
+            enContent={SHOWCASE_SAMPLE.first.en}
+          />
+        </span><span data-reply-piece="2" hidden>
+          <LocalizedSection
+            zhContent={SHOWCASE_SAMPLE.second.zh}
+            enContent={SHOWCASE_SAMPLE.second.en}
+          />
+        </span>
+      </p>
+      <p class="c-showcase-load" data-journey-loading hidden>
+        <LocalizedSection zhContent={copy.pending.zh} enContent={copy.pending.en} />
+      </p>
+      <p class="c-showcase-load" role="status" data-journey-error hidden>
+        <LocalizedSection zhContent={copy.unavailable.zh} enContent={copy.unavailable.en} />
+      </p>
+      <div data-journey-controls></div>
+    </div>
+  </div>
+
+  <div class="c-showcase-caption" id="proof-path">
+    <a class="c-showcase-architecture" href={DOCS_PAGE_PATH + '/'}>
+      <LocalizedSection
+        zhContent={copy.links.architecture.zh}
+        enContent={copy.links.architecture.en}
+      />
+      <span class="c-showcase-link-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a href={CERTIFICATIONS_PAGE_PATH + '/'}>
+      <LocalizedSection
+        zhContent={copy.links.certification.zh}
+        enContent={copy.links.certification.en}
+      />
+    </a>
+    <a href={CHAT_PAGE_PATH + '/'}>
+      <LocalizedSection zhContent={copy.links.chat.zh} enContent={copy.links.chat.en} />
+    </a>
+    <a href="#contact">
+      <LocalizedSection zhContent={copy.links.contact.zh} enContent={copy.links.contact.en} />
+    </a>
+  </div>
+
+  <details class="c-showcase-reference" id="showcase-response">
+    <summary>
+      <LocalizedSection zhContent={copy.reference.zh} enContent={copy.reference.en} />
+    </summary>
+    <div class="c-showcase-reference-body">
+      <p>
+        <strong
+          ><LocalizedSection zhContent={copy.question.zh} enContent={copy.question.en} /></strong
+        >
+        <LocalizedSection
+          zhContent={SHOWCASE_SAMPLE.question.zh}
+          enContent={SHOWCASE_SAMPLE.question.en}
+        />
+      </p>
+      <p>
+        <strong><LocalizedSection zhContent={copy.answer.zh} enContent={copy.answer.en} /></strong>
+        <LocalizedSection
+          zhContent={SHOWCASE_SAMPLE.first.zh + SHOWCASE_SAMPLE.second.zh}
+          enContent={SHOWCASE_SAMPLE.first.en + SHOWCASE_SAMPLE.second.en}
+        />
+      </p>
+      {
+        SHOWCASE_NODES.map((node) => (
+          <details class="c-showcase-node">
+            <summary>
+              <LocalizedSection zhContent={node.label.zh} enContent={node.label.en} />
+            </summary>
+            <p>
+              <LocalizedSection zhContent={node.detail.zh} enContent={node.detail.en} />
+            </p>
+            <a href={node.source}>
+              <LocalizedSection zhContent={copy.source.zh} enContent={copy.source.en} />
+            </a>
+          </details>
+        ))
+      }
+      <a href={SHOWCASE_STATIC_SOURCE}>
+        <LocalizedSection
+          zhContent="查看静态发布流程"
+          enContent="View the static deployment workflow"
+        />
+      </a>
+    </div>
+  </details>
+</section>
+
+<script src="./journeyStart.ts"></script>

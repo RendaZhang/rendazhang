@@ -3,46 +3,15 @@ import {
   CONTACT_PHONE_INTL,
   CONTACT_PHONE_LOCAL,
   SITE_DOMAIN,
-  CHAT_PAGE_PATH,
-  CERTIFICATIONS_PAGE_PATH,
-  DOCS_PAGE_PATH,
   CSDN_ARTICLES,
   MEDIUM_ARTICLES
 } from '../constants';
 
 export const ABOUT_CONTENT = {
   en: {
-    heroKicker: 'Senior Backend Engineer / Team Lead',
-    heroHeading: 'Renda Zhang',
-    heroSummary:
-      'I lead backend delivery for overseas life insurance at OneConnect and built PersonalWeb end to end across AI chat, frontend, testing, and delivery.',
-    proofPath: {
-      eyebrow: 'Where to start',
-      title: 'Choose what you want to explore',
-      summary:
-        'Read how I built PersonalWeb, view my AWS certification, ask the Chat Guide, or contact me directly.',
-      actions: [
-        {
-          label: 'See how I built PersonalWeb',
-          note: 'Start with a concise project overview, then continue into architecture, testing, and delivery.',
-          href: DOCS_PAGE_PATH
-        },
-        {
-          label: 'View my AWS certification',
-          note: 'See what the certification covers and open its public verification page.',
-          href: CERTIFICATIONS_PAGE_PATH
-        },
-        {
-          label: 'Ask about me or PersonalWeb',
-          note: 'Use the Chat Guide to ask from public information on this site.',
-          href: CHAT_PAGE_PATH
-        },
-        {
-          label: 'Contact me',
-          note: 'Send me a message after reviewing the project or my experience.',
-          href: '#contact'
-        }
-      ]
+    signature: {
+      name: 'Renda Zhang',
+      line: 'Backend engineer in Shenzhen.'
     },
     subTitle: 'Who am I?',
     title: 'About Me',
@@ -232,37 +201,9 @@ export const ABOUT_CONTENT = {
     }
   },
   zh: {
-    heroKicker: '后端开发高级工程师 / TL',
-    heroHeading: '张人大',
-    heroSummary:
-      '我在金融壹账通负责海外寿险后端交付，也端到端构建了 PersonalWeb，覆盖 AI 聊天、前端、测试与发布。',
-    proofPath: {
-      eyebrow: '从这里开始',
-      title: '选择你想了解的内容',
-      summary:
-        '你可以了解我如何构建 PersonalWeb，查看 AWS 认证，向 Chat Guide 提问，或直接联系我。',
-      actions: [
-        {
-          label: '了解我如何构建 PersonalWeb',
-          note: '先看简明项目介绍，再继续阅读架构、测试与发布细节。',
-          href: DOCS_PAGE_PATH
-        },
-        {
-          label: '查看我的 AWS 认证',
-          note: '了解认证覆盖的内容，并打开公开验证页面。',
-          href: CERTIFICATIONS_PAGE_PATH
-        },
-        {
-          label: '询问我或 PersonalWeb',
-          note: 'Chat Guide 会根据本站公开信息回答。',
-          href: CHAT_PAGE_PATH
-        },
-        {
-          label: '联系我',
-          note: '了解项目或经历后，可以直接给我留言。',
-          href: '#contact'
-        }
-      ]
+    signature: {
+      name: '张人大',
+      line: '在深圳写后端。'
     },
     subTitle: '我是谁？',
     title: '自我介绍',

@@ -39,11 +39,13 @@ async function openChat(page: Page, activate: () => Promise<void>, loadingText: 
 
 function brandColors(page: Page) {
   return page
-    .locator('.c-hero-action-primary, .c-showcase-explore, .c-chat-widget-toggle')
+    .locator('.c-showcase-explore, .c-showcase-architecture, .c-chat-widget-toggle')
     .evaluateAll((elements) =>
       elements.map((element) => {
         const style = getComputedStyle(element);
-        return [style.backgroundColor, style.backgroundImage].join(' ');
+        return [style.color, style.backgroundColor, style.backgroundImage, style.borderColor].join(
+          ' '
+        );
       })
     );
 }
@@ -57,7 +59,9 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
   const chat = perspective.getByRole('button', { name: '聊天气泡', exact: true });
   const launcher = page.locator('#chat-widget-toggle');
   const status = perspective.getByRole('status');
-  await expect(launcher).toBeVisible();
+  for (const control of [opener, launcher]) {
+    await expect(control.locator('xpath=ancestor::astro-island[1]')).not.toHaveAttribute('ssr', '');
+  }
   const originalColors = await brandColors(page);
   await expect(opener).toHaveAttribute('aria-expanded', 'false');
   await expect(brand).toBeHidden();
@@ -67,8 +71,8 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
   await page.keyboard.press('Tab');
   await expect(brand).toBeFocused();
   await page.keyboard.press('Space');
-  const heroLink = page.locator('.c-hero-action-primary');
-  await expect(heroLink).toHaveCSS('outline-style', 'solid');
+  const start = page.locator('.c-showcase-explore');
+  await expect(start).toHaveCSS('outline-style', 'solid');
 
   await page.keyboard.press('Tab');
   await expect(perspective.getByRole('button', { name: '切换主题' })).toBeFocused();
@@ -80,7 +84,7 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
   const nextColors = await brandColors(page);
   expect(nextColors).toHaveLength(3);
   nextColors.forEach((color, index) => expect(color).not.toBe(originalColors[index]));
-  await expect(heroLink).toHaveCSS('outline-style', 'solid');
+  await expect(start).toHaveCSS('outline-style', 'solid');
 
   await page.keyboard.press('Tab');
   await expect(perspective.getByRole('link', { name: '查看配色源码' })).toBeFocused();
@@ -100,7 +104,7 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
   await page.keyboard.press('Escape');
   await expect(opener).toBeFocused();
   await expect(opener).toHaveAttribute('aria-expanded', 'false');
-  await expect(heroLink).toHaveCSS('outline-style', 'none');
+  await expect(start).toHaveCSS('outline-style', 'none');
   await expect(launcher).toHaveAttribute('aria-expanded', 'true');
   expect(writes).toEqual([]);
 });
@@ -117,16 +121,27 @@ test.describe('at 390px with touch', () => {
   test('palette, localized state and chat reopening stay usable', async ({ page }) => {
     const writes = await guardChatRequests(page);
     await page.goto('/');
-    await page.getByRole('button', { name: '切换语言' }).tap();
+    const language = page.getByRole('button', { name: '切换语言' });
+    await expect(language.locator('xpath=ancestor::astro-island[1]')).not.toHaveAttribute(
+      'ssr',
+      ''
+    );
+    await language.tap();
     await page.getByRole('button', { name: 'English' }).tap();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
     const perspective = page.locator('[data-site-perspective]');
-    const opener = perspective.getByRole('button', { name: 'Look inside this page' });
+    const opener = perspective.getByRole('button', { name: 'Look inside', exact: true });
     const brand = perspective.getByRole('button', { name: 'Ink and vermilion', exact: true });
     const annotation = perspective.getByRole('button', { name: 'Chat bubble', exact: true });
     const launcher = page.locator('#chat-widget-toggle');
     const status = perspective.getByRole('status');
+    for (const control of [opener, launcher]) {
+      await expect(control.locator('xpath=ancestor::astro-island[1]')).not.toHaveAttribute(
+        'ssr',
+        ''
+      );
+    }
     await tapTarget(opener);
     await tapTarget(brand);
     await tapTarget(perspective.getByRole('button', { name: 'Theme' }));

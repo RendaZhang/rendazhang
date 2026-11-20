@@ -10,7 +10,7 @@ export interface ShowcasePlayerProps {
 const STEP_INTERVAL_MS = 1050;
 
 export default function ShowcasePlayer({ step, total, onStep }: ShowcasePlayerProps): ReactElement {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(() => !document.hidden);
   const controls = useRef<HTMLDivElement>(null);
   const complete = step === total;
 
@@ -51,20 +51,15 @@ export default function ShowcasePlayer({ step, total, onStep }: ShowcasePlayerPr
       setPlaying(false);
       return;
     }
-    if (step === 0) onStep(1);
     setPlaying(true);
   }
 
-  function reset() {
-    setPlaying(false);
-    onStep(0);
+  function replay() {
+    onStep(1);
+    setPlaying(!document.hidden);
   }
 
-  const primary = playing
-    ? { zh: '暂停', en: 'Pause' }
-    : step === 0 || complete
-      ? { zh: '开始', en: 'Start' }
-      : { zh: '继续', en: 'Resume' };
+  const primary = playing ? { zh: '暂停', en: 'Pause' } : { zh: '继续', en: 'Resume' };
 
   return (
     <div
@@ -74,7 +69,7 @@ export default function ShowcasePlayer({ step, total, onStep }: ShowcasePlayerPr
       aria-labelledby="showcase-controls-label"
     >
       <p id="showcase-controls-label">
-        <LocalizedSection zhContent="模拟演示" enContent="Simulated demo" />
+        <LocalizedSection zhContent="播放控制" enContent="Playback controls" />
       </p>
       <button
         className="c-showcase-button c-showcase-play"
@@ -92,13 +87,9 @@ export default function ShowcasePlayer({ step, total, onStep }: ShowcasePlayerPr
       >
         <LocalizedSection zhContent="单步" enContent="Step" />
       </button>
-      <button
-        className="c-showcase-button"
-        type="button"
-        aria-disabled={step === 0}
-        onClick={reset}
-      >
-        <LocalizedSection zhContent="重置" enContent="Reset" />
+      <button className="c-showcase-button c-showcase-replay" type="button" onClick={replay}>
+        <span aria-hidden="true">↺ </span>
+        <LocalizedSection zhContent="重玩" enContent="Replay" />
       </button>
     </div>
   );

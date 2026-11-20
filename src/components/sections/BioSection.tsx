@@ -6,13 +6,9 @@ import type { ReactElement } from 'react';
 interface BioSectionProps {
   contentEn: typeof ABOUT_CONTENT.en;
   contentZh: typeof ABOUT_CONTENT.zh;
-  isZh: boolean;
 }
 
-export default function BioSection({ contentEn, contentZh, isZh }: BioSectionProps): ReactElement {
-  const resumeHref = isZh ? IMAGE_PATHS.RESUME_ZH : IMAGE_PATHS.RESUME_EN;
-  const resumeDownload = isZh ? RESUME_ZH_DOWNLOAD : RESUME_EN_DOWNLOAD;
-
+export default function BioSection({ contentEn, contentZh }: BioSectionProps): ReactElement {
   return (
     <section className="c-about-section">
       <h2 id="aboutTitle">
@@ -34,35 +30,34 @@ export default function BioSection({ contentEn, contentZh, isZh }: BioSectionPro
         ))}
       </ul>
       <div className="c-resume-link">
-        <button
-          id="resumeLink"
-          type="button"
-          className="c-btn-primary"
-          onClick={() => {
-            const link = document.createElement('a');
-            link.href = resumeHref;
-            link.download = resumeDownload;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }}
-        >
-          <LocalizedSection zhContent={contentZh.resumeLabel} enContent={contentEn.resumeLabel} />
-        </button>
-        <button
-          id="contactBtn"
-          type="button"
-          className="c-btn-secondary"
-          onClick={() => {
-            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-            window.history.pushState(null, '', '#contact');
-          }}
-        >
+        <span id="resumeLink">
+          <LocalizedSection
+            zhContent={
+              <a
+                className="c-btn-primary"
+                href={IMAGE_PATHS.RESUME_ZH}
+                download={RESUME_ZH_DOWNLOAD}
+              >
+                {contentZh.resumeLabel}
+              </a>
+            }
+            enContent={
+              <a
+                className="c-btn-primary"
+                href={IMAGE_PATHS.RESUME_EN}
+                download={RESUME_EN_DOWNLOAD}
+              >
+                {contentEn.resumeLabel}
+              </a>
+            }
+          />
+        </span>
+        <a id="contactBtn" className="c-btn-secondary" href="#contact">
           <LocalizedSection
             zhContent={contentZh.contact.title}
             enContent={contentEn.contact.title}
           />
-        </button>
+        </a>
       </div>
     </section>
   );

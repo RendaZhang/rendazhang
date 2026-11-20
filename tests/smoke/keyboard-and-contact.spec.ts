@@ -4,7 +4,7 @@ test.describe('skip to main content without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
   for (const [path, firstControl] of [
-    ['/', '.c-hero-action-primary'],
+    ['/', '.c-showcase-explore'],
     ['/docs/', '.c-docs-proof-evidence-link:visible']
   ]) {
     test(`starts in the main content on ${path}`, async ({ page }) => {
@@ -38,6 +38,7 @@ test('visible contact labels preserve all four values across languages at 390px'
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const form = page.locator('.contact-form');
   const language = page.getByRole('button', { name: '切换语言' });
+  await form.scrollIntoViewIfNeeded();
   for (const locator of [form, language]) {
     const island = locator.locator('xpath=ancestor::astro-island[1]');
     await expect(island).toBeAttached();
