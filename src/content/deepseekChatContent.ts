@@ -45,7 +45,8 @@ export const DEEPSEEK_CHAT_CONTENT = {
     confirmButton: 'OK',
     cancelButton: 'Cancel',
     copyLabel: 'Copy',
-    copiedLabel: 'Copied'
+    copiedLabel: 'Copied',
+    copyFailedLabel: 'Couldn’t copy. Try again.'
   },
   zh: {
     title: 'AI 对话',
@@ -92,6 +93,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     confirmButton: '确定',
     cancelButton: '取消',
     copyLabel: '复制',
-    copiedLabel: '已复制'
+    copiedLabel: '已复制',
+    copyFailedLabel: '复制失败，请重试。'
   }
 } as const;

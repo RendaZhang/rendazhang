@@ -17,6 +17,7 @@ export type ChatCallback = () => void;
 export interface CopyTexts {
   copyLabel: string;
   copiedLabel: string;
+  copyFailedLabel: string;
 }
 
 export interface InputTexts {

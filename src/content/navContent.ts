@@ -3,6 +3,7 @@ import {
   CHAT_PAGE_PATH,
   CERTIFICATIONS_PAGE_PATH,
   DOCS_PAGE_PATH,
+  LOGIN_PAGE_PATH,
   PROFILE_PAGE_PATH
 } from '../constants';
 
@@ -17,13 +18,13 @@ export const NAV_CONTENT = {
     register: 'Register',
     menu: 'Menu',
     closeMenu: 'Close navigation',
-    profile: 'Account Profile',
+    profile: 'Account',
     drawer: {
       home: 'Home',
       chat: 'AI Chat',
       certs: 'Certifications',
-      docs: 'Tech Docs',
-      profile: 'Account Profile'
+      docs: 'Docs',
+      profile: 'Account'
     },
     theme: {
       button: 'Theme',
@@ -47,13 +48,13 @@ export const NAV_CONTENT = {
     register: '注册',
     menu: '菜单',
     closeMenu: '关闭导航',
-    profile: '账号信息',
+    profile: '账号',
     drawer: {
       home: '首页',
       chat: 'AI 聊天',
       certs: '证书',
-      docs: '技术文档',
-      profile: '账号信息'
+      docs: '文档',
+      profile: '账号'
     },
     theme: {
       button: '切换主题',
@@ -76,6 +77,15 @@ export const NAVIGATION_ITEMS = [
   { href: DOCS_PAGE_PATH, key: 'docs', authenticatedOnly: false },
   { href: PROFILE_PAGE_PATH, key: 'profile', authenticatedOnly: true }
 ] as const;
+
+export type NavigationRoute = (typeof NAVIGATION_ITEMS)[number]['key'] | 'login';
+
+export function getCurrentNavigationRoute(pathname: string): NavigationRoute | undefined {
+  const path = pathname.replace(/\/+$/, '') || HOME_PAGE_PATH;
+  return path === LOGIN_PAGE_PATH
+    ? 'login'
+    : NAVIGATION_ITEMS.find((item) => item.href === path)?.key;
+}
 
 export function getNavigationItems(isLoggedIn: boolean) {
   return NAVIGATION_ITEMS.filter((item) => !item.authenticatedOnly || isLoggedIn);

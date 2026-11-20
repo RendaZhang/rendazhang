@@ -1,5 +1,6 @@
 ---
 import { NavBarWrapper } from '../components/layouts';
+import { getCurrentNavigationRoute } from '../content/navContent';
 import { ChatWidget } from '../components/chat';
 import { BackToTopButton } from '../components/ui';
 import {
@@ -229,7 +230,12 @@ const twitterProps = { ...twitterDefaults, ...twitter };
             <span class="is-lang-zh">跳到正文</span>
             <span class="is-lang-en">Skip to main content</span>
           </a>
-          <NavBarWrapper initialLang={initialLang} showNav={showNav} client:load />
+          <NavBarWrapper
+            initialLang={initialLang}
+            showNav={showNav}
+            currentRoute={getCurrentNavigationRoute(Astro.url.pathname)}
+            client:load
+          />
         </>
       )
     }

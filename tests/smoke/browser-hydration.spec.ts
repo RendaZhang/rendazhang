@@ -11,6 +11,7 @@ const themeRoles = JSON.parse(
 const AUTH_ME_PATH = '/cloudchat/auth/me';
 const CHAT_PAGE_PATH = '/deepseek_chat/';
 const DOCS_PAGE_PATH = '/docs/';
+const LANG_STORAGE_KEY = 'preferred_lang';
 const THEME_STORAGE_KEY = 'preferred_theme';
 const THEME_PALETTE_STORAGE_KEY = 'preferred_palette';
 
@@ -282,6 +283,10 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(page.locator('.c-nav-primary-links a[href="/certifications"]')).toBeVisible();
   await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeHidden();
   await expect(page.locator('.c-hamburger-btn')).toBeHidden();
+  await expect(page.locator('.c-nav-logo[data-nav-route="home"]')).toHaveAttribute(
+    'aria-current',
+    'page'
+  );
   await expectIslandHydrated(page, 'NavBarWrapper');
 
   const desktopThemeButton = page.getByRole('button', { name: '切换主题' });
@@ -306,6 +311,8 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(page.locator('.c-nav-primary-links')).toBeHidden();
   const hamburger = page.locator('.c-hamburger-btn');
   await expect(hamburger).toBeVisible();
+  await expect(hamburger).toHaveAccessibleName('菜单');
+  await expect(hamburger.locator('svg[aria-hidden="true"]')).toBeVisible();
   await expect(page.locator('.c-side-menu-link')).toHaveCount(0);
 
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -314,6 +321,13 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   const closeButton = page.getByRole('button', { name: '关闭导航' });
   await expect(drawer).toBeVisible();
   await expect(closeButton).toBeFocused();
+  await expect(closeButton.locator('svg[aria-hidden="true"]')).toBeVisible();
+  await expect(drawer.locator('a[data-nav-route="home"]')).toHaveAttribute('aria-current', 'page');
+  for (const control of [hamburger, closeButton]) {
+    const size = await control.boundingBox();
+    expect(size?.width).toBeGreaterThanOrEqual(44);
+    expect(size?.height).toBeGreaterThanOrEqual(44);
+  }
   await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
   await expect(page.locator('html')).toHaveCSS('overflow', 'hidden');
   expect(
@@ -506,6 +520,30 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await audit.assertClean();
 });
 
+test('Docs is current and directly available on desktop and in the mobile menu', async ({
+  page
+}) => {
+  await page.goto(DOCS_PAGE_PATH, { waitUntil: 'domcontentloaded' });
+  const desktop = page.locator('.c-nav-primary-links');
+  const docs = desktop.getByRole('link', { name: '文档', exact: true });
+  await expect(docs).toBeVisible();
+  await expect(docs).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('.c-nav-logo')).not.toHaveAttribute('aria-current', 'page');
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectIslandHydrated(page, 'NavBarWrapper');
+  const menu = page.getByRole('button', { name: '菜单', exact: true });
+  await menu.press('Enter');
+  const drawer = page.getByRole('dialog', { name: '菜单', exact: true });
+  await expect(drawer.getByRole('link', { name: '文档', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page'
+  );
+  await page.keyboard.press('Escape');
+  await expect(drawer).toHaveCount(0);
+  await expect(menu).toBeFocused();
+});
+
 test('/docs/ renders Mermaid diagrams after live language changes', async ({ page }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'docs language switch');
@@ -665,28 +703,45 @@ test('/reset_password consumes fragment tokens without sending or retaining them
   await audit.assertClean();
 });
 
-test('/deepseek_chat/ explicit sending of a preset adds guide metadata and supports copying dark answers', async ({
+test('/deepseek_chat/ explicit sending of a preset adds guide metadata and retries copying the exact dark reply', async ({
   page
 }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
   const audit = attachConsoleAudit(page, 'deepseek_chat preset');
-  let requestBody: Record<string, unknown> | null = null;
+  const requestBodies: Record<string, unknown>[] = [];
+  const reply = 'A concise **public answer** about PersonalWeb.\n\n代码：`nginx`';
 
   await page.addInitScript(() => {
     window.localStorage.setItem('preferred_theme', JSON.stringify('dark'));
+    let copyAttempts = 0;
     Object.defineProperty(navigator.clipboard, 'writeText', {
       configurable: true,
-      value: async (value: string) => {
-        document.documentElement.dataset.smokeCopiedText = value;
+      value: (value: string) => {
+        const { dataset } = document.documentElement;
+        copyAttempts += 1;
+        dataset.smokeCopyAttempts = String(copyAttempts);
+        if (copyAttempts === 1) {
+          return Promise.reject(new DOMException('Test clipboard denied once', 'NotAllowedError'));
+        }
+        return new Promise<void>((resolve) => {
+          document.addEventListener(
+            'smoke:finish-copy',
+            () => {
+              dataset.smokeCopiedText = value;
+              resolve();
+            },
+            { once: true }
+          );
+        });
       }
     });
   });
   await page.route('**/cloudchat/deepseek_chat', async (route) => {
-    requestBody = route.request().postDataJSON() as Record<string, unknown>;
+    requestBodies.push(route.request().postDataJSON() as Record<string, unknown>);
     await route.fulfill({
       status: 200,
       contentType: 'application/x-ndjson',
-      body: `${JSON.stringify({ text: 'A concise public answer about PersonalWeb.' })}\n`
+      body: `${JSON.stringify({ text: reply })}\n`
     });
   });
 
@@ -695,7 +750,7 @@ test('/deepseek_chat/ explicit sending of a preset adds guide metadata and suppo
   await expect(preset).toBeVisible();
   await preset.click();
   await expect(page.locator('.c-message-input')).toHaveValue('Renda 在 PersonalWeb 里做了什么？');
-  expect(requestBody).toBeNull();
+  expect(requestBodies).toEqual([]);
   await page.locator('#send-btn').click();
 
   await expect(page.locator('.c-user-message')).toHaveText('Renda 在 PersonalWeb 里做了什么？');
@@ -706,12 +761,13 @@ test('/deepseek_chat/ explicit sending of a preset adds guide metadata and suppo
   await expect(page.getByLabel('用于支持此导览回答的公开页面')).toContainText(
     'PersonalWeb 构建说明'
   );
-  expect(requestBody).toEqual({
+  const expectedRequest = {
     message: 'Renda 在 PersonalWeb 里做了什么？',
     guideMode: 'public_site',
     presetId: 'personalweb_proof',
     locale: 'zh'
-  });
+  };
+  expect(requestBodies).toEqual([expectedRequest]);
 
   const contrastRatios = await page.locator('.c-ai-message').evaluate((message) => {
     const container = message.closest('.c-chat-container');
@@ -764,16 +820,34 @@ test('/deepseek_chat/ explicit sending of a preset adds guide metadata and suppo
   expect(contrastRatios.answer).toBeGreaterThanOrEqual(4.5);
   expect(contrastRatios.sourceHint).toBeGreaterThanOrEqual(4.5);
 
+  const html = page.locator('html');
   const copy = page.getByRole('button', { name: '复制', exact: true });
+  const status = page.locator('.c-copy-status[role="status"]');
   await copy.focus();
   await expect(copy).toBeFocused();
   await copy.press('Enter');
-  await expect(page.locator('.c-copy-btn')).toHaveAttribute('data-copied', '');
-  await expect(page.locator('.c-copy-status')).toHaveText('已复制');
-  await expect(page.locator('html')).toHaveAttribute(
-    'data-smoke-copied-text',
-    'A concise public answer about PersonalWeb.'
-  );
+  await expect(html).toHaveAttribute('data-smoke-copy-attempts', '1');
+  await expect(copy).toHaveAttribute('data-copy-failed', '');
+  await expect(copy).not.toHaveAttribute('data-copied', '');
+  await expect(status).toHaveText('复制失败，请重试。');
+  await expect(status).toBeVisible();
+  await expect(copy).toBeFocused();
+  await expect(copy).toBeEnabled();
+
+  await copy.press('Space');
+  await expect(html).toHaveAttribute('data-smoke-copy-attempts', '2');
+  await expect(html).not.toHaveAttribute('data-smoke-copied-text', /./s);
+  await expect(copy).not.toHaveAttribute('data-copied', '');
+  await page.evaluate(() => document.dispatchEvent(new Event('smoke:finish-copy')));
+
+  await expect(copy).toHaveAttribute('data-copied', '');
+  await expect(copy).not.toHaveAttribute('data-copy-failed', '');
+  await expect(status).toHaveText('已复制');
+  await expect(html).toHaveAttribute('data-smoke-copied-text', reply);
+  await expect(copy).not.toHaveAttribute('data-copied', '', { timeout: 5_000 });
+  await expect(status).toBeEmpty();
+  await expect(copy).toBeFocused();
+  expect(requestBodies).toEqual([expectedRequest]);
   expect(authProbeCount(), 'logged-out preset flow should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
@@ -838,65 +912,115 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   await audit.assertClean();
 });
 
-test('theme controls keep DOM state, selected state, and storage coherent', async ({ page }) => {
+test('language and theme choices preserve focus, selected state and storage through reload', async ({
+  page
+}) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
-  const audit = attachConsoleAudit(page, 'theme toggle');
+  const audit = attachConsoleAudit(page, 'language and theme preferences');
+  const initialPreferences = {
+    [LANG_STORAGE_KEY]: 'zh-CN',
+    [THEME_STORAGE_KEY]: 'light',
+    [THEME_PALETTE_STORAGE_KEY]: 'default'
+  };
 
-  await page.addInitScript(
-    ({ paletteStorageKey, themeStorageKey }) => {
-      window.localStorage.setItem(themeStorageKey, JSON.stringify('light'));
-      window.localStorage.setItem(paletteStorageKey, JSON.stringify('default'));
-    },
-    {
-      paletteStorageKey: THEME_PALETTE_STORAGE_KEY,
-      themeStorageKey: THEME_STORAGE_KEY
+  await page.addInitScript((preferences) => {
+    for (const [key, value] of Object.entries(preferences)) {
+      if (window.localStorage.getItem(key) === null) {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      }
     }
-  );
+  }, initialPreferences);
+
+  const storedPreferences = () =>
+    page.evaluate(
+      (keys) =>
+        Object.fromEntries(
+          keys.map((key) => [key, JSON.parse(window.localStorage.getItem(key) ?? 'null')])
+        ),
+      Object.keys(initialPreferences)
+    );
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.locator('html')).toHaveAttribute('data-palette', 'default');
+  const html = page.locator('html');
+  await expect(html).toHaveAttribute('lang', 'zh-CN');
+  await expect(html).toHaveAttribute('data-theme', 'light');
+  await expect(html).toHaveAttribute('data-palette', 'default');
   await expectIslandHydrated(page, 'NavBarWrapper');
 
-  const themeButton = page.getByRole('button', { name: /^(Theme|切换主题)$/ });
-  await themeButton.click();
-  await page.getByRole('button', { name: /^(Switch to Dark Mode|切换到深色模式)$/ }).click();
+  const theme = page.getByRole('button', { name: /^(Theme|切换主题)$/ });
+  await theme.click();
+  await page.getByRole('button', { name: '切换到深色模式', exact: true }).click();
+  await expect(html).toHaveAttribute('data-theme', 'dark');
+  await expect(theme).toBeFocused();
+  await expect.poll(storedPreferences).toEqual({
+    ...initialPreferences,
+    [THEME_STORAGE_KEY]: 'dark'
+  });
 
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect
-    .poll(async () =>
-      page.evaluate((storageKey) => {
-        const raw = window.localStorage.getItem(storageKey);
-        return raw ? (JSON.parse(raw) as unknown) : null;
-      }, THEME_STORAGE_KEY)
-    )
-    .toBe('dark');
+  await theme.click();
+  await page.getByRole('button', { name: '石墨与松绿', exact: true }).click();
+  await expect(html).toHaveAttribute('data-palette', 'forest');
 
-  await themeButton.click();
-  await page.getByRole('button', { name: /^(Graphite And Pine|石墨与松绿)$/ }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
-  await expect
-    .poll(async () =>
-      page.evaluate((storageKey) => {
-        const raw = window.localStorage.getItem(storageKey);
-        return raw ? (JSON.parse(raw) as unknown) : null;
-      }, THEME_PALETTE_STORAGE_KEY)
-    )
-    .toBe('forest');
+  const language = page.getByRole('button', { name: '切换语言', exact: true });
+  await expect(language).toContainText(/中\s*[／/]\s*EN/, { useInnerText: true });
+  await language.press('Enter');
+  const zhOptions = page.getByRole('group', { name: '语言', exact: true });
+  await expect(zhOptions.getByRole('button', { name: '中文', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true'
+  );
+  const english = zhOptions.getByRole('button', { name: 'English', exact: true });
+  await expect(english).toHaveAttribute('aria-pressed', 'false');
+  await english.press('Enter');
+  const englishTrigger = page.getByRole('button', { name: 'Change language', exact: true });
+  await expect(englishTrigger).toBeFocused();
+  await expect(html).toHaveAttribute('lang', 'en');
+  await expect.poll(storedPreferences).toEqual({
+    [LANG_STORAGE_KEY]: 'en',
+    [THEME_STORAGE_KEY]: 'dark',
+    [THEME_PALETTE_STORAGE_KEY]: 'forest'
+  });
 
-  await themeButton.click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expectIslandHydrated(page, 'NavBarWrapper');
+  await expect(html).toHaveAttribute('lang', 'en');
+  await expect(html).toHaveAttribute('data-theme', 'dark');
+  await expect(html).toHaveAttribute('data-palette', 'forest');
+  await expect(englishTrigger).toContainText(/中\s*[／/]\s*EN/, { useInnerText: true });
+  for (const control of [englishTrigger, theme]) {
+    const size = await control.boundingBox();
+    expect(size?.width).toBeGreaterThanOrEqual(44);
+    expect(size?.height).toBeGreaterThanOrEqual(44);
+  }
+
+  await englishTrigger.click();
+  const englishOptions = page.getByRole('group', { name: 'Language', exact: true });
   await expect(
-    page.getByRole('button', { name: /^(Switch to Dark Mode|切换到深色模式)$/ })
+    englishOptions.getByRole('button', { name: 'English', exact: true })
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(englishOptions.getByRole('button', { name: '中文', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'false'
+  );
+  await page.keyboard.press('Escape');
+  await expect(englishTrigger).toBeFocused();
+
+  await theme.click();
+  await expect(
+    page.getByRole('button', { name: 'Switch to Dark Mode', exact: true })
   ).toHaveAttribute('aria-pressed', 'true');
   await expect(
-    page.getByRole('button', { name: /^(Switch to Light Mode|切换到浅色模式)$/ })
+    page.getByRole('button', { name: 'Switch to Light Mode', exact: true })
   ).toHaveAttribute('aria-pressed', 'false');
   await expect(
-    page.getByRole('button', { name: /^(Graphite And Pine|石墨与松绿)$/ })
+    page.getByRole('button', { name: 'Graphite And Pine', exact: true })
   ).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Escape');
+  await expect(theme).toBeFocused();
   await settlePage(page);
 
-  expect(authProbeCount(), 'logged-out theme control path should not probe auth/me').toBe(0);
+  expect(authProbeCount(), 'logged-out preference changes should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
 for (const palette of ['default', 'aurora', 'forest']) {
@@ -948,9 +1072,8 @@ for (const palette of ['default', 'aurora', 'forest']) {
       await page.keyboard.press('Tab');
       await option.focus();
       await expect(option).toBeFocused();
-      await expect
-        .poll(() => option.evaluate((el) => getComputedStyle(el).boxShadow))
-        .toContain('5px');
+      await expect(option).toHaveCSS('outline-style', 'solid');
+      await expect(option).toHaveCSS('outline-width', '2px');
       await option.press('Escape');
       await expect(page.locator('.c-theme-toggle-main')).toBeFocused();
       for (let opening = 0; opening < 2; opening++) {
@@ -1098,10 +1221,9 @@ test('all three swatches keep bilingual names, stable IDs and fixed light fills'
         await page.locator('.c-theme-toggle-main').click();
         const swatch = page.getByRole('button', { name: language === 'en' ? en : zh, exact: true });
         await expect(swatch).toHaveClass(new RegExp('is-palette-' + id));
-        await expect(swatch).toHaveCSS(
-          'background-image',
-          `linear-gradient(135deg, ${fill}, ${fill})`
-        );
+        await expect
+          .poll(() => swatch.evaluate((el) => getComputedStyle(el, '::before').backgroundColor))
+          .toBe(fill);
         await swatch.click();
         await expect(page.locator('html')).toHaveAttribute('data-palette', id);
         await expectTextContrast(page, '.c-send-btn', '--color-brand');

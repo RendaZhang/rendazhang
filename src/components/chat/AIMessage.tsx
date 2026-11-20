@@ -3,7 +3,6 @@ import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
 import { UI_DURATIONS } from '../../constants';
 import ControlHint from '../ui/data-display/ControlHint';
-import { logger } from '../../utils';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
 import type { ChatGuideSourceHintGroup } from '../../content/chatGuideKnowledge';
 import ChatGuideSourceHints from './ChatGuideSourceHints';
@@ -18,6 +17,11 @@ interface AIMessageProps {
   sourceHintsAriaLabel: string;
 }
 
+interface CopyFeedback {
+  result: 'copied' | 'failed';
+  repeated: boolean;
+}
+
 export default function AIMessage({
   text,
   enhance,
@@ -27,24 +31,47 @@ export default function AIMessage({
   sourceHintsHeading,
   sourceHintsAriaLabel
 }: AIMessageProps) {
-  const [isCopied, setIsCopied] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState<CopyFeedback | null>(null);
+  const latestCopyAttempt = useRef(0);
+  const previousCopyFeedback = useRef<CopyFeedback | null>(null);
   const feedbackTimer = useRef<number | undefined>(undefined);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
+  const isCopied = copyFeedback?.result === 'copied';
+  const copyFailed = copyFeedback?.result === 'failed';
+  const feedbackLabel = isCopied ? texts.copiedLabel : copyFailed ? texts.copyFailedLabel : '';
 
-  useEffect(() => () => window.clearTimeout(feedbackTimer.current), []);
+  useEffect(
+    () => () => {
+      latestCopyAttempt.current += 1;
+      window.clearTimeout(feedbackTimer.current);
+    },
+    []
+  );
 
   const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
+    const attempt = ++latestCopyAttempt.current;
+    window.clearTimeout(feedbackTimer.current);
+    setCopyFeedback((current) => (current?.result === 'copied' ? null : current));
+
+    let result: CopyFeedback['result'];
     try {
       await navigator.clipboard.writeText(text);
-      window.clearTimeout(feedbackTimer.current);
-      setIsCopied(true);
+      result = 'copied';
+    } catch {
+      result = 'failed';
+    }
+    if (attempt !== latestCopyAttempt.current) return;
+
+    const previous = previousCopyFeedback.current;
+    const nextFeedback = { result, repeated: previous?.result === result && !previous.repeated };
+    previousCopyFeedback.current = nextFeedback;
+    setCopyFeedback(nextFeedback);
+    if (result === 'copied') {
       feedbackTimer.current = window.setTimeout(
-        () => setIsCopied(false),
+        () => setCopyFeedback(null),
         UI_DURATIONS.COPY_FEEDBACK
       );
-    } catch (error) {
-      logger.error('Clipboard copy failed:', error);
     }
   };
 
@@ -57,12 +84,18 @@ export default function AIMessage({
         sourceHints={sourceHints}
       />
       <div className="c-message-actions">
-        <ControlHint label={isCopied ? texts.copiedLabel : texts.copyLabel} side="above">
+        <span className="c-copy-status" data-copy-result={copyFeedback?.result} role="status">
+          {feedbackLabel}
+          {/* Repeated feedback must change the live region's text to be announced again. */}
+          {copyFeedback?.repeated ? '\u00a0' : ''}
+        </span>
+        <ControlHint disabled={copyFeedback !== null} label={texts.copyLabel} side="above">
           <button
             type="button"
             className="c-copy-btn rounded-4"
             aria-label={texts.copyLabel}
             data-copied={isCopied ? '' : undefined}
+            data-copy-failed={copyFailed ? '' : undefined}
             onClick={handleCopy}
           >
             <svg
@@ -88,9 +121,6 @@ export default function AIMessage({
             </svg>
           </button>
         </ControlHint>
-        <span className="c-copy-status" role="status">
-          {isCopied ? texts.copiedLabel : ''}
-        </span>
       </div>
     </div>
   );

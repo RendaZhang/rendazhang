@@ -1,0 +1,234 @@
+/* Toolbar controls share the same hit area and ink outline, including in the drawer. */
+:where(.c-nav-control) {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--color-palette-border);
+  border-radius: var(--radius-s);
+  color: var(--color-nav-text);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  padding: var(--space-1);
+  text-decoration: none;
+  transition: background-color var(--duration-fast);
+}
+
+:where(.c-nav-control):disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+:where(.c-nav-control) svg {
+  block-size: 20px;
+  fill: none;
+  flex: none;
+  inline-size: 20px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+@media (hover: hover) {
+  :where(.c-nav-control:not(:disabled)):hover {
+    background: var(--color-palette-surface);
+  }
+}
+
+:where(.c-nav-control)[aria-expanded='true'] {
+  background: var(--color-palette-surface-strong);
+}
+
+:where(.c-nav-control):active {
+  background: var(--color-pressed-surface);
+}
+
+:where(.c-nav-control):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.c-language-selector-wrapper,
+.c-theme-toggle-wrapper {
+  position: relative;
+}
+
+.c-language-selector-main {
+  font-size: var(--font-size-1);
+  font-weight: 650;
+  padding-inline: var(--space-2);
+  white-space: nowrap;
+}
+
+html[lang^='zh'] .c-language-selector-main [lang='zh-CN'],
+html[lang^='en'] .c-language-selector-main [lang='en'] {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.23em;
+}
+
+.c-language-options,
+.c-theme-options {
+  background: var(--color-nav-bg);
+  border: 1px solid var(--color-palette-border);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-2);
+  display: grid;
+  gap: var(--space-1);
+  inset-block-start: calc(100% + var(--space-1));
+  padding: var(--space-1);
+  position: absolute;
+  z-index: 1001;
+}
+
+.c-language-options {
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+.c-theme-options {
+  inline-size: max-content;
+  inset-inline-end: 0;
+  max-inline-size: calc(100vw - var(--space-5) * 2);
+}
+
+.c-language-option {
+  font-size: var(--font-size-1);
+  gap: var(--space-2);
+  justify-content: space-between;
+  padding-inline: var(--space-2);
+}
+
+.c-theme-toggle-main,
+.c-theme-option {
+  position: relative;
+}
+
+.c-theme-toggle-main::after {
+  background: var(--color-brand);
+  block-size: 6px;
+  border-radius: 50%;
+  content: '';
+  inline-size: 6px;
+  inset-block-end: 5px;
+  inset-inline-end: 5px;
+  position: absolute;
+}
+
+.c-theme-mode-options,
+.c-theme-palette-options {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.c-theme-palette-options {
+  border-block-start: var(--border-2);
+  flex-direction: column;
+  padding-block-start: var(--space-1);
+}
+
+.c-theme-palette-option {
+  font-size: var(--font-size-1);
+  gap: var(--space-2);
+  justify-content: flex-start;
+  padding-inline: var(--space-2);
+  text-align: start;
+}
+
+.c-theme-palette-option::before {
+  background: var(--palette-swatch);
+  block-size: var(--space-4);
+  border: 1px solid var(--color-palette-border);
+  border-radius: 50%;
+  content: '';
+  flex: none;
+  inline-size: var(--space-4);
+}
+
+.c-theme-palette-option.is-palette-default {
+  --palette-swatch: var(--palette-ink-light-primary);
+}
+
+.c-theme-palette-option.is-palette-aurora {
+  --palette-swatch: var(--palette-cobalt-light-primary);
+}
+
+.c-theme-palette-option.is-palette-forest {
+  --palette-swatch: var(--palette-pine-light-primary);
+}
+
+:is(.c-language-option, .c-theme-option) {
+  &[aria-pressed='true'] {
+    background: var(--color-palette-surface-strong);
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  &:active {
+    background: var(--color-pressed-surface);
+  }
+
+  &::after {
+    block-size: 9px;
+    border-block-end: 2px solid currentColor;
+    border-inline-end: 2px solid currentColor;
+    content: '';
+    inline-size: 5px;
+    rotate: 45deg;
+    visibility: hidden;
+  }
+
+  &[aria-pressed='true']::after {
+    visibility: visible;
+  }
+}
+
+.c-theme-option::after {
+  inset-block-end: 4px;
+  inset-inline-end: 5px;
+  position: absolute;
+}
+
+.c-theme-palette-option::after {
+  flex: none;
+  margin-inline-start: auto;
+  position: static;
+}
+
+.is-theme-light {
+  display: inline-flex;
+}
+
+.is-theme-dark {
+  display: none;
+}
+
+[data-theme='dark'] .is-theme-dark {
+  display: inline-flex;
+}
+
+[data-theme='dark'] .is-theme-light {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.c-nav-control) {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :where(.c-nav-control):focus-visible {
+    --system-focus: Highlight;
+
+    outline-color: var(--system-focus);
+  }
+
+  .c-theme-palette-option::before {
+    forced-color-adjust: none;
+  }
+}

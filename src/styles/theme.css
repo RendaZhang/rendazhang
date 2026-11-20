@@ -6,6 +6,7 @@
 @import './core/theme-tokens.css';
 @import './layout.css' layer(base);
 @import './components/navigation/navigation.css' layer(components);
+@import './components/navigation/navigation-controls.css' layer(components);
 @import './components/app-header.css' layer(components);
 @import './components/button/button.css' layer(components);
 @import './components/form/form.css' layer(components);

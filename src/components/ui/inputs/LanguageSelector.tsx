@@ -1,5 +1,6 @@
 import {
   useState,
+  useId,
   useRef,
   useEffect,
   type FocusEvent as ReactFocusEvent,
@@ -7,32 +8,11 @@ import {
   type ReactElement
 } from 'react';
 import { useLanguage } from '../../providers';
-import { LocalizedSection } from '..';
-
-function LanguageIcon({ size = 20 }: { size?: number }): ReactElement {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <line x1="2" y1="12" x2="22" y2="12" />
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-    </svg>
-  );
-}
 
 export default function LanguageSelector(): ReactElement {
   const { lang, updateLang } = useLanguage();
   const [open, setOpen] = useState<boolean>(false);
+  const optionsId = useId();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const optionsRef = useRef<HTMLDivElement | null>(null);
 
@@ -78,29 +58,32 @@ export default function LanguageSelector(): ReactElement {
       <button
         ref={buttonRef}
         type="button"
-        className="c-language-selector-main"
-        aria-controls="language-options"
+        className="c-nav-control c-language-selector-main"
+        aria-controls={open ? optionsId : undefined}
         aria-expanded={open}
         aria-label={lang === 'en' ? 'Change language' : '切换语言'}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <LocalizedSection zhContent="中文" enContent="English" />
-        <LanguageIcon />
-        <span className="c-language-pair" aria-hidden="true">
-          <span lang="zh-CN">中</span>／<span lang="en">EN</span>
+        <span lang="zh-CN" aria-hidden="true">
+          中
+        </span>
+        <span aria-hidden="true">／</span>
+        <span lang="en" aria-hidden="true">
+          EN
         </span>
       </button>
       {open && (
         <div
           ref={optionsRef}
-          id="language-options"
+          id={optionsId}
           className="c-language-options"
           role="group"
           aria-label={lang === 'en' ? 'Language' : '语言'}
         >
           <button
             type="button"
-            className={`c-language-option ${lang === 'zh-CN' ? 'is-active' : ''}`}
+            className="c-nav-control c-language-option"
+            lang="zh-CN"
             aria-pressed={lang === 'zh-CN'}
             onClick={() => handleSelect('zh-CN')}
           >
@@ -108,7 +91,8 @@ export default function LanguageSelector(): ReactElement {
           </button>
           <button
             type="button"
-            className={`c-language-option ${lang === 'en' ? 'is-active' : ''}`}
+            className="c-nav-control c-language-option"
+            lang="en"
             aria-pressed={lang === 'en'}
             onClick={() => handleSelect('en')}
           >

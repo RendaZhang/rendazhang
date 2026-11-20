@@ -456,9 +456,15 @@ html[data-theme='dark'] .c-ai-message.c-markdown-body .c-chat-source-hint-link:h
 }
 
 .c-message-actions {
+  align-items: center;
   display: flex;
+  gap: var(--space-2);
   justify-content: flex-end;
   margin-block-start: var(--space-1);
+}
+
+.c-message-actions > .c-control-hint {
+  flex: none;
 }
 
 .c-copy-btn {
@@ -492,8 +498,28 @@ html[data-theme='dark'] .c-ai-message.c-markdown-body .c-chat-source-hint-link:h
   color: var(--color-success);
 }
 
+@media (forced-colors: active) {
+  .c-copy-btn:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
 .c-copy-status {
+  color: var(--color-text);
+  font-size: var(--font-size-0);
+  line-height: var(--line-height-tight);
+  overflow-wrap: anywhere;
+}
+
+.c-copy-status[data-copy-result='failed'] {
+  color: var(--color-error);
+}
+
+.c-copy-status:empty {
+  block-size: 1px;
   clip-path: inset(50%);
+  inline-size: 1px;
   overflow: hidden;
   position: absolute;
   white-space: nowrap;

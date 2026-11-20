@@ -80,8 +80,8 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
         <button
           ref={buttonRef}
           type="button"
-          className="c-theme-toggle-main"
-          aria-controls={optionsId}
+          className="c-nav-control c-theme-toggle-main"
+          aria-controls={open ? optionsId : undefined}
           aria-expanded={open}
           aria-label={texts.button}
           onClick={() => setOpen((prev) => !prev)}
@@ -99,7 +99,7 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
             <ControlHint label={texts.light} side="above">
               <button
                 type="button"
-                className={`c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
+                className={`c-nav-control c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
                 aria-label={texts.light || '切换到浅色模式'}
                 aria-pressed={lightSelected}
                 onClick={() => handleSelect(false)}
@@ -110,7 +110,7 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
             <ControlHint label={texts.dark} side="above">
               <button
                 type="button"
-                className={`c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
+                className={`c-nav-control c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
                 aria-label={texts.dark || '切换到深色模式'}
                 aria-pressed={darkSelected}
                 onClick={() => handleSelect(true)}
@@ -129,17 +129,17 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
               const label = texts.palettes?.[palette] || palette;
 
               return (
-                <ControlHint key={palette} label={label} side="above">
-                  <button
-                    type="button"
-                    className={`c-theme-option c-theme-palette-option is-palette-${palette} ${
-                      selected ? 'is-active' : ''
-                    }`}
-                    aria-label={label}
-                    aria-pressed={selected}
-                    onClick={() => handlePaletteSelect(palette)}
-                  />
-                </ControlHint>
+                <button
+                  key={palette}
+                  type="button"
+                  className={`c-nav-control c-theme-option c-theme-palette-option is-palette-${palette} ${
+                    selected ? 'is-active' : ''
+                  }`}
+                  aria-pressed={selected}
+                  onClick={() => handlePaletteSelect(palette)}
+                >
+                  {label}
+                </button>
               );
             })}
           </div>

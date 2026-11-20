@@ -13,7 +13,11 @@ import {
   IMAGE_PATHS,
   LOGIN_IDENTIFIER_KEY
 } from '../../constants';
-import { NAV_CONTENT, getPrimaryNavigationItems } from '../../content';
+import {
+  NAV_CONTENT,
+  getPrimaryNavigationItems,
+  type NavigationRoute
+} from '../../content/navContent';
 import { useLanguage, useAuth } from '../providers';
 import { storage } from '../../utils';
 import { useState, type ReactElement, type CSSProperties } from 'react';
@@ -21,7 +25,7 @@ import HamburgerMenu from './HamburgerMenu';
 
 // Server-side rendering provides a static navigation structure.
 
-export default function NavBar(): ReactElement {
+export default function NavBar({ currentRoute }: { currentRoute?: NavigationRoute }): ReactElement {
   // 不再根据当前语言只渲染一种文本，避免刷新时语言切换产生闪烁
   const { lang } = useLanguage();
   const { logout } = useAuth();
@@ -55,11 +59,13 @@ export default function NavBar(): ReactElement {
     <div className="c-nav-container">
       <nav>
         <div className="c-nav-left">
-          <HamburgerMenu />
+          <HamburgerMenu currentRoute={currentRoute} />
           <a
             href={HOME_PAGE_PATH}
             aria-label={lang === 'en' ? textsEn.home : textsZh.home}
             className="c-nav-logo"
+            data-nav-route="home"
+            aria-current={currentRoute === 'home' ? 'page' : undefined}
           >
             {/* Display both home-link variants so CSS can toggle visibility
                 via `data-logged-in` without causing hydration flicker. */}
@@ -78,6 +84,7 @@ export default function NavBar(): ReactElement {
                 key={item.key}
                 href={item.href}
                 data-nav-route={item.key}
+                aria-current={currentRoute === item.key ? 'page' : undefined}
                 className={`c-nav-primary-link${
                   item.authenticatedOnly ? ' c-nav-primary-link-authenticated' : ''
                 }`}
@@ -96,7 +103,9 @@ export default function NavBar(): ReactElement {
           <a
             href={LOGIN_PAGE_PATH}
             aria-label={lang === 'en' ? textsEn.login : textsZh.login}
-            className="c-avatar-link c-login-link"
+            className="c-avatar-link c-login-link c-nav-control"
+            data-nav-route="login"
+            aria-current={currentRoute === 'login' ? 'page' : undefined}
           >
             <AvatarIcon />
           </a>
@@ -104,7 +113,7 @@ export default function NavBar(): ReactElement {
             type="button"
             onClick={openLogoutDialog}
             aria-label={lang === 'en' ? textsEn.logout : textsZh.logout}
-            className="c-avatar-link c-logout-link"
+            className="c-avatar-link c-logout-link c-nav-control"
             disabled={isLoggingOut} // prevent repeated clicks during logout
           >
             {isLoggingOut ? (

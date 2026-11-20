@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
-import { NAV_CONTENT, getNavigationItems } from '../../content';
+import { NAV_CONTENT, getNavigationItems, type NavigationRoute } from '../../content/navContent';
 import { useLanguage, useAuth } from '../providers';
 import { LocalizedSection } from '../ui';
 
@@ -22,7 +22,9 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
   );
 }
 
-export default function HamburgerMenu(): ReactElement {
+export default function HamburgerMenu({
+  currentRoute
+}: { currentRoute?: NavigationRoute } = {}): ReactElement {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -121,15 +123,15 @@ export default function HamburgerMenu(): ReactElement {
       <button
         ref={triggerRef}
         type="button"
-        className={`c-hamburger-btn${open ? ' is-open' : ''}`}
+        className="c-hamburger-btn c-nav-control"
         aria-label={lang === 'en' ? textsEn.menu : textsZh.menu}
         aria-controls={DRAWER_ID}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        <span />
-        <span />
-        <span />
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
       </button>
       {mounted &&
         open &&
@@ -151,13 +153,19 @@ export default function HamburgerMenu(): ReactElement {
               <button
                 ref={closeButtonRef}
                 type="button"
-                className="c-side-menu-close"
+                className="c-side-menu-close c-nav-control"
+                aria-label={lang === 'en' ? textsEn.closeMenu : textsZh.closeMenu}
                 onClick={() => closeMenu(true)}
               >
-                <LocalizedSection zhContent={textsZh.closeMenu} enContent={textsEn.closeMenu} />
-                <span className="c-side-menu-close-icon" aria-hidden="true">
-                  ×
-                </span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
               </button>
               <nav
                 className="c-side-menu-links"
@@ -168,6 +176,7 @@ export default function HamburgerMenu(): ReactElement {
                     key={item.key}
                     href={item.href}
                     data-nav-route={item.key}
+                    aria-current={currentRoute === item.key ? 'page' : undefined}
                     className="c-side-menu-link"
                     onClick={() => closeMenu(false)}
                   >
