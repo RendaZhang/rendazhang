@@ -1,5 +1,6 @@
 import type { ABOUT_CONTENT } from '../../content';
-import { LocalizedSection } from '../ui';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
+import ResumeFold from './ResumeFold';
 import type { ReactElement } from 'react';
 
 interface EducationSectionProps {
@@ -12,45 +13,32 @@ export default function EducationSection({
   educationZh
 }: EducationSectionProps): ReactElement {
   return (
-    <section className="c-education-section" id="education">
+    <section className="c-education-section c-resume-section" id="education">
       <h2 id="educationTitle">
         <LocalizedSection zhContent={educationZh.title} enContent={educationEn.title} />
       </h2>
       <p className="c-section-summary">
         <LocalizedSection zhContent={educationZh.summary} enContent={educationEn.summary} />
       </p>
-      <div id="educationList">
-        {educationZh.entries.map((entry, idx) => (
-          <div className="c-education-item" key={idx}>
-            <div className="c-section-header">
-              <span className="c-education-period">
-                <LocalizedSection
-                  zhContent={entry.period}
-                  enContent={educationEn.entries[idx].period}
-                />
-              </span>
-              <span className="education-school">
-                <LocalizedSection
-                  zhContent={entry.school}
-                  enContent={educationEn.entries[idx].school}
-                />
-              </span>
-            </div>
-            <h3 className="c-education-degree">
-              <LocalizedSection
-                zhContent={entry.degree}
-                enContent={educationEn.entries[idx].degree}
-              />
-            </h3>
-            <p>
-              <LocalizedSection
-                zhContent={entry.details}
-                enContent={educationEn.entries[idx].details}
-              />
-            </p>
-          </div>
-        ))}
-      </div>
+      <ol className="c-resume-roll" id="educationList">
+        {educationZh.entries.map((entry, index) => {
+          const translation = educationEn.entries[index];
+          return (
+            <ResumeFold
+              key={entry.id}
+              id={`education-${entry.id}`}
+              mark={entry.id}
+              period={{ zh: entry.period, en: translation.period }}
+              organization={{ zh: entry.school, en: translation.school }}
+              title={{ zh: entry.degree, en: translation.degree }}
+            >
+              <p>
+                <LocalizedSection zhContent={entry.details} enContent={translation.details} />
+              </p>
+            </ResumeFold>
+          );
+        })}
+      </ol>
     </section>
   );
 }

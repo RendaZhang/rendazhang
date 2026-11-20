@@ -1,0 +1,175 @@
+.c-resume-section::before {
+  background: var(--home-accent);
+  border-radius: 0;
+  height: 1px;
+}
+
+.c-resume-section h2 {
+  color: var(--home-ink);
+  font-family: var(--home-serif);
+  letter-spacing: -0.025em;
+}
+
+.c-resume-roll {
+  border-block-start: 1px solid var(--home-line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c-resume-leaf {
+  background: color-mix(in srgb, var(--home-paper) 72%, var(--color-surface));
+  border-block-end: 1px solid var(--home-line);
+  min-inline-size: 0;
+}
+
+.c-resume-leaf:nth-child(even) {
+  background: color-mix(in srgb, var(--home-paper) 85%, var(--color-surface));
+  border-inline-start: 1px solid var(--home-line);
+}
+
+.c-resume-fold > summary {
+  align-items: center;
+  color: var(--home-ink);
+  cursor: pointer;
+  display: grid;
+  gap: 0.65rem 1rem;
+  grid-template-columns: minmax(0, 1fr) clamp(3.1rem, 7vw, 5.25rem);
+  list-style: none;
+  min-block-size: 7.5rem;
+  padding: 0.85rem clamp(0.85rem, 2.25vw, 1.45rem) 1.15rem;
+}
+
+.c-resume-fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.c-resume-fold > summary:hover,
+.c-resume-fold[open] > summary {
+  background: color-mix(in srgb, var(--home-accent) 9%, var(--home-paper));
+}
+
+.c-resume-fold > summary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -4px;
+}
+
+.c-resume-fold-period {
+  align-items: center;
+  border-block-end: 1px solid var(--home-line);
+  color: var(--color-text-muted);
+  display: flex;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  gap: 0.55rem;
+  grid-column: 1 / -1;
+  padding-block-end: 0.5rem;
+}
+
+.c-resume-fold-period::before {
+  background: var(--home-accent);
+  block-size: 0.4rem;
+  border-radius: 50%;
+  content: '';
+  flex: 0 0 auto;
+  inline-size: 0.4rem;
+}
+
+.c-resume-fold-organization {
+  align-items: baseline;
+  display: flex;
+  font-family: var(--home-serif);
+  font-size: clamp(1.2rem, 2.6vw, 1.75rem);
+  font-weight: 700;
+  gap: 0.6rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.c-resume-fold-sign {
+  block-size: 0.45rem;
+  border-block-end: 2px solid var(--home-accent);
+  border-inline-end: 2px solid var(--home-accent);
+  flex: 0 0 auto;
+  inline-size: 0.45rem;
+  transform: rotate(-45deg);
+}
+
+.c-resume-fold[open] .c-resume-fold-sign {
+  transform: rotate(45deg);
+}
+
+.c-resume-fold-mark {
+  fill: none;
+  inline-size: 100%;
+  max-block-size: 4.35rem;
+  stroke: var(--home-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.c-resume-fold-accent {
+  stroke: var(--home-accent);
+  stroke-width: 2.35;
+}
+
+.c-resume-fold-body {
+  background: var(--color-surface);
+  border-block-start: 1px dashed var(--home-line);
+  color: var(--home-ink);
+  font-size: var(--font-size-1);
+  line-height: 1.65;
+  padding: 1rem clamp(0.85rem, 2.25vw, 1.45rem) 1.3rem;
+}
+
+.c-resume-fold-detail-title {
+  color: var(--home-ink);
+  font-family: var(--home-serif);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+  margin: 0 0 0.6rem;
+  scroll-margin-block-start: 6rem;
+}
+
+.c-resume-fold-detail-title:target {
+  border-inline-start: 2px solid var(--home-accent);
+  padding-inline-start: 0.55rem;
+}
+
+.c-resume-fold-body p {
+  margin: 0;
+}
+
+.c-resume-fold-body ul {
+  margin: 0.65rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+
+.c-resume-fold-body li + li {
+  margin-block-start: 0.4rem;
+}
+
+@media (max-width: 43rem) {
+  .c-resume-roll {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c-resume-leaf:nth-child(even) {
+    border-inline-start: 0;
+  }
+
+  .c-resume-fold > summary {
+    min-block-size: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .c-resume-fold-sign {
+    transition: transform var(--duration-normal) var(--easing-standard);
+  }
+}

@@ -282,60 +282,6 @@ body.c-about-page {
   justify-content: flex-start;
 }
 
-.c-skill-groups {
-  border-bottom: var(--border-2);
-  border-top: var(--border-2);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.c-skill-group {
-  padding: var(--space-4);
-
-  &:nth-child(even) {
-    border-left: var(--border-2);
-  }
-
-  &:nth-child(n + 3) {
-    border-top: var(--border-2);
-  }
-}
-
-.c-skill-group h3 {
-  margin: 0 0 var(--space-2);
-}
-
-.c-skill-group p {
-  color: var(--color-text-muted);
-  font-weight: 600;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.c-experience-item,
-.c-education-item,
-.c-blog-item {
-  margin-bottom: var(--space-6);
-}
-
-.c-experience-period,
-.c-education-period,
-.c-blog-category {
-  margin-inline-end: var(--space-2);
-}
-
-.c-experience-role,
-.c-education-degree {
-  margin-block: var(--space-2);
-}
-
-/* Blog section */
-
-.c-blog-header {
-  display: flex;
-  justify-content: space-between;
-}
-
 /* Resume link */
 .c-resume-link {
   margin-top: var(--space-4);
@@ -417,22 +363,6 @@ body.c-about-page {
 
   .c-home-proof-path-link {
     min-height: auto;
-    padding: var(--space-4) 0;
-
-    &:nth-child(even) {
-      border-left: 0;
-    }
-
-    &:nth-child(n + 2) {
-      border-top: var(--border-2);
-    }
-  }
-
-  .c-skill-groups {
-    grid-template-columns: 1fr;
-  }
-
-  .c-skill-group {
     padding: var(--space-4) 0;
 
     &:nth-child(even) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ABOUT_CONTENT } from '../content';
+import { ABOUT_CONTENT, HOME_SKILL_INDEX } from '../content';
 
 describe('time-sensitive public profile content', () => {
   it('describes the July 2026 career move in completed or current tense', () => {
@@ -27,9 +27,8 @@ describe('homepage personal narrative', () => {
       line: '在深圳写后端。'
     });
     expect(ABOUT_CONTENT.en.paragraphs).toHaveLength(ABOUT_CONTENT.zh.paragraphs.length);
-    expect(ABOUT_CONTENT.en.skills.categories).toHaveLength(
-      ABOUT_CONTENT.zh.skills.categories.length
-    );
+    expect(HOME_SKILL_INDEX.map(({ id }) => id)).toEqual(['backend', 'ai', 'cloud', 'reliability']);
+    expect(HOME_SKILL_INDEX.every(({ label }) => label.en && label.zh)).toBe(true);
   });
 
   it('keeps internal planning language and unscored skill metrics out of visitor copy', () => {
@@ -38,11 +37,6 @@ describe('homepage personal narrative', () => {
       /proof path|proof surface|certification context|contact intent|main proof|credential proof|guided proof|证明路径|证书上下文|联系意向|主证明|证书证明|导览证明|\bsurface\b|\bcredential\b|\bpreset\b/i;
 
     expect(visitorCopy).not.toMatch(internalTerms);
-    expect(ABOUT_CONTENT.en.skills.categories.every((category) => !('level' in category))).toBe(
-      true
-    );
-    expect(ABOUT_CONTENT.zh.skills.categories.every((category) => !('level' in category))).toBe(
-      true
-    );
+    expect(HOME_SKILL_INDEX.every((category) => !('level' in category))).toBe(true);
   });
 });

@@ -1,0 +1,178 @@
+.c-home-notes {
+  --home-paper: color-mix(in srgb, var(--color-surface) 78%, #f3dfbd);
+  --home-ink: var(--color-text);
+  --home-accent: var(--color-brand);
+  --home-line: color-mix(in srgb, var(--home-ink) 25%, transparent);
+  --home-serif: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
+}
+
+html[data-theme='dark'] .c-home-notes {
+  --home-paper: color-mix(in srgb, var(--color-bg) 79%, var(--color-surface));
+}
+
+.c-home-notes :is(#experience, #education, #skills, #blog) {
+  scroll-margin-block-start: 5rem;
+}
+
+.c-home-notes #skills {
+  max-inline-size: 67.5rem;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.c-home-notes #skills::before {
+  content: none;
+}
+
+.c-skill-index h2 {
+  color: var(--home-ink);
+  font-family: var(--home-serif);
+  font-size: clamp(2rem, 4.1vw, 3.8rem);
+  line-height: 1.12;
+  margin: 0 0 var(--space-5);
+}
+
+.c-skill-index-grid {
+  align-items: start;
+  display: grid;
+  gap: 1rem 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.c-skill-tab {
+  --tab-notch: 1.2rem;
+
+  border-block-end: 1px solid var(--home-line);
+  color: var(--home-ink);
+  min-inline-size: 0;
+}
+
+.c-skill-tab summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: clamp(0.55rem, 1.5vw, 1.1rem);
+  grid-template-columns: 2.6rem minmax(0, 1fr) 2rem;
+  list-style: none;
+  min-block-size: 4.65rem;
+  padding: 0.65rem calc(0.7rem + var(--tab-notch)) 0.65rem 0.85rem;
+  position: relative;
+  z-index: 0;
+}
+
+.c-skill-tab summary::-webkit-details-marker {
+  display: none;
+}
+
+.c-skill-tab summary::before {
+  background-color: var(--home-paper);
+  border-block-start: 1px solid var(--home-line);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--tab-notch)) 0,
+    100% 50%,
+    calc(100% - var(--tab-notch)) 100%,
+    0 100%
+  );
+  content: '';
+  inset: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.c-skill-tab[open] summary::before,
+.c-skill-tab summary:hover::before {
+  background-color: color-mix(in srgb, var(--home-paper) 88%, var(--home-accent));
+  border-block-start-color: var(--home-accent);
+}
+
+.c-skill-tab-mark {
+  fill: none;
+  inline-size: 100%;
+  stroke: var(--home-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+}
+
+.c-skill-tab-mark-accent {
+  stroke: var(--home-accent);
+  stroke-width: 2.1;
+}
+
+.c-skill-tab-title {
+  font-family: var(--home-serif);
+  font-size: clamp(1.02rem, 1.85vw, 1.48rem);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.c-skill-tab-pull {
+  aspect-ratio: 1;
+  border: 1px solid var(--home-accent);
+  border-radius: 50%;
+  color: var(--home-accent);
+  display: grid;
+  font-size: 1.12rem;
+  inline-size: 1.65rem;
+  place-items: center;
+}
+
+.c-skill-tab-pull::before {
+  content: '+';
+  line-height: 1;
+}
+
+.c-skill-tab[open] .c-skill-tab-pull::before {
+  content: '−';
+}
+
+.c-skill-tab-paper {
+  border-inline-start: 1px solid var(--home-line);
+  margin: 0.65rem var(--tab-notch) 0.65rem 0.85rem;
+  padding-inline-start: 0.8rem;
+}
+
+.c-skill-tab-tools {
+  color: var(--home-accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.028em;
+  margin: 0 0 0.4rem;
+}
+
+.c-skill-tab-text {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.c-skill-tab-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.85rem;
+}
+
+.c-skill-tab-links a {
+  align-items: center;
+  color: var(--home-ink);
+  display: inline-flex;
+  font-size: 0.87rem;
+  font-weight: 750;
+  gap: 0.2rem;
+  min-block-size: 44px;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.c-skill-tab :is(summary, a):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 42rem) {
+  .c-skill-index-grid {
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+}

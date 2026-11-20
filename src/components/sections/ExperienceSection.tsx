@@ -1,25 +1,11 @@
-import { LocalizedSection } from '../ui';
+import type { ABOUT_CONTENT } from '../../content';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
+import ResumeFold from './ResumeFold';
 import type { ReactElement } from 'react';
 
-interface ExperienceEntry {
-  readonly period: string;
-  readonly company: string;
-  readonly title: string;
-  readonly summary?: string;
-  readonly bullets?: ReadonlyArray<string>;
-}
-
 interface ExperienceSectionProps {
-  experienceEn: {
-    title: string;
-    summary: string;
-    entries: ReadonlyArray<ExperienceEntry>;
-  };
-  experienceZh: {
-    title: string;
-    summary: string;
-    entries: ReadonlyArray<ExperienceEntry>;
-  };
+  experienceEn: typeof ABOUT_CONTENT.en.experience;
+  experienceZh: typeof ABOUT_CONTENT.zh.experience;
 }
 
 export default function ExperienceSection({
@@ -27,59 +13,42 @@ export default function ExperienceSection({
   experienceZh
 }: ExperienceSectionProps): ReactElement {
   return (
-    <section className="c-experience-section" id="experience">
+    <section className="c-experience-section c-resume-section" id="experience">
       <h2 id="experienceTitle">
         <LocalizedSection zhContent={experienceZh.title} enContent={experienceEn.title} />
       </h2>
       <p className="c-section-summary">
         <LocalizedSection zhContent={experienceZh.summary} enContent={experienceEn.summary} />
       </p>
-      <div id="experienceList">
-        {experienceZh.entries.map((entry, idx) => (
-          <div className="c-experience-item" key={idx}>
-            <div className="c-section-header">
-              <span className="c-experience-period">
-                <LocalizedSection
-                  zhContent={entry.period}
-                  enContent={experienceEn.entries[idx].period}
-                />
-              </span>
-              <span className="experience-company">
-                <LocalizedSection
-                  zhContent={entry.company}
-                  enContent={experienceEn.entries[idx].company}
-                />
-              </span>
-            </div>
-            <h3 className="c-experience-role">
-              <LocalizedSection
-                zhContent={entry.title}
-                enContent={experienceEn.entries[idx].title}
-              />
-            </h3>
-            {entry.summary && (
+      <ol className="c-resume-roll" id="experienceList">
+        {experienceZh.entries.map((entry, index) => {
+          const translation = experienceEn.entries[index];
+          return (
+            <ResumeFold
+              key={entry.id}
+              id={`experience-${entry.id}`}
+              mark={entry.id}
+              period={{ zh: entry.period, en: translation.period }}
+              organization={{ zh: entry.company, en: translation.company }}
+              title={{ zh: entry.title, en: translation.title }}
+            >
               <p>
-                <LocalizedSection
-                  zhContent={entry.summary}
-                  enContent={experienceEn.entries[idx].summary}
-                />
+                <LocalizedSection zhContent={entry.summary} enContent={translation.summary} />
               </p>
-            )}
-            {entry.bullets && (
               <ul>
-                {entry.bullets.map((b, i) => (
-                  <li key={i}>
+                {entry.bullets.map((bullet, bulletIndex) => (
+                  <li key={bullet}>
                     <LocalizedSection
-                      zhContent={b}
-                      enContent={experienceEn.entries[idx].bullets?.[i]}
+                      zhContent={bullet}
+                      enContent={translation.bullets[bulletIndex]}
                     />
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-        ))}
-      </div>
+            </ResumeFold>
+          );
+        })}
+      </ol>
     </section>
   );
 }

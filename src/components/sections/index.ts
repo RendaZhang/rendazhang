@@ -28,6 +28,8 @@ export * from './RegisterContent';
 export { default as RegisterContent } from './RegisterContent';
 export * from './ResetPasswordContent';
 export { default as ResetPasswordContent } from './ResetPasswordContent';
+export * from './ResumeFold';
+export { default as ResumeFold } from './ResumeFold';
 export * from './SitePerspective';
 export { default as SitePerspective } from './SitePerspective';
 export * from './SkillsSection';

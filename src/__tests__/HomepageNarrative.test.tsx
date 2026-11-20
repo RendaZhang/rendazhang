@@ -21,11 +21,9 @@ describe('homepage narrative components', () => {
   });
 
   it('presents skill areas without percentage scores', () => {
-    const { container } = render(
-      <SkillsSection skillsEn={ABOUT_CONTENT.en.skills} skillsZh={ABOUT_CONTENT.zh.skills} />
-    );
+    const { container } = render(<SkillsSection />);
 
-    expect(container.querySelectorAll('.c-skill-group')).toHaveLength(4);
+    expect(container.querySelectorAll('.c-skill-index details > summary')).toHaveLength(4);
     expect(container.querySelector('progress')).toBeNull();
     expect(container.textContent).toContain('Backend systems');
     expect(container.textContent).toContain('后端系统');

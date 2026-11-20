@@ -10,12 +10,12 @@ export default function AboutContent(): ReactElement {
   const { en, zh } = ABOUT_CONTENT;
 
   return (
-    <>
+    <div className="c-home-notes">
       <BioSection contentEn={en} contentZh={zh} />
-      <EducationSection educationEn={en.education} educationZh={zh.education} />
-      <BlogSection blogEn={en.blog} blogZh={zh.blog} />
-      <SkillsSection skillsEn={en.skills} skillsZh={zh.skills} />
       <ExperienceSection experienceEn={en.experience} experienceZh={zh.experience} />
-    </>
+      <EducationSection educationEn={en.education} educationZh={zh.education} />
+      <SkillsSection />
+      <BlogSection blogEn={en.blog} blogZh={zh.blog} />
+    </div>
   );
 }

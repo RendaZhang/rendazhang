@@ -1,0 +1,106 @@
+.c-blog-entries {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.c-blog-article {
+  min-inline-size: 0;
+  scroll-margin-block-start: var(--space-10);
+}
+
+.c-blog-article-link {
+  background: var(--color-surface);
+  border: 1px solid var(--home-line);
+  box-shadow: var(--shadow-elevation-1);
+  color: var(--home-ink);
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  text-decoration: none;
+}
+
+.c-blog-article-link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.c-blog-art {
+  align-self: center;
+  aspect-ratio: 280 / 164;
+  background: var(--home-paper);
+  block-size: auto;
+  border: 1px solid var(--home-line);
+  color: var(--home-ink);
+  display: block;
+  fill: none;
+  inline-size: 100%;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.c-blog-art-paper {
+  fill: var(--home-paper);
+}
+
+.c-blog-art-accent {
+  stroke: var(--home-accent);
+  stroke-width: 2.25;
+}
+
+.c-blog-art-grid {
+  stroke: var(--home-line);
+  stroke-width: 1;
+}
+
+.c-blog-article-copy {
+  align-self: center;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  padding: var(--space-2);
+}
+
+.c-blog-article-meta {
+  align-items: baseline;
+  border-block-end: 1px solid var(--home-line);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--font-size-1);
+  gap: var(--space-1) var(--space-3);
+  margin: 0 0 var(--space-3);
+  padding-block-end: var(--space-2);
+}
+
+.c-blog-article-meta time {
+  font-variant-numeric: tabular-nums;
+}
+
+.c-blog-article-title {
+  color: inherit;
+  font-family: var(--home-serif);
+  font-size: clamp(1.1rem, 2.3vw, 1.5rem);
+  letter-spacing: -0.015em;
+  line-height: 1.24;
+  margin: 0;
+}
+
+.c-blog-article-link:is(:focus-visible, :hover) .c-blog-article-title {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.c-blog-article-arrow {
+  color: var(--home-accent);
+  display: block;
+  font-size: var(--font-size-2);
+  font-weight: 700;
+  margin-block-start: var(--space-2);
+}
+
+@media (min-width: 36rem) {
+  .c-blog-article-link[data-illustrated] {
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1fr);
+  }
+}

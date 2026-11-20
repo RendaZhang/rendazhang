@@ -7,6 +7,15 @@ import {
   MEDIUM_ARTICLES
 } from '../constants';
 
+export interface ArticleEntry {
+  readonly id: string;
+  readonly category: string;
+  readonly title: string;
+  readonly date: string;
+  readonly url: string;
+  readonly illustration?: 'thread-lock' | 'trading-bot';
+}
+
 export const ABOUT_CONTENT = {
   en: {
     signature: {
@@ -61,39 +70,14 @@ export const ABOUT_CONTENT = {
       }
     },
     contactLabel: 'Feel free to reach out anytime',
-    skills: {
-      title: 'What I Work On',
-      summary:
-        'My work spans four connected areas, from backend service design to the frontend and delivery systems around it.',
-      categories: [
-        {
-          label: 'Backend systems',
-          description:
-            'Java/Spring services, REST and gRPC APIs, relational and NoSQL data, Redis, and messaging.'
-        },
-        {
-          label: 'AI and frontend',
-          description:
-            'Astro/React, TypeScript, Flask/OpenAI integration, SSR/CSR, Markdown, CSP, and browser validation.'
-        },
-        {
-          label: 'Cloud delivery',
-          description:
-            'AWS/GCP, Kubernetes, Docker, Terraform, GitHub Actions, Argo CD, and blue-green or canary releases.'
-        },
-        {
-          label: 'Reliability and teamwork',
-          description:
-            'OpenTelemetry, Prometheus, Grafana, load testing, code review, delivery planning, and team leadership.'
-        }
-      ]
-    },
+    skills: { title: 'What I Work On' },
     experience: {
       title: 'Experience',
       summary:
         'My work has moved from Android product delivery and freelance Java backend projects to Michaels.com e-commerce platforms, cloud-native SaaS at Fanxin, and my current backend team-lead role for overseas life insurance systems at OneConnect.',
       entries: [
         {
+          id: 'oneconnect',
           period: 'Jul 2026 - Present',
           company: 'OneConnect Financial Technology',
           title: 'Senior Backend Engineer / Team Lead - Overseas Life Insurance',
@@ -106,6 +90,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'fanxin',
           period: 'Jun 2024 - Jul 2026',
           company: 'Shenzhen Fanxin Technology',
           title: 'Java Backend Engineer - Cloud-Native',
@@ -119,6 +104,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'michaels',
           period: 'Nov 2020 - Apr 2024',
           company: 'Michaels (Shenzhen) Technology Services Co., Ltd.',
           title: 'Software Development Engineer - Backend',
@@ -134,6 +120,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'education-platform',
           period: 'Jun 2020 - Nov 2020',
           company: 'Online Education Platform (Freelance)',
           title: 'Backend Developer',
@@ -144,6 +131,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'ecommerce-platform',
           period: 'Nov 2019 - May 2020',
           company: 'E-commerce Mall Platform (Freelance)',
           title: 'Backend Developer',
@@ -154,6 +142,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'samsung',
           period: 'May 2018 - Jun 2019',
           company: 'Samsung Mobile R&D Center - Guangzhou',
           title: 'Software Engineer - Android Application',
@@ -171,10 +160,12 @@ export const ABOUT_CONTENT = {
       title: 'Blog',
       entries: [
         {
+          id: 'quant-trading-ai-bot',
           category: 'Medium',
           title: 'Quantitative Trading 101: Building Your AI Trading Bot from Scratch',
           date: '2024-03-15',
-          url: MEDIUM_ARTICLES.QUANT_TRADING_AI_BOT
+          url: MEDIUM_ARTICLES.QUANT_TRADING_AI_BOT,
+          illustration: 'trading-bot'
         }
       ]
     },
@@ -184,6 +175,7 @@ export const ABOUT_CONTENT = {
         'I studied Computer Science at the University of Minnesota, with coursework across systems, networks, algorithms, software engineering, programming languages, and UI design.',
       entries: [
         {
+          id: 'minnesota',
           period: 'Sep 2014 - Dec 2017',
           school: 'University of Minnesota - Twin Cities',
           degree: 'Bachelor of Science in Computer Science',
@@ -191,6 +183,7 @@ export const ABOUT_CONTENT = {
             'College of Science and Engineering; GPA: 3.79. Core courses: Data Structures & Algorithms, Software Engineering, Operating Systems, Computer Networking, Programming Languages, Internet Programming, UI Design, and Theory of Computation.'
         },
         {
+          id: 'lee',
           period: 'Aug 2012 - Jun 2014',
           school: 'Lee Academy, Maine',
           degree: 'High School Diploma',
@@ -254,36 +247,14 @@ export const ABOUT_CONTENT = {
       }
     },
     contactLabel: '欢迎随时联系我',
-    skills: {
-      title: '我的工作领域',
-      summary: '我的工作主要贯穿四个相互连接的领域，从后端服务设计延伸到前端体验与交付体系。',
-      categories: [
-        {
-          label: '后端系统',
-          description: 'Java/Spring 服务、REST 与 gRPC API、关系型与 NoSQL 数据、Redis 和消息队列。'
-        },
-        {
-          label: 'AI 与前端',
-          description:
-            'Astro/React、TypeScript、Flask/OpenAI 集成、SSR/CSR、Markdown、CSP 与浏览器验证。'
-        },
-        {
-          label: '云端交付',
-          description:
-            'AWS/GCP、Kubernetes、Docker、Terraform、GitHub Actions、Argo CD，以及蓝绿与金丝雀发布。'
-        },
-        {
-          label: '可靠性与团队协作',
-          description: 'OpenTelemetry、Prometheus、Grafana、压测、代码审查、交付规划与团队带领。'
-        }
-      ]
-    },
+    skills: { title: '我的工作领域' },
     experience: {
       title: '经历',
       summary:
         '我的经历从 Android 产品交付与自由职业 Java 后端项目，延伸到 Michaels.com 电商平台、凡新的云原生 SaaS，以及目前在金融壹账通负责海外寿险后端团队与交付的工作。',
       entries: [
         {
+          id: 'oneconnect',
           period: '2026年7月 - 至今',
           company: '金融壹账通',
           title: '后端开发高级工程师 / TL（保险事业部海外寿险团队）',
@@ -296,6 +267,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'fanxin',
           period: '2024年6月 - 2026年7月',
           company: '深圳市凡新科技有限公司',
           title: 'Java 后端开发工程师（云原生方向）',
@@ -309,6 +281,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'michaels',
           period: '2020年11月 - 2024年4月',
           company: '麦克尔斯（深圳）科技服务有限公司',
           title: '后端开发工程师',
@@ -323,6 +296,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'education-platform',
           period: '2020年6月 - 2020年11月',
           company: '教育平台项目（自由职业）',
           title: 'Java 后端开发',
@@ -332,6 +306,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'ecommerce-platform',
           period: '2019年11月 - 2020年5月',
           company: '商城项目（自由职业）',
           title: 'Java 后端开发',
@@ -342,6 +317,7 @@ export const ABOUT_CONTENT = {
           ]
         },
         {
+          id: 'samsung',
           period: '2018年5月 - 2019年6月',
           company: '三星广州通信技术研究有限公司',
           title: '软件工程师 - Android 应用',
@@ -359,10 +335,12 @@ export const ABOUT_CONTENT = {
       title: '博客',
       entries: [
         {
+          id: 'java-21-lock',
           category: 'CSDN',
           title: 'Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到那把“失踪的锁”',
           date: '2025-06-09',
-          url: CSDN_ARTICLES.JAVA_21_LOCK
+          url: CSDN_ARTICLES.JAVA_21_LOCK,
+          illustration: 'thread-lock'
         }
       ]
     },
@@ -372,6 +350,7 @@ export const ABOUT_CONTENT = {
         '我在明尼苏达大学学习计算机科学，课程涵盖系统、网络、算法、软件工程、编程语言与 UI 设计。',
       entries: [
         {
+          id: 'minnesota',
           period: '2014年9月 - 2017年12月',
           school: '明尼苏达大学双城校区',
           degree: '计算机科学 理学学士',
@@ -379,6 +358,7 @@ export const ABOUT_CONTENT = {
             '主修课程包括：程序设计、软件工程、数据库系统、操作系统、网络编程、形式语言与自动机、算法与数据结构、编程语言原理等。 GPA 3.79。'
         },
         {
+          id: 'lee',
           period: '2012年8月 - 2014年6月',
           school: '美国缅因州李学院',
           degree: '高中学历',
@@ -388,3 +368,64 @@ export const ABOUT_CONTENT = {
     }
   }
 } as const;
+
+export const HOME_SKILL_INDEX = [
+  {
+    id: 'backend',
+    label: { zh: '后端系统', en: 'Backend systems' },
+    tools: 'Java · Spring · OpenAPI',
+    connection: {
+      zh: '在凡新，我用 OpenAPI 把微服务契约写成文档和 SDK。',
+      en: 'At Fanxin, I used OpenAPI to turn microservice contracts into docs and SDKs.'
+    },
+    links: [
+      {
+        href: '#experience-fanxin',
+        label: { zh: '阅读凡新经历', en: 'Read about Fanxin' }
+      }
+    ]
+  },
+  {
+    id: 'ai',
+    label: { zh: 'AI 与前端', en: 'AI and frontend' },
+    tools: 'Astro · React · Flask',
+    connection: {
+      zh: '《请求旅程》在静态首页演示聊天请求如何往返独立的 Flask 后端。',
+      en: 'Request Journey shows how a chat request travels between a static page and a separate Flask backend.'
+    },
+    links: [
+      { href: '#showcase', label: { zh: '试玩《请求旅程》', en: 'Play Request Journey' } },
+      { href: '/docs/', label: { zh: '架构笔记', en: 'Architecture notes' } }
+    ]
+  },
+  {
+    id: 'cloud',
+    label: { zh: '云端交付', en: 'Cloud delivery' },
+    tools: 'GCP · Kubernetes · Docker',
+    connection: {
+      zh: '在 Michaels，我负责用 Kubernetes 和 Docker 做多环境部署与发布准备。',
+      en: 'At Michaels, I led deployments and release preparation across environments using Kubernetes and Docker.'
+    },
+    links: [
+      {
+        href: '#experience-michaels',
+        label: { zh: '阅读 Michaels 经历', en: 'Read about Michaels' }
+      }
+    ]
+  },
+  {
+    id: 'reliability',
+    label: { zh: '可靠性与团队协作', en: 'Reliability and teamwork' },
+    tools: 'Java · REST/HTTP · Docker',
+    connection: {
+      zh: '在金融壹账通海外寿险团队，我负责交付反馈，并参与 Java 后端设计与代码评审。',
+      en: 'On OneConnect’s overseas life insurance team, I review Java backend designs and code and give engineers feedback on their delivery.'
+    },
+    links: [
+      {
+        href: '#experience-oneconnect',
+        label: { zh: '阅读金融壹账通经历', en: 'Read about OneConnect' }
+      }
+    ]
+  }
+] as const;
