@@ -131,7 +131,7 @@ const wires = [
         >
         {
           SHOWCASE_STEPS.map((stage, index) => (
-            <span data-stage={index + 1} hidden={index !== 0}>
+            <span data-stage={index + 1} data-stage-node={stage.node} hidden={index !== 0}>
               <LocalizedSection zhContent={stage.zh} enContent={stage.en} />
             </span>
           ))
@@ -181,6 +181,8 @@ const wires = [
       <LocalizedSection zhContent={copy.links.contact.zh} enContent={copy.links.contact.en} />
     </a>
   </div>
+
+  <slot name="perspective" />
 
   <details class="c-showcase-reference" id="showcase-response">
     <summary>

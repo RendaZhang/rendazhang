@@ -1,7 +1,7 @@
 .c-site-perspective {
-  margin-inline: auto;
-  max-inline-size: 68rem;
-  padding: var(--space-4);
+  border-block-start: 1px solid var(--journey-rule);
+  margin-block-start: var(--space-2);
+  padding-block-start: var(--space-2);
 }
 
 .c-site-perspective h2,
@@ -33,7 +33,31 @@
 }
 
 .c-site-perspective h2 {
-  font-size: var(--font-size-2);
+  font-size: var(--font-size-1);
+}
+
+.c-site-perspective-opener {
+  background: transparent;
+  border-color: transparent;
+  gap: var(--space-2);
+  padding-inline-start: var(--space-2);
+}
+
+.c-site-perspective-opener:is(:hover, [aria-expanded='true']) {
+  background: var(--color-palette-surface);
+  border-color: var(--color-palette-border);
+}
+
+.c-site-perspective-opener svg {
+  block-size: var(--space-5);
+  color: var(--color-brand);
+  fill: none;
+  flex: none;
+  inline-size: var(--space-5);
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
 }
 
 .c-site-perspective-notes:not([hidden]) {
@@ -90,25 +114,51 @@
 }
 
 .c-site-perspective-chat-status {
-  font-size: var(--font-size-1);
-  font-weight: 650;
-}
+  --widget-inline-inset: var(--space-5);
+  --widget-block-inset: var(--space-5);
+  --status-inline-end: calc(var(--widget-inline-inset) + var(--space-9) + var(--space-2));
 
-.c-site-perspective-chat-status[data-floating] {
   align-items: center;
   background: var(--color-surface);
   border: 1px solid var(--color-palette-border);
   border-radius: var(--radius-m);
   box-shadow: var(--shadow-elevation-2);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-2);
-  inset-block-end: calc(var(--space-4) + env(safe-area-inset-bottom));
-  inset-inline-end: calc(5.5rem + env(safe-area-inset-right));
-  max-inline-size: calc(100% - 6.5rem - env(safe-area-inset-right));
+  display: grid;
+  font-size: var(--font-size-1);
+  font-weight: 650;
+  gap: var(--space-2);
+  grid-template-columns: minmax(0, 1fr) auto;
+  inset-block-end: calc(var(--widget-block-inset) + var(--space-1));
+  inset-inline-end: var(--status-inline-end);
+  line-height: 1.2;
+  max-inline-size: calc(
+    100% - var(--status-inline-end) - var(--space-3) - env(safe-area-inset-left)
+  );
+  overflow-wrap: anywhere;
   padding: var(--space-1) var(--space-2);
   position: fixed;
   z-index: 9998;
+}
+
+.c-site-perspective-chat-status::after {
+  background: var(--color-surface);
+  block-size: var(--space-2);
+  border-block-start: 1px solid var(--color-palette-border);
+  border-inline-end: 1px solid var(--color-palette-border);
+  content: '';
+  inline-size: var(--space-2);
+  inset-block-start: calc(50% - var(--space-1));
+  inset-inline-end: calc(-1 * var(--space-1));
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 30rem) {
+  .c-site-perspective-chat-status {
+    --widget-inline-inset: calc(var(--space-4) + env(safe-area-inset-right));
+    --widget-block-inset: calc(var(--space-4) + env(safe-area-inset-bottom));
+  }
 }
 
 .c-site-perspective :is(button, a):focus-visible {
@@ -119,7 +169,8 @@
 body:has(.c-site-perspective[data-show-brand])
   :is(.c-showcase-architecture, .c-showcase-explore, .c-showcase-play, .c-chat-widget-toggle):not(
     :focus-visible
-  ) {
+  ),
+body:has(.c-site-perspective[data-show-chat]) .c-chat-widget-toggle:not(:focus-visible) {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
 }

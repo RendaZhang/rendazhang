@@ -37,6 +37,19 @@ async function openChat(page: Page, activate: () => Promise<void>, loadingText: 
   await expect(page.locator('.c-chat-widget-frame-wrapper')).toHaveAttribute('aria-busy', 'false');
 }
 
+async function expectStatusBesideLauncher(page: Page) {
+  const card = page.locator('.c-site-perspective-chat-status');
+  await expect(card).toBeInViewport({ ratio: 1 });
+  const note = await card.boundingBox();
+  const chat = await page.locator('#chat-widget-toggle').boundingBox();
+  if (!note || !chat) throw new Error('The chat annotation and launcher must both be visible');
+  const gap = chat.x - (note.x + note.width);
+  expect(gap).toBeGreaterThanOrEqual(0);
+  expect(gap).toBeLessThanOrEqual(32);
+  expect(note.y + note.height).toBeGreaterThan(chat.y);
+  expect(chat.y + chat.height).toBeGreaterThan(note.y);
+}
+
 function brandColors(page: Page) {
   return page
     .locator('.c-showcase-explore, .c-showcase-architecture, .c-chat-widget-toggle')
@@ -53,7 +66,7 @@ function brandColors(page: Page) {
 test('desktop keyboard can inspect brand and chat, then exit to the opener', async ({ page }) => {
   const writes = await guardChatRequests(page);
   await page.goto('/');
-  const perspective = page.locator('[data-site-perspective]');
+  const perspective = page.locator('#showcase [data-site-perspective]');
   const opener = perspective.getByRole('button', { name: '拆开这一页' });
   const brand = perspective.getByRole('button', { name: '墨与朱' });
   const chat = perspective.getByRole('button', { name: '聊天气泡', exact: true });
@@ -63,6 +76,7 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
     await expect(control.locator('xpath=ancestor::astro-island[1]')).not.toHaveAttribute('ssr', '');
   }
   const originalColors = await brandColors(page);
+  await expect(opener.locator('svg')).toBeVisible();
   await expect(opener).toHaveAttribute('aria-expanded', 'false');
   await expect(brand).toBeHidden();
 
@@ -92,6 +106,7 @@ test('desktop keyboard can inspect brand and chat, then exit to the opener', asy
   await expect(chat).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(status).toContainText('已关闭');
+  await expectStatusBesideLauncher(page);
   await expect(launcher).toHaveAttribute('aria-expanded', 'false');
   await page.keyboard.press('Tab');
   await expect(perspective.getByRole('button', { name: '定位聊天气泡' })).toBeFocused();
@@ -114,7 +129,9 @@ test.describe('at 390px with touch', () => {
 
   async function tapTarget(locator: Locator) {
     await expect(locator).toBeVisible();
-    expect((await locator.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+    const box = await locator.boundingBox();
+    expect(box?.width).toBeGreaterThanOrEqual(44);
+    expect(box?.height).toBeGreaterThanOrEqual(44);
     await locator.tap();
   }
 
@@ -130,7 +147,7 @@ test.describe('at 390px with touch', () => {
     await page.getByRole('button', { name: 'English' }).tap();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-    const perspective = page.locator('[data-site-perspective]');
+    const perspective = page.locator('#showcase [data-site-perspective]');
     const opener = perspective.getByRole('button', { name: 'Look inside', exact: true });
     const brand = perspective.getByRole('button', { name: 'Ink and vermilion', exact: true });
     const annotation = perspective.getByRole('button', { name: 'Chat bubble', exact: true });
@@ -149,10 +166,13 @@ test.describe('at 390px with touch', () => {
     await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
     await tapTarget(annotation);
     await expect(status).toContainText('Closed');
+    await expectStatusBesideLauncher(page);
+    await expect(launcher).toHaveAccessibleName('Open Assistant');
 
     await openChat(page, () => launcher.tap(), 'Loading…');
     await expect(status).toContainText('Ready');
-    await expect(status).toBeInViewport({ ratio: 1 });
+    await expectStatusBesideLauncher(page);
+    await expect(launcher).toHaveAccessibleName('Close Assistant');
     await launcher.tap();
     await expect(status).toContainText('Closed');
     await openChat(page, () => launcher.tap(), 'Loading…');
@@ -161,6 +181,7 @@ test.describe('at 390px with touch', () => {
     await tapTarget(perspective.getByRole('button', { name: 'Exit view' }));
     await expect(opener).toBeFocused();
     await expect(opener).toHaveAttribute('aria-expanded', 'false');
+    await expect(status).toBeHidden();
     await expect(launcher).toHaveAttribute('aria-expanded', 'true');
     expect(writes).toEqual([]);
   });

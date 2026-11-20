@@ -23,7 +23,7 @@
 # 交互组件标准
 
 - **作者**: 张人大
-- **最后更新**: August 08, 2026, 10:47 (UTC+08:00)
+- **最后更新**: November 20, 2026, 10:54 (UTC+08:00)
 
 ## 文档目的
 
@@ -84,6 +84,7 @@ toast、loading、empty/error state、键盘行为和 focus 管理前统一评�
   `type="button"`。
 - 图标按钮必须有可读名称，例如 `aria-label`、可见文本或 `LocalizedSection`。
 - 纯装饰 SVG 使用 `aria-hidden="true"` 和 `focusable="false"`。
+- 主题、聊天、复制和返回顶部复用 `ControlHint`。图标按钮本身保有可读名称，视觉提示可用悬停或键盘焦点打开，可移入，可按 Escape 收起。
 - 选中态或切换态使用 `aria-pressed`，不要只依赖颜色或 `is-active` class。
 - 禁用态使用 `disabled`，并确保禁用时不会继续触发请求、导航或重复提交；样式上也应抑制 hover/
   active 提升、使用 `cursor: not-allowed`，并保留可读的禁用文本或图标状态。

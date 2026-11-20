@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useMarkdownPipeline } from '../../hooks';
 import { UI_DURATIONS } from '../../constants';
-import { LocalizedSection } from '../ui';
+import { useLanguage } from '../providers/I18nProvider';
+import ControlHint from '../ui/data-display/ControlHint';
 import { logger } from '../../utils';
 import type { ChatCallback, CopyTexts } from '../../types/chat';
 import type { ChatGuideSourceHintGroup } from '../../content/chatGuideKnowledge';
@@ -29,56 +30,73 @@ export default function AIMessage({
   sourceHintsHeading,
   sourceHintsAriaLabel
 }: AIMessageProps) {
-  const [showBtn, setShowBtn] = useState(false);
+  const { lang } = useLanguage();
+  const texts = lang.startsWith('zh') ? textsZh : textsEn;
   const [isCopied, setIsCopied] = useState(false);
+  const feedbackTimer = useRef<number | undefined>(undefined);
   const contentRef = useMarkdownPipeline(text, enhance, onRendered);
 
-  const handleCopy = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    void navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setIsCopied(true);
-        setTimeout(() => {
-          setIsCopied(false);
-          setShowBtn(false);
-        }, UI_DURATIONS.COPY_FEEDBACK);
-      })
-      .catch((error) => {
-        logger.error('Clipboard copy failed:', error);
-      });
-  };
+  useEffect(() => () => window.clearTimeout(feedbackTimer.current), []);
 
-  const handleMouseEnter = () => setShowBtn(true);
-  const handleMouseLeave = () => {
-    if (!isCopied) setShowBtn(false);
+  const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(text);
+      window.clearTimeout(feedbackTimer.current);
+      setIsCopied(true);
+      feedbackTimer.current = window.setTimeout(
+        () => setIsCopied(false),
+        UI_DURATIONS.COPY_FEEDBACK
+      );
+    } catch (error) {
+      logger.error('Clipboard copy failed:', error);
+    }
   };
-  const handleClick = () => setShowBtn(true);
 
   return (
-    <div
-      className="c-message c-ai-message c-markdown-body"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-    >
-      <button
-        className="c-copy-btn rounded-4"
-        onClick={handleCopy}
-        style={{ display: showBtn ? 'inline-block' : 'none' }}
-      >
-        {isCopied ? (
-          <LocalizedSection zhContent={textsZh.copiedLabel} enContent={textsEn.copiedLabel} />
-        ) : (
-          <LocalizedSection zhContent={textsZh.copyLabel} enContent={textsEn.copyLabel} />
-        )}
-      </button>
-      <div ref={contentRef}></div>
+    <div className="c-message c-ai-message c-markdown-body">
+      <div className="c-ai-message-content" ref={contentRef}></div>
       <ChatGuideSourceHints
         ariaLabel={sourceHintsAriaLabel}
         heading={sourceHintsHeading}
         sourceHints={sourceHints}
       />
+      <div className="c-message-actions">
+        <ControlHint label={isCopied ? texts.copiedLabel : texts.copyLabel} side="above">
+          <button
+            type="button"
+            className="c-copy-btn rounded-4"
+            aria-label={texts.copyLabel}
+            data-copied={isCopied ? '' : undefined}
+            onClick={handleCopy}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              {isCopied ? (
+                <path d="m5 12 4 4L19 6" />
+              ) : (
+                <>
+                  <rect x="8" y="8" width="12" height="12" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                </>
+              )}
+            </svg>
+          </button>
+        </ControlHint>
+        <span className="c-copy-status" role="status">
+          {isCopied ? texts.copiedLabel : ''}
+        </span>
+      </div>
     </div>
   );
 }

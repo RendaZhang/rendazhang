@@ -91,11 +91,31 @@ test('a cold keyboard activation sends the request before the player code arrive
 
   const play = showcase.locator('.c-showcase-play');
   const step = showcase.locator('.c-showcase-next');
+  const track = showcase.getByRole('slider', { name: '旅程轨道' });
   await expect(play).toHaveAccessibleName('暂停');
-  await play.press('Enter');
+  await track.press('End');
+  await expect(showcase).toHaveAttribute('data-step', '6');
+  await expect(track).toHaveValue('6');
+  await expect(track).toHaveAttribute('aria-valuetext', /^6\s*\/\s*6/);
+  await expect(showcase.locator('[data-reply-piece="2"]')).toBeVisible();
+
+  await track.press('ArrowLeft');
+  await expect(showcase).toHaveAttribute('data-step', '5');
   await expect(play).toHaveAccessibleName('继续');
-  await expect(showcase).toHaveAttribute('data-step', '1');
-  for (const expected of ['2', '3', '4', '5']) {
+  await expect(showcase.locator('[data-reply-piece="1"]')).toBeVisible();
+  await expect(showcase.locator('[data-reply-piece="2"]')).toBeHidden();
+
+  await track.press('ArrowLeft');
+  await expect(showcase).toHaveAttribute('data-step', '4');
+  await expect(showcase.locator('[data-station="model"]')).toHaveAttribute('aria-current', 'step');
+  await expect(showcase.locator('[data-reply-piece="1"]')).toBeHidden();
+  await track.press('ArrowRight');
+  await expect(track).toHaveValue('5');
+  await expect(showcase.locator('[data-reply-piece="1"]')).toBeVisible();
+  await showcase.locator('[data-tick="2"]').press('Enter');
+  await expect(track).toHaveValue('2');
+  await expect(showcase.locator('[data-tick="2"]')).toHaveAttribute('aria-current', 'step');
+  for (const expected of ['3', '4', '5']) {
     await step.press('Enter');
     await expect(showcase).toHaveAttribute('data-step', expected);
   }
@@ -115,6 +135,37 @@ test('a cold keyboard activation sends the request before the player code arrive
   expect(realChat).toEqual([]);
   expect(errors).toEqual([]);
 });
+
+async function dragJourneyThumb(page: Page, showcase: Locator, target: number) {
+  const thumb = showcase.locator('.c-showcase-range-thumb');
+  await thumb.scrollIntoViewIfNeeded();
+  const handle = await thumb.boundingBox();
+  const tick = await showcase.locator(`[data-tick="${target}"]`).boundingBox();
+  if (!handle || !tick) throw new Error('The journey thumb and target tick must be visible');
+
+  const startX = handle.x + handle.width / 2;
+  const endX = tick.x + tick.width / 2;
+  const y = handle.y + handle.height / 2;
+  const session = await page.context().newCDPSession(page);
+  try {
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x: startX, y }]
+    });
+    for (const progress of [0.35, 0.7, 1]) {
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: startX + (endX - startX) * progress, y }]
+      });
+    }
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: []
+    });
+  } finally {
+    await session.detach();
+  }
+}
 
 test.describe('request journey on a touch screen', () => {
   test.use({
@@ -165,11 +216,31 @@ test.describe('request journey on a touch screen', () => {
     await expect(page.locator('html')).toHaveAttribute('data-palette', 'forest');
     await expect(showcase).toHaveAttribute('data-step', pausedStep!);
 
-    const next = showcase.getByRole('button', { name: 'Step', exact: true });
-    for (let index = Number(pausedStep); index < 6; index += 1) {
-      await next.tap();
-      await expect(showcase).toHaveAttribute('data-step', String(index + 1));
-    }
+    const track = showcase.getByRole('slider', { name: 'Journey track' });
+    await expect(track).toHaveValue(pausedStep!);
+    await play.tap();
+    await expect(play).toHaveAccessibleName('Pause');
+    await dragJourneyThumb(page, showcase, 5);
+    await expect(track).toHaveValue('5');
+    await expect(play).toHaveAccessibleName('Resume');
+
+    await dragJourneyThumb(page, showcase, 6);
+    await expect(track).toHaveValue('6');
+    await expect(showcase.locator('[data-reply-piece="2"]')).toBeVisible();
+
+    await dragJourneyThumb(page, showcase, 4);
+    await expect(track).toHaveValue('4');
+    await expect(showcase).toHaveAttribute('data-step', '4');
+    await expect(showcase.locator('[data-tick="4"]')).toHaveAttribute('aria-current', 'step');
+    await expect(showcase.locator('[data-reply-piece="1"]')).toBeHidden();
+    await expect(play).toHaveAccessibleName('Resume');
+
+    await showcase.locator('[data-tick="5"]').tap();
+    await expect(track).toHaveValue('5');
+    await expect(showcase.locator('[data-reply-piece="1"]')).toBeVisible();
+    await expect(showcase.locator('[data-reply-piece="2"]')).toBeHidden();
+    await showcase.getByRole('button', { name: 'Step', exact: true }).tap();
+    await expect(track).toHaveValue('6');
     await expect(showcase.locator('[data-reply-piece="2"]')).toBeVisible();
     await expect(showcase.getByRole('link', { name: 'Architecture notes' })).toHaveAttribute(
       'href',
@@ -200,7 +271,7 @@ test('mobile journey controls retain 44 by 44 CSS pixel targets', async ({ page 
       true
     );
     const sizes = await showcase
-      .locator('a:visible, summary:visible, button:visible')
+      .locator('a:visible, summary:visible, button:visible, .c-showcase-range-thumb:visible')
       .evaluateAll((controls) =>
         controls.map((control) => {
           const { width, height } = control.getBoundingClientRect();

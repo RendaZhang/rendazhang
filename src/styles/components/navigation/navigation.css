@@ -353,7 +353,9 @@
     display: flex;
     font-size: var(--font-size-1);
     gap: var(--space-1);
-    min-height: calc(var(--space-8) - var(--space-1));
+    justify-content: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
     padding: var(--space-2) var(--space-3);
     position: relative;
     text-decoration: none;

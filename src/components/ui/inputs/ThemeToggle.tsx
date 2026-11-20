@@ -10,7 +10,8 @@ import { useTheme } from '../../providers';
 import { NAV_CONTENT } from '../../../content';
 import { useUiPreferences } from '../../../hooks';
 import { useLanguage } from '../../providers';
-import { LocalizedSection, ThemeIcon, SunIcon, MoonIcon } from '..';
+import { ThemeIcon, SunIcon, MoonIcon } from '..';
+import ControlHint from '../data-display/ControlHint';
 import { THEME_PALETTES, type ThemePalette } from '../../../stores/uiPreferencesStore';
 
 export default function ThemeToggle({ language }: { language?: string } = {}) {
@@ -27,7 +28,6 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
   const lightSelected = selectedThemeMode === 'light';
   const darkSelected = selectedThemeMode === 'dark';
 
-  // 渲染中英文两套文本，避免首次挂载语言切换造成闪烁
   const textsZh = NAV_CONTENT.zh.theme;
   const textsEn = NAV_CONTENT.en.theme;
   const texts = lang === 'en' ? textsEn : textsZh;
@@ -76,18 +76,19 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
 
   return (
     <div className="c-theme-toggle-wrapper" onBlur={handleBlur} onKeyDown={handleKeyDown}>
-      <button
-        ref={buttonRef}
-        type="button"
-        className="c-theme-toggle-main"
-        aria-controls={optionsId}
-        aria-expanded={open}
-        aria-label={lang === 'en' ? textsEn.button : textsZh.button}
-        onClick={() => setOpen((prev) => !prev)}
-      >
-        <LocalizedSection zhContent={textsZh.button} enContent={textsEn.button} />
-        <ThemeIcon />
-      </button>
+      <ControlHint label={texts.button} disabled={open}>
+        <button
+          ref={buttonRef}
+          type="button"
+          className="c-theme-toggle-main"
+          aria-controls={optionsId}
+          aria-expanded={open}
+          aria-label={texts.button}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <ThemeIcon />
+        </button>
+      </ControlHint>
       {open && (
         <div ref={optionsRef} id={optionsId} className="c-theme-options">
           <div
@@ -95,26 +96,28 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
             role="group"
             aria-label={texts.button || textsZh.button}
           >
-            <button
-              type="button"
-              className={`c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
-              aria-label={texts.light || '切换到浅色模式'}
-              aria-pressed={lightSelected}
-              title={texts.light || '切换到浅色模式'}
-              onClick={() => handleSelect(false)}
-            >
-              <SunIcon size={20} />
-            </button>
-            <button
-              type="button"
-              className={`c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
-              aria-label={texts.dark || '切换到深色模式'}
-              aria-pressed={darkSelected}
-              title={texts.dark || '切换到深色模式'}
-              onClick={() => handleSelect(true)}
-            >
-              <MoonIcon size={20} />
-            </button>
+            <ControlHint label={texts.light} side="above">
+              <button
+                type="button"
+                className={`c-theme-option is-light ${lightSelected ? 'is-active' : ''}`}
+                aria-label={texts.light || '切换到浅色模式'}
+                aria-pressed={lightSelected}
+                onClick={() => handleSelect(false)}
+              >
+                <SunIcon size={20} />
+              </button>
+            </ControlHint>
+            <ControlHint label={texts.dark} side="above">
+              <button
+                type="button"
+                className={`c-theme-option is-dark ${darkSelected ? 'is-active' : ''}`}
+                aria-label={texts.dark || '切换到深色模式'}
+                aria-pressed={darkSelected}
+                onClick={() => handleSelect(true)}
+              >
+                <MoonIcon size={20} />
+              </button>
+            </ControlHint>
           </div>
           <div
             className="c-theme-palette-options"
@@ -126,17 +129,17 @@ export default function ThemeToggle({ language }: { language?: string } = {}) {
               const label = texts.palettes?.[palette] || palette;
 
               return (
-                <button
-                  type="button"
-                  key={palette}
-                  className={`c-theme-option c-theme-palette-option is-palette-${palette} ${
-                    selected ? 'is-active' : ''
-                  }`}
-                  aria-label={label}
-                  aria-pressed={selected}
-                  title={label}
-                  onClick={() => handlePaletteSelect(palette)}
-                />
+                <ControlHint key={palette} label={label} side="above">
+                  <button
+                    type="button"
+                    className={`c-theme-option c-theme-palette-option is-palette-${palette} ${
+                      selected ? 'is-active' : ''
+                    }`}
+                    aria-label={label}
+                    aria-pressed={selected}
+                    onClick={() => handlePaletteSelect(palette)}
+                  />
+                </ControlHint>
               );
             })}
           </div>

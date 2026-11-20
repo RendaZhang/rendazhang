@@ -1,0 +1,60 @@
+.c-control-hint {
+  display: inline-flex;
+  position: relative;
+}
+
+.c-control-hint-bubble {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-palette-border);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-elevation-2);
+  color: var(--color-text);
+  font-size: var(--font-size-0);
+  font-weight: 650;
+  inset-block-start: calc(100% + var(--space-1));
+  inset-inline-end: 0;
+  line-height: 1.4;
+  padding: var(--space-1) var(--space-2);
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+/* Extend the hit area across the gap so the hint can be read under the pointer. */
+.c-control-hint-bubble::before {
+  block-size: var(--space-1);
+  bottom: 100%;
+  content: '';
+  inset-inline: 0;
+  position: absolute;
+}
+
+.c-control-hint[data-hint-open] > .c-control-hint-bubble {
+  visibility: visible;
+}
+
+.c-control-hint[data-hint-side='above'] > .c-control-hint-bubble {
+  inset-block: auto calc(100% + var(--space-1));
+}
+
+.c-control-hint[data-hint-side='above'] > .c-control-hint-bubble::before {
+  inset-block: 100% auto;
+}
+
+.c-control-hint[data-hint-side='left'] > .c-control-hint-bubble {
+  inset-block-start: 50%;
+  inset-inline-end: calc(100% + var(--space-1));
+  transform: translateY(-50%);
+}
+
+.c-control-hint[data-hint-side='left'] > .c-control-hint-bubble::before {
+  block-size: auto;
+  inline-size: var(--space-1);
+  inset-block: 0;
+  inset-inline: 100% auto;
+}
+
+body:has(.c-site-perspective[data-show-chat]) .c-chat-widget-anchor > .c-control-hint-bubble {
+  visibility: hidden;
+}

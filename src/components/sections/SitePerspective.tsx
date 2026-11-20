@@ -57,18 +57,21 @@ export default function SitePerspective() {
       aria-labelledby="site-perspective-title"
       data-site-perspective=""
       data-show-brand={showBrand ? '' : undefined}
+      data-show-chat={showChat ? '' : undefined}
     >
       <h2 id="site-perspective-title">
         <button
           ref={opener}
-          className="c-site-perspective-trigger"
+          className="c-site-perspective-trigger c-site-perspective-opener"
           type="button"
           aria-expanded={open}
           aria-controls="site-perspective-notes"
           onClick={() => (open ? close() : setOpen(true))}
         >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5" />
+          </svg>
           <LocalizedSection zhContent="拆开这一页" enContent="Look inside" />
-          <span aria-hidden="true">{open ? '−' : '+'}</span>
         </button>
       </h2>
       <div id="site-perspective-notes" className="c-site-perspective-notes" hidden={!open}>
@@ -129,21 +132,16 @@ export default function SitePerspective() {
             >
               <LocalizedSection zhContent="定位聊天气泡" enContent="Focus the chat bubble" />
             </button>
-            <div
-              className="c-site-perspective-chat-status"
-              data-floating={chatWidgetStatus !== 'closed' ? '' : undefined}
-            >
+            <div className="c-site-perspective-chat-status">
               <p role="status">
                 <LocalizedSection
                   zhContent={`聊天气泡 · ${status.zh}`}
                   enContent={`Chat bubble · ${status.en}`}
                 />
               </p>
-              {chatWidgetStatus !== 'closed' && (
-                <button type="button" onClick={close}>
-                  <LocalizedSection zhContent="退出透视" enContent="Exit view" />
-                </button>
-              )}
+              <button type="button" onClick={close}>
+                <LocalizedSection zhContent="退出透视" enContent="Exit view" />
+              </button>
             </div>
           </div>
         </div>

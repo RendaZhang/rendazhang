@@ -12,6 +12,7 @@
 @import './components/loaders.css' layer(components);
 @import './components/modal.css' layer(components);
 @import './components/misc.css' layer(components);
+@import './components/control-hint.css' layer(components);
 @import './components/sections.css' layer(components);
 @import './utilities/layout-system.css' layer(utilities);
 @import './utilities/utility-classes.css' layer(utilities);

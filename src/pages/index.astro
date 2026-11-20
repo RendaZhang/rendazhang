@@ -49,9 +49,10 @@ const title = langKey === 'zh' ? titleZh : titleEn;
           <span class="is-lang-en">{ABOUT_CONTENT.en.signature.line}</span>
         </p>
       </header>
-      <RequestJourney />
+      <RequestJourney>
+        <SitePerspective slot="perspective" client:load />
+      </RequestJourney>
     </div>
-    <SitePerspective client:load />
     <AboutContent />
     <SocialIcons client:visible />
     <SocialIconsEffects client:load />

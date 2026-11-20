@@ -3,6 +3,11 @@
 
 /* Floating chat button, centered using .u-flex-center */
 /* Dimensions expressed via spacing tokens */
+.c-chat-widget-anchor.u-fixed-bottom-right {
+  position: fixed;
+  z-index: 9999;
+}
+
 .c-chat-widget-toggle {
   align-items: center;
   background: var(--gradient-primary);
@@ -20,13 +25,12 @@
   justify-content: center;
   line-height: 1; /* vertical alignment handled by u-flex-center */
   padding: 0;
-  position: fixed;
+  position: relative;
   transition:
     filter var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard),
     box-shadow var(--duration-normal) var(--easing-standard);
   width: calc(var(--space-9) - var(--space-1));
-  z-index: 9999;
 }
 
 .c-chat-widget-toggle::before {
@@ -192,7 +196,7 @@
 }
 
 @media (max-width: 30rem) {
-  .c-chat-widget-toggle {
+  .c-chat-widget-anchor.u-fixed-bottom-right {
     bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
     right: calc(var(--space-4) + env(safe-area-inset-right));
   }

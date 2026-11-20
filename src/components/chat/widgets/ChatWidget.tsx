@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../../providers/I18nProvider';
+import ControlHint from '../../ui/data-display/ControlHint';
 import { CHAT_PAGE_PATH, STYLE_PATHS, AI_CHAT_WIDGET_TITLE, ICON_SIZES } from '../../../constants';
 import { setChatWidgetStatus, type ChatWidgetStatus } from '../../../stores/uiPreferencesStore';
 
@@ -63,8 +65,16 @@ interface ChatWidgetProps {
 }
 
 export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
+  const { lang } = useLanguage();
   const [status, setStatus] = useState<ChatWidgetStatus>(defaultOpen ? 'loading' : 'closed');
   const open = status !== 'closed';
+  const label = lang.startsWith('zh')
+    ? open
+      ? '关闭聊天'
+      : '打开聊天'
+    : open
+      ? 'Close Assistant'
+      : 'Open Assistant';
   const iframeLoaded = status === 'ready';
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -89,7 +99,7 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
         panelRef.current &&
         !panelRef.current.contains(target) &&
         buttonRef.current &&
-        !buttonRef.current.contains(target)
+        !buttonRef.current.parentElement?.contains(target)
       ) {
         setStatus('closed');
       }
@@ -150,18 +160,20 @@ export default function ChatWidget({ defaultOpen = false }: ChatWidgetProps) {
           </div>
         </div>
       )}
-      <button
-        ref={buttonRef}
-        id="chat-widget-toggle"
-        className="c-chat-widget-toggle u-flex-center shadow-medium u-fixed-bottom-right"
-        onClick={toggle}
-        type="button"
-        aria-controls="chat-widget-panel"
-        aria-expanded={open}
-        aria-label={open ? 'Close Assistant' : 'Open Assistant'}
-      >
-        {open ? <CloseIcon size={ICON_SIZES.LARGE} /> : <RobotIcon size={ICON_SIZES.LARGE} />}
-      </button>
+      <ControlHint label={label} side="left" className="c-chat-widget-anchor u-fixed-bottom-right">
+        <button
+          ref={buttonRef}
+          id="chat-widget-toggle"
+          className="c-chat-widget-toggle u-flex-center shadow-medium"
+          onClick={toggle}
+          type="button"
+          aria-controls="chat-widget-panel"
+          aria-expanded={open}
+          aria-label={label}
+        >
+          {open ? <CloseIcon size={ICON_SIZES.LARGE} /> : <RobotIcon size={ICON_SIZES.LARGE} />}
+        </button>
+      </ControlHint>
     </>
   );
 }

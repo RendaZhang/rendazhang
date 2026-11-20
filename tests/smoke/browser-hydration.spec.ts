@@ -212,7 +212,7 @@ test('homepage loads without blocking browser console errors', async ({ page }) 
   await expect(page.locator('main')).toBeVisible();
   await expect(page.locator('#heroHeading')).toBeVisible();
   await expect(page.locator('.c-home-signature-line')).toBeVisible();
-  await expect(page.getByRole('button', { name: /Open Assistant/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: '打开聊天', exact: true })).toBeVisible();
   await expect(page.locator('#showcase')).toBeInViewport();
   await expect(page.locator('.c-showcase-explore')).toBeInViewport({ ratio: 1 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -315,8 +315,9 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
     const drawerElement = document.querySelector('.c-side-menu');
     const overlay = document.querySelector('.c-side-menu-overlay');
     const launcher = document.querySelector('.c-chat-widget-toggle');
+    const launcherAnchor = launcher?.closest('.c-chat-widget-anchor');
     const start = document.querySelector('.c-showcase-explore');
-    if (!drawerElement || !overlay || !launcher || !start) return null;
+    if (!drawerElement || !overlay || !launcher || !launcherAnchor || !start) return null;
 
     const launcherRect = launcher.getBoundingClientRect();
     const startRect = start.getBoundingClientRect();
@@ -328,7 +329,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
     return {
       drawerZ: Number.parseInt(getComputedStyle(drawerElement).zIndex, 10),
       overlayZ: Number.parseInt(getComputedStyle(overlay).zIndex, 10),
-      chatZ: Number.parseInt(getComputedStyle(launcher).zIndex, 10),
+      chatZ: Number.parseInt(getComputedStyle(launcherAnchor).zIndex, 10),
       hitTargetClass: hitTarget?.className,
       intersects: !(
         launcherRect.right <= startRect.left ||
@@ -363,7 +364,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.getByRole('button', { name: '关闭导航' }).click();
   await expect(hamburger).toHaveAttribute('aria-expanded', 'false');
 
-  const chatToggle = page.getByRole('button', { name: /Open Assistant/i });
+  const chatToggle = page.getByRole('button', { name: '打开聊天', exact: true });
   await chatToggle.click();
   await expect(page.locator('.c-chat-widget-frame-wrapper')).toHaveAttribute('aria-busy', 'false', {
     timeout: 30_000
@@ -375,8 +376,9 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
     const drawerElement = document.querySelector('.c-side-menu');
     const overlay = document.querySelector('.c-side-menu-overlay');
     const launcher = document.querySelector('.c-chat-widget-toggle');
+    const launcherAnchor = launcher?.closest('.c-chat-widget-anchor');
     const panel = document.querySelector('.c-chat-widget-panel');
-    if (!drawerElement || !overlay || !launcher || !panel) return null;
+    if (!drawerElement || !overlay || !launcher || !launcherAnchor || !panel) return null;
 
     const launcherRect = launcher.getBoundingClientRect();
     const panelRect = panel.getBoundingClientRect();
@@ -386,7 +388,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
     return {
       drawerZ: Number.parseInt(getComputedStyle(drawerElement).zIndex, 10),
       overlayZ: Number.parseInt(getComputedStyle(overlay).zIndex, 10),
-      launcherZ: Number.parseInt(getComputedStyle(launcher).zIndex, 10),
+      launcherZ: Number.parseInt(getComputedStyle(launcherAnchor).zIndex, 10),
       panelZ: Number.parseInt(getComputedStyle(panel).zIndex, 10),
       launcherHitClass: hitClassAt(launcherRect),
       panelHitClass: document.elementFromPoint(
@@ -407,7 +409,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.keyboard.press('Escape');
   await expect(drawer).toHaveCount(0);
   await expect(page.locator('.c-chat-widget-panel')).toBeVisible();
-  await page.getByRole('button', { name: /Close Assistant/i }).click();
+  await page.getByRole('button', { name: '关闭聊天', exact: true }).click();
   await expect(page.locator('.c-chat-widget-panel')).toHaveCount(0);
 
   await hamburger.click();
@@ -637,7 +639,7 @@ test('/reset_password consumes fragment tokens without sending or retaining them
   await audit.assertClean();
 });
 
-test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers readable', async ({
+test('/deepseek_chat/ preset click sends guide metadata and supports copying dark answers', async ({
   page
 }) => {
   const authProbeCount = observeLoggedOutAuthProbe(page);
@@ -646,6 +648,12 @@ test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers r
 
   await page.addInitScript(() => {
     window.localStorage.setItem('preferred_theme', JSON.stringify('dark'));
+    Object.defineProperty(navigator.clipboard, 'writeText', {
+      configurable: true,
+      value: async (value: string) => {
+        document.documentElement.dataset.smokeCopiedText = value;
+      }
+    });
   });
   await page.route('**/cloudchat/deepseek_chat', async (route) => {
     requestBody = route.request().postDataJSON() as Record<string, unknown>;
@@ -726,6 +734,17 @@ test('/deepseek_chat/ preset click sends guide metadata and keeps dark answers r
 
   expect(contrastRatios.answer).toBeGreaterThanOrEqual(4.5);
   expect(contrastRatios.sourceHint).toBeGreaterThanOrEqual(4.5);
+
+  const copy = page.getByRole('button', { name: '复制', exact: true });
+  await copy.focus();
+  await expect(copy).toBeFocused();
+  await copy.press('Enter');
+  await expect(page.locator('.c-copy-btn')).toHaveAttribute('data-copied', '');
+  await expect(page.locator('.c-copy-status')).toHaveText('已复制');
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-smoke-copied-text',
+    'A concise public answer about PersonalWeb.'
+  );
   expect(authProbeCount(), 'logged-out preset flow should not probe auth/me').toBe(0);
   await audit.assertClean();
 });
@@ -736,10 +755,31 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await settlePage(page);
-  const toggle = page.getByRole('button', { name: /Open Assistant/i });
+  const toggle = page.getByRole('button', { name: '打开聊天', exact: true });
+  const hint = page.locator('.c-chat-widget-anchor .c-control-hint-bubble');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.hover();
+  await expect(hint).toBeVisible();
+  await expect(hint).toContainText('打开聊天');
+  const hintBox = await hint.boundingBox();
+  if (!hintBox) throw new Error('The chat hint must be visible when hovered');
+  await page.mouse.move(hintBox.x + hintBox.width / 2, hintBox.y + hintBox.height / 2, {
+    steps: 12
+  });
+  await expect(hint).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(hint).toBeHidden();
+
+  await toggle.focus();
+  await page.keyboard.press('Shift+Tab');
+  await page.keyboard.press('Tab');
+  await expect(toggle).toBeFocused();
+  await expect(hint).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(hint).toBeHidden();
+
   await toggle.click();
-  await expect(page.getByRole('button', { name: /Close Assistant/i })).toHaveAttribute(
+  await expect(page.getByRole('button', { name: '关闭聊天', exact: true })).toHaveAttribute(
     'aria-expanded',
     'true'
   );
@@ -757,9 +797,9 @@ test('Chat Widget opens a same-origin iframe and reaches ready UI', async ({ pag
   await expect(chatFrame.locator('.c-message-input')).toBeEnabled({ timeout: 30_000 });
   await expect(frameWrapper).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(iframe).toHaveClass(/is-loaded/);
-  await page.getByRole('button', { name: /Close Assistant/i }).click();
+  await page.getByRole('button', { name: '关闭聊天', exact: true }).click();
   await expect(frameWrapper).toHaveCount(0);
-  await expect(page.getByRole('button', { name: /Open Assistant/i })).toHaveAttribute(
+  await expect(page.getByRole('button', { name: '打开聊天', exact: true })).toHaveAttribute(
     'aria-expanded',
     'false'
   );

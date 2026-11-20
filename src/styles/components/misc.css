@@ -34,23 +34,30 @@
 }
 
 /* Back to top button */
+.c-back-to-top-anchor.c-control-hint {
+  bottom: calc(var(--space-10) + var(--space-2) + env(safe-area-inset-bottom));
+  position: fixed;
+  right: calc(var(--space-5) + env(safe-area-inset-right));
+  z-index: 9999;
+}
+
+body:has(#chat-widget-toggle[aria-expanded='true']) .c-back-to-top-anchor {
+  visibility: hidden;
+}
+
 .c-back-to-top {
   background: var(--gradient-primary);
   border: none;
   border-radius: 50%;
-  bottom: calc(var(--space-10) + var(--space-2));
   box-shadow: var(--shadow-elevation-2);
   color: var(--color-on-primary);
   cursor: pointer;
-  height: calc(var(--space-8) - var(--space-2));
-  position: fixed;
-  right: var(--space-5);
+  min-block-size: 44px;
+  min-inline-size: 44px;
   transition:
     filter var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard),
     box-shadow var(--duration-normal) var(--easing-standard);
-  width: calc(var(--space-8) - var(--space-2));
-  z-index: 9999;
 }
 
 .c-back-to-top:hover {

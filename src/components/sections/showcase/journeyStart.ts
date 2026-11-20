@@ -4,17 +4,27 @@ function connectJourney(exhibit: HTMLElement): void {
   const counter = exhibit.querySelector<HTMLElement>('[data-journey-count]');
   const progress = exhibit.querySelector<HTMLElement>('.c-showcase-progress');
   const stages = exhibit.querySelectorAll<HTMLElement>('[data-stage]');
+  const stations = exhibit.querySelectorAll<HTMLElement>('[data-station]');
   const reply = exhibit.querySelector<HTMLElement>('.c-showcase-live-reply');
   const pieces = exhibit.querySelectorAll<HTMLElement>('[data-reply-piece]');
   const loading = exhibit.querySelector<HTMLElement>('[data-journey-loading]');
   const error = exhibit.querySelector<HTMLElement>('[data-journey-error]');
   if (!start || !controls || !counter || !progress || !reply || !loading || !error) return;
 
-  const showStep = (step: number) => {
+  const showStep = (step: number, immediate = false) => {
+    const activeStation = stages[step - 1]?.dataset.stageNode;
     exhibit.dataset.step = String(step);
+    exhibit.toggleAttribute('data-seeking', immediate);
     counter.textContent = String(step);
     progress.hidden = false;
     stages.forEach((stage) => (stage.hidden = Number(stage.dataset.stage) !== step));
+    stations.forEach((station) => {
+      if (station.dataset.station === activeStation) {
+        station.setAttribute('aria-current', 'step');
+      } else {
+        station.removeAttribute('aria-current');
+      }
+    });
     reply.hidden = step < 5;
     pieces.forEach((piece, index) => (piece.hidden = step < 5 + index));
   };
