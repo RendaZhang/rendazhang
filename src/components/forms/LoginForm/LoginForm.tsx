@@ -16,6 +16,8 @@ import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
+import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface LoginFormValues {
   email: string;
@@ -87,7 +89,11 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!validateAll()) return;
+    if (status === 'loading' || status === 'success') return;
+    if (!validateAll()) {
+      focusFirstAccountError(e.currentTarget);
+      return;
+    }
     try {
       setStatus('loading');
       setGlobalError('');
@@ -136,27 +142,40 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
 
   return (
     <>
-      <div className="c-login-container">
-        <form onSubmit={handleSubmit} className="c-login-form">
-          <h1 className="c-login-title">
-            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-          </h1>
-          {globalError && <div className="c-global-error">{globalError}</div>}
+      <AccountPanel
+        titleZh={textsZh.title}
+        titleEn={textsEn.title}
+        busy={status === 'loading'}
+        statusText={status === 'success' ? { zh: textsZh.success, en: textsEn.success } : undefined}
+      >
+        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+          {globalError && (
+            <div className="c-global-error" role="alert">
+              {globalError}
+            </div>
+          )}
           <div className="c-form-group">
             <label htmlFor="email" className="c-form-label">
               <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
               placeholder={placeholders.email}
               value={email}
               onChange={(e) => handleChange('email', e.target.value)}
               autoComplete="username"
-              autoFocus
+              aria-required="true"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'email-error' : undefined}
             />
-            {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+            {errors.email && (
+              <div className="c-invalid-feedback" id="email-error">
+                {errors.email}
+              </div>
+            )}
           </div>
           <div className="c-form-group c-password-wrapper">
             <label htmlFor="password" className="c-form-label">
@@ -168,12 +187,16 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             <div className="c-password-field">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? 'text' : 'password'}
                 className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
                 placeholder={placeholders.password}
                 value={password}
                 onChange={(e) => handleChange('password', e.target.value)}
                 autoComplete="current-password"
+                aria-required="true"
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={errors.password ? 'password-error' : undefined}
               />
               <button
                 type="button"
@@ -190,7 +213,7 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
                 }
                 aria-pressed={showPassword}
               >
-                {showPassword ? '🙈' : '👁️'}
+                <AccountPasswordIcon shown={showPassword} />
               </button>
             </div>
             <div className={passwordStrengthClass}></div>
@@ -202,10 +225,14 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
                 />
               </div>
             )}
-            {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
+            {errors.password && (
+              <div className="c-invalid-feedback" id="password-error">
+                {errors.password}
+              </div>
+            )}
           </div>
-          <div className="c-form-check c-form-group u-d-flex u-justify-content-between">
-            <div>
+          <div className="c-account-options">
+            <div className="c-form-check">
               <input
                 id="remember"
                 type="checkbox"
@@ -234,28 +261,14 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
               <LocalizedSection zhContent={textsZh.loginButton} enContent={textsEn.loginButton} />
             )}
           </button>
-          <div className="c-third-party">
-            <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
-              <LocalizedSection
-                zhContent={textsZh.thirdParty.google}
-                enContent={textsEn.thirdParty.google}
-              />
-            </button>
-            <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
-              <LocalizedSection
-                zhContent={textsZh.thirdParty.wechat}
-                enContent={textsEn.thirdParty.wechat}
-              />
-            </button>
-          </div>
-          <div className="u-text-center c-form-alt">
+          <div className="c-form-alt">
             <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
             <a href={REGISTER_PAGE_PATH}>
               <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />
             </a>
           </div>
         </form>
-      </div>
+      </AccountPanel>
       {/* Show full-screen overlay while logging in or before redirect */}
       <AuthOverlay active={status === 'loading' || status === 'success'} />
     </>

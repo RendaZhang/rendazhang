@@ -1,8 +1,9 @@
 ---
 import { BaseLayout } from '../layouts';
-import { ErrorSection } from '../components';
+import ErrorSection from '../components/ErrorSection';
 import { SITE_BASE_URL } from '../constants';
 import { getCurrentLang } from '../utils';
+import '../styles/components/error-page.css';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
@@ -10,12 +11,12 @@ const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const texts = {
   zh: {
     title: '服务器错误',
-    description: '服务器发生错误，请稍后再试。',
+    description: '服务暂时无法加载此页，请稍后再试。',
     home: '返回首页'
   },
   en: {
     title: 'Server Error',
-    description: 'An error occurred on the server. Please try again later.',
+    description: 'This page is temporarily unavailable, so please try again later.',
     home: 'Go Home'
   }
 };
@@ -40,7 +41,6 @@ const description = dict.description;
 >
   <ErrorSection
     code="500"
-    emoji="💥"
     title={{ zh: titleZh, en: titleEn }}
     description={{ zh: descriptionZh, en: descriptionEn }}
     homeLabel={{ zh: texts.zh.home, en: texts.en.home }}

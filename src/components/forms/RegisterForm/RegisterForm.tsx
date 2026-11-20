@@ -13,6 +13,8 @@ import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { storage } from '../../../utils';
 import { apiClient } from '../../../services';
+import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface RegisterFormValues {
   email: string;
@@ -80,6 +82,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
     }
   );
   const { email, username, password, confirm, agree } = values;
+  const confirmError = confirm && confirm !== password ? activeTexts.errors.passwordMismatch : '';
 
   useEffect(() => {
     // Restore draft values if the user partially completed the form earlier
@@ -107,13 +110,20 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
 
   const strength = usePasswordStrength(password);
 
-  const canSubmit: boolean =
-    Boolean(email && username && password && confirm && agree) &&
-    Object.values(errors).every((e) => !e);
+  const canSubmit =
+    Boolean(email && username && agree) &&
+    validatePasswordComplexity(password) &&
+    password === confirm &&
+    !errors.email &&
+    !errors.username;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!validateAll()) return;
+    if (status === 'loading' || status === 'success') return;
+    if (!validateAll()) {
+      focusFirstAccountError(e.currentTarget);
+      return;
+    }
     setStatus('loading');
     setProgress(0);
     setGlobalError('');
@@ -188,27 +198,40 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
 
   return (
     <>
-      <div className="c-register-container">
-        <form onSubmit={handleSubmit} className="c-register-form">
-          <h1 className="c-register-title">
-            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-          </h1>
-          {globalError && <div className="c-global-error">{globalError}</div>}
+      <AccountPanel
+        titleZh={textsZh.title}
+        titleEn={textsEn.title}
+        busy={status === 'loading'}
+        statusText={status === 'success' ? { zh: textsZh.success, en: textsEn.success } : undefined}
+      >
+        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+          {globalError && (
+            <div className="c-global-error" role="alert">
+              {globalError}
+            </div>
+          )}
           <div className="c-form-group">
             <label htmlFor="email" className="c-form-label">
               <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               className={`c-form-control ${errors.email ? 'is-invalid' : email ? 'is-valid' : ''}`}
               placeholder={placeholders.email}
               value={email}
               onChange={(e) => handleChange('email', e.target.value)}
               autoComplete="email"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               required
             />
-            {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+            {errors.email && (
+              <div className="c-invalid-feedback" id="email-error">
+                {errors.email}
+              </div>
+            )}
           </div>
           <div className="c-form-group">
             <label htmlFor="username" className="c-form-label">
@@ -219,26 +242,25 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             </label>
             <input
               id="username"
+              name="username"
               type="text"
               className={`c-form-control ${errors.username ? 'is-invalid' : username ? 'is-valid' : ''}`}
               placeholder={placeholders.username}
               value={username}
               onChange={(e) => handleChange('username', e.target.value)}
               autoComplete="username"
+              aria-invalid={Boolean(errors.username)}
+              aria-describedby={errors.username ? 'username-error' : undefined}
               required
             />
-            {errors.username && <div className="c-invalid-feedback">{errors.username}</div>}
-            {!errors.username && username && (
-              <div className="c-valid-feedback">
-                <LocalizedSection
-                  zhContent={textsZh.usernameAvailable}
-                  enContent={textsEn.usernameAvailable}
-                />
+            {errors.username && (
+              <div className="c-invalid-feedback" id="username-error">
+                {errors.username}
               </div>
             )}
           </div>
-          <div className="u-grid-row">
-            <div className="u-grid-col-sm-6 c-password-wrapper">
+          <div className="c-account-passwords">
+            <div className="c-password-wrapper">
               <label htmlFor="password" className="c-form-label">
                 <LocalizedSection
                   zhContent={textsZh.passwordLabel}
@@ -248,12 +270,17 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               <div className="c-password-field">
                 <input
                   id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   className="c-form-control"
                   placeholder={placeholders.password}
                   value={password}
                   onChange={(e) => handleChange('password', e.target.value)}
                   autoComplete="new-password"
+                  aria-invalid={Boolean(errors.password)}
+                  aria-describedby={
+                    errors.password ? 'password-hint password-error' : 'password-hint'
+                  }
                   required
                 />
                 <button
@@ -271,7 +298,7 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
                   }
                   aria-pressed={showPassword}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  <AccountPasswordIcon shown={showPassword} />
                 </button>
               </div>
               <div className={passwordStrengthClass}></div>
@@ -283,8 +310,13 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
                   />
                 </div>
               )}
+              {errors.password && (
+                <div className="c-invalid-feedback" id="password-error">
+                  {errors.password}
+                </div>
+              )}
             </div>
-            <div className="u-grid-col-sm-6">
+            <div>
               <label htmlFor="confirm" className="c-form-label">
                 <LocalizedSection
                   zhContent={textsZh.confirmLabel}
@@ -293,18 +325,25 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               </label>
               <input
                 id="confirm"
+                name="confirm"
                 type={showPassword ? 'text' : 'password'}
-                className={`c-form-control ${errors.confirm ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
+                className={`c-form-control ${confirmError ? 'is-invalid' : confirm ? 'is-valid' : ''}`}
                 placeholder={placeholders.confirm}
                 value={confirm}
                 onChange={(e) => handleChange('confirm', e.target.value)}
                 autoComplete="new-password"
+                aria-invalid={Boolean(confirmError)}
+                aria-describedby={confirmError ? 'confirm-error' : undefined}
                 required
               />
-              {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
+              {confirmError && (
+                <div className="c-invalid-feedback" id="confirm-error">
+                  {confirmError}
+                </div>
+              )}
             </div>
           </div>
-          <div className="c-form-text">
+          <div className="c-form-text" id="password-hint">
             <LocalizedSection zhContent={textsZh.passwordHint} enContent={textsEn.passwordHint} />
           </div>
           <div className="c-form-check c-form-check--spaced">
@@ -314,6 +353,8 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               type="checkbox"
               checked={agree}
               onChange={(e) => handleChange('agree', e.target.checked)}
+              aria-invalid={Boolean(errors.agree)}
+              aria-describedby={errors.agree ? 'agree-error' : undefined}
               required
             />
             <label htmlFor="agree" className="c-form-check-label">
@@ -332,6 +373,11 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               />
             </label>
           </div>
+          {errors.agree && (
+            <div className="c-invalid-feedback" id="agree-error">
+              {errors.agree}
+            </div>
+          )}
           <div className="c-progress-container">
             <div className="c-progress-bar" style={{ width: progress + '%' }}></div>
           </div>
@@ -351,28 +397,14 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
               />
             )}
           </button>
-          <div className="c-third-party">
-            <button type="button" aria-label={activeTexts.thirdParty.google} disabled>
-              <LocalizedSection
-                zhContent={textsZh.thirdParty.google}
-                enContent={textsEn.thirdParty.google}
-              />
-            </button>
-            <button type="button" aria-label={activeTexts.thirdParty.wechat} disabled>
-              <LocalizedSection
-                zhContent={textsZh.thirdParty.wechat}
-                enContent={textsEn.thirdParty.wechat}
-              />
-            </button>
-          </div>
-          <div className="u-text-center c-form-alt">
+          <div className="c-form-alt">
             <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
             <a href={LOGIN_PAGE_PATH}>
               <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
             </a>
           </div>
         </form>
-      </div>
+      </AccountPanel>
       {/* Overlay masks the screen during registration or before redirect */}
       <AuthOverlay active={status === 'loading' || status === 'success'} />
     </>

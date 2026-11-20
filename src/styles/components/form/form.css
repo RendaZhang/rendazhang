@@ -104,64 +104,6 @@
   margin-inline-start: var(--space-2);
 }
 
-/* Auth Forms */
-.c-login-container,
-.c-register-container {
-  background: var(--color-surface);
-  border-radius: var(--radius-s);
-  box-shadow: var(--shadow-login);
-  container-type: inline-size;
-  margin: var(--space-5) auto;
-  padding: var(--space-5);
-  width: 100%;
-
-  @container (min-width: 30rem) {
-    margin: var(--space-10) auto;
-  }
-}
-
-/* Fade-in animation for authentication views */
-.c-login-container {
-  animation: fade-in-up var(--duration-normal) var(--easing-standard);
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(var(--space-4)); /* start slightly below */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0); /* end at natural position */
-  }
-}
-
-.c-login-form,
-.c-register-form {
-  margin: 0 auto;
-  max-width: var(--size-auth-form);
-  width: 100%;
-
-  /* ------------------------------------------------------------------ */
-  /* Responsive width for authentication forms                          */
-  /* Centralized here so login.css and register.css stay minimal.       */
-  /* ------------------------------------------------------------------ */
-  @container (max-width: 64rem) {
-    width: 70%;
-  }
-
-  @container (max-width: 48rem) {
-    width: 100%;
-  }
-}
-
-.c-login-title,
-.c-register-title {
-  font-weight: 600;
-  margin-bottom: var(--space-4);
-  text-align: center;
-}
-
 .c-password-field {
   position: relative;
 }
@@ -243,47 +185,6 @@
   height: 100%;
   transition: width var(--duration-normal) var(--easing-standard);
   width: 0;
-}
-
-.c-third-party {
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
-  margin-top: var(--space-4);
-
-  a,
-  button {
-    background: none;
-    border: none;
-    border-radius: var(--radius-s);
-    color: var(--color-text-muted);
-    cursor: pointer;
-    min-height: calc(var(--space-8) - var(--space-1));
-    padding: var(--space-2) var(--space-3);
-    transition:
-      background-color var(--duration-fast) var(--easing-standard),
-      color var(--duration-fast) var(--easing-standard),
-      box-shadow var(--duration-fast) var(--easing-standard);
-
-    &:focus-visible {
-      box-shadow: var(--focus-ring);
-      outline: none;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    &:not(:disabled):hover {
-      background-color: var(--color-palette-surface);
-      color: var(--color-text);
-    }
-
-    &:not(:disabled):hover:focus-visible {
-      box-shadow: var(--focus-ring);
-    }
-  }
 }
 
 .c-global-error {

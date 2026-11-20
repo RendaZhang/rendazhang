@@ -5,6 +5,7 @@ import { useLanguage } from '../../providers';
 import { LocalizedSection, AuthOverlay } from '../../ui';
 import { useFormValidation } from '../../../hooks';
 import { apiClient } from '../../../services';
+import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
 
 interface ForgotFormValues {
   email: string;
@@ -17,6 +18,7 @@ const TEXTS = {
     title: '忘记密码',
     emailLabel: '邮箱',
     submitButton: '发送重置邮件',
+    successTitle: '请查收邮件',
     success: '如果该邮箱存在，我们已发送重置邮件，请在 15 分钟内完成重置。',
     back: '返回登录',
     errors: {
@@ -30,6 +32,7 @@ const TEXTS = {
     title: 'Forgot Password',
     emailLabel: 'Email',
     submitButton: 'Send Reset Email',
+    successTitle: 'Check your email',
     success:
       'If the email exists, we have sent a reset email. Please finish reset within 15 minutes.',
     back: 'Back to login',
@@ -67,7 +70,11 @@ export default function ForgotPasswordForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!validateAll()) return;
+    if (status === 'loading') return;
+    if (!validateAll()) {
+      focusFirstAccountError(e.currentTarget);
+      return;
+    }
     try {
       setStatus('loading');
       setGlobalError('');
@@ -87,7 +94,7 @@ export default function ForgotPasswordForm() {
 
   if (status === 'success') {
     return (
-      <div className="c-login-container">
+      <AccountPanel titleZh={textsZh.successTitle} titleEn={textsEn.successTitle} focusTitle>
         <div className="c-reset-success">
           <p>
             <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
@@ -96,30 +103,40 @@ export default function ForgotPasswordForm() {
             <LocalizedSection zhContent={textsZh.back} enContent={textsEn.back} />
           </a>
         </div>
-      </div>
+      </AccountPanel>
     );
   }
 
   return (
     <>
-      <div className="c-login-container">
-        <form onSubmit={handleSubmit} className="c-login-form">
-          <h1 className="c-login-title">
-            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-          </h1>
-          {globalError && <div className="c-global-error">{globalError}</div>}
+      <AccountPanel titleZh={textsZh.title} titleEn={textsEn.title} busy={status === 'loading'}>
+        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+          {globalError && (
+            <div className="c-global-error" role="alert">
+              {globalError}
+            </div>
+          )}
           <div className="c-form-group">
             <label htmlFor="email" className="c-form-label">
               <LocalizedSection zhContent={textsZh.emailLabel} enContent={textsEn.emailLabel} />
             </label>
             <input
               id="email"
+              name="email"
               type="email"
+              autoComplete="email"
               className={`c-form-control ${errors.email ? 'is-invalid' : ''}`}
               value={email}
               onChange={(e) => handleChange('email', e.target.value)}
+              aria-required="true"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'email-error' : undefined}
             />
-            {errors.email && <div className="c-invalid-feedback">{errors.email}</div>}
+            {errors.email && (
+              <div className="c-invalid-feedback" id="email-error">
+                {errors.email}
+              </div>
+            )}
           </div>
           <button
             type="submit"
@@ -132,11 +149,13 @@ export default function ForgotPasswordForm() {
               <LocalizedSection zhContent={textsZh.submitButton} enContent={textsEn.submitButton} />
             )}
           </button>
-          <div className="u-text-center c-form-alt">
-            <a href={LOGIN_PAGE_PATH}>{texts.back}</a>
+          <div className="c-form-alt">
+            <a href={LOGIN_PAGE_PATH}>
+              <LocalizedSection zhContent={textsZh.back} enContent={textsEn.back} />
+            </a>
           </div>
         </form>
-      </div>
+      </AccountPanel>
       {/* Overlay covers the page while the email request is processing */}
       <AuthOverlay active={status === 'loading'} />
     </>

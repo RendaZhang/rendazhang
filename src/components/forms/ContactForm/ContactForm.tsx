@@ -1,169 +1,186 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { submitContactForm, type ContactFormSubmission } from '../../../services/contactService';
 import { addSentryBreadcrumb } from '../../../utils/sentryContext';
-import { useLanguage } from '../../providers';
-import { LocalizedSection } from '../../ui';
+import LocalizedSection from '../../ui/data-display/LocalizedSection';
 
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-
-interface FieldLabels {
-  name?: string;
-  contact?: string;
-  subject?: string;
-  message?: string;
-}
+type FormStatus = 'idle' | 'sending' | 'success' | 'invalid' | 'error';
 
 interface LangTexts {
-  labels?: FieldLabels;
-  errorEmpty?: string;
-  failed?: string;
-  sending?: string;
-  button?: string;
-  success?: string;
-  [key: string]: string | FieldLabels | undefined;
-}
-
-interface ContactFormTexts {
-  zh?: LangTexts;
-  en?: LangTexts;
-  [key: string]: LangTexts | undefined;
+  labels: {
+    name: string;
+    contact: string;
+    subject: string;
+    message: string;
+  };
+  errorEmpty: string;
+  failed: string;
+  sending: string;
+  button: string;
+  retry: string;
+  success: string;
 }
 
 interface ContactFormProps {
-  texts?: ContactFormTexts;
+  texts: { zh: LangTexts; en: LangTexts };
 }
 
-export default function ContactForm({ texts = {} }: ContactFormProps) {
-  const { lang } = useLanguage();
-  const langKey = lang && lang.startsWith('zh') ? 'zh' : 'en';
-  const textsZh = texts.zh || {};
-  const textsEn = texts.en || {};
-  const activeTexts = texts[langKey] || {};
-  const initialForm: ContactFormSubmission = {
-    name: '',
-    contact: '',
-    _subject: '',
-    message: ''
-  };
-  const [form, setForm] = useState<ContactFormSubmission>(initialForm);
+const EMPTY_DRAFT: ContactFormSubmission = {
+  name: '',
+  contact: '',
+  _subject: '',
+  message: ''
+};
+
+export default function ContactForm({ texts }: ContactFormProps) {
+  const { zh: textsZh, en: textsEn } = texts;
+  const [form, setForm] = useState(EMPTY_DRAFT);
   const [status, setStatus] = useState<FormStatus>('idle');
-  const [error, setError] = useState<string>('');
+  const [ready, setReady] = useState(false);
+  const submitting = useRef(false);
+  const submitButton = useRef<HTMLButtonElement>(null);
+  const restoreSubmitFocus = useRef(false);
   const formId = useId();
+  const isSending = status === 'sending';
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if ((status !== 'success' && status !== 'error') || !restoreSubmitFocus.current) return;
+    restoreSubmitFocus.current = false;
+    if (document.activeElement === document.body && document.hasFocus()) {
+      submitButton.current?.focus({ preventScroll: true });
+    }
+  }, [status]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { name, value } = event.target;
+    setForm((draft) => ({ ...draft, [name]: value }));
+    setStatus((current) => (current === 'success' || current === 'invalid' ? 'idle' : current));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    if (!form.name || !form.contact || !form._subject || !form.message) {
-      setError(activeTexts.errorEmpty || '请填写所有字段');
-      setStatus('error');
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+    if (!ready || submitting.current) return;
+    if (Object.values(form).some((value) => !value.trim())) {
+      setStatus('invalid');
       return;
     }
-    setStatus('loading');
-    setError('');
+
+    submitting.current = true;
+    restoreSubmitFocus.current = document.activeElement === submitButton.current;
+    setStatus('sending');
     addSentryBreadcrumb('contact.submit.start');
     try {
-      const submitted = await submitContactForm(form);
-      if (submitted) {
+      if (await submitContactForm(form)) {
         setStatus('success');
-        setForm(initialForm);
+        setForm((draft) => (draft === form ? EMPTY_DRAFT : draft));
         addSentryBreadcrumb('contact.submit.success');
       } else {
         setStatus('error');
-        setError(activeTexts.failed || '发送失败');
         addSentryBreadcrumb('contact.submit.failure', undefined, 'warning');
       }
     } catch {
       setStatus('error');
-      setError(activeTexts.failed || '发送失败');
       addSentryBreadcrumb('contact.submit.error', undefined, 'warning');
+    } finally {
+      submitting.current = false;
     }
   };
 
+  const buttonLabel = isSending ? 'sending' : status === 'error' ? 'retry' : 'button';
+
   return (
-    <form onSubmit={handleSubmit} className="contact-form">
-      <div className="c-form-group">
-        <label className="c-form-label" htmlFor={`${formId}-name`}>
-          <LocalizedSection zhContent={textsZh.labels?.name} enContent={textsEn.labels?.name} />
-        </label>
-        <input
-          id={`${formId}-name`}
-          type="text"
-          name="name"
-          className="c-form-control"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="c-form-group">
-        <label className="c-form-label" htmlFor={`${formId}-contact`}>
-          <LocalizedSection
-            zhContent={textsZh.labels?.contact}
-            enContent={textsEn.labels?.contact}
+    <form onSubmit={handleSubmit} className="contact-form" data-form-status={status} method="post">
+      <fieldset className="c-contact-fields" disabled={!ready}>
+        <div className="c-form-group">
+          <label className="c-form-label" htmlFor={`${formId}-name`}>
+            <LocalizedSection zhContent={textsZh.labels.name} enContent={textsEn.labels.name} />
+          </label>
+          <input
+            id={`${formId}-name`}
+            type="text"
+            name="name"
+            autoComplete="name"
+            className="c-form-control"
+            value={form.name}
+            onChange={handleChange}
+            required
           />
-        </label>
-        <input
-          id={`${formId}-contact`}
-          type="text"
-          name="contact"
-          className="c-form-control"
-          value={form.contact}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="c-form-group">
-        <label className="c-form-label" htmlFor={`${formId}-subject`}>
-          <LocalizedSection
-            zhContent={textsZh.labels?.subject}
-            enContent={textsEn.labels?.subject}
-          />
-        </label>
-        <input
-          id={`${formId}-subject`}
-          type="text"
-          name="_subject"
-          className="c-form-control"
-          value={form._subject}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="c-form-group">
-        <label className="c-form-label" htmlFor={`${formId}-message`}>
-          <LocalizedSection
-            zhContent={textsZh.labels?.message}
-            enContent={textsEn.labels?.message}
-          />
-        </label>
-        <textarea
-          id={`${formId}-message`}
-          name="message"
-          className="c-form-control"
-          rows={5}
-          value={form.message}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit" className="c-btn-primary" disabled={status === 'loading'}>
-        {status === 'loading' ? (
-          <LocalizedSection zhContent={textsZh.sending} enContent={textsEn.sending} />
-        ) : (
-          <LocalizedSection zhContent={textsZh.button} enContent={textsEn.button} />
-        )}
-      </button>
-      {status === 'success' && (
-        <div className="c-form-message u-text-success">
-          <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
         </div>
-      )}
-      {status === 'error' && error && <div className="c-form-message u-text-error">{error}</div>}
+        <div className="c-form-group">
+          <label className="c-form-label" htmlFor={`${formId}-contact`}>
+            <LocalizedSection
+              zhContent={textsZh.labels.contact}
+              enContent={textsEn.labels.contact}
+            />
+          </label>
+          <input
+            id={`${formId}-contact`}
+            type="text"
+            name="contact"
+            className="c-form-control"
+            value={form.contact}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="c-form-group">
+          <label className="c-form-label" htmlFor={`${formId}-subject`}>
+            <LocalizedSection
+              zhContent={textsZh.labels.subject}
+              enContent={textsEn.labels.subject}
+            />
+          </label>
+          <input
+            id={`${formId}-subject`}
+            type="text"
+            name="_subject"
+            className="c-form-control"
+            value={form._subject}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="c-form-group">
+          <label className="c-form-label" htmlFor={`${formId}-message`}>
+            <LocalizedSection
+              zhContent={textsZh.labels.message}
+              enContent={textsEn.labels.message}
+            />
+          </label>
+          <textarea
+            id={`${formId}-message`}
+            name="message"
+            className="c-form-control"
+            rows={5}
+            value={form.message}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button ref={submitButton} type="submit" className="c-btn-primary" disabled={isSending}>
+          <LocalizedSection zhContent={textsZh[buttonLabel]} enContent={textsEn[buttonLabel]} />
+        </button>
+      </fieldset>
+
+      <p className="c-contact-form-error" role="alert">
+        {status === 'invalid' && (
+          <LocalizedSection zhContent={textsZh.errorEmpty} enContent={textsEn.errorEmpty} />
+        )}
+        {status === 'error' && (
+          <LocalizedSection zhContent={textsZh.failed} enContent={textsEn.failed} />
+        )}
+      </p>
+      <p className="c-contact-form-status" role="status">
+        {status === 'success' && (
+          <span className="c-contact-stamp">
+            <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
+          </span>
+        )}
+      </p>
     </form>
   );
 }

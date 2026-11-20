@@ -3,36 +3,6 @@
   color: var(--color-text);
 }
 
-/* Error section styles using spacing and type tokens */
-.c-error-section {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  justify-content: center;
-  padding: var(--space-9) var(--space-4);
-  text-align: center;
-}
-
-.c-error-emoji {
-  font-size: var(--font-size-6);
-}
-
-.c-error-code {
-  font-size: var(--font-size-7);
-  font-weight: 800;
-  line-height: 1;
-}
-
-.c-error-title {
-  font-size: var(--font-size-4);
-  margin: 0;
-}
-
-.c-error-description {
-  max-width: var(--measure);
-}
-
 /* Back to top button */
 .c-back-to-top-anchor.c-control-hint {
   bottom: calc(var(--space-10) + var(--space-2) + env(safe-area-inset-bottom));

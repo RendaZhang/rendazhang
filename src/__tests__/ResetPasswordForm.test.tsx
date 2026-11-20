@@ -67,8 +67,12 @@ describe('ResetPasswordForm', () => {
   it('shows invalid link when token is missing', async () => {
     setToken();
     render(<ResetPasswordForm />);
-    const msg = await screen.findByText('Invalid or expired link');
-    expect(msg).toBeTruthy();
+    const heading = await screen.findByRole('heading', { name: /Invalid or expired link/ });
+    expect(document.activeElement).toBe(heading);
+    expect(screen.getByRole('link', { name: /Resend email/ }).getAttribute('href')).toBe(
+      '/forgot_password'
+    );
+    expect(screen.getByRole('link', { name: /Back to login/ }).getAttribute('href')).toBe('/login');
     expect(window.history.replaceState).not.toHaveBeenCalled();
   });
 
@@ -76,7 +80,12 @@ describe('ResetPasswordForm', () => {
     setToken('fragment-token');
     render(<ResetPasswordForm />);
 
-    expect(await screen.findByLabelText(/New Password/)).toBeTruthy();
+    expect((await screen.findByLabelText(/New Password/)).getAttribute('autocomplete')).toBe(
+      'new-password'
+    );
+    expect(screen.getByLabelText(/Confirm Password/).getAttribute('autocomplete')).toBe(
+      'new-password'
+    );
     expect(window.history.replaceState).toHaveBeenCalledWith(
       window.history.state,
       '',
@@ -131,22 +140,29 @@ describe('ResetPasswordForm', () => {
     });
   });
 
-  it('shows resend button on token error', async () => {
-    setToken('abc');
-    vi.mocked(apiClient.auth.passwordReset).mockRejectedValue({
-      error: 'Token invalid or expired'
-    });
-    render(<ResetPasswordForm />);
-    fireEvent.change(screen.getByLabelText(/New Password/), {
-      target: { value: 'Abcd1234!' }
-    });
-    fireEvent.change(screen.getByLabelText(/Confirm Password/), {
-      target: { value: 'Abcd1234!' }
-    });
-    fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
-    const resendBtn = await screen.findByRole('link', { name: /Resend email/ });
-    expect(resendBtn).toBeTruthy();
-  });
+  it.each(['Token invalid or expired', 'Invalid token or weak password'])(
+    'shows the new-link action on the API reply %s',
+    async (error) => {
+      setToken('abc');
+      vi.mocked(apiClient.auth.passwordReset).mockRejectedValue({
+        error,
+        status: 400
+      });
+      render(<ResetPasswordForm />);
+      fireEvent.change(screen.getByLabelText(/New Password/), {
+        target: { value: 'Abcd1234!' }
+      });
+      fireEvent.change(screen.getByLabelText(/Confirm Password/), {
+        target: { value: 'Abcd1234!' }
+      });
+      fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
+      const resendBtn = await screen.findByRole('link', { name: /Resend email/ });
+      expect(resendBtn.getAttribute('href')).toBe('/forgot_password');
+      expect(document.activeElement).toBe(
+        screen.getByRole('heading', { name: /Invalid or expired link/ })
+      );
+    }
+  );
 
   it('shows network error message', async () => {
     setToken('abc');

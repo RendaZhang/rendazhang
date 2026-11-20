@@ -1,0 +1,111 @@
+.c-error-section {
+  --error-ink: var(--color-text);
+  --error-paper: color-mix(in srgb, var(--color-palette-surface) 55%, var(--color-surface));
+  --error-rule: color-mix(in srgb, var(--error-ink) 25%, var(--error-paper));
+
+  background: var(--error-paper);
+  border: 1px solid var(--error-rule);
+  box-shadow: var(--shadow-elevation-1);
+  color: var(--error-ink);
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  inline-size: min(47rem, calc(100% - var(--space-6)));
+  margin: clamp(var(--space-5), 8vw, var(--space-10)) auto;
+}
+
+.c-error-imprint {
+  align-content: center;
+  background: repeating-linear-gradient(
+    125deg,
+    transparent 0 10px,
+    color-mix(in srgb, var(--error-ink) 4%, transparent) 10px 11px
+  );
+  border-inline-end: 1px solid var(--error-rule);
+  display: grid;
+  gap: var(--space-2);
+  justify-items: center;
+  min-inline-size: 0;
+  padding: clamp(var(--space-3), 4vw, var(--space-6));
+  text-align: center;
+}
+
+.c-error-title,
+.c-error-code {
+  font-family: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
+}
+
+.c-error-code {
+  color: var(--color-brand);
+  font-size: clamp(3.75rem, 9vw, 6rem);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.c-error-art {
+  block-size: auto;
+  fill: none;
+  inline-size: min(100%, 10rem);
+  stroke: var(--error-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.c-error-art-accent,
+.c-error-art-lost {
+  stroke: var(--color-brand);
+  stroke-width: 2;
+}
+
+.c-error-art-lost {
+  stroke-dasharray: 1 5;
+}
+
+.c-error-copy {
+  align-content: center;
+  background: var(--color-surface);
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: clamp(var(--space-4), 5vw, var(--space-8));
+}
+
+.c-error-title {
+  font-size: clamp(1.85rem, 5vw, 3rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.c-error-description {
+  margin: 0;
+  max-inline-size: 32ch;
+}
+
+.c-error-home:is(:hover, :active) {
+  transform: none;
+}
+
+.c-error-home:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 37.5rem) {
+  .c-error-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c-error-imprint {
+    align-items: center;
+    border-block-end: 1px solid var(--error-rule);
+    border-inline-end: 0;
+    grid-template-columns: max-content minmax(0, 1fr);
+    justify-items: center;
+    min-block-size: 6rem;
+    padding-inline: var(--space-4);
+  }
+}

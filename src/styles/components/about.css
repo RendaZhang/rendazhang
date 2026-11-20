@@ -142,8 +142,7 @@
 .c-skills-section,
 .c-education-section,
 .c-experience-section,
-.c-blog-section,
-.c-contact-section {
+.c-blog-section {
   position: relative;
 }
 
@@ -152,8 +151,7 @@
 .c-skills-section::before,
 .c-education-section::before,
 .c-experience-section::before,
-.c-blog-section::before,
-.c-contact-section::before {
+.c-blog-section::before {
   background: var(--gradient-primary);
   border-radius: var(--radius-l);
   content: '';
@@ -291,17 +289,199 @@ body.c-about-page {
   margin-inline-start: var(--space-2);
 }
 
-/* Contact section */
-.c-contact-section .u-grid-col-md-4 {
-  margin-bottom: var(--space-6);
+/* Contact letter */
+.c-contact-section {
+  --letter-paper: color-mix(in srgb, var(--color-surface) 78%, var(--color-palette-surface));
+  --letter-ink: var(--color-text);
+  --letter-accent: var(--color-brand);
+  --letter-rule: color-mix(in srgb, var(--letter-ink) 30%, transparent);
+  --letter-serif: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
+
+  align-items: start;
+  display: grid;
+  gap: clamp(1rem, 3.5vw, 3rem);
+  max-inline-size: 68rem;
+  padding-block: clamp(2.5rem, 7vw, 5.5rem);
+  scroll-margin-block-start: 5rem;
 }
 
-.c-contact-info {
-  margin-bottom: var(--space-4);
+html[data-theme='dark'] .c-contact-section {
+  --letter-paper: color-mix(in srgb, var(--color-bg) 73%, var(--color-surface));
 }
 
-.c-contact-info strong {
-  display: block;
+.c-contact-heading h2 {
+  font-family: var(--letter-serif);
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 var(--space-4);
+}
+
+.c-contact-channels {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.c-contact-channels > div {
+  border-block-start: 1px solid var(--letter-rule);
+  padding-block-start: var(--space-2);
+}
+
+.c-contact-channels dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-1);
+  font-weight: 650;
+}
+
+.c-contact-channels dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.c-contact-channels a {
+  align-items: center;
+  display: inline-flex;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  text-underline-offset: 0.22em;
+}
+
+.c-contact-letter {
+  background: var(--letter-paper);
+  border: 1px solid var(--letter-rule);
+  border-block-start: 3px solid var(--letter-accent);
+  color: var(--letter-ink);
+  min-inline-size: 0;
+}
+
+.c-contact-letter > summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--letter-serif);
+  font-size: var(--font-size-2);
+  font-weight: 650;
+  gap: var(--space-2);
+  justify-content: space-between;
+  list-style: none;
+  min-block-size: 44px;
+  padding: var(--space-3) clamp(0.8rem, 3.3vw, 2rem);
+}
+
+.c-contact-letter > summary::-webkit-details-marker {
+  display: none;
+}
+
+.c-contact-letter > summary:hover {
+  background-color: var(--color-palette-surface);
+}
+
+.c-contact-letter > summary svg {
+  color: var(--letter-accent);
+  fill: none;
+  flex: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.c-contact-letter-body {
+  border-block-start: 1px solid var(--letter-rule);
+  padding: clamp(0.8rem, 3.3vw, 2rem);
+}
+
+.c-contact-fields {
+  border: 0;
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  min-inline-size: 0;
+  padding: 0;
+}
+
+.c-contact-fields .c-form-group {
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.c-contact-fields .c-form-control {
+  border-color: var(--letter-rule);
+  box-sizing: border-box;
+  min-block-size: 44px;
+}
+
+.c-contact-fields textarea {
+  resize: vertical;
+}
+
+.c-contact-fields button {
+  justify-self: start;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+}
+
+.c-contact-section :is(a, summary, input, textarea, button):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.c-contact-form-error,
+.c-contact-form-status {
+  margin: 0;
+}
+
+.c-contact-form-status {
+  text-align: end;
+}
+
+.c-contact-form-error:not(:empty) {
+  background-color: var(--color-surface);
+  border-inline-start: 3px solid var(--color-error);
+  color: var(--letter-ink);
+  margin-block-start: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+}
+
+.c-contact-stamp {
+  border: 2px solid var(--letter-accent);
+  color: var(--letter-accent);
+  display: inline-block;
+  font-family: var(--letter-serif);
+  font-weight: 750;
+  margin-block-start: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  transform: rotate(-2deg);
+}
+
+@media (min-width: 47rem) {
+  .c-contact-section {
+    grid-template-columns: minmax(13rem, 1fr) minmax(0, 2fr);
+  }
+
+  .c-contact-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .c-contact-fields > :nth-child(n + 3) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .c-contact-stamp {
+    animation: c-contact-postmark 170ms ease-out;
+  }
+
+  @keyframes c-contact-postmark {
+    from {
+      opacity: 0.5;
+      transform: translateY(-0.25rem) rotate(-2deg);
+    }
+  }
 }
 
 .c-section-header {

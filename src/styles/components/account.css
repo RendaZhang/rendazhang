@@ -1,0 +1,148 @@
+.c-account-panel {
+  --account-paper: color-mix(in srgb, var(--color-surface) 85%, var(--color-bg));
+  --account-line: var(--color-palette-border);
+
+  background: var(--account-paper);
+  border: var(--border-width-hairline) solid var(--account-line);
+  border-block-start: var(--space-1) solid var(--color-brand);
+  border-radius: var(--radius-xs);
+  container-type: inline-size;
+  inline-size: min(calc(100% - var(--space-4) * 2), 35rem);
+  margin: clamp(var(--space-5), 5vw, var(--space-8)) auto;
+  padding: clamp(var(--space-4), 5vw, var(--space-8));
+}
+
+.c-account-title {
+  color: var(--color-text-deep);
+  font-family: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
+  font-size: clamp(var(--font-size-4), 6vw, var(--font-size-5));
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--space-5);
+  scroll-margin-block-start: var(--space-10);
+}
+
+.c-account-announcement {
+  block-size: 1px;
+  clip-path: inset(50%);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.c-account-panel :is(input, button, a) {
+  scroll-margin-block: var(--space-9) var(--space-4);
+}
+
+.c-account-panel a:not(.c-btn-primary) {
+  color: var(--color-brand);
+  text-underline-offset: 0.18em;
+}
+
+.c-account-panel a:not(.c-btn-primary):hover {
+  color: var(--color-primary-hover);
+}
+
+.c-account-panel :is(a, .c-account-title):focus-visible {
+  border-radius: var(--radius-xs);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.c-account-panel .c-form-control {
+  font-size: max(1rem, var(--font-size-2));
+  min-block-size: 48px;
+}
+
+.c-account-panel .c-password-field .c-form-control {
+  padding-inline-end: calc(44px + var(--space-3));
+}
+
+.c-account-panel .c-password-toggle {
+  inset-inline-end: var(--space-1);
+  min-inline-size: 44px;
+}
+
+.c-account-panel :is(.c-form-submit, .c-btn-primary) {
+  min-block-size: 44px;
+}
+
+.c-account-panel .c-form-alt {
+  border-block-start: var(--border-width-hairline) solid var(--account-line);
+  color: var(--color-text-muted);
+  padding-block-start: var(--space-4);
+}
+
+.c-account-panel .c-global-error {
+  background: var(--color-surface);
+  border-inline-start: var(--border-3);
+  border-inline-start-color: var(--color-error);
+  padding: var(--space-3);
+  text-align: start;
+}
+
+.c-account-options {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  justify-content: space-between;
+}
+
+.c-account-options .c-form-check label {
+  align-content: center;
+  min-block-size: 44px;
+}
+
+.c-account-passwords {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.c-account-panel :is(.c-form-text, .c-password-hints) {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-1);
+}
+
+.c-account-panel :is(.c-reset-success, .c-reset-invalid) > p {
+  color: var(--color-text);
+  margin-block: 0 var(--space-4);
+}
+
+.c-reset-invalid .c-account-options {
+  justify-content: flex-start;
+}
+
+.c-account-profile {
+  margin: 0;
+}
+
+.c-account-profile-row {
+  border-block-start: var(--border-width-hairline) solid var(--account-line);
+  display: grid;
+  gap: var(--space-2) var(--space-4);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  padding-block: var(--space-3);
+}
+
+.c-account-profile-row dt {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.c-account-profile-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@container (min-width: 27rem) {
+  .c-account-passwords {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-account-panel :is(.c-form-control, .c-password-toggle, .c-progress-bar, .c-btn-primary) {
+    transition: none;
+  }
+}

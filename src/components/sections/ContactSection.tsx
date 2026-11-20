@@ -1,62 +1,48 @@
-import { ContactForm } from '../forms';
-import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_LOCAL } from '../../constants';
-import { ABOUT_CONTENT } from '../../content';
-import { useLanguage } from '../providers';
-import { LocalizedSection } from '../ui';
 import type { ReactElement } from 'react';
+import ContactForm from '../forms/ContactForm/ContactForm';
+import { CONTACT_EMAIL_PRIMARY, CONTACT_PHONE_INTL } from '../../constants/meta';
+import { ABOUT_CONTENT } from '../../content/aboutContent';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
 
 export default function ContactSection(): ReactElement {
-  useLanguage();
   const contactZh = ABOUT_CONTENT.zh.contact;
   const contactEn = ABOUT_CONTENT.en.contact;
-  const infosZh = contactZh.info || [];
-  const infosEn = contactEn.info || [];
   const formTexts = { zh: contactZh.form, en: contactEn.form };
+
   return (
-    <section className="c-contact-section" id="contact">
-      <h2 className="section-title">
-        <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
-      </h2>
-      <div className="u-grid-row">
-        <div className="u-grid-col-md-4">
-          <div className="c-contact-info">
-            <strong>
-              <LocalizedSection zhContent={infosZh[0]?.label} enContent={infosEn[0]?.label} />
-            </strong>
-            <div>
-              <LocalizedSection
-                zhContent={infosZh[0]?.value || CONTACT_PHONE_LOCAL}
-                enContent={infosEn[0]?.value || CONTACT_PHONE_LOCAL}
-              />
-            </div>
-          </div>
-          <div className="c-contact-info">
-            <strong>
-              <LocalizedSection zhContent={infosZh[1]?.label} enContent={infosEn[1]?.label} />
-            </strong>
-            <div>
-              <LocalizedSection
-                zhContent={infosZh[1]?.value || CONTACT_EMAIL_PRIMARY}
-                enContent={infosEn[1]?.value || CONTACT_EMAIL_PRIMARY}
-              />
-            </div>
-          </div>
-          <div className="c-contact-info">
-            <strong>
-              <LocalizedSection zhContent={infosZh[2]?.label} enContent={infosEn[2]?.label} />
-            </strong>
-            <div>
-              <LocalizedSection
-                zhContent={infosZh[2]?.value || '广东省深圳市'}
-                enContent={infosEn[2]?.value || 'Shenzhen, Guangdong, China'}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="u-grid-col-md-8">
+    <section className="c-contact-section" id="contact" aria-labelledby="contact-title">
+      <header className="c-contact-heading">
+        <h2 id="contact-title">
+          <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
+        </h2>
+        <dl className="c-contact-channels">
+          {contactZh.info.map((info, index) => {
+            const infoEn = contactEn.info[index];
+            const href = [`tel:${CONTACT_PHONE_INTL}`, `mailto:${CONTACT_EMAIL_PRIMARY}`][index];
+            const value = <LocalizedSection zhContent={info.value} enContent={infoEn.value} />;
+            return (
+              <div key={info.label}>
+                <dt>
+                  <LocalizedSection zhContent={info.label} enContent={infoEn.label} />
+                </dt>
+                <dd>{href ? <a href={href}>{value}</a> : value}</dd>
+              </div>
+            );
+          })}
+        </dl>
+      </header>
+
+      <details className="c-contact-letter" open>
+        <summary>
+          <LocalizedSection zhContent={contactZh.letter} enContent={contactEn.letter} />
+          <svg viewBox="0 0 28 22" width="28" height="22" aria-hidden="true" focusable="false">
+            <path d="M2 5h24v15H2zm0 0 12 8L26 5M2 5l12-4 12 4" />
+          </svg>
+        </summary>
+        <div className="c-contact-letter-body">
           <ContactForm texts={formTexts} />
         </div>
-      </div>
+      </details>
     </section>
   );
 }

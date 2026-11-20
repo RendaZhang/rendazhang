@@ -50,6 +50,7 @@ export const ABOUT_CONTENT = {
     resumeLabel: 'Download Resume',
     contact: {
       title: 'Contact Me',
+      letter: 'Write a note',
       info: [
         { label: 'Phone', value: ` ${CONTACT_PHONE_INTL}` },
         { label: 'Email', value: ` ${CONTACT_EMAIL_PRIMARY}` },
@@ -63,10 +64,11 @@ export const ABOUT_CONTENT = {
           message: 'Message'
         },
         button: 'Send Message',
-        sending: 'Sending...',
-        success: 'Sent to my mailbox',
-        errorEmpty: 'Please fill all fields',
-        failed: 'Failed to send'
+        sending: 'Sending…',
+        success: 'Sent',
+        retry: 'Retry send',
+        errorEmpty: 'Please fill all fields.',
+        failed: 'The message could not be sent. Your draft is still here. Try again.'
       }
     },
     contactLabel: 'Feel free to reach out anytime',
@@ -227,6 +229,7 @@ export const ABOUT_CONTENT = {
     resumeLabel: '下载我的简历',
     contact: {
       title: '联系我吧',
+      letter: '写一封信',
       info: [
         { label: '手机', value: ` ${CONTACT_PHONE_LOCAL}` },
         { label: '邮箱', value: ` ${CONTACT_EMAIL_PRIMARY}` },
@@ -240,10 +243,11 @@ export const ABOUT_CONTENT = {
           message: '内容描述'
         },
         button: '发送消息',
-        sending: '发送中...',
-        success: '已经发送到我的邮箱哦',
-        errorEmpty: '请填写所有字段',
-        failed: '发送失败'
+        sending: '发送中…',
+        success: '已发送',
+        retry: '重试发送',
+        errorEmpty: '请填写所有字段。',
+        failed: '暂时没能送出。草稿仍在，可以重试。'
       }
     },
     contactLabel: '欢迎随时联系我',

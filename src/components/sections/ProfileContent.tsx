@@ -1,9 +1,9 @@
 import { useEffect, useState, type ReactElement } from 'react';
 import { apiClient } from '../../services';
-import { LocalizedSection } from '../ui';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
+import AccountPanel from '../forms/AccountPanel';
 import { PROFILE_CONTENT } from '../../content/profileContent';
 import { LOGIN_PAGE_PATH, LOADING_TEXT } from '../../constants';
-import { useLanguage } from '../providers';
 
 interface UserInfo {
   uid: string;
@@ -15,8 +15,6 @@ interface UserInfo {
 
 export default function ProfileContent(): ReactElement {
   const [user, setUser] = useState<UserInfo | null>(null);
-  const { lang } = useLanguage();
-  const langKey = lang as 'en' | 'zh';
 
   useEffect(() => {
     const fetchUser = async (): Promise<void> => {
@@ -30,70 +28,40 @@ export default function ProfileContent(): ReactElement {
     void fetchUser();
   }, []);
 
-  const loading = LOADING_TEXT[langKey.toUpperCase() as 'EN' | 'ZH'];
-
-  if (!user) {
-    return <div className="c-profile-container">{loading}</div>;
-  }
+  const { zh, en } = PROFILE_CONTENT;
+  const rows = user
+    ? {
+        uid: user.uid,
+        email: user.email ?? '—',
+        phone: user.phone ?? '—',
+        displayName: user.display_name,
+        active: (
+          <LocalizedSection
+            zhContent={user.is_active ? zh.active : zh.inactive}
+            enContent={user.is_active ? en.active : en.inactive}
+          />
+        )
+      }
+    : null;
 
   return (
-    <div className="c-profile-container">
-      <h1 className="c-profile-title">
-        <LocalizedSection
-          zhContent={PROFILE_CONTENT.zh.title}
-          enContent={PROFILE_CONTENT.en.title}
-        />
-      </h1>
-      <div className="c-profile-row">
-        <span className="c-profile-label">
-          <LocalizedSection
-            zhContent={PROFILE_CONTENT.zh.labels.uid}
-            enContent={PROFILE_CONTENT.en.labels.uid}
-          />
-          :
-        </span>
-        {user.uid}
-      </div>
-      <div className="c-profile-row">
-        <span className="c-profile-label">
-          <LocalizedSection
-            zhContent={PROFILE_CONTENT.zh.labels.email}
-            enContent={PROFILE_CONTENT.en.labels.email}
-          />
-          :
-        </span>
-        {user.email ?? '-'}
-      </div>
-      <div className="c-profile-row">
-        <span className="c-profile-label">
-          <LocalizedSection
-            zhContent={PROFILE_CONTENT.zh.labels.phone}
-            enContent={PROFILE_CONTENT.en.labels.phone}
-          />
-          :
-        </span>
-        {user.phone ?? '-'}
-      </div>
-      <div className="c-profile-row">
-        <span className="c-profile-label">
-          <LocalizedSection
-            zhContent={PROFILE_CONTENT.zh.labels.displayName}
-            enContent={PROFILE_CONTENT.en.labels.displayName}
-          />
-          :
-        </span>
-        {user.display_name}
-      </div>
-      <div className="c-profile-row">
-        <span className="c-profile-label">
-          <LocalizedSection
-            zhContent={PROFILE_CONTENT.zh.labels.active}
-            enContent={PROFILE_CONTENT.en.labels.active}
-          />
-          :
-        </span>
-        {user.is_active ? '✅' : '❌'}
-      </div>
-    </div>
+    <AccountPanel titleZh={zh.title} titleEn={en.title}>
+      {rows ? (
+        <dl className="c-account-profile">
+          {(Object.keys(rows) as Array<keyof typeof rows>).map((key) => (
+            <div key={key} className="c-account-profile-row">
+              <dt>
+                <LocalizedSection zhContent={zh.labels[key]} enContent={en.labels[key]} />
+              </dt>
+              <dd>{rows[key]}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p role="status">
+          <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+        </p>
+      )}
+    </AccountPanel>
   );
 }

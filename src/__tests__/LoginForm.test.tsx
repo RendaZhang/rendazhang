@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import LoginForm from '../components/forms/LoginForm/LoginForm';
 
@@ -17,6 +17,17 @@ vi.mock('../services', () => ({
 import { apiClient } from '../services';
 
 describe('LoginForm error handling', () => {
+  it('focuses the first invalid field and associates the visible error with it', async () => {
+    render(<LoginForm />);
+    fireEvent.click(screen.getByRole('button', { name: /Login$/ }));
+
+    const email = screen.getByLabelText(/Email or Username/);
+    const error = screen.getByText('Email is required');
+    expect(email.getAttribute('aria-invalid')).toBe('true');
+    expect(email.getAttribute('aria-describedby')).toBe(error.id);
+    await waitFor(() => expect(document.activeElement).toBe(email));
+  });
+
   it('shows credential error message', async () => {
     vi.mocked(apiClient.auth.login).mockRejectedValue({
       message: 'Unauthorized',
@@ -31,7 +42,7 @@ describe('LoginForm error handling', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Login$/ }));
     const errorMsg = await screen.findByText('Incorrect username or password');
-    expect(errorMsg).toBeTruthy();
+    expect(errorMsg).toBe(screen.getByRole('alert'));
   });
 
   it('shows network error message', async () => {

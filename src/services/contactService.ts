@@ -28,6 +28,8 @@ export async function submitContactForm(
     },
     body: new URLSearchParams(payload).toString()
   });
-  const data = (await response.json()) as ContactFormResponse;
-  return Boolean(data.ok);
+  if (!response.ok) return false;
+
+  const data = (await response.json()) as ContactFormResponse | null;
+  return data?.ok === true;
 }

@@ -5,7 +5,7 @@ export const REGISTER_CONTENT = {
     usernameLabel: 'Username',
     passwordLabel: 'Password',
     confirmLabel: 'Confirm Password',
-    passwordHint: 'At least 8 characters with upper and lower case letters and numbers',
+    passwordHint: 'Use 8–128 characters and at least two of letters, numbers or symbols.',
     agreePrefix: 'I have read and agree to the ',
     agreementLink: 'User Agreement',
     registerButton: 'Register',
@@ -17,10 +17,6 @@ export const REGISTER_CONTENT = {
     passwordToggle: {
       show: 'Show password',
       hide: 'Hide password'
-    },
-    thirdParty: {
-      google: 'Sign up with Google (coming soon)',
-      wechat: 'Sign up with WeChat (coming soon)'
     },
     existingUser: 'Already have an account?',
     placeholders: {
@@ -53,7 +49,7 @@ export const REGISTER_CONTENT = {
     usernameLabel: '用户名',
     passwordLabel: '密码',
     confirmLabel: '确认密码',
-    passwordHint: '至少8字符，含大小写+数字',
+    passwordHint: '使用 8–128 个字符，至少包含字母、数字或符号中的两类。',
     agreePrefix: '我已阅读并同意',
     agreementLink: '用户协议',
     registerButton: '注册',
@@ -65,10 +61,6 @@ export const REGISTER_CONTENT = {
     passwordToggle: {
       show: '显示密码',
       hide: '隐藏密码'
-    },
-    thirdParty: {
-      google: 'Google 注册（暂未支持）',
-      wechat: '微信注册（暂未支持）'
     },
     existingUser: '已有账号？',
     placeholders: {

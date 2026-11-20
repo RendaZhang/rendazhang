@@ -12,6 +12,8 @@ import { useFormValidation, usePasswordStrength } from '../../../hooks';
 import { validatePasswordComplexity } from '../../../utils/password';
 import { apiClient } from '../../../services';
 import { storage } from '../../../utils';
+import AccountPanel, { focusFirstAccountError } from '../AccountPanel';
+import AccountPasswordIcon from '../AccountPasswordIcon';
 
 interface ResetFormValues {
   password: string;
@@ -56,7 +58,9 @@ const TEXTS = {
     passwordLabel: '新密码',
     confirmLabel: '确认密码',
     resetButton: '重置密码',
+    successTitle: '密码重置完成',
     success: '密码已重置，请使用新密码登录。',
+    recovery: '如需重置密码，请申请一封新邮件，并使用邮件中的新链接。',
     resend: '重新发送邮件',
     login: '前往登录',
     lengthHint: '长度',
@@ -84,7 +88,9 @@ const TEXTS = {
     passwordLabel: 'New Password',
     confirmLabel: 'Confirm Password',
     resetButton: 'Reset Password',
+    successTitle: 'Password reset complete',
     success: 'Password has been reset. Please log in with your new password.',
+    recovery: 'To reset your password, request a new email and use the link it contains.',
     resend: 'Resend email',
     login: 'Back to login',
     lengthHint: 'Length',
@@ -158,6 +164,7 @@ export default function ResetPasswordForm() {
   );
 
   const { password, confirm } = values;
+  const confirmError = confirm && confirm !== password ? activeTexts.errors.passwordMismatch : '';
   const [showPassword, setShowPassword] = useState(false);
   // 控制密码显示或隐藏
   const togglePassword = (): void => setShowPassword((v) => !v);
@@ -179,7 +186,11 @@ export default function ResetPasswordForm() {
   /** 提交表单并调用重置密码 API */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!validateAll()) return;
+    if (status === 'loading') return;
+    if (!validateAll()) {
+      focusFirstAccountError(e.currentTarget);
+      return;
+    }
     if (!token) {
       setGlobalError(activeTexts.errors.tokenMissing);
       return;
@@ -190,51 +201,63 @@ export default function ResetPasswordForm() {
       await apiClient.auth.passwordReset({ token, password });
       setStatus('success');
     } catch (err) {
-      const { error: apiError, message } = err as { error?: string; message?: string };
-      if (apiError === 'network') {
+      const { error: apiError } = err as { error?: string };
+      const error = apiError?.trim().toLowerCase();
+      if (error === 'network') {
         setGlobalError(activeTexts.errors.network);
-      } else if (apiError?.includes('Token')) {
-        // API 表示 token 无效时，清空 token 以触发重新发送邮件的界面
+      } else if (
+        error === 'token invalid or expired' ||
+        error === 'invalid token or weak password'
+      ) {
         setToken('');
-        return;
-      } else if (apiError?.includes('weak password')) {
+      } else if (error === 'weak password') {
         setGlobalError(activeTexts.errors.passwordInvalid);
       } else {
-        setGlobalError(message || activeTexts.errors.default);
+        setGlobalError(activeTexts.errors.default);
       }
       setStatus('error');
     }
   };
 
-  // token 尚未解析时不渲染内容，避免闪烁
-  if (token === undefined) return null;
+  if (token === undefined) {
+    return (
+      <AccountPanel titleZh={textsZh.title} titleEn={textsEn.title}>
+        <p role="status">
+          <LocalizedSection zhContent={LOADING_TEXT.ZH} enContent={LOADING_TEXT.EN} />
+        </p>
+      </AccountPanel>
+    );
+  }
 
   // token 为空视为链接无效或已过期，展示重新发送邮件按钮
   if (!token) {
     return (
-      <div className="c-login-container">
+      <AccountPanel
+        titleZh={textsZh.errors.tokenMissing}
+        titleEn={textsEn.errors.tokenMissing}
+        focusTitle
+      >
         <div className="c-reset-invalid">
           <p>
-            <LocalizedSection
-              zhContent={textsZh.errors.tokenMissing}
-              enContent={textsEn.errors.tokenMissing}
-            />
+            <LocalizedSection zhContent={textsZh.recovery} enContent={textsEn.recovery} />
           </p>
-          <a className="c-btn-primary" href={FORGOT_PASSWORD_PAGE_PATH}>
-            <LocalizedSection zhContent={textsZh.resend} enContent={textsEn.resend} />
-          </a>
-          <a href={LOGIN_PAGE_PATH}>
-            <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
-          </a>
+          <div className="c-account-options">
+            <a className="c-btn-primary" href={FORGOT_PASSWORD_PAGE_PATH}>
+              <LocalizedSection zhContent={textsZh.resend} enContent={textsEn.resend} />
+            </a>
+            <a href={LOGIN_PAGE_PATH}>
+              <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
+            </a>
+          </div>
         </div>
-      </div>
+      </AccountPanel>
     );
   }
 
   // 重置成功后展示成功提示及登录入口
   if (status === 'success') {
     return (
-      <div className="c-login-container">
+      <AccountPanel titleZh={textsZh.successTitle} titleEn={textsEn.successTitle} focusTitle>
         <div className="c-reset-success">
           <p>
             <LocalizedSection zhContent={textsZh.success} enContent={textsEn.success} />
@@ -243,18 +266,19 @@ export default function ResetPasswordForm() {
             <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
           </a>
         </div>
-      </div>
+      </AccountPanel>
     );
   }
 
   return (
     <>
-      <div className="c-login-container">
-        <form onSubmit={handleSubmit} className="c-login-form">
-          <h1 className="c-login-title">
-            <LocalizedSection zhContent={textsZh.title} enContent={textsEn.title} />
-          </h1>
-          {globalError && <div className="c-global-error">{globalError}</div>}
+      <AccountPanel titleZh={textsZh.title} titleEn={textsEn.title} busy={status === 'loading'}>
+        <form onSubmit={handleSubmit} className="c-account-form" method="post">
+          {globalError && (
+            <div className="c-global-error" role="alert">
+              {globalError}
+            </div>
+          )}
           <div className="c-form-group c-password-wrapper">
             <label htmlFor="password" className="c-form-label">
               <LocalizedSection
@@ -265,11 +289,17 @@ export default function ResetPasswordForm() {
             <div className="c-password-field">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? 'text' : 'password'}
                 className={`c-form-control ${errors.password ? 'is-invalid' : ''}`}
                 value={password}
                 onChange={(e) => handleChange('password', e.target.value)}
-                autoFocus
+                autoComplete="new-password"
+                aria-required="true"
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={
+                  errors.password ? 'password-hints password-error' : 'password-hints'
+                }
               />
               <button
                 type="button"
@@ -286,7 +316,7 @@ export default function ResetPasswordForm() {
                 }
                 aria-pressed={showPassword}
               >
-                {showPassword ? '🙈' : '👁️'}
+                <AccountPasswordIcon shown={showPassword} />
               </button>
             </div>
             <div className={passwordStrengthClass}></div>
@@ -298,7 +328,11 @@ export default function ResetPasswordForm() {
                 />
               </div>
             )}
-            {errors.password && <div className="c-invalid-feedback">{errors.password}</div>}
+            {errors.password && (
+              <div className="c-invalid-feedback" id="password-error">
+                {errors.password}
+              </div>
+            )}
           </div>
           <div className="c-form-group">
             <label htmlFor="confirm" className="c-form-label">
@@ -306,14 +340,23 @@ export default function ResetPasswordForm() {
             </label>
             <input
               id="confirm"
+              name="confirm"
               type={showPassword ? 'text' : 'password'}
-              className={`c-form-control ${errors.confirm ? 'is-invalid' : ''}`}
+              className={`c-form-control ${confirmError ? 'is-invalid' : ''}`}
+              autoComplete="new-password"
+              aria-required="true"
+              aria-invalid={Boolean(confirmError)}
+              aria-describedby={confirmError ? 'confirm-error' : undefined}
               value={confirm}
               onChange={(e) => handleChange('confirm', e.target.value)}
             />
-            {errors.confirm && <div className="c-invalid-feedback">{errors.confirm}</div>}
+            {confirmError && (
+              <div className="c-invalid-feedback" id="confirm-error">
+                {confirmError}
+              </div>
+            )}
           </div>
-          <div className="c-password-hints">
+          <div className="c-password-hints" id="password-hints">
             <div>
               <LocalizedSection
                 zhContent={`${textsZh.lengthHint}：${password.length} / 8-128`}
@@ -338,8 +381,13 @@ export default function ResetPasswordForm() {
               <LocalizedSection zhContent={textsZh.resetButton} enContent={textsEn.resetButton} />
             )}
           </button>
+          <div className="c-form-alt">
+            <a href={LOGIN_PAGE_PATH}>
+              <LocalizedSection zhContent={textsZh.login} enContent={textsEn.login} />
+            </a>
+          </div>
         </form>
-      </div>
+      </AccountPanel>
       {/* Overlay prevents interaction while the reset request is in flight */}
       <AuthOverlay active={status === 'loading'} />
     </>

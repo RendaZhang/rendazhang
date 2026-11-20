@@ -1,8 +1,9 @@
 ---
 import { BaseLayout } from '../layouts';
-import { ErrorSection } from '../components';
+import ErrorSection from '../components/ErrorSection';
 import { SITE_BASE_URL } from '../constants';
 import { getCurrentLang } from '../utils';
+import '../styles/components/error-page.css';
 
 const langDefault = getCurrentLang();
 const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
@@ -10,12 +11,12 @@ const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const texts = {
   zh: {
     title: '页面未找到',
-    description: '你访问的页面不存在。',
+    description: '链接可能已更新，或地址输入有误。',
     home: '返回首页'
   },
   en: {
     title: 'Page Not Found',
-    description: "The page you're looking for doesn't exist.",
+    description: 'The link may have changed, or the address may contain a typo.',
     home: 'Go Home'
   }
 };
@@ -40,7 +41,6 @@ const description = dict.description;
 >
   <ErrorSection
     code="404"
-    emoji="🔍"
     title={{ zh: titleZh, en: titleEn }}
     description={{ zh: descriptionZh, en: descriptionEn }}
     homeLabel={{ zh: texts.zh.home, en: texts.en.home }}

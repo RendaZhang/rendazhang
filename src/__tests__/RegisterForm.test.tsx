@@ -21,6 +21,21 @@ beforeEach(() => {
 });
 
 describe('RegisterForm password validation', () => {
+  it('updates confirmation feedback when the original password changes', () => {
+    render(<RegisterForm />);
+    const password = screen.getByLabelText(/Password/, { selector: '#password' });
+    const confirmation = screen.getByLabelText(/Confirm Password/);
+    fireEvent.change(password, { target: { value: 'Example1' } });
+    fireEvent.change(confirmation, { target: { value: 'Example2' } });
+    const mismatch = screen.getByText('Passwords do not match');
+    expect(confirmation.getAttribute('aria-invalid')).toBe('true');
+    expect(confirmation.getAttribute('aria-describedby')).toBe(mismatch.id);
+
+    fireEvent.change(password, { target: { value: 'Example2' } });
+    expect(confirmation.getAttribute('aria-invalid')).toBe('false');
+    expect(confirmation.hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('shows weak label and prevents submission for weak password', async () => {
     render(<RegisterForm />);
     fireEvent.change(screen.getByLabelText(/Email/), {
