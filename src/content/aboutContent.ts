@@ -273,7 +273,7 @@ export const ABOUT_CONTENT = {
         {
           id: 'java-21-lock',
           category: 'CSDN',
-          title: 'Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到那把“失踪的锁”',
+          title: 'Java 21 实战 | 虚拟线程让 Tomcat 停摆 | 我在 Task‑System 中找到了那把“失踪的锁”',
           date: '2025-06-09',
           url: CSDN_ARTICLES.JAVA_21_LOCK,
           illustration: 'thread-lock'

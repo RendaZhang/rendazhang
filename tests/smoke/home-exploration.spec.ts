@@ -198,7 +198,8 @@ const sharedArticles = [
     preference: 'English',
     locale: /^en(?:-|$)/,
     articleId: 'article-java-21-lock',
-    originalTitle: 'Java 21 实战：虚拟线程让 Tomcat 停摆，我在 Task‑System 中找到那把“失踪的锁”',
+    originalTitle:
+      'Java 21 实战 | 虚拟线程让 Tomcat 停摆 | 我在 Task‑System 中找到了那把“失踪的锁”',
     source: articleLinks.zh,
     preferredArticleId: 'article-quant-trading-ai-bot'
   },
