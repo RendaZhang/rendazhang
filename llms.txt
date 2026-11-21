@@ -1,0 +1,25 @@
+# Renda Zhang / 张人大
+
+> Renda Zhang is a Shenzhen-based AI full-stack and cloud-native software engineer, Senior Backend Engineer, and Team Lead at OneConnect. He built PersonalWeb, holds the AWS Certified Solutions Architect - Associate credential, and studied Computer Science at the University of Minnesota.
+
+## About PersonalWeb
+
+PersonalWeb is Renda's maintained personal website and public engineering project. Its public repository and pages show an Astro and React frontend, a Flask AI chat backend, a same-origin Chat Widget, automated tests, CI/CD, SEO/GEO work, and documented operating boundaries. These materials let visitors inspect how the project is built and maintained; they are not claims about high-traffic scale or private customer systems.
+
+## Main Pages
+
+- [Home](https://www.rendazhang.com/): Renda's current role, work and education background, technical skills, PersonalWeb overview, resume, and contact entry.
+- [PersonalWeb Documentation](https://www.rendazhang.com/docs/): Architecture, testing, delivery, Chat Widget protocol, SEO/GEO, maintenance notes, and project limitations.
+- [AWS Certification](https://www.rendazhang.com/certifications/): AWS Certified Solutions Architect - Associate (SAA-C03) dates, verification links, covered topics, and evidence limits.
+- [AI Chat](https://www.rendazhang.com/deepseek_chat/): The interactive chat page used directly and by the same-origin homepage Chat Widget.
+
+## Public Profiles
+
+- [GitHub](https://github.com/RendaZhang)
+- [LinkedIn](https://www.linkedin.com/in/RendaZhang)
+- [CSDN](https://blog.csdn.net/qq_40286307)
+- [Medium](https://rendazhang.medium.com)
+
+## Privacy
+
+The public site and repository leave out visitor chats, contact-form submissions, account secrets, private logs, server configuration, and non-public contact details.
