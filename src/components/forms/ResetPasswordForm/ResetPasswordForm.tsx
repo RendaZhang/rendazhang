@@ -61,16 +61,16 @@ const TEXTS = {
     resetButton: '重置密码',
     successTitle: '密码重置完成',
     success: '密码已重置，请使用新密码登录。',
-    recovery: '如需重置密码，请申请一封新邮件，并使用邮件中的新链接。',
-    resend: '重新发送邮件',
-    login: '前往登录',
+    recovery: '请使用新邮件里的链接。',
+    resend: '申请新的重置邮件',
+    login: '返回登录',
     lengthHint: '长度',
     classHint: '字符种类',
     errors: {
       passwordRequired: '密码不能为空',
       passwordInvalid: '密码需8–128位，并包含字母/数字/特殊字符中的至少两类',
       passwordMismatch: '两次密码不一致',
-      tokenMissing: '链接无效或已过期',
+      tokenMissing: '重置链接无效或已过期',
       network: '网络错误，请稍后重试',
       default: '重置失败'
     },
@@ -85,14 +85,14 @@ const TEXTS = {
     }
   },
   en: {
-    title: 'Reset Password',
+    title: 'Reset password',
     passwordLabel: 'New Password',
     confirmLabel: 'Confirm Password',
-    resetButton: 'Reset Password',
+    resetButton: 'Reset password',
     successTitle: 'Password reset complete',
     success: 'Password has been reset. Please log in with your new password.',
-    recovery: 'To reset your password, request a new email and use the link it contains.',
-    resend: 'Resend email',
+    recovery: 'Use the link in the new email.',
+    resend: 'Request a new reset email',
     login: 'Back to login',
     lengthHint: 'Length',
     classHint: 'Character types',
@@ -101,7 +101,7 @@ const TEXTS = {
       passwordInvalid:
         'Password must be 8–128 characters and include at least two of letters, numbers or symbols',
       passwordMismatch: 'Passwords do not match',
-      tokenMissing: 'Invalid or expired link',
+      tokenMissing: 'Invalid or expired reset link',
       network: 'Network error, please try again later',
       default: 'Reset failed'
     },

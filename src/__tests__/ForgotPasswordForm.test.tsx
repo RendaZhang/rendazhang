@@ -31,7 +31,7 @@ describe('ForgotPasswordForm', () => {
     const view = within(container);
     const form = container.querySelector('form')!;
     const email = view.getByLabelText(/Email/);
-    const submit = view.getByRole('button', { name: /Send Reset Email/ });
+    const submit = view.getByRole('button', { name: /Send reset email/ });
     const nativeSubmit = vi.fn();
     form.addEventListener('submit', nativeSubmit);
 
@@ -48,7 +48,7 @@ describe('ForgotPasswordForm', () => {
     expect(submit.matches(':disabled')).toBe(false);
     fireEvent.change(email, { target: { value: 'account@example.invalid' } });
     fireEvent.click(submit);
-    await view.findByText(/If the email exists/);
+    await view.findByText(/If this email is registered/);
     expect(apiClient.auth.passwordForgot).toHaveBeenCalledExactlyOnceWith({
       identifier: 'account@example.invalid'
     });
@@ -60,8 +60,8 @@ describe('ForgotPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Email/), {
       target: { value: '  User@Example.COM  ' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Send Reset Email/ }));
-    const success = await screen.findByText(/If the email exists, we have sent a reset email/i);
+    fireEvent.click(screen.getByRole('button', { name: /Send reset email/ }));
+    const success = await screen.findByText(/If this email is registered, check for a reset link/i);
     expect(success).toBeTruthy();
     expect(apiClient.auth.passwordForgot).toHaveBeenCalledWith({
       identifier: 'user@example.com'
@@ -73,7 +73,7 @@ describe('ForgotPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Email/), {
       target: { value: 'bad' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Send Reset Email/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Send reset email/ }));
     const error = await screen.findByText('Invalid email format');
     expect(error).toBeTruthy();
     expect(apiClient.auth.passwordForgot).not.toHaveBeenCalled();
@@ -88,7 +88,7 @@ describe('ForgotPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Email/), {
       target: { value: 'user@example.com' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Send Reset Email/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Send reset email/ }));
     const errorMsg = await screen.findByText('Network error, please try again later');
     expect(errorMsg).toBeTruthy();
   });

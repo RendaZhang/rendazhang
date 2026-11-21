@@ -1,6 +1,6 @@
 export const PROFILE_CONTENT = {
   en: {
-    title: 'Account Profile',
+    title: 'Your account',
     active: 'Active',
     inactive: 'Inactive',
     labels: {
@@ -12,7 +12,7 @@ export const PROFILE_CONTENT = {
     }
   },
   zh: {
-    title: '账号信息',
+    title: '个人账号',
     active: '已启用',
     inactive: '未启用',
     labels: {

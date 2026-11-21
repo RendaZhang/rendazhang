@@ -262,7 +262,6 @@ export default function LoginForm({ texts = LOGIN_CONTENT }: LoginFormProps) {
             )}
           </button>
           <div className="c-form-alt">
-            <LocalizedSection zhContent={textsZh.newUser} enContent={textsEn.newUser} />{' '}
             <a href={REGISTER_PAGE_PATH}>
               <LocalizedSection zhContent={textsZh.registerNow} enContent={textsEn.registerNow} />
             </a>

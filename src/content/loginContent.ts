@@ -1,14 +1,13 @@
 export const LOGIN_CONTENT = {
   en: {
-    title: 'Welcome Back',
+    title: 'Log in',
     emailLabel: 'Email or Username',
     passwordLabel: 'Password',
     remember: 'Remember me',
     forgot: 'Forgot password?',
-    loginButton: 'Login',
+    loginButton: 'Log in',
     success: 'Success',
-    newUser: 'New user?',
-    registerNow: 'Register Now',
+    registerNow: 'Create an account',
     placeholders: {
       email: 'your@email.com',
       password: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
@@ -32,15 +31,14 @@ export const LOGIN_CONTENT = {
     }
   },
   zh: {
-    title: '欢迎回来',
+    title: '登录',
     emailLabel: '邮箱或用户名',
     passwordLabel: '密码',
     remember: '记住我',
     forgot: '忘记密码？',
     loginButton: '登录',
     success: '成功',
-    newUser: '新用户？',
-    registerNow: '立即注册',
+    registerNow: '创建账号',
     placeholders: {
       email: 'you@example.com',
       password: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'

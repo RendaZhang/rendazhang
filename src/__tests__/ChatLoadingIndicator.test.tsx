@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import Chat from '../components/chat/Chat';
 import type { ChatMessage } from '../types/chat';
@@ -35,8 +35,6 @@ describe('Chat loading indicator', () => {
     rerender(<Chat />);
 
     expect(document.querySelector('.c-chat-widget-skeleton')).toBeNull();
-    expect(document.querySelector('.c-chat-presets-title')?.textContent).toBe(
-      'Ask about Renda and PersonalWeb'
-    );
+    expect(screen.getByRole('region', { name: 'Suggested questions' })).toBeTruthy();
   });
 });

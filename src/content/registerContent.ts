@@ -1,6 +1,6 @@
 export const REGISTER_CONTENT = {
   en: {
-    title: 'Begin Your Journey',
+    title: 'Create an account',
     emailLabel: 'Email',
     usernameLabel: 'Username',
     passwordLabel: 'Password',
@@ -12,13 +12,12 @@ export const REGISTER_CONTENT = {
     success: 'Success',
     checking: 'Checking...',
     emailTakenPrefix: 'Email already registered? ',
-    loginNow: 'Login now',
+    loginNow: 'Back to login',
     usernameAvailable: '✓ Available',
     passwordToggle: {
       show: 'Show password',
       hide: 'Hide password'
     },
-    existingUser: 'Already have an account?',
     placeholders: {
       email: 'you@example.com',
       username: 'username',
@@ -44,7 +43,7 @@ export const REGISTER_CONTENT = {
     }
   },
   zh: {
-    title: '开启您的旅程',
+    title: '创建账号',
     emailLabel: '邮箱',
     usernameLabel: '用户名',
     passwordLabel: '密码',
@@ -56,13 +55,12 @@ export const REGISTER_CONTENT = {
     success: '成功',
     checking: '检查中...',
     emailTakenPrefix: '该邮箱已注册？',
-    loginNow: '立即登录',
+    loginNow: '返回登录',
     usernameAvailable: '✓ 可用',
     passwordToggle: {
       show: '显示密码',
       hide: '隐藏密码'
     },
-    existingUser: '已有账号？',
     placeholders: {
       email: 'you@example.com',
       username: '用户名',

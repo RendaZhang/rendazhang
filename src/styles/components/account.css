@@ -1,5 +1,5 @@
 .c-account-panel {
-  --account-paper: color-mix(in srgb, var(--color-surface) 85%, var(--color-bg));
+  --account-paper: color-mix(in srgb, var(--color-surface) 89%, #f3dfbd);
   --account-line: var(--color-palette-border);
 
   background: var(--account-paper);
@@ -8,17 +8,23 @@
   border-radius: var(--radius-xs);
   box-sizing: border-box;
   container-type: inline-size;
-  inline-size: min(calc(100% - var(--space-4) * 2), 35rem);
+  inline-size: min(calc(100% - var(--space-4) * 2), 34rem);
   margin: clamp(var(--space-5), 5vw, var(--space-8)) auto;
   padding: clamp(var(--space-4), 5vw, var(--space-8));
 }
 
+html[data-theme='dark'] .c-account-panel {
+  --account-paper: color-mix(in srgb, var(--color-surface) 74%, var(--color-bg));
+}
+
 .c-account-title {
+  border-block-end: var(--border-width-hairline) solid var(--account-line);
   color: var(--color-text-deep);
   font-family: Georgia, 'Songti SC', 'Noto Serif CJK SC', serif;
   font-size: clamp(var(--font-size-4), 6vw, var(--font-size-5));
   line-height: var(--line-height-tight);
   margin: 0 0 var(--space-5);
+  padding-block-end: var(--space-3);
   scroll-margin-block-start: var(--space-10);
 }
 
@@ -38,6 +44,13 @@
 .c-account-panel a:not(.c-btn-primary) {
   color: var(--color-brand);
   text-underline-offset: 0.18em;
+}
+
+.c-account-panel :is(.c-form-alt, .c-account-options) a {
+  align-content: center;
+  display: inline-block;
+  min-block-size: 44px;
+  min-inline-size: 44px;
 }
 
 .c-account-panel a:not(.c-btn-primary):hover {
@@ -79,7 +92,7 @@
 .c-account-panel .c-form-alt {
   border-block-start: var(--border-width-hairline) solid var(--account-line);
   color: var(--color-text-muted);
-  padding-block-start: var(--space-4);
+  padding-block-start: var(--space-1);
 }
 
 .c-account-panel .c-global-error {

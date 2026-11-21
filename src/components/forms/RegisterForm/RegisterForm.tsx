@@ -398,7 +398,6 @@ export default function RegisterForm({ texts = REGISTER_CONTENT }: RegisterFormP
             )}
           </button>
           <div className="c-form-alt">
-            <LocalizedSection zhContent={textsZh.existingUser} enContent={textsEn.existingUser} />{' '}
             <a href={LOGIN_PAGE_PATH}>
               <LocalizedSection zhContent={textsZh.loginNow} enContent={textsEn.loginNow} />
             </a>

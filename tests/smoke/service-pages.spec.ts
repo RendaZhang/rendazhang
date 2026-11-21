@@ -119,11 +119,19 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
 
   await visit(page, '/#contact');
   const form = page.locator('#contact .contact-form');
-  const summary = page.locator('#contact details > summary');
+  const heading = page.locator('#contact-title');
   await expect(form).toBeVisible();
   await waitForIsland(form);
-  await expect(form.locator('button[type="submit"]')).toBeEnabled();
-  await summary.focus();
+  const submit = form.locator('button[type="submit"]');
+  await expect(submit).toBeEnabled();
+  const nameInput = form.getByRole('textbox', { name: contactDraft[0][0], exact: true });
+  const contactInput = form.getByRole('textbox', { name: contactDraft[1][0], exact: true });
+  await submit.press('Enter');
+  await expect(nameInput).toBeFocused();
+  await expect(nameInput).toHaveAttribute('aria-invalid', 'true');
+  await expect(form.locator('.c-contact-field-error:visible')).toHaveCount(4);
+  expect(requests).toEqual([]);
+  await heading.focus();
   for (const [zh, , value] of contactDraft) {
     const control = form.getByRole('textbox', { name: zh, exact: true });
     await page.keyboard.press('Tab');
@@ -131,6 +139,14 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
     await expect(control).toHaveCSS('outline-style', 'solid');
     await page.keyboard.insertText(value);
   }
+
+  await contactInput.fill('invalid@');
+  await submit.press('Enter');
+  await expect(contactInput).toBeFocused();
+  await expect(contactInput).toHaveAttribute('aria-invalid', 'true');
+  await expect(form.locator('.c-contact-field-error:visible')).toHaveCount(1);
+  expect(requests).toEqual([]);
+  await contactInput.fill(contactDraft[1][2]);
 
   const language = page.getByRole('button', { name: '切换语言' });
   await waitForIsland(language);
@@ -146,7 +162,6 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
   await expectDraft();
 
   const stamp = form.locator('.c-contact-stamp');
-  const submit = form.locator('button[type="submit"]');
   try {
     await submit.press('Enter');
     await expect.poll(() => requests.length).toBe(1);
@@ -173,7 +188,7 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
   const fieldsFit = await form.getByRole('textbox').evaluateAll((fields) =>
     fields.every((field) => {
       const bounds = field.getBoundingClientRect();
-      const letter = field.closest('details')?.getBoundingClientRect();
+      const letter = field.closest('form')?.getBoundingClientRect();
       return letter && bounds.left >= letter.left && bounds.right <= letter.right;
     })
   );

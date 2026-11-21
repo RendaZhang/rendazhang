@@ -75,6 +75,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const selectedPresetId = 'presetId' in draft ? draft.presetId : null;
   const input = 'presetId' in draft ? activeTexts.presets.questions[draft.presetId] : draft.text;
   const [isSending, setIsSending] = useState(false);
+  const [sendFailed, setSendFailed] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
@@ -85,8 +86,6 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const typingIndicatorRef = useRef<HTMLDivElement | null>(null);
   const chatControllerRef = useRef<ChatController | null>(null);
-  const pendingGuideSourceHintsRef = useRef<ChatGuideSourceHintGroup | null>(null);
-  const pendingGuideAssistantIndexRef = useRef<number | null>(null);
   const [librariesLoaded, setLibrariesLoaded] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const pageReadyRef = useRef(false);
@@ -94,7 +93,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const isReady = historyLoaded;
   const controlsDisabled = !isReady || isSending || isResetting;
   const placeholder = isReady
-    ? activeTexts.placeholders.default
+    ? undefined
     : loadError
       ? activeTexts.placeholders.error
       : activeTexts.placeholders.loading;
@@ -124,7 +123,10 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   }, [librariesLoaded, notifyParent]);
 
   useEffect(() => {
-    const syncPreview = () => setDraft(previewFromUrl());
+    const syncPreview = () => {
+      setDraft(previewFromUrl());
+      setSendFailed(false);
+    };
     const restorePreview = (event: PageTransitionEvent) => {
       if (!event.persisted) return;
       const restoredDraft = previewFromUrl();
@@ -210,45 +212,33 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
     };
   }, []);
 
-  const sendChatMessage = async (message: string, presetId: ChatPresetQuestionId | null = null) => {
-    const shouldSendGroundedPreset = Boolean(presetId);
-    const sourceHints =
-      shouldSendGroundedPreset && presetId ? getChatGuideSourceHints(presetId, langKey) : null;
+  const sendChatMessage = async (message: string, presetId: ChatPresetQuestionId | null) => {
+    const sourceHints = presetId ? getChatGuideSourceHints(presetId, langKey) : null;
+    let assistantIndex = 0;
     const addTrackedMessage: AddChatMessage = (role, content) => {
       const nextMessages = addMessage(role, content);
       if (sourceHints && role === ROLES.USER) {
-        pendingGuideSourceHintsRef.current = sourceHints;
-        pendingGuideAssistantIndexRef.current = Array.isArray(nextMessages)
-          ? nextMessages.length
-          : messages.length + 1;
+        assistantIndex = nextMessages.length;
       }
       return nextMessages;
     };
 
     await chatController.sendMessage({
       input: message,
-      displayInput: shouldSendGroundedPreset ? message : undefined,
-      guideMode: shouldSendGroundedPreset ? CHAT_GUIDE_MODE_PUBLIC_SITE : undefined,
-      presetId: shouldSendGroundedPreset && presetId ? presetId : undefined,
-      locale: shouldSendGroundedPreset ? langKey : undefined,
+      guideMode: presetId ? CHAT_GUIDE_MODE_PUBLIC_SITE : undefined,
+      presetId: presetId ?? undefined,
+      locale: presetId ? langKey : undefined,
       addMessage: addTrackedMessage,
       setMessages,
       onAccepted: () => {
         setDraft(EMPTY_DRAFT);
+        setSendFailed(false);
         setIsSending(true);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'block';
         }
       },
       onFirstChunk: () => {
-        const pendingSourceHints = pendingGuideSourceHintsRef.current;
-        const pendingAssistantIndex = pendingGuideAssistantIndexRef.current;
-        if (pendingSourceHints && pendingAssistantIndex !== null) {
-          setSourceHintsByMessageIndex((currentSourceHints) => ({
-            ...currentSourceHints,
-            [pendingAssistantIndex]: pendingSourceHints
-          }));
-        }
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'none';
         }
@@ -258,9 +248,20 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
           chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
       },
+      onComplete: () => {
+        if (sourceHints) {
+          setSourceHintsByMessageIndex((current) => ({
+            ...current,
+            [assistantIndex]: sourceHints
+          }));
+        }
+      },
+      onError: () => {
+        setMessages(messages);
+        setDraft(draft);
+        setSendFailed(true);
+      },
       onFinally: () => {
-        pendingGuideSourceHintsRef.current = null;
-        pendingGuideAssistantIndexRef.current = null;
         setIsSending(false);
         if (typingIndicatorRef.current) {
           typingIndicatorRef.current.style.display = 'none';
@@ -280,10 +281,12 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   const handlePresetSelect = (presetId: ChatPresetQuestionId) => {
     updatePresetUrl(presetId);
     setDraft({ presetId });
+    setSendFailed(false);
   };
 
   const handleInputChange = (nextInput: string) => {
     setDraft({ text: nextInput });
+    setSendFailed(false);
   };
 
   const handleReset = () => {
@@ -299,6 +302,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
       onSuccess: () => {
         updatePresetUrl(null);
         setDraft(EMPTY_DRAFT);
+        setSendFailed(false);
         setSourceHintsByMessageIndex({});
         setShowResetModal(false);
       },
@@ -319,8 +323,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
   return (
     <div className="c-chat-tool">
       <ChatPresetQuestions
-        heading={activeTexts.presets.heading}
-        description={activeTexts.presets.description}
+        label={activeTexts.presets.label}
         topics={activeTexts.presets.topics}
         selectedPresetId={selectedPresetId}
         disabled={controlsDisabled}
@@ -353,6 +356,7 @@ export default function Chat({ texts = DEEPSEEK_CHAT_CONTENT }: ChatProps) {
           placeholder={placeholder}
           inputRef={messageInputRef}
           previewStatus={selectedPresetId ? activeTexts.presets.previewStatus : ''}
+          sendError={sendFailed ? activeTexts.sendFailed : ''}
           texts={activeTexts}
         />
       </div>

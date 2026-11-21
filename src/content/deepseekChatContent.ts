@@ -3,6 +3,9 @@ export const DEEPSEEK_CHAT_CONTENT = {
     title: 'AI Chat',
     description: 'Chat with an AI assistant powered by DeepSeek.',
     historyNote: 'Conversation history is saved in this browser.',
+    dataLabel: 'Data & sources',
+    dataNote:
+      'Messages go through this site’s server to DeepSeek. The browser keeps your transcript and the server keeps session context. Unedited suggested questions use public PersonalWeb information.',
     scriptNote: 'Live chat needs JavaScript.',
     loading: 'Loading conversation...',
     coreLoadFailed: 'Failed to load core resources. Please refresh.',
@@ -10,14 +13,11 @@ export const DEEPSEEK_CHAT_CONTENT = {
     enhancementFailed: 'Enhancement failed, basic features unaffected',
     placeholders: {
       loading: 'Loading conversation, please wait...',
-      error: 'Core resources failed to load',
-      default: 'Enter message...'
+      error: 'Core resources failed to load'
     },
     presets: {
-      heading: 'Ask about Renda and PersonalWeb',
-      description:
-        'Pick a topic to preview its question, or write your own. Guided answers use only public information.',
-      previewStatus: 'Guided question ready to send. Edit it to ask in your own words.',
+      label: 'Suggested questions',
+      previewStatus: 'Draft filled in.',
       topics: {
         who_is_renda: 'Renda Zhang',
         personalweb_proof: 'PersonalWeb',
@@ -39,6 +39,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     },
     resetConfirm: 'Are you sure you want to reset the conversation? This will clear all history.',
     resetFailedPrefix: 'Reset failed',
+    sendFailed: 'Couldn’t get a reply. Send again to retry.',
     inputLabel: 'Your question',
     sendButton: 'Send',
     resetButton: 'Reset',
@@ -50,8 +51,11 @@ export const DEEPSEEK_CHAT_CONTENT = {
   },
   zh: {
     title: 'AI 对话',
-    description: '由 DeepSeek 提供支持的 AI 助手',
+    description: '由 DeepSeek 提供支持的 AI 助手。',
     historyNote: '对话记录保存在此浏览器中。',
+    dataLabel: '数据与来源',
+    dataNote:
+      '发送的消息经本站服务器传给 DeepSeek。浏览器保存对话记录，服务器保留当前会话的上下文。直接发送预设问题时，回答以 PersonalWeb 的公开资料为依据。',
     scriptNote: '实时对话需要启用 JavaScript。',
     loading: '加载对话中...',
     coreLoadFailed: '核心资源加载失败，请刷新尝试',
@@ -59,13 +63,11 @@ export const DEEPSEEK_CHAT_CONTENT = {
     enhancementFailed: '优化功能加载失败，基础功能不受影响',
     placeholders: {
       loading: '加载对话中，请稍候...',
-      error: '核心资源加载失败',
-      default: '输入消息...'
+      error: '核心资源加载失败'
     },
     presets: {
-      heading: '了解 Renda 和 PersonalWeb',
-      description: '选一个主题可以预览问题，也可以自己写。导览回答只使用公开信息。',
-      previewStatus: '导览问题已备好，点发送即可提问。也可以改写成自己的问题。',
+      label: '建议问题',
+      previewStatus: '已填入问题。',
       topics: {
         who_is_renda: 'Renda Zhang',
         personalweb_proof: 'PersonalWeb',
@@ -87,6 +89,7 @@ export const DEEPSEEK_CHAT_CONTENT = {
     },
     resetConfirm: '确定要重置会话吗？将清除所有历史记录。',
     resetFailedPrefix: '重置失败',
+    sendFailed: '未能收到回答。可再次发送。',
     inputLabel: '你的问题',
     sendButton: '发送',
     resetButton: '重置会话',

@@ -250,7 +250,7 @@ describe('chatController', () => {
     expect(onAccepted).not.toHaveBeenCalled();
   });
 
-  it('records an assistant error when streaming fails', async () => {
+  it('reports a stream failure without recording it as an assistant answer', async () => {
     const history = createHistoryHarness();
     const error = new Error('network down');
     const onError = vi.fn();
@@ -271,12 +271,26 @@ describe('chatController', () => {
     });
 
     expect(result).toEqual({ status: 'error', error });
-    expect(history.messages).toEqual([
-      { role: ROLES.USER, content: 'hello' },
-      { role: ROLES.AI, content: 'Error: network down' }
-    ]);
+    expect(history.messages).toEqual([{ role: ROLES.USER, content: 'hello' }]);
     expect(onError).toHaveBeenCalledWith(error);
     expect(onFinally).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports an empty reply as a failure', async () => {
+    const history = createHistoryHarness();
+    const controller = createChatController({
+      sendMessageToAI: vi.fn(async () => ''),
+      resetChat: vi.fn(async () => true)
+    });
+
+    await expect(
+      controller.sendMessage({
+        input: 'hello',
+        addMessage: history.addMessage,
+        setMessages: history.setMessages
+      })
+    ).resolves.toMatchObject({ status: 'error' });
+    expect(history.messages).toEqual([{ role: ROLES.USER, content: 'hello' }]);
   });
 
   it('aborts the active stream request through the controller boundary', async () => {
@@ -313,7 +327,7 @@ describe('chatController', () => {
       status: 'error',
       error: expect.objectContaining({ message: 'aborted' })
     });
-    expect(history.messages.at(-1)).toEqual({ role: ROLES.AI, content: 'Error: aborted' });
+    expect(history.messages).toEqual([{ role: ROLES.USER, content: 'hello' }]);
     expect(controller.hasActiveRequest()).toBe(false);
   });
 

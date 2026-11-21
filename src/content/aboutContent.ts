@@ -22,8 +22,8 @@ export const ABOUT_CONTENT = {
       line: 'Backend engineer in Shenzhen.'
     },
     contact: {
-      title: 'Contact Me',
-      letter: 'Write a note',
+      title: 'Contact',
+      purpose: 'For work or project inquiries.',
       info: [
         { label: 'Phone', value: ` ${CONTACT_PHONE_INTL}` },
         { label: 'Email', value: ` ${CONTACT_EMAIL_PRIMARY}` },
@@ -40,7 +40,14 @@ export const ABOUT_CONTENT = {
         sending: 'Sending…',
         success: 'Sent',
         retry: 'Retry send',
-        errorEmpty: 'Please fill all fields.',
+        required: {
+          name: 'Enter your name.',
+          contact: 'Enter an email address or phone number.',
+          _subject: 'Enter a subject.',
+          message: 'Write a message.'
+        },
+        contactFormat: 'Use a valid email address or phone number.',
+        privacy: 'Formspree processes the details you submit.',
         failed: 'The message could not be sent. Your draft is still here. Try again.'
       }
     },
@@ -168,8 +175,8 @@ export const ABOUT_CONTENT = {
       line: '在深圳写后端。'
     },
     contact: {
-      title: '联系我吧',
-      letter: '写一封信',
+      title: '联系',
+      purpose: '工作或项目交流，欢迎留言。',
       info: [
         { label: '手机', value: ` ${CONTACT_PHONE_LOCAL}` },
         { label: '邮箱', value: ` ${CONTACT_EMAIL_PRIMARY}` },
@@ -186,7 +193,14 @@ export const ABOUT_CONTENT = {
         sending: '发送中…',
         success: '已发送',
         retry: '重试发送',
-        errorEmpty: '请填写所有字段。',
+        required: {
+          name: '请输入你的名字。',
+          contact: '请输入邮箱或手机号。',
+          _subject: '请输入主题。',
+          message: '请填写留言。'
+        },
+        contactFormat: '请输入有效的邮箱或手机号。',
+        privacy: '你提交的信息由 Formspree 转交。',
         failed: '暂时没能送出。草稿仍在，可以重试。'
       }
     },

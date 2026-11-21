@@ -67,11 +67,11 @@ describe('ResetPasswordForm', () => {
   it('shows invalid link when token is missing', async () => {
     setToken();
     render(<ResetPasswordForm />);
-    const heading = await screen.findByRole('heading', { name: /Invalid or expired link/ });
+    const heading = await screen.findByRole('heading', { name: /Invalid or expired reset link/ });
     expect(document.activeElement).toBe(heading);
-    expect(screen.getByRole('link', { name: /Resend email/ }).getAttribute('href')).toBe(
-      '/forgot_password'
-    );
+    expect(
+      screen.getByRole('link', { name: /Request a new reset email/ }).getAttribute('href')
+    ).toBe('/forgot_password');
     expect(screen.getByRole('link', { name: /Back to login/ }).getAttribute('href')).toBe('/login');
     expect(window.history.replaceState).not.toHaveBeenCalled();
   });
@@ -114,7 +114,7 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Confirm Password/), {
       target: { value: 'abc' }
     });
-    const button = await screen.findByRole('button', { name: /Reset Password/ });
+    const button = await screen.findByRole('button', { name: /Reset password/ });
     expect((button as HTMLButtonElement).disabled).toBe(true);
     expect(apiClient.auth.passwordReset).not.toHaveBeenCalled();
   });
@@ -129,7 +129,7 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Confirm Password/), {
       target: { value: 'Abcd1234!' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Reset password/ }));
     const success = await screen.findByText(
       'Password has been reset. Please log in with your new password.'
     );
@@ -155,11 +155,11 @@ describe('ResetPasswordForm', () => {
       fireEvent.change(screen.getByLabelText(/Confirm Password/), {
         target: { value: 'Abcd1234!' }
       });
-      fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
-      const resendBtn = await screen.findByRole('link', { name: /Resend email/ });
+      fireEvent.click(screen.getByRole('button', { name: /Reset password/ }));
+      const resendBtn = await screen.findByRole('link', { name: /Request a new reset email/ });
       expect(resendBtn.getAttribute('href')).toBe('/forgot_password');
       expect(document.activeElement).toBe(
-        screen.getByRole('heading', { name: /Invalid or expired link/ })
+        screen.getByRole('heading', { name: /Invalid or expired reset link/ })
       );
     }
   );
@@ -177,7 +177,7 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText(/Confirm Password/), {
       target: { value: 'Abcd1234!' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Reset Password/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Reset password/ }));
     const errorMsg = await screen.findByText('Network error, please try again later');
     expect(errorMsg).toBeTruthy();
   });

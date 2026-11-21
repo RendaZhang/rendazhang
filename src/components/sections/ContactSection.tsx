@@ -12,37 +12,33 @@ export default function ContactSection(): ReactElement {
   return (
     <section className="c-contact-section" id="contact" aria-labelledby="contact-title">
       <header className="c-contact-heading">
-        <h2 id="contact-title">
+        <h2 id="contact-title" tabIndex={-1}>
           <LocalizedSection zhContent={contactZh.title} enContent={contactEn.title} />
         </h2>
-        <dl className="c-contact-channels">
-          {contactZh.info.map((info, index) => {
-            const infoEn = contactEn.info[index];
-            const href = [`tel:${CONTACT_PHONE_INTL}`, `mailto:${CONTACT_EMAIL_PRIMARY}`][index];
-            const value = <LocalizedSection zhContent={info.value} enContent={infoEn.value} />;
-            return (
-              <div key={info.label}>
-                <dt>
-                  <LocalizedSection zhContent={info.label} enContent={infoEn.label} />
-                </dt>
-                <dd>{href ? <a href={href}>{value}</a> : value}</dd>
-              </div>
-            );
-          })}
-        </dl>
+        <p>
+          <LocalizedSection zhContent={contactZh.purpose} enContent={contactEn.purpose} />
+        </p>
       </header>
 
-      <details className="c-contact-letter" open>
-        <summary>
-          <LocalizedSection zhContent={contactZh.letter} enContent={contactEn.letter} />
-          <svg viewBox="0 0 28 22" width="28" height="22" aria-hidden="true" focusable="false">
-            <path d="M2 5h24v15H2zm0 0 12 8L26 5M2 5l12-4 12 4" />
-          </svg>
-        </summary>
-        <div className="c-contact-letter-body">
-          <ContactForm texts={formTexts} />
-        </div>
-      </details>
+      <div className="c-contact-letter">
+        <ContactForm texts={formTexts} />
+      </div>
+
+      <dl className="c-contact-channels">
+        {contactZh.info.map((info, index) => {
+          const infoEn = contactEn.info[index];
+          const href = [`tel:${CONTACT_PHONE_INTL}`, `mailto:${CONTACT_EMAIL_PRIMARY}`][index];
+          const value = <LocalizedSection zhContent={info.value} enContent={infoEn.value} />;
+          return (
+            <div key={info.label}>
+              <dt>
+                <LocalizedSection zhContent={info.label} enContent={infoEn.label} />
+              </dt>
+              <dd>{href ? <a href={href}>{value}</a> : value}</dd>
+            </div>
+          );
+        })}
+      </dl>
     </section>
   );
 }

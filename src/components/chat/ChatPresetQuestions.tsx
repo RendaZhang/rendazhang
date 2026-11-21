@@ -11,8 +11,7 @@ type TrackPresetClick = (
 ) => unknown;
 
 export interface ChatPresetQuestionsProps {
-  heading: string;
-  description: string;
+  label: string;
   topics: ChatPresetTopicTexts;
   selectedPresetId: ChatPresetQuestionId | null;
   disabled?: boolean;
@@ -21,8 +20,7 @@ export interface ChatPresetQuestionsProps {
 }
 
 export default function ChatPresetQuestions({
-  heading,
-  description,
+  label,
   topics,
   selectedPresetId,
   disabled = false,
@@ -35,13 +33,7 @@ export default function ChatPresetQuestions({
   };
 
   return (
-    <section className="c-chat-presets" aria-labelledby="chat-preset-heading">
-      <div className="c-chat-presets-copy">
-        <h2 className="c-chat-presets-title" id="chat-preset-heading">
-          {heading}
-        </h2>
-        <p className="c-chat-presets-description">{description}</p>
-      </div>
+    <section className="c-chat-presets" aria-label={label}>
       <ul className="c-chat-preset-list">
         {CHAT_PRESET_QUESTION_IDS.map((presetId) => (
           <li key={presetId}>

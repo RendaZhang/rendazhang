@@ -1104,8 +1104,8 @@ for (const palette of ['default', 'aurora', 'forest']) {
       await page.goto('/deepseek_chat/');
       await expect(page.locator('.c-chat-preset-button')).toHaveCount(5);
       await expect(page.locator('.c-send-btn')).toBeEnabled();
-      await expectTextContrast(page, '.c-chat-presets-description');
-      await expectTextContrast(page, '.c-message-input', undefined, '::placeholder');
+      await expectTextContrast(page, '.c-chat-preset-button');
+      await expectTextContrast(page, '.c-chat-input-field label');
       await expectTextContrast(page, '.c-send-btn', '--color-brand');
       await page.locator('.c-send-btn').hover();
       await expect(page.locator('.c-send-btn')).toHaveCSS('filter', 'none');

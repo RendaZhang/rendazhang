@@ -85,6 +85,13 @@
   max-inline-size: 32ch;
 }
 
+.c-error-home {
+  align-items: center;
+  display: inline-flex;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+}
+
 .c-error-home:is(:hover, :active) {
   transform: none;
 }

@@ -1,8 +1,7 @@
 export const DOCS_CASE_STUDY_CONTENT = {
   en: {
     title: 'Architecture notes',
-    intro: 'Pages are prebuilt. The chat window loads when you open it.',
-    routeLegend: 'Trace a route',
+    routeLegend: 'Page and chat routes',
     routes: { page: 'Open a page', chat: 'Send a question' },
     nodes: {
       browser: {
@@ -38,23 +37,22 @@ export const DOCS_CASE_STUDY_CONTENT = {
       model: {
         title: 'Model API',
         notes: { chat: 'The model returns text in pieces for Flask to relay.' },
-        section: { href: '#en-backend', label: 'Backend repository' }
+        section: { href: '#en-backend', label: 'Backend implementation' }
       }
     },
     related: {
-      certificate: 'Architecture topics in my AWS certification',
-      chat: 'Preview a question about PersonalWeb'
+      certificate: 'AWS certification',
+      chat: 'Ask in Chat'
     },
     links: {
-      docs: { href: '#content-en', label: 'Full documentation and contents' },
+      docs: { href: '#content-en', label: 'Contents' },
       delivery: { href: '#en-cicd-workflow', label: 'CI/CD and validation' },
       contact: 'Contact'
     }
   },
   zh: {
     title: '架构笔记',
-    intro: '页面预先生成。打开聊天时，才加载聊天窗口。',
-    routeLegend: '查看一条路线',
+    routeLegend: '页面与聊天路径',
     routes: { page: '打开页面', chat: '发送问题' },
     nodes: {
       browser: {
@@ -86,15 +84,15 @@ export const DOCS_CASE_STUDY_CONTENT = {
       model: {
         title: '模型 API',
         notes: { chat: '模型逐段返回文字，由 Flask 转发。' },
-        section: { href: '#zh-后端', label: '后端仓库' }
+        section: { href: '#zh-后端', label: '后端实现' }
       }
     },
     related: {
-      certificate: '我的 AWS 认证覆盖哪些架构主题',
-      chat: '预览关于 PersonalWeb 的问题'
+      certificate: 'AWS 认证',
+      chat: '带去 Chat'
     },
     links: {
-      docs: { href: '#content-zh', label: '完整正文与目录' },
+      docs: { href: '#content-zh', label: '正文目录' },
       delivery: { href: '#zh-cicd-工作流', label: 'CI/CD 与验证' },
       contact: '联系'
     }

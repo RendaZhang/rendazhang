@@ -196,6 +196,48 @@ describe('Chat preset question flow', () => {
     await screen.findByText('preset answer');
   });
 
+  it('restores a failed guided draft for a manual retry without duplicating local history', async () => {
+    const originalHistory = [{ role: ROLES.USER, content: 'Earlier question' }];
+    chatHistory.messages = originalHistory;
+    vi.mocked(sendMessageToAI).mockImplementationOnce(async (_message, onChunk) => {
+      onChunk?.('incomplete response');
+      throw new Error('stream interrupted');
+    });
+    render(<Chat />);
+    const topic = screen.getByRole('button', { name: 'PersonalWeb' });
+    const input = screen.getByRole('textbox', { name: 'Your question' }) as HTMLTextAreaElement;
+    const send = screen.getByRole('button', { name: 'Send' });
+
+    fireEvent.click(topic);
+    const preview = input.value;
+    fireEvent.click(send);
+
+    await screen.findByText('Couldn’t get a reply. Send again to retry.');
+    expect(input.value).toBe(preview);
+    expect(topic.getAttribute('aria-pressed')).toBe('true');
+    expect(chatHistory.messages).toEqual(originalHistory);
+    expect(screen.queryByText('incomplete response')).toBeNull();
+    expect(screen.queryByLabelText('Public pages that support this guided answer')).toBeNull();
+    expect(sendMessageToAI).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(send);
+    await screen.findByText('preset answer');
+    expect(sendMessageToAI).toHaveBeenCalledTimes(2);
+    for (const [message, , options] of vi.mocked(sendMessageToAI).mock.calls) {
+      expect(message).toBe(preview);
+      expect(options).toMatchObject({
+        guideMode: 'public_site',
+        presetId: 'personalweb_proof',
+        locale: 'en'
+      });
+    }
+    expect(chatHistory.messages).toEqual([
+      ...originalHistory,
+      { role: ROLES.USER, content: preview },
+      { role: ROLES.AI, content: 'preset answer' }
+    ]);
+  });
+
   it('sends a typed preset variation as normal free-form chat without guide metadata', async () => {
     render(<Chat />);
 
@@ -280,7 +322,7 @@ describe('Chat preset question flow', () => {
 
       const container = document.querySelector('.c-chat-container') as HTMLDivElement;
       await waitFor(() => expect(container.scrollTop).toBe(0));
-      expect(screen.getByRole('heading', { name: 'Ask about Renda and PersonalWeb' })).toBeTruthy();
+      expect(screen.getByRole('region', { name: 'Suggested questions' })).toBeTruthy();
     } finally {
       if (scrollHeightDescriptor) {
         Object.defineProperty(window.HTMLElement.prototype, 'scrollHeight', scrollHeightDescriptor);

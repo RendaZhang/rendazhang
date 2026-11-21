@@ -10,9 +10,10 @@ interface ChatInputProps {
   onReset: ChatCallback;
   onKeyDown: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
   disabled: boolean;
-  placeholder: string;
+  placeholder?: string;
   inputRef: RefObject<HTMLTextAreaElement | null>;
   previewStatus: string;
+  sendError: string;
   texts: InputTexts & { inputLabel: string };
 }
 
@@ -26,6 +27,7 @@ export default function ChatInput({
   placeholder,
   inputRef,
   previewStatus,
+  sendError,
   texts
 }: ChatInputProps) {
   return (
@@ -40,7 +42,7 @@ export default function ChatInput({
       <div className="c-chat-input-field">
         <label htmlFor="chat-question">{texts.inputLabel}</label>
         <textarea
-          aria-describedby={previewStatus ? 'chat-preview-status' : undefined}
+          aria-describedby={sendError ? 'chat-send-error' : undefined}
           className="c-message-input"
           id="chat-question"
           name="message"
@@ -52,8 +54,11 @@ export default function ChatInput({
           placeholder={placeholder}
           rows={2}
         />
-        <p className="c-chat-preview-status" id="chat-preview-status" role="status">
+        <p className="c-chat-preview-status" role="status">
           {previewStatus}
+        </p>
+        <p className="c-chat-send-error" id="chat-send-error" role="alert">
+          {sendError}
         </p>
       </div>
       <div className="c-btn-container">

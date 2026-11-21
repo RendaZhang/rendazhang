@@ -19,7 +19,7 @@ import { apiClient } from '../services';
 describe('LoginForm error handling', () => {
   it('focuses the first invalid field and associates the visible error with it', async () => {
     render(<LoginForm />);
-    fireEvent.click(screen.getByRole('button', { name: /Login$/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Log in$/ }));
 
     const email = screen.getByLabelText(/Email or Username/);
     const error = screen.getByText('Email is required');
@@ -40,7 +40,7 @@ describe('LoginForm error handling', () => {
     fireEvent.change(screen.getByLabelText(/Password/), {
       target: { value: 'Abcdef12!' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Login$/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Log in$/ }));
     const errorMsg = await screen.findByText('Incorrect username or password');
     expect(errorMsg).toBe(screen.getByRole('alert'));
   });
@@ -57,7 +57,7 @@ describe('LoginForm error handling', () => {
     fireEvent.change(screen.getByLabelText(/Password/), {
       target: { value: 'Abcdef12!' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /Login$/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Log in$/ }));
     const errorMsg = await screen.findByText('Network error, please try again later');
     expect(errorMsg).toBeTruthy();
   });

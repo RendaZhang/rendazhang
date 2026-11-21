@@ -103,16 +103,6 @@ export function upsertAssistantMessage(setMessages: SetChatMessages, content: st
   });
 }
 
-export function finalizeAssistantMessage(setMessages: SetChatMessages, content: string): void {
-  setMessages((prev) => {
-    const lastMsg = prev[prev.length - 1];
-    if (lastMsg && lastMsg.role === ROLES.AI) {
-      return [...prev.slice(0, -1), { ...lastMsg, content }];
-    }
-    return prev;
-  });
-}
-
 export function createChatController(
   services: ChatControllerServices = defaultServices
 ): ChatController {
@@ -155,14 +145,14 @@ export function createChatController(
           streamOptions
         );
 
-        finalizeAssistantMessage(options.setMessages, aiText);
+        if (!aiText.trim()) throw new Error('Empty assistant response');
+        upsertAssistantMessage(options.setMessages, aiText);
         addSentryBreadcrumb('chat.send.complete', { response_length: aiText.length });
         options.onComplete?.(aiText);
         return { status: 'sent', response: aiText };
       } catch (error) {
         const err = toError(error);
         addSentryBreadcrumb('chat.send.error', { status: getErrorStatus(err) }, 'warning');
-        options.addMessage(ROLES.AI, `Error: ${err.message}`);
         options.onError?.(err);
         return { status: 'error', error: err };
       } finally {

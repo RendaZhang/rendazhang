@@ -17,8 +17,7 @@ function renderPresets(overrides: Partial<Parameters<typeof ChatPresetQuestions>
 
   render(
     <ChatPresetQuestions
-      heading="Ask about Renda and PersonalWeb"
-      description="Pick a topic to preview its question."
+      label="Suggested questions"
       topics={topics}
       selectedPresetId="personalweb_proof"
       onSelect={onSelect}

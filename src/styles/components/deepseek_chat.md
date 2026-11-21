@@ -25,3 +25,6 @@
 - Topic buttons fill an editable preview and mark the active topic with `aria-pressed`. Previewing
   a topic does not send the message. The explicit submit button and IME-safe Enter handler share
   the same submission path.
+- The header keeps data handling and source information in a native disclosure. When sending
+  fails, the composer restores the editable draft and announces the failure next to the input.
+  The visitor can retry with the same Send button.

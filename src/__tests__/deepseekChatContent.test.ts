@@ -29,9 +29,7 @@ describe('DeepSeek Chat visitor content', () => {
     expect(renderedContent).not.toMatch(
       /public proof question|公开证明问题|public-source preset|proof surface|项目证明面|architecture credibility signal|架构可信度信号/i
     );
-    expect(DEEPSEEK_CHAT_CONTENT.en.presets.description).toContain('preview');
-    expect(DEEPSEEK_CHAT_CONTENT.zh.presets.description).toContain('预览');
-    expect(DEEPSEEK_CHAT_CONTENT.en.presets.description).toContain('public information');
-    expect(DEEPSEEK_CHAT_CONTENT.zh.presets.description).toContain('公开信息');
+    expect(DEEPSEEK_CHAT_CONTENT.en.dataNote).toContain('public PersonalWeb information');
+    expect(DEEPSEEK_CHAT_CONTENT.zh.dataNote).toContain('公开资料');
   });
 });

@@ -6,6 +6,17 @@ import LocalizedSection from '../../ui/data-display/LocalizedSection';
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'invalid' | 'error';
 
+const FIELDS = [
+  { name: 'name', label: 'name' },
+  { name: 'contact', label: 'contact' },
+  { name: '_subject', label: 'subject' },
+  { name: 'message', label: 'message' }
+] as const;
+
+type ContactField = (typeof FIELDS)[number]['name'];
+type FieldError = 'required' | 'format';
+type FieldErrors = Partial<Record<ContactField, FieldError>>;
+
 interface LangTexts {
   labels: {
     name: string;
@@ -13,7 +24,9 @@ interface LangTexts {
     subject: string;
     message: string;
   };
-  errorEmpty: string;
+  required: Record<ContactField, string>;
+  contactFormat: string;
+  privacy: string;
   failed: string;
   sending: string;
   button: string;
@@ -32,12 +45,24 @@ const EMPTY_DRAFT: ContactFormSubmission = {
   message: ''
 };
 
+function validateField(field: ContactField, value: string): FieldError | undefined {
+  const trimmed = value.trim();
+  if (!trimmed) return 'required';
+  if (field !== 'contact') return;
+  const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+  const digitCount = trimmed.replace(/\D/g, '').length;
+  const phone = /^\+?[\d().\s-]+$/.test(trimmed) && digitCount >= 7 && digitCount <= 15;
+  if (!email && !phone) return 'format';
+}
+
 export default function ContactForm({ texts }: ContactFormProps) {
   const { zh: textsZh, en: textsEn } = texts;
   const [form, setForm] = useState(EMPTY_DRAFT);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [ready, setReady] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const submitting = useRef(false);
+  const fieldToFocus = useRef<HTMLElement | null>(null);
   const submitButton = useRef<HTMLButtonElement>(null);
   const restoreSubmitFocus = useRef(false);
   const formId = useId();
@@ -46,6 +71,12 @@ export default function ContactForm({ texts }: ContactFormProps) {
   useEffect(() => {
     setReady(true);
   }, []);
+
+  useEffect(() => {
+    const field = fieldToFocus.current;
+    fieldToFocus.current = null;
+    field?.focus();
+  }, [fieldErrors]);
 
   useEffect(() => {
     if ((status !== 'success' && status !== 'error') || !restoreSubmitFocus.current) return;
@@ -57,14 +88,27 @@ export default function ContactForm({ texts }: ContactFormProps) {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = event.target;
+    const field = name as ContactField;
     setForm((draft) => ({ ...draft, [name]: value }));
+    setFieldErrors((current) =>
+      current[field] ? { ...current, [field]: validateField(field, value) } : current
+    );
     setStatus((current) => (current === 'success' || current === 'invalid' ? 'idle' : current));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (!ready || submitting.current) return;
-    if (Object.values(form).some((value) => !value.trim())) {
+    const errors: FieldErrors = {};
+    for (const { name } of FIELDS) {
+      const error = validateField(name, form[name]);
+      if (error) errors[name] = error;
+    }
+    const firstInvalid = FIELDS.find(({ name }) => errors[name]);
+    if (firstInvalid) {
+      const field = event.currentTarget.elements.namedItem(firstInvalid.name);
+      fieldToFocus.current = field instanceof HTMLElement ? field : null;
+      setFieldErrors(errors);
       setStatus('invalid');
       return;
     }
@@ -93,83 +137,72 @@ export default function ContactForm({ texts }: ContactFormProps) {
   const buttonLabel = isSending ? 'sending' : status === 'error' ? 'retry' : 'button';
 
   return (
-    <form onSubmit={handleSubmit} className="contact-form" data-form-status={status} method="post">
+    <form
+      onSubmit={handleSubmit}
+      className="contact-form"
+      data-form-status={status}
+      method="post"
+      noValidate
+    >
       <fieldset className="c-contact-fields" disabled={!ready}>
-        <div className="c-form-group">
-          <label className="c-form-label" htmlFor={`${formId}-name`}>
-            <LocalizedSection zhContent={textsZh.labels.name} enContent={textsEn.labels.name} />
-          </label>
-          <input
-            id={`${formId}-name`}
-            type="text"
-            name="name"
-            autoComplete="name"
-            className="c-form-control"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="c-form-group">
-          <label className="c-form-label" htmlFor={`${formId}-contact`}>
-            <LocalizedSection
-              zhContent={textsZh.labels.contact}
-              enContent={textsEn.labels.contact}
-            />
-          </label>
-          <input
-            id={`${formId}-contact`}
-            type="text"
-            name="contact"
-            className="c-form-control"
-            value={form.contact}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="c-form-group">
-          <label className="c-form-label" htmlFor={`${formId}-subject`}>
-            <LocalizedSection
-              zhContent={textsZh.labels.subject}
-              enContent={textsEn.labels.subject}
-            />
-          </label>
-          <input
-            id={`${formId}-subject`}
-            type="text"
-            name="_subject"
-            className="c-form-control"
-            value={form._subject}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="c-form-group">
-          <label className="c-form-label" htmlFor={`${formId}-message`}>
-            <LocalizedSection
-              zhContent={textsZh.labels.message}
-              enContent={textsEn.labels.message}
-            />
-          </label>
-          <textarea
-            id={`${formId}-message`}
-            name="message"
-            className="c-form-control"
-            rows={5}
-            value={form.message}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button ref={submitButton} type="submit" className="c-btn-primary" disabled={isSending}>
+        {FIELDS.map(({ name, label }) => {
+          const id = `${formId}-${label}`;
+          const errorId = `${id}-error`;
+          const error = fieldErrors[name];
+          const controls = {
+            id,
+            name,
+            className: 'c-form-control',
+            value: form[name],
+            onChange: handleChange,
+            required: true,
+            'aria-invalid': Boolean(error),
+            'aria-describedby': error ? errorId : undefined
+          };
+
+          return (
+            <div className="c-form-group" key={name}>
+              <label className="c-form-label" htmlFor={id}>
+                <LocalizedSection
+                  zhContent={textsZh.labels[label]}
+                  enContent={textsEn.labels[label]}
+                />
+              </label>
+              {name === 'message' ? (
+                <textarea {...controls} rows={5} />
+              ) : (
+                <input
+                  {...controls}
+                  type="text"
+                  autoComplete={name === 'name' ? 'name' : undefined}
+                />
+              )}
+              {error && (
+                <p className="c-contact-field-error" id={errorId}>
+                  <LocalizedSection
+                    zhContent={error === 'format' ? textsZh.contactFormat : textsZh.required[name]}
+                    enContent={error === 'format' ? textsEn.contactFormat : textsEn.required[name]}
+                  />
+                </p>
+              )}
+            </div>
+          );
+        })}
+        <p className="c-contact-privacy" id={`${formId}-privacy`}>
+          <LocalizedSection zhContent={textsZh.privacy} enContent={textsEn.privacy} />
+        </p>
+        <button
+          ref={submitButton}
+          type="submit"
+          className="c-btn-primary"
+          disabled={isSending}
+          aria-describedby={`${formId}-privacy`}
+        >
           <LocalizedSection zhContent={textsZh[buttonLabel]} enContent={textsEn[buttonLabel]} />
         </button>
       </fieldset>
 
       <p className="c-contact-form-error" role="alert">
-        {status === 'invalid' && (
-          <LocalizedSection zhContent={textsZh.errorEmpty} enContent={textsEn.errorEmpty} />
-        )}
         {status === 'error' && (
           <LocalizedSection zhContent={textsZh.failed} enContent={textsEn.failed} />
         )}

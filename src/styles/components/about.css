@@ -270,14 +270,22 @@ body.c-about-page {
 
   align-items: start;
   display: grid;
-  gap: clamp(1rem, 3.5vw, 3rem);
+  gap: var(--space-4) clamp(var(--space-4), 3.5vw, var(--space-8));
+  grid-template-areas:
+    'heading'
+    'letter'
+    'channels';
   max-inline-size: 68rem;
-  padding-block: clamp(2.5rem, 7vw, 5.5rem);
+  padding-block: clamp(var(--space-5), 5vw, var(--space-9));
   scroll-margin-block-start: 5rem;
 }
 
 html[data-theme='dark'] .c-contact-section {
   --letter-paper: color-mix(in srgb, var(--color-bg) 73%, var(--color-surface));
+}
+
+.c-contact-heading {
+  grid-area: heading;
 }
 
 .c-contact-heading h2 {
@@ -286,12 +294,18 @@ html[data-theme='dark'] .c-contact-section {
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-2);
+}
+
+.c-contact-heading p {
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
 .c-contact-channels {
   display: grid;
   gap: var(--space-2);
+  grid-area: channels;
   margin: 0;
 }
 
@@ -324,43 +338,8 @@ html[data-theme='dark'] .c-contact-section {
   border: 1px solid var(--letter-rule);
   border-block-start: 3px solid var(--letter-accent);
   color: var(--letter-ink);
+  grid-area: letter;
   min-inline-size: 0;
-}
-
-.c-contact-letter > summary {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  font-family: var(--letter-serif);
-  font-size: var(--font-size-2);
-  font-weight: 650;
-  gap: var(--space-2);
-  justify-content: space-between;
-  list-style: none;
-  min-block-size: 44px;
-  padding: var(--space-3) clamp(0.8rem, 3.3vw, 2rem);
-}
-
-.c-contact-letter > summary::-webkit-details-marker {
-  display: none;
-}
-
-.c-contact-letter > summary:hover {
-  background-color: var(--color-palette-surface);
-}
-
-.c-contact-letter > summary svg {
-  color: var(--letter-accent);
-  fill: none;
-  flex: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
-}
-
-.c-contact-letter-body {
-  border-block-start: 1px solid var(--letter-rule);
   padding: clamp(0.8rem, 3.3vw, 2rem);
 }
 
@@ -385,6 +364,10 @@ html[data-theme='dark'] .c-contact-section {
   min-block-size: 44px;
 }
 
+.c-contact-fields .c-form-control[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
 .c-contact-fields textarea {
   resize: vertical;
 }
@@ -395,9 +378,26 @@ html[data-theme='dark'] .c-contact-section {
   min-inline-size: 44px;
 }
 
-.c-contact-section :is(a, summary, input, textarea, button):focus-visible {
+.c-contact-section :is(a, h2, input, textarea, button):focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+}
+
+.c-contact-privacy,
+.c-contact-field-error {
+  font-size: var(--font-size-1);
+  margin: 0;
+}
+
+.c-contact-privacy {
+  color: var(--color-text-muted);
+}
+
+.c-contact-field-error {
+  border-inline-start: 2px solid var(--color-error);
+  color: var(--color-error);
+  margin-block-start: var(--space-2);
+  padding-inline-start: var(--space-2);
 }
 
 .c-contact-form-error,
@@ -430,7 +430,11 @@ html[data-theme='dark'] .c-contact-section {
 
 @media (min-width: 47rem) {
   .c-contact-section {
+    grid-template-areas:
+      'heading letter'
+      'channels letter';
     grid-template-columns: minmax(13rem, 1fr) minmax(0, 2fr);
+    grid-template-rows: min-content 1fr;
   }
 
   .c-contact-fields {

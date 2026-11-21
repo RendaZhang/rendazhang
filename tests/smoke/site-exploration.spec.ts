@@ -174,9 +174,11 @@ test('certificate verification and both architecture links work from the keyboar
   await chooseRoute(page, '发送问题');
   await expect.poll(() => routeInk(page)).not.toEqual(staticInk);
   const flask = await selectFlask(page);
+  await expect(flask.getByRole('link', { name: '带去 Chat', exact: true })).toBeVisible();
   const section = flask.locator('a[href^="#zh-"]:visible').first();
   await expect(section).toBeVisible();
   await section.press('Enter');
+  await expect(page.locator('#zh-后端:target')).toHaveText('后端');
   await expect(page.locator(':target')).toBeInViewport({ ratio: 1 });
 
   const nginx = page.locator('details[data-docs-node="nginx"]');
@@ -333,6 +335,59 @@ test('home Chat Widget shares preview and explicit send and restores launcher fo
   await expect(page.locator('iframe[title="AI Chat"]')).toHaveCount(0);
   await expect(launcher).toBeFocused();
   expect(chat.unexpected).toEqual([]);
+});
+
+test('Chat restores a failed draft and sends it again only on manual retry', async ({
+  page,
+  context,
+  baseURL
+}) => {
+  expect(new URL(baseURL ?? '').hostname).toBe('127.0.0.1');
+  const messages: Array<Record<string, unknown>> = [];
+  let completeFirstRequest!: () => void;
+  const pending = new Promise<void>((resolve) => {
+    completeFirstRequest = resolve;
+  });
+  await context.route('**/cloudchat/deepseek_chat', async (route) => {
+    const request = route.request();
+    if (request.method() !== 'POST') return route.abort();
+    messages.push(request.postDataJSON() as Record<string, unknown>);
+    if (messages.length === 1) {
+      await pending;
+      await route.fulfill({ status: 503, json: { error: 'Controlled failure' } });
+      return;
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/x-ndjson',
+      body: JSON.stringify({ text: mockReply }) + '\n'
+    });
+  });
+
+  await visit(page, '/deepseek_chat/?preset=personalweb_proof');
+  const draft = page.locator('.c-message-input');
+  const send = page.locator('#send-btn');
+  await expect(draft).toHaveValue(projectQuestion);
+  const edited = 'Flask 怎么分段返回？';
+  await draft.fill(edited);
+  expect(messages).toEqual([]);
+  try {
+    await send.press('Enter');
+    await expect.poll(() => messages.length).toBe(1);
+    await expect(send).toBeDisabled();
+  } finally {
+    completeFirstRequest();
+  }
+  await expect(page.locator('.c-chat-send-error')).toContainText('可再次发送');
+  await expect(draft).toHaveValue(edited);
+  await expect(send).toBeEnabled();
+  expect(messages).toEqual([{ message: edited }]);
+
+  await send.press('Enter');
+  await expect(page.locator('.c-ai-message').last()).toContainText(mockReply);
+  expect(messages).toEqual([{ message: edited }, { message: edited }]);
+  await expect(page.locator('.c-user-message')).toHaveCount(1);
+  await expect(page.locator('.c-chat-send-error')).toBeEmpty();
 });
 
 test.describe('exploration at 390 px', () => {

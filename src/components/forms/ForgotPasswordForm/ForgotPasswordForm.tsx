@@ -20,7 +20,7 @@ const TEXTS = {
     emailLabel: '邮箱',
     submitButton: '发送重置邮件',
     successTitle: '请查收邮件',
-    success: '如果该邮箱存在，我们已发送重置邮件，请在 15 分钟内完成重置。',
+    success: '如果该邮箱已注册，重置邮件已发送。链接在 15 分钟内有效。',
     back: '返回登录',
     errors: {
       emailRequired: '邮箱不能为空',
@@ -30,12 +30,11 @@ const TEXTS = {
     }
   },
   en: {
-    title: 'Forgot Password',
+    title: 'Forgot password',
     emailLabel: 'Email',
-    submitButton: 'Send Reset Email',
+    submitButton: 'Send reset email',
     successTitle: 'Check your email',
-    success:
-      'If the email exists, we have sent a reset email. Please finish reset within 15 minutes.',
+    success: 'If this email is registered, check for a reset link. It expires in 15 minutes.',
     back: 'Back to login',
     errors: {
       emailRequired: 'Email is required',

@@ -40,7 +40,7 @@
 ## Container
 
 - Main content area `main.c-docs-main` is constrained by `--measure`, centered, and padded with tokenized desktop/mobile spacing.
-- The PersonalWeb introduction uses one unframed lead band, three scan-friendly project sections,
-  direct implementation links, a concise limitation, and existing destination actions.
-- The three project sections and the implementation/limitation grid collapse to one column without
-  horizontal overflow on narrow screens.
+- The architecture plate uses a native, named radio group to highlight either route. The visible
+  branch lines reflow from left-to-right on wide screens to a vertical fork on phones.
+- Each station is a native disclosure with links into the matching-language document. The plate
+  and the document's heading links work before Mermaid loads.
