@@ -41,7 +41,7 @@ test.describe('home exploration without scripts', () => {
     await expect(page.locator('#education:target')).toBeVisible();
     await expect(page.locator('#education details.c-resume-fold')).toHaveCount(2);
     const lee = foldAt(page, '#education-lee');
-    const leeSummary = lee.locator('summary');
+    const leeSummary = lee.locator(':scope > summary');
     await expect(leeSummary).toContainText('李学院');
     await expect(lee).not.toHaveAttribute('open', '');
     await leeSummary.press('Enter');
@@ -59,16 +59,27 @@ test.describe('home exploration without scripts', () => {
     await page.goto('/#skills', { waitUntil: 'domcontentloaded' });
     const skills = page.locator('#skills.c-skill-index:target');
     await expect(skills).toBeVisible();
-    await skills.locator('summary').filter({ hasText: '云端交付' }).press('Space');
-    await page.getByRole('link', { name: '阅读 Michaels 经历', exact: true }).press('Enter');
+    const cloud = skills.getByRole('link', { name: /^云端交付/ });
+    await expect(cloud).toHaveAttribute('href', '#experience-michaels');
+    await cloud.press('Enter');
     const michaels = foldAt(page, '#experience-michaels');
     await expect(page.locator('#experience-michaels:target')).toBeVisible();
     await expect(michaels).toHaveAttribute('open', '');
-    await expect(michaels.getByText(/多环境部署/)).toBeVisible();
+    await expect(michaels.locator('.c-resume-fold-result')).toContainText(
+      '负责 GCP Kubernetes/Docker 多环境部署、CI/CD 自动化、发布准备、日志、配置、数据预热与数据库迁移。',
+      { useInnerText: true }
+    );
+    await expect(michaels.getByRole('link', { name: '公开履历', exact: true })).toHaveAttribute(
+      'href',
+      /^https:\/\/github\.com\/RendaZhang\/rendazhang\/blob\/[a-f\d]{40}\/.+#L\d+/
+    );
+    const more = michaels.locator('details.c-resume-more');
+    await expect(more).not.toHaveAttribute('open', '');
+    await more.locator('summary').press('Enter');
+    await expect(more).toHaveAttribute('open', '');
 
     await page.goto('/#skills', { waitUntil: 'domcontentloaded' });
-    await skills.locator('summary').filter({ hasText: 'AI 与前端' }).press('Enter');
-    await page.getByRole('link', { name: '试玩《请求旅程》', exact: true }).press('Enter');
+    await skills.getByRole('link', { name: '试玩《请求旅程》', exact: true }).press('Enter');
     await expect(page.locator('#showcase:target')).toBeInViewport();
     expect(chat).toEqual([]);
   });
@@ -95,18 +106,21 @@ test.describe('home exploration at 390 px', () => {
     );
 
     const samsung = foldAt(page, '#experience-samsung');
-    await samsung.locator('summary').tap();
+    await samsung.locator(':scope > summary').tap();
     await expect(samsung.getByText(/盖乐世社区与盖乐世空间合并期间的反馈模块/)).toBeVisible();
 
     await page.goto('/#education', { waitUntil: 'domcontentloaded' });
     const lee = foldAt(page, '#education-lee');
-    await lee.locator('summary').tap();
+    await lee.locator(':scope > summary').tap();
     await expect(lee.getByText(/越野跑.*数学辅导/)).toBeVisible();
 
     await page.goto('/#skills', { waitUntil: 'domcontentloaded' });
     const skills = page.locator('#skills.c-skill-index');
-    await skills.locator('summary').filter({ hasText: '云端交付' }).tap();
-    await page.getByRole('link', { name: '阅读 Michaels 经历', exact: true }).tap();
+    const cloud = skills.getByRole('link', { name: /^云端交付/ });
+    const cloudSize = await cloud.boundingBox();
+    expect(cloudSize?.width).toBeGreaterThanOrEqual(44);
+    expect(cloudSize?.height).toBeGreaterThanOrEqual(44);
+    await cloud.tap();
     await expect(page.locator('#experience-michaels:target')).toBeInViewport();
     await expect(foldAt(page, '#experience-michaels')).toHaveAttribute('open', '');
 
@@ -133,7 +147,34 @@ test.describe('home exploration at 390 px', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(lee).toHaveAttribute('open', '');
-    await expect(lee.getByText(/cross.country.*math tutor/i)).toBeVisible();
+    await expect(
+      lee.getByText('Ran cross-country and tutored math.', { exact: true })
+    ).toBeVisible();
+
+    await page.goto('/#education', { waitUntil: 'domcontentloaded' });
+    const minnesota = foldAt(page, '#education-minnesota');
+    const summary = minnesota.locator(':scope > summary');
+    await expect(minnesota).not.toHaveAttribute('open', '');
+    await expect(summary).toContainText('Bachelor of Science in Computer Science', {
+      useInnerText: true
+    });
+    await summary.scrollIntoViewIfNeeded();
+    const before = await summary.boundingBox();
+    expect(before?.width).toBeGreaterThanOrEqual(44);
+    expect(before?.height).toBeGreaterThanOrEqual(44);
+    await summary.tap();
+    await expect(minnesota).toHaveAttribute('open', '');
+    await expect(summary).toBeInViewport({ ratio: 1 });
+    await expect(minnesota.locator('.c-resume-fold-result')).toContainText(
+      'Graduated with a GPA of 3.79.',
+      { useInnerText: true }
+    );
+    const after = await summary.boundingBox();
+    expect(Math.abs((after?.y ?? Infinity) - (before?.y ?? -Infinity))).toBeLessThanOrEqual(2);
+    await expect(summary).toContainText('Bachelor of Science in Computer Science', {
+      useInnerText: true
+    });
+
     await page.goto('/#article-quant-trading-ai-bot', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#article-quant-trading-ai-bot:target')).toBeInViewport();
     await expect(original).toHaveAttribute('href', articleLinks.en);

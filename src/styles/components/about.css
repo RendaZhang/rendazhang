@@ -137,7 +137,6 @@
 
 /* Widths and heights mapped to spacing tokens */
 
-.c-about-section,
 .c-home-proof-path,
 .c-skills-section,
 .c-education-section,
@@ -146,7 +145,6 @@
   position: relative;
 }
 
-.c-about-section::before,
 .c-home-proof-path::before,
 .c-skills-section::before,
 .c-education-section::before,
@@ -159,24 +157,6 @@
   height: calc(var(--space-1) / 2);
   margin-bottom: var(--space-4);
   width: var(--space-10);
-}
-
-.c-about-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.c-about-section li {
-  margin-bottom: var(--space-2);
-}
-
-.c-section-summary {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-2);
-  font-weight: 600;
-  line-height: 1.6;
-  margin: 0 0 var(--space-5);
-  max-width: var(--measure);
 }
 
 .c-home-proof-path {
@@ -278,15 +258,6 @@
 /* Override global body flex alignment so main content starts below nav */
 body.c-about-page {
   justify-content: flex-start;
-}
-
-/* Resume link */
-.c-resume-link {
-  margin-top: var(--space-4);
-}
-
-.c-resume-link .c-btn-secondary {
-  margin-inline-start: var(--space-2);
 }
 
 /* Contact letter */

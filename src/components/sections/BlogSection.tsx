@@ -80,20 +80,28 @@ function ArticlePage({
         target="_blank"
         rel="noopener noreferrer"
         aria-labelledby={`${id}-title`}
-        data-illustrated={Illustration ? '' : undefined}
       >
         {Illustration && <Illustration />}
         <header className="c-blog-article-copy">
+          <div className="c-blog-article-heading">
+            <h3 className="c-blog-article-title" id={`${id}-title`}>
+              {entry.title}
+            </h3>
+            <svg
+              className="c-blog-article-arrow"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M13 5h6v6m0-6-8 8m-2-7H5v13h13v-4" />
+            </svg>
+          </div>
           <p className="c-blog-article-meta">
             <span>{entry.category}</span>
             <time dateTime={entry.date}>{entry.date}</time>
           </p>
-          <h3 className="c-blog-article-title" id={`${id}-title`}>
-            {entry.title}
-          </h3>
-          <span className="c-blog-article-arrow" aria-hidden="true">
-            ↗
-          </span>
         </header>
       </a>
     </article>

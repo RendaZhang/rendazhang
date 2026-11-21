@@ -136,6 +136,17 @@ test('certificate verification and both architecture links work from the keyboar
   const chat = await mockChat(context);
   await visit(page, certPath);
   await expect(page.locator('#aws-saa-c03 h1')).toContainText(/SAA-C03/);
+  const badge = page.locator('#aws-saa-c03 img.c-cert-badge-image');
+  await expect(badge).toBeVisible();
+  await expect
+    .poll(() =>
+      badge.evaluate((image: HTMLImageElement) => ({
+        width: image.naturalWidth,
+        height: image.naturalHeight
+      }))
+    )
+    .toEqual({ width: 500, height: 500 });
+  await expect(page.locator('#aws-saa-c03 iframe')).toHaveCount(0);
   await expect(page.locator('#aws-saa-c03 time[datetime="2025-06-16"]')).toBeVisible();
   await expect(page.locator('#aws-saa-c03 time[datetime="2028-06-16"]')).toBeVisible();
   const credly = page.locator(`a.c-verify-btn[href="${credlyVerification}"]`);
@@ -358,6 +369,15 @@ test.describe('exploration at 390 px', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true
     );
+    await expect(page.locator('#aws-saa-c03 img.c-cert-badge-image')).toBeVisible();
+    await expect(page.locator('#aws-saa-c03 h1')).toContainText(/SAA-C03/);
+    const verifyLinks = page.locator('#aws-saa-c03 .c-verify-btn');
+    await expect(verifyLinks).toHaveCount(2);
+    for (const control of await verifyLinks.all()) {
+      const size = await control.boundingBox();
+      expect(size?.width).toBeGreaterThanOrEqual(44);
+      expect(size?.height).toBeGreaterThanOrEqual(44);
+    }
     const note = await openCertificateNote(page, true);
     await note.locator('a[href="/docs/#en-reference-architecture"]').tap();
     await expectArchitectureHeading(page, 'en');

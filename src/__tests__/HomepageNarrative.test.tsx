@@ -1,29 +1,28 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import BioSection from '../components/sections/BioSection';
+import AboutContent from '../components/sections/AboutContent';
 import SkillsSection from '../components/sections/SkillsSection';
-import { IMAGE_PATHS, RESUME_EN_DOWNLOAD, RESUME_ZH_DOWNLOAD } from '../constants';
-import { ABOUT_CONTENT } from '../content';
 
 describe('homepage narrative components', () => {
-  it('keeps the corresponding resume downloads and contact link readable without scripting', () => {
-    const { container } = render(
-      <BioSection contentEn={ABOUT_CONTENT.en} contentZh={ABOUT_CONTENT.zh} />
-    );
-
-    const resumeEn = container.querySelector('#resumeLink .is-lang-en a');
-    const resumeZh = container.querySelector('#resumeLink .is-lang-zh a');
-    expect(resumeEn?.getAttribute('href')).toBe(IMAGE_PATHS.RESUME_EN);
-    expect(resumeEn?.getAttribute('download')).toBe(RESUME_EN_DOWNLOAD);
-    expect(resumeZh?.getAttribute('href')).toBe(IMAGE_PATHS.RESUME_ZH);
-    expect(resumeZh?.getAttribute('download')).toBe(RESUME_ZH_DOWNLOAD);
-    expect(container.querySelector('#contactBtn')?.getAttribute('href')).toBe('#contact');
+  it('renders roles, results and their sources in the work and education folds', () => {
+    const { container } = render(<AboutContent />);
+    expect(container.querySelector('#aboutTitle')).toBeNull();
+    expect(container.querySelectorAll('details.c-resume-fold')).toHaveLength(8);
+    const michaels = container.querySelector('#experience-michaels');
+    expect(michaels?.textContent).toContain('多环境部署');
+    const fold = michaels?.closest('.c-resume-fold');
+    expect(fold?.querySelector(':scope > summary')?.textContent).toContain('后端开发工程师');
+    expect(fold?.querySelector('.c-resume-source')?.getAttribute('href')).toMatch(/#L288-L300$/);
+    expect(fold?.querySelector('details.c-resume-more:not([open])')).not.toBeNull();
   });
 
   it('presents skill areas without percentage scores', () => {
     const { container } = render(<SkillsSection />);
 
-    expect(container.querySelectorAll('.c-skill-index details > summary')).toHaveLength(4);
+    expect(container.querySelectorAll('.c-skill-index .c-skill-tab-link')).toHaveLength(4);
+    expect(container.querySelector('a[href="#experience-michaels"]')?.textContent).toContain(
+      '云端交付'
+    );
     expect(container.querySelector('progress')).toBeNull();
     expect(container.textContent).toContain('Backend systems');
     expect(container.textContent).toContain('后端系统');

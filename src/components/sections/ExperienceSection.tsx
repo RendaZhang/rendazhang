@@ -13,13 +13,14 @@ export default function ExperienceSection({
   experienceZh
 }: ExperienceSectionProps): ReactElement {
   return (
-    <section className="c-experience-section c-resume-section" id="experience">
+    <section
+      className="c-experience-section c-resume-section"
+      id="experience"
+      aria-labelledby="experienceTitle"
+    >
       <h2 id="experienceTitle">
         <LocalizedSection zhContent={experienceZh.title} enContent={experienceEn.title} />
       </h2>
-      <p className="c-section-summary">
-        <LocalizedSection zhContent={experienceZh.summary} enContent={experienceEn.summary} />
-      </p>
       <ol className="c-resume-roll" id="experienceList">
         {experienceZh.entries.map((entry, index) => {
           const translation = experienceEn.entries[index];
@@ -31,20 +32,25 @@ export default function ExperienceSection({
               period={{ zh: entry.period, en: translation.period }}
               organization={{ zh: entry.company, en: translation.company }}
               title={{ zh: entry.title, en: translation.title }}
+              result={{ zh: entry.result, en: translation.result }}
             >
-              <p>
-                <LocalizedSection zhContent={entry.summary} enContent={translation.summary} />
-              </p>
-              <ul>
-                {entry.bullets.map((bullet, bulletIndex) => (
-                  <li key={bullet}>
-                    <LocalizedSection
-                      zhContent={bullet}
-                      enContent={translation.bullets[bulletIndex]}
-                    />
-                  </li>
-                ))}
-              </ul>
+              {'summary' in entry && 'summary' in translation && (
+                <p>
+                  <LocalizedSection zhContent={entry.summary} enContent={translation.summary} />
+                </p>
+              )}
+              {'bullets' in entry && 'bullets' in translation && (
+                <ul>
+                  {entry.bullets.map((bullet, bulletIndex) => (
+                    <li key={bullet}>
+                      <LocalizedSection
+                        zhContent={bullet}
+                        enContent={translation.bullets[bulletIndex]}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </ResumeFold>
           );
         })}

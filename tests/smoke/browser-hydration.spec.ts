@@ -1064,7 +1064,7 @@ for (const palette of ['default', 'aurora', 'forest']) {
         themeRoles[`${palette}-${mode}`]
       );
       expect(actual).toEqual(themeRoles[`${palette}-${mode}`]);
-      await expectTextContrast(page, '.c-section-summary');
+      await expectTextContrast(page, '.c-resume-fold-role');
       await expectTextContrast(page, '.c-showcase-explore');
       await page.locator('.c-theme-toggle-main').click();
       const option = page.locator(`.c-theme-option.is-palette-${palette}`);
@@ -1131,6 +1131,7 @@ for (const palette of ['default', 'aurora', 'forest']) {
       await expectTextContrast(page, '.c-ai-message .hljs-keyword');
       await expectTextContrast(page, '.c-ai-message a');
       await page.goto('/login/');
+      await expectIslandHydrated(page, 'LoginContent');
       await expectTextContrast(page, '.c-form-control', undefined, '::placeholder');
       // Isolated CSS state fixture uses the real form classes without an auth request.
       await page

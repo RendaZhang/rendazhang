@@ -29,41 +29,46 @@ export default function SkillsSection() {
           enContent={ABOUT_CONTENT.en.skills.title}
         />
       </h2>
-      <div className="c-skill-index-grid" id="skillsGroups">
-        {HOME_SKILL_INDEX.map(({ id, label, tools, connection, links }) => (
-          <details className="c-skill-tab" key={id}>
-            <summary>
+      <ul className="c-skill-index-grid" id="skillsGroups">
+        {HOME_SKILL_INDEX.map((skill) => (
+          <li className="c-skill-tab" key={skill.id}>
+            <a className="c-skill-tab-link" href={skill.href}>
               <svg
                 viewBox="0 0 48 48"
                 className="c-skill-tab-mark"
                 aria-hidden="true"
                 focusable="false"
               >
-                <path d={marks[id].ink} />
-                <path className="c-skill-tab-mark-accent" d={marks[id].accent} />
+                <path d={marks[skill.id].ink} />
+                <path className="c-skill-tab-mark-accent" d={marks[skill.id].accent} />
               </svg>
-              <span className="c-skill-tab-title">
-                <LocalizedSection zhContent={label.zh} enContent={label.en} />
+              <span className="c-skill-tab-copy">
+                <span className="c-skill-tab-title">
+                  <LocalizedSection zhContent={skill.label.zh} enContent={skill.label.en} />
+                </span>
+                <span className="c-skill-tab-destination">
+                  <LocalizedSection
+                    zhContent={skill.destination.zh}
+                    enContent={skill.destination.en}
+                  />
+                </span>
               </span>
-              <span className="c-skill-tab-pull" aria-hidden="true" />
-            </summary>
-            <div className="c-skill-tab-paper">
-              <p className="c-skill-tab-tools">{tools}</p>
-              <p className="c-skill-tab-text">
-                <LocalizedSection zhContent={connection.zh} enContent={connection.en} />
-              </p>
-              <div className="c-skill-tab-links">
-                {links.map(({ href, label: linkLabel }) => (
-                  <a href={href} key={href}>
-                    <LocalizedSection zhContent={linkLabel.zh} enContent={linkLabel.en} />
-                    <span aria-hidden="true"> →</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </details>
+              <span className="c-skill-tab-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+            {'related' in skill && (
+              <a className="c-skill-tab-related" href={skill.related.href}>
+                <LocalizedSection
+                  zhContent={skill.related.label.zh}
+                  enContent={skill.related.label.en}
+                />
+                <span aria-hidden="true"> →</span>
+              </a>
+            )}
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

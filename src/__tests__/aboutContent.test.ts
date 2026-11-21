@@ -26,7 +26,12 @@ describe('homepage personal narrative', () => {
       name: '张人大',
       line: '在深圳写后端。'
     });
-    expect(ABOUT_CONTENT.en.paragraphs).toHaveLength(ABOUT_CONTENT.zh.paragraphs.length);
+    for (const section of ['experience', 'education'] as const) {
+      const zhEntries = ABOUT_CONTENT.zh[section].entries;
+      const enEntries = ABOUT_CONTENT.en[section].entries;
+      expect(zhEntries.map(({ id }) => id)).toEqual(enEntries.map(({ id }) => id));
+      expect([...zhEntries, ...enEntries].every(({ result }) => result)).toBe(true);
+    }
     expect(HOME_SKILL_INDEX.map(({ id }) => id)).toEqual(['backend', 'ai', 'cloud', 'reliability']);
     expect(HOME_SKILL_INDEX.every(({ label }) => label.en && label.zh)).toBe(true);
   });

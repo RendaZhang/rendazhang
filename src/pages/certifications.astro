@@ -1,7 +1,9 @@
 ---
 import { BaseLayout } from '../layouts';
 import CertificationsContent from '../components/sections/CertificationsContent';
-import CredlyBadge from '../components/ui/data-display/CredlyBadge';
+// Official badge artwork linked from the AWS Certified Solutions Architect – Associate page.
+// https://aws.amazon.com/certification/certified-solutions-architect-associate/
+import awsAssociateBadge from '../assets/badge-aws-saa-high-square-500x500.png';
 import {
   SITE_BASE_URL,
   CERTIFICATIONS_PAGE_PATH,
@@ -49,7 +51,14 @@ const titleEn = CERTIFICATIONS_CONTENT.en.heading;
 >
   <div class="c-cert-page">
     <CertificationsContent>
-      <CredlyBadge client:visible />
+      <img
+        class="c-cert-badge-image"
+        src={awsAssociateBadge.src}
+        width={awsAssociateBadge.width}
+        height={awsAssociateBadge.height}
+        fetchpriority="high"
+        alt=""
+      />
     </CertificationsContent>
   </div>
 </BaseLayout>

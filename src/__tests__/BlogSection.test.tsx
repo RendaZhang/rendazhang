@@ -18,8 +18,9 @@ describe('BlogSection', () => {
       const link = within(article).getByRole('link', { name: entry.title });
 
       expect(article.classList.contains('is-lang-' + language)).toBe(true);
+      expect(within(article).getAllByRole('link')).toHaveLength(1);
       expect(link.getAttribute('href')).toBe(url);
-      expect(link.querySelector('svg[aria-hidden="true"]')).not.toBeNull();
+      expect(link.querySelector('.c-blog-art[aria-hidden="true"]')).not.toBeNull();
       expect(within(article).getByText(entry.category)).toBeDefined();
       expect(article.querySelector('time')?.dateTime).toBe(entry.date);
     }
@@ -43,6 +44,6 @@ describe('BlogSection', () => {
     const extraArticle = container.querySelector<HTMLElement>('#article-fixture-extra')!;
     const link = within(extraArticle).getByRole('link', { name: extra.title });
     expect(link.getAttribute('href')).toBe(extra.url);
-    expect(link.querySelector('svg')).toBeNull();
+    expect(link.querySelector('.c-blog-art')).toBeNull();
   });
 });

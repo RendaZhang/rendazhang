@@ -1,5 +1,3 @@
-@import './skeleton.css';
-
 .c-cert-page {
   --cert-paper: color-mix(in srgb, var(--color-surface) 82%, #f3dfbd);
   --cert-ink: var(--color-text);
@@ -22,55 +20,51 @@ html[data-theme='dark'] .c-cert-page {
   display: grid;
   gap: clamp(1rem, 3vw, 2.75rem);
   margin-inline: auto;
-  max-inline-size: 71rem;
+  max-inline-size: 65rem;
 }
 
 .c-cert-card {
   background-color: var(--cert-paper);
   border: 1px solid var(--cert-rule);
-  border-block-start: 3px solid var(--cert-accent);
+  border-block-start: var(--space-1) solid var(--cert-accent);
   min-inline-size: 0;
-  padding: clamp(1rem, 4vw, 3.5rem);
-  position: relative;
+  padding: clamp(1rem, 4vw, 3rem);
   scroll-margin-block-start: 5rem;
 }
 
-.c-cert-card::before {
-  border: 1px solid var(--cert-rule);
-  content: '';
-  inset: var(--space-2);
-  pointer-events: none;
-  position: absolute;
-}
-
 .c-cert-hero {
-  border-block-end: 1px solid var(--cert-rule);
-  margin-block-end: var(--space-5);
-  padding-block-end: var(--space-4);
+  margin-block-end: var(--space-4);
 }
 
 .c-cert-hero h1 {
   font-family: var(--cert-serif);
-  font-size: clamp(1.95rem, 4.4vw, 3.75rem);
+  font-size: clamp(1.65rem, 3.1vw, 2.75rem);
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.13;
   margin: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 
 .c-cert-overview {
   align-items: center;
   display: grid;
-  gap: clamp(0.75rem, 3vw, 2.5rem);
-  grid-template-columns: minmax(0, 1fr) minmax(0, 150px);
+  gap: clamp(var(--space-4), 4vw, var(--space-8));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .c-cert-meta {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   margin: 0;
+}
+
+.c-cert-meta > div {
+  align-items: baseline;
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: minmax(4.25rem, 22%) minmax(0, 1fr);
 }
 
 .c-cert-meta dt {
@@ -80,8 +74,8 @@ html[data-theme='dark'] .c-cert-page {
 }
 
 .c-cert-meta dd {
-  font-family: var(--cert-serif);
-  font-size: var(--font-size-2);
+  font-size: var(--font-size-1);
+  font-weight: 650;
   margin: 0;
   overflow-wrap: anywhere;
 }
@@ -109,16 +103,11 @@ html[data-theme='dark'] .c-cert-page {
   text-underline-offset: 0.24em;
 }
 
-.c-cert-coverage-body a {
-  display: flex;
-  inline-size: fit-content;
-}
-
 .c-cert-page a:hover {
   color: var(--cert-accent);
 }
 
-.c-cert-page :is(a, summary, button):focus-visible {
+.c-cert-page :is(a, summary):focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
 }
@@ -133,64 +122,25 @@ html[data-theme='dark'] .c-cert-page {
 }
 
 .c-cert-verification {
-  inline-size: 150px;
+  aspect-ratio: 1;
+  background-color: var(--color-base-white);
+  border: var(--border-width-hairline) solid var(--cert-rule);
+  inline-size: min(100%, clamp(10rem, 55vw, 21rem));
   justify-self: center;
-  max-inline-size: 100%;
-}
-
-.c-credly-container {
-  background-color: var(--color-surface);
-  min-block-size: var(--size-credly-badge);
   overflow: hidden;
   position: relative;
 }
 
-.c-credly-container iframe {
-  border: 0;
+.c-cert-badge-image {
+  block-size: auto;
   display: block;
-  max-inline-size: 100%;
-  opacity: 0;
-  transition: opacity var(--duration-normal) var(--easing-standard);
-}
-
-.c-credly-container.is-loaded iframe {
-  opacity: 1;
-}
-
-.c-credly-container:focus-within {
-  box-shadow: var(--focus-ring);
-}
-
-.c-credly-skeleton,
-.c-credly-error {
-  align-items: center;
-  background-color: var(--color-surface);
-  display: flex;
-  inset: 0;
-  justify-content: center;
+  inline-size: 150%;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  max-inline-size: none;
   position: absolute;
-}
-
-.c-credly-container:has(iframe:not([src])) .c-credly-skeleton::before {
-  animation: none;
-}
-
-.c-credly-error {
-  flex-direction: column;
-  font-size: var(--font-size-1);
-  gap: var(--space-2);
-  padding: var(--space-2);
-  text-align: center;
-}
-
-.c-credly-error button {
-  background-color: var(--color-palette-surface);
-  border: 1px solid var(--cert-rule);
-  color: var(--cert-ink);
-  cursor: pointer;
-  min-block-size: 44px;
-  min-inline-size: 44px;
-  padding: var(--space-1) var(--space-3);
+  /* Let the badge fill its mount by cropping the original image's white margins. */
+  transform: translate(-46%, -49%);
 }
 
 .c-cert-notes {
@@ -255,12 +205,9 @@ html[data-theme='dark'] .c-cert-page {
   padding: 0 var(--space-3) var(--space-3);
 }
 
-.c-cert-coverage-body p {
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-2);
-}
-
 .c-cert-coverage-body dl {
+  display: grid;
+  gap: var(--space-3);
   margin: 0;
 }
 
@@ -278,42 +225,21 @@ html[data-theme='dark'] .c-cert-page {
 }
 
 .c-cert-related {
-  margin-block-start: var(--space-5);
-}
-
-.c-cert-related h2 {
-  border-block-end: 1px solid var(--cert-rule);
-  font-family: var(--cert-serif);
-  font-size: var(--font-size-2);
-  font-weight: 600;
-  margin: 0;
-  padding-block-end: var(--space-1);
-}
-
-.c-cert-related ul {
+  border-block-start: 1px solid var(--cert-rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
   list-style: none;
-  margin: 0;
+  margin: var(--space-3) 0 0;
   padding: 0;
 }
 
-@media (min-width: 55rem) {
-  .c-cert-container {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  }
-}
-
-@media (max-width: 23rem) {
+@media (min-width: 49rem) {
   .c-cert-overview {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
   }
 
-  .c-cert-verification {
-    justify-self: start;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .c-credly-container iframe {
-    transition: none;
+  .c-cert-coverage-body dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

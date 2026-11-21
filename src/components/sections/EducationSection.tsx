@@ -13,13 +13,14 @@ export default function EducationSection({
   educationZh
 }: EducationSectionProps): ReactElement {
   return (
-    <section className="c-education-section c-resume-section" id="education">
+    <section
+      className="c-education-section c-resume-section"
+      id="education"
+      aria-labelledby="educationTitle"
+    >
       <h2 id="educationTitle">
         <LocalizedSection zhContent={educationZh.title} enContent={educationEn.title} />
       </h2>
-      <p className="c-section-summary">
-        <LocalizedSection zhContent={educationZh.summary} enContent={educationEn.summary} />
-      </p>
       <ol className="c-resume-roll" id="educationList">
         {educationZh.entries.map((entry, index) => {
           const translation = educationEn.entries[index];
@@ -31,6 +32,7 @@ export default function EducationSection({
               period={{ zh: entry.period, en: translation.period }}
               organization={{ zh: entry.school, en: translation.school }}
               title={{ zh: entry.degree, en: translation.degree }}
+              result={{ zh: entry.result, en: translation.result }}
             >
               <p>
                 <LocalizedSection zhContent={entry.details} enContent={translation.details} />

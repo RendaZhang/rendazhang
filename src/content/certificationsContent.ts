@@ -44,10 +44,8 @@ export const CERTIFICATIONS_CONTENT = {
   en: {
     heading: 'AWS Certification · Renda Zhang',
     coverageHeading: 'What this certification covers',
-    coverageBasis: 'Three design questions from the AWS SAA-C03 exam guide.',
     guideLink: 'AWS exam guide',
-    relatedHeading: 'Explore related work',
-    architecture: 'See how this site is built',
+    architecture: 'Reference Architecture',
     chat: 'Ask about this certificate',
     certificate: {
       title: AWS_SAA_CREDENTIAL_SCHEMA.name,
@@ -64,10 +62,8 @@ export const CERTIFICATIONS_CONTENT = {
   zh: {
     heading: 'AWS 认证 · 张人大',
     coverageHeading: '这项认证覆盖什么',
-    coverageBasis: 'AWS SAA-C03 考试指南中的三项设计取舍。',
     guideLink: 'AWS 考试指南',
-    relatedHeading: '接着探索',
-    architecture: '看本站架构',
+    architecture: '参考架构',
     chat: '问这张证书',
     certificate: {
       title: 'AWS 认证解决方案架构师 - 助理级 (SAA-C03)',

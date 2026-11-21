@@ -36,6 +36,20 @@ const marks = {
   }
 } as const;
 
+// The previous public profile is the source for each selected result.
+const publishedProfile =
+  'https://github.com/RendaZhang/rendazhang/blob/27a4e2c99f3e0ee34c2f4fd3dd175473952f9def/src/content/aboutContent.ts';
+const profileLines = {
+  oneconnect: { en: '82-L92', zh: '261-L271' },
+  fanxin: { en: '95-L106', zh: '274-L285' },
+  michaels: { en: '109-L122', zh: '288-L300' },
+  'education-platform': { en: '125-L133', zh: '303-L310' },
+  'ecommerce-platform': { en: '136-L144', zh: '313-L321' },
+  samsung: { en: '147-L157', zh: '324-L335' },
+  minnesota: { en: '180-L185', zh: '357-L362' },
+  lee: { en: '188-L193', zh: '365-L369' }
+} satisfies Record<keyof typeof marks, LocalizedText>;
+
 type LocalizedText = { zh: string; en: string };
 
 interface ResumeFoldProps {
@@ -44,6 +58,7 @@ interface ResumeFoldProps {
   period: LocalizedText;
   organization: LocalizedText;
   title: LocalizedText;
+  result: LocalizedText;
   children: ReactNode;
 }
 
@@ -53,9 +68,11 @@ export default function ResumeFold({
   period,
   organization,
   title,
+  result,
   children
 }: ResumeFoldProps): ReactElement {
   const drawing = marks[mark];
+  const source = profileLines[mark];
   return (
     <li className="c-resume-leaf">
       <details className="c-resume-fold">
@@ -63,10 +80,12 @@ export default function ResumeFold({
           <span className="c-resume-fold-period">
             <LocalizedSection zhContent={period.zh} enContent={period.en} />
           </span>
-          <span className="c-resume-fold-organization">
-            <span className="c-resume-fold-sign" aria-hidden="true" />
-            <span>
+          <span className="c-resume-fold-heading">
+            <span className="c-resume-fold-organization">
               <LocalizedSection zhContent={organization.zh} enContent={organization.en} />
+            </span>
+            <span className="c-resume-fold-role">
+              <LocalizedSection zhContent={title.zh} enContent={title.en} />
             </span>
           </span>
           <svg
@@ -78,12 +97,30 @@ export default function ResumeFold({
             <path d={drawing.ink} />
             <path className="c-resume-fold-accent" d={drawing.accent} />
           </svg>
+          <span className="c-resume-fold-sign" aria-hidden="true" />
         </summary>
         <div className="c-resume-fold-body">
-          <h3 className="c-resume-fold-detail-title" id={id} tabIndex={-1}>
-            <LocalizedSection zhContent={title.zh} enContent={title.en} />
-          </h3>
-          {children}
+          <p className="c-resume-fold-result" id={id} tabIndex={-1}>
+            <LocalizedSection zhContent={result.zh} enContent={result.en} />
+          </p>
+          <LocalizedSection
+            zhContent={
+              <a className="c-resume-source" href={`${publishedProfile}#L${source.zh}`}>
+                公开履历 <span aria-hidden="true">↗</span>
+              </a>
+            }
+            enContent={
+              <a className="c-resume-source" href={`${publishedProfile}#L${source.en}`}>
+                Published résumé <span aria-hidden="true">↗</span>
+              </a>
+            }
+          />
+          <details className="c-resume-more">
+            <summary>
+              <LocalizedSection zhContent="更多细节" enContent="More details" />
+            </summary>
+            <div className="c-resume-more-body">{children}</div>
+          </details>
         </div>
       </details>
     </li>

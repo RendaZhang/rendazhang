@@ -81,17 +81,21 @@ describe('certification evidence', () => {
     const coverage = container.querySelector('.c-cert-coverage');
     const links = Array.from(container.querySelectorAll('.c-verify-btn'));
 
-    expect(overview?.children[0]?.querySelector('.c-cert-meta')).toBeTruthy();
-    expect(overview?.children[1]?.classList.contains('c-cert-verification')).toBe(true);
-    expect(overview?.children[1]?.textContent).toBe('Credly badge');
+    expect(overview?.children[0]?.classList.contains('c-cert-verification')).toBe(true);
+    expect(overview?.children[0]?.textContent).toBe('Credly badge');
+    expect(overview?.children[1]?.querySelector('.c-cert-meta')).toBeTruthy();
+    expect(overview?.children[1]?.querySelectorAll('.c-verify-btn')).toHaveLength(2);
     expect(coverage?.hasAttribute('open')).toBe(false);
-    expect(coverage?.querySelector('a[href="/docs/#en-reference-architecture"]')).toBeTruthy();
-    expect(coverage?.querySelector('a[href="/docs/#zh-参考架构"]')).toBeTruthy();
+    expect(coverage?.querySelector('a[href="/docs/#en-reference-architecture"]')?.textContent).toBe(
+      'Reference Architecture'
+    );
+    expect(coverage?.querySelector('a[href="/docs/#zh-参考架构"]')?.textContent).toBe('参考架构');
     expect(
       coverage?.querySelector('a[href="/deepseek_chat/?preset=certification_context"]')
     ).toBeTruthy();
     expect(coverage?.textContent).toContain('What this certification covers');
     expect(coverage?.textContent).toContain('这项认证覆盖什么');
+    expect(coverage?.textContent).not.toMatch(/Explore related work|接着探索/);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       VERIFY_URLS.CREDLY,
       VERIFY_URLS.AWS

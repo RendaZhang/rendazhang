@@ -17,13 +17,14 @@ export default function CertificationsContent({ children }: { children: ReactNod
   return (
     <div className="c-cert-container">
       <article className="c-cert-card" id="aws-saa-c03" aria-labelledby="cert-title">
-        <header className="c-cert-hero">
-          <h1 id="cert-title">
-            <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
-          </h1>
-        </header>
         <div className="c-cert-overview">
+          <div className="c-cert-verification">{children}</div>
           <div className="c-cert-record">
+            <header className="c-cert-hero">
+              <h1 id="cert-title">
+                <LocalizedSection zhContent={certZh.title} enContent={certEn.title} />
+              </h1>
+            </header>
             <dl className="c-cert-meta">
               <div>
                 <dt>
@@ -78,7 +79,6 @@ export default function CertificationsContent({ children }: { children: ReactNod
               </a>
             </p>
           </div>
-          <div className="c-cert-verification">{children}</div>
         </div>
       </article>
 
@@ -93,9 +93,6 @@ export default function CertificationsContent({ children }: { children: ReactNod
             </svg>
           </summary>
           <div className="c-cert-coverage-body">
-            <p>
-              <LocalizedSection zhContent={zh.coverageBasis} enContent={en.coverageBasis} />
-            </p>
             <dl>
               {CERTIFICATION_TOPICS.map(({ title, description, source }) => (
                 <div key={title.en}>
@@ -114,26 +111,21 @@ export default function CertificationsContent({ children }: { children: ReactNod
                 </div>
               ))}
             </dl>
-            <section className="c-cert-related" aria-labelledby="cert-related-title">
-              <h2 id="cert-related-title">
-                <LocalizedSection zhContent={zh.relatedHeading} enContent={en.relatedHeading} />
-              </h2>
-              <ul>
-                <li>
-                  <LocalizedSection
-                    zhContent={<a href={`${DOCS_PAGE_PATH}/#zh-参考架构`}>{zh.architecture}</a>}
-                    enContent={
-                      <a href={`${DOCS_PAGE_PATH}/#en-reference-architecture`}>{en.architecture}</a>
-                    }
-                  />
-                </li>
-                <li>
-                  <a href={chatHref}>
-                    <LocalizedSection zhContent={zh.chat} enContent={en.chat} />
-                  </a>
-                </li>
-              </ul>
-            </section>
+            <ul className="c-cert-related" id="cert-related-title">
+              <li>
+                <LocalizedSection
+                  zhContent={<a href={`${DOCS_PAGE_PATH}/#zh-参考架构`}>{zh.architecture}</a>}
+                  enContent={
+                    <a href={`${DOCS_PAGE_PATH}/#en-reference-architecture`}>{en.architecture}</a>
+                  }
+                />
+              </li>
+              <li>
+                <a href={chatHref}>
+                  <LocalizedSection zhContent={zh.chat} enContent={en.chat} />
+                </a>
+              </li>
+            </ul>
           </div>
         </details>
       </aside>

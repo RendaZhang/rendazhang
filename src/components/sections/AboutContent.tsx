@@ -1,5 +1,4 @@
 import { ABOUT_CONTENT } from '../../content';
-import BioSection from './BioSection';
 import EducationSection from './EducationSection';
 import BlogSection from './BlogSection';
 import SkillsSection from './SkillsSection';
@@ -11,7 +10,6 @@ export default function AboutContent(): ReactElement {
 
   return (
     <div className="c-home-notes">
-      <BioSection contentEn={en} contentZh={zh} />
       <ExperienceSection experienceEn={en.experience} experienceZh={zh.experience} />
       <EducationSection educationEn={en.education} educationZh={zh.education} />
       <SkillsSection />
