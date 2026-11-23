@@ -4,7 +4,7 @@ import AboutContent from '../components/sections/AboutContent';
 import SkillsSection from '../components/sections/SkillsSection';
 
 describe('homepage narrative components', () => {
-  it('renders roles, results and their sources in the work and education folds', () => {
+  it('renders roles, results and inline details in the work and education folds', () => {
     const { container } = render(<AboutContent />);
     expect(container.querySelector('#aboutTitle')).toBeNull();
     expect(container.querySelectorAll('details.c-resume-fold')).toHaveLength(8);
@@ -12,8 +12,8 @@ describe('homepage narrative components', () => {
     expect(michaels?.textContent).toContain('多环境部署');
     const fold = michaels?.closest('.c-resume-fold');
     expect(fold?.querySelector(':scope > summary')?.textContent).toContain('后端开发工程师');
-    expect(fold?.querySelector('.c-resume-source')?.getAttribute('href')).toMatch(/#L288-L300$/);
     expect(fold?.querySelector('details.c-resume-more:not([open])')).not.toBeNull();
+    expect(fold?.querySelector('.c-resume-more-body')?.textContent).toContain('吞吐提升约 30%');
   });
 
   it('presents skill areas without percentage scores', () => {

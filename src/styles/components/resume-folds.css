@@ -137,32 +137,23 @@
   scroll-margin-block-start: 13rem;
 }
 
-.c-resume-source,
+.c-resume-more {
+  border-block-start: 1px solid var(--home-line);
+  margin-block-start: var(--space-2);
+  max-inline-size: 64ch;
+}
+
 .c-resume-more > summary {
   align-items: center;
-  color: var(--home-accent);
+  color: var(--home-ink);
   cursor: pointer;
   display: inline-flex;
   font-size: var(--font-size-0);
   font-weight: 650;
   gap: var(--space-1);
+  list-style: none;
   min-block-size: 44px;
   min-inline-size: 44px;
-  text-underline-offset: 0.2em;
-}
-
-.c-resume-source {
-  text-decoration: underline;
-}
-
-.c-resume-more {
-  border-block-start: 1px solid var(--home-line);
-  max-inline-size: 64ch;
-}
-
-.c-resume-more > summary {
-  color: var(--home-ink);
-  list-style: none;
 }
 
 .c-resume-more > summary::before {
@@ -201,7 +192,7 @@
   }
 }
 
-.c-resume-fold :is(summary, a):focus-visible,
+.c-resume-fold summary:focus-visible,
 .c-resume-fold-result:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: var(--resume-focus-offset, -3px);

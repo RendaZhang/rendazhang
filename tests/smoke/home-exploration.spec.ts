@@ -69,14 +69,12 @@ test.describe('home exploration without scripts', () => {
       '负责 GCP Kubernetes/Docker 多环境部署、CI/CD 自动化、发布准备、日志、配置、数据预热与数据库迁移。',
       { useInnerText: true }
     );
-    await expect(michaels.getByRole('link', { name: '公开履历', exact: true })).toHaveAttribute(
-      'href',
-      /^https:\/\/github\.com\/RendaZhang\/rendazhang\/blob\/[a-f\d]{40}\/.+#L\d+/
-    );
     const more = michaels.locator('details.c-resume-more');
     await expect(more).not.toHaveAttribute('open', '');
-    await more.locator('summary').press('Enter');
+    await more.locator('summary').filter({ hasText: '更多细节' }).press('Enter');
     await expect(more).toHaveAttribute('open', '');
+    await expect(more.getByText(/使用 JMeter 压测 API.*吞吐提升约 30%/)).toBeVisible();
+    await expect(page).toHaveURL(/\/#experience-michaels$/);
 
     await page.goto('/#skills', { waitUntil: 'domcontentloaded' });
     await skills.getByRole('link', { name: '试玩《请求旅程》', exact: true }).press('Enter');
@@ -174,6 +172,11 @@ test.describe('home exploration at 390 px', () => {
     await expect(summary).toContainText('Bachelor of Science in Computer Science', {
       useInnerText: true
     });
+
+    const more = minnesota.locator('details.c-resume-more');
+    await more.locator('summary').filter({ hasText: 'More details' }).tap();
+    await expect(more.getByText(/Core courses:.*Operating Systems/)).toBeVisible();
+    await expect(page).toHaveURL(/\/#education$/);
 
     await page.goto('/#article-quant-trading-ai-bot', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#article-quant-trading-ai-bot:target')).toBeInViewport();

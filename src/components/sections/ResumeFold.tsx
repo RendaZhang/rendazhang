@@ -36,20 +36,6 @@ const marks = {
   }
 } as const;
 
-// The previous public profile is the source for each selected result.
-const publishedProfile =
-  'https://github.com/RendaZhang/rendazhang/blob/27a4e2c99f3e0ee34c2f4fd3dd175473952f9def/src/content/aboutContent.ts';
-const profileLines = {
-  oneconnect: { en: '82-L92', zh: '261-L271' },
-  fanxin: { en: '95-L106', zh: '274-L285' },
-  michaels: { en: '109-L122', zh: '288-L300' },
-  'education-platform': { en: '125-L133', zh: '303-L310' },
-  'ecommerce-platform': { en: '136-L144', zh: '313-L321' },
-  samsung: { en: '147-L157', zh: '324-L335' },
-  minnesota: { en: '180-L185', zh: '357-L362' },
-  lee: { en: '188-L193', zh: '365-L369' }
-} satisfies Record<keyof typeof marks, LocalizedText>;
-
 type LocalizedText = { zh: string; en: string };
 
 interface ResumeFoldProps {
@@ -72,7 +58,6 @@ export default function ResumeFold({
   children
 }: ResumeFoldProps): ReactElement {
   const drawing = marks[mark];
-  const source = profileLines[mark];
   return (
     <li className="c-resume-leaf">
       <details className="c-resume-fold">
@@ -103,18 +88,6 @@ export default function ResumeFold({
           <p className="c-resume-fold-result" id={id} tabIndex={-1}>
             <LocalizedSection zhContent={result.zh} enContent={result.en} />
           </p>
-          <LocalizedSection
-            zhContent={
-              <a className="c-resume-source" href={`${publishedProfile}#L${source.zh}`}>
-                公开履历 <span aria-hidden="true">↗</span>
-              </a>
-            }
-            enContent={
-              <a className="c-resume-source" href={`${publishedProfile}#L${source.en}`}>
-                Published résumé <span aria-hidden="true">↗</span>
-              </a>
-            }
-          />
           <details className="c-resume-more">
             <summary>
               <LocalizedSection zhContent="更多细节" enContent="More details" />
