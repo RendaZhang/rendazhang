@@ -295,10 +295,6 @@
   display: contents;
 }
 
-.c-about-page :is(.c-nav-primary-link, .c-side-menu-link)[data-nav-route='docs'] {
-  display: none;
-}
-
 /* Match the drawer's desktop breakpoint when moving destinations into the header. */
 @media (min-width: 64.0625rem) {
   .c-about-page .c-nav-container > nav {

@@ -138,13 +138,12 @@ test.describe('at 390px with touch', () => {
   test('palette, localized state and chat reopening stay usable', async ({ page }) => {
     const writes = await guardChatRequests(page);
     await page.goto('/');
-    const language = page.getByRole('button', { name: '切换语言' });
+    const language = page.getByRole('button', { name: 'Switch to English' });
     await expect(language.locator('xpath=ancestor::astro-island[1]')).not.toHaveAttribute(
       'ssr',
       ''
     );
     await language.tap();
-    await page.getByRole('button', { name: 'English' }).tap();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
     const perspective = page.locator('#showcase [data-site-perspective]');

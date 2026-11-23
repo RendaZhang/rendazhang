@@ -201,8 +201,7 @@ test.describe('request journey on a touch screen', () => {
 
     const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
     await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
-    await page.locator('.c-language-selector-main').tap();
-    await page.getByRole('button', { name: 'English', exact: true }).tap();
+    await page.getByRole('button', { name: 'Switch to English', exact: true }).tap();
     await expect(
       showcase.getByRole('heading', { name: 'Request Journey', exact: true })
     ).toBeAttached();

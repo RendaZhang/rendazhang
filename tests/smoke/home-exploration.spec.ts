@@ -140,8 +140,7 @@ test.describe('home exploration at 390 px', () => {
 
     const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
     await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
-    await page.getByRole('button', { name: '切换语言' }).tap();
-    await page.getByRole('button', { name: 'English', exact: true }).tap();
+    await page.getByRole('button', { name: 'Switch to English', exact: true }).tap();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(lee).toHaveAttribute('open', '');
@@ -232,8 +231,9 @@ for (const {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
     await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
-    await page.getByRole('button', { name: '切换语言' }).click();
-    await page.getByRole('button', { name: preference, exact: true }).click();
+    if (preference === 'English') {
+      await page.getByRole('button', { name: 'Switch to English', exact: true }).click();
+    }
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     const savedPreference = await page.evaluate(() => localStorage.getItem('preferred_lang'));
     expect(savedPreference).not.toBeNull();

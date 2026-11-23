@@ -33,14 +33,6 @@ async function mockChat(context: BrowserContext) {
   return { messages, unexpected };
 }
 
-async function useLanguage(page: Page, option: '中文' | 'English') {
-  const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
-  await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
-  await page.locator('.c-language-selector-main').click();
-  await page.getByRole('button', { name: option, exact: true }).click();
-  await expect(page.locator('html')).toHaveAttribute('lang', option === '中文' ? /^zh/ : /^en/);
-}
-
 async function visit(page: Page, path: string) {
   await page.goto(path, { waitUntil: 'domcontentloaded' });
 }
@@ -185,7 +177,10 @@ test('certificate verification and both architecture links work from the keyboar
   await nginx.locator('summary').press('Enter');
   await nginx.locator('a[href="/certifications/"]').press('Enter');
   await expect(page).toHaveURL(/\/certifications\/$/);
-  await useLanguage(page, 'English');
+  const navbar = page.locator('astro-island[component-export="NavBarWrapper"]');
+  await expect(navbar).not.toHaveAttribute('ssr', '', { timeout: 40_000 });
+  await page.getByRole('button', { name: 'Switch to English', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   const english = (await openCertificateNote(page)).locator('a:visible[href*="#en-"]');
   const enLink = await english.getAttribute('href');
   expect(enLink).toBe('/docs/#en-reference-architecture');

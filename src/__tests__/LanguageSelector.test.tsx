@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import LanguageSelector from '../components/ui/inputs/LanguageSelector';
 
@@ -13,59 +13,21 @@ vi.mock('../components/providers', () => ({
 }));
 
 describe('LanguageSelector', () => {
-  beforeEach(() => {
-    providerState.lang = 'en';
+  it.each([
+    { current: 'zh-CN', target: 'en', label: 'EN', name: 'Switch to English' },
+    { current: 'en', target: 'zh-CN', label: '中文', name: '切换到中文' }
+  ])('switches from $current to $target with one button', ({ current, target, label, name }) => {
+    providerState.lang = current;
     providerState.updateLang.mockReset();
-  });
-
-  it('uses a labelled two-button selection group without partial listbox semantics', () => {
     render(<LanguageSelector />);
-    fireEvent.click(screen.getByRole('button', { name: 'Change language' }));
 
-    expect(screen.queryByRole('listbox')).toBeNull();
-    expect(screen.queryAllByRole('option')).toHaveLength(0);
-    expect(screen.getByRole('group', { name: 'Language' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'English' }).getAttribute('aria-pressed')).toBe(
-      'true'
-    );
-    expect(screen.getByRole('button', { name: '中文' }).getAttribute('aria-pressed')).toBe('false');
-  });
+    const button = screen.getByRole('button', { name });
+    expect(screen.getAllByRole('button')).toHaveLength(1);
+    expect(button.textContent).toBe(label);
+    expect(button.getAttribute('lang')).toBe(target);
+    expect(button.hasAttribute('aria-expanded')).toBe(false);
 
-  it('closes on Escape and restores focus to the disclosure trigger', () => {
-    render(<LanguageSelector />);
-    const trigger = screen.getByRole('button', { name: 'Change language' });
-    fireEvent.click(trigger);
-
-    fireEvent.keyDown(screen.getByRole('button', { name: 'English' }), { key: 'Escape' });
-
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(screen.queryByRole('group', { name: 'Language' })).toBeNull();
-    expect(document.activeElement).toBe(trigger);
-  });
-
-  it('updates through the provider, closes, and restores focus after selection', () => {
-    render(<LanguageSelector />);
-    const trigger = screen.getByRole('button', { name: 'Change language' });
-    fireEvent.click(trigger);
-    fireEvent.click(screen.getByRole('button', { name: '中文' }));
-
-    expect(providerState.updateLang).toHaveBeenCalledWith('zh-CN');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(document.activeElement).toBe(trigger);
-  });
-
-  it('closes when focus leaves the disclosure', () => {
-    render(<LanguageSelector />);
-    const outside = document.createElement('button');
-    document.body.append(outside);
-    const trigger = screen.getByRole('button', { name: 'Change language' });
-    fireEvent.click(trigger);
-
-    const option = screen.getByRole('button', { name: 'English' });
-    option.focus();
-    fireEvent.blur(option, { relatedTarget: outside });
-
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    outside.remove();
+    fireEvent.click(button);
+    expect(providerState.updateLang).toHaveBeenCalledExactlyOnceWith(target);
   });
 });

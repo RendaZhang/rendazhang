@@ -37,7 +37,7 @@ test('visible contact labels preserve all four values across languages at 390px'
   });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const form = page.locator('.contact-form');
-  const language = page.getByRole('button', { name: '切换语言' });
+  const language = page.getByRole('button', { name: 'Switch to English' });
   await form.scrollIntoViewIfNeeded();
   for (const locator of [form, language]) {
     const island = locator.locator('xpath=ancestor::astro-island[1]');
@@ -61,7 +61,6 @@ test('visible contact labels preserve all four values across languages at 390px'
   }
 
   await language.click();
-  await page.getByRole('button', { name: 'English', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
   for (const [, en, value] of fields) {

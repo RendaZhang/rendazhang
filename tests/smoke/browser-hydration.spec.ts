@@ -260,9 +260,9 @@ test('homepage work links route visitors to public destinations', async ({ page 
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(desktop.locator('a[data-nav-route="certs"]')).toBeVisible();
   await expect(desktop.locator('a[data-nav-route="chat"]')).toBeVisible();
-  await expect(desktop.locator('a[data-nav-route="docs"]')).toBeHidden();
+  await expect(desktop.locator('a[data-nav-route="docs"]')).toBeVisible();
   await expect(caption.locator('.c-home-mobile-destinations')).toBeHidden();
-  await expect.poll(paths).toEqual(destinations);
+  await expect.poll(paths).toEqual([...destinations, '/docs']);
 
   await settlePage(page);
   expect(authProbeCount(), 'logged-out homepage should not probe auth/me').toBe(0);
@@ -277,11 +277,11 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.c-nav-primary-links a')).toHaveCount(4);
-  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(2);
+  await expect(page.locator('.c-nav-primary-links a:visible')).toHaveCount(3);
   await expect(page.locator('.c-nav-primary-links a[href="/"]')).toHaveCount(0);
   await expect(page.locator('.c-nav-primary-links a[href="/deepseek_chat"]')).toBeVisible();
   await expect(page.locator('.c-nav-primary-links a[href="/certifications"]')).toBeVisible();
-  await expect(page.locator('.c-nav-primary-links a[href="/docs"]')).toBeHidden();
+  await expect(page.locator('.c-nav-primary-links a[href="/docs/"]')).toBeVisible();
   await expect(page.locator('.c-hamburger-btn')).toBeHidden();
   await expect(page.locator('.c-nav-logo[data-nav-route="home"]')).toHaveAttribute(
     'aria-current',
@@ -296,13 +296,18 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(desktopThemeButton).toHaveAttribute('aria-expanded', 'false');
   await expect(desktopThemeButton).toBeFocused();
 
-  const desktopLanguageButton = page.getByRole('button', { name: '切换语言' });
-  await desktopLanguageButton.click();
-  await expect(page.getByRole('group', { name: '语言' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '中文' })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('listbox')).toHaveCount(0);
-  await page.keyboard.press('Escape');
-  await expect(desktopLanguageButton).toHaveAttribute('aria-expanded', 'false');
+  const desktopLanguageButton = page.locator('.c-language-selector-main');
+  const homepageUrl = page.url();
+  const languageBox = await desktopLanguageButton.boundingBox();
+  await desktopLanguageButton.press('Enter');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(desktopLanguageButton).toHaveAccessibleName('切换到中文');
+  await expect(desktopLanguageButton).toBeFocused();
+  await expect.poll(() => desktopLanguageButton.boundingBox()).toEqual(languageBox);
+  await expect(page).toHaveURL(homepageUrl);
+  await desktopLanguageButton.press('Space');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+  await expect(desktopLanguageButton).toHaveAccessibleName('Switch to English');
   await expect(desktopLanguageButton).toBeFocused();
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -340,7 +345,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
   const drawerLinks = drawer.locator('.c-side-menu-link:visible');
-  await expect(drawer.locator('a[data-nav-route="docs"]')).toBeHidden();
+  await expect(drawer.locator('a[data-nav-route="docs"]')).toBeVisible();
   await page.keyboard.press('Shift+Tab');
   await expect(drawerLinks.last()).toBeFocused();
   await page.keyboard.press('Tab');
@@ -456,7 +461,7 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(drawer).toBeVisible();
   await page.setViewportSize({ width: 1025, height: 900 });
   await expect(drawer).toHaveCount(0);
-  await expectDesktopNavigationFits(page, 2);
+  await expectDesktopNavigationFits(page, 3);
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
   await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
   await page.keyboard.press('Tab');
@@ -466,16 +471,10 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await expect(hamburger).toBeVisible();
   await expect(page.locator('.c-nav-primary-links')).toBeHidden();
 
-  const mobileLanguageButton = page.getByRole('button', { name: '切换语言' });
+  const mobileLanguageButton = page.getByRole('button', { name: 'Switch to English' });
   await mobileLanguageButton.click();
-  await page.getByRole('button', { name: 'English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  const englishLanguageButton = page.getByRole('button', { name: 'Change language' });
-  await expect(englishLanguageButton).toBeFocused();
-  await englishLanguageButton.click();
-  await page.keyboard.press('Escape');
-  await expect(englishLanguageButton).toHaveAttribute('aria-expanded', 'false');
-  await expect(englishLanguageButton).toBeFocused();
+  await expect(page.getByRole('button', { name: '切换到中文' })).toBeFocused();
 
   const mobileThemeButton = page.getByRole('button', { name: 'Theme' });
   await mobileThemeButton.click();
@@ -485,9 +484,9 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
 
   await page.setViewportSize({ width: 1025, height: 900 });
   await expect(page.locator('.c-nav-logo')).toHaveAttribute('aria-label', 'Home');
-  await expectDesktopNavigationFits(page, 2);
+  await expectDesktopNavigationFits(page, 3);
   await page.setViewportSize({ width: 1100, height: 900 });
-  await expectDesktopNavigationFits(page, 2);
+  await expectDesktopNavigationFits(page, 3);
 
   expect(authProbeCount(), 'logged-out navigation paths should not probe auth/me').toBe(0);
   await page.route(`**${AUTH_ME_PATH}`, async (route) => {
@@ -511,10 +510,10 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
   await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('data-logged-in', 'true');
   await expect(page.locator('.c-nav-home-logged-in')).toBeVisible();
-  await expectDesktopNavigationFits(page, 3);
+  await expectDesktopNavigationFits(page, 4);
   await expect(page.locator('.c-nav-primary-links a[href="/profile"]')).toBeVisible();
   await page.setViewportSize({ width: 1025, height: 900 });
-  await expectDesktopNavigationFits(page, 3);
+  await expectDesktopNavigationFits(page, 4);
   await settlePage(page);
 
   await audit.assertClean();
@@ -523,22 +522,28 @@ test('navigation and compact disclosures preserve keyboard, scroll, and stacking
 test('Docs is current and directly available on desktop and in the mobile menu', async ({
   page
 }) => {
-  await page.goto(DOCS_PAGE_PATH, { waitUntil: 'domcontentloaded' });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   const desktop = page.locator('.c-nav-primary-links');
   const docs = desktop.getByRole('link', { name: '文档', exact: true });
-  await expect(docs).toBeVisible();
+  await expect(docs).toHaveAttribute('href', '/docs/');
+  await docs.click();
+  await expect(page).toHaveURL(/\/docs\/$/);
   await expect(docs).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.c-nav-logo')).not.toHaveAttribute('aria-current', 'page');
 
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expectIslandHydrated(page, 'NavBarWrapper');
   const menu = page.getByRole('button', { name: '菜单', exact: true });
   await menu.press('Enter');
   const drawer = page.getByRole('dialog', { name: '菜单', exact: true });
-  await expect(drawer.getByRole('link', { name: '文档', exact: true })).toHaveAttribute(
-    'aria-current',
-    'page'
-  );
+  const mobileDocs = drawer.getByRole('link', { name: '文档', exact: true });
+  await expect(mobileDocs).toHaveAttribute('href', '/docs/');
+  await mobileDocs.click();
+  await expect(page).toHaveURL(/\/docs\/$/);
+  await expectIslandHydrated(page, 'NavBarWrapper');
+  await menu.press('Enter');
+  await expect(mobileDocs).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(drawer).toHaveCount(0);
   await expect(menu).toBeFocused();
@@ -555,16 +560,14 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
     page.locator('#content-zh .language-mermaid[data-processed="true"] svg')
   ).toHaveCount(2, { timeout: 30_000 });
 
-  await page.getByRole('button', { name: '切换语言' }).click();
-  await page.getByRole('button', { name: 'English' }).click();
+  await page.getByRole('button', { name: 'Switch to English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('#content-en')).toBeVisible();
   await expect(
     page.locator('#content-en .language-mermaid[data-processed="true"] svg')
   ).toHaveCount(2, { timeout: 30_000 });
 
-  await page.getByRole('button', { name: 'Change language' }).click();
-  await page.getByRole('button', { name: '中文' }).click();
+  await page.getByRole('button', { name: '切换到中文' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.locator('#content-zh')).toBeVisible();
   await expect(
@@ -621,11 +624,8 @@ for (const width of [1366, 390]) {
           await page.locator(`.c-theme-option.is-palette-${palette}`).click();
           const initial = (await page.locator('html').getAttribute('lang')) === 'en' ? 'en' : 'zh';
           await expectReadableDocsDiagrams(page, initial);
-          for (const language of ['zh', 'en', 'zh'] as const) {
+          for (const language of [initial === 'zh' ? 'en' : 'zh', initial] as const) {
             await page.locator('.c-language-selector-main').click();
-            await page
-              .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
-              .click();
             await expectReadableDocsDiagrams(page, language);
           }
         }
@@ -653,11 +653,9 @@ test('Docs language switch during real Mermaid loading preserves measurable rend
     await expectIslandHydrated(page, 'NavBarWrapper');
     await expect(page.locator('.c-docs-mermaid-render')).toHaveCount(1);
     await page.locator('.c-language-selector-main').click();
-    await page.getByRole('button', { name: 'English', exact: true }).click();
     release();
     await expectReadableDocsDiagrams(page, 'en');
     await page.locator('.c-language-selector-main').click();
-    await page.getByRole('button', { name: '中文', exact: true }).click();
     await expectReadableDocsDiagrams(page, 'zh');
     await audit.assertClean();
   } finally {
@@ -961,18 +959,10 @@ test('language and theme choices preserve focus, selected state and storage thro
   await page.getByRole('button', { name: '石墨与松绿', exact: true }).click();
   await expect(html).toHaveAttribute('data-palette', 'forest');
 
-  const language = page.getByRole('button', { name: '切换语言', exact: true });
-  await expect(language).toContainText(/中\s*[／/]\s*EN/, { useInnerText: true });
+  const language = page.getByRole('button', { name: 'Switch to English', exact: true });
+  await expect(language).toHaveText('EN');
   await language.press('Enter');
-  const zhOptions = page.getByRole('group', { name: '语言', exact: true });
-  await expect(zhOptions.getByRole('button', { name: '中文', exact: true })).toHaveAttribute(
-    'aria-pressed',
-    'true'
-  );
-  const english = zhOptions.getByRole('button', { name: 'English', exact: true });
-  await expect(english).toHaveAttribute('aria-pressed', 'false');
-  await english.press('Enter');
-  const englishTrigger = page.getByRole('button', { name: 'Change language', exact: true });
+  const englishTrigger = page.getByRole('button', { name: '切换到中文', exact: true });
   await expect(englishTrigger).toBeFocused();
   await expect(html).toHaveAttribute('lang', 'en');
   await expect.poll(storedPreferences).toEqual({
@@ -987,24 +977,12 @@ test('language and theme choices preserve focus, selected state and storage thro
   await expect(html).toHaveAttribute('lang', 'en');
   await expect(html).toHaveAttribute('data-theme', 'dark');
   await expect(html).toHaveAttribute('data-palette', 'forest');
-  await expect(englishTrigger).toContainText(/中\s*[／/]\s*EN/, { useInnerText: true });
+  await expect(englishTrigger).toHaveText('中文');
   for (const control of [englishTrigger, theme]) {
     const size = await control.boundingBox();
     expect(size?.width).toBeGreaterThanOrEqual(44);
     expect(size?.height).toBeGreaterThanOrEqual(44);
   }
-
-  await englishTrigger.click();
-  const englishOptions = page.getByRole('group', { name: 'Language', exact: true });
-  await expect(
-    englishOptions.getByRole('button', { name: 'English', exact: true })
-  ).toHaveAttribute('aria-pressed', 'true');
-  await expect(englishOptions.getByRole('button', { name: '中文', exact: true })).toHaveAttribute(
-    'aria-pressed',
-    'false'
-  );
-  await page.keyboard.press('Escape');
-  await expect(englishTrigger).toBeFocused();
 
   await theme.click();
   await expect(
@@ -1212,9 +1190,7 @@ test('all three swatches keep bilingual names, stable IDs and fixed light fills'
   ];
   for (const language of ['en', 'zh']) {
     await page.locator('.c-language-selector-main').click();
-    await page
-      .getByRole('button', { name: language === 'en' ? 'English' : '中文', exact: true })
-      .click();
+    await expect(page.locator('html')).toHaveAttribute('lang', language === 'en' ? 'en' : 'zh-CN');
     for (const mode of ['light', 'dark']) {
       await page.locator('.c-theme-toggle-main').click();
       await page.locator(`.c-theme-option.is-${mode}`).click();

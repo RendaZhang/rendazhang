@@ -51,27 +51,18 @@
   outline-offset: 2px;
 }
 
-.c-language-selector-wrapper,
 .c-theme-toggle-wrapper {
   position: relative;
 }
 
 .c-language-selector-main {
+  flex: none;
   font-size: var(--font-size-1);
   font-weight: 650;
-  padding-inline: var(--space-2);
+  inline-size: 44px;
   white-space: nowrap;
 }
 
-html[lang^='zh'] .c-language-selector-main [lang='zh-CN'],
-html[lang^='en'] .c-language-selector-main [lang='en'] {
-  color: var(--color-brand);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.23em;
-}
-
-.c-language-options,
 .c-theme-options {
   background: var(--color-nav-bg);
   border: 1px solid var(--color-palette-border);
@@ -79,28 +70,13 @@ html[lang^='en'] .c-language-selector-main [lang='en'] {
   box-shadow: var(--shadow-elevation-2);
   display: grid;
   gap: var(--space-1);
+  inline-size: max-content;
   inset-block-start: calc(100% + var(--space-1));
+  inset-inline-end: 0;
+  max-inline-size: calc(100vw - var(--space-5) * 2);
   padding: var(--space-1);
   position: absolute;
   z-index: 1001;
-}
-
-.c-language-options {
-  inset-inline-start: 50%;
-  transform: translateX(-50%);
-}
-
-.c-theme-options {
-  inline-size: max-content;
-  inset-inline-end: 0;
-  max-inline-size: calc(100vw - var(--space-5) * 2);
-}
-
-.c-language-option {
-  font-size: var(--font-size-1);
-  gap: var(--space-2);
-  justify-content: space-between;
-  padding-inline: var(--space-2);
 }
 
 .c-theme-toggle-main,
@@ -161,7 +137,7 @@ html[lang^='en'] .c-language-selector-main [lang='en'] {
   --palette-swatch: var(--palette-pine-light-primary);
 }
 
-:is(.c-language-option, .c-theme-option) {
+.c-theme-option {
   &[aria-pressed='true'] {
     background: var(--color-palette-surface-strong);
     border-color: var(--color-brand);

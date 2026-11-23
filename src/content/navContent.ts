@@ -74,7 +74,7 @@ export const NAVIGATION_ITEMS = [
   { href: HOME_PAGE_PATH, key: 'home', authenticatedOnly: false },
   { href: CHAT_PAGE_PATH, key: 'chat', authenticatedOnly: false },
   { href: CERTIFICATIONS_PAGE_PATH, key: 'certs', authenticatedOnly: false },
-  { href: DOCS_PAGE_PATH, key: 'docs', authenticatedOnly: false },
+  { href: `${DOCS_PAGE_PATH}/`, key: 'docs', authenticatedOnly: false },
   { href: PROFILE_PAGE_PATH, key: 'profile', authenticatedOnly: true }
 ] as const;
 
@@ -84,7 +84,7 @@ export function getCurrentNavigationRoute(pathname: string): NavigationRoute | u
   const path = pathname.replace(/\/+$/, '') || HOME_PAGE_PATH;
   return path === LOGIN_PAGE_PATH
     ? 'login'
-    : NAVIGATION_ITEMS.find((item) => item.href === path)?.key;
+    : NAVIGATION_ITEMS.find((item) => item.href === path || item.href === `${path}/`)?.key;
 }
 
 export function getNavigationItems(isLoggedIn: boolean) {

@@ -148,10 +148,9 @@ test('a keyboard-written letter keeps its bilingual draft after failure and is s
   expect(requests).toEqual([]);
   await contactInput.fill(contactDraft[1][2]);
 
-  const language = page.getByRole('button', { name: '切换语言' });
+  const language = page.getByRole('button', { name: 'Switch to English' });
   await waitForIsland(language);
   await language.press('Enter');
-  await page.getByRole('button', { name: 'English', exact: true }).press('Enter');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
   const expectDraft = async () => {

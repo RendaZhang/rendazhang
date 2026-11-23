@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { NAV_CONTENT, getNavigationItems, getPrimaryNavigationItems } from '../content/navContent';
+import {
+  NAV_CONTENT,
+  getCurrentNavigationRoute,
+  getNavigationItems,
+  getPrimaryNavigationItems
+} from '../content/navContent';
 
 describe('navigation content', () => {
   it('uses one shared route order for public and authenticated navigation', () => {
@@ -11,7 +16,7 @@ describe('navigation content', () => {
       ['home', '/'],
       ['chat', '/deepseek_chat'],
       ['certs', '/certifications'],
-      ['docs', '/docs']
+      ['docs', '/docs/']
     ]);
     expect(authenticatedItems.at(-1)).toMatchObject({ key: 'profile', href: '/profile' });
     expect(NAV_CONTENT.en.drawer[publicItems[1].key]).toBe('AI Chat');
@@ -32,5 +37,10 @@ describe('navigation content', () => {
     expect(getNavigationItems(false).map((item) => item.key)).toContain('home');
     expect(publicPrimaryItems.map((item) => NAV_CONTENT.en.drawer[item.key])).not.toContain('Home');
     expect(publicPrimaryItems.map((item) => NAV_CONTENT.zh.drawer[item.key])).not.toContain('首页');
+  });
+
+  it('identifies Docs with or without the trailing slash', () => {
+    expect(getCurrentNavigationRoute('/docs')).toBe('docs');
+    expect(getCurrentNavigationRoute('/docs/')).toBe('docs');
   });
 });
