@@ -29,7 +29,13 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
   }}
   showChatWidget={false}
 >
-  <article class="c-lock-case" data-lock-case data-mode="incident" data-selection="none">
+  <article
+    class="c-lock-case"
+    data-lock-case
+    data-mode="incident"
+    data-selection="none"
+    data-owner="unknown"
+  >
     <header class="c-lock-heading">
       <p class="c-lock-meta">
         <span>Java 21 · Tomcat</span>
@@ -106,8 +112,7 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
           {
             MISSING_LOCK_LANES.map(({ id, y }) => (
               <g data-lock-link={id}>
-                <path class="c-lock-incident" d={`M390 ${y}H770Q810 ${y} 810 112H880`} />
-                <path class="c-lock-recovered" d={`M640 ${y}H770Q810 ${y} 810 112H880`} />
+                <path d={`M390 ${y}H680C775 ${y} 730 112 880 112`} />
               </g>
             ))
           }
@@ -141,17 +146,39 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
           ))
         }
 
-        <div class="c-lock-free">
+        <button
+          type="button"
+          class="c-lock-object"
+          data-lock-select="lock"
+          aria-pressed="false"
+          disabled
+        >
           <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
-            <path d="M11 14V9a5 5 0 0 1 10 0M14 21h4m-2 0v4"></path>
-            <rect x="6" y="14" width="20" height="15" rx="2"></rect>
+            <g class="c-lock-owner-unknown">
+              <rect x="6" y="5" width="20" height="22" rx="2"></rect>
+              <path d="M13 12a3 3 0 1 1 5 2c-1.2 1-2 1.2-2 3m0 4h.01"></path>
+            </g>
+            <g class="c-lock-owner-known">
+              <path d="M11 14V9a5 5 0 0 1 10 0M14 21h4m-2 0v4"></path>
+              <rect x="6" y="14" width="20" height="15" rx="2"></rect>
+            </g>
           </svg>
           {
             languages.map((language) => (
-              <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].open}</span>
+              <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].lock}</span>
             ))
           }
-        </div>
+          <span class="c-lock-holder" data-lock-holder>
+            {
+              languages.map((language) => (
+                <span class={`is-lang-${language}`}>
+                  <span class="c-lock-owner-unknown">{MISSING_LOCK_COPY[language].unknown}</span>
+                  <span class="c-lock-owner-known">{MISSING_LOCK_COPY[language].unowned}</span>
+                </span>
+              ))
+            }
+          </span>
+        </button>
 
         <div class="c-lock-queue">
           {
@@ -159,11 +186,11 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
               <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].queue}</span>
             ))
           }
-          <span class="c-lock-queue-arrow" aria-hidden="true">↥</span>
+          <span class="c-lock-queue-stop c-lock-incident" aria-hidden="true"></span>
           <span class="c-lock-entered c-lock-recovered">
             {
               languages.map((language) => (
-                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].entered}</span>
+                <span class={`is-lang-${language}`}>E {MISSING_LOCK_COPY[language].entered}</span>
               ))
             }
           </span>
@@ -182,15 +209,44 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
           <span class="c-lock-wake-label">
             {
               languages.map((language) => (
-                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].awakened}</span>
+                <span class={`is-lang-${language}`}>
+                  <span class="c-lock-incident c-lock-task-unknown">
+                    {MISSING_LOCK_COPY[language].queued}
+                  </span>
+                  <span class="c-lock-incident c-lock-task-known">
+                    {MISSING_LOCK_COPY[language].awakened}
+                  </span>
+                  <span class="c-lock-recovered">{MISSING_LOCK_COPY[language].entered}</span>
+                </span>
               ))
             }
           </span>
         </button>
       </div>
 
-      <p class="c-lock-note" data-lock-note role="status"></p>
+      <div class="c-lock-note" data-lock-note role="status" aria-atomic="true">
+        <strong data-lock-note-label>{copy.clues.symptom.label}</strong>
+        <p data-lock-note-text>{copy.clues.symptom.text}</p>
+      </div>
+      <div class="c-lock-result c-lock-recovered" data-lock-result>
+        {
+          languages.map((language) => (
+            <div class={`is-lang-${language}`}>
+              <strong>{MISSING_LOCK_COPY[language].outcome}</strong>
+              <p>{MISSING_LOCK_COPY[language].result}</p>
+            </div>
+          ))
+        }
+      </div>
     </div>
+
+    <p class="c-lock-caveat">
+      {
+        languages.map((language) => (
+          <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].caveat}</span>
+        ))
+      }
+    </p>
 
     <details class="c-lock-details">
       <summary>
@@ -203,9 +259,9 @@ const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
       {
         languages.map((language) => (
           <div class={`is-lang-${language}`}>
-            <p>{MISSING_LOCK_COPY[language].finding}</p>
-            <p>{MISSING_LOCK_COPY[language].fix}</p>
-            <p class="c-lock-caveat">{MISSING_LOCK_COPY[language].caveat}</p>
+            <p>{MISSING_LOCK_COPY[language].tools}</p>
+            <p class="c-lock-findings">{MISSING_LOCK_COPY[language].finding}</p>
+            <p class="c-lock-recovered">{MISSING_LOCK_COPY[language].fix}</p>
           </div>
         ))
       }

@@ -18,20 +18,35 @@ export const MISSING_LOCK_COPY = {
     slots: '执行位置',
     full: '4 / 4 占用',
     available: '1 / 4 占用',
-    open: '锁已释放',
-    queue: '就绪队列',
+    lock: '锁对象',
+    unknown: '持有者未知',
+    unowned: '持有者为空',
+    queue: '待运行',
+    queued: '排队中',
     awakened: '已唤醒',
-    entered: 'E 已进入 01',
+    entered: '已进入 01',
     laneTask: '任务',
-    laneIncident: '这个任务在等锁，同时仍占着一条载体线程。',
-    laneRecovered: '等待的任务让出了载体线程，停在执行位置之外。',
-    awakenedIncident: '锁已释放，E 也已被唤醒。但四条载体线程都被等待者占着，E 没有位置运行。',
-    awakenedRecovered: '等待者让出载体线程，E 进入空出的位置，队列可以继续。',
+    clues: {
+      symptom: { label: '现场', text: '新请求排在队列里，队列迟迟没有向前。' },
+      thread: {
+        label: '线程快照',
+        text: '几条线程都在等同一把锁。单凭这份快照，还看不出谁拿着它。'
+      },
+      holder: { label: '堆转储', text: '故障时，几条线程仍在等这把锁，但堆转储显示它没有持有者。' },
+      task: {
+        label: '调度线索',
+        text: '四条载体线程都被占用，已唤醒的虚拟线程 E 仍要等到一条可用的载体线程才能继续运行。'
+      },
+      recovered: { label: '修复后对照', text: '等待者让出了执行位置，E 得以进入，队列继续向前。' }
+    },
     heading: '技术细节',
+    tools: '线程快照记录线程当时在哪里执行或等待。堆转储保留当时对象的状态。',
     finding:
       '堆转储显示锁没有持有者。队首虚拟线程收到了唤醒信号，但其余等待者在 synchronized 内阻塞，占满了四条载体线程。',
-    fix: '团队将相关同步块改为显式锁，并把可能阻塞的调用移出临界区。发布后，压测恢复正常。',
-    caveat: '任务编号与修复后的队列位置仅用于图解。',
+    outcome: '原文报告',
+    fix: '团队将相关同步块改为显式锁，并把可能阻塞的调用移出临界区。',
+    result: '发布后，压测恢复正常。',
+    caveat: '轨道与任务编号为示意。',
     source: '中文原文',
     back: '返回文章'
   },
@@ -45,22 +60,45 @@ export const MISSING_LOCK_COPY = {
     slots: 'Carrier slots',
     full: '4 / 4 occupied',
     available: '1 / 4 occupied',
-    open: 'Lock is free',
+    lock: 'Lock object',
+    unknown: 'Owner unknown',
+    unowned: 'No owner',
     queue: 'Ready queue',
+    queued: 'Queued',
     awakened: 'Signalled',
-    entered: 'E entered 01',
+    entered: 'entered 01',
     laneTask: 'Task',
-    laneIncident: 'This task is waiting for the lock and still occupies a carrier thread.',
-    laneRecovered: 'The waiting task has freed its carrier and moved off the slot.',
-    awakenedIncident:
-      'The lock is free and E has been signalled. All four carriers are occupied by waiters, so E has nowhere to run.',
-    awakenedRecovered:
-      'The waiters free their carriers. E takes a slot and the queue can move again.',
+    clues: {
+      symptom: {
+        label: 'Symptoms',
+        text: 'New requests are queued, and the queue has stopped moving.'
+      },
+      thread: {
+        label: 'Thread snapshot',
+        text: 'Several threads are waiting for the same lock. This snapshot cannot tell us who owns it.'
+      },
+      holder: {
+        label: 'Heap dump',
+        text: 'During the stall, several threads were still waiting for the lock, but the heap dump showed it had no owner.'
+      },
+      task: {
+        label: 'Scheduling clue',
+        text: 'All four carriers are occupied, so even after being signalled, virtual thread E still needs a carrier thread to resume.'
+      },
+      recovered: {
+        label: 'After the fix',
+        text: 'Waiting tasks free their carriers, so E takes a slot and the queue moves again.'
+      }
+    },
     heading: 'Technical details',
+    tools:
+      'A thread snapshot records where threads were running or waiting. A heap dump preserves the state of objects at the time.',
     finding:
       'A heap dump showed that the lock had no owner. The first virtual thread in line had been signalled, but the other waiters blocked inside synchronized and occupied all four carrier threads.',
-    fix: 'The team replaced the affected synchronized blocks with explicit locks and moved potentially blocking calls outside critical sections. Load tests returned to normal after deployment.',
-    caveat: 'Task labels and the queue positions after the fix are illustrative.',
+    outcome: 'From the original article',
+    fix: 'The team replaced the affected synchronized blocks with explicit locks and moved potentially blocking calls outside critical sections.',
+    result: 'Load tests returned to normal after deployment.',
+    caveat: 'Lane and task labels are illustrative.',
     source: 'Chinese original',
     back: 'Back to articles'
   }
