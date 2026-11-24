@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react';
 import type { ArticleEntry } from '../../content/aboutContent';
+import { CSDN_ARTICLES } from '../../constants';
+import { MISSING_LOCK_COPY, MISSING_LOCK_PATH } from '../../content/missingLockContent';
 import LocalizedSection from '../ui/data-display/LocalizedSection';
 
 interface ArticleCollection {
@@ -62,6 +64,48 @@ const illustrations = {
   'trading-bot': TradingBotIllustration
 };
 
+function MissingLockEntry(): ReactElement {
+  return (
+    <div className="c-blog-case">
+      <a className="c-blog-case-explore" href={MISSING_LOCK_PATH}>
+        <svg viewBox="0 0 100 60" width="100" height="60" aria-hidden="true" focusable="false">
+          <path d="M9 10h80M9 20h80M9 30h80M9 40h80" />
+          <path
+            className="c-blog-case-slots"
+            d="M42 6h9v8h-9zM42 16h9v8h-9zM42 26h9v8h-9zM42 36h9v8h-9z"
+          />
+          <path className="c-blog-case-waiter" d="M42 50h9v8h-9zm18 7v-8l-3 3m3-3 3 3" />
+        </svg>
+        <span>
+          <strong>
+            <LocalizedSection
+              zhContent={MISSING_LOCK_COPY.zh.title}
+              enContent={MISSING_LOCK_COPY.en.title}
+            />
+          </strong>
+          <span className="c-blog-case-action">
+            <LocalizedSection zhContent="试玩" enContent="Explore" />
+            <span aria-hidden="true">→</span>
+          </span>
+        </span>
+      </a>
+      <a
+        className="c-blog-case-source"
+        href={CSDN_ARTICLES.JAVA_21_LOCK}
+        hrefLang="zh-CN"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <LocalizedSection
+          zhContent={MISSING_LOCK_COPY.zh.source}
+          enContent={MISSING_LOCK_COPY.en.source}
+        />
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  );
+}
+
 function ArticlePage({
   entry,
   language
@@ -115,6 +159,7 @@ export default function BlogSection({ blogEn, blogZh }: BlogSectionProps): React
         <LocalizedSection zhContent={blogZh.title} enContent={blogEn.title} />
       </h2>
       <div className="c-blog-entries" id="blogList">
+        <MissingLockEntry />
         {blogZh.entries.map((entry) => (
           <ArticlePage entry={entry} language="zh" key={entry.id} />
         ))}

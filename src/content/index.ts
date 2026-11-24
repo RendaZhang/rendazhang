@@ -6,6 +6,7 @@ export * from './chatGuideKnowledge';
 export * from './deepseekChatContent';
 export * from './docsCaseStudyContent';
 export * from './loginContent';
+export * from './missingLockContent';
 export * from './navContent';
 export * from './profileContent';
 export * from './registerContent';

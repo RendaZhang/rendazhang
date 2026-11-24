@@ -1,0 +1,241 @@
+---
+import { BaseLayout } from '../../layouts';
+import { CSDN_ARTICLES, SITE_BASE_URL } from '../../constants';
+import {
+  MISSING_LOCK_COPY,
+  MISSING_LOCK_LANES,
+  MISSING_LOCK_PATH
+} from '../../content/missingLockContent';
+import { getCurrentLang } from '../../utils';
+import '../../styles/components/missing-lock.css';
+
+const lang = getCurrentLang();
+const copy = MISSING_LOCK_COPY[lang.startsWith('en') ? 'en' : 'zh'];
+const languages = ['zh', 'en'] as const;
+const canonical = new URL(MISSING_LOCK_PATH, SITE_BASE_URL).href;
+---
+
+<BaseLayout
+  lang={lang}
+  title={copy.title}
+  titleZh={MISSING_LOCK_COPY.zh.title}
+  titleEn={MISSING_LOCK_COPY.en.title}
+  description={MISSING_LOCK_COPY.en.description}
+  canonical={canonical}
+  og={{
+    title: MISSING_LOCK_COPY.en.title,
+    description: MISSING_LOCK_COPY.en.description,
+    url: canonical
+  }}
+  showChatWidget={false}
+>
+  <article class="c-lock-case" data-lock-case data-mode="incident" data-selection="none">
+    <header class="c-lock-heading">
+      <p class="c-lock-meta">
+        <span>Java 21 · Tomcat</span>
+        <span class="c-lock-stamp">
+          {
+            languages.map((language) => (
+              <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].simulation}</span>
+            ))
+          }
+        </span>
+      </p>
+      <h1>
+        {
+          languages.map((language) => (
+            <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].title}</span>
+          ))
+        }
+      </h1>
+    </header>
+
+    <div class="c-lock-board">
+      <div class="c-lock-tools">
+        <div class="c-lock-modes" role="group" aria-labelledby="lock-comparison">
+          <span class="c-lock-sr-only" id="lock-comparison">
+            {
+              languages.map((language) => (
+                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].comparison}</span>
+              ))
+            }
+          </span>
+          {
+            (['incident', 'recovered'] as const).map((mode) => (
+              <button
+                type="button"
+                class="c-lock-mode"
+                data-lock-mode={mode}
+                aria-pressed={mode === 'incident'}
+                disabled
+              >
+                {languages.map((language) => (
+                  <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language][mode]}</span>
+                ))}
+              </button>
+            ))
+          }
+        </div>
+        <p class="c-lock-count">
+          <span class="c-lock-sr-only">
+            {
+              languages.map((language) => (
+                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].slots} · </span>
+              ))
+            }
+          </span>
+          {
+            languages.map((language) => (
+              <span class={`is-lang-${language}`}>
+                <span class="c-lock-incident">{MISSING_LOCK_COPY[language].full}</span>
+                <span class="c-lock-recovered">{MISSING_LOCK_COPY[language].available}</span>
+              </span>
+            ))
+          }
+        </p>
+      </div>
+
+      <div class="c-lock-graph">
+        <svg
+          class="c-lock-wires"
+          viewBox="0 0 1000 224"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          {
+            MISSING_LOCK_LANES.map(({ id, y }) => (
+              <g data-lock-link={id}>
+                <path class="c-lock-incident" d={`M390 ${y}H770Q810 ${y} 810 112H880`} />
+                <path class="c-lock-recovered" d={`M640 ${y}H770Q810 ${y} 810 112H880`} />
+              </g>
+            ))
+          }
+        </svg>
+
+        {
+          MISSING_LOCK_LANES.map(({ id, number, task }) => (
+            <button
+              type="button"
+              class="c-lock-row c-lock-lane"
+              data-lock-select={id}
+              aria-pressed="false"
+              disabled
+            >
+              <span class="c-lock-slot" aria-hidden="true">
+                {number}
+              </span>
+              <span class="c-lock-rail" aria-hidden="true" />
+              <span class="c-lock-chip c-lock-occupant" aria-hidden="true">
+                {task}
+              </span>
+              <span class="c-lock-sr-only">
+                {languages.map((language) => (
+                  <span class={`is-lang-${language}`}>
+                    {MISSING_LOCK_COPY[language].slots} {number} ·{' '}
+                    {MISSING_LOCK_COPY[language].laneTask} {task}
+                  </span>
+                ))}
+              </span>
+            </button>
+          ))
+        }
+
+        <div class="c-lock-free">
+          <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+            <path d="M11 14V9a5 5 0 0 1 10 0M14 21h4m-2 0v4"></path>
+            <rect x="6" y="14" width="20" height="15" rx="2"></rect>
+          </svg>
+          {
+            languages.map((language) => (
+              <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].open}</span>
+            ))
+          }
+        </div>
+
+        <div class="c-lock-queue">
+          {
+            languages.map((language) => (
+              <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].queue}</span>
+            ))
+          }
+          <span class="c-lock-queue-arrow" aria-hidden="true">↥</span>
+          <span class="c-lock-entered c-lock-recovered">
+            {
+              languages.map((language) => (
+                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].entered}</span>
+              ))
+            }
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="c-lock-awakened c-lock-chip"
+          data-lock-select="awakened"
+          data-lock-task="awakened"
+          data-position="queue"
+          aria-pressed="false"
+          disabled
+        >
+          <span>E</span>
+          <span class="c-lock-wake-label">
+            {
+              languages.map((language) => (
+                <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].awakened}</span>
+              ))
+            }
+          </span>
+        </button>
+      </div>
+
+      <p class="c-lock-note" data-lock-note role="status"></p>
+    </div>
+
+    <details class="c-lock-details">
+      <summary>
+        {
+          languages.map((language) => (
+            <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].heading}</span>
+          ))
+        }
+      </summary>
+      {
+        languages.map((language) => (
+          <div class={`is-lang-${language}`}>
+            <p>{MISSING_LOCK_COPY[language].finding}</p>
+            <p>{MISSING_LOCK_COPY[language].fix}</p>
+            <p class="c-lock-caveat">{MISSING_LOCK_COPY[language].caveat}</p>
+          </div>
+        ))
+      }
+    </details>
+
+    <footer class="c-lock-footer">
+      <a
+        href={CSDN_ARTICLES.JAVA_21_LOCK}
+        hreflang="zh-CN"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-lock-source
+      >
+        {
+          languages.map((language) => (
+            <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].source}</span>
+          ))
+        }
+        <span aria-hidden="true">↗</span>
+      </a>
+      <a href="/#blog">
+        <span aria-hidden="true">←</span>
+        {
+          languages.map((language) => (
+            <span class={`is-lang-${language}`}>{MISSING_LOCK_COPY[language].back}</span>
+          ))
+        }
+      </a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<script src="../../scripts/missing-lock.ts"></script>
