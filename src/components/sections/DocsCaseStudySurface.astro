@@ -1,11 +1,12 @@
 ---
 import { CERTIFICATIONS_PAGE_PATH, CHAT_PAGE_PATH } from '../../constants/paths';
-import { DOCS_CASE_STUDY_CONTENT } from '../../content/docsCaseStudyContent';
+import { DOCS_CASE_STUDY_CONTENT, type DocsStationNote } from '../../content/docsCaseStudyContent';
 import LocalizedSection from '../ui/data-display/LocalizedSection';
+import DocsRoutePreview from './DocsRoutePreview.astro';
 
 const { zh, en } = DOCS_CASE_STUDY_CONTENT;
 const routes = ['page', 'chat'] as const;
-type RouteNotes = Partial<Record<(typeof routes)[number], string>>;
+type RouteNotes = Partial<Record<(typeof routes)[number], DocsStationNote>>;
 const diagram = [
   {
     id: 'browser',
@@ -63,7 +64,11 @@ const diagram = [
     {
       diagram.map(({ id, route, drawing }) => (
         <li class="c-docs-route-node" data-docs-position={id} data-docs-path={route}>
-          {id !== 'browser' && <span class="c-docs-node-connector" aria-hidden="true" />}
+          {id !== 'browser' && (
+            <span class="c-docs-connector-anchor" aria-hidden="true">
+              <span class="c-docs-node-connector" />
+            </span>
+          )}
 
           <details class="c-docs-node-fold" data-docs-node={id} name="docs-route-stations">
             <summary>
@@ -82,18 +87,25 @@ const diagram = [
                 return (
                   noteZh &&
                   noteEn && (
-                    <p data-docs-note={mode}>
-                      <LocalizedSection zhContent={noteZh} enContent={noteEn} />
-                    </p>
+                    <div data-docs-note={mode}>
+                      <DocsRoutePreview station={id} route={mode} />
+                      <p>
+                        <LocalizedSection zhContent={noteZh.text} enContent={noteEn.text} />
+                      </p>
+                      <span class="is-lang-zh">
+                        <a class="c-docs-node-source" href={noteZh.href}>
+                          {noteZh.label}
+                        </a>
+                      </span>
+                      <span class="is-lang-en">
+                        <a class="c-docs-node-source" href={noteEn.href}>
+                          {noteEn.label}
+                        </a>
+                      </span>
+                    </div>
                   )
                 );
               })}
-              <span class="is-lang-zh">
-                <a href={zh.nodes[id].section.href}>{zh.nodes[id].section.label}</a>
-              </span>
-              <span class="is-lang-en">
-                <a href={en.nodes[id].section.href}>{en.nodes[id].section.label}</a>
-              </span>
               {id === 'nginx' && (
                 <a href={CERTIFICATIONS_PAGE_PATH + '/'}>
                   <LocalizedSection
@@ -116,17 +128,16 @@ const diagram = [
 
   <ul class="c-docs-plate-links">
     <li>
-      <span class="is-lang-zh"><a href={zh.links.docs.href}>{zh.links.docs.label}</a></span>
-      <span class="is-lang-en"><a href={en.links.docs.href}>{en.links.docs.label}</a></span>
+      <a href="#docs-reference">
+        <LocalizedSection zhContent={zh.reference.full} enContent={en.reference.full} />
+      </a>
     </li>
     <li>
-      <span class="is-lang-zh"><a href={zh.links.delivery.href}>{zh.links.delivery.label}</a></span>
-      <span class="is-lang-en"><a href={en.links.delivery.href}>{en.links.delivery.label}</a></span>
-    </li>
-    <li>
-      <a href="/#contact">
-        <LocalizedSection zhContent={zh.links.contact} enContent={en.links.contact} />
+      <a href={CHAT_PAGE_PATH + '/'}>
+        <LocalizedSection zhContent={zh.related.realChat} enContent={en.related.realChat} />
       </a>
     </li>
   </ul>
 </section>
+
+<script src="../../scripts/docs-route.ts"></script>

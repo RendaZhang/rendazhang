@@ -1,0 +1,111 @@
+---
+import { DOCS_DEMO_FRAGMENTS } from '../../content/docsCaseStudyContent';
+import LocalizedSection from '../ui/data-display/LocalizedSection';
+
+interface Props {
+  station: 'browser' | 'nginx' | 'static' | 'model' | 'flask';
+  route: 'page' | 'chat';
+}
+
+const { station, route } = Astro.props;
+const languages = ['zh', 'en'] as const;
+const sample = {
+  zh: {
+    title: '架构笔记',
+    text: '打开页面就能读到正文。',
+    detail: '展开一行',
+    opened: '控件可操作'
+  },
+  en: {
+    title: 'Architecture notes',
+    text: 'The page opens with readable text.',
+    detail: 'Open a note',
+    opened: 'The control is ready'
+  }
+};
+---
+
+<div class="c-docs-demo" data-docs-demo={`${station}-${route}`}>
+  <div class="c-docs-demo-label"><LocalizedSection zhContent="模拟" enContent="Simulation" /></div>
+  {
+    route === 'page' && station === 'static' && (
+      <>
+        <code>docs/index.html</code>
+        {languages.map((language) => (
+          <pre class={`is-lang-${language}`}>
+            <code>{`<h1>${sample[language].title}</h1>\n<p>${sample[language].text}</p>`}</code>
+          </pre>
+        ))}
+      </>
+    )
+  }
+  {
+    route === 'page' && station === 'nginx' && (
+      <div class="c-docs-demo-transfer">
+        <code>GET /docs/</code>
+        <div>
+          <span aria-hidden="true">↓</span> <code>docs/index.html</code>
+        </div>
+        <code>200 · text/html</code>
+      </div>
+    )
+  }
+  {
+    route === 'page' && station === 'browser' && (
+      <div class="c-docs-demo-window">
+        <strong>
+          <LocalizedSection zhContent={sample.zh.title} enContent={sample.en.title} />
+        </strong>
+        <div>
+          <LocalizedSection zhContent={sample.zh.text} enContent={sample.en.text} />
+        </div>
+        <div class="c-docs-demo-states">
+          <span>
+            <LocalizedSection zhContent="正文可读" enContent="Text is readable" />
+          </span>
+          <span aria-hidden="true">→</span>
+          <span class="c-docs-demo-ready">
+            <LocalizedSection zhContent="控件可操作" enContent="Controls are ready" />
+          </span>
+        </div>
+        <details class="c-docs-demo-control">
+          <summary>
+            <LocalizedSection zhContent={sample.zh.detail} enContent={sample.en.detail} />
+          </summary>
+          <div>
+            <LocalizedSection zhContent={sample.zh.opened} enContent={sample.en.opened} />
+          </div>
+        </details>
+      </div>
+    )
+  }
+  {
+    route === 'chat' && (
+      <>
+        {station === 'nginx' && (
+          <div class="c-docs-demo-transfer">
+            <code>POST /cloudchat/deepseek_chat</code>
+            <div>
+              <span aria-hidden="true">↓</span> <code>POST /deepseek_chat</code>
+            </div>
+          </div>
+        )}
+        <div class:list={['c-docs-demo-stream', { 'c-docs-demo-bubble': station === 'browser' }]}>
+          {languages.map((language) => (
+            <div class={`is-lang-${language}`}>
+              {DOCS_DEMO_FRAGMENTS[language].map((fragment) => (
+                <span class="c-docs-fragment">
+                  {station === 'flask' ? (
+                    <code>{JSON.stringify({ text: fragment })}</code>
+                  ) : (
+                    fragment
+                  )}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </>
+    )
+  }
+</div>

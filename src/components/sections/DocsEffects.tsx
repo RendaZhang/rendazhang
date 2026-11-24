@@ -17,13 +17,20 @@ function getMermaidSelector(language: DocsLanguage): string {
 
 export default function DocsEffects(): null {
   useEffect(() => {
+    const reference = document.querySelector<HTMLDetailsElement>('[data-docs-reference]');
+    let started = false;
     let cancelled = false;
     let mermaidApi: MermaidApi | null = null;
     let requestedLanguages: DocsLanguage[] = [];
     let renderPromise: Promise<void> | null = null;
 
     const drainMermaidRenders = async (): Promise<void> => {
-      while (!cancelled && mermaidApi && requestedLanguages.length) {
+      while (
+        !cancelled &&
+        mermaidApi &&
+        requestedLanguages.length &&
+        (!reference || reference.open)
+      ) {
         const [language, ...remaining] = requestedLanguages;
         requestedLanguages = remaining;
 
@@ -69,6 +76,7 @@ export default function DocsEffects(): null {
     };
 
     const requestVisibleMermaidRender = (): void => {
+      if (reference && !reference.open) return;
       requestedLanguages = getVisibleDocsLanguages();
       if (cancelled || !mermaidApi || renderPromise) return;
 
@@ -82,35 +90,53 @@ export default function DocsEffects(): null {
         });
     };
 
-    window.addEventListener('langChanged', requestVisibleMermaidRender);
-    window.addEventListener('hashchange', requestVisibleMermaidRender);
-
-    void import('../../utils/highlight')
-      .then(({ default: getProjectHighlighter }) => {
-        if (cancelled) return;
-        const hljs = getProjectHighlighter();
-        document
-          .querySelectorAll<HTMLElement>('pre code:not(.language-mermaid)')
-          .forEach((block) => {
-            hljs.highlightElement(block);
-          });
-      })
-      .catch((error) => logger.error('Docs code highlighting error:', error));
-
-    void import('mermaid')
-      .then(({ default: mermaid }) => {
-        if (cancelled) return;
-        mermaid.initialize({ startOnLoad: false });
-        mermaidApi = mermaid;
+    const loadReference = (): void => {
+      if (reference && !reference.open) return;
+      if (started) {
         requestVisibleMermaidRender();
-      })
-      .catch((error) => logger.error('Docs Mermaid setup error:', error));
+        return;
+      }
+      started = true;
+
+      void import('../../utils/highlight')
+        .then(({ default: getProjectHighlighter }) => {
+          if (cancelled) return;
+          const hljs = getProjectHighlighter();
+          document
+            .querySelectorAll<HTMLElement>(
+              ':is(#content-zh, #content-en) pre code:not(.language-mermaid)'
+            )
+            .forEach((block) => hljs.highlightElement(block));
+        })
+        .catch((error) => logger.error('Docs code highlighting error:', error));
+
+      void import('mermaid')
+        .then(({ default: mermaid }) => {
+          if (cancelled) return;
+          mermaid.initialize({ startOnLoad: false });
+          mermaidApi = mermaid;
+          requestVisibleMermaidRender();
+        })
+        .catch((error) => logger.error('Docs Mermaid setup error:', error));
+    };
+
+    const openSharedReference = (): void => {
+      const target = document.querySelector(':target');
+      if (reference && target && reference.contains(target)) reference.open = true;
+      loadReference();
+    };
+
+    reference?.addEventListener('toggle', loadReference);
+    window.addEventListener('langChanged', requestVisibleMermaidRender);
+    window.addEventListener('hashchange', openSharedReference);
+    openSharedReference();
 
     return () => {
       cancelled = true;
       requestedLanguages = [];
+      reference?.removeEventListener('toggle', loadReference);
       window.removeEventListener('langChanged', requestVisibleMermaidRender);
-      window.removeEventListener('hashchange', requestVisibleMermaidRender);
+      window.removeEventListener('hashchange', openSharedReference);
     };
   }, []);
 

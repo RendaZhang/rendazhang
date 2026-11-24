@@ -1,7 +1,11 @@
 import { Marked } from 'marked';
 
 /** Use the README's generated DocToc fragments as stable links in each language. */
-export function renderDocsMarkdown(markdown: string, language: 'zh' | 'en'): string {
+export function renderDocsMarkdown(
+  markdown: string,
+  language: 'zh' | 'en',
+  headingOverrides: Readonly<Record<string, string>> = {}
+): string {
   const headingIds: string[] = [];
   let inContents = false;
   const parser = new Marked({
@@ -9,8 +13,11 @@ export function renderDocsMarkdown(markdown: string, language: 'zh' | 'en'): str
       if (token.type === 'html' && token.raw.startsWith('<!-- START doctoc')) inContents = true;
       if (token.type === 'html' && token.raw.startsWith('<!-- END doctoc')) inContents = false;
       if (token.type === 'link' && token.href.startsWith('#')) {
-        token.href = `#${language}-${token.href.slice(1)}`;
-        if (inContents) headingIds.push(decodeURIComponent(token.href.slice(1)));
+        const fragment = `${language}-${token.href.slice(1)}`;
+        const id = decodeURIComponent(fragment);
+        const override = headingOverrides[id];
+        token.href = `#${override ?? fragment}`;
+        if (inContents) headingIds.push(override ?? id);
       }
     },
     renderer: {

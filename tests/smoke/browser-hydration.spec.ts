@@ -555,6 +555,7 @@ test('/docs/ renders Mermaid diagrams after live language changes', async ({ pag
 
   await page.goto(DOCS_PAGE_PATH, { waitUntil: 'domcontentloaded' });
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+  await page.locator('[data-docs-reference] > summary').click();
   await expect(page.locator('#content-zh')).toBeVisible();
   await expect(
     page.locator('#content-zh .language-mermaid[data-processed="true"] svg')
@@ -622,6 +623,7 @@ for (const width of [1366, 390]) {
           await page.locator(`.c-theme-option.is-${mode}`).click();
           await page.locator('.c-theme-toggle-main').click();
           await page.locator(`.c-theme-option.is-palette-${palette}`).click();
+          await page.locator('[data-docs-reference] > summary').click();
           const initial = (await page.locator('html').getAttribute('lang')) === 'en' ? 'en' : 'zh';
           await expectReadableDocsDiagrams(page, initial);
           for (const language of [initial === 'zh' ? 'en' : 'zh', initial] as const) {
@@ -651,6 +653,7 @@ test('Docs language switch during real Mermaid loading preserves measurable rend
   try {
     await page.goto('/docs/', { waitUntil: 'domcontentloaded' });
     await expectIslandHydrated(page, 'NavBarWrapper');
+    await page.locator('[data-docs-reference] > summary').click();
     await expect(page.locator('.c-docs-mermaid-render')).toHaveCount(1);
     await page.locator('.c-language-selector-main').click();
     release();
@@ -1065,6 +1068,7 @@ for (const palette of ['default', 'aurora', 'forest']) {
       await page.reload();
       await expect(page.locator('html')).toHaveAttribute('data-theme', mode);
       await page.goto('/docs/');
+      await page.locator('[data-docs-reference] > summary').click();
       await expect(page.locator('#content-zh .language-mermaid svg')).toHaveCount(2);
       await expectTextContrast(page, '#content-zh .hljs-comment');
       await expectTextContrast(page, '#content-zh .hljs span[class]');

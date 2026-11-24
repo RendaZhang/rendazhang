@@ -4,19 +4,14 @@ import { describe, expect, it } from 'vitest';
 import CertificationsContent from '../components/sections/CertificationsContent';
 import { VERIFY_URLS } from '../constants';
 import { DOCS_CASE_STUDY_CONTENT } from '../content';
-import { renderDocsMarkdown } from '../utils/renderDocsMarkdown';
 import { CERTIFICATION_TOPICS, CERTIFICATIONS_CONTENT } from '../content/certificationsContent';
 
 const visitorPlanningTerms =
   /proof surface|proof pillar|proof path|architecture credibility signal|certification context|evidence chain|source-bounded|runtime pin|browser smoke|证明面|证明支柱|证明路径|架构可信度信号|证书上下文|证据链/i;
 
 describe('PersonalWeb case story', () => {
-  it('keeps both routes and their chapter links aligned with the translated README', () => {
-    for (const [locale, readmePath] of [
-      ['en', 'README_EN.md'],
-      ['zh', 'README.md']
-    ] as const) {
-      const readme = renderDocsMarkdown(readFileSync(readmePath, 'utf8'), locale);
+  it('keeps both routes aligned and gives each station a distinct source on its route', () => {
+    for (const locale of ['en', 'zh'] as const) {
       const { routes, nodes } = DOCS_CASE_STUDY_CONTENT[locale];
 
       expect(Object.keys(routes)).toEqual(['page', 'chat']);
@@ -25,9 +20,13 @@ describe('PersonalWeb case story', () => {
       expect(Object.keys(nodes.static.notes)).toEqual(['page']);
       expect(Object.keys(nodes.flask.notes)).toEqual(['chat']);
       expect(Object.keys(nodes.model.notes)).toEqual(['chat']);
-      for (const { section } of Object.values(nodes)) {
-        expect(readme).toContain(`id="${section.href.slice(1)}"`);
-      }
+      expect(nodes.browser.notes.page.href).toBe(`#docs-hydration-${locale}`);
+      expect(nodes.browser.notes.chat.href).toBe(`#docs-append-${locale}`);
+      expect(nodes.static.notes.page.href).toBe(`#docs-built-html-${locale}`);
+      expect(nodes.model.notes.chat.href).toBe(`#docs-model-${locale}`);
+      expect(nodes.flask.notes.chat.href).toContain('/python-cloud-chat/');
+      expect(nodes.nginx.notes.page.href).toMatch(/nginx-conf.*#static-delivery$/);
+      expect(nodes.nginx.notes.chat.href).toMatch(/nginx-conf.*#chat-streaming$/);
     }
   });
 

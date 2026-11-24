@@ -12,6 +12,9 @@ import {
 } from '../constants';
 import { DocsEffects } from '../components/sections';
 import DocsCaseStudySurface from '../components/sections/DocsCaseStudySurface.astro';
+import DocsReading from '../components/sections/DocsReading.astro';
+import LocalizedSection from '../components/ui/data-display/LocalizedSection';
+import { DOCS_CASE_STUDY_CONTENT, DOCS_READING_SOURCES } from '../content/docsCaseStudyContent';
 import { getCurrentLang } from '../utils';
 import { renderDocsMarkdown } from '../utils/renderDocsMarkdown';
 
@@ -20,8 +23,13 @@ const langKey = langDefault.startsWith('zh') ? 'zh' : 'en';
 const titleZh = PAGE_TITLES.DOCS_ZH;
 const titleEn = PAGE_TITLES.DOCS_EN;
 const title = langKey === 'zh' ? titleZh : titleEn;
-const docsHtmlZh = renderDocsMarkdown(DOC_CONTENT.README_ZH, 'zh');
-const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en');
+const { zh, en } = DOCS_CASE_STUDY_CONTENT;
+const docsHtmlZh = renderDocsMarkdown(DOC_CONTENT.README_ZH, 'zh', {
+  'zh-参考架构': 'docs-reference-architecture-zh'
+});
+const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en', {
+  'en-reference-architecture': 'docs-reference-architecture-en'
+});
 ---
 
 <BaseLayout
@@ -49,8 +57,29 @@ const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en');
   metaLanguage="en, zh-CN"
 >
   <DocsCaseStudySurface />
-  <div id="content-zh" lang="zh-CN" class="is-lang-zh c-markdown-body" set:html={docsHtmlZh} />
-  <div id="content-en" lang="en" class="is-lang-en c-markdown-body" set:html={docsHtmlEn} />
+  <DocsReading />
+  <details class="c-docs-full" data-docs-reference>
+    <summary>
+      <LocalizedSection zhContent={zh.reference.full} enContent={en.reference.full} />
+    </summary>
+    <ul class="c-docs-reference-links" id="docs-reference">
+      <li>
+        <a href={DOCS_READING_SOURCES.delivery}>
+          <LocalizedSection zhContent={zh.reference.delivery} enContent={en.reference.delivery} />
+        </a>
+      </li>
+      <li>
+        <a href={DOCS_READING_SOURCES.maintenance}>
+          <LocalizedSection
+            zhContent={zh.reference.maintenance}
+            enContent={en.reference.maintenance}
+          />
+        </a>
+      </li>
+    </ul>
+    <div id="content-zh" lang="zh-CN" class="is-lang-zh c-markdown-body" set:html={docsHtmlZh} />
+    <div id="content-en" lang="en" class="is-lang-en c-markdown-body" set:html={docsHtmlEn} />
+  </details>
   <Fragment slot="bodyEnd">
     <DocsEffects client:load />
   </Fragment>

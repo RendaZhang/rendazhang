@@ -1,0 +1,103 @@
+---
+import { DOCS_CASE_STUDY_CONTENT, DOCS_READING_SOURCES } from '../../content/docsCaseStudyContent';
+
+const reading = {
+  zh: {
+    id: 'zh-参考架构',
+    lang: 'zh-CN',
+    summary:
+      '打开页面时，浏览器从 Nginx 取得静态文件。发送问题时，浏览器才走另一条路径，经 Nginx 到 Flask。',
+    chapters: [
+      [
+        'built-html',
+        '构建时写入正文',
+        'Astro 在构建阶段生成 HTML。标题、正文和普通链接已经在文件里，部署后 Nginx 直接提供这些文件。',
+        DOCS_READING_SOURCES.rendering,
+        '前端渲染说明'
+      ],
+      [
+        'hydration',
+        '从正文到可操作控件',
+        '浏览器先解析 HTML 并显示内容。需要交互的 React 组件各自加载脚本，接管已有控件。正文在这个过程中仍然可读。',
+        DOCS_READING_SOURCES.rendering,
+        '渲染与 Hydration'
+      ],
+      [
+        'model',
+        '模型怎样产生片段',
+        'Flask 向模型 API 请求流式响应。模型逐步生成文字，SDK 将增量文本交给 Flask。模型增量还不是前端使用的 JSON 行。',
+        DOCS_READING_SOURCES.model,
+        '读取模型增量的代码'
+      ],
+      [
+        'append',
+        '浏览器怎样接成一条回答',
+        'Chat 从 /deepseek_chat/ 打开，提问发送到 /cloudchat/deepseek_chat。浏览器缓存尚未完整的一行，读到换行再解析 text，并把它追加到同一个回答。',
+        DOCS_READING_SOURCES.client,
+        '前端接收与追加'
+      ]
+    ]
+  },
+  en: {
+    id: 'en-reference-architecture',
+    lang: 'en',
+    summary:
+      'Opening a page fetches static files from Nginx. Sending a question follows a different route through Nginx to Flask.',
+    chapters: [
+      [
+        'built-html',
+        'What the build writes',
+        'Astro generates HTML at build time. Headings, text, and ordinary links are already in the files Nginx serves after deployment.',
+        DOCS_READING_SOURCES.rendering,
+        'Frontend rendering'
+      ],
+      [
+        'hydration',
+        'From readable text to working controls',
+        'The browser parses the HTML and displays its content first. Interactive React components load their scripts and attach behavior to the existing controls while the text stays readable.',
+        DOCS_READING_SOURCES.rendering,
+        'Rendering and hydration'
+      ],
+      [
+        'model',
+        'Where model fragments come from',
+        'Flask requests a stream from the model API. The model generates text incrementally and the SDK passes those text deltas to Flask. These deltas have yet to be packaged as the JSON lines sent to the browser.',
+        DOCS_READING_SOURCES.model,
+        'Code that reads model deltas'
+      ],
+      [
+        'append',
+        'How the browser builds one reply',
+        'Open Chat at /deepseek_chat/. Questions go to /cloudchat/deepseek_chat. The browser buffers an incomplete line, parses its text field when a newline arrives, and appends that text to the same reply.',
+        DOCS_READING_SOURCES.client,
+        'Frontend stream handling'
+      ]
+    ]
+  }
+} as const;
+---
+
+{
+  (['zh', 'en'] as const).map((language) => {
+    const content = reading[language];
+    return (
+      <section
+        class={`c-docs-reading is-lang-${language}`}
+        lang={content.lang}
+        aria-labelledby={content.id}
+      >
+        <h2 id={content.id}>{DOCS_CASE_STUDY_CONTENT[language].reference.overview}</h2>
+        <p>{content.summary}</p>
+        <div class="c-docs-reading-chapters">
+          {content.chapters.map(([id, title, text, href, label]) => (
+            <section>
+              <h3 id={`docs-${id}-${language}`}>{title}</h3>
+              <p>{text}</p>
+              <a href={href}>{label}</a>
+            </section>
+          ))}
+        </div>
+      </section>
+    );
+  })
+}

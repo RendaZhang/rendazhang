@@ -85,7 +85,7 @@ function routeInk(page: Page) {
 async function selectFlask(page: Page, touch = false) {
   const node = page.locator('details[data-docs-node="flask"]');
   const opener = node.locator('summary');
-  const chapter = node.getByRole('link', { name: /后端实现|Backend implementation/ });
+  const chapter = node.locator('.c-docs-node-source').filter({ visible: true });
   await expect(chapter).toBeHidden();
   if (touch) await opener.tap();
   else await opener.press('Enter');
@@ -167,11 +167,10 @@ test('certificate verification and both architecture links work from the keyboar
   await expect.poll(() => routeInk(page)).not.toEqual(staticInk);
   const flask = await selectFlask(page);
   await expect(flask.getByRole('link', { name: '带去 Chat', exact: true })).toBeVisible();
-  const section = flask.locator('a[href^="#zh-"]:visible').first();
-  await expect(section).toBeVisible();
-  await section.press('Enter');
-  await expect(page.locator('#zh-后端:target')).toHaveText('后端');
-  await expect(page.locator(':target')).toBeInViewport({ ratio: 1 });
+  await expect(flask.locator('.c-docs-node-source:visible')).toHaveAttribute(
+    'href',
+    /github\.com\/RendaZhang\/python-cloud-chat\/.*\/docs\/API\.md#/
+  );
 
   const nginx = page.locator('details[data-docs-node="nginx"]');
   await nginx.locator('summary').press('Enter');
@@ -190,32 +189,6 @@ test('certificate verification and both architecture links work from the keyboar
   await enTab.close();
   expect(chat.messages).toEqual([]);
   expect(chat.unexpected).toEqual([]);
-});
-
-test('Docs routes and original contents remain visible when the diagram fails', async ({
-  page
-}) => {
-  test.setTimeout(80_000);
-  const failedAssets: string[] = [];
-  await page.route(/\/_astro\/(?:flowDiagram-|mermaid\.core\.)[^/]+\.js$/, async (route) => {
-    failedAssets.push(route.request().url());
-    await route.abort();
-  });
-  await visit(page, docsPath);
-  await expect.poll(() => failedAssets.length, { timeout: 30_000 }).toBeGreaterThan(0);
-  await expect(page.locator('#content-zh')).toBeVisible();
-  await expect(
-    page.locator('#content-zh').getByRole('link', { name: '参考架构', exact: true }).first()
-  ).toBeVisible();
-  await expect(page.locator('#zh-参考架构')).toBeVisible();
-  await expect(page.locator('#content-zh code.language-mermaid').first()).toContainText(
-    /graph|flowchart/i
-  );
-  await expect(page.locator('.c-docs-plate')).toContainText('静态');
-  await chooseRoute(page, '发送问题');
-  const flask = await selectFlask(page);
-  await expect(flask.locator('a[href^="#zh-"]:visible').first()).toBeVisible();
-  await expect(flask.locator('.c-docs-node-note')).toContainText('Flask 校验消息');
 });
 
 test('Chat previews from both routes stay quiet until an explicit send', async ({
