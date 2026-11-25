@@ -91,9 +91,16 @@ const reading = {
         <div class="c-docs-reading-chapters">
           {content.chapters.map(([id, title, text, href, label]) => (
             <section>
-              <h3 id={`docs-${id}-${language}`}>{title}</h3>
+              <h3 id={`docs-${id}-${language}`} data-docs-destination tabindex="-1">
+                {title}
+              </h3>
               <p>{text}</p>
-              <a href={href}>{label}</a>
+              <div class="c-docs-reading-links">
+                <a href={href}>{label}</a>
+                <a class="c-docs-return" href="#docs-route-title" data-docs-return>
+                  {DOCS_CASE_STUDY_CONTENT[language].reference.backToDiagram}
+                </a>
+              </div>
             </section>
           ))}
         </div>

@@ -38,7 +38,7 @@ const diagram = [
 
 <section class="c-docs-plate" aria-labelledby="docs-route-title">
   <div class="c-docs-plate-heading">
-    <h1 id="docs-route-title">
+    <h1 id="docs-route-title" tabindex="-1">
       <LocalizedSection zhContent={zh.title} enContent={en.title} />
     </h1>
     <fieldset class="c-docs-route-switch">
@@ -93,12 +93,20 @@ const diagram = [
                         <LocalizedSection zhContent={noteZh.text} enContent={noteEn.text} />
                       </p>
                       <span class="is-lang-zh">
-                        <a class="c-docs-node-source" href={noteZh.href}>
+                        <a
+                          id={`docs-source-${id}-${mode}-zh`}
+                          class="c-docs-node-source"
+                          href={noteZh.href}
+                        >
                           {noteZh.label}
                         </a>
                       </span>
                       <span class="is-lang-en">
-                        <a class="c-docs-node-source" href={noteEn.href}>
+                        <a
+                          id={`docs-source-${id}-${mode}-en`}
+                          class="c-docs-node-source"
+                          href={noteEn.href}
+                        >
                           {noteEn.label}
                         </a>
                       </span>
@@ -107,7 +115,7 @@ const diagram = [
                 );
               })}
               {id === 'nginx' && (
-                <a href={CERTIFICATIONS_PAGE_PATH + '/'}>
+                <a id="docs-node-certificate" href={CERTIFICATIONS_PAGE_PATH + '/'}>
                   <LocalizedSection
                     zhContent={zh.related.certificate}
                     enContent={en.related.certificate}
@@ -115,7 +123,7 @@ const diagram = [
                 </a>
               )}
               {id === 'flask' && (
-                <a href={CHAT_PAGE_PATH + '/?preset=personalweb_proof'}>
+                <a id="docs-node-chat" href={CHAT_PAGE_PATH + '/?preset=personalweb_proof'}>
                   <LocalizedSection zhContent={zh.related.chat} enContent={en.related.chat} />
                 </a>
               )}
@@ -128,16 +136,19 @@ const diagram = [
 
   <ul class="c-docs-plate-links">
     <li>
-      <a href="#docs-reference">
+      <a id="docs-open-reference" href="#docs-reference">
         <LocalizedSection zhContent={zh.reference.full} enContent={en.reference.full} />
       </a>
     </li>
     <li>
-      <a href={CHAT_PAGE_PATH + '/'}>
+      <a id="docs-open-chat" href={CHAT_PAGE_PATH + '/'}>
         <LocalizedSection zhContent={zh.related.realChat} enContent={en.related.realChat} />
       </a>
     </li>
   </ul>
 </section>
 
-<script src="../../scripts/docs-route.ts"></script>
+<script>
+  // Keep this module external so the production Content Security Policy can load it.
+  void import('../../scripts/docs-route').then(({ initDocsRoute }) => initDocsRoute());
+</script>

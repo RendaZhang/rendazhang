@@ -1,11 +1,12 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { DOCS_DEMO_FRAGMENTS } from '../../src/content/docsCaseStudyContent';
 
 const docsPath = '/docs/';
 const zhArchitecture = '#zh-参考架构';
 const enArchitecture = '#en-reference-architecture';
 const referenceDetails = 'details[data-docs-reference]';
-const zhFragments = ['正文来自', '预先生成的 HTML，', '控件稍后就绪。'];
-const enFragments = ['The page text', 'comes from built HTML.', 'Controls become ready later.'];
+const { zh: zhFragments, en: enFragments } = DOCS_DEMO_FRAGMENTS;
+const zhStreamRecords = zhFragments.map((text) => JSON.stringify({ text }));
 
 const nginxReadme = 'https://github.com/RendaZhang/nginx-conf/blob/master/README.md';
 const flaskStream =
@@ -43,17 +44,35 @@ async function expectSource(panel: Locator, destination: string) {
   return source;
 }
 
-async function expectFragments(node: Locator, fragments: string[]) {
+async function expectFragments(node: Locator, fragments: readonly string[]) {
   const demo = note(node, 'chat').locator('.c-docs-demo').filter({ visible: true });
   await expect(demo).toBeVisible();
-  await expect(demo.locator('.c-docs-fragment').filter({ visible: true })).toHaveText(fragments);
+  await expect(demo.locator('.c-docs-fragment').filter({ visible: true })).toHaveText([
+    ...fragments
+  ]);
   return demo;
+}
+
+function mapGeometry(plate: Locator) {
+  return plate.locator('.c-docs-route-diagram').evaluate((map) => {
+    const origin = map.getBoundingClientRect();
+    const parts = map.querySelectorAll('[data-docs-position], .c-docs-node-connector');
+    return {
+      width: origin.width,
+      height: origin.height,
+      parts: Array.from(parts, (part) => {
+        const box = part.getBoundingClientRect();
+        return [box.x - origin.x, box.y - origin.y, box.width, box.height];
+      })
+    };
+  });
 }
 
 test('homepage Docs leads to two distinct readings and the same synthetic reply at every node', async ({
   page
 }) => {
   const requests = await guardChat(page);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   const docsEntry = page.locator('.c-nav-primary-links').getByRole('link', {
     name: '文档',
@@ -76,6 +95,17 @@ test('homepage Docs leads to two distinct readings and the same synthetic reply 
   await expect(staticNote.locator('.c-docs-demo')).toContainText(/<\/?(?:html|main|p|h1)\b/i);
   await expectSource(staticNote, '#docs-built-html-zh');
 
+  // Capture the first paint state rather than letting an assertion retry through a delay.
+  await plate.locator('[data-docs-node="browser"]').evaluate((details) => {
+    details.addEventListener(
+      'toggle',
+      () => {
+        const control = details.querySelector<HTMLElement>('.c-docs-demo-control');
+        if (control) control.dataset.initialOpacity = getComputedStyle(control).opacity;
+      },
+      { once: true }
+    );
+  });
   const browser = await openNode(plate, 'browser');
   await expect(staticNode).not.toHaveAttribute('open', '');
   await expect(note(browser, 'page')).toContainText('浏览器先显示 HTML 正文');
@@ -83,7 +113,10 @@ test('homepage Docs leads to two distinct readings and the same synthetic reply 
   await expect(note(browser, 'chat')).toBeHidden();
   await expectSource(note(browser, 'page'), '#docs-hydration-zh');
   const sampleControl = note(browser, 'page').locator('.c-docs-demo-control');
-  await sampleControl.locator('summary').press('Enter');
+  await expect(sampleControl).toHaveAttribute('data-initial-opacity', '1');
+  await page.keyboard.press('Tab');
+  await expect(sampleControl.locator('summary')).toBeFocused();
+  await page.keyboard.press('Enter');
   await expect(sampleControl).toHaveAttribute('open', '');
 
   const nginx = await openNode(plate, 'nginx');
@@ -101,14 +134,17 @@ test('homepage Docs leads to two distinct readings and the same synthetic reply 
   await expect(note(nginx, 'page')).toBeHidden();
   await expect(note(nginx, 'chat')).toContainText('响应随到随转');
   await expectSource(note(nginx, 'chat'), nginxReadme + '#chat-streaming');
-  await expectFragments(nginx, zhFragments);
+  const proxy = await expectFragments(nginx, zhStreamRecords);
+  await expect(proxy.locator('.c-docs-demo-transfer')).toContainText(
+    'POST /cloudchat/deepseek_chat'
+  );
+  await expect(proxy.locator('.c-docs-demo-transfer')).toContainText('POST /deepseek_chat');
+  await expect(proxy.locator('.c-docs-demo-response')).toContainText('响应 · Flask → 浏览器');
+  await expect(proxy.locator('.c-docs-demo-response')).toContainText('proxy_buffering off');
 
   const flask = await openNode(plate, 'flask');
   await expect(note(flask, 'chat')).toContainText('带 text 字段的 JSON 行');
-  await expectFragments(
-    flask,
-    zhFragments.map((text) => JSON.stringify({ text }))
-  );
+  await expectFragments(flask, zhStreamRecords);
   await expectSource(note(flask, 'chat'), flaskStream);
   await expect(
     flask.locator('a[href="/deepseek_chat/?preset=personalweb_proof"]').filter({ visible: true })
@@ -124,7 +160,88 @@ test('homepage Docs leads to two distinct readings and the same synthetic reply 
   await expectFragments(receiver, zhFragments);
   const append = await expectSource(note(receiver, 'chat'), '#docs-append-zh');
   await append.press('Enter');
-  await expect(page.locator('#docs-append-zh:target')).toBeInViewport({ ratio: 1 });
+  const appendHeading = page.locator('#docs-append-zh:target');
+  await expect(appendHeading).toBeInViewport({ ratio: 1 });
+  await expect(appendHeading).toBeFocused();
+  const returnLink = appendHeading.locator('xpath=..').locator('a[data-docs-return]');
+  await expect(returnLink).toHaveAccessibleName('回到架构图');
+  await returnLink.press('Enter');
+  await expect(receiver.locator(':scope > summary')).toBeFocused();
+  await expect(receiver).toHaveAttribute('open', '');
+  await expect(chatRoute).toBeChecked();
+  expect(requests).toEqual([]);
+});
+
+test('same-origin script policy supports map selection and restores it after external Back', async ({
+  page,
+  baseURL
+}) => {
+  const requests = await guardChat(page);
+  const docsUrl = new URL(docsPath, baseURL).href;
+  const externalUrl = new URL(flaskStream);
+  const demoDestination = new URL(externalUrl.href);
+  demoDestination.hash = '';
+  let docsDocuments = 0;
+
+  await page.route(docsUrl, async (route) => {
+    const request = route.request();
+    if (!request.isNavigationRequest() || request.frame() !== page.mainFrame()) {
+      await route.continue();
+      return;
+    }
+    const response = await route.fetch();
+    docsDocuments += 1;
+    await route.fulfill({
+      response,
+      headers: {
+        ...response.headers(),
+        'cache-control': 'no-store',
+        'content-security-policy': "script-src 'self'; style-src 'self' 'unsafe-inline'"
+      }
+    });
+  });
+  await page.route(demoDestination.href, (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<title>Streaming API reference</title>' })
+  );
+
+  const response = await page.goto(docsPath, { waitUntil: 'domcontentloaded' });
+  expect(response?.headers()['content-security-policy']).toContain("script-src 'self'");
+  const plate = page.locator('.c-docs-plate');
+  const pageRadio = plate.getByRole('radio', { name: '打开页面', exact: true });
+  const chatRadio = plate.getByRole('radio', { name: '发送问题', exact: true });
+  await expect(plate).toHaveAttribute('data-docs-readout', '');
+  await expect(pageRadio).toBeChecked();
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+  });
+  const restingMap = await mapGeometry(plate);
+  expect(restingMap.height).toBeGreaterThan(0);
+
+  const flask = await openNode(plate, 'flask');
+  await expect(chatRadio).toBeChecked();
+  await expect(note(flask, 'chat')).toBeVisible();
+  expect(await mapGeometry(plate)).toEqual(restingMap);
+
+  await pageRadio.press('Space');
+  await expect(pageRadio).toBeChecked();
+  await expect(flask).not.toHaveAttribute('open', '');
+  expect(await mapGeometry(plate)).toEqual(restingMap);
+
+  await openNode(plate, 'flask');
+  const source = await expectSource(note(flask, 'chat'), flaskStream);
+  await source.press('Enter');
+  await expect(page).toHaveURL(externalUrl.href);
+  await page.goBack({ waitUntil: 'domcontentloaded' });
+  await expect(page).toHaveURL(docsUrl);
+  await expect.poll(() => docsDocuments).toBe(2);
+  await expect(chatRadio).toBeChecked();
+  await expect(flask).toHaveAttribute('open', '');
+  await expect(note(flask, 'chat')).toBeVisible();
+  await expect(source).toBeFocused();
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+  });
+  expect(await mapGeometry(plate)).toEqual(restingMap);
   expect(requests).toEqual([]);
 });
 
@@ -150,13 +267,14 @@ test.describe('Docs at 390 px', () => {
     await chatTarget.tap();
     await expect(chatRadio).toBeChecked();
     await expect(plate).toHaveAttribute('data-docs-readout', '');
-    const mapHeight = () =>
-      plate.locator('.c-docs-route-diagram').evaluate((map) => map.getBoundingClientRect().height);
-    const closedHeight = await mapHeight();
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+    });
+    const restingMap = await mapGeometry(plate);
 
     const model = await openNode(plate, 'model', true);
     await expectFragments(model, zhFragments);
-    expect(await mapHeight()).toBe(closedHeight);
+    expect(await mapGeometry(plate)).toEqual(restingMap);
     await expectSource(note(model, 'chat'), '#docs-model-zh');
     await page.getByRole('button', { name: 'Switch to English', exact: true }).tap();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');

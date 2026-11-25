@@ -25,7 +25,7 @@
 # 前端架构约定
 
 - **作者**: 张人大
-- **最后更新**: November 20, 2026, 10:15 (UTC+08:00)
+- **最后更新**: November 25, 2026, 16:12 (UTC+08:00)
 
 ## 文档目的
 
@@ -151,7 +151,13 @@ Slice 3.1 引入 `src/stores/uiPreferencesStore.ts` 作为轻量、本地、无�
 
 `src/controllers/chatController.ts` 是当前 Chat 交互编排边界。它负责发送消息时的本地历史更新、首个 chunk 状态回调、assistant 消息 upsert/finalize、reset 后清理回调，以及可测试的 active request abort 边界；它不渲染 JSX，也不直接处理 iframe ready protocol。
 
-`src/services/chatService.ts` 仍是 Chat 流式响应的专用领域服务。它通过 `apiClient` 复用 `fetch` 默认值、`credentials: include`、401 跳转、HTTP 错误和可选 `AbortSignal` 处理，但继续拥有 `/deepseek_chat/` 返回行的 Chat 语义解析、assistant 文本累积、流式 chunk 回调和 reset 的布尔返回约定。普通 JSON API 不应复用 Chat 服务路径。
+`/deepseek_chat/` 是 Chat 页面。发送问题时，`src/services/chatService.ts` 通过 `apiClient`
+调用 `POST /cloudchat/deepseek_chat`，复用 `fetch` 默认值、`credentials: include`、401 跳转、
+HTTP 错误和可选 `AbortSignal` 处理。Nginx 将这个请求转发给 Flask 的 `POST /deepseek_chat`。
+
+`apiClient.streamLines` 用 `TextDecoder` 解码响应流，按换行符拆分，并保留尚未读完的一行。
+`chatService` 逐行解析 JSON，把 `text` 拼入累积文本。每次回调都传入截至当前的全部文本，
+由 Chat 控制器更新同一条回答。`chatService` 也维护 reset 的布尔返回约定。
 
 `src/services/contactService.ts` 拥有当前联系表单的第三方 Formspree 提交路径。它保持旧有 URL-encoded payload、Formspree endpoint 和 `{ ok: true }` 成功判定，不走 CloudChat `apiClient`，也不应作为新站内 JSON API 的模板。
 

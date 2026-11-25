@@ -42,6 +42,23 @@ main.c-main-content.c-docs-main {
   min-inline-size: 0;
 }
 
+.c-docs-demo-direction {
+  color: var(--color-text-muted);
+  font-weight: 650;
+}
+
+.c-docs-demo-response {
+  border-block-start: 1px solid var(--docs-rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  padding-block-start: var(--space-1);
+}
+
+.c-docs-demo-setting {
+  color: var(--docs-accent);
+}
+
 .c-docs-demo-window {
   background: var(--color-surface);
   border: 1px solid var(--docs-rule);
@@ -86,7 +103,7 @@ main.c-main-content.c-docs-main {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .c-docs-node-fold[open] :is(.c-docs-fragment, .c-docs-demo-ready, .c-docs-demo-control) {
+  .c-docs-node-fold[open] :is(.c-docs-fragment, .c-docs-demo-ready) {
     animation: docs-reveal-sample 220ms ease-out var(--docs-demo-delay, 0ms) both;
   }
 
@@ -95,8 +112,7 @@ main.c-main-content.c-docs-main {
     --docs-demo-delay: 250ms;
   }
 
-  .c-docs-fragment:nth-child(3),
-  .c-docs-demo-control {
+  .c-docs-fragment:nth-child(3) {
     --docs-demo-delay: 500ms;
   }
 }
@@ -146,11 +162,33 @@ main.c-main-content.c-docs-main {
   margin: 0;
 }
 
-.c-docs-reading a,
-.c-docs-reference-links a {
+.c-docs-reading-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+}
+
+.c-docs-return {
+  display: none;
+}
+
+.c-docs-reference-links:target .c-docs-return,
+.c-docs-reading-chapters h3:target ~ .c-docs-reading-links .c-docs-return {
   align-content: center;
   display: inline-block;
   min-block-size: 44px;
+}
+
+.c-docs-reading a:not(.c-docs-return),
+.c-docs-reference-links a:not(.c-docs-return) {
+  align-content: center;
+  display: inline-block;
+  min-block-size: 44px;
+}
+
+.c-docs-main [data-docs-destination]:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .c-docs-full > summary {

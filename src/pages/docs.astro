@@ -62,7 +62,7 @@ const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en', {
     <summary>
       <LocalizedSection zhContent={zh.reference.full} enContent={en.reference.full} />
     </summary>
-    <ul class="c-docs-reference-links" id="docs-reference">
+    <ul class="c-docs-reference-links" id="docs-reference" data-docs-destination tabindex="-1">
       <li>
         <a href={DOCS_READING_SOURCES.delivery}>
           <LocalizedSection zhContent={zh.reference.delivery} enContent={en.reference.delivery} />
@@ -73,6 +73,14 @@ const docsHtmlEn = renderDocsMarkdown(DOC_CONTENT.README_EN, 'en', {
           <LocalizedSection
             zhContent={zh.reference.maintenance}
             enContent={en.reference.maintenance}
+          />
+        </a>
+      </li>
+      <li>
+        <a class="c-docs-return" href="#docs-route-title" data-docs-return>
+          <LocalizedSection
+            zhContent={zh.reference.backToDiagram}
+            enContent={en.reference.backToDiagram}
           />
         </a>
       </li>

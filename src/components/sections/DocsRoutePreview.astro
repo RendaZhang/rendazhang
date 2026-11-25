@@ -9,18 +9,19 @@ interface Props {
 
 const { station, route } = Astro.props;
 const languages = ['zh', 'en'] as const;
+const showsJsonLines = station === 'flask' || station === 'nginx';
 const sample = {
   zh: {
     title: '架构笔记',
-    text: '打开页面就能读到正文。',
+    text: '从这里查看网页与聊天请求的路径。',
     detail: '展开一行',
-    opened: '控件可操作'
+    opened: '两条路径都经过 Nginx。'
   },
   en: {
     title: 'Architecture notes',
-    text: 'The page opens with readable text.',
+    text: 'Follow the paths of page requests and chat messages.',
     detail: 'Open a note',
-    opened: 'The control is ready'
+    opened: 'Both routes pass through Nginx.'
   }
 };
 ---
@@ -65,7 +66,7 @@ const sample = {
           </span>
           <span aria-hidden="true">→</span>
           <span class="c-docs-demo-ready">
-            <LocalizedSection zhContent="控件可操作" enContent="Controls are ready" />
+            <LocalizedSection zhContent="脚本功能就绪" enContent="Scripted controls are ready" />
           </span>
         </div>
         <details class="c-docs-demo-control">
@@ -83,23 +84,36 @@ const sample = {
     route === 'chat' && (
       <>
         {station === 'nginx' && (
-          <div class="c-docs-demo-transfer">
-            <code>POST /cloudchat/deepseek_chat</code>
-            <div>
-              <span aria-hidden="true">↓</span> <code>POST /deepseek_chat</code>
+          <>
+            <div class="c-docs-demo-transfer">
+              <div class="c-docs-demo-direction">
+                <LocalizedSection
+                  zhContent="请求 · 浏览器 → Flask"
+                  enContent="Request · Browser → Flask"
+                />
+              </div>
+              <code>POST /cloudchat/deepseek_chat</code>
+              <div>
+                <span aria-hidden="true">↓</span> <code>POST /deepseek_chat</code>
+              </div>
             </div>
-          </div>
+            <div class="c-docs-demo-response">
+              <div class="c-docs-demo-direction">
+                <LocalizedSection
+                  zhContent="响应 · Flask → 浏览器"
+                  enContent="Response · Flask → browser"
+                />
+              </div>
+              <code class="c-docs-demo-setting">proxy_buffering off</code>
+            </div>
+          </>
         )}
         <div class:list={['c-docs-demo-stream', { 'c-docs-demo-bubble': station === 'browser' }]}>
           {languages.map((language) => (
             <div class={`is-lang-${language}`}>
               {DOCS_DEMO_FRAGMENTS[language].map((fragment) => (
                 <span class="c-docs-fragment">
-                  {station === 'flask' ? (
-                    <code>{JSON.stringify({ text: fragment })}</code>
-                  ) : (
-                    fragment
-                  )}
+                  {showsJsonLines ? <code>{JSON.stringify({ text: fragment })}</code> : fragment}
                 </span>
               ))}
             </div>

@@ -1,6 +1,6 @@
 export const DOCS_DEMO_FRAGMENTS = {
-  zh: ['正文来自', '预先生成的 HTML，', '控件稍后就绪。'],
-  en: ['The page text ', 'comes from built HTML. ', 'Controls become ready later.']
+  zh: ['Astro 预先生成 HTML。', '一打开页面，', '就能读到正文。'],
+  en: ['Astro builds the HTML ahead of time. ', 'Open the page ', 'and the text is ready to read.']
 } as const;
 
 const nginxReadme = 'https://github.com/RendaZhang/nginx-conf/blob/master/README.md';
@@ -36,7 +36,13 @@ type DocsLanguage = {
   routes: Record<Route, string>;
   nodes: Record<'browser' | 'nginx' | 'static' | 'flask' | 'model', Station>;
   related: { certificate: string; chat: string; realChat: string };
-  reference: { overview: string; full: string; delivery: string; maintenance: string };
+  reference: {
+    overview: string;
+    full: string;
+    delivery: string;
+    maintenance: string;
+    backToDiagram: string;
+  };
 };
 
 export const DOCS_CASE_STUDY_CONTENT = {
@@ -49,7 +55,7 @@ export const DOCS_CASE_STUDY_CONTENT = {
         title: 'Browser',
         notes: {
           page: {
-            text: 'The browser displays the HTML first. Scripts then make the controls interactive.',
+            text: 'The browser displays the HTML first. Controls that need JavaScript become interactive as their scripts load.',
             href: '#docs-hydration-en',
             label: 'From readable to interactive'
           },
@@ -69,7 +75,7 @@ export const DOCS_CASE_STUDY_CONTENT = {
             label: 'Static delivery rules'
           },
           chat: {
-            text: 'Nginx forwards the request to Flask and relays the response as it arrives.',
+            text: 'Nginx relays the JSON lines as they arrive, so the browser can start showing the reply.',
             href: DOCS_READING_SOURCES.proxy,
             label: 'Chat proxy and buffering'
           }
@@ -111,7 +117,8 @@ export const DOCS_CASE_STUDY_CONTENT = {
       overview: 'Reference Architecture',
       full: 'Full reference',
       delivery: 'CI/CD and validation',
-      maintenance: 'Operations and maintenance'
+      maintenance: 'Operations and maintenance',
+      backToDiagram: 'Back to diagram'
     }
   },
   zh: {
@@ -123,7 +130,7 @@ export const DOCS_CASE_STUDY_CONTENT = {
         title: '浏览器',
         notes: {
           page: {
-            text: '浏览器先显示 HTML 正文，脚本加载后控件就能操作。',
+            text: '浏览器先显示 HTML 正文，需要脚本的控件随后就绪。',
             href: '#docs-hydration-zh',
             label: '从正文可读到控件可操作'
           },
@@ -143,7 +150,7 @@ export const DOCS_CASE_STUDY_CONTENT = {
             label: '静态文件服务规则'
           },
           chat: {
-            text: 'Nginx 把提问转给 Flask，响应随到随转。',
+            text: '响应随到随转，浏览器可以边接收边显示回答。',
             href: DOCS_READING_SOURCES.proxy,
             label: 'Chat 转发与缓冲'
           }
@@ -185,7 +192,8 @@ export const DOCS_CASE_STUDY_CONTENT = {
       overview: '参考架构',
       full: '完整参考',
       delivery: 'CI/CD 与验证',
-      maintenance: '运行与维护'
+      maintenance: '运行与维护',
+      backToDiagram: '回到架构图'
     }
   }
 } as const satisfies Record<'zh' | 'en', DocsLanguage>;
